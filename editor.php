@@ -39,7 +39,7 @@ if ($w == "editor") {
         <html lang="en">
             <head>
                 <meta charset="utf-8">
-                <title>GrapesJS</title>
+                <title>PHP GrapesJS</title>
 
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>dist/css/grapes.min.css">

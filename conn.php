@@ -13,4 +13,5 @@ $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 if ($conn->connect_error) {
     die('Error, Database connection failed: ('. $conn->connect_errno .') '. $conn->connect_error);
 }
+require 'function.php';
 ?>
