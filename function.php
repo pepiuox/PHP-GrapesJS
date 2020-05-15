@@ -1,15 +1,32 @@
 <?php
+
+function protect($str) {
+    global $conn;
+    $str = trim($str);
+    $str = stripslashes($str);
+    $str = htmlentities($str, ENT_QUOTES);
+    $str = mysqli_real_escape_string($conn, $str);
+    return $str;
+}
+
 function nparent() {
     global $conn;
     $result = $conn->query("SELECT * FROM page");
     $sp = "";
-    $sp .= '<select name="parent" id="parent">';
-    $sp .= '<option>Select a parent</option>';
+    $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
+    $sp .= '<option>Select a parent</option>' . "\n";
     while ($row = $result->fetch_array()) {
-        $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
+        $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
     }
-    $sp .= '</select>';
+    $sp .= '</select>' . "\n";
     return $sp;
+}
+
+function vwparent($parent) {
+    global $conn;
+    $result = $conn->query("SELECT * FROM page WHERE id='$parent'");
+    $row = $result->fetch_assoc();
+    echo $row['title'];
 }
 
 function sparent($parent) {
@@ -17,7 +34,7 @@ function sparent($parent) {
 
     $result = $conn->query("SELECT * FROM page");
     $sp = "";
-    $sp .= '<select name="parent" id="parent">';
+    $sp .= '<select class="form-control" name="parent" id="parent">';
     $sp .= '<option>Select a parent</option>';
     while ($row = $result->fetch_array()) {
         $select = $parent == $row['id'] ? ' selected' : null;
@@ -26,11 +43,11 @@ function sparent($parent) {
     $sp .= '</select>';
     return $sp;
 }
- 
+
 function pparent($parent) {
     global $conn;
     $result = $conn->query("SELECT * FROM page");
-    echo '<select name="parent" id="parent">' . "\n";
+    echo '<select class="form-control" name="parent" id="parent">' . "\n";
     echo '<option>Select a parent</option>' . "\n";
     while ($row = $result->fetch_array()) {
         $select = $parent == $row['id'] ? ' selected' : null;
@@ -44,6 +61,15 @@ function action($selected) {
     foreach ($acti as list($key, $val)) {
         $select = $selected == $key ? ' selected' : null;
         echo '<option value="' . $key . '"' . $select . '>' . $val . '</option>' . "\n";
+    }
+}
+
+function vwaction($selected) {
+    $acti = array([0, 'NO'], [1, 'YES']);
+    foreach ($acti as list($key, $val)) {
+        if ($selected == $key) {
+            echo $val;
+        }
     }
 }
 
