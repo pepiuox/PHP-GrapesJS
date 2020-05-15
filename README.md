@@ -6,9 +6,7 @@
 [![npm](https://img.shields.io/npm/v/grapesjs.svg)](https://www.npmjs.com/package/grapesjs)
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=QksxaStYaGI3eE5VMDlPTEh0Z3hYOXEwRWNMc1ZYT0lNbEJxMWdOZWFDZz0tLWlqcFVWb05PMmlQMmU3emFIZkFNWVE9PQ==--e89345be5e303d515276e3accd6f1316dfa857ab)](https://www.browserstack.com/automate/public-build/QksxaStYaGI3eE5VMDlPTEh0Z3hYOXEwRWNMc1ZYT0lNbEJxMWdOZWFDZz0tLWlqcFVWb05PMmlQMmU3emFIZkFNWVE9PQ==--e89345be5e303d515276e3accd6f1316dfa857ab)
 
-
 <p align="center"><img src="http://grapesjs.com/img/grapesjs-front-page-m.jpg" alt="GrapesJS" width="500" align="center"/></p>
-
 
 GrapesJS is a free and open source Web Builder Framework which helps building HTML templates, faster and easily, to be delivered in sites, newsletters or mobile apps. Mainly, GrapesJS was designed to be used inside a [CMS] to speed up the creation of dynamic templates. To better understand this concept check the image below
 
@@ -21,7 +19,6 @@ Generally any 'template system', that you'd find in various applications like CM
 This demos show examples of what is possible to achieve:
 Webpage Demo - http://grapesjs.com/demo.html
 Newsletter Demo - http://grapesjs.com/demo-newsletter-editor.html
-
 
 
 
@@ -138,9 +135,14 @@ $ npm start
 
 Once the development server is started you should be able to reach the demo page (eg. `http://localhost:8080`)
 
-
-
-
+PHP files
+<img src="http://pepiuox.net/files/addconf.jpg">
+<img src="http://pepiuox.net/files/editconf.jpg">
+<img src="http://pepiuox.net/files/verifyconf.jpg">
+<img src="http://pepiuox.net/files/pagelist.jpg">
+<img src="http://pepiuox.net/files/addpage.jpg">
+<img src="http://pepiuox.net/files/editpage.jpg">
+<img src="http://pepiuox.net/files/deletepage.jpg">
 
 ## Documentation
 

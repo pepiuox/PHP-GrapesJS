@@ -17,11 +17,11 @@ if (!empty($_GET['id'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 pt-4">
-                            <div class="align-content-end">
-                                <a class="btn btn-primary" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
-                            </div>
+                        <div class="align-content-end">
+                            <a class="btn btn-primary" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
                         </div>
-                        <div class="col-md-12 py-3">
+                    </div>
+                    <div class="col-md-12 py-3">
                         <?php
 // Edit page properties
                         if (isset($_POST['submit']) && !empty($_FILES['image'])) {
