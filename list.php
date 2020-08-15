@@ -61,7 +61,7 @@ require 'conn.php';
                                     echo '</td></tr>';
                                 }
                             } else {
-                                echo '<tr><td>';
+                                echo '<tr><td colspan="8" rowspan="1" style="vertical-align: top;">';
                                 echo "<h3>You haven't created a page yet.</h3>";
                                 echo '</td></tr>';
                             }
