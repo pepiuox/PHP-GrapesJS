@@ -7,7 +7,8 @@ import {
   empty,
   append,
   createEl,
-  createCustomEvent
+  createCustomEvent,
+  motionsEv
 } from 'utils/dom';
 import { on, off, setViewEl, getPointerEvent } from 'utils/mixins';
 
@@ -20,7 +21,13 @@ export default Backbone.View.extend({
   },
 
   initialize(o) {
-    bindAll(this, 'updateClientY', 'stopAutoscroll', 'autoscroll');
+    bindAll(
+      this,
+      'updateClientY',
+      'stopAutoscroll',
+      'autoscroll',
+      '_emitUpdate'
+    );
     const { model, el } = this;
     this.config = {
       ...(o.config || {}),
@@ -136,6 +143,7 @@ export default Backbone.View.extend({
 
   remove() {
     const { root, model } = this;
+    this._toggleEffects();
     Backbone.View.prototype.remove.apply(this, arguments);
     root.remove();
     model.remove();
@@ -248,6 +256,7 @@ export default Backbone.View.extend({
     const doc = this.getDoc();
     const head = this.getHead();
     const body = this.getBody();
+    const win = this.getWindow();
     const conf = em.get('Config');
     const extStyles = [];
 
@@ -376,6 +385,7 @@ export default Backbone.View.extend({
     // I need to delegate all events to the parent document
     [
       { event: 'keydown keyup keypress', class: 'KeyboardEvent' },
+      { event: 'mousemove', class: 'MouseEvent' },
       { event: 'wheel', class: 'WheelEvent' }
     ].forEach(obj =>
       obj.event.split(' ').forEach(event => {
@@ -385,6 +395,17 @@ export default Backbone.View.extend({
       })
     );
 
+    this._toggleEffects(1);
     model.trigger('loaded');
+  },
+
+  _toggleEffects(enable) {
+    const method = enable ? on : off;
+    const win = this.getWindow();
+    method(win, `${motionsEv} resize`, this._emitUpdate);
+  },
+
+  _emitUpdate() {
+    this.model._emitUpdated();
   }
 });

@@ -124,8 +124,8 @@ export default () => {
       return CanvasView.el;
     },
 
-    getFrame() {
-      return canvas.get('frame');
+    getFrame(index) {
+      return index ? this.getFrames()[index] : canvas.get('frame');
     },
 
     /**
@@ -552,8 +552,12 @@ export default () => {
      */
     isInputFocused() {
       const doc = this.getDocument();
+      const frame = this.getFrameEl();
       const toIgnore = ['body', ...this.getConfig().notTextable];
-      const focused = doc && doc.activeElement;
+      const docActive = frame && document.activeElement === frame;
+      const focused = docActive
+        ? doc && doc.activeElement
+        : document.activeElement;
 
       return focused && !toIgnore.some(item => focused.matches(item));
     },
@@ -648,8 +652,9 @@ export default () => {
     },
 
     /**
-     * Add new frame to canvas
+     * Add new frame to the canvas
      * @param {Object} props Frame properties
+     * @returns {Frame}
      * @example
      *
         editor.Canvas.addFrame({

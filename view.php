@@ -1,9 +1,6 @@
 <?php
 /* view Page */
 include 'conn.php';
-$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-$base = dirname($url) . "/";
 
 $id = $_GET['id'];
 $sql = "SELECT * FROM page WHERE id='$id'";

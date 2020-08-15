@@ -82,7 +82,8 @@ export default () => {
     },
 
     onLoad() {
-      sectors.add(c.sectors);
+      // Use silent as sectors' view will be created and rendered on StyleManager.render
+      sectors.add(c.sectors, { silent: true });
     },
 
     postRender() {
@@ -256,8 +257,9 @@ export default () => {
      * @param  {Model} model
      * @return {Model}
      */
-    getModelToStyle(model) {
+    getModelToStyle(model, options = {}) {
       const em = c.em;
+      const { skipAdd } = options;
       const classes = model.get('classes');
       const id = model.getId();
 
@@ -270,6 +272,7 @@ export default () => {
         const state = !config.devicePreviewMode ? em.get('state') : '';
         const valid = classes.getStyleable();
         const hasClasses = valid.length;
+        const useClasses = !smConf.componentFirst || options.useClasses;
         const opts = { state };
         let rule;
 
@@ -279,16 +282,16 @@ export default () => {
         // #268
         um.stop();
 
-        if (hasClasses && !smConf.componentFirst) {
+        if (hasClasses && useClasses) {
           const deviceW = em.getCurrentMedia();
           rule = cssC.get(valid, state, deviceW);
 
-          if (!rule) {
+          if (!rule && !skipAdd) {
             rule = cssC.add(valid, state, deviceW);
           }
         } else if (config.avoidInlineStyle) {
           rule = cssC.getIdRule(id, opts);
-          !rule && (rule = cssC.setIdRule(id, {}, opts));
+          !rule && !skipAdd && (rule = cssC.setIdRule(id, {}, opts));
           if (model.is('wrapper')) rule.set('wrapper', 1);
         }
 

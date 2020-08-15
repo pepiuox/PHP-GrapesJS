@@ -2,6 +2,7 @@ import { isUndefined, isString } from 'underscore';
 import { getModel } from 'utils/mixins';
 import Backbone from 'backbone';
 import ComponentView from 'dom_components/view/ComponentView';
+import { eventDrag } from 'dom_components/model/Component';
 
 const inputProp = 'contentEditable';
 const $ = Backbone.$;
@@ -107,7 +108,7 @@ export default Backbone.View.extend({
     const model = this.model;
     const hClass = `${pfx}layer-hidden`;
     const hideIcon = 'fa-eye-slash';
-    const hidden = model.getStyle().display == 'none';
+    const hidden = model.getStyle().display === 'none';
     const method = hidden ? 'addClass' : 'removeClass';
     this.$el[method](hClass);
     this.getVisibilityEl()[method](hideIcon);
@@ -121,13 +122,22 @@ export default Backbone.View.extend({
    * */
   toggleVisibility(e) {
     e && e.stopPropagation();
-    const model = this.model;
+    const { model } = this;
+    const prevDspKey = '__prev-display';
+    const prevDisplay = model.get(prevDspKey);
     const style = model.getStyle();
-    const hidden = style.display == 'none';
+    const { display } = style;
+    const hidden = display == 'none';
 
     if (hidden) {
       delete style.display;
+
+      if (prevDisplay) {
+        style.display = prevDisplay;
+        model.unset(prevDspKey);
+      }
     } else {
+      display && model.set(prevDspKey, display);
       style.display = 'none';
     }
 
@@ -244,10 +254,15 @@ export default Backbone.View.extend({
    * */
   startSort(e) {
     e.stopPropagation();
-    const sorter = this.sorter;
+    const { em, sorter } = this;
     // Right or middel click
     if (e.button && e.button !== 0) return;
-    sorter && sorter.startSort(e.target);
+
+    if (sorter) {
+      sorter.onStart = data => em.trigger(`${eventDrag}:start`, data);
+      sorter.onMoveClb = data => em.trigger(eventDrag, data);
+      sorter.startSort(e.target);
+    }
   },
 
   /**
@@ -282,13 +297,12 @@ export default Backbone.View.extend({
   /**
    * Check if component is visible
    *
-   * @return bool
+   * @return boolean
    * */
   isVisible() {
-    var css = this.model.get('style'),
-      pr = css.display;
-    if (pr && pr == 'none') return;
-    return 1;
+    const { display } = this.model.getStyle();
+
+    return !(display && display === 'none');
   },
 
   /**

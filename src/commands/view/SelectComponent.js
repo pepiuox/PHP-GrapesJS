@@ -12,10 +12,36 @@ import Toolbar from 'dom_components/model/Toolbar';
 
 const $ = Backbone.$;
 let showOffsets;
-
+/**
+ * This command is responsible for show selecting components and displaying
+ * all the necessary tools around (component toolbar, badge, highlight box, etc.)
+ *
+ * The command manages different boxes to display tools and when something in
+ * the canvas is updated, the command triggers the appropriate method to update
+ * their position (across multiple frames/components):
+ * - Global Tools (updateToolsGlobal/updateGlobalPos)
+ * This box contains tools intended to be displayed only on ONE component per time,
+ * like Component Toolbar (updated by updateToolbar/updateToolbarPos), this means
+ * you won't be able to see more than one Component Toolbar (even with multiple
+ * frames or multiple selected components)
+ * - Local Tools (updateToolsLocal/updateLocalPos)
+ * Each frame in the canvas has its own local box, so we're able to see more than
+ * one active container at the same time. When you put a mouse over an element
+ * you can see stuff like the highlight box, badge, margins/paddings offsets, etc.
+ * so those elements are inside the Local Tools box
+ *
+ *
+ */
 export default {
   init(o) {
-    bindAll(this, 'onHover', 'onOut', 'onClick', 'onFrameScroll');
+    bindAll(
+      this,
+      'onHover',
+      'onOut',
+      'onClick',
+      'onFrameScroll',
+      'onFrameUpdated'
+    );
   },
 
   enable() {
@@ -53,19 +79,23 @@ export default {
       methods[method](body, 'mouseover', this.onHover);
       methods[method](body, 'mouseleave', this.onOut);
       methods[method](body, 'click touchend', this.onClick);
-      methods[method](win, 'scroll resize', this.onFrameScroll);
+      methods[method](win, 'scroll', this.onFrameScroll);
     };
+    methods[method](window, 'resize', this.onFrameUpdated);
     em[method]('component:toggled', this.onSelect, this);
     em[method]('change:componentHovered', this.onHovered, this);
-    em[method]('component:update', this.onComponentUpdate, this);
-    em[method]('component:resize', this.updateGlobalPos, this);
+    em[method](
+      'component:resize component:styleUpdate component:input',
+      this.updateGlobalPos,
+      this
+    );
     em[method]('change:canvasOffset', this.updateAttached, this);
-    em[method]('frame:resized', this.onFrameResized, this);
+    em[method]('frame:updated', this.onFrameUpdated, this);
     em.get('Canvas')
       .getFrames()
       .forEach(frame => {
         const { view } = frame;
-        trigger(view.getWindow(), view.getBody());
+        view && trigger(view.getWindow(), view.getBody());
       });
   },
 
@@ -103,8 +133,9 @@ export default {
     frameView && this.em.set('currentFrame', frameView);
   },
 
-  onFrameResized() {
-    this.updateToolsLocal({}); // clear last cached component
+  onFrameUpdated() {
+    this.updateLocalPos();
+    this.updateGlobalPos();
   },
 
   onHovered(em, component) {
@@ -145,21 +176,21 @@ export default {
     this.updateToolsGlobal();
     // This will hide some elements from the select component
     this.updateToolsLocal(result);
-
-    // if (el) {
-    //   this.showFixedElementOffset(el);
-    //   this.hideElementOffset();
-    //   this.hideHighlighter();
-    //   this.initResize(el);
-    // } else {
-    //   this.editor.stopCommand('resize');
-    // }
+    this.initResize(component);
   }),
 
   updateGlobalPos() {
     const sel = this.getElSelected();
+    if (!sel.el) return;
     sel.pos = this.getElementPos(sel.el);
     this.updateToolsGlobal();
+  },
+
+  updateLocalPos() {
+    const sel = this.getElHovered();
+    if (!sel.el) return;
+    sel.pos = this.getElementPos(sel.el);
+    this.updateToolsLocal();
   },
 
   getElHovered() {
@@ -173,16 +204,19 @@ export default {
   onOut() {
     this.currentDoc = null;
     this.em.setHovered(0);
+    this.elHovered = undefined;
+    this.updateToolsLocal();
     this.canvas.getFrames().forEach(frame => {
-      const el = frame.view.getToolsEl();
-      this.toggleToolsEl(0, 0, { el });
+      const { view } = frame;
+      const el = view && view.getToolsEl();
+      el && this.toggleToolsEl(0, 0, { el });
     });
   },
 
   toggleToolsEl(on, view, opts = {}) {
     const el = opts.el || this.canvas.getToolsEl(view);
-    el.style.opacity = on ? 1 : 0;
-    return el;
+    el && (el.style.opacity = on ? 1 : 0);
+    return el || {};
   },
 
   /**
@@ -374,12 +408,8 @@ export default {
    * @param {Object} pos Position object
    * @private
    */
-  updateHighlighter(el, pos, opts = {}) {
-    const { style } = this.canvas.getHighlighter(opts.view);
-    const unit = 'px';
-    style.height = pos.height + unit;
-    style.width = pos.width + unit;
-    style.opacity = '';
+  showHighlighter(view) {
+    this.canvas.getHighlighter(view).style.opacity = '';
   },
 
   /**
@@ -395,8 +425,7 @@ export default {
     const resizeClass = `${pfx}resizing`;
     const model =
       !isElement(elem) && isTaggableNode(elem) ? elem : em.getSelected();
-    const resizable = model.get('resizable');
-    const el = isElement(elem) ? elem : model.getEl();
+    const resizable = model && model.get('resizable');
     let options = {};
     let modelToStyle;
 
@@ -414,6 +443,7 @@ export default {
     };
 
     if (editor && resizable) {
+      const el = isElement(elem) ? elem : model.getEl();
       options = {
         // Here the resizer is updated with the current element height and width
         onStart(e, opts = {}) {
@@ -590,8 +620,12 @@ export default {
    * @private
    */
   onFrameScroll() {
+    this.updateTools();
+  },
+
+  updateTools() {
     this.updateToolsLocal();
-    this.updateToolsGlobal();
+    this.updateGlobalPos();
   },
 
   isCompSelected(comp) {
@@ -617,7 +651,7 @@ export default {
 
     if (isNewEl && isHoverEn) {
       this.lastHovered = el;
-      this.updateHighlighter(el, pos, { view });
+      this.showHighlighter(view);
       this.showElementOffset(el, pos, { view });
     }
 
@@ -677,30 +711,13 @@ export default {
     style.height = pos.height + unit;
 
     this.updateToolbarPos({ top: targetToElem.top, left: targetToElem.left });
-
-    // const { resizer, em } = this;
-    // const model = em.getSelected();
-    // const el = model && model.getEl();
-    // if (!el) return;
-
-    // if (el && this.elSelected !== el) {
-    //   this.elSelected = el;
-    //   const pos = this.getElementPos(el);
-    //   this.updateToolbarPos(el, pos);
-    //   this.showFixedElementOffset(el, pos);
-    //   resizer && resizer.updateContainer();
-    // }
   },
 
   /**
    * Update attached elements, eg. component toolbar
    */
   updateAttached: debounce(function() {
-    this.updateToolsGlobal();
-  }),
-
-  onComponentUpdate: debounce(function() {
-    this.onSelect();
+    this.updateGlobalPos();
   }),
 
   /**

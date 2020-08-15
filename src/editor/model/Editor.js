@@ -4,12 +4,15 @@ import {
   isArray,
   contains,
   toArray,
-  keys
+  keys,
+  bindAll
 } from 'underscore';
+import $ from 'cash-dom';
 import Backbone from 'backbone';
 import Extender from 'utils/extender';
 import { getModel } from 'utils/mixins';
 
+Backbone.$ = $;
 const deps = [
   require('utils'),
   require('i18n'),
@@ -43,7 +46,6 @@ Extender({
   $: Backbone.$
 });
 
-const $ = Backbone.$;
 const logs = {
   debug: console.log,
   info: console.info,
@@ -75,10 +77,12 @@ export default Backbone.Model.extend({
     this.set('modules', []);
     this.set('toLoad', []);
     this.set('storables', []);
+    this.set('selected', new Collection());
     this.set('dmode', c.dragMode);
     const el = c.el;
     const log = c.log;
     const toLog = log === true ? keys(logs) : isArray(log) ? log : [];
+    bindAll(this, 'initBaseColorPicker');
 
     if (el && c.fromElement) this.config.components = el.innerHTML;
     this.attrsOrig = el
@@ -221,7 +225,11 @@ export default Backbone.Model.extend({
    * @return {this}
    * @private
    */
-  init(editor) {
+  init(editor, opts = {}) {
+    if (this.destroyed) {
+      this.initialize(opts);
+      this.destroyed = 0;
+    }
     this.set('Editor', editor);
   },
 
@@ -374,11 +382,12 @@ export default Backbone.Model.extend({
   /**
    * Set components inside editor's canvas. This method overrides actual components
    * @param {Object|string} components HTML string or components model
+   * @param {Object} opt the options object to be used by the [setComponents]{@link setComponents} method
    * @return {this}
    * @private
    */
-  setComponents(components) {
-    return this.get('DomComponents').setComponents(components);
+  setComponents(components, opt = {}) {
+    return this.get('DomComponents').setComponents(components, opt);
   },
 
   /**
@@ -399,13 +408,14 @@ export default Backbone.Model.extend({
   /**
    * Set style inside editor's canvas. This method overrides actual style
    * @param {Object|string} style CSS string or style model
+   * @param {Object} opt the options object to be used by the [CssRules.add]{@link rules#add} method
    * @return {this}
    * @private
    */
-  setStyle(style) {
+  setStyle(style, opt = {}) {
     var rules = this.get('CssComposer').getAll();
     for (var i = 0, len = rules.length; i < len; i++) rules.pop();
-    rules.add(style);
+    rules.add(style, opt);
     return this;
   },
 
@@ -589,7 +599,8 @@ export default Backbone.Model.extend({
    * @private
    */
   stopDefault(opts = {}) {
-    var command = this.get('Commands').get(this.config.defaultCommand);
+    const commands = this.get('Commands');
+    const command = commands.get(this.config.defaultCommand);
     if (!command) return;
     command.stop(this, this, opts);
     this.defaultRunning = 0;
@@ -685,6 +696,9 @@ export default Backbone.Model.extend({
    * Destroy editor
    */
   destroyAll() {
+    const { config } = this;
+    const editor = this.getEditor();
+    const { editors = [] } = config.grapesjs || {};
     const {
       DomComponents,
       CssComposer,
@@ -694,6 +708,7 @@ export default Backbone.Model.extend({
       Keymaps,
       RichTextEditor
     } = this.attributes;
+    this.stopDefault();
     DomComponents.clear();
     CssComposer.clear();
     UndoManager.clear().removeAll();
@@ -703,7 +718,10 @@ export default Backbone.Model.extend({
     RichTextEditor.destroy();
     this.view.remove();
     this.stopListening();
-    $(this.config.el)
+    this.clear({ silent: true });
+    this.destroyed = 1;
+    editors.splice(editors.indexOf(editor), 1);
+    $(config.el)
       .empty()
       .attr(this.attrsOrig);
   },
@@ -739,6 +757,26 @@ export default Backbone.Model.extend({
 
   logError(msg, opts) {
     this.log(msg, { ...opts, level: 'error' });
+  },
+
+  initBaseColorPicker(el, opts = {}) {
+    const config = this.getConfig();
+    const { colorPicker = {} } = config;
+    const elToAppend = config.el;
+    const ppfx = config.stylePrefix;
+
+    return $(el).spectrum({
+      containerClassName: `${ppfx}one-bg ${ppfx}two-color`,
+      appendTo: elToAppend || 'body',
+      maxSelectionSize: 8,
+      showPalette: true,
+      palette: [],
+      showAlpha: true,
+      chooseText: 'Ok',
+      cancelText: '⨯',
+      ...opts,
+      ...colorPicker
+    });
   },
 
   /**

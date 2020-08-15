@@ -1,5 +1,6 @@
 import Backbone from 'backbone';
 import ItemView from './ItemView';
+import { eventDrag } from 'dom_components/model/Component';
 
 export default Backbone.View.extend({
   initialize(o = {}) {
@@ -29,9 +30,10 @@ export default Backbone.View.extend({
         containerSel: `.${this.className}`,
         itemSel: `.${pfx}layer`,
         ignoreViewChildren: 1,
-        onEndMove(created, sorter) {
+        onEndMove(created, sorter, data) {
           const srcModel = sorter.getSourceModel();
           em.setSelected(srcModel, { forceChange: 1 });
+          em.trigger(`${eventDrag}:end`, data);
         },
         avoidSelectOnEnd: 1,
         nested: 1,
@@ -50,7 +52,8 @@ export default Backbone.View.extend({
   removeChildren(removed) {
     const view = removed.viewLayer;
     if (!view) return;
-    view.remove.apply(view);
+    view.remove();
+    removed.viewLayer = 0;
   },
 
   /**

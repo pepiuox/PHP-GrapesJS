@@ -27,7 +27,7 @@ export default Backbone.View.extend({
   },
 
   initialize(o) {
-    bindAll(this, 'clearOff', 'onKeyPress');
+    bindAll(this, 'clearOff', 'onKeyPress', 'onCanvasMove');
     on(window, 'scroll resize', this.clearOff);
     const { model } = this;
     const frames = model.get('frames');
@@ -74,17 +74,29 @@ export default Backbone.View.extend({
     }
   },
 
+  onCanvasMove(ev) {
+    // const data = { x: ev.clientX, y: ev.clientY };
+    // const data2 = this.em.get('Canvas').getMouseRelativeCanvas(ev);
+    // const data3 = this.em.get('Canvas').getMouseRelativePos(ev);
+    // this.em.trigger('canvas:over', data, data2, data3);
+  },
+
   toggleListeners(enable) {
-    const method = enable ? 'on' : 'off';
-    const methods = { on, off };
-    methods[method](document, 'keypress', this.onKeyPress);
+    const { el } = this;
+    const fn = enable ? on : off;
+    fn(document, 'keypress', this.onKeyPress);
+    // fn(el, 'mousemove dragover', this.onCanvasMove);
   },
 
   onKeyPress(ev) {
     const { em } = this;
     const key = getKeyChar(ev);
 
-    if (key === ' ' && em.getZoomDecimal() !== 1) {
+    if (
+      key === ' ' &&
+      em.getZoomDecimal() !== 1 &&
+      !em.get('Canvas').isInputFocused()
+    ) {
       this.preventDefault(ev);
       em.get('Editor').runCommand('core:canvas-move');
     }
@@ -172,10 +184,9 @@ export default Backbone.View.extend({
    */
   getFrameOffset(el) {
     if (!this.frmOff || el) {
-      const frEl = el
-        ? el.ownerDocument.defaultView.frameElement
-        : this.frame.el;
-      this.frmOff = this.offset(frEl);
+      const frame = this.frame.el;
+      const frEl = el ? el.ownerDocument.defaultView.frameElement : frame;
+      this.frmOff = this.offset(frEl || frame);
     }
     return this.frmOff;
   },
@@ -298,11 +309,13 @@ export default Backbone.View.extend({
    * Get javascript container
    * @private
    */
-  getJsContainer() {
-    if (!this.jsContainer) {
-      this.jsContainer = $(`<div class="${this.ppfx}js-cont">`).get(0);
-    }
-    return this.jsContainer;
+  getJsContainer(view) {
+    const frameView = this.getFrameView(view);
+    return frameView && frameView.getJsContainer();
+  },
+
+  getFrameView(view) {
+    return (view && view._getFrame()) || this.em.get('currentFrame');
   },
 
   render() {
@@ -331,7 +344,6 @@ export default Backbone.View.extend({
         </div>
       </div>
       <div id="${ppfx}tools" style="pointer-events:none">
-        <div class="${ppfx}highlighter"></div>
         <div class="${ppfx}badge"></div>
         <div class="${ppfx}ghost"></div>
         <div class="${ppfx}toolbar" style="pointer-events:all"></div>

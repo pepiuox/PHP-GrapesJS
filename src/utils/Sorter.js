@@ -150,12 +150,12 @@ export default Backbone.View.extend({
    * @param {Boolean} active
    */
   toggleSortCursor(active) {
-    const em = this.em;
+    const { em } = this;
     const cv = em && em.get('Canvas');
 
     // Avoid updating body className as it causes a huge repaint
     // Noticeable with "fast" drag of blocks
-    active ? cv.startAutoscroll() : cv.stopAutoscroll();
+    cv && (active ? cv.startAutoscroll() : cv.stopAutoscroll());
   },
 
   /**
@@ -327,7 +327,12 @@ export default Backbone.View.extend({
     on(container, 'mousemove dragover', this.onMove);
     on(docs, 'mouseup dragend touchend', this.endMove);
     on(docs, 'keydown', this.rollback);
-    onStart && onStart();
+    onStart &&
+      onStart({
+        target: srcModel,
+        parent: srcModel && srcModel.parent(),
+        index: srcModel && srcModel.index()
+      });
 
     // Avoid strange effects on dragging
     em && em.clearSelection();
@@ -485,7 +490,13 @@ export default Backbone.View.extend({
       }
     }
 
-    isFunction(onMoveClb) && onMoveClb(e);
+    isFunction(onMoveClb) &&
+      onMoveClb({
+        event: e,
+        target: sourceModel,
+        parent: targetModel,
+        index: pos.index + (pos.method == 'after' ? 1 : 0)
+      });
 
     em &&
       em.trigger('sorter:drag', {
@@ -955,13 +966,13 @@ export default Backbone.View.extend({
       h = 0,
       un = 'px',
       margI = 5,
-      brdCol = '#62c462',
-      brd = 3,
       method = pos.method;
     var elDim = dims[pos.index];
-    plh.style.borderColor = 'transparent ' + brdCol;
-    plh.style.borderWidth = brd + un + ' ' + (brd + 2) + un;
-    plh.style.margin = '-' + brd + 'px 0 0';
+
+    // Placeholder orientation
+    plh.classList.remove('vertical');
+    plh.classList.add('horizontal');
+
     if (elDim) {
       // If it's not in flow (like 'float' element)
       if (!elDim[4]) {
@@ -969,9 +980,9 @@ export default Backbone.View.extend({
         h = elDim[2] - marg * 2 + un;
         t = elDim[0] + marg;
         l = method == 'before' ? elDim[1] - marg : elDim[1] + elDim[3] - marg;
-        plh.style.borderColor = brdCol + ' transparent';
-        plh.style.borderWidth = brd + 2 + un + ' ' + brd + un;
-        plh.style.margin = '0 0 0 -' + brd + 'px';
+
+        plh.classList.remove('horizontal');
+        plh.classList.add('vertical');
       } else {
         w = elDim[3] + un;
         h = 'auto';
@@ -1004,19 +1015,20 @@ export default Backbone.View.extend({
    * */
   endMove(e) {
     const src = this.eV;
-    const moved = [null];
+    const moved = [];
     const docs = this.getDocuments();
     const container = this.getContainerEl();
     const onEndMove = this.onEndMove;
     const { target, lastPos } = this;
+    let srcModel;
     off(container, 'mousemove dragover', this.onMove);
     off(docs, 'mouseup dragend touchend', this.endMove);
     off(docs, 'keydown', this.rollback);
     this.plh.style.display = 'none';
 
-    if (src && this.selectOnEnd) {
-      var srcModel = this.getSourceModel();
-      if (srcModel && srcModel.set) {
+    if (src) {
+      srcModel = this.getSourceModel();
+      if (this.selectOnEnd && srcModel && srcModel.set) {
         srcModel.set('status', '');
         srcModel.set('status', 'selected');
       }
@@ -1043,7 +1055,19 @@ export default Backbone.View.extend({
     this.toggleSortCursor();
 
     this.toMove = null;
-    isFunction(onEndMove) && moved.forEach(m => onEndMove(m, this));
+    this.eventMove = 0;
+    this.dropModel = null;
+
+    if (isFunction(onEndMove)) {
+      const data = {
+        target: srcModel,
+        parent: srcModel && srcModel.parent(),
+        index: srcModel && srcModel.index()
+      };
+      moved.length
+        ? moved.forEach(m => onEndMove(m, this, data))
+        : onEndMove(null, this, { ...data, cancelled: 1 });
+    }
   },
 
   /**

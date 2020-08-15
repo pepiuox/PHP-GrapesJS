@@ -59,6 +59,7 @@ import ComponentImageView from './view/ComponentImageView';
 import ComponentScript from './model/ComponentScript';
 import ComponentScriptView from './view/ComponentScriptView';
 import ComponentSvg from './model/ComponentSvg';
+import ComponentSvgIn from './model/ComponentSvgIn';
 import ComponentSvgView from './view/ComponentSvgView';
 import ComponentComment from './model/ComponentComment';
 import ComponentCommentView from './view/ComponentCommentView';
@@ -134,6 +135,11 @@ export default () => {
       id: 'script',
       model: ComponentScript,
       view: ComponentScriptView
+    },
+    {
+      id: 'svg-in',
+      model: ComponentSvgIn,
+      view: ComponentSvgView
     },
     {
       id: 'svg',
@@ -503,6 +509,7 @@ export default () => {
      * @param {string} [component.content=''] String inside component
      * @param {Object} [component.style={}] Style object
      * @param {Object} [component.attributes={}] Attribute object
+     * @param {Object} opt the options object to be used by the [Components.add]{@link getComponents} method
      * @return {Component|Array<Component>} Component/s added
      * @example
      * // Example of a new component with some extra property
@@ -516,8 +523,8 @@ export default () => {
      *   attributes: { title: 'here' }
      * });
      */
-    addComponent(component) {
-      return this.getComponents().add(component);
+    addComponent(component, opt = {}) {
+      return this.getComponents().add(component, opt);
     },
 
     /**
@@ -545,11 +552,12 @@ export default () => {
     /**
      * Set components
      * @param {Object|string} components HTML string or components model
+     * @param {Object} opt the options object to be used by the {@link addComponent} method
      * @return {this}
      * @private
      */
-    setComponents(components) {
-      this.clear().addComponent(components);
+    setComponents(components, opt = {}) {
+      this.clear().addComponent(components, opt);
     },
 
     /**
@@ -721,6 +729,10 @@ export default () => {
         });
 
       model && isEmpty(model.get('status')) && model.set('status', state);
+    },
+
+    allById() {
+      return componentsById;
     }
   };
 };

@@ -189,9 +189,9 @@ export default Backbone.View.extend({
    * Triggers when the value of element input/s is changed, so have to update
    * the value of the model which will propogate those changes to the target
    */
-  inputValueChanged(e) {
-    e && e.stopPropagation();
-    this.model.setValue(this.getInputValue(), 1, { fromInput: 1 });
+  inputValueChanged(ev) {
+    ev && ev.stopPropagation();
+    this.model.setValueFromInput(this.getInputValue());
     this.elementUpdated();
   },
 
@@ -213,25 +213,13 @@ export default Backbone.View.extend({
     em && em.trigger('styleManager:update:target', this.getTarget());
   }),
 
-  /**
-   * Fired when the target is changed
-   * */
-  targetUpdated(mod, val, opts = {}) {
-    this.emitUpdateTarget();
-
-    if (!this.checkVisibility()) {
-      return;
-    }
-
-    const config = this.config;
-    const em = config.em;
-    const { model } = this;
-    const property = model.get('property');
+  _getTargetData() {
+    const { model, config } = this;
+    const targetValue = this.getTargetValue({ ignoreDefault: 1 });
+    const defaultValue = model.getDefaultValue();
+    const computedValue = this.getComputedValue();
     let value = '';
     let status = '';
-    let targetValue = this.getTargetValue({ ignoreDefault: 1 });
-    let defaultValue = model.getDefaultValue();
-    let computedValue = this.getComputedValue();
 
     if (targetValue) {
       value = targetValue;
@@ -254,21 +242,46 @@ export default Backbone.View.extend({
       status = '';
     }
 
+    return {
+      value,
+      status,
+      targetValue,
+      defaultValue,
+      computedValue
+    };
+  },
+
+  /**
+   * Fired when the target is changed
+   * */
+  targetUpdated(mod, val, opts = {}) {
+    this.emitUpdateTarget();
+
+    if (!this.checkVisibility()) {
+      return;
+    }
+
+    const config = this.config;
+    const em = config.em;
+    const { model } = this;
+    const property = model.get('property');
+    const { status, value, ...targetData } = this._getTargetData();
+    const data = {
+      status,
+      value,
+      ...targetData
+    };
+
     this.setStatus(status);
     model.setValue(value, 0, { fromTarget: 1, ...opts });
 
     if (em) {
-      const data = {
-        status,
-        targetValue,
-        defaultValue,
-        computedValue,
-        value
-      };
       em.trigger('styleManager:change', this, property, value, data);
       em.trigger(`styleManager:change:${property}`, this, value, data);
       this._emitUpdate(data);
     }
+
+    return data;
   },
 
   _emitUpdate(addData = {}) {
@@ -394,7 +407,10 @@ export default Backbone.View.extend({
       this.setValue(value);
     }
 
-    this.getTargets().forEach(target => this.__updateTarget(target, opt));
+    // Avoid target update if the changes comes from it
+    if (!opt.fromTarget) {
+      this.getTargets().forEach(target => this.__updateTarget(target, opt));
+    }
   },
 
   __updateTarget(target, opt = {}) {
@@ -451,6 +467,13 @@ export default Backbone.View.extend({
       style[property] = value;
     } else {
       delete style[property];
+    }
+
+    // Forces to trigger the change (for UndoManager)
+    if (opts.avoidStore) {
+      style.__ = 1;
+    } else {
+      delete style.__;
     }
 
     target.setStyle(style, opts);
@@ -620,6 +643,6 @@ export default Backbone.View.extend({
 
     const onRender = this.onRender && this.onRender.bind(this);
     onRender && onRender();
-    this.setValue(model.get('value'), { targetUpdate: 1 });
+    this.setValue(model.get('value'), { fromTarget: 1 });
   }
 });

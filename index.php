@@ -79,8 +79,8 @@ if (isset($_POST['submit'])) {
     } else {
         $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . "\n";
     }
-
-    $filecontent .= " require 'function.php';
+    
+    $filecontent .= "require 'function.php';
     ?>
     ";
     file_put_contents($file, $filecontent);

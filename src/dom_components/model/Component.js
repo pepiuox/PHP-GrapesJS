@@ -28,6 +28,8 @@ const escapeRegExp = str => {
 
 const avoidInline = em => em && em.getConfig('avoidInlineStyle');
 
+export const eventDrag = 'component:drag';
+
 /**
  * The Component object represents a single node of our template structure, so when you update its properties the changes are
  * immediately reflected on the canvas and in the code to export (indeed, when you ask to export the code we just go through all
@@ -253,8 +255,8 @@ const Component = Backbone.Model.extend(Styleable).extend(
      */
     find(query) {
       const result = [];
-
-      this.view.$el.find(query).each((el, i, $els) => {
+      const $els = this.view.$el.find(query);
+      $els.each(i => {
         const $el = $els.eq(i);
         const model = $el.data('model');
         model && result.push(model);
@@ -264,20 +266,20 @@ const Component = Backbone.Model.extend(Styleable).extend(
     },
 
     /**
-     * Find all inner components by component id.
+     * Find all inner components by component type.
      * The advantage of this method over `find` is that you can use it
      * also before rendering the component
-     * @param {String} id Component id
+     * @param {String} type Component type
      * @returns {Array<Component>}
      * @example
      * const allImages = component.findType('image');
      * console.log(allImages[0]) // prints the first found component
      */
-    findType(id) {
+    findType(type) {
       const result = [];
       const find = components =>
         components.forEach(item => {
-          item.is(id) && result.push(item);
+          item.is(type) && result.push(item);
           find(item.components());
         });
       find(this.components());
@@ -296,6 +298,26 @@ const Component = Backbone.Model.extend(Styleable).extend(
     closest(query) {
       const result = this.view.$el.closest(query);
       return result.length && result.data('model');
+    },
+
+    /**
+     * Find the closest parent component by its type.
+     * The advantage of this method over `closest` is that you can use it
+     * also before rendering the component
+     * @param {String} type Component type
+     * @returns {Component} Found component, otherwise `undefined`
+     * @example
+     * const Section = component.closestType('section');
+     * console.log(Section);
+     */
+    closestType(type) {
+      let parent = this.parent();
+
+      while (parent && !parent.is(type)) {
+        parent = parent.parent();
+      }
+
+      return parent;
     },
 
     /**
@@ -530,8 +552,9 @@ const Component = Backbone.Model.extend(Styleable).extend(
 
     initClasses() {
       const event = 'change:classes';
+      const attrCls = this.get('attributes').class || [];
       const toListen = [this, event, this.initClasses];
-      const cls = this.get('classes') || [];
+      const cls = this.get('classes') || attrCls;
       const clsArr = isString(cls) ? cls.split(' ') : cls;
       this.stopListening(...toListen);
       const classes = this.normalizeClasses(clsArr);
@@ -621,6 +644,15 @@ const Component = Backbone.Model.extend(Styleable).extend(
         coll.reset();
         return components && this.append(components);
       }
+    },
+
+    /**
+     * Remove all inner components
+     * * @return {this}
+     */
+    empty(opts = {}) {
+      this.components().reset(null, opts);
+      return this;
     },
 
     /**
@@ -1219,6 +1251,24 @@ const Component = Backbone.Model.extend(Styleable).extend(
      */
     isComponent(el) {
       return { tagName: el.tagName ? el.tagName.toLowerCase() : '' };
+    },
+
+    ensureInList(model) {
+      const list = Component.getList(model);
+      const id = model.getId();
+      const current = list[id];
+
+      if (!current) {
+        // Insert in list
+        list[id] = model;
+      } else if (current !== model) {
+        // Create new ID
+        const nextId = Component.getIncrementId(id, list);
+        model.setId(nextId);
+        list[nextId] = model;
+      }
+
+      model.components().forEach(i => Component.ensureInList(i));
     },
 
     /**

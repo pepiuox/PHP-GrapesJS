@@ -1,10 +1,11 @@
+import { isString, each } from 'underscore';
 import Backbone from 'backbone';
 import PropertiesView from './PropertiesView';
 
 export default Backbone.View.extend({
   events: {
     click: 'active',
-    'click [data-close-layer]': 'remove',
+    'click [data-close-layer]': 'removeItem',
     'mousedown [data-move-layer]': 'initSorter',
     'touchstart [data-move-layer]': 'initSorter'
   },
@@ -31,7 +32,7 @@ export default Backbone.View.extend({
 
   initialize(o = {}) {
     let model = this.model;
-    this.stackModel = o.stackModel || {};
+    this.stackModel = o.stackModel;
     this.config = o.config || {};
     this.em = this.config.em;
     this.pfx = this.config.stylePrefix || '';
@@ -57,23 +58,25 @@ export default Backbone.View.extend({
     if (this.sorter) this.sorter.startSort(this.el);
   },
 
-  remove(e) {
-    if (e && e.stopPropagation) e.stopPropagation();
+  removeItem(ev) {
+    ev && ev.stopPropagation();
+    this.remove();
+  },
 
-    const model = this.model;
-    const collection = model.collection;
+  remove(opts = {}) {
+    const { model, props } = this;
+    const coll = model.collection;
     const stackModel = this.stackModel;
 
     Backbone.View.prototype.remove.apply(this, arguments);
-
-    if (collection.contains(model)) {
-      collection.remove(model);
-    }
+    coll && coll.contains(model) && coll.remove(model);
 
     if (stackModel && stackModel.set) {
       stackModel.set({ stackIndex: null }, { silent: true });
-      stackModel.trigger('updateValue');
+      !opts.fromTarget && stackModel.trigger('updateValue');
     }
+
+    props && props.remove();
   },
 
   /**
@@ -82,11 +85,16 @@ export default Backbone.View.extend({
    * @param {Element} $el
    */
   onPreview(value) {
+    const { stackModel } = this;
+    const detach = stackModel && stackModel.get('detached');
     const values = value.split(' ');
     const lim = 3;
     const result = [];
+    const resultObj = {};
+
     this.model.get('properties').each((prop, index) => {
-      var value = values[index] || '';
+      const property = prop.get('property');
+      let value = detach ? prop.getFullValue() : values[index] || '';
 
       if (value) {
         if (prop.get('type') == 'integer') {
@@ -100,9 +108,10 @@ export default Backbone.View.extend({
       }
 
       result.push(value);
+      resultObj[property] = value;
     });
 
-    return result.join(' ');
+    return detach ? resultObj : result.join(' ');
   },
 
   updatePreview() {
@@ -115,7 +124,14 @@ export default Backbone.View.extend({
       : this.onPreview(value);
 
     if (preview && stackModel && previewEl) {
-      previewEl.style[stackModel.get('property')] = preview;
+      const { style } = previewEl;
+      if (isString(preview)) {
+        style[stackModel.get('property')] = preview;
+      } else {
+        let prvStr = [];
+        each(preview, (val, prop) => prvStr.push(`${prop}:${val}`));
+        previewEl.setAttribute('style', prvStr.join(';'));
+      }
     }
   },
 
@@ -158,11 +174,13 @@ export default Backbone.View.extend({
       customValue: propsConfig.customValue,
       propTarget: propsConfig.propTarget,
       onChange: propsConfig.onChange
-    }).render().el;
+    });
+    const propsEl = properties.render().el;
 
     el.innerHTML = this.template(model);
     el.className = `${pfx}layer${!preview ? ` ${pfx}no-preview` : ''}`;
-    this.getPropertiesWrapper().appendChild(properties);
+    this.props = properties;
+    this.getPropertiesWrapper().appendChild(propsEl);
     this.updateVisibility();
     this.updatePreview();
     return this;

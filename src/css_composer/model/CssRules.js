@@ -2,23 +2,27 @@ import Backbone from 'backbone';
 import CssRule from './CssRule';
 
 export default Backbone.Collection.extend({
+  model: CssRule,
+
   initialize(models, opt) {
     // Inject editor
     if (opt && opt.em) this.editor = opt.em;
 
-    // Not used
-    this.model = (attrs, options) => {
-      var model;
+    // This will put the listener post CssComposer.postLoad
+    setTimeout(() => {
+      this.on('remove', this.onRemove);
+      this.on('add', this.onAdd);
+    });
+  },
 
-      if (!options.em && opt && opt.em) options.em = opt.em;
+  onAdd(model) {
+    model.ensureSelectors();
+  },
 
-      switch (1) {
-        default:
-          model = new CssRule(attrs, options);
-      }
-
-      return model;
-    };
+  onRemove(removed) {
+    const em = this.editor;
+    em.stopListening(removed);
+    em.get('UndoManager').remove(removed);
   },
 
   add(models, opt = {}) {
