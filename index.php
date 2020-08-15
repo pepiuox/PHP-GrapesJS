@@ -74,7 +74,12 @@ if (isset($_POST['submit'])) {
     if (\$conn->connect_error) {
         die('Error, Database connection failed: (' . \$conn->connect_errno . ') ' . \$conn->connect_error);
     }" . "\n";
-    $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . $folder . "/';" . "\n";
+    if (!empty($folder)) {
+        $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . $folder . "/';" . "\n";
+    } else {
+        $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . "\n";
+    }
+
     $filecontent .= " require 'function.php';
     ?>
     ";
