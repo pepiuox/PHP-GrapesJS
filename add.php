@@ -22,38 +22,55 @@ require 'conn.php';
                 <div class="col-md-12 py-3">
                     <?php
 // Add page properties
-                    if (isset($_POST['submit']) && !empty($_FILES['image'])) {
+                    if (isset($_POST['submit'])) {
+                        if (!empty($_FILES['image']['name'])) {
+                            $errors = array();
+                            $file_name = $_FILES['image']['name'];
+                            $file_size = $_FILES['image']['size'];
+                            $file_tmp = $_FILES['image']['tmp_name'];
+                            $file_type = $_FILES['image']['type'];
+                            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                            // $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
 
-                        //
-                        $errors = array();
-                        $file_name = $_FILES['image']['name'];
-                        $file_size = $_FILES['image']['size'];
-                        $file_tmp = $_FILES['image']['tmp_name'];
-                        $file_type = $_FILES['image']['type'];
-                        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-                        // $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
+                            $extensions = array(
+                                "jpeg",
+                                "jpg",
+                                "png",
+                                "gif"
+                            );
 
-                        $extensions = array(
-                            "jpeg",
-                            "jpg",
-                            "png"
-                        );
+                            if (in_array($file_ext, $extensions)) {
+                                if (file_exists("uploads/" . $file_name)) {
+                                    $errors[] = $file_name . " is already exists.";
+                                } else {
+                                    move_uploaded_file($file_tmp, "uploads/" . $file_name);
+                                    echo '<div class="alert alert-success" role="alert">';
+                                    echo "Your file was uploaded successfully.";
+                                    echo '</div>';
+                                }
+                            } else {
+                                $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
+                            }
 
-                        if (in_array($file_ext, $extensions) === false) {
-                            $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
-                        }
+                            if ($file_size > 2097152) {
+                                $errors[] = 'File size must be excately 2 MB';
+                            }
 
-                        if ($file_size > 2097152) {
-                            $errors[] = 'File size must be excately 2 MB';
-                        }
-
-                        if (empty($errors) == true) {
-                            move_uploaded_file($file_tmp, "uploads/" . $file_name);
-                            echo '<div class="alert alert-success" role="alert">';
-                            echo "Success";
-                            echo '</div>';
+                            if (empty($errors) === true) {                                
+                                echo '<div class="alert alert-success" role="alert">';
+                                echo "Success";
+                                echo '</div>';
+                            } else {
+                                foreach ($errors as $key => $item) {
+                                    echo '<div class="alert alert-danger" role="alert">';
+                                    echo "$item <br>";
+                                    echo '</div>';
+                                }
+                            }
                         } else {
-                            print_r($errors);
+                            echo '<div class="alert alert-danger" role="alert">';
+                            echo "It is necessary to add an image that relates the page";
+                            echo '</div>';
                         }
 
                         $title = $_POST['title'];
