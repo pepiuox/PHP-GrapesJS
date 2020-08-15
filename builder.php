@@ -107,7 +107,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             <div id="blocks"></div>
             <div id="result"></div>
             <?php
-            $targetDir = "upload/";
+            $targetDir = "uploads/";
 
             function Get_ImagesToFolder($targetDir) {
                 $ImagesArray = [];
@@ -154,7 +154,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         storageType: '',
                         storeOnChange: true,
                         storeAfterUpload: true,
-                        upload: 'upload', //for temporary storage
+                        upload: 'uploads', //for temporary storage
                         uploadName: 'files',
                         multiUpload: true,
                         assets: images,
