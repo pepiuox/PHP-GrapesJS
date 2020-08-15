@@ -3,7 +3,7 @@ require 'conn.php';
 $id = '';
 $pcontent = '';
 $pstyle = '';
-$base = "http://{$_SERVER['HTTP_HOST']}/php-grapesjs/";
+
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     ?>
     <!doctype html>

@@ -1,15 +1,67 @@
 <?php
 $file = 'conn.php';
 $nclose = '';
-
+$folder = basename(dirname(__FILE__));
 if (isset($_POST['submit'])) {
 
     $handle = fopen($file, 'w') or die('Cannot open file:  ' . $file);
     $actual = file_get_contents($file);
+
     $db_host = $_POST['host'];
     $db_user = $_POST['user'];
     $db_password = $_POST['password'];
     $db_name = $_POST['dbname'];
+    $createdb = $_POST['cdbn'];
+    if ($createdb === 'yes') {
+
+        $mkdb = new mysqli($db_host, $db_user, $db_password);
+        // Check connection
+        if ($mkdb->connect_error) {
+            die("Connection failed: " . $mkdb->connect_error);
+        }
+
+        // Create database
+        $sql = "CREATE DATABASE " . $db_name;
+        if ($mkdb->query($sql) === TRUE) {
+            echo "Database created successfully";
+        } else {
+            echo "Error creating database: " . $mkdb->error;
+        }
+
+        $mkdb->close();
+        // Name of the file
+        $filename = 'sql/page.sql';
+        $mktbs = new mysqli($db_host, $db_user, $db_password, $db_name);
+
+        // Check connection
+        if ($mktbs->connect_errno) {
+            echo "Failed to connect to MySQL: " . $mktbs->connect_errno;
+            echo "<br/>Error: " . $mktbs->connect_error;
+        }
+
+        // Temporary variable, used to store current query
+        $templine = '';
+        // Read in entire file
+        $lines = file($filename);
+        // Loop through each line
+        foreach ($lines as $line) {
+            // Skip it if it's a comment
+            if (substr($line, 0, 2) == '--' || $line == '') {
+                continue;
+            }
+            // Add this line to the current segment
+            $templine .= $line;
+            // If it has a semicolon at the end, it's the end of the query
+            if (substr(trim($line), -1, 1) == ';') {
+                // Perform the query
+                $mktbs->query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . $mktbs->error() . '<br /><br />');
+                // Reset temp variable to empty
+                $templine = '';
+            }
+        }
+        echo "Tables imported successfully";
+        $mktbs->close();
+    }
     $filecontent = '';
     $filecontent .= '<?php' . "\n\n";
     $filecontent .= "define('DBHOST', '" . $db_host . "');" . "\n";
@@ -21,11 +73,13 @@ if (isset($_POST['submit'])) {
     /* If connection fails for some reason */
     if (\$conn->connect_error) {
         die('Error, Database connection failed: (' . \$conn->connect_errno . ') ' . \$conn->connect_error);
-    }
-    require 'function.php';
+    }" . "\n";
+    $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . $folder . "/';" . "\n";
+    $filecontent .= " require 'function.php';
     ?>
     ";
     file_put_contents($file, $filecontent);
+    header('Location: list.php');
 }
 ?>
 <!DOCTYPE html>
@@ -91,6 +145,12 @@ if (isset($_POST['submit'])) {
                                 <label for="dbname" class="col-4 col-form-label">Database Name</label> 
                                 <div class="col-8">
                                     <input id="dbname" name="dbname" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dbname" class="col-4 col-form-label">You have a database or do tou need create one</label> 
+                                <div class="col-8">
+                                    <input id="cdbn" name="cdbn" type="checkbox" value="yes" class="form-control mx-2">
                                 </div>
                             </div>
                             <div class="form-group row">

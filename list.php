@@ -1,6 +1,5 @@
 <?php
 require 'conn.php';
-$base = "http://{$_SERVER['HTTP_HOST']}/php-grapesjs/";
 ?>
 <!doctype html>
 <html lang="en">

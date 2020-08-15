@@ -12,13 +12,21 @@ function protect($str) {
 function nparent() {
     global $conn;
     $result = $conn->query("SELECT * FROM page");
+    $numr = $result->num_rows;
     $sp = "";
-    $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
-    $sp .= '<option>Select a parent</option>' . "\n";
-    while ($row = $result->fetch_array()) {
-        $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
+    if ($numr > 0) {
+        $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
+        $sp .= '<option>Select a parent</option>' . "\n";
+        while ($row = $result->fetch_array()) {
+            $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
+        }
+        $sp .= '</select>' . "\n";
+    } else {
+        $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
+        $sp .= '<option>There are no pages yet</option>' . "\n";
+        $sp .= '</select>' . "\n";
     }
-    $sp .= '</select>' . "\n";
+
     return $sp;
 }
 

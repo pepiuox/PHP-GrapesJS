@@ -3,7 +3,6 @@ require 'conn.php';
 $id = '';
 $pcontent = '';
 $pstyle = '';
-$base = "http://{$_SERVER['HTTP_HOST']}/php-grapesjs/";
 ?>
 <!doctype html>
 <html lang="en">
