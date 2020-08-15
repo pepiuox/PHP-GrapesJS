@@ -60,9 +60,9 @@ require 'conn.php';
                                     echo '<a href="delete.php?id=' . $row['id'] . '"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
                                     echo '</td></tr>';
                                 }
-                            }else{
+                            } else {
                                 echo '<tr><td>';
-                                echo "<h3>you haven't created a page yet.</h3>";
+                                echo "<h3>You haven't created a page yet.</h3>";
                                 echo '</td></tr>';
                             }
                             ?>
