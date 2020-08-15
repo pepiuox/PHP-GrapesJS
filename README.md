@@ -137,25 +137,25 @@ Once the development server is started you should be able to reach the demo page
 
 ## PHP files and more
 <p>Add configuration, this make conn.php file</p>
-<img src="http://pepiuox.net/files/addconf.jpg">
+<img src="https://pepiuox.net/files/addconf.jpg">
 <hr>
 <p>Edit configuration, remake conn.php file</p>
-<img src="http://pepiuox.net/files/editconf.jpg">
+<img src="https://pepiuox.net/files/editconf.jpg">
 <hr>
 <p>Verify configuration and file conn.php</p>
-<img src="http://pepiuox.net/files/verifyconf.jpg">
+<img src="https://pepiuox.net/files/verifyconf.jpg">
 <hr>
 <p>View page list</p>
-<img src="http://pepiuox.net/files/pagelist.jpg">
+<img src="https://pepiuox.net/files/pagelist.jpg">
 <hr>
 <p>Add new page</p>
-<img src="http://pepiuox.net/files/addpage.jpg">
+<img src="https://pepiuox.net/files/addpage.jpg">
 <hr>
 <p>Edit page</p>
-<img src="http://pepiuox.net/files/editpage.jpg">
+<img src="https://pepiuox.net/files/editpage.jpg">
 <hr>
 <p>Delete page</p>
-<img src="http://pepiuox.net/files/deletepage.jpg">
+<img src="https://pepiuox.net/files/deletepage.jpg">
 
 ## Documentation
 
