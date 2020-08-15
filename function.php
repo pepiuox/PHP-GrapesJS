@@ -8,7 +8,10 @@ function protect($str) {
     $str = mysqli_real_escape_string($conn, $str);
     return $str;
 }
-
+/*
+ * nparent() 
+ * This function gives us a list of pages, for add parent page in add.php
+ */
 function nparent() {
     global $conn;
     $result = $conn->query("SELECT * FROM page");
