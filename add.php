@@ -79,6 +79,10 @@ require 'conn.php';
                         $classification = $_POST['classification'];
                         $description = $_POST['description'];
                         $parent = $_POST['parent'];
+                        if(!is_int($parent)){
+						
+							$parent = 0;
+						}
                         $active = $_POST['active'];
 
                         $sql = "INSERT INTO page ( title, link, keyword, classification, description, image, parent, active) VALUES ('" . protect($title) . "', '" . protect($link) . "', '" . protect($keyword) . "', '" . protect($classification) . "', '" . protect($description) . "', '" . protect($file_name) . "','" . protect($parent) . "', '" . protect($active) . "')";
@@ -86,6 +90,14 @@ require 'conn.php';
                             $last_id = $conn->insert_id;
                             $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) VALUES ('" . $last_id . "', '" . protect($title) . "', '" . protect($link) . "', '" . protect($parent) . "')";
                             if ($conn->query($sqlm) === TRUE) {
+                                $link_path = "pages/".$link.".html";
+								$myfile = fopen($link_path, "w") or die("Unable to open file!");
+								$txt = '<script>window.location.replace("../view.php?id='.$last_id.'");</script>';
+								fwrite($myfile, $txt);
+								
+								fclose($myfile);
+								
+								
                                 echo '<div class="alert alert-success" role="alert">';
                                 echo "Page " . $title . " : Created ";
                                 echo '</div>';
