@@ -92,6 +92,7 @@ require 'conn.php';
                             // Insert info in table MENU
                             $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) VALUES ('" . $last_id . "', '" . protect($title) . "', '" . protect($link) . "', '" . protect($parent) . "')";
                             if ($conn->query($sqlm) === TRUE) {
+                                /*
                                 // Store in folder pages
                                 $directory = 'pages/';
                                 //Check if the directory already exists.
@@ -102,14 +103,16 @@ require 'conn.php';
                                 // Change to the extension you want.
                                 $ext_files = ".html";
                                 $link_path = $directory . $link . $ext_files;
-                                $myfile = fopen($link_path, "w") or die("Unable to open file!");
+                                $myfile = fopen($link_path, "w") or die("Unable to open file!");                                 
+                                 */
                                 // For redirect in php
                                 /* $txt = '<?php header("Location: ../view.php?id=' . $last_id . '"); ?>'; */
                                 // For redirect in html
+                                /*
                                 $txt = '<html><head><script>window.location.replace("../view.php?id=' . $last_id . '");</script></head><body></body></html>';
                                 fwrite($myfile, $text);
                                 fclose($myfile);
-
+                                */
                                 echo '<div class="alert alert-success" role="alert">';
                                 echo "Page " . $title . " : Created ";
                                 echo '</div>';
