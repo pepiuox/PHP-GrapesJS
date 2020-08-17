@@ -56,7 +56,7 @@ require 'conn.php';
                                 $errors[] = 'File size must be excately 2 MB';
                             }
 
-                            if (empty($errors) === true) {                                
+                            if (empty($errors) === true) {
                                 echo '<div class="alert alert-success" role="alert">';
                                 echo "Success";
                                 echo '</div>';
