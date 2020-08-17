@@ -99,8 +99,13 @@ require 'conn.php';
                                     //Directory does not exist, so lets create it.
                                     mkdir($directory, 0755, true);
                                 }
-                                $link_path = $directory . $link . ".html";
+                                // Change to the extension you want.
+                                $ext_files = ".html";
+                                $link_path = $directory . $link . $ext_files;
                                 $myfile = fopen($link_path, "w") or die("Unable to open file!");
+                                // For redirect in php
+                                /* $txt = '<?php header("Location: ../view.php?id=' . $last_id . '"); ?>'; */
+                                // For redirect in html
                                 $txt = '<html><head><script>window.location.replace("../view.php?id=' . $last_id . '");</script></head><body></body></html>';
                                 fwrite($myfile, $text);
                                 fclose($myfile);
