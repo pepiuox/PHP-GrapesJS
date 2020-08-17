@@ -73,8 +73,8 @@ require 'conn.php';
                             echo '</div>';
                         }
 
-                        $title = $_POST['title'];// Page name
-                        $link = strtolower(str_replace(" ", "-", $_POST['link']));// Page link
+                        $title = $_POST['title']; // Page name
+                        $link = strtolower(str_replace(" ", "-", $_POST['link'])); // Page link
                         $keyword = $_POST['keyword'];
                         $classification = $_POST['classification'];
                         $description = $_POST['description'];
@@ -92,6 +92,7 @@ require 'conn.php';
                             // Insert info in table MENU
                             $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) VALUES ('" . $last_id . "', '" . protect($title) . "', '" . protect($link) . "', '" . protect($parent) . "')";
                             if ($conn->query($sqlm) === TRUE) {
+                                // Store in folder pages
                                 $directory = 'pages/';
                                 //Check if the directory already exists.
                                 if (!is_dir($directory)) {
@@ -100,8 +101,8 @@ require 'conn.php';
                                 }
                                 $link_path = $directory . $link . ".html";
                                 $myfile = fopen($link_path, "w") or die("Unable to open file!");
-                                $txt = '<html><script>window.location.replace("../view.php?id=' . $last_id . '");</script></html>';
-                                fwrite($myfile, $txt);
+                                $txt = '<html><head><script>window.location.replace("../view.php?id=' . $last_id . '");</script></head><body></body></html>';
+                                fwrite($myfile, $text);
                                 fclose($myfile);
 
                                 echo '<div class="alert alert-success" role="alert">';
