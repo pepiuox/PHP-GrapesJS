@@ -77,6 +77,7 @@ if (!empty($_GET['id'])) {
 
                                 $sqlm = "UPDATE menu SET title_page = '" . protect($title) . "', link_page = '" . protect($link) . "', parent_id = '" . protect($parent) . "' WHERE page_id='$id'";
                                 if ($conn->query($sqlm) === TRUE) {
+                                                                        
                                     echo '<div class="alert alert-success" role="alert">';
                                     echo "Page " . $title . " : Created ";
                                     echo '</div>';

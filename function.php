@@ -19,14 +19,14 @@ function nparent() {
     $sp = "";
     if ($numr > 0) {
         $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
-        $sp .= '<option value="0">Select a parent</option>' . "\n";
+        $sp .= '<option>Select a parent</option>' . "\n";
         while ($row = $result->fetch_array()) {
             $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
         }
         $sp .= '</select>' . "\n";
     } else {
         $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
-        $sp .= '<option value="0">There are no pages yet</option>' . "\n";
+        $sp .= '<option>There are no pages yet</option>' . "\n";
         $sp .= '</select>' . "\n";
     }
 

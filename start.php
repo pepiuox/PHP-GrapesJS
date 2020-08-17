@@ -36,6 +36,9 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
 $bid = $rpx['id'];
 $title = $rpx['title'];
 $plink = $rpx['link'];
+$keyword = $rpx['keyword'];
+$classification = $rpx['classification'];
+$description = $rpx['description'];
 $cont = $rpx['type'];
 $men = $rpx['menu'];
 $content = $rpx['content'];
@@ -44,9 +47,7 @@ $prnt = $rpx['parent'];
 $lng = $rpx['language'];
 
 $_SESSION["language"] = $lng;
-
 $language = $_SESSION["language"];
-
 $base = $hostlk;
 
 if ($bid) {
@@ -57,6 +58,13 @@ if ($bid) {
             <meta charset="utf-8"/>
             <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+            <?php if (empty($description)) { ?>
+                <meta name="description" content="<?php echo $description; ?>" />
+            <?php } if (empty($keyword)) { ?>
+                <meta name="keywords" content="<?php echo $keyword; ?>" />
+            <?php } if (empty($classification)) { ?>
+                <meta name="classification" content="<?php echo $classification; ?>" />
+            <?php } ?>
             <title><?php
                 echo $title;
                 ?></title>

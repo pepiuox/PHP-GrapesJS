@@ -73,19 +73,37 @@ require 'conn.php';
                             echo '</div>';
                         }
 
-                        $title = $_POST['title'];
-                        $link = strtolower(str_replace(" ", "-", $_POST['link']));
+                        $title = $_POST['title'];// Page name
+                        $link = strtolower(str_replace(" ", "-", $_POST['link']));// Page link
                         $keyword = $_POST['keyword'];
                         $classification = $_POST['classification'];
                         $description = $_POST['description'];
                         $parent = $_POST['parent'];
+                        // Check if parent exist or is empty
+                        if (!is_int($parent) || empty($parent)) {
+                            $parent = 0;
+                        }
                         $active = $_POST['active'];
 
+                        // Insert info in table PAGE 
                         $sql = "INSERT INTO page ( title, link, keyword, classification, description, image, parent, active) VALUES ('" . protect($title) . "', '" . protect($link) . "', '" . protect($keyword) . "', '" . protect($classification) . "', '" . protect($description) . "', '" . protect($file_name) . "','" . protect($parent) . "', '" . protect($active) . "')";
                         if ($conn->query($sql) === TRUE) {
                             $last_id = $conn->insert_id;
+                            // Insert info in table MENU
                             $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) VALUES ('" . $last_id . "', '" . protect($title) . "', '" . protect($link) . "', '" . protect($parent) . "')";
                             if ($conn->query($sqlm) === TRUE) {
+                                $directory = 'pages/';
+                                //Check if the directory already exists.
+                                if (!is_dir($directory)) {
+                                    //Directory does not exist, so lets create it.
+                                    mkdir($directory, 0755, true);
+                                }
+                                $link_path = $directory . $link . ".html";
+                                $myfile = fopen($link_path, "w") or die("Unable to open file!");
+                                $txt = '<html><script>window.location.replace("../view.php?id=' . $last_id . '");</script></html>';
+                                fwrite($myfile, $txt);
+                                fclose($myfile);
+
                                 echo '<div class="alert alert-success" role="alert">';
                                 echo "Page " . $title . " : Created ";
                                 echo '</div>';
