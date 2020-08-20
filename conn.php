@@ -12,5 +12,6 @@ $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
     }
 $base = 'http://'.$_SERVER['HTTP_HOST'].'/PHP-GrapesJS/';
 require 'function.php';
+require 'define.php';
     ?>
     

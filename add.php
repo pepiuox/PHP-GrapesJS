@@ -12,13 +12,16 @@ require 'conn.php';
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" data-type="keditor-style" />
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 pt-4">
-                    <div class="align-content-end">
-                        <a class="btn btn-primary" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
-                    </div>
+        <div class="container">           
+            <div class="row pt-4">              
+                <div class="col-md-6">
+                    <a class="btn btn-primary" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
                 </div>
+                <div class="col-md-6">                    
+                    <a class="btn btn-primary" href="settings.php"><i class="fa fa-gear" aria-hidden="true"></i> Edit Settings</a>         
+                </div>               
+            </div>
+            <div class="row">
                 <div class="col-md-12 py-3">
                     <?php
 // Add page properties
@@ -93,26 +96,28 @@ require 'conn.php';
                             $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) VALUES ('" . $last_id . "', '" . protect($title) . "', '" . protect($link) . "', '" . protect($parent) . "')";
                             if ($conn->query($sqlm) === TRUE) {
                                 /*
-                                // Store in folder pages
-                                $directory = 'pages/';
-                                //Check if the directory already exists.
-                                if (!is_dir($directory)) {
-                                    //Directory does not exist, so lets create it.
-                                    mkdir($directory, 0755, true);
-                                }
-                                // Change to the extension you want.
-                                $ext_files = ".html";
-                                $link_path = $directory . $link . $ext_files;
-                                $myfile = fopen($link_path, "w") or die("Unable to open file!");                                 
+                                  // Store in folder pages
+                                  $directory = 'pages/';
+                                  //Check if the directory already exists.
+                                  if (!is_dir($directory)) {
+                                  //Directory does not exist, so lets create it.
+                                  mkdir($directory, 0755, true);
+                                  }
+                                  // Change to the extension you want.
+                                  $ext_files = ".html";
+                                  $link_path = $directory . $link . $ext_files;
+                                  $myfile = fopen($link_path, "w") or die("Unable to open file!");
                                  */
                                 // For redirect in php
-                                /* $txt = '<?php header("Location: ../view.php?id=' . $last_id . '"); ?>'; */
+                                /*
+                                  $txt = '<?php header("Location: ../view.php?id=' . $last_id . '"); ?>';
+                                 */
                                 // For redirect in html
                                 /*
-                                $txt = '<html><head><script>window.location.replace("../view.php?id=' . $last_id . '");</script></head><body></body></html>';
-                                fwrite($myfile, $text);
-                                fclose($myfile);
-                                */
+                                  $txt = '<html><head><script>window.location.replace("../view.php?id=' . $last_id . '");</script></head><body></body></html>';
+                                  fwrite($myfile, $text);
+                                  fclose($myfile);
+                                 */
                                 echo '<div class="alert alert-success" role="alert">';
                                 echo "Page " . $title . " : Created ";
                                 echo '</div>';

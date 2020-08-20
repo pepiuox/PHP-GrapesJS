@@ -1,24 +1,9 @@
 <?php
-$hostlk = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$_SESSION['language'] = '';
 
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-    $lpath = "https";
-} else {
-    $lpath = "http";
-}
-$lpath .= "://";
-$lpath .= $_SERVER['HTTP_HOST'];
-$lpath .= $_SERVER['PHP_SELF'];
-
-$fileName = basename($_SERVER['PHP_SELF']);
-
-$path = basename($_SERVER['REQUEST_URI']);
-$fl = $hostlk . $fileName;
-
-if ($fl === $lpath) {
-    header("Location: index.php?w=list");
-    exit();
-}
+$escaped_url = htmlspecialchars($base, ENT_QUOTES, 'UTF-8');
+$url_path = parse_url($escaped_url, PHP_URL_PATH);
+$basename = pathinfo($url_path, PATHINFO_BASENAME);
 
 if (isset($_GET['page']) && !empty($_GET['page'])) {
     $id = (int) $_GET['page'];
@@ -30,7 +15,7 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
 } else {
     $rs = $conn->query("SELECT * FROM `page` WHERE `starpage` = '1' AND active='1'");
     $rpx = $rs->fetch_array();
-    header('Location: viewer.php?page=' . $rpx['id']);
+    header('Location: index.php?page=' . $rpx['id']);
 }
 
 $bid = $rpx['id'];
@@ -48,7 +33,6 @@ $lng = $rpx['language'];
 
 $_SESSION["language"] = $lng;
 $language = $_SESSION["language"];
-$base = $hostlk;
 
 if ($bid) {
     ?>
@@ -68,8 +52,8 @@ if ($bid) {
             <title><?php
                 echo $title;
                 ?></title>
-            <link href="plugins/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
-            <link rel="stylesheet" type="text/css" href="./plugins/font-awesome-4.7.0/css/font-awesome.min.css" data-type="keditor-style" />
+            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
             <style>
     <?php
     echo html_entity_decode($style);
@@ -85,9 +69,9 @@ if ($bid) {
                 echo html_entity_decode($content) . "\n";
                 ?>
             </div>
-            <script src="plugins/jquery-3.5.1/jquery-3.5.1.min.js" type="text/javascript"></script>
-            <script src="plugins/bootstrap-4.4.1/js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="plugins/popper/popper.min.js" type="text/javascript"></script> 
+            <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script> 
         </body>
     </html>
     <?php

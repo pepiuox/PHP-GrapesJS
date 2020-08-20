@@ -16,12 +16,15 @@ require 'conn.php';
         //require 'navbar.php';
         ?>
         <div class='container'>
-            <div class="row">
-                <div class="col-md-12 pt-4">
-                    <div class="align-content-end">
-                        <a class="btn btn-primary" href="add.php"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
-                    </div>
+            <div class="row pt-4">               
+                <div class="col-md-6">
+                    <a class="btn btn-primary" href="add.php"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
                 </div>
+                <div class="col-md-6">                    
+                    <a class="btn btn-primary" href="settings.php"><i class="fa fa-gear" aria-hidden="true"></i> Edit Settings</a>         
+                </div>               
+            </div>
+            <div class="row">                
                 <div class="col-md-12 py-3">
                     <table class="table">
                         <thead>

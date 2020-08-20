@@ -1,6 +1,6 @@
 <!-- Static navbar -->
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="<?php echo $base; ?>viewer.php">Web Builder</a>
+    <a class="navbar-brand" href="<?php echo $base; ?>"><?php echo constant("SITE_NAME");?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -9,7 +9,6 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
         <ul class="navbar-nav ml-auto">
-
 
             <?php
 
@@ -41,14 +40,14 @@
                     $mid = $row['id'];
                     if (in_array($row['id'], $parents)) {
                         echo '<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="viewer.php?page=' . $row['id'] . '" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle" href="index.php?page=' . $row['id'] . '" id="navbarDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         ' . $row['title'] . '
                     </a>' . "\n";
                         echo second($mid);
                         echo '</li>' . "\n";
                     } else {
-                        echo '<li class="nav-item"><a class="nav-link" href="viewer.php?page=' . $row['id'] . '">' . $row['title'] . '</a></li>' . "\n";
+                        echo '<li class="nav-item"><a class="nav-link" href="index.php?page=' . $row['id'] . '">' . $row['title'] . '</a></li>' . "\n";
                     }
                 }
             }
