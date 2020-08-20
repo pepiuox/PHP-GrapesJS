@@ -4,7 +4,45 @@ include 'conn.php';
 if (isset($_POST['install'])) {
     $install = $_POST['install'];
     if ($install == 1) {
-        $sql = "DROP TABLE IF EXISTS `menu`;
+        $sql = "
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE IF NOT EXISTS `config` (
+  `type_name` varchar(20) DEFAULT NULL,
+  `value` varchar(250) DEFAULT NULL,
+  UNIQUE INDEX `type_name` (`type_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DELETE FROM `config`;
+
+INSERT INTO `config` (`type_name`, `value`) VALUES
+	('DOMAIN_SITE', 'www.yourdomain.com'),
+	('SITE_NAME', 'Your site'),
+	('SITE_DESC', 'Your keywords for your domains'),
+	('SITE_KEYWORDS', 'Your keywords for your domains'),
+	('SITE_DESCRIPTION', 'Your keywords for your domains'),
+	('SITE_ADMIN', 'system'),
+	('SITE_CONFIG', 'config'),
+	('SITE_LIST', 'list'),
+	('SITE_EDITOR', 'editor'),
+	('SITE_BUILDER', 'builder'),
+	('SITE_LANGUAGE_1', 'English'),
+	('SITE_LANGUAGE_2', 'EspaÃ±ol'),
+	('SITE_EMAIL', 'info@yourdomain.com'),
+	('IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
+	('NAME_CONTACT', 'Your Name'),
+	('PHONE_CONTACT', '0051 999888777'),
+	('EMAIL_CONTACT', 'info@yourdomain.com'),
+	('FOLDER_IMAGES', 'uploads'),
+	('SITE_CREATOR', '@pepiuox'),
+	('TWITTER', '@yourdomain'),
+	('FACEBOOKID', 'yourfacebookid'),
+	('SKYPE', 'Your Domain'),
+	('TELEGRAM', 'Your Name'),
+	('WHATSAPP', '+51 999888777'),
+	('ADMIN_NAME', 'admin'),
+	('ADMIN_LEVEL', NULL);
+
+DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
   `sort` int(11) DEFAULT NULL,

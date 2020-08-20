@@ -4,7 +4,6 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
 
     $valueCount = count($_POST["type_name"]);
     for ($i = 0; $i < $valueCount; $i++) {
-
         $conn->query("UPDATE `config` SET  `value` =  '{$_POST['value'][$i]}'   WHERE `type_name` = '{$_POST['type_name'][$i]}' ");
     }
 }

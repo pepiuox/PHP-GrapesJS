@@ -24,7 +24,7 @@ require 'conn.php';
             <div class="row">
                 <div class="col-md-12 py-3">
                     <?php
-// Add page properties
+                    // Add page properties
                     if (isset($_POST['submit'])) {
                         if (!empty($_FILES['image']['name'])) {
                             $errors = array();

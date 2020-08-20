@@ -1,7 +1,8 @@
 <?php
 $_SESSION['language'] = '';
 
-$escaped_url = htmlspecialchars($base, ENT_QUOTES, 'UTF-8');
+$url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$escaped_url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
 $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
 
