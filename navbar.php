@@ -1,13 +1,11 @@
 <!-- Static navbar -->
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="<?php echo $base; ?>"><?php echo constant("SITE_NAME");?></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-            aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main_navbar">
+    <a class="navbar-brand" href="<?php echo $base; ?>"><?php echo constant("SITE_NAME"); ?></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
 
             <?php
