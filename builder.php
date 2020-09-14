@@ -665,7 +665,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 cmdm.add('new-page', {
                     run: function (em, sender) {
                         sender.set('active', true);
-                        clearContent();
+                        newContent();
                     }
                 });
                 cmdm.add('view-page', {
@@ -854,11 +854,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                     location.reload();
                 }
                 function newContent() {
-                    clearContent();
-                    var comps = editor.DomComponents.clear();
-                    setTimeout(function () {
-                        localStorage.clear();
-                    }, 0);
+                    var url = 'add.php';
+                    location.replace(url);
                 }
                 function clearContent() {
                     var clear = 'clear';

@@ -8,9 +8,11 @@ if ('clear' === $clear) {
         unset($_SESSION["title"]);
         unset($_SESSION["page"]);
         session_destroy();
-        echo '<script>location.reload(true)</script>';
+        echo '<script>localStorage.clear();'
+        . 'location.reload(true);</script>';
     } else {
-        echo '<script>location.reload(true)</script>';
+        echo '<script>localStorage.clear();'
+        . 'location.reload(true)</script>';
     }
     // remove PHPSESSID from browser
     if (isset($_COOKIE[session_name()])) {
