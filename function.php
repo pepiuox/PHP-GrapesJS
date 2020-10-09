@@ -8,10 +8,12 @@ function protect($str) {
     $str = mysqli_real_escape_string($conn, $str);
     return $str;
 }
+
 /*
  * nparent() 
  * This function gives us a list of pages, for add parent page in add.php
  */
+
 function nparent() {
     global $conn;
     $result = $conn->query("SELECT * FROM page");
@@ -35,9 +37,11 @@ function nparent() {
 
 function vwparent($parent) {
     global $conn;
-    $result = $conn->query("SELECT * FROM page WHERE id='$parent'");
-    $row = $result->fetch_assoc();
-    echo $row['title'];
+    if ($parent > 0) {       
+        $result = $conn->query("SELECT * FROM page WHERE id='$parent'");
+        $row = $result->fetch_assoc();
+        echo $row['title'];
+    }
 }
 
 function sparent($parent) {

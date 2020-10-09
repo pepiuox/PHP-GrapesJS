@@ -1,6 +1,6 @@
 <!-- Static navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main_navbar">
-    <a class="navbar-brand" href="<?php echo $base; ?>"><?php echo constant("SITE_NAME"); ?></a>
+    <a class="navbar-brand" href="<?php echo $base; ?>"><?php echo SITE_NAME; ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
                 $mresult = $conn->query("SELECT * FROM page WHERE parent='$mid'");
                 echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">' . "\n";
                 while ($mrow = $mresult->fetch_array()) {
-                    echo '<li><a class="dropdown-item" href="builder.php?id=' . $mrow['id'] . '">' . $mrow['title'] . '</a></li>' . "\n";
+                    echo '<li><a class="dropdown-item" href="index.php?page=' . $mrow['id'] . '">' . $mrow['title'] . '</a></li>' . "\n";
                 }
                 echo '</ul>' . "\n";
             }

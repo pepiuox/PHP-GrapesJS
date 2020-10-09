@@ -11,13 +11,19 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
     $rs = $conn->query("SELECT * FROM `page` WHERE active='1' AND `id` = '$id'");
     $rpx = $rs->fetch_assoc();
 } elseif (isset($basename) && !empty($basename)) {
+
     $rs = $conn->query("SELECT * FROM `page` WHERE active='1' AND link = '$basename'");
-    $rpx = $rs->fetch_assoc();
-} else {
-    $rs = $conn->query("SELECT * FROM `page` WHERE `starpage` = '1' AND active='1'");
-    $rpx = $rs->fetch_array();
-    header('Location: index.php?page=' . $rpx['id']);
-}
+    $nm = $rs->num_rows;
+    if ($nm > 0) {
+        $rpx = $rs->fetch_assoc();
+    } else {
+        $rs = $conn->query("SELECT * FROM `page` WHERE `starpage` = '1' AND active='1'");
+        $rpx = $rs->fetch_assoc();
+        $namelink = $base.$rpx['link'];
+
+        header("Location: $namelink");
+    }
+} 
 
 $bid = $rpx['id'];
 $title = $rpx['title'];
@@ -51,8 +57,8 @@ if ($bid) {
                 <meta name="classification" content="<?php echo $classification; ?>" />
             <?php } ?>
             <title><?php
-                echo $title;
-                ?></title>
+            echo $title;
+            ?></title>
             <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
             <style>

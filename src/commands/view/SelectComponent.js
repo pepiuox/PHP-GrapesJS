@@ -7,6 +7,7 @@ import {
   isTaggableNode,
   getViewEl
 } from 'utils/mixins';
+import { isVisible, isDoc } from 'utils/dom';
 import ToolbarView from 'dom_components/view/ToolbarView';
 import Toolbar from 'dom_components/model/Toolbar';
 
@@ -40,7 +41,8 @@ export default {
       'onOut',
       'onClick',
       'onFrameScroll',
-      'onFrameUpdated'
+      'onFrameUpdated',
+      'onContainerChange'
     );
   },
 
@@ -73,8 +75,11 @@ export default {
    * */
   toggleSelectComponent(enable) {
     const { em } = this;
+    const listenToEl = em.getConfig('listenToEl');
+    const { parentNode } = em.getContainer();
     const method = enable ? 'on' : 'off';
     const methods = { on, off };
+    !listenToEl.length && parentNode && listenToEl.push(parentNode);
     const trigger = (win, body) => {
       methods[method](body, 'mouseover', this.onHover);
       methods[method](body, 'mouseleave', this.onOut);
@@ -82,6 +87,7 @@ export default {
       methods[method](win, 'scroll', this.onFrameScroll);
     };
     methods[method](window, 'resize', this.onFrameUpdated);
+    methods[method](listenToEl, 'scroll', this.onContainerChange);
     em[method]('component:toggled', this.onSelect, this);
     em[method]('change:componentHovered', this.onHovered, this);
     em[method](
@@ -115,7 +121,7 @@ export default {
     // Get first valid model
     if (!model) {
       let parent = $el.parent();
-      while (!model && parent.length > 0) {
+      while (!model && parent.length && !isDoc(parent[0])) {
         model = parent.data('model');
         parent = parent.parent();
       }
@@ -167,7 +173,7 @@ export default {
     let el = view && view.el;
     let result = {};
 
-    if (el) {
+    if (el && isVisible(el)) {
       const pos = this.getElementPos(el);
       result = { el, pos, component, view: getViewEl(el) };
     }
@@ -204,7 +210,7 @@ export default {
   onOut() {
     this.currentDoc = null;
     this.em.setHovered(0);
-    this.elHovered = undefined;
+    this.elHovered = 0;
     this.updateToolsLocal();
     this.canvas.getFrames().forEach(frame => {
       const { view } = frame;
@@ -291,7 +297,7 @@ export default {
 
     if (!model) {
       let parent = $el.parent();
-      while (!model && parent.length > 0) {
+      while (!model && parent.length && !isDoc(parent[0])) {
         model = parent.data('model');
         parent = parent.parent();
       }
@@ -719,6 +725,10 @@ export default {
   updateAttached: debounce(function() {
     this.updateGlobalPos();
   }),
+
+  onContainerChange: debounce(function() {
+    this.em.refreshCanvas();
+  }, 150),
 
   /**
    * Returns element's data info

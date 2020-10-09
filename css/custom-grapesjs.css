@@ -1,0 +1,126 @@
+.gjs-cv-canvas {
+  background-color: rgba(0,0,0, 0.09);
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.gjs-pn-buttons{
+  justify-content: center !important;
+}
+#editor-area{
+  transition: padding 0s !important;
+  height: 100vh;
+  position: relative;
+  padding: 0px;
+}
+#editor-area.fullscreen{
+  padding: 0px;
+  width: 100vw;
+  /* width: 100vw; */
+}
+
+#editor-area.fullscreen.app-content--sidebar{
+  height: 100%;
+}
+
+#editor-area.fullscreen #sidebar-inner-2{
+  height: 100%;
+  top: 0px;
+}
+
+#sidebar-inner-2,
+#sidebar-inner-3{
+  transform-origin: left;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 228px;
+  transform: translateX(-270px);
+  height: calc(100%);
+}
+#editor-styles{
+  display: none;
+}
+
+.sidebar-collapsed #sidebar-inner-2.visible,
+.sidebar-collapsed #sidebar-inner-3.visible{
+  transform: translateX(0px);
+}
+
+#sidebar-inner-2.visible,
+#sidebar-inner-3.visible{
+  transform: translateX(0px);
+}
+
+#sidebar-inner-2 #blocks-mgr{
+  padding: 0px;
+}
+
+
+#sidebar-inner-3 #styles-or-traits-mgr{
+  /* width: 220px; */
+  padding: 0px;
+}
+
+.gjs-layer,
+.gjs-layer-title-c{
+  background-color: transparent !important;
+}
+
+.gjs-one-bg{
+  background: #ffffff;
+  border-radius: 5px;
+}
+
+.gjs-two-color{
+  color: #000000;
+}
+
+.gjs-layer-vis{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 700;
+  padding: 10px 5px 7px 6px;
+}
+.gjs-layer-title{
+  /* padding: 5px 10px 5px 10px; */
+  border-bottom: unset;
+  letter-spacing: normal;
+  font-weight: 500;
+  background: transparent !important;
+}
+
+.gjs-layer-name{
+  margin: 0px 10px 0px 30px;
+  color: #7a7b97 !important;
+  font-family: "Font Awesome 5 Free";
+  overflow: visible;
+  box-sizing: unset;
+}
+
+.gjs-layer-caret{
+  font-size: 0.6rem;
+  left: 5px;
+}
+
+.gjs-layer-move{
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #7a7b97;
+
+
+  display: inline-block;
+  padding: 5px 7px;
+  margin-top: 7px;
+  font-size: 90%;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .2rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.gjs-layer-count{
+  display: none;
+}

@@ -42,7 +42,7 @@ if ($w == "editor") {
                 <title>PHP GrapesJS</title>
 
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>dist/css/grapes.min.css">
+                <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">
                 <link rel="stylesheet"
                       href="<?php echo $base; ?>css/grapesjs-preset-webpage.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/tooltip.css">
@@ -1154,3 +1154,5 @@ if ($w == "editor") {
     <?php
 }
 ?>
+
+
