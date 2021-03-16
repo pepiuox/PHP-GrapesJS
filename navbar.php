@@ -22,7 +22,7 @@
                 $mresult = $conn->query("SELECT * FROM page WHERE parent='$mid'");
                 echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">' . "\n";
                 while ($mrow = $mresult->fetch_array()) {
-                    echo '<li><a class="dropdown-item" href="index.php?page=' . $mrow['id'] . '">' . $mrow['title'] . '</a></li>' . "\n";
+                    echo '<li><a class="dropdown-item" href="' . $mrow['link'] . '">' . $mrow['title'] . '</a></li>' . "\n";
                 }
                 echo '</ul>' . "\n";
             }
@@ -38,14 +38,14 @@
                     $mid = $row['id'];
                     if (in_array($row['id'], $parents)) {
                         echo '<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="index.php?page=' . $row['id'] . '" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle" href="' . $row['link'] . '" id="navbarDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         ' . $row['title'] . '
                     </a>' . "\n";
                         echo second($mid);
                         echo '</li>' . "\n";
                     } else {
-                        echo '<li class="nav-item"><a class="nav-link" href="index.php?page=' . $row['id'] . '">' . $row['title'] . '</a></li>' . "\n";
+                        echo '<li class="nav-item"><a class="nav-link" href="' . $row['link'] . '">' . $row['title'] . '</a></li>' . "\n";
                     }
                 }
             }

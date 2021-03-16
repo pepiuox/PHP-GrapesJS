@@ -1,14 +1,10 @@
+# -- concrete5 urls start --
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /PHP-GrapesJS/
-
-    RewriteCond %{REQUEST_FILENAME} !-f    
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule (.*) index.php?/$1 [QSA,L]   
-
-    RewriteCond %{THE_REQUEST} ^GET.*index\.php [NC]
-    RewriteCond %{REQUEST_URI} !/system/.* [NC]
-    RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
-           
+	RewriteEngine On
+	RewriteBase /PHP-GrapesJS/
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME}/index.html !-f
+	RewriteCond %{REQUEST_FILENAME}/index.php !-f
+	RewriteRule . index.php [L]
 </IfModule>
 

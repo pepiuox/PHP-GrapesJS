@@ -16,7 +16,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<h1 class="samples">
 		CKEditor &mdash; Posted Data
 	</h1>
-	<table border="1" cellspacing="0" id="outputSample">
+	<table border="1" id="outputSample">
 		<colgroup><col width="120"></colgroup>
 		<thead>
 			<tr>

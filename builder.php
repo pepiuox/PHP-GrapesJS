@@ -11,6 +11,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         <head>
             <meta charset="utf-8">
             <title>PHP GrapesJS</title>
+            <link rel="stylesheet" href="<?php echo $base; ?>css/font-awesome.css">
             <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
             <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">
             <link rel="stylesheet"
@@ -37,7 +38,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>
             <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>
             <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>
-
+<script src="<?php echo $base; ?>js/grapesjs-echarts.min.js"></script>
+<script src="<?php echo $base; ?>js/grapesjs-script-editor"></script>
             <script>
                 $(".gjs-pn-buttons").click(function () {
                     var imp = $("span").find("[data-tooltip='Import']");
@@ -230,6 +232,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         'grapesjs-custom-code',
                         'grapesjs-typed',
                         'grapesjs-indexeddb',
+                        'grapesjs-echarts',                        
                         'grapesjs-touch',
                         'grapesjs-parser-postcss',
                         'grapesjs-tooltip',
@@ -269,6 +272,22 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                             }
                         },
                         'grapesjs-indexeddb': {},
+                        'grapesjs-echarts': {
+                        	intl: {
+                                locale:"en",
+                                messages: {
+                                  en: {
+                                    category: 'Awesome Charts',
+                                    components: {
+                                      bars: {
+                                        name: "Awesome Bars"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                        
                         'gjs-navbar': {},
                         'gjs-preset-webpage': {
                             modalImportTitle: 'Import Template',
