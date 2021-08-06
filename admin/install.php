@@ -1,8 +1,10 @@
 <?php
 session_start();
+
 $file = '../config/conn.php';
 $nclose = '';
 $PathInstall = $_SESSION['PathInstall'];
+$base = 'http://'.$_SERVER['HTTP_HOST'].'/' . $PathInstall . '/';
 $folder = basename(dirname(__FILE__));
 
 if (isset($_POST['submit'])) {
@@ -84,11 +86,11 @@ if (isset($_POST['submit'])) {
     }
 
     $filecontent .= "require 'function.php';" . "\n";
-    $filecontent .= "require 'config/define.php';
+    $filecontent .= "require 'define.php';
     ?>
     ";
     file_put_contents($file, $filecontent);
-    header('Location: ../list.php');
+    header('Location: list.php');
 }
 ?>
 <!DOCTYPE html>

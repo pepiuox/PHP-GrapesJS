@@ -13,7 +13,6 @@ if (file_exists($file)) {
     include 'config/conn.php';
     $mypage = $_SERVER['PHP_SELF'];
     $page = $mypage;
-    require_once 'config/define.php';
     require_once 'start.php';
 } else {
     $_SESSION['PathInstall'] = basename(dirname(__FILE__));
