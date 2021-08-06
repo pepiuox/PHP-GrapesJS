@@ -1,7 +1,7 @@
 import Backbone from 'backbone';
 import FrameView from './FrameView';
 import { bindAll, isNumber, isNull, debounce } from 'underscore';
-import { createEl, motionsEv } from 'utils/dom';
+import { createEl, removeEl } from 'utils/dom';
 import Dragger from 'utils/Dragger';
 
 export default Backbone.View.extend({
@@ -32,9 +32,12 @@ export default Backbone.View.extend({
     this.ppfx = config.pStylePrefix || '';
     this.frame = new FrameView({ model, config });
     this.classAnim = `${this.ppfx}frame-wrapper--anim`;
+    this.updateOffset = debounce(this.updateOffset.bind(this));
+    this.updateSize = debounce(this.updateSize.bind(this));
     this.listenTo(model, 'loaded', this.frameLoaded);
     this.listenTo(model, 'change:x change:y', this.updatePos);
     this.listenTo(model, 'change:width change:height', this.updateSize);
+    this.listenTo(model, 'destroy remove', this.remove);
     this.updatePos();
     this.setupDragger();
   },
@@ -68,18 +71,28 @@ export default Backbone.View.extend({
     ev && this.dragger.start(ev);
   },
 
-  remove() {
+  __clear(opts) {
+    const { frame } = this;
+    frame && frame.remove(opts);
+    removeEl(this.elTools);
+  },
+
+  remove(opts) {
+    this.__clear(opts);
     Backbone.View.prototype.remove.apply(this, arguments);
-    this.frame.remove();
+    ['frame', 'dragger', 'cv', 'em', 'canvas', 'elTools'].forEach(
+      i => (this[i] = 0)
+    );
     return this;
   },
 
-  updateOffset: debounce(function() {
+  updateOffset() {
     const { em, $el, frame } = this;
+    if (!em) return;
     em.runDefault({ preserveSelected: 1 });
     $el.removeClass(this.classAnim);
     frame.model._emitUpdated();
-  }),
+  },
 
   updatePos(md) {
     const { model, el } = this;
@@ -91,42 +104,36 @@ export default Backbone.View.extend({
     md && this.updateOffset();
   },
 
-  updateSize: debounce(function() {
+  updateSize() {
     this.updateDim();
-  }),
+  },
 
   /**
    * Update dimensions of the frame
    * @private
    */
   updateDim() {
-    const { em, el, $el, model, classAnim } = this;
-    const { width, height } = model.attributes;
-    const { style } = el;
-    const currW = style.width || '';
-    const currH = style.height || '';
-    const newW = width || '';
-    const newH = height || '';
-    const noChanges = currW == newW && currH == newH;
-    const un = 'px';
-    this.frame.rect = 0;
+    const { em, el, $el, model, classAnim, frame } = this;
+    if (!frame) return;
+    frame.rect = 0;
     $el.addClass(classAnim);
-    style.width = isNumber(newW) ? `${newW}${un}` : newW;
-    style.height = isNumber(newH) ? `${newH}${un}` : newH;
+    const { noChanges, width, height } = this.__handleSize();
 
     // Set width and height from DOM (should be done only once)
     if (isNull(width) || isNull(height)) {
-      const newDims = {
-        ...(!width ? { width: el.offsetWidth } : {}),
-        ...(!height ? { height: el.offsetHeight } : {})
-      };
-      model.set(newDims, { silent: 1 });
+      model.set(
+        {
+          ...(!width ? { width: el.offsetWidth } : {}),
+          ...(!height ? { height: el.offsetHeight } : {})
+        },
+        { silent: 1 }
+      );
     }
 
     // Prevent fixed highlighting box which appears when on
     // component hover during the animation
     em.stopDefault({ preserveSelected: 1 });
-    noChanges ? this.updateOffset() : $el.one(motionsEv, this.updateOffset);
+    noChanges ? this.updateOffset() : setTimeout(this.updateOffset, 350);
   },
 
   onScroll() {
@@ -144,9 +151,26 @@ export default Backbone.View.extend({
     this.updateDim();
   },
 
+  __handleSize() {
+    const un = 'px';
+    const { model, el } = this;
+    const { style } = el;
+    const { width, height } = model.attributes;
+    const currW = style.width || '';
+    const currH = style.height || '';
+    const newW = width || '';
+    const newH = height || '';
+    const noChanges = currW == newW && currH == newH;
+    style.width = isNumber(newW) ? `${newW}${un}` : newW;
+    style.height = isNumber(newH) ? `${newH}${un}` : newH;
+    return { noChanges, width, height, newW, newH };
+  },
+
   render() {
     const { frame, $el, ppfx, cv, model, el } = this;
     const { onRender } = model.attributes;
+    this.__clear();
+    this.__handleSize();
     frame.render();
     $el
       .empty()
@@ -173,7 +197,7 @@ export default Backbone.View.extend({
       'div',
       {
         class: `${ppfx}tools`,
-        style: 'pointer-events:none; opacity: 0'
+        style: 'pointer-events:none; display: none'
       },
       `
       <div class="${ppfx}highlighter" data-hl></div>
@@ -202,7 +226,8 @@ export default Backbone.View.extend({
     `
     );
     this.elTools = elTools;
-    cv.toolsWrapper.appendChild(elTools); // TODO remove on frame remove
+    const twrp = cv.toolsWrapper;
+    twrp && twrp.appendChild(elTools); // TODO remove on frame remove
     onRender &&
       onRender({
         el,

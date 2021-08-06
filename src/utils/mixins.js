@@ -78,21 +78,21 @@ const shallowDiff = (objOrig, objNew) => {
   return result;
 };
 
-const on = (el, ev, fn) => {
+const on = (el, ev, fn, opts) => {
   ev = ev.split(/\s+/);
   el = el instanceof Array ? el : [el];
 
   for (let i = 0; i < ev.length; ++i) {
-    el.forEach(elem => elem.addEventListener(ev[i], fn));
+    el.forEach(elem => elem && elem.addEventListener(ev[i], fn, opts));
   }
 };
 
-const off = (el, ev, fn) => {
+const off = (el, ev, fn, opts) => {
   ev = ev.split(/\s+/);
   el = el instanceof Array ? el : [el];
 
   for (let i = 0; i < ev.length; ++i) {
-    el.forEach(elem => elem.removeEventListener(ev[i], fn));
+    el.forEach(elem => elem && elem.removeEventListener(ev[i], fn, opts));
   }
 };
 
@@ -161,6 +161,22 @@ export const isCommentNode = el => el && el.nodeType === 8;
  */
 export const isTaggableNode = el => el && !isTextNode(el) && !isCommentNode(el);
 
+export const find = (arr, test) => {
+  let result = null;
+  arr.some((el, i) => (test(el, i, arr) ? ((result = el), 1) : 0));
+  return result;
+};
+
+export const escape = (str = '') => {
+  return `${str}`
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/`/g, '&#96;');
+};
+
 /**
  * Ensure to fetch the model from the input argument
  * @param  {HTMLElement|Component} el Component or HTML element
@@ -210,8 +226,10 @@ const getPointerEvent = ev =>
 const getKeyCode = ev => ev.which || ev.keyCode;
 const getKeyChar = ev => String.fromCharCode(getKeyCode(ev));
 const isEscKey = ev => getKeyCode(ev) === 27;
+const isEnterKey = ev => getKeyCode(ev) === 13;
 const isObject = val =>
   val !== null && !Array.isArray(val) && typeof val === 'object';
+const isEmptyObj = val => Object.keys(val).length <= 0;
 
 const capitalize = str => str && str.charAt(0).toUpperCase() + str.substring(1);
 const isComponent = obj => obj && obj.toHTML;
@@ -220,6 +238,17 @@ const isRule = obj => obj && obj.toCSS;
 const getViewEl = el => el.__gjsv;
 const setViewEl = (el, view) => {
   el.__gjsv = view;
+};
+
+const createId = (length = 16) => {
+  let result = '';
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const len = chars.length;
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * len));
+  }
+  return result;
 };
 
 export {
@@ -235,6 +264,7 @@ export {
   getKeyCode,
   getKeyChar,
   isEscKey,
+  isEnterKey,
   getElement,
   shallowDiff,
   normalizeFloat,
@@ -245,6 +275,8 @@ export {
   setViewEl,
   appendStyles,
   isObject,
+  isEmptyObj,
   isComponent,
+  createId,
   isRule
 };

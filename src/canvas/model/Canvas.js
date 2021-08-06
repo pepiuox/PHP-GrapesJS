@@ -1,32 +1,49 @@
-import Backbone from 'backbone';
-import Frame from './Frame';
-import Frames from './Frames';
+import { Model } from 'backbone';
+import { evPageSelect } from 'pages';
 
-export default Backbone.Model.extend({
-  defaults: {
-    frame: '',
-    frames: '',
-    wrapper: '',
-    rulers: false,
-    zoom: 100,
-    x: 0,
-    y: 0
-  },
+export default class Canvas extends Model {
+  defaults() {
+    return {
+      frame: '',
+      frames: '',
+      rulers: false,
+      zoom: 100,
+      x: 0,
+      y: 0,
+      // Scripts to apply on all frames
+      scripts: [],
+      // Styles to apply on all frames
+      styles: []
+    };
+  }
 
-  initialize(config = {}) {
+  initialize(props, config = {}) {
     const { em } = config;
-    const { styles = [], scripts = [] } = config;
-    const root = em && em.getWrapper();
-    const css = em && em.getStyle();
-    const frame = new Frame({ root, styles: css }, config);
-    styles.forEach(style => frame.addLink(style));
-    scripts.forEach(script => frame.addScript(script));
+    this.config = config;
     this.em = em;
-    this.set('frame', frame);
-    this.set('frames', new Frames([frame], config));
     this.listenTo(this, 'change:zoom', this.onZoomChange);
     this.listenTo(em, 'change:device', this.updateDevice);
-  },
+    this.listenTo(em, evPageSelect, this._pageUpdated);
+  }
+
+  init() {
+    const { em } = this;
+    this.set(
+      'frames',
+      em
+        .get('PageManager')
+        .getMain()
+        .getFrames()
+    );
+  }
+
+  _pageUpdated(page, prev) {
+    const { em } = this;
+    em.setSelected();
+    em.get('readyCanvas') && em.stopDefault(); // We have to stop before changing current frames
+    prev && prev.getFrames().map(frame => frame.disable());
+    this.set('frames', page.getFrames());
+  }
 
   updateDevice() {
     const { em } = this;
@@ -35,12 +52,12 @@ export default Backbone.Model.extend({
 
     if (model && device) {
       const { width, height } = device.attributes;
-      model.set({ width, height });
+      model.set({ width, height }, { noUndo: 1 });
     }
-  },
+  }
 
   onZoomChange() {
     const zoom = this.get('zoom');
     zoom < 1 && this.set('zoom', 1);
   }
-});
+}

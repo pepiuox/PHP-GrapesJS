@@ -84,19 +84,21 @@ export default {
       methods[method](body, 'mouseover', this.onHover);
       methods[method](body, 'mouseleave', this.onOut);
       methods[method](body, 'click touchend', this.onClick);
-      methods[method](win, 'scroll', this.onFrameScroll);
+      methods[method](win, 'scroll', this.onFrameScroll, true);
     };
     methods[method](window, 'resize', this.onFrameUpdated);
     methods[method](listenToEl, 'scroll', this.onContainerChange);
-    em[method]('component:toggled', this.onSelect, this);
+    em[method]('component:toggled component:update', this.onSelect, this);
     em[method]('change:componentHovered', this.onHovered, this);
     em[method](
       'component:resize component:styleUpdate component:input',
       this.updateGlobalPos,
       this
     );
+    em[method]('component:update:toolbar', this._upToolbar, this);
     em[method]('change:canvasOffset', this.updateAttached, this);
     em[method]('frame:updated', this.onFrameUpdated, this);
+    em[method]('canvas:updateTools', this.onFrameUpdated, this);
     em.get('Canvas')
       .getFrames()
       .forEach(frame => {
@@ -156,6 +158,15 @@ export default {
 
         if (el.ownerDocument === this.currentDoc) this.elHovered = result;
       });
+    } else {
+      this.currentDoc = null;
+      this.elHovered = 0;
+      this.updateToolsLocal();
+      this.canvas.getFrames().forEach(frame => {
+        const { view } = frame;
+        const el = view && view.getToolsEl();
+        el && this.toggleToolsEl(0, 0, { el });
+      });
     }
   },
 
@@ -181,7 +192,7 @@ export default {
     this.elSelected = result;
     this.updateToolsGlobal();
     // This will hide some elements from the select component
-    this.updateToolsLocal(result);
+    this.updateLocalPos(result);
     this.initResize(component);
   }),
 
@@ -192,11 +203,11 @@ export default {
     this.updateToolsGlobal();
   },
 
-  updateLocalPos() {
+  updateLocalPos(data) {
     const sel = this.getElHovered();
     if (!sel.el) return;
     sel.pos = this.getElementPos(sel.el);
-    this.updateToolsLocal();
+    this.updateToolsLocal(data);
   },
 
   getElHovered() {
@@ -208,20 +219,12 @@ export default {
   },
 
   onOut() {
-    this.currentDoc = null;
     this.em.setHovered(0);
-    this.elHovered = 0;
-    this.updateToolsLocal();
-    this.canvas.getFrames().forEach(frame => {
-      const { view } = frame;
-      const el = view && view.getToolsEl();
-      el && this.toggleToolsEl(0, 0, { el });
-    });
   },
 
   toggleToolsEl(on, view, opts = {}) {
     const el = opts.el || this.canvas.getToolsEl(view);
-    el && (el.style.opacity = on ? 1 : 0);
+    el && (el.style.display = on ? '' : 'none');
     return el || {};
   },
 
@@ -321,54 +324,7 @@ export default {
    */
   select(model, event = {}) {
     if (!model) return;
-    const ctrlKey = event.ctrlKey || event.metaKey;
-    const { shiftKey } = event;
-    const { editor, em } = this;
-    const multiple = editor.getConfig('multipleSelection');
-
-    if (ctrlKey && multiple) {
-      editor.selectToggle(model);
-    } else if (shiftKey && multiple) {
-      em.clearSelection(editor.Canvas.getWindow());
-      const coll = model.collection;
-      const index = coll.indexOf(model);
-      const selAll = editor.getSelectedAll();
-      let min, max;
-
-      // Fin min and max siblings
-      editor.getSelectedAll().forEach(sel => {
-        const selColl = sel.collection;
-        const selIndex = selColl.indexOf(sel);
-        if (selColl === coll) {
-          if (selIndex < index) {
-            // First model BEFORE the selected one
-            min = isUndefined(min) ? selIndex : Math.max(min, selIndex);
-          } else if (selIndex > index) {
-            // First model AFTER the selected one
-            max = isUndefined(max) ? selIndex : Math.min(max, selIndex);
-          }
-        }
-      });
-
-      if (!isUndefined(min)) {
-        while (min !== index) {
-          editor.selectAdd(coll.at(min));
-          min++;
-        }
-      }
-
-      if (!isUndefined(max)) {
-        while (max !== index) {
-          editor.selectAdd(coll.at(max));
-          max--;
-        }
-      }
-
-      editor.selectAdd(model);
-    } else {
-      editor.select(model, { scroll: {} });
-    }
-
+    this.editor.select(model, { scroll: {}, event });
     this.initResize(model);
   },
 
@@ -538,7 +494,7 @@ export default {
       };
 
       if (typeof resizable == 'object') {
-        options = { ...options, ...resizable };
+        options = { ...options, ...resizable, parent: options };
       }
 
       this.resizer = editor.runCommand('resize', { el, options, force: 1 });
@@ -553,29 +509,19 @@ export default {
    * @param {Object} mod
    */
   updateToolbar(mod) {
-    var em = this.config.em;
-    var model = mod == em ? em.getSelected() : mod;
-    var toolbarEl = this.canvas.getToolbarEl();
-    var toolbarStyle = toolbarEl.style;
+    const { em } = this.config;
+    const model = mod == em ? em.getSelected() : mod;
+    const toolbarEl = this.canvas.getToolbarEl();
+    const toolbarStyle = toolbarEl.style;
+    const toolbar = model.get('toolbar');
+    const showToolbar = em.get('Config').showToolbar;
 
-    if (!model) {
-      // By putting `toolbarStyle.display = 'none'` will cause kind
-      // of freezed effect with component selection (probably by iframe
-      // switching)
-      toolbarStyle.opacity = 0;
-      return;
-    }
-
-    var toolbar = model.get('toolbar');
-    var showToolbar = em.get('Config').showToolbar;
-
-    if (showToolbar && toolbar && toolbar.length) {
-      toolbarStyle.opacity = '';
+    if (model && showToolbar && toolbar && toolbar.length) {
       toolbarStyle.display = '';
       if (!this.toolbar) {
         toolbarEl.innerHTML = '';
         this.toolbar = new Toolbar(toolbar);
-        var toolbarView = new ToolbarView({
+        const toolbarView = new ToolbarView({
           collection: this.toolbar,
           editor: this.editor,
           em
@@ -630,7 +576,7 @@ export default {
   },
 
   updateTools() {
-    this.updateToolsLocal();
+    this.updateLocalPos();
     this.updateGlobalPos();
   },
 
@@ -667,7 +613,8 @@ export default {
     }
 
     const unit = 'px';
-    const { style } = this.toggleToolsEl(1, view);
+    const toolsEl = this.toggleToolsEl(1, view);
+    const { style } = toolsEl;
     const frameOff = this.canvas.canvasRectOffset(el, pos);
     const topOff = frameOff.top;
     const leftOff = frameOff.left;
@@ -683,9 +630,29 @@ export default {
     style.left = leftOff + unit;
     style.width = pos.width + unit;
     style.height = pos.height + unit;
+
+    this._trgToolUp('local', {
+      component,
+      el: toolsEl,
+      top: topOff,
+      left: leftOff,
+      width: pos.width,
+      height: pos.height
+    });
   },
 
-  updateToolsGlobal() {
+  _upToolbar: debounce(function() {
+    this.updateToolsGlobal({ force: 1 });
+  }),
+
+  _trgToolUp(type, opts = {}) {
+    this.em.trigger('canvas:tools:update', {
+      type,
+      ...opts
+    });
+  },
+
+  updateToolsGlobal(opts = {}) {
     const { el, pos, component } = this.getElSelected();
 
     if (!el) {
@@ -697,13 +664,14 @@ export default {
     const { canvas } = this;
     const isNewEl = this.lastSelected !== el;
 
-    if (isNewEl) {
+    if (isNewEl || opts.force) {
       this.lastSelected = el;
       this.updateToolbar(component);
     }
 
     const unit = 'px';
-    const { style } = this.toggleToolsEl(1);
+    const toolsEl = this.toggleToolsEl(1);
+    const { style } = toolsEl;
     const targetToElem = canvas.getTargetToElementFixed(
       el,
       canvas.getToolbarEl(),
@@ -717,6 +685,14 @@ export default {
     style.height = pos.height + unit;
 
     this.updateToolbarPos({ top: targetToElem.top, left: targetToElem.left });
+    this._trgToolUp('global', {
+      component,
+      el: toolsEl,
+      top: topOff,
+      left: leftOff,
+      width: pos.width,
+      height: pos.height
+    });
   },
 
   /**
@@ -776,9 +752,9 @@ export default {
 
   stop(ed, sender, opts = {}) {
     const { em, editor } = this;
+    this.onHovered(); // force to hide toolbar
     this.stopSelectComponent();
     !opts.preserveSelected && em.setSelected(null);
-    this.onOut();
     this.toggleToolsEl();
     editor && editor.stopCommand('resize');
   }

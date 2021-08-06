@@ -8,14 +8,15 @@
 //
 
 session_start();
-$file = 'conn.php';
+$file = 'config/conn.php';
 if (file_exists($file)) {
-    include 'conn.php';
+    include 'config/conn.php';
     $mypage = $_SERVER['PHP_SELF'];
     $page = $mypage;
-
+    require_once 'config/define.php';
     require_once 'start.php';
 } else {
-    header('Location: config.php');
+    $_SESSION['PathInstall'] = basename(dirname(__FILE__));
+    header('Location: admin/install.php');
 }
 ?>

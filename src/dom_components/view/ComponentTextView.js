@@ -28,18 +28,24 @@ export default ComponentView.extend({
    * Enable element content editing
    * @private
    * */
-  onActive(e) {
+  async onActive(e) {
+    const { rte, em } = this;
+
     // We place this before stopPropagation in case of nested
     // text components will not block the editing (#1394)
-    if (this.rteEnabled || !this.model.get('editable')) {
+    if (
+      this.rteEnabled ||
+      !this.model.get('editable') ||
+      (em && em.isEditing())
+    ) {
       return;
     }
+
     e && e.stopPropagation && e.stopPropagation();
-    const { rte, em } = this;
 
     if (rte) {
       try {
-        this.activeRte = rte.enable(this, this.activeRte);
+        this.activeRte = await rte.enable(this, this.activeRte);
       } catch (err) {
         em.logError(err);
       }
@@ -56,18 +62,20 @@ export default ComponentView.extend({
    * Disable element content editing
    * @private
    * */
-  disableEditing() {
+  async disableEditing() {
     const { model, rte, activeRte, em } = this;
-    const editable = model.get('editable');
+    // There are rare cases when disableEditing is called when the view is already removed
+    // so, we have to check for the model, this will avoid breaking stuff.
+    const editable = model && model.get('editable');
 
-    if (rte && editable) {
+    if (rte) {
       try {
-        rte.disable(this, activeRte);
+        await rte.disable(this, activeRte);
       } catch (err) {
         em.logError(err);
       }
 
-      this.syncContent();
+      editable && this.syncContent();
     }
 
     this.toggleEvents();
@@ -96,12 +104,12 @@ export default ComponentView.extend({
     const content = this.getContent();
     const comps = model.components();
     const contentOpt = { fromDisable: 1, ...opts };
-    comps.length && comps.reset(null, opts);
     model.set('content', '', contentOpt);
 
     // If there is a custom RTE the content is just baked staticly
     // inside 'content'
     if (rte.customRte) {
+      comps.length && comps.reset(null, opts);
       model.set('content', content, contentOpt);
     } else {
       const clean = model => {
@@ -125,33 +133,10 @@ export default ComponentView.extend({
         model.get('components').each(model => clean(model));
       };
 
-      // Avoid re-render on reset with silent option
-      !opts.silent && model.trigger('change:content', model, '', contentOpt);
-      comps.add(content, opts);
+      comps.reset(content, opts);
       comps.each(model => clean(model));
       comps.trigger('resetNavigator');
     }
-  },
-
-  getModelsFromEl(el) {
-    const result = [];
-    const children = (el || this.el).childNodes;
-
-    for (let index = 0; index < children.length; index++) {
-      const child = children[index];
-      const model = child.__cashData && child.__cashData.model;
-
-      if (model) {
-        model.components = this.getModelsFromEl(child);
-        if (model.get('content')) {
-          model.attributes.content = child.textContent;
-        }
-        // TODO add attributes;
-        result.push(model);
-      }
-    }
-
-    return result;
   },
 
   /**
@@ -181,10 +166,10 @@ export default ComponentView.extend({
    * @param {Boolean} enable
    */
   toggleEvents(enable) {
-    const { em } = this;
+    const { em, model, $el } = this;
     const mixins = { on, off };
     const method = enable ? 'on' : 'off';
-    em.setEditing(enable);
+    em.setEditing(enable ? this : 0);
     this.rteEnabled = !!enable;
 
     // The ownerDocument is from the frame
@@ -192,10 +177,14 @@ export default ComponentView.extend({
     mixins.off(elDocs, 'mousedown', this.disableEditing);
     mixins[method](elDocs, 'mousedown', this.disableEditing);
     em[method]('toolbar:run:before', this.disableEditing);
+    if (model) {
+      model[method]('removed', this.disableEditing);
+      model.trigger(`rte:${enable ? 'enable' : 'disable'}`);
+    }
 
     // Avoid closing edit mode on component click
-    this.$el.off('mousedown', this.disablePropagation);
-    this.$el[method]('mousedown', this.disablePropagation);
+    $el && $el.off('mousedown', this.disablePropagation);
+    $el && $el[method]('mousedown', this.disablePropagation);
 
     // Fixes #2210 but use this also as a replacement
     // of this fix: bd7b804f3b46eb45b4398304b2345ce870f232d2

@@ -1,7 +1,8 @@
 import Backbone from 'backbone';
-import { bindAll, isString, debounce } from 'underscore';
+import { bindAll, isString, debounce, isUndefined } from 'underscore';
 import CssRulesView from 'css_composer/view/CssRulesView';
 import ComponentView from 'dom_components/view/ComponentView';
+import Droppable from 'utils/Droppable';
 import {
   appendVNodes,
   empty,
@@ -10,7 +11,7 @@ import {
   createCustomEvent,
   motionsEv
 } from 'utils/dom';
-import { on, off, setViewEl, getPointerEvent } from 'utils/mixins';
+import { on, off, setViewEl, hasDnd, getPointerEvent } from 'utils/mixins';
 
 export default Backbone.View.extend({
   tagName: 'iframe',
@@ -29,13 +30,16 @@ export default Backbone.View.extend({
       '_emitUpdate'
     );
     const { model, el } = this;
+    this.tools = {};
     this.config = {
       ...(o.config || {}),
       frameView: this
     };
     this.ppfx = this.config.pStylePrefix || '';
     this.em = this.config.em;
+    const cvModel = this.getCanvasModel();
     this.listenTo(model, 'change:head', this.updateHead);
+    this.listenTo(cvModel, 'change:styles', this.renderStyles);
     model.view = this;
     setViewEl(el, this);
   },
@@ -44,13 +48,41 @@ export default Backbone.View.extend({
    * Update `<head>` content of the frame
    */
   updateHead() {
+    const { model } = this;
     const headEl = this.getHead();
-    empty(headEl);
-    appendVNodes(headEl, this.model.getHead());
+    const toRemove = [];
+    const toAdd = [];
+    const current = model.get('head');
+    const prev = model.previous('head');
+    const attrStr = (attr = {}) =>
+      Object.keys(attr)
+        .sort()
+        .map(i => `[${i}="${attr[i]}"]`)
+        .join('');
+    const find = (items, stack, res) => {
+      items.forEach(item => {
+        const { tag, attributes } = item;
+        const has = stack.some(
+          s => s.tag === tag && attrStr(s.attributes) === attrStr(attributes)
+        );
+        !has && res.push(item);
+      });
+    };
+    find(current, prev, toAdd);
+    find(prev, current, toRemove);
+    toRemove.forEach(stl => {
+      const el = headEl.querySelector(`${stl.tag}${attrStr(stl.attributes)}`);
+      el && el.parentNode.removeChild(el);
+    });
+    appendVNodes(headEl, toAdd);
   },
 
   getEl() {
     return this.el;
+  },
+
+  getCanvasModel() {
+    return this.em.get('Canvas').getModel();
   },
 
   getWindow() {
@@ -132,21 +164,22 @@ export default Backbone.View.extend({
   },
 
   _getTool(name) {
+    const { tools } = this;
     const toolsEl = this.getToolsEl();
 
-    if (!this[name]) {
-      this[name] = toolsEl.querySelector(name);
+    if (!tools[name]) {
+      tools[name] = toolsEl.querySelector(name);
     }
 
-    return this[name];
+    return tools[name];
   },
 
   remove() {
-    const { root, model } = this;
+    const wrp = this.wrapper;
     this._toggleEffects();
+    this.tools = {};
+    wrp && wrp.remove();
     Backbone.View.prototype.remove.apply(this, arguments);
-    root.remove();
-    model.remove();
   },
 
   startAutoscroll() {
@@ -162,11 +195,12 @@ export default Backbone.View.extend({
 
   autoscroll() {
     if (this.dragging) {
+      const { lastClientY } = this;
       const canvas = this.em.get('Canvas');
       const win = this.getWindow();
       const body = this.getBody();
       const actualTop = body.scrollTop;
-      const clientY = this.lastClientY || 0;
+      const clientY = lastClientY || 0;
       const limitTop = canvas.getConfig().autoscrollLimit;
       const limitBottom = this.getRect().height - limitTop;
       let nextTop = actualTop;
@@ -180,6 +214,7 @@ export default Backbone.View.extend({
       }
 
       if (
+        !isUndefined(lastClientY) && // Fixes #3134
         nextTop !== actualTop &&
         nextTop > 0 &&
         nextTop < this.lastMaxHeight
@@ -217,20 +252,17 @@ export default Backbone.View.extend({
   },
 
   render() {
-    const { el, $el, ppfx, config } = this;
-    $el.attr({ class: ppfx + 'frame' });
-
-    if (config.scripts.length) {
-      this.renderScripts();
-    } else if (config.renderContent) {
-      el.onload = this.renderBody.bind(this);
-    }
-
+    const { $el, ppfx } = this;
+    $el.attr({ class: `${ppfx}frame` });
+    this.renderScripts();
     return this;
   },
 
   renderScripts() {
-    const { el, config } = this;
+    const { el, model, em } = this;
+    const evLoad = 'frame:load';
+    const evOpts = { el, model, view: this };
+    const canvas = this.getCanvasModel();
     const appendScript = scripts => {
       if (scripts.length > 0) {
         const src = scripts.shift();
@@ -242,42 +274,56 @@ export default Backbone.View.extend({
         el.contentDocument.head.appendChild(scriptEl);
       } else {
         this.renderBody();
+        em && em.trigger(evLoad, evOpts);
       }
     };
 
-    el.onload = () => appendScript([...config.scripts]);
+    el.onload = () => {
+      em && em.trigger(`${evLoad}:before`, evOpts);
+      appendScript([...canvas.get('scripts')]);
+    };
+  },
+
+  renderStyles(opts = {}) {
+    const head = this.getHead();
+    const canvas = this.getCanvasModel();
+    const normalize = stls =>
+      stls.map(href => ({
+        tag: 'link',
+        attributes: {
+          rel: 'stylesheet',
+          ...(isString(href) ? { href } : href)
+        }
+      }));
+    const prevStyles = normalize(opts.prev || canvas.previous('styles'));
+    const styles = normalize(canvas.get('styles'));
+    const toRemove = [];
+    const toAdd = [];
+    const find = (items, stack, res) => {
+      items.forEach(item => {
+        const { href } = item.attributes;
+        const has = stack.some(s => s.attributes.href === href);
+        !has && res.push(item);
+      });
+    };
+    find(styles, prevStyles, toAdd);
+    find(prevStyles, styles, toRemove);
+    toRemove.forEach(stl => {
+      const el = head.querySelector(`link[href="${stl.attributes.href}"]`);
+      el && el.parentNode.removeChild(el);
+    });
+    appendVNodes(head, toAdd);
   },
 
   renderBody() {
     const { config, model, ppfx } = this;
-    const root = model.get('root');
-    const styles = model.get('styles');
     const { em } = config;
     const doc = this.getDoc();
-    const head = this.getHead();
     const body = this.getBody();
     const win = this.getWindow();
     const conf = em.get('Config');
-    const extStyles = [];
     win._isEditor = true;
-
-    config.styles.forEach(href =>
-      extStyles.push(
-        isString(href)
-          ? {
-              tag: 'link',
-              attributes: { href, rel: 'stylesheet' }
-            }
-          : {
-              tag: 'link',
-              attributes: {
-                rel: 'stylesheet',
-                ...href
-              }
-            }
-      )
-    );
-    extStyles.length && appendVNodes(head, extStyles);
+    this.renderStyles({ prev: [] });
 
     const colorWarn = '#ffca6f';
 
@@ -352,18 +398,19 @@ export default Backbone.View.extend({
       ${conf.protectedCss || ''}
     </style>`
     );
-    this.root = new ComponentView({
-      model: root,
+    const component = model.getComponent();
+    this.wrapper = new ComponentView({
+      model: component,
       config: {
-        ...root.config,
+        ...component.config,
         frameView: this
       }
     }).render();
-    append(body, this.root.el);
+    append(body, this.wrapper.el);
     append(
       body,
       new CssRulesView({
-        collection: styles,
+        collection: model.getStyles(),
         config: {
           ...em.get('CssComposer').getConfig(),
           frameView: this
@@ -386,7 +433,7 @@ export default Backbone.View.extend({
     // I need to delegate all events to the parent document
     [
       { event: 'keydown keyup keypress', class: 'KeyboardEvent' },
-      { event: 'mousemove', class: 'MouseEvent' },
+      { event: 'mousedown mousemove mouseup', class: 'MouseEvent' },
       { event: 'wheel', class: 'WheelEvent' }
     ].forEach(obj =>
       obj.event.split(' ').forEach(event => {
@@ -397,13 +444,14 @@ export default Backbone.View.extend({
     );
 
     this._toggleEffects(1);
+    this.droppable = hasDnd(em) && new Droppable(em, this.wrapper.el);
     model.trigger('loaded');
   },
 
   _toggleEffects(enable) {
     const method = enable ? on : off;
     const win = this.getWindow();
-    method(win, `${motionsEv} resize`, this._emitUpdate);
+    win && method(win, `${motionsEv} resize`, this._emitUpdate);
   },
 
   _emitUpdate() {

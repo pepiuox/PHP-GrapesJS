@@ -15,11 +15,14 @@ const $ = Backbone.$;
 let obj;
 let dcomp;
 let compOpts;
-let em = new Editor({});
+let em;
 
 describe('Component', () => {
   beforeEach(() => {
-    dcomp = new DomComponents();
+    em = new Editor();
+    dcomp = em.get('DomComponents');
+    em.get('PageManager').onLoad();
+    // dcomp = new DomComponents();
     compOpts = {
       em,
       componentTypes: dcomp.componentTypes,
@@ -264,6 +267,7 @@ describe('Component', () => {
     expect(obj.getAttributes()).toEqual({
       id: 'test',
       class: 'class1 class2',
+      style: 'color:white;background:#fff;',
       'data-test': 'value'
     });
     expect(obj.get('classes').length).toEqual(2);
@@ -274,9 +278,9 @@ describe('Component', () => {
   });
 
   test('setAttributes overwrites correctly', () => {
-    obj.setAttributes({ id: 'test', 'data-test': 'value', a: 'b' });
-    obj.setAttributes({ 'data-test': 'value2' });
-    expect(obj.getAttributes()).toEqual({ 'data-test': 'value2' });
+    obj.setAttributes({ id: 'test', 'data-test': 'value', a: 'b', b: 'c' });
+    obj.setAttributes({ id: 'test2', 'data-test': 'value2' });
+    expect(obj.getAttributes()).toEqual({ id: 'test2', 'data-test': 'value2' });
   });
 
   test('append() returns always an array', () => {
@@ -589,7 +593,8 @@ describe('Video Component', () => {
 describe('Components', () => {
   beforeEach(() => {
     em = new Editor({});
-    dcomp = new DomComponents();
+    dcomp = em.get('DomComponents');
+    em.get('PageManager').onLoad();
     compOpts = {
       em,
       componentTypes: dcomp.componentTypes
@@ -616,7 +621,8 @@ describe('Components', () => {
 
   test('Avoid conflicting components with the same ID', () => {
     const em = new Editor({});
-    dcomp = new DomComponents();
+    dcomp = em.get('DomComponents');
+    em.get('PageManager').onLoad();
     dcomp.init({ em });
     const id = 'myid';
     const idB = 'myid2';

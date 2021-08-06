@@ -13,7 +13,7 @@ export default class Droppable {
       em
         .get('Canvas')
         .getFrames()
-        .map(frame => frame.get('root').getEl());
+        .map(frame => frame.getComponent().getEl());
     const els = Array.isArray(el) ? el : [el];
     this.el = el;
     this.counter = 0;
@@ -41,9 +41,7 @@ export default class Droppable {
   endDrop(cancel, ev) {
     const { em, dragStop } = this;
     this.counter = 0;
-    this.over = 0;
     dragStop && dragStop(cancel);
-    em.runDefault({ preserveSelected: 1 });
     em.trigger('canvas:dragend', ev);
   }
 
@@ -64,7 +62,6 @@ export default class Droppable {
     this.over = 1;
     const utils = em.get('Utils');
     const canvas = em.get('Canvas');
-    const container = canvas.getBody();
     // For security reason I can't read the drag data on dragenter, but
     // as I need it for the Sorter context I will use `dragContent` or just
     // any not empty element
@@ -72,6 +69,7 @@ export default class Droppable {
     let dragStop, dragContent;
     em.stopDefault();
 
+    // Select the right drag provider
     if (em.inAbsoluteMode()) {
       const wrapper = em.get('DomComponents').getWrapper();
       const target = wrapper.append({})[0];
@@ -81,12 +79,13 @@ export default class Droppable {
         center: 1,
         target,
         onEnd: (ev, dragger, { cancelled }) => {
+          let comp;
           if (!cancelled) {
-            const comp = wrapper.append(content)[0];
+            comp = wrapper.append(content)[0];
             const { left, top, position } = target.getStyle();
             comp.addStyle({ left, top, position });
-            this.handleDragEnd(comp, dt);
           }
+          this.handleDragEnd(comp, dt);
           target.remove();
         }
       });
@@ -99,13 +98,13 @@ export default class Droppable {
         nested: 1,
         canvasRelative: 1,
         direction: 'a',
-        container,
+        container: this.el,
         placer: canvas.getPlacerEl(),
         containerSel: '*',
         itemSel: '*',
         pfx: 'gjs-',
         onEndMove: model => this.handleDragEnd(model, dt),
-        document: canvas.getFrameEl().contentDocument
+        document: this.el.ownerDocument
       });
       sorter.setDropContent(content);
       sorter.startSort();
@@ -123,10 +122,13 @@ export default class Droppable {
   }
 
   handleDragEnd(model, dt) {
-    if (!model) return;
     const { em } = this;
-    em.set('dragResult', model);
-    em.trigger('canvas:drop', dt, model);
+    this.over = 0;
+    if (model) {
+      em.set('dragResult', model);
+      em.trigger('canvas:drop', dt, model);
+    }
+    em.runDefault({ preserveSelected: 1 });
   }
 
   /**
@@ -138,6 +140,10 @@ export default class Droppable {
     this.em.trigger('canvas:dragover', ev);
   }
 
+  /**
+   * WARNING: This function might fail to run on drop, for example, when the
+   * drop, accidentally, happens on some external element (DOM not inside the iframe)
+   */
   handleDrop(ev) {
     ev.preventDefault();
     const { dragContent } = this;
@@ -184,6 +190,9 @@ export default class Droppable {
     } else if (indexOf(types, 'text/json') >= 0) {
       const json = dataTransfer.getData('text/json');
       json && (content = JSON.parse(json));
+    } else if (types.length === 1 && types[0] === 'text/plain') {
+      // Avoid dropping non-selectable and non-editable text nodes inside the editor
+      content = `<div>${content}</div>`;
     }
 
     const result = { content };

@@ -37,6 +37,7 @@ import { isElement } from 'underscore';
 import defaults from './config/config';
 import Sectors from './model/Sectors';
 import Properties from './model/Properties';
+import PropertyFactory from './model/PropertyFactory';
 import SectorsView from './view/SectorsView';
 
 export default () => {
@@ -45,6 +46,8 @@ export default () => {
   var sectors, SectView;
 
   return {
+    PropertyFactory: PropertyFactory(),
+
     /**
      * Name of the module
      * @type {String}
@@ -276,7 +279,8 @@ export default () => {
         const valid = classes.getStyleable();
         const hasClasses = valid.length;
         const useClasses = !smConf.componentFirst || options.useClasses;
-        const opts = { state };
+        const addOpts = { noCount: 1 };
+        const opts = { state, addOpts };
         let rule;
 
         // I stop undo manager here as after adding the CSSRule (generally after
@@ -290,12 +294,12 @@ export default () => {
           rule = cssC.get(valid, state, deviceW);
 
           if (!rule && !skipAdd) {
-            rule = cssC.add(valid, state, deviceW);
+            rule = cssC.add(valid, state, deviceW, {}, addOpts);
           }
         } else if (config.avoidInlineStyle) {
           rule = cssC.getIdRule(id, opts);
           !rule && !skipAdd && (rule = cssC.setIdRule(id, {}, opts));
-          if (model.is('wrapper')) rule.set('wrapper', 1);
+          if (model.is('wrapper')) rule.set('wrapper', 1, addOpts);
         }
 
         rule && (model = rule);
@@ -303,6 +307,24 @@ export default () => {
       }
 
       return model;
+    },
+
+    getParentRules(target, state) {
+      const { em } = c;
+      let result = [];
+
+      if (em) {
+        const cssC = em.get('CssComposer');
+        const cssGen = em.get('CodeManager').getGenerator('css');
+        const all = cssC
+          .getRules(target.getSelectors().getFullString())
+          .filter(rule => (state ? rule.get('state') === state : 1))
+          .sort(cssGen.sortRules)
+          .reverse();
+        result = all.slice(all.indexOf(target) + 1);
+      }
+
+      return result;
     },
 
     /**
@@ -411,6 +433,16 @@ export default () => {
     _logNoSector(sectorId) {
       const { em } = this;
       em && em.logWarning(`'${sectorId}' sector not found`);
+    },
+
+    destroy() {
+      [properties, sectors].forEach(coll => {
+        coll.reset();
+        coll.stopListening();
+      });
+      SectView.remove();
+      [c, properties, sectors, SectView].forEach(i => (i = {}));
+      this.em = {};
     }
   };
 };

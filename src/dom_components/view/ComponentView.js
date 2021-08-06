@@ -38,7 +38,7 @@ export default Backbone.View.extend({
     );
     this.listenTo(model, 'change:highlightable', this.updateHighlight);
     this.listenTo(model, 'change:status', this.updateStatus);
-    this.listenTo(model, 'change:script', this.reset);
+    this.listenTo(model, 'change:script rerender', this.reset);
     this.listenTo(model, 'change:content', this.updateContent);
     this.listenTo(model, 'change', this.handleChange);
     this.listenTo(model, 'active', this.onActive);
@@ -51,10 +51,16 @@ export default Backbone.View.extend({
     this.initComponents({ avoidRender: 1 });
     this.events = {
       ...this.events,
-      ...(draggableComponents && { dragstart: 'handleDragStart' })
+      ...(this.__isDraggable() && { dragstart: 'handleDragStart' })
     };
     this.delegateEvents();
     !modelOpt.temporary && this.init(this._clbObj());
+  },
+
+  __isDraggable() {
+    const { model, config } = this;
+    const { _innertext, draggable } = model.attributes;
+    return config.draggableComponents && draggable && !_innertext;
   },
 
   _clbObj() {
@@ -96,17 +102,12 @@ export default Backbone.View.extend({
       const view = comp.getView(frameM);
       view && view.remove();
     });
+    const cv = view.childrenView;
+    cv && cv.remove();
     const { views } = model;
     views.splice(views.indexOf(view), 1);
     view.removed(view._clbObj());
     view.$el.data({ model: '', collection: '', view: '' });
-    delete view.model;
-    delete view.$el;
-    delete view.el.__gjsv;
-    delete view.childrenView;
-    delete view.scriptContainer;
-    delete view.opts;
-    // delete view.el;
     return view;
   },
 
@@ -182,23 +183,24 @@ export default Backbone.View.extend({
    * @private
    * */
   updateStatus(opts = {}) {
-    const em = this.em;
+    const { em } = this;
+    const { extHl } = em ? em.get('Canvas').getConfig() : {};
     const el = this.el;
     const status = this.model.get('status');
-    const pfx = this.pfx;
     const ppfx = this.ppfx;
     const selectedCls = `${ppfx}selected`;
     const selectedParentCls = `${selectedCls}-parent`;
     const freezedCls = `${ppfx}freezed`;
     const hoveredCls = `${ppfx}hovered`;
     const toRemove = [selectedCls, selectedParentCls, freezedCls, hoveredCls];
+    const selCls = extHl && !opts.noExtHl ? '' : selectedCls;
     this.$el.removeClass(toRemove.join(' '));
     var actualCls = el.getAttribute('class') || '';
     var cls = '';
 
     switch (status) {
       case 'selected':
-        cls = `${actualCls} ${selectedCls}`;
+        cls = `${actualCls} ${selCls}`;
         break;
       case 'selected-parent':
         cls = `${actualCls} ${selectedParentCls}`;
@@ -207,7 +209,7 @@ export default Backbone.View.extend({
         cls = `${actualCls} ${freezedCls}`;
         break;
       case 'freezed-selected':
-        cls = `${actualCls} ${freezedCls} ${selectedCls}`;
+        cls = `${actualCls} ${freezedCls} ${selCls}`;
         break;
       case 'hovered':
         cls = !opts.avoidHover ? `${actualCls} ${hoveredCls}` : '';
@@ -231,19 +233,20 @@ export default Backbone.View.extend({
    * Update style attribute
    * @private
    * */
-  updateStyle() {
+  updateStyle(m, v, opts = {}) {
     const { model, em, el } = this;
 
-    if (em && em.getConfig('avoidInlineStyle')) {
-      if (model.get('_innertext')) {
+    if (em && em.getConfig('avoidInlineStyle') && !opts.inline) {
+      const style = model.getStyle();
+      const empty = isEmpty(style);
+      !empty && model.setStyle(style);
+      if (model.get('_innertext') && empty) {
         el.removeAttribute('id');
       } else {
         el.id = model.getId();
       }
-      const style = model.getStyle();
-      !isEmpty(style) && model.setStyle(style);
     } else {
-      this.setAttribute('style', model.styleToString());
+      this.setAttribute('style', model.styleToString(opts));
     }
   },
 
@@ -260,6 +263,7 @@ export default Backbone.View.extend({
 
     // Regenerate status class
     this.updateStatus();
+    this.onAttrUpdate();
   },
 
   /**
@@ -289,13 +293,12 @@ export default Backbone.View.extend({
    * */
   updateAttributes() {
     const attrs = [];
-    const { model, $el, el, config } = this;
-    const { highlightable, textable, type, _innertext } = model.attributes;
-    const { draggableComponents } = config;
+    const { model, $el, el } = this;
+    const { highlightable, textable, type } = model.attributes;
 
     const defaultAttr = {
       'data-gjs-type': type || 'default',
-      ...(draggableComponents && !_innertext ? { draggable: true } : {}),
+      ...(this.__isDraggable() ? { draggable: true } : {}),
       ...(highlightable ? { 'data-highlightable': 1 } : {}),
       ...(textable
         ? {
@@ -308,6 +311,7 @@ export default Backbone.View.extend({
     // Remove all current attributes
     each(el.attributes, attr => attrs.push(attr.nodeName));
     attrs.forEach(attr => $el.removeAttr(attr));
+    this.updateStyle();
     const attr = {
       ...defaultAttr,
       ...model.getAttributes()
@@ -317,7 +321,6 @@ export default Backbone.View.extend({
     keys(attr).forEach(key => attr[key] === false && delete attr[key]);
 
     $el.attr(attr);
-    this.updateStyle();
   },
 
   /**
@@ -325,7 +328,9 @@ export default Backbone.View.extend({
    * @private
    * */
   updateContent() {
-    this.getChildrenContainer().innerHTML = this.model.get('content');
+    const content = this.model.get('content');
+    const hasComps = this.model.components().length;
+    this.getChildrenContainer().innerHTML = hasComps ? '' : content;
   },
 
   /**
@@ -504,6 +509,8 @@ export default Backbone.View.extend({
     this.updateAttributes();
     this.updateClasses();
   },
+
+  onAttrUpdate() {},
 
   render() {
     this.renderAttributes();

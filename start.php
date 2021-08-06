@@ -56,9 +56,7 @@ if ($bid) {
             <?php } if (empty($classification)) { ?>
                 <meta name="classification" content="<?php echo $classification; ?>" />
             <?php } ?>
-            <title><?php
-            echo $title;
-            ?></title>
+            <title><?php echo $title; ?></title>
             <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
             <style>

@@ -36,14 +36,16 @@ import defaults from './config/config';
 import LocalStorage from './model/LocalStorage';
 import RemoteStorage from './model/RemoteStorage';
 
+const eventStart = 'storage:start';
+const eventAfter = 'storage:after';
+const eventEnd = 'storage:end';
+const eventError = 'storage:error';
+
 export default () => {
   var c = {};
   let em;
   var storages = {};
   var defaultStorages = {};
-  const eventStart = 'storage:start';
-  const eventEnd = 'storage:end';
-  const eventError = 'storage:error';
 
   return {
     /**
@@ -213,6 +215,7 @@ export default () => {
         ? st.store(
             toStore,
             res => {
+              this.onAfter('store', res);
               clb && clb(res);
               this.onEnd('store', res);
             },
@@ -258,6 +261,7 @@ export default () => {
               result[itemKeyR] = res[itemKey];
             }
 
+            this.onAfter('load', result);
             clb && clb(result);
             this.onEnd('load', result);
           },
@@ -301,6 +305,17 @@ export default () => {
     },
 
     /**
+     * On after callback (before passing data to the callback)
+     * @private
+     */
+    onAfter(ctx, data) {
+      if (em) {
+        em.trigger(eventAfter);
+        ctx && em.trigger(`${eventAfter}:${ctx}`, data);
+      }
+    },
+
+    /**
      * On end callback
      * @private
      */
@@ -331,6 +346,10 @@ export default () => {
     canAutoload() {
       const storage = this.getCurrentStorage();
       return storage && this.getConfig().autoload;
+    },
+
+    destroy() {
+      [c, em, storages, defaultStorages].forEach(i => (i = {}));
     }
   };
 };

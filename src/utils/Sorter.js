@@ -478,7 +478,8 @@ export default Backbone.View.extend({
       // If there is a significant changes with the pointer
       if (
         !this.lastPos ||
-        this.lastPos.index != pos.index || this.lastPos.method != pos.method
+        this.lastPos.index != pos.index ||
+        this.lastPos.method != pos.method
       ) {
         this.movePlaceholder(this.plh, dims, pos, this.prevTargetDim);
         if (!this.$plh) this.$plh = $(this.plh);
@@ -557,7 +558,8 @@ export default Backbone.View.extend({
     const $parent = parent && $(parent);
 
     if (style.overflow && style.overflow !== 'visible') return;
-    if ($el.css('float') !== 'none') return;
+    const propFloat = $el.css('float');
+    if (propFloat && propFloat !== 'none') return;
     if (
       $parent &&
       $parent.css('display') == 'flex' &&
@@ -621,13 +623,23 @@ export default Backbone.View.extend({
 
     // Check if the target could accept the source
     let droppable = trgModel.get('droppable');
-    droppable = droppable instanceof Backbone.Collection ? 1 : droppable;
-    droppable = droppable instanceof Array ? droppable.join(', ') : droppable;
-    result.dropInfo = droppable;
-    droppable = isString(droppable) ? this.matches(src, droppable) : droppable;
-    droppable =
-      draggable && this.isTextableActive(srcModel, trgModel) ? 1 : droppable;
-    result.droppable = droppable;
+
+    if (isFunction(droppable)) {
+      const res = droppable(srcModel, trgModel);
+      result.droppable = res;
+      result.dropInfo = res;
+      droppable = res;
+    } else {
+      droppable = droppable instanceof Backbone.Collection ? 1 : droppable;
+      droppable = droppable instanceof Array ? droppable.join(', ') : droppable;
+      result.dropInfo = droppable;
+      droppable = isString(droppable)
+        ? this.matches(src, droppable)
+        : droppable;
+      droppable =
+        draggable && this.isTextableActive(srcModel, trgModel) ? 1 : droppable;
+      result.droppable = droppable;
+    }
 
     if (!droppable || !draggable) {
       result.valid = false;
@@ -1038,7 +1050,7 @@ export default Backbone.View.extend({
       }
     }
 
-    if (this.moved) {
+    if (this.moved && target) {
       const toMove = this.toMove;
       const toMoveArr = isArray(toMove) ? toMove : toMove ? [toMove] : [src];
       toMoveArr.forEach(model => {
@@ -1084,17 +1096,17 @@ export default Backbone.View.extend({
     const { em, activeTextModel, dropContent } = this;
     const srcEl = getElement(src);
     em && em.trigger('component:dragEnd:before', dst, srcEl, pos); // @depricated
-    var warns = [];
-    var index = pos.indexEl;
-    var modelToDrop, modelTemp, created;
-    var validResult = this.validTarget(dst, srcEl);
-    var targetCollection = $(dst).data('collection');
-    var model = validResult.srcModel;
-    var droppable = validResult.droppable;
-    var draggable = validResult.draggable;
-    var dropInfo = validResult.dropInfo;
-    var dragInfo = validResult.dragInfo;
-    const { trgModel } = validResult;
+    let index = pos.indexEl;
+    let modelToDrop, modelTemp, created;
+    const warns = [];
+    const validResult = this.validTarget(dst, srcEl);
+    const targetCollection = $(dst).data('collection');
+    const model = validResult.srcModel;
+    let { droppable } = validResult;
+    const { trgModel, draggable } = validResult;
+    const dropInfo =
+      validResult.dropInfo || (trgModel && trgModel.get('droppable'));
+    const dragInfo = validResult.dragInfo || (model && model.get('draggable'));
     droppable = trgModel instanceof Backbone.Collection ? 1 : droppable;
     const isTextableActive = this.isTextableActive(model, trgModel);
 
@@ -1111,7 +1123,7 @@ export default Backbone.View.extend({
           modelToDrop = model.collection.remove(model, { temporary: 1 });
         }
       } else {
-        modelToDrop = dropContent;
+        modelToDrop = isFunction(dropContent) ? dropContent() : dropContent;
         opts.silent = false;
         opts.avoidUpdateStyle = 1;
       }
@@ -1138,24 +1150,24 @@ export default Backbone.View.extend({
 
       // This will cause to recalculate children dimensions
       this.prevTarget = null;
-    } else {
-      if (!targetCollection) {
-        warns.push('Target collection not found');
-      }
-
-      if (!droppable) {
+    } else if (em) {
+      !targetCollection && warns.push('Target collection not found');
+      !droppable &&
+        dropInfo &&
         warns.push(`Target is not droppable, accepts [${dropInfo}]`);
-      }
-
-      if (!draggable) {
+      !draggable &&
+        dragInfo &&
         warns.push(`Component not draggable, acceptable by [${dragInfo}]`);
-      }
-
-      console.warn('Invalid target position: ' + warns.join(', '));
+      em.logWarning('Invalid target position', {
+        errors: warns,
+        model,
+        context: 'sorter',
+        target: trgModel
+      });
     }
 
-    em && em.trigger('component:dragEnd', targetCollection, modelToDrop, warns); // @depricated
-    em &&
+    if (em) {
+      em.trigger('component:dragEnd', targetCollection, modelToDrop, warns); // @deprecated
       em.trigger('sorter:drag:end', {
         targetCollection,
         modelToDrop,
@@ -1164,6 +1176,7 @@ export default Backbone.View.extend({
         dst,
         srcEl
       });
+    }
 
     return created;
   },

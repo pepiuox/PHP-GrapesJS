@@ -120,7 +120,7 @@ export default () => {
      * @param {Object} opts Options
      * @param {string} opts.label Name of the block
      * @param {string} opts.content HTML content
-     * @param {string|Object} opts.category Group the block inside a catgegory.
+     * @param {string|Object} opts.category Group the block inside a category.
      *                                      You should pass objects with id property, eg:
      *                                      {id: 'some-uid', label: 'My category'}
      *                                      The string will be converted in:
@@ -179,6 +179,10 @@ export default () => {
      * Remove a block by id
      * @param {string} id Block id
      * @return {Block} Removed block
+     * @example
+     * // Id of the block which need to be removed
+     * const id = 'button';
+     * blockManager.remove(id);
      */
     remove(id) {
       return blocks.remove(id);
@@ -251,6 +255,16 @@ export default () => {
       }
 
       return this.getContainer();
+    },
+
+    destroy() {
+      blocks.reset();
+      blocks.stopListening();
+      blocksVisible.reset();
+      categories.reset();
+      blocksView && blocksView.remove();
+      [blocks, blocksVisible, categories, blocksView].forEach(i => (i = null));
+      c = {};
     }
   };
 };

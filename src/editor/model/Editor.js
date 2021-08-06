@@ -11,6 +11,7 @@ import $ from 'cash-dom';
 import Backbone from 'backbone';
 import Extender from 'utils/extender';
 import { getModel } from 'utils/mixins';
+import Selected from './Selected';
 
 Backbone.$ = $;
 const deps = [
@@ -21,14 +22,15 @@ const deps = [
   require('storage_manager'),
   require('device_manager'),
   require('parser'),
-  require('selector_manager'),
   require('style_manager'),
+  require('selector_manager'),
   require('modal_dialog'),
   require('code_manager'),
   require('panels'),
   require('rich_text_editor'),
   require('asset_manager'),
   require('css_composer'),
+  require('pages'),
   require('trait_manager'),
   require('dom_components'),
   require('navigator'),
@@ -57,7 +59,7 @@ export default Backbone.Model.extend({
   defaults() {
     return {
       editing: 0,
-      selected: new Collection(),
+      selected: 0,
       clipboard: null,
       dmode: 0,
       componentHovered: null,
@@ -77,8 +79,9 @@ export default Backbone.Model.extend({
     this.set('modules', []);
     this.set('toLoad', []);
     this.set('storables', []);
-    this.set('selected', new Collection());
+    this.set('selected', new Selected());
     this.set('dmode', c.dragMode);
+    this.set('hasPages', !!c.pageManager);
     const el = c.el;
     const log = c.log;
     const toLog = log === true ? keys(logs) : isArray(log) ? log : [];
@@ -96,6 +99,7 @@ export default Backbone.Model.extend({
     deps.forEach(name => this.loadModule(name));
     this.on('change:componentHovered', this.componentHovered, this);
     this.on('change:changesCount', this.updateChanges, this);
+    this.on('change:readyLoad change:readyCanvas', this._checkReady, this);
     toLog.forEach(e => this.listenLog(e));
 
     // Deprecations
@@ -111,6 +115,16 @@ export default Backbone.Model.extend({
         });
       }
     );
+  },
+
+  _checkReady() {
+    if (
+      this.get('readyLoad') &&
+      this.get('readyCanvas') &&
+      !this.get('ready')
+    ) {
+      this.set('ready', 1);
+    }
   },
 
   getContainer() {
@@ -150,6 +164,7 @@ export default Backbone.Model.extend({
     const postLoad = () => {
       const modules = this.get('modules');
       modules.forEach(module => module.postLoad && module.postLoad(this));
+      this.set('readyLoad', 1);
       clb && clb();
     };
 
@@ -194,7 +209,7 @@ export default Backbone.Model.extend({
     const cfgParent = !isUndefined(config[name])
       ? config[name]
       : config[Mod.name];
-    const cfg = cfgParent || {};
+    const cfg = cfgParent === true ? {} : cfgParent || {};
     const sm = this.get('StorageManager');
     cfg.pStylePrefix = config.pStylePrefix || '';
 
@@ -247,16 +262,20 @@ export default Backbone.Model.extend({
    * */
   handleUpdates(model, val, opt = {}) {
     // Component has been added temporarily - do not update storage or record changes
-    if (opt.temporary) {
+    if (opt.temporary || opt.noCount || opt.avoidStore) {
       return;
     }
 
-    timedInterval && clearInterval(timedInterval);
+    timedInterval && clearTimeout(timedInterval);
     timedInterval = setTimeout(() => {
-      if (!opt.avoidStore) {
-        this.set('changesCount', this.get('changesCount') + 1, opt);
-      }
+      const curr = this.get('changesCount') || 0;
+      const { unset, ...opts } = opt;
+      this.set('changesCount', curr + 1, opts);
     }, 0);
+  },
+
+  changesUp(opts) {
+    this.handleUpdates(0, 0, opts);
   },
 
   /**
@@ -278,7 +297,7 @@ export default Backbone.Model.extend({
    * @private
    */
   getSelected() {
-    return this.get('selected').last();
+    return this.get('selected').lastComponent();
   },
 
   /**
@@ -287,8 +306,7 @@ export default Backbone.Model.extend({
    * @private
    */
   getSelectedAll() {
-    const sel = this.get('selected');
-    return (sel && sel.models) || [];
+    return this.get('selected').allComponents();
   },
 
   /**
@@ -298,9 +316,13 @@ export default Backbone.Model.extend({
    * @private
    */
   setSelected(el, opts = {}) {
+    const { event } = opts;
+    const ctrlKey = event && (event.ctrlKey || event.metaKey);
+    const { shiftKey } = event || {};
     const multiple = isArray(el);
-    const els = multiple ? el : [el];
-    const selected = this.get('selected');
+    const els = (multiple ? el : [el]).map(el => getModel(el, $));
+    const selected = this.getSelectedAll();
+    const mltSel = this.getConfig('multipleSelection');
     let added;
 
     // If an array is passed remove all selected
@@ -310,6 +332,48 @@ export default Backbone.Model.extend({
     els.forEach(el => {
       const model = getModel(el, $);
       if (model && !model.get('selectable')) return;
+
+      // Hanlde multiple selection
+      if (ctrlKey && mltSel) {
+        return this.toggleSelected(model);
+      } else if (shiftKey && mltSel) {
+        this.clearSelection(this.get('Canvas').getWindow());
+        const coll = model.collection;
+        const index = model.index();
+        let min, max;
+
+        // Fin min and max siblings
+        this.getSelectedAll().forEach(sel => {
+          const selColl = sel.collection;
+          const selIndex = sel.index();
+          if (selColl === coll) {
+            if (selIndex < index) {
+              // First model BEFORE the selected one
+              min = isUndefined(min) ? selIndex : Math.max(min, selIndex);
+            } else if (selIndex > index) {
+              // First model AFTER the selected one
+              max = isUndefined(max) ? selIndex : Math.min(max, selIndex);
+            }
+          }
+        });
+
+        if (!isUndefined(min)) {
+          while (min !== index) {
+            this.addSelected(coll.at(min));
+            min++;
+          }
+        }
+
+        if (!isUndefined(max)) {
+          while (max !== index) {
+            this.addSelected(coll.at(max));
+            max--;
+          }
+        }
+
+        return this.addSelected(model);
+      }
+
       !multiple && this.removeSelected(selected.filter(s => s !== model));
       this.addSelected(model, opts);
       added = model;
@@ -329,8 +393,8 @@ export default Backbone.Model.extend({
     models.forEach(model => {
       if (model && !model.get('selectable')) return;
       const selected = this.get('selected');
-      opts.forceChange && selected.remove(model, opts);
-      selected.push(model, opts);
+      opts.forceChange && this.removeSelected(model, opts);
+      selected.addComponent(model, opts);
     });
   },
 
@@ -341,7 +405,7 @@ export default Backbone.Model.extend({
    * @private
    */
   removeSelected(el, opts = {}) {
-    this.get('selected').remove(getModel(el, $), opts);
+    this.get('selected').removeComponent(getModel(el, $), opts);
   },
 
   /**
@@ -355,7 +419,7 @@ export default Backbone.Model.extend({
     const models = isArray(model) ? model : [model];
 
     models.forEach(model => {
-      if (this.get('selected').contains(model)) {
+      if (this.get('selected').hasComponent(model)) {
         this.removeSelected(model, opts);
       } else {
         this.addSelected(model, opts);
@@ -409,15 +473,26 @@ export default Backbone.Model.extend({
   /**
    * Set style inside editor's canvas. This method overrides actual style
    * @param {Object|string} style CSS string or style model
-   * @param {Object} opt the options object to be used by the [CssRules.add]{@link rules#add} method
+   * @param {Object} opt the options object to be used by the `CssRules.add` method
    * @return {this}
    * @private
    */
   setStyle(style, opt = {}) {
-    var rules = this.get('CssComposer').getAll();
-    for (var i = 0, len = rules.length; i < len; i++) rules.pop();
-    rules.add(style, opt);
+    const cssc = this.get('CssComposer');
+    cssc.clear(opt);
+    cssc.getAll().add(style, opt);
     return this;
+  },
+
+  /**
+   * Add styles to the editor
+   * @param {Array<Object>|Object|string} style CSS string or style model
+   * @returns {Array<CssRule>}
+   * @private
+   */
+  addStyle(style, opts = {}) {
+    const res = this.getStyle().add(style, opts);
+    return isArray(res) ? res : [res];
   },
 
   /**
@@ -444,24 +519,30 @@ export default Backbone.Model.extend({
    * @returns {String}
    */
   getState() {
-    return this.get('state');
+    return this.get('state') || '';
   },
 
   /**
    * Returns HTML built inside canvas
-   * @return {string} HTML string
+   * @param {Object} [opts={}] Options
+   * @returns {string} HTML string
    * @private
    */
-  getHtml() {
+  getHtml(opts = {}) {
     const config = this.config;
+    const { optsHtml } = config;
     const exportWrapper = config.exportWrapper;
     const wrapperIsBody = config.wrapperIsBody;
-    const js = config.jsInHtml ? this.getJs() : '';
-    var wrp = this.get('DomComponents').getComponent();
-    var html = this.get('CodeManager').getCode(wrp, 'html', {
-      exportWrapper,
-      wrapperIsBody
-    });
+    const js = config.jsInHtml ? this.getJs(opts) : '';
+    var wrp = opts.component || this.get('DomComponents').getComponent();
+    var html = wrp
+      ? this.get('CodeManager').getCode(wrp, 'html', {
+          exportWrapper,
+          wrapperIsBody,
+          ...optsHtml,
+          ...opts
+        })
+      : '';
     html += js ? `<script>${js}</script>` : '';
     return html;
   },
@@ -469,28 +550,30 @@ export default Backbone.Model.extend({
   /**
    * Returns CSS built inside canvas
    * @param {Object} [opts={}] Options
-   * @return {string} CSS string
+   * @returns {string} CSS string
    * @private
    */
   getCss(opts = {}) {
     const config = this.config;
+    const { optsCss } = config;
     const wrapperIsBody = config.wrapperIsBody;
     const avoidProt = opts.avoidProtected;
     const keepUnusedStyles = !isUndefined(opts.keepUnusedStyles)
       ? opts.keepUnusedStyles
       : config.keepUnusedStyles;
     const cssc = this.get('CssComposer');
-    const wrp = this.get('DomComponents').getComponent();
+    const wrp = opts.component || this.get('DomComponents').getComponent();
     const protCss = !avoidProt ? config.protectedCss : '';
 
-    return (
-      protCss +
-      this.get('CodeManager').getCode(wrp, 'css', {
-        cssc,
-        wrapperIsBody,
-        keepUnusedStyles
-      })
-    );
+    return wrp
+      ? protCss +
+          this.get('CodeManager').getCode(wrp, 'css', {
+            cssc,
+            wrapperIsBody,
+            keepUnusedStyles,
+            ...optsCss
+          })
+      : '';
   },
 
   /**
@@ -498,11 +581,13 @@ export default Backbone.Model.extend({
    * @return {string} JS string
    * @private
    */
-  getJs() {
-    var wrp = this.get('DomComponents').getWrapper();
-    return this.get('CodeManager')
-      .getCode(wrp, 'js')
-      .trim();
+  getJs(opts = {}) {
+    var wrp = opts.component || this.get('DomComponents').getWrapper();
+    return wrp
+      ? this.get('CodeManager')
+          .getCode(wrp, 'js')
+          .trim()
+      : '';
   },
 
   /**
@@ -523,7 +608,7 @@ export default Backbone.Model.extend({
     });
 
     sm.store(store, res => {
-      clb && clb(res);
+      clb && clb(res, store);
       this.set('changesCount', 0);
       this.trigger('storage:store', store);
     });
@@ -614,9 +699,10 @@ export default Backbone.Model.extend({
    * Update canvas dimensions and refresh data useful for tools positioning
    * @private
    */
-  refreshCanvas() {
+  refreshCanvas(opts = {}) {
     this.set('canvasOffset', null);
     this.set('canvasOffset', this.get('Canvas').getOffset());
+    opts.tools && this.trigger('canvas:updateTools');
   },
 
   /**
@@ -703,31 +789,26 @@ export default Backbone.Model.extend({
     const { config } = this;
     const editor = this.getEditor();
     const { editors = [] } = config.grapesjs || {};
-    const {
-      DomComponents,
-      CssComposer,
-      UndoManager,
-      Panels,
-      Canvas,
-      Keymaps,
-      RichTextEditor
-    } = this.attributes;
     this.stopDefault();
-    DomComponents.clear();
-    CssComposer.clear();
-    UndoManager.clear().removeAll();
-    Panels.getPanels().reset();
-    Canvas.getCanvasView().remove();
-    Keymaps.removeAll();
-    RichTextEditor.destroy();
+    this.get('modules')
+      .slice()
+      .reverse()
+      .forEach(mod => mod.destroy());
     this.view.remove();
     this.stopListening();
     this.clear({ silent: true });
     this.destroyed = 1;
+    ['config', 'view', '_previousAttributes', '_events', '_listeners'].forEach(
+      i => (this[i] = {})
+    );
     editors.splice(editors.indexOf(editor), 1);
     $(config.el)
       .empty()
       .attr(this.attrsOrig);
+  },
+
+  getEditing() {
+    return this.get('editing');
   },
 
   setEditing(value) {

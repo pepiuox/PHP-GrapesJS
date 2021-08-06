@@ -22,6 +22,7 @@
  * * `component:mount` - Component is mounted to an element and rendered in canvas
  * * `component:add` - Triggered when a new component is added to the editor, the model is passed as an argument to the callback
  * * `component:remove` - Triggered when a component is removed, the model is passed as an argument to the callback
+ * * `component:remove:before` - Triggered before the remove of the component, the model, remove function (if aborted via options, with this function you can complete the remove) and options (use options.abort = true to prevent remove), are passed as arguments to the callback
  * * `component:clone` - Triggered when a component is cloned, the new model is passed as an argument to the callback
  * * `component:update` - Triggered when a component is updated (moved, styled, etc.), the model is passed as an argument to the callback
  * * `component:update:{propertyName}` - Listen any property change, the model is passed as an argument to the callback
@@ -87,6 +88,9 @@
  * ### Modal
  * * `modal:open` - Modal is opened
  * * `modal:close` - Modal is closed
+ * ### Parser
+ * * `parse:html` - On HTML parse, an object containing the input and the output of the parser is passed as an argument
+ * * `parse:css` - On CSS parse, an object containing the input and the output of the parser is passed as an argument
  * ### Commands
  * * `run:{commandName}` - Triggered when some command is called to run (eg. editor.runCommand('preview'))
  * * `stop:{commandName}` - Triggered when some command is called to stop (eg. editor.stopCommand('preview'))
@@ -95,6 +99,8 @@
  * * `abort:{commandName}` - Triggered when the command execution is aborted (`editor.on(`run:preview:before`, opts => opts.abort = 1);`)
  * * `run` - Triggered on run of any command. The id and the result are passed as arguments to the callback
  * * `stop` - Triggered on stop of any command. The id and the result are passed as arguments to the callback
+ * ### Pages
+ * Check the [Pages](/api/pages.html) module.
  * ### General
  * * `canvasScroll` - Canvas is scrolled
  * * `update` - The structure of the template is updated (its HTML/CSS)
@@ -108,6 +114,7 @@ import $ from 'cash-dom';
 import defaults from './config/config';
 import EditorModel from './model/Editor';
 import EditorView from './view/EditorView';
+import html from 'utils/html';
 
 export default (config = {}) => {
   const c = {
@@ -152,6 +159,7 @@ export default (config = {}) => {
         'CodeManager',
         'UndoManager',
         'RichTextEditor',
+        ['Pages', 'PageManager'],
         'DomComponents',
         ['Components', 'DomComponents'],
         'LayerManager',
@@ -182,7 +190,7 @@ export default (config = {}) => {
 
       // Do post render stuff after the iframe is loaded otherwise it'll
       // be empty during tests
-      em.on('loaded', () => {
+      em.once('change:ready', () => {
         this.UndoManager.clear();
         em.get('modules').forEach(module => {
           module.postRender && module.postRender(editorView);
@@ -195,7 +203,7 @@ export default (config = {}) => {
     /**
      * Returns configuration object
      * @param  {string} [prop] Property name
-     * @return {any} Returns the configuration object or
+     * @returns {any} Returns the configuration object or
      *  the value of the specified property
      */
     getConfig(prop) {
@@ -204,7 +212,9 @@ export default (config = {}) => {
 
     /**
      * Returns HTML built inside canvas
-     * @return {string} HTML string
+     * @param {Object} [opts={}] Options
+     * @param {Boolean} [opts.cleanId=false] Remove unnecessary IDs (eg. those created automatically)
+     * @returns {string} HTML string
      */
     getHtml(opts) {
       return em.getHtml(opts);
@@ -214,7 +224,7 @@ export default (config = {}) => {
      * Returns CSS built inside canvas
      * @param {Object} [opts={}] Options
      * @param {Boolean} [opts.avoidProtected=false] Don't include protected CSS
-     * @return {string} CSS string
+     * @returns {string} CSS string
      */
     getCss(opts) {
       return em.getCss(opts);
@@ -222,10 +232,12 @@ export default (config = {}) => {
 
     /**
      * Returns JS of all components
-     * @return {string} JS string
+     * @param {Object} [opts={}] Options
+     * @param {Component} [opts.component] Get the JS of a particular component
+     * @returns {string} JS string
      */
-    getJs() {
-      return em.getJs();
+    getJs(opts) {
+      return em.getJs(opts);
     },
 
     /**
@@ -295,7 +307,6 @@ export default (config = {}) => {
     /**
      * Set style inside editor's canvas. This method overrides actual style
      * @param {Array<Object>|Object|string} style CSS string or style model
-     * @param {Object} opt the options object to be used by the [setStyle]{@link em#setStyle} method
      * @return {this}
      * @example
      * editor.setStyle('.cls{color: red}');
@@ -308,6 +319,17 @@ export default (config = {}) => {
     setStyle(style, opt = {}) {
       em.setStyle(style, opt);
       return this;
+    },
+
+    /**
+     * Add styles to the editor
+     * @param {Array<Object>|Object|string} style CSS string or style model
+     * @returns {Array<CssRule>} Array of created CssRule instances
+     * @example
+     * editor.addStyle('.cls{color: red}');
+     */
+    addStyle(style, opts = {}) {
+      return em.addStyle(style, opts);
     },
 
     /**
@@ -396,6 +418,20 @@ export default (config = {}) => {
     },
 
     /**
+     * Returns, if active, the Component enabled in rich text editing mode.
+     * @returns {Component|null}
+     * @example
+     * const textComp = editor.getEditing();
+     * if (textComp) {
+     *  console.log('HTML: ', textComp.toHTML());
+     * }
+     */
+    getEditing() {
+      const res = em.getEditing();
+      return (res && res.model) || null;
+    },
+
+    /**
      * Set device to the editor. If the device exists it will
      * change the canvas to the proper width
      * @param {string} name Name of the device
@@ -481,17 +517,16 @@ export default (config = {}) => {
     },
 
     /**
-     * Update editor dimensions and refresh data useful for positioning of tools
+     * Update editor dimension offsets
      *
      * This method could be useful when you update, for example, some position
      * of the editor element (eg. canvas, panels, etc.) with CSS, where without
-     * refresh you'll get misleading position of tools (eg. rich text editor,
-     * component highlighter, etc.)
-     *
-     * @private
+     * refresh you'll get misleading position of tools
+     * @param {Object} [options] Options
+     * @param {Boolean} [options.tools=false] Update the position of tools (eg. rich text editor, component highlighter, etc.)
      */
-    refresh() {
-      em.refreshCanvas();
+    refresh(opts) {
+      em.refreshCanvas(opts);
     },
 
     /**
@@ -675,6 +710,19 @@ export default (config = {}) => {
     render() {
       editorView.render();
       return editorView.el;
-    }
+    },
+
+    /**
+     * Print safe HTML by using ES6 tagged template strings.
+     * @param {Array<String>} literals
+     * @param  {Array<String>} substs
+     * @returns {String}
+     * @example
+     * const unsafeStr = '<script>....</script>';
+     * const safeStr = '<b>Hello</b>';
+     * // Use `$${var}` to avoid escaping
+     * const strHtml = editor.html`Escaped ${unsafeStr}, unescaped $${safeStr}`;
+     */
+    html
   };
 };

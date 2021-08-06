@@ -31,6 +31,11 @@ export default Backbone.View.extend({
     this.listenTo(this.target, events, this.targetUpdated);
   },
 
+  remove() {
+    Backbone.View.prototype.remove.apply(this, arguments);
+    ['target', 'config', 'propTarget'].forEach(i => (this[i] = {}));
+  },
+
   /**
    * Add to collection
    * @param {Object} model Model
@@ -95,15 +100,19 @@ export default Backbone.View.extend({
       pt.helper = helperRule;
     };
 
-    model = em.get('StyleManager').getModelToStyle(model);
+    const sm = em.get('StyleManager');
+    const target = sm.getModelToStyle(model);
 
     if (state) {
-      appendStateRule(model.getStyle());
+      appendStateRule(target.getStyle());
       this.toggleStateCls(targets, 1);
     }
 
-    pt.model = model;
-    if (componentFirst) pt.targets = targets;
+    pt.model = target;
+    pt.parentRules = sm.getParentRules(target, state);
+    if (componentFirst) {
+      pt.targets = targets.map(t => sm.getModelToStyle(t)).filter(Boolean);
+    }
     pt.trigger('update');
   },
 
@@ -149,7 +158,7 @@ export default Backbone.View.extend({
 
     const pt = this.propTarget;
     pt.targets = models;
-    pt.trigger('update');
+    pt.trigger('update', { targets: models });
     return models;
   },
 

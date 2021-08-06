@@ -23,6 +23,8 @@ const cmds = [
   ['undo_manager/index.js', 'undo_manager.md'],
   ['canvas/index.js', 'canvas.md'],
   ['i18n/index.js', 'i18n.md'],
+  ['pages/index.js', 'pages.md'],
+  ['pages/model/Page.js', 'page.md'],
 ].map(entry =>
   `${binRoot}documentation build ${srcRoot}/${entry[0]} -o ${docRoot}/api/${entry[1]} -f md --shallow --markdown-toc false`)
 .join(' && ');

@@ -33,7 +33,8 @@ import defaults from './config/config';
 export default () => {
   let config = {};
   let toolbar, actions, lastEl, lastElPos, globalRte;
-
+  const eventsUp =
+    'change:canvasOffset canvasScroll frame:scroll component:update';
   const hideToolbar = () => {
     const style = toolbar.style;
     const size = '-1000px';
@@ -87,10 +88,11 @@ export default () => {
       const { customRte } = this;
       globalRte && globalRte.destroy();
       customRte && customRte.destroy && customRte.destroy();
-      toolbar = 0;
-      globalRte = 0;
       this.actionbar = 0;
       this.actions = 0;
+      [config, toolbar, actions, lastEl, lastElPos, globalRte].forEach(
+        i => (i = {})
+      );
     },
 
     /**
@@ -287,27 +289,27 @@ export default () => {
      * @param {Object} rte The instance of already defined RTE
      * @private
      * */
-    enable(view, rte) {
+    async enable(view, rte) {
       lastEl = view.el;
+      const { customRte } = this;
       const canvas = config.em.get('Canvas');
       const em = config.em;
       const el = view.getChildrenContainer();
-      const customRte = this.customRte;
       lastElPos = canvas.getElementPos(lastEl);
 
       toolbar.style.display = '';
-      rte = customRte ? customRte.enable(el, rte) : this.initRte(el).enable();
+      const rteInst = await (customRte
+        ? customRte.enable(el, rte)
+        : this.initRte(el).enable());
 
       if (em) {
         setTimeout(this.updatePosition.bind(this), 0);
-        const event =
-          'change:canvasOffset canvasScroll frame:scroll component:update';
-        em.off(event, this.updatePosition, this);
-        em.on(event, this.updatePosition, this);
-        em.trigger('rte:enable', view, rte);
+        em.off(eventsUp, this.updatePosition, this);
+        em.on(eventsUp, this.updatePosition, this);
+        em.trigger('rte:enable', view, rteInst);
       }
 
-      return rte;
+      return rteInst;
     },
 
     /**
@@ -328,7 +330,10 @@ export default () => {
       }
 
       hideToolbar();
-      em && em.trigger('rte:disable', view, rte);
+      if (em) {
+        em.off(eventsUp, this.updatePosition, this);
+        em.trigger('rte:disable', view, rte);
+      }
     }
   };
 };

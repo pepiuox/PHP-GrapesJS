@@ -1,7 +1,9 @@
 import Backbone from 'backbone';
 import CssRule from './CssRule';
 
-export default Backbone.Collection.extend({
+const { Collection } = Backbone;
+
+export default Collection.extend({
   model: CssRule,
 
   initialize(models, opt) {
@@ -15,8 +17,13 @@ export default Backbone.Collection.extend({
     });
   },
 
-  onAdd(model) {
-    model.ensureSelectors();
+  toJSON(opts) {
+    const result = Collection.prototype.toJSON.call(this, opts);
+    return result.filter(i => i.style);
+  },
+
+  onAdd(model, c, o) {
+    model.ensureSelectors(model, c, o); // required for undo
   },
 
   onRemove(removed) {
@@ -30,6 +37,6 @@ export default Backbone.Collection.extend({
       models = this.editor.get('Parser').parseCss(models);
     }
     opt.em = this.editor;
-    return Backbone.Collection.prototype.add.apply(this, [models, opt]);
+    return Collection.prototype.add.apply(this, [models, opt]);
   }
 });

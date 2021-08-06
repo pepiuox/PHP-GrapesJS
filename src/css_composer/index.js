@@ -27,7 +27,7 @@
  * @module CssComposer
  */
 
-import { isArray } from 'underscore';
+import { isArray, isUndefined } from 'underscore';
 import defaults from './config/config';
 import CssRule from './model/CssRule';
 import CssRules from './model/CssRules';
@@ -98,7 +98,7 @@ export default () => {
      * @private
      */
     onLoad() {
-      rules.add(c.rules);
+      rules.add(c.rules, { silent: 1 });
     },
 
     /**
@@ -106,28 +106,9 @@ export default () => {
      * @param  {Editor} em
      * @private
      */
-    postLoad(em) {
-      const ev = 'add remove';
-      const rules = this.getAll();
-      const um = em.get('UndoManager');
-      um && um.add(rules);
-      em.stopListening(rules, ev, this.handleChange);
-      em.listenTo(rules, ev, this.handleChange);
-      rules.each(rule => this.handleChange(rule, { avoidStore: 1 }));
-    },
-
-    /**
-     * Handle rule changes
-     * @private
-     */
-    handleChange(model, opts = {}) {
-      const ev = 'change:style';
-      const um = em.get('UndoManager');
-      um && um.add(model);
-      const handleUpdates = em.handleUpdates.bind(em);
-      em.stopListening(model, ev, handleUpdates);
-      em.listenTo(model, ev, handleUpdates);
-      !opts.avoidStore && handleUpdates('', '', opts);
+    postLoad() {
+      const um = em && em.get('UndoManager');
+      um && um.add(this.getAll());
     },
 
     /**
@@ -170,9 +151,10 @@ export default () => {
      */
     store(noStore) {
       if (!c.stm) return;
-      var obj = {};
-      var keys = this.storageKey();
-      if (keys.indexOf('css') >= 0) obj.css = c.em.getCss();
+      const obj = {};
+      const keys = this.storageKey();
+      const hasPages = em && em.get('hasPages');
+      if (keys.indexOf('css') >= 0 && !hasPages) obj.css = c.em.getCss();
       if (keys.indexOf('styles') >= 0) obj.styles = JSON.stringify(rules);
       if (!noStore) c.stm.store(obj);
       return obj;
@@ -183,7 +165,8 @@ export default () => {
      * @param {Array<Selector>} selectors Array of selectors
      * @param {String} state Css rule state
      * @param {String} width For which device this style is oriented
-     * @param {Object} opts Other options for the rule
+     * @param {Object} props Other props for the rule
+     * @param {Object} opts Options for the add of new rule
      * @return {Model}
      * @example
      * var sm = editor.SelectorManager;
@@ -195,7 +178,7 @@ export default () => {
      *   color: '#fff',
      * });
      * */
-    add(selectors, state, width, opts = {}) {
+    add(selectors, state, width, opts = {}, addOpts = {}) {
       var s = state || '';
       var w = width || '';
       var opt = { ...opts };
@@ -211,8 +194,8 @@ export default () => {
         opt.mediaText = w;
         opt.selectors = [];
         rule = new CssRule(opt, c);
-        rule.get('selectors').add(selectors);
-        rules.add(rule);
+        rule.get('selectors').add(selectors, addOpts);
+        rules.add(rule, addOpts);
         return rule;
       }
     },
@@ -256,8 +239,8 @@ export default () => {
      * Remove all rules
      * @return {this}
      */
-    clear() {
-      this.getAll().reset();
+    clear(opts = {}) {
+      this.getAll().reset(null, opts);
       return this;
     },
 
@@ -288,7 +271,7 @@ export default () => {
         }
 
         var modelExists = this.get(newSels, rule.state, rule.mediaText, rule);
-        var model = this.add(newSels, rule.state, rule.mediaText, rule);
+        var model = this.add(newSels, rule.state, rule.mediaText, rule, opts);
         var updateStyle = !modelExists || !opts.avoidUpdateStyle;
         const style = rule.style || {};
 
@@ -296,7 +279,7 @@ export default () => {
           let styleUpdate = opts.extend
             ? { ...model.get('style'), ...style }
             : style;
-          model.set('style', styleUpdate);
+          model.set('style', styleUpdate, opts);
         }
 
         result.push(model);
@@ -374,6 +357,24 @@ export default () => {
     },
 
     /**
+     * Find rules, in different states (eg. like `:hover`) and media queries, matching the selector.
+     * @param {string} selector Selector, eg. '.myclass'
+     * @returns {Array<CssRule>}
+     * @example
+     * // Common scenario, take all the component specific rules
+     * const id = someComponent.getId();
+     * const rules = cc.getRules(`#${id}`);
+     * console.log(rules.map(rule => rule.toCSS()))
+     */
+    getRules(selector) {
+      const rules = this.getAll();
+      const result = rules.filter(
+        r => r.getSelectors().getFullString() === selector
+      );
+      return result;
+    },
+
+    /**
      * Add/update the CSS rule with id selector
      * @param {string} name Id selector name, eg. 'my-id'
      * @param {Object} style  Style properties and values
@@ -388,12 +389,13 @@ export default () => {
      * // #myid:hover { color: blue }
      */
     setIdRule(name, style = {}, opts = {}) {
+      const { addOpts = {}, mediaText } = opts;
       const state = opts.state || '';
-      const media = opts.mediaText || em.getCurrentMedia();
+      const media = !isUndefined(mediaText) ? mediaText : em.getCurrentMedia();
       const sm = em.get('SelectorManager');
-      const selector = sm.add({ name, type: Selector.TYPE_ID });
-      const rule = this.add(selector, state, media);
-      rule.setStyle(style, opts);
+      const selector = sm.add({ name, type: Selector.TYPE_ID }, addOpts);
+      const rule = this.add(selector, state, media, {}, addOpts);
+      rule.setStyle(style, { ...opts, ...addOpts });
       return rule;
     },
 
@@ -408,8 +410,9 @@ export default () => {
      * const ruleHover = cc.setIdRule('myid', { state: 'hover' });
      */
     getIdRule(name, opts = {}) {
+      const { mediaText } = opts;
       const state = opts.state || '';
-      const media = opts.mediaText || em.getCurrentMedia();
+      const media = !isUndefined(mediaText) ? mediaText : em.getCurrentMedia();
       const selector = em.get('SelectorManager').get(name, Selector.TYPE_ID);
       return selector && this.get(selector, state, media);
     },
@@ -455,6 +458,21 @@ export default () => {
       return selector && this.get(selector, state, media);
     },
 
+    getComponentRules(cmp, opts = {}) {
+      let { state, mediaText, current } = opts;
+      if (current) {
+        state = em.get('state') || '';
+        mediaText = em.getCurrentMedia();
+      }
+      const id = cmp.getId();
+      const rules = this.getAll().filter(r => {
+        if (!isUndefined(state) && r.get('state') !== state) return;
+        if (!isUndefined(mediaText) && r.get('mediaText') !== mediaText) return;
+        return r.getSelectorsString() === `#${id}`;
+      });
+      return rules;
+    },
+
     /**
      * Render the block of CSS rules
      * @return {HTMLElement}
@@ -462,6 +480,14 @@ export default () => {
      */
     render() {
       return rulesView.render().el;
+    },
+
+    destroy() {
+      rules.reset();
+      rules.stopListening();
+      rulesView.remove();
+      [em, rules, rulesView].forEach(i => (i = null));
+      c = {};
     }
   };
 };

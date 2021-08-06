@@ -1,4 +1,3 @@
-# -- concrete5 urls start --
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase /PHP-GrapesJS/

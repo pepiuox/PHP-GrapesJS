@@ -68,6 +68,8 @@ import ComponentTextNodeView from './view/ComponentTextNodeView';
 import ComponentText from './model/ComponentText';
 import ComponentTextView from './view/ComponentTextView';
 import ComponentWrapper from './model/ComponentWrapper';
+import ComponentFrame from './model/ComponentFrame';
+import ComponentFrameView from './view/ComponentFrameView';
 
 export default () => {
   var c = {};
@@ -145,6 +147,11 @@ export default () => {
       id: 'svg',
       model: ComponentSvg,
       view: ComponentSvgView
+    },
+    {
+      id: 'iframe',
+      model: ComponentFrame,
+      view: ComponentFrameView
     },
     {
       id: 'comment',
@@ -244,50 +251,17 @@ export default () => {
 
         const selected = em.get('selected');
         em.listenTo(selected, 'add', (sel, c, opts) =>
-          this.selectAdd(sel, opts)
+          this.selectAdd(selected.getComponent(sel), opts)
         );
         em.listenTo(selected, 'remove', (sel, c, opts) =>
-          this.selectRemove(sel, opts)
+          this.selectRemove(selected.getComponent(sel), opts)
         );
       }
 
-      // Build wrapper
-      let components = c.components;
-      let wrapper = { ...c.wrapper };
-      wrapper['custom-name'] = c.wrapperName;
-      wrapper.wrapper = 1;
-      wrapper.type = 'wrapper';
-
-      // Components might be a wrapper
-      if (
-        components &&
-        components.constructor === Object &&
-        components.wrapper
-      ) {
-        wrapper = { ...components };
-        components = components.components || [];
-        wrapper.components = [];
-
-        // Have to put back the real object of components
-        if (em) {
-          em.config.components = components;
-          c.components = components;
-        }
+      if (em.get('hasPages')) {
+        c.components = '';
       }
 
-      component = new Component(wrapper, {
-        em,
-        config: c,
-        componentTypes,
-        domc: this
-      });
-      component.set({ attributes: { id: 'wrapper' } });
-
-      componentView = new ComponentView({
-        model: component,
-        config: c,
-        componentTypes
-      });
       return this;
     },
 
@@ -296,69 +270,7 @@ export default () => {
      * @private
      */
     onLoad() {
-      this.setComponents(c.components);
-    },
-
-    /**
-     * Do stuff after load
-     * @param  {Editor} em
-     * @private
-     */
-    postLoad(em) {
-      this.handleChanges(this.getWrapper(), null, { avoidStore: 1 });
-    },
-
-    /**
-     * Handle component changes
-     * @private
-     */
-    handleChanges(model, value, opts = {}) {
-      const comps = model.components();
-      const um = em.get('UndoManager');
-      const handleUpdates = em.handleUpdates.bind(em);
-      const handleChanges = this.handleChanges.bind(this);
-      const handleChangesColl = this.handleChangesColl.bind(this);
-      const handleRemoves = this.handleRemoves.bind(this);
-      um && um.add(model);
-      um && comps && um.add(comps);
-      const evn = 'change:style change:content change:attributes change:src';
-
-      [
-        [model, evn, handleUpdates],
-        [model, 'change:components', handleChangesColl],
-        [comps, 'add', handleChanges],
-        [comps, 'remove', handleRemoves],
-        [model.get('classes'), 'add remove', handleUpdates]
-      ].forEach(els => {
-        em.stopListening(els[0], els[1], els[2]);
-        em.listenTo(els[0], els[1], els[2]);
-      });
-
-      !opts.avoidStore && handleUpdates('', '', opts);
-      comps.each(model => this.handleChanges(model, value, opts));
-    },
-
-    handleChangesColl(model, coll) {
-      const um = em.get('UndoManager');
-      if (um && coll instanceof Backbone.Collection) {
-        const handleChanges = this.handleChanges.bind(this);
-        const handleRemoves = this.handleRemoves.bind(this);
-        um.add(coll);
-        [[coll, 'add', handleChanges], [coll, 'remove', handleRemoves]].forEach(
-          els => {
-            em.stopListening(els[0], els[1], els[2]);
-            em.listenTo(els[0], els[1], els[2]);
-          }
-        );
-      }
-    },
-
-    /**
-     * Triggered when some component is removed
-     * @private
-     * */
-    handleRemoves(model, value, opts = {}) {
-      !opts.avoidStore && em.handleUpdates(model, value, opts);
+      c.components && this.setComponents(c.components, { silent: 1 });
     },
 
     /**
@@ -414,8 +326,8 @@ export default () => {
      * @return {Object} Data to store
      */
     store(noStore) {
-      if (!c.stm) {
-        return;
+      if (!c.stm || this.em.get('hasPages')) {
+        return {};
       }
 
       var obj = {};
@@ -426,7 +338,6 @@ export default () => {
       }
 
       if (keys.indexOf('components') >= 0) {
-        const { em } = this;
         // const storeWrap = (em && !em.getConfig('avoidInlineStyle')) || c.storeWrapper;
         const storeWrap = c.storeWrapper;
         const toStore = storeWrap ? this.getWrapper() : this.getComponents();
@@ -446,7 +357,9 @@ export default () => {
      * @private
      */
     getComponent() {
-      return component;
+      const sel = this.em.get('PageManager').getSelected();
+      const frame = sel && sel.getMainFrame();
+      return frame && frame.getComponent();
     },
 
     /**
@@ -491,7 +404,8 @@ export default () => {
      * wrapperChildren.remove(comp2);
      */
     getComponents() {
-      return this.getWrapper().get('components');
+      const wrp = this.getWrapper();
+      return wrp && wrp.get('components');
     },
 
     /**
@@ -542,10 +456,10 @@ export default () => {
      * Remove all components
      * @return {this}
      */
-    clear() {
+    clear(opts = {}) {
       this.getComponents()
         .map(i => i)
-        .forEach(i => i.remove());
+        .forEach(i => i.remove(opts));
       return this;
     },
 
@@ -557,7 +471,7 @@ export default () => {
      * @private
      */
     setComponents(components, opt = {}) {
-      this.clear().addComponent(components, opt);
+      this.clear(opt).addComponent(components, opt);
     },
 
     /**
@@ -612,7 +526,7 @@ export default () => {
             ...model,
             ...getExtendedObj(extendFn, model, modelToExt),
             defaults: {
-              ...modelToExt.prototype.defaults,
+              ...(result(modelToExt.prototype, 'defaults') || {}),
               ...(result(model, 'defaults') || {})
             }
           },
@@ -733,6 +647,14 @@ export default () => {
 
     allById() {
       return componentsById;
+    },
+
+    destroy() {
+      const all = this.allById();
+      Object.keys(all).forEach(id => all[id] && all[id].remove());
+      componentView && componentView.remove();
+      [c, em, componentsById, component, componentView].forEach(i => (i = {}));
+      this.em = {};
     }
   };
 };

@@ -47,6 +47,7 @@ export default Backbone.View.extend({
     model.view = this;
     this.listenTo(model, 'change:label', this.render);
     this.listenTo(model, 'change:placeholder', this.rerender);
+    this.events = {};
     eventCapture.forEach(event => (this.events[event] = 'onChange'));
     this.delegateEvents();
     this.init();
@@ -258,7 +259,7 @@ export default Backbone.View.extend({
 
   render() {
     const { $el, pfx, ppfx, model } = this;
-    const { type } = model.attributes;
+    const { type, id } = model.attributes;
     const hasLabel = this.hasLabel && this.hasLabel();
     const cls = `${pfx}trait`;
     this.$input = null;
@@ -277,7 +278,7 @@ export default Backbone.View.extend({
     $el.empty().append(tmpl);
     hasLabel && this.renderLabel();
     this.renderField();
-    this.el.className = `${cls}__wrp`;
+    this.el.className = `${cls}__wrp ${cls}__wrp-${id}`;
     this.postUpdate();
     this.onRender(this.getClbOpts());
     return this;
