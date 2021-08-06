@@ -45,7 +45,7 @@ if (file_exists($file)) {
             </div>
         </nav>
         <!<!-- end menu -->
-       
+
         <div class='container'>            
             <div class="row">                
                 <div class="col-md-12 py-3">
@@ -97,8 +97,8 @@ if (file_exists($file)) {
                 </div>
             </div>
         </div>
-        <script src="plugins/jquery-3.5.1/jquery-3.5.1.min.js" type="text/javascript"></script>
-        <script src="plugins/bootstrap-4.4.1/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="plugins/popper/popper.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
+        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
     </body>
 </html>

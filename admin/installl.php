@@ -98,8 +98,8 @@ if (isset($_POST['submit'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Content Editor</title>
 
-        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
-        <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" data-type="keditor-style" />
+        <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
     </head>
     <body>
         <div class="container">
@@ -176,9 +176,9 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
 
-        <script src="../js/jquery.min.js" type="text/javascript"></script>
-        <script src="../js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../js/popper.min.js" type="text/javascript"></script>   
+        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>   
         <script type="text/javascript">
             $(window).on('load', function () {
                 $('#myModal').modal('show');

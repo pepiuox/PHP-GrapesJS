@@ -2,7 +2,7 @@
 session_start();
 $file = '../config/conn.php';
 if (file_exists($file)) {
-    require 'config/conn.php';
+    require '../config/conn.php';
 } else {
     header('Location: install.php');
 }
@@ -14,8 +14,8 @@ if (file_exists($file)) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
         <title>Content Editor</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+        <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
     </head>
     <body>
         <!-- start menu -->                     
@@ -204,9 +204,9 @@ if (file_exists($file)) {
                 </div>
             </div>
         </div>
-        <script src="js/jquery.min.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>        
-        <script src="js/popper.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
+        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
         <script>
             $(function () {
                 $("#title").keyup(function () {

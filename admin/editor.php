@@ -1201,11 +1201,11 @@ if ($w == "editor") {
                 </div>
             </div>
 
-            <script src="js/jquery.min.js" type="text/javascript"></script>
-            <script src="js/bootstrap.min.js" type="text/javascript"></script>        
-            <script src="js/popper.min.js" type="text/javascript"></script>
-            <script src="js/perfect-scrollbar.min.js"></script>
-            <script src="js/next-sidebar.js"></script>
+            <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
+            <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>js/perfect-scrollbar.min.js"></script>
+            <script src="<?php echo $base; ?>js/next-sidebar.js"></script>
             <script>
                 $(function () {
                     $("#title").keyup(function () {

@@ -35,8 +35,8 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Editor Settings</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link rel="../stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+        <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css"/>
     </head>
     <body>
         <!-- start menu -->                     
@@ -102,8 +102,8 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
                 </div>
             </div>
         </div>
-        <script src="../js/jquery.min.js" type="text/javascript"></script>
-        <script src="../js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../js/popper.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
+        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
     </body>
 </html>
