@@ -1,0 +1,381 @@
+@charset "UTF-8";
+/*!
+ * Sidebar menu for Bootstrap 4
+ * Copyright Zdeněk Papučík
+ * MIT License
+*/
+.body {
+  overflow-x: hidden;
+  margin-top: 3.5625rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+.content {
+  min-width: 100vw;
+}
+@media (min-width: 768px) {
+  .content {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.content-box {
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+}
+
+.sidebar {
+  min-height: calc(100vh - 3.5625rem);
+  margin-left: -17rem;
+  transition: margin 0.15s ease-out;
+  border-top-right-radius: 0.25rem;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    margin-left: 0;
+  }
+}
+
+.sidebar-toggle .sidebar {
+  margin-left: 0;
+}
+@media (min-width: 768px) {
+  .sidebar-toggle .sidebar {
+    margin-left: -17rem;
+  }
+}
+
+.sidebar-menu {
+  width: 17rem;
+}
+
+.navbar-link {
+  margin-left: 0.1875rem;
+}
+
+.navbar-bars {
+  transition: 0.2s all;
+  margin-left: 0.3125rem;
+  font-size: 0.875rem;
+}
+
+.dropdown-logged {
+  margin-left: auto;
+}
+
+.dropdown-logged-toggle:before {
+  margin: 0.5rem 0 0 0.5rem;
+  float: right;
+  font-family: "FontAwesome";
+  font-size: 0.875rem;
+  content: "\f175";
+}
+
+.dropdown-logged-menu {
+  top: 2.875rem;
+}
+
+.dropdown-logged-item {
+  font-size: 0.875rem;
+}
+.dropdown-logged-item .fa {
+  transition: 0.5s all;
+  padding-right: 0.625rem;
+  width: 1.375rem;
+}
+
+.dropdown-link:hover {
+  text-decoration: none;
+}
+
+.dropdown-user {
+  display: block;
+  margin: 0.5rem 0.5rem 0 0;
+  float: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.dropdown-avatar {
+  height: 2.25rem;
+  width: 2.25rem;
+  border-radius: 50%;
+}
+
+.list {
+  max-height: 80vh;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
+}
+
+.list-item {
+  padding: 0;
+  margin-top: 0.625rem;
+  line-height: 2.125rem;
+}
+
+.list-title {
+  margin-bottom: 0;
+  font-size: 0.75rem;
+}
+
+.list-hidden {
+  display: none;
+  padding-left: 0.625rem;
+  margin: 0.9375rem 0 0.9375rem 0.625rem;
+}
+
+.list-link {
+  display: block;
+  padding: 0 0.625rem;
+  margin-bottom: 0.125rem;
+  border-radius: 0.25rem;
+}
+.list-link .fa {
+  margin-right: 0.625rem;
+}
+.list-link:hover {
+  text-decoration: none;
+}
+.list-link:hover .fa {
+  transform: rotate(360deg);
+  transition: 0.5s all;
+}
+
+.link-arrow:before {
+  font-family: "FontAwesome";
+  margin-right: 0.1875rem;
+  float: right;
+}
+
+.link-arrow.up:before {
+  content: "\f106";
+}
+
+.link-arrow.down:before {
+  content: "\f107";
+}
+
+.link-arrow.transition:before {
+  transition: 0.2s all;
+}
+
+.link-arrow.rotate:before {
+  transform: rotate(180deg);
+}
+
+.link-arrow.rotate-revert:before {
+  transform: rotate(-180deg);
+}
+
+.list-scrollbar {
+  position: relative;
+  overflow: hidden;
+}
+
+.ps__rail-y {
+  margin-top: 0.0625rem;
+}
+
+.ps__rail-y.ps--clicking .ps__thumb-y,
+.ps__rail-y:focus .ps__thumb-y,
+.ps__rail-y:hover .ps__thumb-y,
+.ps__thumb-y {
+  width: 0.3125rem;
+}
+
+.nanobar {
+  width: 100%;
+  height: 0.125rem;
+  z-index: 9999;
+  top: 0;
+}
+
+.nanobar .bar {
+  width: 0;
+  height: 100%;
+  transition: height 0.3s;
+}
+
+.body-lighten {
+  background-color: #f4f4f4;
+  color: #404040;
+}
+
+.sidebar-lighten {
+  background-color: white;
+}
+
+.sidebar-lighten .ps__rail-y.ps--clicking .ps__thumb-y,
+.sidebar-lighten .ps__rail-y:focus .ps__thumb-y,
+.sidebar-lighten .ps__rail-y:hover .ps__thumb-y,
+.sidebar-lighten .ps__thumb-y {
+  background-color: #e6e6e6;
+}
+
+.sidebar-lighten .list {
+  color: #a6a6a6;
+}
+
+.sidebar-lighten .list-link {
+  color: #404040;
+}
+
+.sidebar-lighten .list-hidden {
+  border-left: 0.0625rem solid #f0f0f0;
+}
+
+.sidebar-lighten .link-current,
+.sidebar-lighten .list-link:hover {
+  background-color: #f4f4f4;
+}
+
+.navbar-lighten .navbar-link {
+  color: #404040;
+}
+
+.navbar-lighten .navbar-bars {
+  color: #404040;
+}
+
+.dropdown-logged-lighten .dropdown-link {
+  color: #404040;
+}
+
+.dropdown-menu-lighten {
+  background-color: #f4f4f4;
+}
+
+.dropdown-menu-lighten .dropdown-logged-item {
+  color: #404040;
+}
+
+.dropdown-menu-lighten .dropdown-logged-item:hover {
+  background-color: white;
+  color: #404040;
+}
+
+.content-lighten {
+  background-color: white;
+}
+
+.sidebar-lighten .link-arrow:before,
+.sidebar-lighten .list-link .fa,
+.navbar-lighten .navbar-bars,
+.dropdown-logged-lighten .dropdown-logged-toggle:before,
+.dropdown-menu-lighten .dropdown-logged-item .fa {
+  opacity: 0.3;
+}
+
+.navbar-lighten .navbar-bars:hover {
+  opacity: 0.7;
+}
+
+.sidebar-lighten .link-arrow.active:before,
+.sidebar-lighten .list-link:hover .fa {
+  opacity: 1.0;
+}
+
+.ps .ps__rail-y.ps--clicking,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-y:hover {
+  background: none;
+}
+
+.nanobar .bar {
+  background-color: #404040;
+}
+
+.body-darken {
+  background-color: #30353c;
+  color: #cbd0d5;
+}
+
+.sidebar-darken {
+  background-color: #262a2f;
+}
+
+.sidebar-darken .ps__rail-y.ps--clicking .ps__thumb-y,
+.sidebar-darken .ps__rail-y:focus .ps__thumb-y,
+.sidebar-darken .ps__rail-y:hover .ps__thumb-y,
+.sidebar-darken .ps__thumb-y {
+  background-color: #3d434b;
+}
+
+.sidebar-darken .list {
+  color: #778291;
+}
+
+.sidebar-darken .list-link {
+  color: #cbd0d5;
+}
+
+.sidebar-darken .list-hidden {
+  border-left: 0.0625rem solid #343940;
+}
+
+.sidebar-darken .link-current,
+.sidebar-darken .list-link:hover {
+  background-color: #30353c;
+}
+
+.navbar-darken .navbar-link {
+  color: #cbd0d5;
+}
+
+.navbar-darken .navbar-bars {
+  color: #cbd0d5;
+}
+
+.dropdown-logged-darken .dropdown-link {
+  color: #cbd0d5;
+}
+
+.dropdown-menu-darken {
+  background-color: #30353c;
+}
+
+.dropdown-menu-darken .dropdown-logged-item {
+  color: #cbd0d5;
+}
+
+.dropdown-menu-darken .dropdown-logged-item:hover {
+  background-color: #262a2f;
+  color: #cbd0d5;
+}
+
+.content-darken {
+  background-color: #262a2f;
+}
+
+.sidebar-darken .link-arrow:before,
+.sidebar-darken .list-link .fa,
+.navbar-darken .navbar-bars,
+.dropdown-logged-darken .dropdown-logged-toggle:before,
+.dropdown-menu-darken .dropdown-logged-item .fa {
+  opacity: 0.3;
+}
+
+.navbar-darken .navbar-bars:hover {
+  opacity: 0.7;
+}
+
+.sidebar-darken .link-arrow.active:before,
+.sidebar-darken .list-link:hover .fa {
+  opacity: 1.0;
+}
+
+.ps .ps__rail-y.ps--clicking,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-y:hover {
+  background: none;
+}
+
+.nanobar .bar {
+  background-color: #e8eaec;
+}
+
+/*# sourceMappingURL=sidebar.css.map */

@@ -1,6 +1,6 @@
 <?php
 
-include '../config/conn.php';
+include '../config/dbconnection.php';
 if (isset($_POST['install'])) {
     $install = $_POST['install'];
     if ($install == 1) {

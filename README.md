@@ -136,13 +136,13 @@ $ npm start
 Once the development server is started you should be able to reach the demo page (eg. `http://localhost:8080`)
 
 ## PHP files and more
-<p>Add configuration, this make conn.php file</p>
+<p>Add configuration, this make dbconnection.php file</p>
 <img src="https://pepiuox.net/files/addconf.jpg">
 <hr>
-<p>Edit configuration, remake conn.php file</p>
+<p>Edit configuration, remake dbconnection.php file</p>
 <img src="https://pepiuox.net/files/editconf.jpg">
 <hr>
-<p>Verify configuration and file conn.php</p>
+<p>Verify configuration and file dbconnection.php</p>
 <img src="https://pepiuox.net/files/verifyconf.jpg">
 <hr>
 <p>View page list</p>

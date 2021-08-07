@@ -1,8 +1,8 @@
 <?php
 session_start();
-$file = '../config/conn.php';
+$file = '../config/dbconnection.php';
 if (file_exists($file)) {
-    require 'config/conn.php';
+    require 'config/dbconnection.php';
 } else {
     header('Location: install.php');
 }

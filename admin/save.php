@@ -1,6 +1,6 @@
 <?php
 /* Save Page*/
-include '../config/conn.php';
+include '../config/dbconnection.php';
 
 if (isset($_POST['content'])) {
     $idp = $_POST['idp'];

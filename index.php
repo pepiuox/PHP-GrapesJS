@@ -8,9 +8,9 @@
 //
 
 session_start();
-$file = 'config/conn.php';
+$file = 'config/dbconnection.php';
 if (file_exists($file)) {
-    include 'config/conn.php';
+    include 'config/dbconnection.php';
     $mypage = $_SERVER['PHP_SELF'];
     $page = $mypage;
     require_once 'start.php';

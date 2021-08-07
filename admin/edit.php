@@ -1,23 +1,19 @@
 <?php
 session_start();
-$file = '../config/conn.php';
+$file = '../config/dbconnection.php';
 if (file_exists($file)) {
-    require '../config/conn.php';
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
+    $login = new UserClass();
+    $check = new CheckValidUser();
 } else {
     header('Location: install.php');
 }
-if (!empty($_GET['id'])) {
-    $id = $_GET['id'];
-    ?>
-    <!doctype html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8"/>
-            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-            <title>Content Editor</title>
-            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
+if ($login->isLoggedIn() === true) {
+    if (!empty($_GET['id'])) {
+        $id = $_GET['id'];
+        include '../elements/header.php';
+        ?>
         </head>
         <body>
             <!-- start menu -->                     
@@ -36,23 +32,23 @@ if (!empty($_GET['id'])) {
                     <div id="navbarNavDropdown" class="navbar-collapse collapse
                          justify-content-end">
                         <ul class="navbar-nav nav-pills nav-fill">
-                        <li class="nav-item">
-                            <a class="btn btn-success" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-primary" href="add.php"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="btn btn-secondary" href="settings.php"><i class="fa fa-gear" aria-hidden="true"></i> Edit Settings</a> 
-                        </li>
-                    </ul>    
+                            <li class="nav-item">
+                                <a class="btn btn-success" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary" href="add.php"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="btn btn-secondary" href="settings.php"><i class="fa fa-gear" aria-hidden="true"></i> Edit Settings</a> 
+                            </li>
+                        </ul>    
                     </div>
                 </div>
             </nav>
             <!<!-- end menu -->
             <div class="container">
                 <div class="row">
-                    
+
                     <div class="col-md-12 py-3">
                         <?php
 // Edit page properties
@@ -181,9 +177,9 @@ if (!empty($_GET['id'])) {
                     </div>
                 </div>
             </div>
-            <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
-            <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
-            <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
+            <?php
+            include '../elements/header.php';
+            ?>
             <script>
                 $(function () {
                     $("#title").keyup(function () {
@@ -197,9 +193,12 @@ if (!empty($_GET['id'])) {
                 });
             </script>
         </body>
-    </html>
-    <?php
+        </html>
+        <?php
+    } else {
+        header('Location: list.php');
+    }
 } else {
-    header('Location: list.php');
+    header('Location: ../index.php');
 }
 ?>

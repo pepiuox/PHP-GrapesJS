@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$file = '../config/conn.php';
+$file = '../config/dbconnection.php';
 $nclose = '';
 $PathInstall = $_SESSION['PathInstall'];
-$base = 'http://'.$_SERVER['HTTP_HOST'].'/' . $PathInstall . '/';
+$base = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $PathInstall . '/';
 $folder = basename(dirname(__FILE__));
 
 if (isset($_POST['submit'])) {
@@ -59,7 +59,7 @@ if (isset($_POST['submit'])) {
             // If it has a semicolon at the end, it's the end of the query
             if (substr(trim($line), -1, 1) == ';') {
                 // Perform the query
-                $mktbs->query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . $mktbs->error() . '<br /><br />');
+                $mktbs->query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . $mktbs->error . '<br /><br />');
                 // Reset temp variable to empty
                 $templine = '';
             }
@@ -161,12 +161,13 @@ if (isset($_POST['submit'])) {
                             </div>
                             <hr>
                             <h5>This option creates the database with the tables</h5>
-                            <div class="form-group row">
-                                <label for="dbname" class="col-4 col-form-label">You have a database or do you need create one</label> 
-                                <div class="col-8">
-                                    <input id="cdbn" name="cdbn" type="checkbox" value="yes" class="form-control mx-2">
-                                </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="yes" id="cdbn" name="cdbn">
+                                <label class="form-check-label" for="flexCheckDisabled">
+                                    You have a database or do you need create one
+                                </label>
                             </div>
+
                             <div class="form-group row">
                                 <div class="offset-4 col-8">
                                     <button name="submit" type="submit" class="btn btn-primary">Submit</button>

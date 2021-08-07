@@ -1,23 +1,21 @@
 <?php
 session_start();
-$file = '../config/conn.php';
+$file = '../config/dbconnection.php';
 if (file_exists($file)) {
-    require '../config/conn.php';
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
+    $login = new UserClass();
+    $check = new CheckValidUser();
 } else {
     header('Location: install.php');
 }
+include '../elements/header.php';
 ?>
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-        <title>Content Editor</title>
-        <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
-    </head>
-    <body>
+</head>
+<body>
+    <?php
+    if ($login->isLoggedIn() === true) {
+        ?>
         <!-- start menu -->                     
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
@@ -204,20 +202,25 @@ if (file_exists($file)) {
                 </div>
             </div>
         </div>
-        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
-        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
-        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
-        <script>
-            $(function () {
-                $("#title").keyup(function () {
 
-                    var value = $(this).val();
-                    value = value.toLowerCase();
 
-                    value = value.replace(/ /g, "-");
-                    $("#link").val(value);
-                }).keyup();
-            });
-        </script>
-    </body>
+        <?php
+    } else {
+        header('Location: ../signin/index.php');
+    }
+    require '../elements/footer.php';
+    ?>
+    <script>
+$(function () {
+    $("#title").keyup(function () {
+
+        var value = $(this).val();
+        value = value.toLowerCase();
+
+        value = value.replace(/ /g, "-");
+        $("#link").val(value);
+    }).keyup();
+});
+    </script>
+</body>
 </html>

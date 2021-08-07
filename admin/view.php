@@ -1,6 +1,14 @@
 <?php
-/* view Page */
-include '../config/conn.php';
+session_start();
+$file = '../config/dbconnection.php';
+if (file_exists($file)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
+    $login = new UserClass();
+    $check = new CheckValidUser();
+} else {
+    header('Location: install.php');
+}
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

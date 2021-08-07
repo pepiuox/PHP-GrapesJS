@@ -1,5 +1,5 @@
 <?php
-include '../config/conn.php';
+include '../config/dbconnection.php';
 if (isset($_POST['edit'])) {
     $edit = $_POST['edit'];
 

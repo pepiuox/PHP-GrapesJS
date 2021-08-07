@@ -1,10 +1,18 @@
+<?php
+session_start();
+$file = '../config/dbconnection.php';
+if (file_exists($file)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
+    $login = new UserClass();
+    $check = new CheckValidUser();
+} else {
+    header('Location: install.php');
+}?>
 <html>
     <head>
         <style>
-            body {
-                width:600px;
-                text-align:center;
-            }
+
             .sql-import-response {
                 padding: 10px;
             }
@@ -22,10 +30,10 @@
     </head>
     <body>
         <?php
-        $conn = new mysqli('localhost', 'root', '', 'blog_samples');
+
 
         $query = '';
-        $sqlScript = file('../sql/page.sql');
+        $sqlScript = file('sql/page.sql');
         foreach ($sqlScript as $line) {
 
             $startWith = substr(trim($line), 0, 2);

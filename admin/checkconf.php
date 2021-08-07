@@ -1,6 +1,6 @@
 <?php
 
-include '../config/conn.php';
+include '../config/dbconnection.php';
 if (isset($_POST['check'])) {
     $check = $_POST['check'];
     if ($check == 1) {

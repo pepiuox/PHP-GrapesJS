@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include '../config/conn.php';
+include '../config/dbconnection.php';
 
 function protect($str) {
     global $conn;
