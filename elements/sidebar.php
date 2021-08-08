@@ -438,86 +438,25 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/invoice.php" class="nav-link <?php
-                    if ($fname === 'invoice') {
+                <?php
+                $pages = $conn->query("SELECT * FROM page");
+                while ($page = $pages->fetch_array()) {
+                    $plink = $page['link'];
+                    $ptitle = $page['title'];
+                    echo'<li class="nav-item">                   
+                        <a href="' . $base . $plink . '" class="nav-link ';
+                    if ($fname === $plink) {
                         echo 'active';
                     }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Invoice</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/profile.php" class="nav-link <?php
-                    if ($fname === 'profile') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Profile</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/e-commerce.php" class="nav-link <?php
-                    if ($fname === 'e-commerce') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>E-commerce</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/projects.php" class="nav-link <?php
-                    if ($fname === 'projects') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Projects</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/project-add.php" class="nav-link <?php
-                    if ($fname === 'project-add') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Project Add</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/project-edit.php" class="nav-link <?php
-                    if ($fname === 'project-edit') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Project Edit</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/project-detail.php" class="nav-link <?php
-                    if ($fname === 'project-detail') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Project Detail</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/contacts.php" class="nav-link <?php
-                    if ($fname === 'contacts') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Contacts</p>
-                    </a>
-                </li>
+                    echo '">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>' . $ptitle . '</p>
+                        </a>
+                    </li>
+                    ';
+                }
+                ?>
+
             </ul>
         </li>
         <li class="nav-item has-treeview">

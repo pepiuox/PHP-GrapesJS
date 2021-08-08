@@ -6,6 +6,7 @@ if (file_exists($file)) {
     require 'Autoload.php';
     $login = new UserClass();
     $check = new CheckValidUser();
+    $level = new AccessLevel();
 } else {
     header('Location: install.php');
 }
@@ -22,16 +23,15 @@ if ($login->isLoggedIn() === true) {
         <html lang="en">
             <head>
                 <meta charset="utf-8">
-                <title>PHP GrapesJS</title>
+                <title><?php echo SITE_NAME; ?> | Builder</title>
                 <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
                 <link rel="stylesheet" href="<?php echo $base; ?>css/font-awesome.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">
-                <link rel="stylesheet"
-                      href="<?php echo $base; ?>css/grapesjs-preset-webpage.min.css">
+                <link rel="stylesheet" href="<?php echo $base; ?>css/grapesjs-preset-webpage.min.css">
+                <link href="<?php echo $base; ?>css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
                 <link rel="stylesheet" href="<?php echo $base; ?>css/tooltip.css">
-                <link rel="stylesheet"
-                      href="<?php echo $base; ?>css/grapesjs-plugin-filestack.css">
+                <link rel="stylesheet" href="<?php echo $base; ?>css/grapesjs-plugin-filestack.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/demos.css">
                 <script src="<?php echo $base; ?>js/jquery.min.js"></script>
                 <!--  <script src="<?php echo $base; ?>js/backbone-min.js"></script> -->
@@ -41,6 +41,7 @@ if ($login->isLoggedIn() === true) {
                 <script src="<?php echo $base; ?>js/grapesjs-preset-webpage.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-lory-slider.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-tabs.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-custom-code.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-touch.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
@@ -49,10 +50,9 @@ if ($login->isLoggedIn() === true) {
                 <script src="<?php echo $base; ?>js/grapesjs-navbar.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-blocks-bootstrap4.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>                            
+                <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js" type="text/javascript"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-echarts.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-script-editor"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         var imp = $("span").find("[data-tooltip='Import']");
@@ -89,13 +89,13 @@ if ($login->isLoggedIn() === true) {
                              justify-content-end">
                             <ul class="navbar-nav nav-pills nav-fill">
                                 <li class="nav-item">
-                                    <a class="btn btn-success" href="list.php"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
+                                    <a class="btn btn-success" href="dashboard.php?cms=pagelist"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-primary" href="add.php"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
+                                    <a class="btn btn-primary" href="dashboard.php?cms=addpage"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
                                 </li> 
                                 <li class="nav-item">
-                                    <a class="btn btn-secondary" href="settings.php"><i class="fa fa-gear" aria-hidden="true"></i> Edit Settings</a> 
+                                    <a class="btn btn-secondary" href="dashboard.php"><i class="fa fa-gear" aria-hidden="true"></i> Dashboard</a> 
                                 </li>
                             </ul>   
                         </div>
@@ -111,14 +111,12 @@ if ($login->isLoggedIn() === true) {
                 <!-- start content editor -->
                 <div id="gjs" class="gjs-editor-cont"
                      style="height: 100%; min-height: 700px; overflow: hidden">
-                         <?php echo html_entity_decode($pcontent); ?>
-
-                    <?php
-                    echo '<style>' . "\n";
-                    echo html_entity_decode($pstyle) . "\n";
-                    echo '</style>' . "\n";
-                    ?>
-
+                         <?php
+                         echo html_entity_decode($pcontent) . "\n";
+                         echo '<style>' . "\n";
+                         echo html_entity_decode($pstyle) . "\n";
+                         echo '</style>' . "\n";
+                         ?>
 
                 </div>
                 <!-- end content editor -->
@@ -152,7 +150,7 @@ if ($login->isLoggedIn() === true) {
                 <div id="blocks"></div>
                 <div id="result"></div>
                 <?php
-                $targetDir = "uploads/";
+                $targetDir = "../uploads/";
 
                 function Get_ImagesToFolder($targetDir) {
                     $ImagesArray = [];
@@ -207,7 +205,7 @@ if ($login->isLoggedIn() === true) {
                                 var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
                                 var formData = new FormData();
                                 for (var i in files) {
-                                    formData.append('file-' + i, files[i]) //containing all the selected images from local
+                                    formData.append('file-' + i, files[i]); //containing all the selected images from local
                                 }
                                 $.ajax({
                                     url: 'upImage.php',
@@ -280,9 +278,17 @@ if ($login->isLoggedIn() === true) {
                             'grapesjs-parser-postcss',
                             'grapesjs-tooltip',
                             'grapesjs-tui-image-editor',
-                            'gjs-navbar'
+                            'gjs-navbar',
+                            'grapesjs-component-code-editor',
+                            'grapesjs-script-editor'
                         ],
                         pluginsOpts: {
+                            'grapesjs-component-code-editor': {
+                                panelId:'views-container'
+                            },
+                            'grapesjs-script-editor': { 
+                                toolbarIcon:'<i class="fa fa-puzzle-piece"></i>' 
+                            },
                             'grapesjs-lory-slider': {
                                 sliderBlock: {
                                     category: 'Extra'
@@ -330,7 +336,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                   }
                                 },
-                                    
+                                                            
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -992,9 +998,9 @@ if ($login->isLoggedIn() === true) {
         </html>
         <?php
     } else {
-        header('Location: add.php');
+        header('Location: dashboard.php');
     }
 } else {
-    header('Location: ../index.php');
+    header('Location: ../signin/login.php');
 }
 ?>

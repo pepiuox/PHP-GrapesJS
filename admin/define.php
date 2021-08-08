@@ -1,16 +1,16 @@
 <?php
-define('DOMAIN_SITE', 'www.phpgrapesjs.com');
- define('SITE_NAME', 'PHP GrapesJS');
+define('DOMAIN_SITE', 'www.esrapi.com');
+ define('SITE_NAME', 'ESRAPI');
  define('SITE_DESC', 'Your keywords for your domains');
  define('SITE_KEYWORDS', 'Your keywords for your domains');
  define('SITE_DESCRIPTION', 'Your keywords for your domains');
- define('SITE_ADMIN', 'admin');
+ define('SITE_ADMIN', 'system');
  define('SITE_CONFIG', 'config');
  define('SITE_LIST', 'list');
  define('SITE_EDITOR', 'editor');
  define('SITE_BUILDER', 'builder');
  define('SITE_LANGUAGE_1', 'English');
- define('SITE_LANGUAGE_2', 'Español');
+ define('SITE_LANGUAGE_2', 'EspaÃ±ol');
  define('SITE_EMAIL', 'info@yourdomain.com');
  define('IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg');
  define('NAME_CONTACT', 'Your Name');
@@ -25,4 +25,5 @@ define('DOMAIN_SITE', 'www.phpgrapesjs.com');
  define('WHATSAPP', '+51 999888777');
  define('ADMIN_NAME', 'admin');
  define('ADMIN_LEVEL', '9');
+
 ?>

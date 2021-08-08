@@ -6,6 +6,7 @@ if (file_exists($file)) {
     require 'Autoload.php';
     $login = new UserClass();
     $check = new CheckValidUser();
+    $level = new AccessLevel();
 } else {
     header('Location: install.php');
 }
@@ -53,7 +54,7 @@ if (isset($_GET['id'])) {
         </body>
     </html>
     <?php
-}else{
+} else {
     header('Location: list.php');
 }
 ?>

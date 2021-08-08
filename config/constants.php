@@ -6,7 +6,7 @@ require 'error_report.php';
 define('DBHOST', 'localhost'); // Add your host
 define('DBUSER', 'root'); // Add your username
 define('DBPASS', 'truelove'); // Add your password
-define('DBNAME', 'cmsgrapesjs'); // Add your database name
+define('DBNAME', 'projectloginsytem'); // Add your database name
 
 /* Credentials for app use another database */
 /*
@@ -24,15 +24,13 @@ if ($conn->connect_error) {
 
 $conn->set_charset("utf8mb4");
 
-//$serv = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-$serv = "http://" . $_SERVER['HTTP_HOST'] . "/PHP-GrapesJS/";
+$base = "http://" . $_SERVER['HTTP_HOST'] . "/PHP-GrapesJS/";
 
 $path = "http://" . $_SERVER['SCRIPT_FILENAME'];
 
 $fname = basename($path, ".php");
 
-define('$base', $serv);
+//define('$base', $base);
 
 $result = $conn->query("SELECT config_name, config_value FROM configuration");
 
@@ -52,4 +50,5 @@ if (!file_exists($definefiles)) {
     file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
 }
 include 'define.php';
+include 'function.php';
 ?>

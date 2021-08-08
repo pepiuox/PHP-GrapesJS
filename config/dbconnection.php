@@ -3,7 +3,7 @@
 define('DBHOST', 'localhost');
 define('DBUSER', 'root');
 define('DBPASS', 'truelove');
-define('DBNAME', 'cmsgrapesjs');
+define('DBNAME', 'projectloginsytem');
 $conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 
 /* If connection fails for some reason */

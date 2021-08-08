@@ -10,6 +10,9 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="<?php echo $base; ?>users/contacts.php" class="nav-link">Contact</a>
         </li>
+         <li class="nav-item d-none d-sm-inline-block">
+            <a href="<?php echo $base; ?>admin/add.php" class="nav-link">Add page</a>
+        </li>
     </ul>
 
     <!-- SEARCH FORM -->
@@ -113,8 +116,9 @@
         </li>
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                <img src="<?php echo $base; ?>upload/<?php echo USERS_AVATARS; ?>" class="user-image img-circle elevation-2" alt="User Image">
+                <img src="<?php echo $base; ?>upload/<?php echo USERS_AVATARS; ?>" class="user-image img-circle elevation-2" alt="<?php echo USERS_NAMES; ?>">
                 <span class="d-none d-md-inline"><?php echo USERS_NAMES; ?></span>
+                <?php echo USERS_NAMES; ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->
@@ -144,7 +148,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     <form method="post">
-                         <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
+                        <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
                         <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
                             Sign out
                         </button>
@@ -152,11 +156,6 @@
 
                 </li>
             </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li>
+        </li>        
     </ul>
 </nav>

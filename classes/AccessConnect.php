@@ -4,7 +4,7 @@ class AccessConnect {
     /* MySQLi Procedural */
 
     public $connection;
-    var $link;
+    public $link;
 
     public function __construct() {
         global $conn;
@@ -12,7 +12,7 @@ class AccessConnect {
     }
 
     public function getUserInfo($username) {
-        $q = "SELECT * FROM " . TBL_USERS . " WHERE username = '$username'";
+        $q = "SELECT * FROM uverify WHERE username = '$username'";
         $result = $this->connection->query($q);
         /* Error occurred, return given name by default */
         if (!$result || ($result->num_rows < 1)) {
@@ -24,7 +24,7 @@ class AccessConnect {
     }
 
     public function getUserOnly($username) {
-        $q = "SELECT username FROM " . TBL_USERS . " WHERE username = '$username'";
+        $q = "SELECT username FROM uverify WHERE username = '$username'";
         $result = $this->connection->query($q);
         /* Error occurred, return given name by default */
         if (!$result || ($result->num_rows < 1)) {

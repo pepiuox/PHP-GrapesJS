@@ -1,4 +1,15 @@
 <?php
+function numpages(){
+    global $conn;
+   $np = $conn->query("SELECT id FROM page")->num_rows;
+    return $np;
+}
+
+function numusers(){
+    global $conn;
+    $nu = $conn->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
+    return $nu;
+}
 
 function protect($str) {
     global $conn;

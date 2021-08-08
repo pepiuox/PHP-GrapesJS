@@ -10,7 +10,8 @@
 
 class UserClass {
 
-    var $baseurl;
+    public $system;
+    public $baseurl;
     public $connection;
 
     /*
@@ -19,8 +20,9 @@ class UserClass {
      */
 
     public function __construct() {
-        global $conn;
-        $this->$this->connectionection = $conn;
+        global $conn, $base;
+        $this->system = $base;
+        $this->connection = $conn;
         $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
 
         /* If login data is posted call validation function. */
@@ -111,7 +113,6 @@ class UserClass {
                         header('Location: login.php');
                     }
                     $urw = $result->fetch_assoc();
-                    $stmt->close();
 
                     if (!empty($urw['password_key'])) {
                         $_SESSION['ErrorMessage'] = 'Your account is not active by request for password recovery, check your email or please contact support';
@@ -158,8 +159,7 @@ class UserClass {
                                 //header('Location: login.php');
                             }
                             $row = $sqr->fetch_assoc();
-                            $stmt->close();
-
+                            $stmt1->close();
                             $iduv = $row['idUser'];
 
                             function randHash($len = 64) {
@@ -224,7 +224,7 @@ class UserClass {
 
     public function Profile() {
         if (isset($_POST['profile'])) {
-            header('Location: ' . $base . '/users/profile.php');
+            header('Location: ' .$this->system. 'users/profile.php');
         }
     }
 

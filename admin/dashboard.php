@@ -1,226 +1,178 @@
 <?php
-session_start();
-$file = '../config/dbconnection.php';
-if (file_exists($file)) {
-    require '../config/dbconnection.php';
-} else {
-    header('Location: install.php');
+if (!isset($_SESSION)) {
+    session_start();
+}
+require '../config/constants.php';
+require 'Autoload.php';
+
+$login = new UserClass();
+$check = new CheckValidUser();
+$level = new AccessLevel();
+if (!empty($_GET['cms'])) {
+    $cms = $_GET['cms'];
 }
 ?>
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-        <title>Content Editor</title>
-        <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
-        <style>
-            
-            .line {
-                width: 100%;
-                height: 1px;
-                border-bottom: 1px dashed #ddd;
-                margin: 40px 0;
-            }
+<?php include '../elements/header.php'; ?>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <?php
+    if ($login->isLoggedIn() === true) {
+        ?>
+        <div class="wrapper">        
+            <!-- Navbar -->
+            <?php include '../elements/navbar.php'; ?>
+            <!-- /.navbar -->
 
-            /* ---------------------------------------------------
-                SIDEBAR STYLE
-            ----------------------------------------------------- */
+            <!-- Main Sidebar Container -->
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <!-- Brand Logo -->
+                <a href="index3.php" class="brand-link">
+                    <img src="<?php echo $base; ?>img/logo.png" alt="<?php echo SITE_NAME; ?>" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light"><?php echo SITE_NAME; ?></span>
+                </a>
 
-            .wrapper {
-                display: flex;
-                width: 100%;
-                align-items: stretch;
-            }
+                <!-- Sidebar -->
+                <div class="sidebar">
 
-            #sidebar {
-                min-width: 250px;
-                max-width: 250px;
-                background: #7386D5;
-                color: #fff;
-                transition: all 0.3s;
-            }
-
-            #sidebar.active {
-                margin-left: -250px;
-            }
-
-            #sidebar .sidebar-header {
-                padding: 20px;
-                background: #6d7fcc;
-            }
-
-            #sidebar ul.components {
-                padding: 20px 0;
-                border-bottom: 1px solid #47748b;
-            }
-
-            #sidebar ul p {
-                color: #fff;
-                padding: 10px;
-            }
-
-            #sidebar ul li a {
-                padding: 10px;
-                font-size: 1.1em;
-                display: block;
-            }
-
-            #sidebar ul li a:hover {
-                color: #7386D5;
-                background: #fff;
-            }
-
-            #sidebar ul li.active>a,
-            a[aria-expanded="true"] {
-                color: #fff;
-                background: #6d7fcc;
-            }
-
-            a[data-toggle="collapse"] {
-                position: relative;
-            }
-
-            .dropdown-toggle::after {
-                display: block;
-                position: absolute;
-                top: 50%;
-                right: 20px;
-                transform: translateY(-50%);
-            }
-
-            ul ul a {
-                font-size: 0.9em !important;
-                padding-left: 30px !important;
-                background: #6d7fcc;
-            }
-
-            ul.CTAs {
-                padding: 20px;
-            }
-
-            ul.CTAs a {
-                text-align: center;
-                font-size: 0.9em !important;
-                display: block;
-                border-radius: 5px;
-                margin-bottom: 5px;
-            }
-
-            a.download {
-                background: #fff;
-                color: #7386D5;
-            }
-
-            a.article,
-            a.article:hover {
-                background: #6d7fcc !important;
-                color: #fff !important;
-            }
-
-            /* ---------------------------------------------------
-                CONTENT STYLE
-            ----------------------------------------------------- */
-
-            #content {
-                width: 100%;
-                padding: 20px;
-                min-height: 100vh;
-                transition: all 0.3s;
-            }
-
-            /* ---------------------------------------------------
-                MEDIAQUERIES
-            ----------------------------------------------------- */
-
-            @media (max-width: 768px) {
-                #sidebar {
-                    margin-left: -250px;
-                }
-                #sidebar.active {
-                    margin-left: 0;
-                }
-                #sidebarCollapse span {
-                    display: none;
-                }
-            }
-        </style>
-
-    </head>
-    <body>
-        <div class="wrapper">
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>BBBOOTSTRAP</h3>
-                    <hr>
+                    <!-- Sidebar Menu -->
+                    <?php
+                    include '../elements/sidenav.php';
+                    ?>
+                    <!-- /.sidebar-menu -->
                 </div>
-                <ul class="list-unstyled components">
-                    <p>MENUS</p>
-                    <li> <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dashboard</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li> <a href="#">Dashboard1</a> </li>
-                            <li> <a href="#">Dashboard2</a> </li>
-                            <li> <a href="#">Dashboard3</a> </li>
-                        </ul>
-                    </li>
-                    <li> <a href="#">Users</a> </li>
-                    <li> <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Subscribers</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li> <a href="#">Active</a> </li>
-                            <li> <a href="#">Idle</a> </li>
-                            <li> <a href="#">Non Active</a> </li>
-                        </ul>
-                    </li>
-                    <li> <a href="#">Timeline</a> </li>
-                    <li> <a href="#">Live Chat</a> </li>
-                    <li> <a href="#">Likes</a> </li>
-                    <li> <a href="#">Comments</a> </li>
-                </ul>
-                <ul class="list-unstyled CTAs">
-                    <li> <a href="#" class="download">Subscribe</a> </li>
-                </ul>
-            </nav>
-            <div class="content">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light"> <button type="button" id="sidebarCollapse" class="btn btn-info"> <i class="fa fa-align-justify"></i> </button> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="#">Pricing</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="#">Contact</a> </li>
-                        </ul>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Dashboard</h1>
+
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <!-- Small boxes (Stat box) -->
+                        <div class="row">
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <?php
+                                        echo '<h3>' . numusers() . '</h3>';
+                                        ?>
+                                        <p>User Registrations</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-bag"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-success">
+                                    <div class="inner">
+                                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                                        <p>Bounce Rate</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-stats-bars"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-warning">
+                                    <div class="inner">
+                                        <?php
+                                        echo '<h3>' . numpages() . '</h3>';
+                                        ?>
+                                        <p>Number of pages and Contents </p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-person-add"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-danger">
+                                    <div class="inner">
+                                        <h3>65</h3>
+
+                                        <p>Unique Visitors</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-pie-graph"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <!-- ./col -->
+                        </div>
+                        <!-- /.row -->
                     </div>
-                </nav>
-                <div class="content-wrapper">
-                    <h2>Collapsible Sidebar Using Bootstrap 4</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam nulla facilisi cras fermentum odio eu. Eget nulla facilisi etiam dignissim diam quis enim. Et netus et malesuada fames ac turpis egestas integer eget. Tortor at risus viverra adipiscing at in tellus. Cras adipiscing enim eu turpis. Malesuada nunc vel risus commodo viverra. Enim nulla aliquet porttitor lacus luctus accumsan tortor posuere. Ac placerat vestibulum lectus mauris ultrices eros. In arcu cursus euismod quis viverra nibh cras. Non quam lacus suspendisse faucibus interdum posuere lorem ipsum. In fermentum posuere urna nec tincidunt praesent semper. Ultricies mi quis hendrerit dolor. Sit amet luctus venenatis lectus magna fringilla urna porttitor. Praesent tristique magna sit amet purus gravida quis. Enim nunc faucibus a pellentesque sit amet porttitor.
-                        Amet justo donec enim diam vulputate. Aliquet eget sit amet tellus cras. Tincidunt arcu non sodales neque. Semper auctor neque vitae tempus quam. In massa tempor nec feugiat nisl pretium fusce id. Fames ac turpis egestas integer eget aliquet. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra. Ut sem nulla pharetra diam. Vitae tempus quam pellentesque nec nam aliquam sem. Eget duis at tellus at urna condimentum mattis. Tellus orci ac auctor augue mauris. Eget sit amet tellus cras adipiscing enim eu turpis. Nam aliquam sem et tortor. Ac tincidunt vitae semper quis lectus. Mollis nunc sed id semper risus in hendrerit. Tincidunt id aliquet risus feugiat. Massa eget egestas purus viverra accumsan in nisl.
-                        Quis enim lobortis scelerisque fermentum. Ut diam quam nulla porttitor massa. Nunc sed id semper risus in. Mattis pellentesque id nibh tortor. Ac orci phasellus egestas tellus rutrum. Congue nisi vitae suscipit tellus mauris a diam. Facilisis volutpat est velit egestas. Quam viverra orci sagittis eu volutpat odio. Etiam dignissim diam quis enim lobortis. Sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula. Sit amet luctus venenatis lectus. Mi eget mauris pharetra et ultrices neque. Sit amet cursus sit amet dictum sit amet. Eget lorem dolor sed viverra. Neque egestas congue quisque egestas diam. Vestibulum lectus mauris ultrices eros in cursus turpis. Et leo duis ut diam quam nulla. Egestas sed tempus urna et pharetra. Aliquam sem et tortor consequat id. Sollicitudin tempor id eu nisl nunc mi.
-                        .</p>
-                    <div class="line"></div>
-                </div>
-            </div>
+                    <!-- Main row -->
+
+                    <?php
+                    if ($cms == 'pagelist') {
+                        include '../views/pageList.php';
+                    } elseif ($cms == 'addpage') {
+                        include '../views/addPage.php';
+                    } elseif ($cms == 'editpage') {
+                        include '../views/editPage.php';
+                    } elseif ($cms == 'deletepage') {
+                        include '../views/deletePage.php';
+                    } elseif ($cms == 'siteconf') {
+                        include '../views/settings.php';
+                    }
+                    ?>                        
+                </section>
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+            <!-- /.content -->
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <strong>Copyright &copy;2021 <a href="<?php echo $base; ?>"><?php echo SITE_NAME; ?></a>.</strong>
+                All rights reserved.
+
+            </footer>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
-        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
-        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
+        <!-- ./wrapper -->
+        <?php
+    } else {
+        header('Location: ../signin/login.php');
+    }
+    include '../elements/footer.php';
+    ?>
 
-        <!-- Core theme JS-->
-        <script>
-          $(document).ready(function(){
-    $("#sidebarCollapse").on('click', function(){
-        $("#sidebar").toggleClass('active');
-    });
-    $("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-});
-
-});
-        </script>
-    </body>
+</body>
 </html>
-
