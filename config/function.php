@@ -1,11 +1,30 @@
 <?php
-function numpages(){
+
+/* get number of pages
+ * 
+ */
+
+function numpages() {
     global $conn;
-   $np = $conn->query("SELECT id FROM page")->num_rows;
+    $np = $conn->query("SELECT id FROM page")->num_rows;
     return $np;
 }
 
-function numusers(){
+/* get number of visitor
+ * 
+ */
+
+function numvisitor() {
+    global $conn;
+    $ng = $conn->query("SELECT ip FROM active_guests")->num_rows;
+    return $ng;
+}
+
+/* get number of users
+ * 
+ */
+
+function numusers() {
     global $conn;
     $nu = $conn->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
     return $nu;
@@ -48,7 +67,7 @@ function nparent() {
 
 function vwparent($parent) {
     global $conn;
-    if ($parent > 0) {       
+    if ($parent > 0) {
         $result = $conn->query("SELECT * FROM page WHERE id='$parent'");
         $row = $result->fetch_assoc();
         echo $row['title'];

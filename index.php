@@ -8,10 +8,15 @@
 //
 
 session_start();
+$currentDate = new DateTime();
 $file = 'config/dbconnection.php';
 if (file_exists($file)) {
     include 'config/dbconnection.php';
+    include 'classes/GetVisitor.php';
     $mypage = $_SERVER['PHP_SELF'];
+
+    $timestamp = $currentDate->format('Y-m-d H:i:s');
+    $visitor = new GetVisitor($timestamp);
     $page = $mypage;
     require_once 'start.php';
 } else {

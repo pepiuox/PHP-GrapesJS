@@ -2,7 +2,6 @@
 $user = $_SESSION['user_id'];
 $hash = $_SESSION['hash'];
 
-
 $rquery = $conn->query("SELECT * FROM uverify WHERE username='$user' AND mkhash='$hash'");
 
 if ($rquery->num_rows > 0) {
@@ -30,14 +29,14 @@ if ($rquery->num_rows > 0) {
             <div class="container">
                 <div class="row pt-2">
                     <form action="profile.php" method="post" role="form">
-                        <h3 class="cnt">¿Crea tu frase de recuperación?</h3>
+                        <h3 class="cnt">Create your recovery phrase? </h3>
                         <hr class="colorgraph">
-                        <p class="">Introduce tu frase de seguridad. Conserva en un lugar seguro esta frase ya que se te pedira en casos de seguridad.</p>
-                        <label for="email">Ingrese su PIN<span class="red">*</span>:
+                        <p class="">Enter your security phrase. Keep this phrase in a safe place as you will be asked in security cases. </p>
+                        <label for="email">Enter your PIN <span class="red">*</span>:
                         </label> <input type="password" name="pin" id="pin"
                                         placeholder="PIN" class="input form-control" autocomplete="off"
                                         required autofocus><br>
-                        <label for="email">Frase de recuperación<span class="red">*</span>:
+                        <label for="email">Recovery phrase <span class="red">*</span>:
                         </label> <input type="text" name="rvphrase" id="rvphrase"
                                         placeholder="Frase de recuperación" class="input form-control" autocomplete="off"
                                         required autofocus><br>

@@ -77,8 +77,18 @@ if ($login->isLoggedIn() === true) {
                     <div class="container-fluid">
                         <div class="menu-logo">
                             <div class="navbar-brand">
-                                <a class="navbar-logo" href="<?php echo $base; ?>">
-                                    <?php echo SITE_NAME; ?> 
+                                <a href="index.php" class="brand-link">
+                                    <?php
+                                    $logo = IMG_PAGE;
+                                    if (file_exists($logo)) {
+                                        ?>
+                                        <img src="<?php echo $logo; ?>" alt="<?php echo SITE_NAME; ?>" height="36" style="opacity: .8">
+                                        <span class="brand-text font-weight-light"><?php echo SITE_NAME; ?></span>
+                                        <?php
+                                    } else {
+                                        echo SITE_NAME;
+                                    }
+                                    ?>
                                 </a>
                             </div>
                         </div>
@@ -336,7 +346,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                   }
                                 },
-                                                            
+                                                                    
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
