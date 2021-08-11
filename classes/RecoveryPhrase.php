@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of RecoveryPhrase
  *
@@ -75,16 +68,16 @@ class RecoveryPhrase {
                     if ($nupd === 1) {
                         unset($_SESSION['AlertMessage']);
                         unset($_SESSION['RecoveryMessage']);
-                        $_SESSION['SuccessMessage'] = 'Gracias su cuenta ahora es más segura.';
+                        $_SESSION['SuccessMessage'] = 'Thanks your account is now more secure.';
                     } else {
-                        $_SESSION['ErrorMessage'] = 'Error problemas con actualizar de datos.';
+                        $_SESSION['ErrorMessage'] = 'Error problems with updating data.';
                     }
                 } else {
-                    $_SESSION['ErrorMessage'] = 'Error problemas con verificación de datos.';
+                    $_SESSION['ErrorMessage'] = 'Error problems with data verification.';
                 }
                 $result->close();
             } else {
-                $_SESSION['ErrorMessage'] = 'Complete correctamente las casillas.';
+                $_SESSION['ErrorMessage'] = 'Fill in the boxes correctly .';
             }
         }
     }
@@ -117,8 +110,8 @@ class RecoveryPhrase {
                     $update->execute();
                     if ($update === TRUE) {
                         unset($_SESSION['AlertMessage']);
-                        $_SESSION['SuccessMessage'] = 'Gracias su cuenta ahora es más segura.';
-                        header('Location: index.php');
+                        $_SESSION['SuccessMessage'] = 'Thanks your account is now more secure .';
+                        header('Location: profile.php');
                     }
                 }
             }

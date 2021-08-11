@@ -264,7 +264,7 @@ class MyCRUD {
 	<table class="table">
 			<thead>
 				<tr>
-<th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="index.php?w=add&tbl=' . $tble . '">Agregar <i class="fa fa-plus-square" aria-hidden="true"></i></a></th>';
+<th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard.php?cms=crud&w=add&tbl=' . $tble . '">Agregar <i class="fa fa-plus-square" aria-hidden="true"></i></a></th>';
             foreach ($colmns as $colmn) {
                 $tremp = ucfirst(str_replace("_", " ", $colmn->name));
                 $remp = str_replace(" id", " ", $tremp);
@@ -278,8 +278,8 @@ class MyCRUD {
 
                 echo '<tr>' . "\n";
                 echo '<td><!--Button -->
-                <a id="editrow" name="editrow" title="Editar" class="btn btn-success" href="index.php?w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-<a id="deleterow" name="deleterow" title="Eliminar" class="btn btn-danger" href="index.php?w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a id="editrow" name="editrow" title="Editar" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+<a id="deleterow" name="deleterow" title="Eliminar" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
@@ -310,7 +310,7 @@ class MyCRUD {
 		</table>' . "\n";
 
             if (ceil($total_pages / $num_results_on_page) > 0) {
-                $url = 'index.php?w=list&tbl=' . $tble;
+                $url = 'dashboard.php?cms=crud&w=list&tbl=' . $tble;
                 ?>
                 <nav aria-label="navigation mx-auto">
                     <ul class="pagination justify-content-center">
@@ -467,7 +467,7 @@ class MyCRUD {
             }
         }
 
-        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="index.php?w=add&tbl=' . $tble . '">Agregar</a></th>' . "\n";
+        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="dashboard.php?cms=crud&w=add&tbl=' . $tble . '">Agregar</a></th>' . "\n";
         echo '</tr>' . "\n";
         echo '</thead>' . "\n";
         echo '<tbody>' . "\n";
@@ -513,8 +513,8 @@ class MyCRUD {
 
             $i_row = $row[0];
             echo '<td><!--Button -->
-                <a id="editrow" name="editrow" class="btn btn-success" href="index.php?w=edit&tbl=' . $tble . '&id=' . $i_row . '">Editar</a>
-                <a id="deleterow" name="deleterow" class="btn btn-danger" href="index.php?w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
+                <a id="editrow" name="editrow" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Editar</a>
+                <a id="deleterow" name="deleterow" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
                 </td>';
 
             echo '</tr>' . "\n";
@@ -524,7 +524,7 @@ class MyCRUD {
         echo '</table>' . "\n";
         // end body table
         // end
-        $url = 'index.php?w=list&tbl=' . $tble;
+        $url = 'dashboard.php?cms=crud&w=list&tbl=' . $tble;
 
         if ($i < $rowcq) {
             echo '<nav aria-label="navigation">';
@@ -875,7 +875,7 @@ class MyCRUD {
         $content .= 'VALUES (' . $pnames . ')";' . "\n";
         $content .= "if (\$this->connection->query(\$sql) === TRUE) {
     echo 'Se agrego el dato correctamente';
-header('Location: index.php?w=list&tbl=" . $tble . "');
+header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
 } else {
     echo 'Error: ' . \$this->connection->error;
 }
@@ -926,7 +926,7 @@ header('Location: index.php?w=list&tbl=" . $tble . "');
         $content .= '        $query="UPDATE `$tble` SET ' . $ecols . ' WHERE ' . $ncol . '=$id ";' . "\r\n";
         $content .= 'if ($this->connection->query($query) === TRUE) {
                echo "Los datos fueron actualizados correctamente.";
-               header("Location: index.php?w=list&tbl=' . $tble . '");
+               header("Location: dashboard.php?cms=crud&w=list&tbl=' . $tble . '");
             } else {
                echo "Error en actualizar datos: " . $this->connection->error;
             }' . "\r\n";

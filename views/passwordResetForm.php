@@ -26,7 +26,7 @@ if (!empty($_GET['email']) && !empty($_GET['key']) && !empty($_GET['hash'])) {
             <div class="card-body login-card-body">
                 <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
 
-                <form action="password_reset.php" method="post" class="form-inline d-flex justify-content-center">
+                <form action="passwordResetForm.php" method="post" class="form-inline d-flex justify-content-center">
                     <div class="input-group mb-3">
                         <input type="text" name="recoveryphrase" id="recoveryphrase" class="form-control" placeholder="Recover phrase">
                         <div class="input-group-append">

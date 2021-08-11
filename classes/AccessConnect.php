@@ -1,10 +1,8 @@
 <?php
 
 class AccessConnect {
-    /* MySQLi Procedural */
 
     public $connection;
-    public $link;
 
     public function __construct() {
         global $conn;
@@ -31,7 +29,7 @@ class AccessConnect {
             return NULL;
         }
         /* Return result array */
-        $dbarray = $result->fetch_array();
+        $dbarray = $result->fetch_assoc();
         return $dbarray;
     }
 

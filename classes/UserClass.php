@@ -117,14 +117,17 @@ class UserClass {
                     if (!empty($urw['password_key'])) {
                         $_SESSION['ErrorMessage'] = 'Your account is not active by request for password recovery, check your email or please contact support';
                         header("Location: login.php");
+                        exit();
                     }
                     if (!empty($urw['pin_key'])) {
                         $_SESSION['ErrorMessage'] = 'Your account is not active by request for PIN recovery, check your email or please contact support.';
                         header("Location: login.php");
+                        exit();
                     }
                     if ($urw['banned'] === 1) {
                         $_SESSION['ErrorMessage'] = 'Access could not be completed, account may be blocked, please contact support.';
                         header("Location: login.php");
+                        exit();
                     }
 
                     if ($urw['is_activated'] === 1 && $urw['banned'] === 0) {
@@ -199,16 +202,19 @@ class UserClass {
 
                             $_SESSION['ErrorMessage'] = 'Invalid username or password.';
                             header("Location: login.php");
+                            exit();
                         }
                     } else {
 
                         $_SESSION['ErrorMessage'] = 'Your account is not active, some process is incomplete, please contact support.';
                         header("Location: login.php");
+                        exit();
                     }
                 } else {
                     echo 'Err 4';
                     $_SESSION['ErrorMessage'] = 'The PIN is not numeric or is not complete.';
                     header("Location: login.php");
+                    exit();
                 }
             }
         }
@@ -224,7 +230,8 @@ class UserClass {
 
     public function Profile() {
         if (isset($_POST['profile'])) {
-            header('Location: ' .$this->system. 'users/profile.php');
+            header('Location: ' . $this->system . 'users/profile.php');
+            exit();
         }
     }
 
@@ -242,9 +249,11 @@ class UserClass {
                 unset($_SESSION['hash']);
                 session_destroy(); // Destroy all session data.
                 header('Location: login.php');
+                exit();
             }
         } else {
             header('Location: index.php');
+            exit();
         }
     }
 
@@ -304,7 +313,8 @@ class UserClass {
     private function SessionActivity() {
         if ($_SESSION['last_activity'] < time() - $_SESSION['expire_time']) { //have we expired?
             //redirect to logout.php
-            header('Location: http://yoursite.com/logout.php'); //change yoursite.com to the name of you site!!
+            header('Location: ' . $this->system . 'signin/logout.php'); //change yoursite.com to the name of you site!
+            exit();
         } else { //if we haven't expired:
             $_SESSION['last_activity'] = time(); //this was the moment of last activity.
         }
@@ -315,11 +325,11 @@ class UserClass {
         //
         $expire_time = 30 * 60; //expire time
         if ($_SESSION['last_activity'] < time() - $expire_time) {
-            echo 'session expired';
+            echo 'Session expired';
             die();
         } else {
             $_SESSION['last_activity'] = time(); // you have to add this line when logged in also;
-            echo 'you are uptodate';
+            echo 'You are uptodate';
         }
     }
 

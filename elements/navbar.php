@@ -46,8 +46,6 @@
                         echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
                     }
                     ?>
-
-
                     <p>
                         <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
                         <small>Member since Nov. 2012</small>

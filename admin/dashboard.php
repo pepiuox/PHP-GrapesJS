@@ -69,7 +69,7 @@ $vpages = '';
                                 } elseif ($cms == 'deletepage') {
                                     $vpages = 'Delete Page';
                                 } elseif ($cms == 'siteconf') {
-                                    $vpages = 'Site Confoguration';
+                                    $vpages = 'Site Definitions';
                                 } else {
                                     $vpages = 'Dashboard';
                                 }
@@ -102,6 +102,12 @@ $vpages = '';
                         include '../views/deletePage.php';
                     } elseif ($cms == 'siteconf') {
                         include '../views/settings.php';
+                    } elseif ($cms == 'users') {
+                        include 'admin.php';
+                    } elseif ($cms == 'adduser') {
+                        include 'adduser.php';
+                    } elseif ($cms == 'crud') {
+                        include '../views/crud.php';
                     } else {
                         ?>
                         <div class="container-fluid">

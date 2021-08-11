@@ -25,7 +25,7 @@
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=siteconf" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
-                            Site configuration                  
+                            Site Definitions                  
                         </p>
                     </a>
                 </li>
@@ -78,7 +78,59 @@
                 </p>
             </a>
         </li>
-
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-user-shield"></i>
+                <p>
+                    Personal info
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>users/profile.php?user=pinfo" class="nav-link <?php
+                    if ($fname === 'personalinfo') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-id-card nav-icon"></i>
+                        <p>Personal Info</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>users/profile.php?user=sphra" class="nav-link <?php
+                    if ($fname === 'securephrase') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-user-lock nav-icon"></i>
+                        <p>Secure Phrase</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>users/profile.php?user=chpass" class="nav-link <?php
+                    if ($fname === 'changepass') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-key nav-icon"></i>
+                        <p>Change password</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>users/profile.php?user=chpin" class="nav-link <?php
+                    if ($fname === 'changepin') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Change PIN                  
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon far fa-plus-square"></i>
@@ -89,13 +141,33 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/login.php" class="nav-link <?php
-                    if ($fname === 'login') {
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=users" class="nav-link <?php
+                    if ($fname === 'users') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
+                    if ($fname === 'adduser') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Add User</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
+                    if ($fname === 'crud') {
                         echo 'active';
                     }
                     ?>">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Login</p>
+                        <p>CRUD</p>
                     </a>
                 </li>
                 <li class="nav-item">

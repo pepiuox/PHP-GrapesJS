@@ -109,7 +109,6 @@ class UserVerify {
 
     private function UpdateUserV($uid, $act_code) {
 
-
         $verified = 1;
         $status = 1;
         $cclean = '';

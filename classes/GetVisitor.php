@@ -16,7 +16,7 @@ class GetVisitor {
             $stmt = $this->connection->prepare("INSERT INTO visitor (ip, timestamp) VALUES (?, ?)");
             $stmt->bind_param("ss", $this->getip, $timestamp);
             $stmt->execute();
-            
+
             $stmt1 = $this->connection->prepare("INSERT INTO active_guests (ip, timestamp) VALUES (?, ?)");
             $stmt1->bind_param("ss", $this->getip, $timestamp);
             $stmt1->execute();
@@ -51,6 +51,16 @@ class GetVisitor {
         }
 
         return $ip;
+    }
+
+    public function Attempts() {
+        $this->connection->query("INSERT INTO `ip` (`address` ,`timestamp`)VALUES ('$this->getip',CURRENT_TIMESTAMP)");
+        $result = $this->connection->query("SELECT COUNT(*) FROM `ip` WHERE `address` LIKE '$this->getip' AND `timestamp` > (now() - interval 10 minute)");
+        $count = $result->fetch_array(MYSQLI_NUM);
+
+        if ($count[0] > 3) {
+            echo "Your are allowed 3 attempts in 10 minutes";
+        }
     }
 
 }

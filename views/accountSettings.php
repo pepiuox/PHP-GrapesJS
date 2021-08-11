@@ -41,7 +41,7 @@ if ($rquery->num_rows > 0) {
                                         placeholder="Frase de recuperación" class="input form-control" autocomplete="off"
                                         required autofocus><br>
                         <input type="submit" name="makerecoveryphrase"
-                               value="Guardar frase" class="btn btn-lg btn-block submit" />
+                               value="Save phrase " class="btn btn-lg btn-block submit" />
                     </form>
                 </div>
             </div>
