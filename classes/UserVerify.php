@@ -7,7 +7,7 @@
  */
 class UserVerify {
 
-    public $connection;
+   private $connection;
 
     public function __construct() {
         global $conn;

@@ -7,8 +7,8 @@
  */
 class newUser {
 
-    var $baseurl;
-    public $connection;
+    public $baseurl;
+   private $connection;
 
     public function __construct() {
         global $conn;

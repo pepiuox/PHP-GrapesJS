@@ -2,7 +2,7 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-require '../config/constants.php';
+require '../config/dbconnection.php';
 require 'Autoload.php';
 
 $login = new UserClass();

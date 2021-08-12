@@ -4,7 +4,7 @@ class AdminProcess {
     /* Class constructor */
 
     public $session;
-    public $connection;
+    private $connection;
     public $form;
 
     public function __construct() {
@@ -79,7 +79,7 @@ class AdminProcess {
      * request.
      */
     public function procUpdateValid() {
-        
+
         /* Username error checking */
         $subuser = $this->checkUsername("valuser");
 
@@ -122,7 +122,7 @@ class AdminProcess {
      * the user is deleted from the database.
      */
     public function procDeleteUser() {
-        
+
         /* Username error checking */
         $subuser = $this->checkUsername("deluser");
 
@@ -146,7 +146,7 @@ class AdminProcess {
      * gone by that the user has not logged in.
      */
     public function procDeleteInactive() {
-        
+
         $inact_time = $this->session->time - $_POST['inactdays'] * 24 * 60 * 60;
         $q = "DELETE FROM " . TBL_USERS . " WHERE timestamp < $inact_time "
                 . "AND userlevel != " . ADMIN_LEVEL;
@@ -161,7 +161,7 @@ class AdminProcess {
      * it to the banned users table.
      */
     public function procBanUser() {
-        
+
         /* Username error checking */
         $subuser = $this->checkUsername("banuser");
 
@@ -187,7 +187,7 @@ class AdminProcess {
      * enables someone to register with that username again.
      */
     public function procDeleteBannedUser() {
-        
+
         /* Username error checking */
         $subuser = $this->checkUsername("delbanuser", true);
 
@@ -210,7 +210,7 @@ class AdminProcess {
      * it adds the appropritate error to the form.
      */
     public function checkUsername($uname, $ban = false) {
-       
+
         /* Username error checking */
         $subuser = $_POST[$uname];
         $field = $uname;  //Use field name for username

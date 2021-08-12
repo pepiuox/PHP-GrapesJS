@@ -12,7 +12,7 @@ class UserClass {
 
     public $system;
     public $baseurl;
-    public $connection;
+   private $connection;
 
     /*
      * __constructor()

@@ -2,7 +2,7 @@
 
 class MyCRUD {
 
-    public $connection;
+   private $connection;
 
     public function __construct() {
         global $conn;

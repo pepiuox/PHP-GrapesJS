@@ -4,7 +4,7 @@ class GetVisitor {
 
     public $getip;
     public $baseurl;
-    public $connection;
+   private $connection;
 
     public function __construct($timestamp) {
         global $conn, $base;

@@ -13,8 +13,8 @@
  */
 class userChange {
 
-    var $baseurl;
-    public $connection;
+    public $baseurl;
+   private $connection;
 
     public function __construct() {
         global $conn;
@@ -59,13 +59,13 @@ class userChange {
                     header('Location: index.php');
                 }
                 if (!empty($password3) && !empty($email)) {
-// User input from Forgot password form(passwordResetForm.php).
+                // User input from Forgot password form(passwordResetForm.php).
                     $vemail = trim($_POST['vemail']);
                     $recoveryphrase = trim($_POST['recoveryphrase']);
                     $password2 = trim($_POST['password2']);
                     $password3 = trim($_POST['password3']);
 
-// Check that both entered passwords match.
+                    // Check that both entered passwords match.
                     if ($password3 === $password2 && $vemail === $email) {
 
                         $stmt = $this->connection->prepare("SELECT * FROM uverify WHERE email=? AND mkhash=? AND password_key=? AND recovery_phrase=?");

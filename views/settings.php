@@ -28,6 +28,7 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
         file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
     }
     header("Refresh:0");
+    exit();
 }
 ?>
 <div class="container-fluid">            

@@ -1,30 +1,12 @@
+<?php $changepass = new ChangePass; ?>
 <div class="container">
-    <div class="row">
-     <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
-            <div class="alert alert-success alert-container" id="alert">
-                <strong><?php echo htmlentities($_SESSION['SuccessMessage']) ?></strong>
-                <?php unset($_SESSION['SuccessMessage']); ?>
-            </div>
-        <?php } ?>
-        <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
-            <div class="alert alert-danger alert-container" id="alert">
-                <strong><?php echo htmlentities($_SESSION['ErrorMessage']) ?></strong>
-                <?php unset($_SESSION['ErrorMessage']); ?>
-            </div>
-        <?php }; ?>
-        <?php if (!empty($_SESSION['AlertMessage'])) { ?>
-            <div class="alert alert-danger alert-container" id="alert">
-                <strong><center><?php echo htmlentities($_SESSION['AlertMessage']) ?></center></strong>                                       
-            </div>
-        <?php } ?>
-    </div>
     <div class="row">
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body ">
                 <p class="login-box-msg">You are only one step a way from your new password</p>
 
-                <form action="changePassword.php" method="post">
+                <form method="post">
                     <label class="form-label" for="recoveryphrase">Enter your Recover phrase <span class="red">*</span>:</label>
                     <div class="input-group mb-3">
                         <input type="text" name="recoveryphrase" id="recoveryphrase" class="form-control" placeholder="Recover phrase">
