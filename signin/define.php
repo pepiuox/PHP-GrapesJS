@@ -1,10 +1,10 @@
 <?php
-define('DOMAIN_SITE', 'www.yourdomain.com');
- define('SITE_NAME', 'Your site');
+define('DOMAIN_SITE', 'www.phpgrapesjs.com');
+ define('SITE_NAME', 'PHP GrapesJS');
  define('SITE_DESC', 'Your keywords for your domains');
  define('SITE_KEYWORDS', 'Your keywords for your domains');
  define('SITE_DESCRIPTION', 'Your keywords for your domains');
- define('SITE_ADMIN', 'system');
+ define('SITE_ADMIN', 'admin');
  define('SITE_CONFIG', 'config');
  define('SITE_LIST', 'list');
  define('SITE_EDITOR', 'editor');
@@ -20,7 +20,7 @@ define('DOMAIN_SITE', 'www.yourdomain.com');
  define('SITE_CREATOR', '@pepiuox');
  define('TWITTER', '@yourdomain');
  define('FACEBOOKID', '26245712364571234572');
- define('SKYPE', 'Your Domain');
+ define('SKYPE', 'Your Name');
  define('TELEGRAM', 'Your Name');
  define('WHATSAPP', '+51 999888777');
  define('ADMIN_NAME', 'admin');

@@ -23,7 +23,13 @@ class UserVerify {
             $this->Verify();
         }
     }
-
+   /*
+     * Function Verify(){
+     * User e-mail verification on verify.php
+     * E-mail and activation code are cross-referenced with database, if both are correct
+     * is_activated is updated in database.
+     */
+    /**/
     private function Verify() {
 
         if (isset($_POST['bverify'])) {

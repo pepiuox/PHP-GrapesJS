@@ -171,7 +171,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/register.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/register.php" class="nav-link <?php
                     if ($fname === 'register') {
                         echo 'active';
                     }
@@ -181,7 +181,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/forgot-password.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/forgot-password.php" class="nav-link <?php
                     if ($fname === 'forgot-password') {
                         echo 'active';
                     }
@@ -191,7 +191,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/recover-password.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/recover-password.php" class="nav-link <?php
                     if ($fname === 'recover-password') {
                         echo 'active';
                     }
@@ -201,7 +201,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/lockscreen.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/lockscreen.php" class="nav-link <?php
                     if ($fname === 'lockscreen') {
                         echo 'active';
                     }
@@ -211,7 +211,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/legacy-user-menu.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/legacy-user-menu.php" class="nav-link <?php
                     if ($fname === 'legacy-user-menu') {
                         echo 'active';
                     }
@@ -221,7 +221,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/language-menu.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/language-menu.php" class="nav-link <?php
                     if ($fname === 'language-menu') {
                         echo 'active';
                     }
@@ -231,7 +231,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/404.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/404.php" class="nav-link <?php
                     if ($fname === '404') {
                         echo 'active';
                     }
@@ -241,7 +241,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/500.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/500.php" class="nav-link <?php
                     if ($fname === '500') {
                         echo 'active';
                     }
@@ -251,7 +251,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/pace.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/pace.php" class="nav-link <?php
                     if ($fname === 'pace') {
                         echo 'active';
                     }
@@ -261,7 +261,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/blank.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/blank.php" class="nav-link <?php
                     if ($fname === 'blank') {
                         echo 'active';
                     }

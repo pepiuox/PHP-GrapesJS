@@ -20,7 +20,7 @@ include("database.php");
 include("mailer.php");
 include("form.php");
 
-$resultc = $database->query("SELECT type_name, value FROM config");
+$resultc = $conn->query("SELECT type_name, value FROM config");
 while ($rowt = $resultc->fetch_array()) {
     define($rowt['type_name'], $rowt['value']);
 }
@@ -56,7 +56,7 @@ class Session {
      * update the active visitors tables.
      */
     public function startSession() {
-        global $database;  //The database connection
+        global $conn;  //The database connection
         session_start();   //Tell PHP to start the session
 
         /* Determine if user is logged in */
@@ -69,15 +69,15 @@ class Session {
         if (!$this->logged_in) {
             $this->username = $_SESSION['username'] = GUEST_NAME;
             $this->userlevel = GUEST_LEVEL;
-            $database->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
+            $conn->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
         }
         /* Update users last active timestamp */ else {
-            $database->addActiveUser($this->username, $this->time);
+            $conn->addActiveUser($this->username, $this->time);
         }
 
         /* Remove inactive visitors from database */
-        $database->removeInactiveUsers();
-        $database->removeInactiveGuests();
+        $conn->removeInactiveUsers();
+        $conn->removeInactiveGuests();
 
         /* Set referrer page */
         if (isset($_SESSION['url'])) {
@@ -98,7 +98,7 @@ class Session {
      * authenticity. Returns true if the user has logged in.
      */
     public  function checkLogin() {
-        global $database;  //The database connection
+        global $conn;  //The database connection
         /* Check if user has been remembered */
         if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
             $this->username = $_SESSION['username'] = $_COOKIE['cookname'];
@@ -109,7 +109,7 @@ class Session {
         if (isset($_SESSION['username']) && isset($_SESSION['userid']) &&
                 $_SESSION['username'] != GUEST_NAME) {
             /* Confirm that username and userid are valid */
-            if ($database->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0) {
+            if ($conn->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0) {
                 /* Variables are incorrect, user not logged in */
                 unset($_SESSION['username']);
                 unset($_SESSION['userid']);
@@ -117,7 +117,7 @@ class Session {
             }
 
             /* User is logged in, set class variables */
-            $this->userinfo = $database->getUserInfo($_SESSION['username']);
+            $this->userinfo = $conn->getUserInfo($_SESSION['username']);
             $this->username = $this->userinfo['username'];
             $this->userid = $this->userinfo['userid'];
             $this->userlevel = $this->userinfo['userlevel'];
@@ -135,7 +135,7 @@ class Session {
      * Effectively logging in the user if all goes well.
      */
     public function login($subuser, $subpass, $subremember) {
-        global $database, $form;  //The database and form object
+        global $conn, $form;  //The database and form object
 
         /* Username error checking */
         $field = "user";  //Use field name for username
@@ -161,7 +161,7 @@ class Session {
 
         /* Checks that username is in database and password is correct */
         $subuser = stripslashes($subuser);
-        $result = $database->confirmUserPass($subuser, md5($subpass));
+        $result = $conn->confirmUserPass($subuser, md5($subpass));
 
         /* Check error codes */
         if ($result == 1) {
@@ -178,15 +178,15 @@ class Session {
         }
 
         /* Username and password correct, register session variables */
-        $this->userinfo = $database->getUserInfo($subuser);
+        $this->userinfo = $conn->getUserInfo($subuser);
         $this->username = $_SESSION['username'] = $this->userinfo['username'];
         $this->userid = $_SESSION['userid'] = $this->generateRandID();
         $this->userlevel = $this->userinfo['userlevel'];
 
         /* Insert userid into database and update active users table */
-        $database->updateUserField($this->username, "userid", $this->userid);
-        $database->addActiveUser($this->username, $this->time);
-        $database->removeActiveGuest($_SERVER['REMOTE_ADDR']);
+        $conn->updateUserField($this->username, "userid", $this->userid);
+        $conn->addActiveUser($this->username, $this->time);
+        $conn->removeActiveGuest($_SERVER['REMOTE_ADDR']);
 
         /**
          * This is the cool part: the user has requested that we remember that
@@ -211,7 +211,7 @@ class Session {
      * unsets session variables and demotes his user level to guest.
      */
     public function logout() {
-        global $database;  //The database connection
+        global $conn;  //The database connection
         /**
          * Delete cookies - the time must be in the past,
          * so just negate what you added when creating the
@@ -233,8 +233,8 @@ class Session {
          * Remove from active users table and add to
          * active guests tables.
          */
-        $database->removeActiveUser($this->username);
-        $database->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
+        $conn->removeActiveUser($this->username);
+        $conn->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
 
         /* Set user level to guest */
         $this->username = GUEST_NAME;
@@ -249,7 +249,7 @@ class Session {
      * returns 0. Returns 2 if registration failed.
      */
     public function register($subuser, $subpass, $subemail) {
-        global $database, $form, $mailer;  //The database, form and mailer object
+        global $conn, $form, $mailer;  //The database, form and mailer object
 
         /* Username error checking */
         $field = "user";  //Use field name for username
@@ -269,10 +269,10 @@ class Session {
             /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
                 $form->setError($field, "* Nombre de usuario palabra reservada");
             }
-            /* Check if username is already in use */ else if ($database->usernameTaken($subuser)) {
+            /* Check if username is already in use */ else if ($conn->usernameTaken($subuser)) {
                 $form->setError($field, "* Nombre de usuario ya está en uso");
             }
-            /* Check if username is banned */ else if ($database->usernameBanned($subuser)) {
+            /* Check if username is banned */ else if ($conn->usernameBanned($subuser)) {
                 $form->setError($field, "* Nombre de usuario prohibido");
             }
         }
@@ -318,7 +318,7 @@ class Session {
             return 1;  //Errors with form
         }
         /* No errors, add the new account to the */ else {
-            if ($database->addNewUser($subuser, md5($subpass), $subemail)) {
+            if ($conn->addNewUser($subuser, md5($subpass), $subemail)) {
                 if (EMAIL_WELCOME) {
                     $mailer->sendWelcome($subuser, $subemail, $subpass);
                 }
@@ -331,7 +331,7 @@ class Session {
 
     public function SessionMasterRegister($subuser, $subpass, $subemail) {
 
-        global $database, $form, $mailer;  //The database, form and mailer object
+        global $conn, $form, $mailer;  //The database, form and mailer object
 
         /* Username error checking */
         $field = "user";  //Use field name for username
@@ -351,10 +351,10 @@ class Session {
             /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
                 $form->setError($field, "* Nombre de usuario palabra reservada");
             }
-            /* Check if username is already in use */ else if ($database->usernameTaken($subuser)) {
+            /* Check if username is already in use */ else if ($conn->usernameTaken($subuser)) {
                 $form->setError($field, "* Nombre de usuario ya está en uso");
             }
-            /* Check if username is banned */ else if ($database->usernameBanned($subuser)) {
+            /* Check if username is banned */ else if ($conn->usernameBanned($subuser)) {
                 $form->setError($field, "* Nombre de usuario prohibido");
             }
         }
@@ -402,7 +402,7 @@ class Session {
         /* No errors, add the new account to the */ else {
             //THE NAME OF THE CURRENT USER THE PARENT...
             $parent = $this->username;
-            if ($database->addNewMaster($subuser, md5($subpass), $subemail, $parent)) {
+            if ($conn->addNewMaster($subuser, md5($subpass), $subemail, $parent)) {
                 if (EMAIL_WELCOME) {
                     $mailer->sendWelcome($subuser, $subemail, $subpass);
                 }
@@ -415,7 +415,7 @@ class Session {
 
     public function SessionMemberRegister($subuser, $subpass, $subemail) {
 
-        global $database, $form, $mailer;  //The database, form and mailer object
+        global $conn, $form, $mailer;  //The database, form and mailer object
 
         /* Username error checking */
         $field = "user";  //Use field name for username
@@ -435,10 +435,10 @@ class Session {
             /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
                 $form->setError($field, "* Nombre de usuario palabra reservada");
             }
-            /* Check if username is already in use */ else if ($database->usernameTaken($subuser)) {
+            /* Check if username is already in use */ else if ($conn->usernameTaken($subuser)) {
                 $form->setError($field, "* Nombre de usuario ya está en uso");
             }
-            /* Check if username is banned */ else if ($database->usernameBanned($subuser)) {
+            /* Check if username is banned */ else if ($conn->usernameBanned($subuser)) {
                 $form->setError($field, "* Nombre de usuario prohibido");
             }
         }
@@ -486,7 +486,7 @@ class Session {
         /* No errors, add the new account to the */ else {
             //THE NAME OF THE CURRENT USER THE PARENT...
             $parent = $this->username;
-            if ($database->addNewMember($subuser, md5($subpass), $subemail, $parent)) {
+            if ($conn->addNewMember($subuser, md5($subpass), $subemail, $parent)) {
                 if (EMAIL_WELCOME) {
                     $mailer->sendWelcome($subuser, $subemail, $subpass);
                 }
@@ -499,7 +499,7 @@ class Session {
 
     public function SessionAgentRegister($subuser, $subpass, $subemail) {
 
-        global $database, $form, $mailer;  //The database, form and mailer object
+        global $conn, $form, $mailer;  //The database, form and mailer object
 
         /* Username error checking */
         $field = "user";  //Use field name for username
@@ -519,10 +519,10 @@ class Session {
             /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
                 $form->setError($field, "* Nombre de usuario palabra reservada");
             }
-            /* Check if username is already in use */ else if ($database->usernameTaken($subuser)) {
+            /* Check if username is already in use */ else if ($conn->usernameTaken($subuser)) {
                 $form->setError($field, "* Nombre de usuario ya está en uso");
             }
-            /* Check if username is banned */ else if ($database->usernameBanned($subuser)) {
+            /* Check if username is banned */ else if ($conn->usernameBanned($subuser)) {
                 $form->setError($field, "* Nombre de usuario prohibido");
             }
         }
@@ -570,7 +570,7 @@ class Session {
         /* No errors, add the new account to the */ else {
             //THE NAME OF THE CURRENT USER THE PARENT...
             $parent = $this->username;
-            if ($database->addNewAgent($subuser, md5($subpass), $subemail, $parent)) {
+            if ($conn->addNewAgent($subuser, md5($subpass), $subemail, $parent)) {
                 if (EMAIL_WELCOME) {
                     $mailer->sendWelcome($subuser, $subemail, $subpass);
                 }
@@ -589,7 +589,7 @@ class Session {
      * automatically.
      */
     public function editAccount($subcurpass, $subnewpass, $subemail, $subname) {
-        global $database, $form;  //The database and form object
+        global $conn, $form;  //The database and form object
         /* Nueva password entered */
         if ($subnewpass) {
             /* Current Password error checking */
@@ -604,7 +604,7 @@ class Session {
                     $form->setError($field, "* Contraseña actual incorrecta");
                 }
                 /* Password entered is incorrect */
-                if ($database->confirmUserPass($this->username, md5($subcurpass)) != 0) {
+                if ($conn->confirmUserPass($this->username, md5($subcurpass)) != 0) {
                     $form->setError($field, "* Contraseña actual incorrecta");
                 }
             }
@@ -646,15 +646,15 @@ class Session {
 
         /* Update password since there were no errors */
         if ($subcurpass && $subnewpass) {
-            $database->updateUserField($this->username, "password", md5($subnewpass));
+            $conn->updateUserField($this->username, "password", md5($subnewpass));
         }
 
         /* Change Email */
         if ($subemail) {
-            $database->updateUserField($this->username, "email", $subemail);
+            $conn->updateUserField($this->username, "email", $subemail);
         }
         if ($subname) {
-            $database->updateUserField($this->username, "name", $subname);
+            $conn->updateUserField($this->username, "name", $subname);
         }
 
         /* Success! */

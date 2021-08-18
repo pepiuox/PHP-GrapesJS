@@ -55,12 +55,25 @@ if (!empty($_GET['user'])) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>Profile</h1>
+                                <?php
+                                if ($user == 'pinfo') {
+                                    $vpages = 'Personal user information';
+                                } elseif ($user == 'sphra') {
+                                    $vpages = 'Security phrase';
+                                } elseif ($user == 'chpass') {
+                                    $vpages = 'Change of password';
+                                } elseif ($user == 'chpin') {
+                                    $vpages = 'Security PIN change ';
+                                } else {
+                                    $vpages = 'Profile';
+                                }
+                                ?>
+                                <h1 class="m-0 text-dark"><?php echo $vpages; ?></h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="<?php echo $base; ?>">Home</a></li>
-                                    <li class="breadcrumb-item active">User Profile</li>
+                                    <li class="breadcrumb-item active"><?php echo $vpages; ?></li>
                                 </ol>
                             </div>
                         </div>
@@ -69,27 +82,7 @@ if (!empty($_GET['user'])) {
 
                 <!-- Main content -->
                 <section class="content">
-                    <div class="container">
-                        <div class="row pt-2">
-                            <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
-                                <div class="alert alert-success alert-container" id="alert">
-                                    <strong><?php echo htmlentities($_SESSION['SuccessMessage']) ?></strong>
-                                    <?php unset($_SESSION['SuccessMessage']); ?>
-                                </div>
-                            <?php } ?>
-                            <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
-                                <div class="alert alert-danger alert-container" id="alert">
-                                    <strong><?php echo htmlentities($_SESSION['ErrorMessage']) ?></strong>
-                                    <?php unset($_SESSION['ErrorMessage']); ?>
-                                </div>
-                            <?php } ?>
-                            <?php if (!empty($_SESSION['AlertMessage'])) { ?>
-                                <div class="alert alert-danger alert-container" id="alert">
-                                    <strong><center><?php echo htmlentities($_SESSION['AlertMessage']) ?></center></strong>                                       
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
+                    <?php include '../elements/alerts.php'; ?>
                     <?php
                     if ($user == 'pinfo') {
                         include 'personalInfo.php';

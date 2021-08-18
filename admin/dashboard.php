@@ -89,7 +89,7 @@ $vpages = '';
                 <!-- /.content-header -->
                 <!-- Main content -->
                 <section class="content">
-
+                    <?php include '../elements/alerts.php'; ?>
                     <!-- Main row -->
                     <?php
                     if ($cms == 'pagelist') {
@@ -114,6 +114,11 @@ $vpages = '';
                             <!-- Small boxes (Stat box) -->
                             <div class="row">
                                 <div class="col-lg-3 col-6">
+                                    <?php
+                                    $permiss = $level->getRols($_SESSION['levels']);
+
+                                    echo $permiss['permission_id'];
+                                    ?>
                                     <!-- small box -->
                                     <div class="small-box bg-info">
                                         <div class="inner">

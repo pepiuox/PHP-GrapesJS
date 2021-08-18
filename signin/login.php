@@ -16,7 +16,13 @@ $level = new AccessLevel();
         header('Location: ../users/profile.php');
     } else {
         /* login-box */
-        include '../views/login.php';
+        if (isset($_SESSION['attempt']) || isset($_SESSION['attempt_again'])) {
+            if ($_SESSION['attempt'] === 3 || $_SESSION['attempt_again'] === 3) {
+                include '../views/attempts.php';
+            }
+        } else {
+            include '../views/login.php';
+        }
     }
     ?>
     <?php require '../elements/footer.php'; ?>

@@ -3,8 +3,8 @@ session_start();
 
 $file = '../config/dbconnection.php';
 $nclose = '';
-$PathInstall = $_SESSION['PathInstall'];
-$base = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $PathInstall . '/';
+$base = $_SESSION['PathInstall'];
+
 $folder = basename(dirname(__FILE__));
 
 if (isset($_POST['submit'])) {
@@ -79,8 +79,8 @@ if (isset($_POST['submit'])) {
     if (\$conn->connect_error) {
         die('Error, Database connection failed: (' . \$conn->connect_errno . ') ' . \$conn->connect_error);
     }" . "\n";
-    if (!empty($PathInstall)) {
-        $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . $PathInstall . "/';" . "\n";
+    if (!empty($base)) {
+        $filecontent .= "\$base = '" . $base . "/';" . "\n";
     } else {
         $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . "\n";
     }
@@ -90,7 +90,7 @@ if (isset($_POST['submit'])) {
     ?>
     ";
     file_put_contents($file, $filecontent);
-    header('Location: list.php');
+    header('Location: ../list.php');
 }
 ?>
 <!DOCTYPE html>

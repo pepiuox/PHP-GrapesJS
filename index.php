@@ -8,6 +8,11 @@
 //
 
 session_start();
+/*
+  echo 'http://' . $_SERVER['HTTP_HOST'] . '/';
+  echo '<br>';
+  echo basename(__DIR__);
+ */
 $currentDate = new DateTime();
 $file = 'config/dbconnection.php';
 if (file_exists($file)) {
@@ -20,7 +25,7 @@ if (file_exists($file)) {
     $page = $mypage;
     require_once 'start.php';
 } else {
-    $_SESSION['PathInstall'] = basename(dirname(__FILE__));
-    header('Location: admin/install.php');
+    $_SESSION['PathInstall'] = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('Location: admin/install/install.php');
 }
 ?>

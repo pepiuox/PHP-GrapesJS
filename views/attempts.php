@@ -31,7 +31,6 @@ if (isset($_SESSION['error'])) {
     <?php
     unset($_SESSION['error']);
 }
-
 if (isset($_SESSION['success'])) {
     ?>
     <div class="container">
@@ -52,15 +51,15 @@ if (isset($_SESSION['success'])) {
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">Enter your data to login </p>
             <form action="login.php" method="post" class="form-inline d-flex justify-content-center">
 
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off"
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Username" autocomplete="off"
                            required autofocus>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="fas fa-user"></span>
                         </div>
                     </div>
                 </div>
@@ -83,22 +82,16 @@ if (isset($_SESSION['success'])) {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember" name="remember" value=”Yes”>
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" name="signin" id="signin" class="btn btn-primary btn-block">Sign In</button>
+                    <div class="col-12">
+
+                        <button type="submit" name="attempts" id="attempts" class="btn btn-primary btn-block">Attempts unlock</button>
                     </div>
                     <!-- /.col -->
                 </div>
             </form>
-
+            <p class="mb-1">
+                <a href="<?php echo $base; ?>signin/login.php">Login</a>
+            </p>
             <p class="mb-1">
                 <a href="<?php echo $base; ?>signin/forgot-password.php">I forgot my password</a>
             </p>
@@ -112,3 +105,4 @@ if (isset($_SESSION['success'])) {
         <!-- /.login-card-body -->
     </div>
 </div>
+

@@ -19,7 +19,7 @@ if ($session->logged_in) {
                     if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
                         $valueCount = count($_POST["social_name"]);
                         for ($i = 0; $i < $valueCount; $i++) {
-                            $database->query("UPDATE `social_link` SET  `social_url` =  '{$_POST['social_url'][$i]}'   WHERE `social_name` = '{$_POST['social_name'][$i]}' ");
+                            $conn->query("UPDATE `social_link` SET  `social_url` =  '{$_POST['social_url'][$i]}'   WHERE `social_name` = '{$_POST['social_name'][$i]}' ");
                         }
                     }
                     ?>                
@@ -34,7 +34,7 @@ if ($session->logged_in) {
                         echo "</tr>";
                         echo "</thead>";
                         echo "<tbody>";
-                        $result = $database->query("SELECT * FROM `social_link`") or trigger_error($database->error);
+                        $result = $conn->query("SELECT * FROM `social_link`") or trigger_error($conn->error);
                         while ($row = $result->fetch_array()) {
                             foreach ($row AS $key => $value) {
                                 $row[$key] = stripslashes($value);
