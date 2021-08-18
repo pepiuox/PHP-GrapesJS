@@ -90,7 +90,32 @@ if (isset($_POST['submit'])) {
     ?>
     ";
     file_put_contents($file, $filecontent);
-    header('Location: ../list.php');
+
+    $confdb = new mysqli($db_host, $db_user, $db_password);
+    // Check connection
+    if ($confdb->connect_error) {
+        die("Connection failed: " . $confdb->connect_error);
+    }
+    $result = $confdb->query("SELECT config_name, config_value FROM configuration");
+
+    while ($rowt = $result->fetch_array()) {
+        $values = $rowt['config_value'];
+        $names = $rowt['config_name'];
+        $vars[] = "define('" . $names . "', '" . $values . "');" . "\n";
+    }
+
+//return implode(' ', $vars) . "\n";
+
+    $definefiles = '../config/define.php';
+    if (!file_exists($definefiles)) {
+        $ndef = '<?php' . "\n";
+        $ndef .= implode(' ', $vars) . "\n";
+        $ndef .= '?>' . "\n";
+        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+    }
+
+    header('Location: ../configuration.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
