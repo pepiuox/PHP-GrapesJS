@@ -251,7 +251,7 @@ class UserClass {
                                     //note 10*60 = 5mins, 60*60 = 1hr, to set to 2hrs change it to 2*60*60
                                 }
                                 // Call class attempts for record logs 
-                                $this->Attempts();
+                                $this->Attempts($user);
                                 $_SESSION['ErrorMessage'] = 'Invalid username or password incorrect.';
                                 header("Location: login.php");
                                 exit();
@@ -347,15 +347,15 @@ class UserClass {
      * create a failed login session , destroys all session data.
      */
 
-    private function Attempts() {
+    private function Attempts($user) {
         if (isset($_SESSION['attempt_again'])) {
 
-            $stmt = $this->connection->prepare("INSERT INTO `ip` (`address`)VALUES (?)");
-            $stmt->bind_param("s", $this->ip);
+            $stmt = $this->connection->prepare("INSERT INTO `ip` (`username`, `address`)VALUES (?,?)");
+            $stmt->bind_param("ss", $user, $this->ip);
             $stmt->execute();
 
-            $result = $this->connection->prepare("SELECT address FROM `ip` WHERE `address` = ?");
-            $result->bind_param("s", $this->ip);
+            $result = $this->connection->prepare("SELECT address FROM `ip` WHERE `username` = ? AND `address` = ?");
+            $result->bind_param("ss", $user, $this->ip);
             $result->execute();
             $num = $result->get_result();
 

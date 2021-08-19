@@ -184,6 +184,10 @@ if (isset($_POST['submit'])) {
                                     <input id="dbname" name="dbname" type="text" class="form-control">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <button class="btn btn-secondary" name="check" id="check">Check DB connection</button> 
+                                <button class="btn btn-info" name="install" id="install">Install tables</button>
+                            </div>
                             <hr>
                             <h5>This option creates the database with the tables</h5>
                             <div class="form-check">
