@@ -8,8 +8,10 @@ require 'Autoload.php';
 $login = new UserClass();
 $check = new CheckValidUser();
 $level = new AccessLevel();
-if (!empty($_GET['user'])) {
+if (isset($_GET['user']) && !empty($_GET['user'])) {
     $user = $_GET['user'];
+} else {
+    $user = '';
 }
 ?>
 <?php include '../elements/header.php'; ?>

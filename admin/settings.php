@@ -22,6 +22,24 @@ if ($session->logged_in) {
 
                                     $conn->query("UPDATE `config` SET  `value` =  '{$_POST['value'][$i]}'   WHERE `type_name` = '{$_POST['type_name'][$i]}' ");
                                 }
+                                if ($conn === true) {
+                                    $definefiles = '../config/define.php';
+                                    unlink($definefiles);
+                                    $result = $conn->query("SELECT config_name, config_value FROM configuration");
+
+                                    while ($rowt = $result->fetch_array()) {
+                                        $values = $rowt['config_value'];
+                                        $names = $rowt['config_name'];
+                                        $vars[] = "define('" . $names . "', '" . $values . "');" . "\n";
+                                    }
+                                    
+                                    if (!file_exists($definefiles)) {
+                                        $ndef = '<?php' . "\n";
+                                        $ndef .= implode(' ', $vars) . "\n";
+                                        $ndef .= '?>' . "\n";
+                                        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+                                    }
+                                }
                             }
                             ?>
                             <h3>Administrar configuracion</h3> 

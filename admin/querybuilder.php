@@ -29,12 +29,11 @@ if ($login->isLoggedIn() === true) {
     $w = protect($_GET['w']);
     $c = new MyCRUD();
 }
-include 'top.php';
+include '../elements/header.php';
 ?>
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
     <?php
-    include 'header.php';
     if ($login->isLoggedIn() === true) {
         if ($w == "select") {
             if ($result = $conn->query("SELECT * FROM table_config")) {
@@ -371,8 +370,8 @@ include 'top.php';
                 ?>
             </div>
 
-                <?php
-                echo '<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="Modal1" aria-hidden="true">
+            <?php
+            echo '<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="Modal1" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -383,8 +382,8 @@ include 'top.php';
                         </div>
                         <div class="modal-body">' . "\n";
 
-                $idw = '';
-                ?>
+            $idw = '';
+            ?>
             <script type="text/javascript">
                 $(document).ready(function () {
                     $('#table').change(function () {
@@ -403,10 +402,10 @@ include 'top.php';
                     });
                 });
             </script>
-        <?php
-        echo ' <form class="form-horizontal" method="POST">
+            <?php
+            echo ' <form class="form-horizontal" method="POST">
                                 <fieldset>' . "\n";
-        ?>
+            ?>
             <input type="text" id="idtb" name="idtb" value=""
                    style="display: none;" />
             <input type="text" id="stb" name="stb" value="" style="display: none;" />
@@ -424,9 +423,9 @@ include 'top.php';
                     </select>
                 </div>
             </div>
-        <?php
-        tnmes();
-        ?>
+            <?php
+            tnmes();
+            ?>
             <div class="form-group">
                 <div id="seltables" name="seltables"></div>
             </div>
@@ -436,10 +435,10 @@ include 'top.php';
                             class="btn btn-warning">Save</button>
                 </div>
             </div>
-        <?php
-        echo "</fieldset>
+            <?php
+            echo "</fieldset>
 	</form>" . "\n";
-        ?>
+            ?>
 
         </div>
         <div class="modal-footer">

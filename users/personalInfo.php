@@ -7,8 +7,16 @@ $respro->bind_param("ss", $userid, $hash);
 $respro->execute();
 //fetching result would go here, but will be covered later
 $prof = $respro->get_result();
-
 $rpro = $prof->fetch_assoc();
+if (isset($_POST['update'])) {
+    $firstname = protect($_POST['firstname']);
+    $lastname = protect($_POST['lastname']);
+    $up1 = $conn->prepare("UPDATE profiles SET firstname = ?, lastname = ? WHERE idp = ? AND mkhash = ?");
+    $up1->bind_param("ssss", $firstname, $lastname, $userid, $hash);
+    $up1->execute();
+    $inst1 = $up1->affected_rows;
+    $up1->close();
+}
 ?>
 
 <div class="container">
@@ -16,7 +24,7 @@ $rpro = $prof->fetch_assoc();
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="profile.php" method="post" role="form" id="add_info">
+                    <form method="post" role="form" >
 
                         <div class="mb-3">
                             <label class="form-label" for="firstname">Firstname:</label> 
@@ -63,9 +71,8 @@ $rpro = $prof->fetch_assoc();
                             });
                         </script>                        
                         <div class="mb-3">
-                            <button type="submit" id="addrow" name="addrow" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus" onclick="dVals();"></span>
-                                Add
+                            <button type="submit" id="update" name="update" class="btn btn-primary">
+                                <i class="fas fa-user-edit"></i> Update info
                             </button>
                         </div>
                     </form>

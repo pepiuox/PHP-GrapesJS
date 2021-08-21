@@ -5,43 +5,54 @@ $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 $escaped_url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
 $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
-
+$active = 1;
 if (isset($_GET['page']) && !empty($_GET['page'])) {
     $id = (int) $_GET['page'];
-    $rs = $conn->query("SELECT * FROM `page` WHERE active='1' AND `id` = '$id'");
+
+    $spg = $conn->prepare("SELECT * FROM page WHERE id = ? AND active = ? ");
+    $spg->bind_param("ii", $active, $id);
+    $spg->execute();
+    $rs = $spg->get_result();
+
     $rpx = $rs->fetch_assoc();
 } elseif (isset($basename) && !empty($basename)) {
+    $spg = $conn->prepare("SELECT * FROM page WHERE link = ? AND active = ? ");
+    $spg->bind_param("si", $basename, $id);
+    $spg->execute();
+    $rs = $spg->get_result();
 
-    $rs = $conn->query("SELECT * FROM `page` WHERE active='1' AND link = '$basename'");
     $nm = $rs->num_rows;
     if ($nm > 0) {
         $rpx = $rs->fetch_assoc();
     } else {
-        $rs = $conn->query("SELECT * FROM `page` WHERE `starpage` = '1' AND active='1'");
+        $spg = $conn->prepare("SELECT * FROM page WHERE starpage = ? AND active = ? ");
+        $spg->bind_param("ii", $basename, $id);
+        $spg->execute();
+        $rs = $spg->get_result();
+
         $rpx = $rs->fetch_assoc();
-        $namelink = $base.$rpx['link'];
+
+        $namelink = $base . $rpx['link'];
 
         header("Location: $namelink");
     }
-} 
+}
+if ($rs->num_rows === 1) {
+    $bid = $rpx['id'];
+    $title = $rpx['title'];
+    $plink = $rpx['link'];
+    $keyword = $rpx['keyword'];
+    $classification = $rpx['classification'];
+    $description = $rpx['description'];
+    $cont = $rpx['type'];
+    $men = $rpx['menu'];
+    $content = $rpx['content'];
+    $style = $rpx['style'];
+    $prnt = $rpx['parent'];
+    $lng = $rpx['language'];
 
-$bid = $rpx['id'];
-$title = $rpx['title'];
-$plink = $rpx['link'];
-$keyword = $rpx['keyword'];
-$classification = $rpx['classification'];
-$description = $rpx['description'];
-$cont = $rpx['type'];
-$men = $rpx['menu'];
-$content = $rpx['content'];
-$style = $rpx['style'];
-$prnt = $rpx['parent'];
-$lng = $rpx['language'];
-
-$_SESSION["language"] = $lng;
-$language = $_SESSION["language"];
-
-if ($bid) {
+    $_SESSION["language"] = $lng;
+    $language = $_SESSION["language"];
     ?>
     <!doctype html>
     <html lang="en">
@@ -80,6 +91,8 @@ if ($bid) {
         </body>
     </html>
     <?php
+} else {
+    header('Location: signin/login.php');
 }
 ?>
 

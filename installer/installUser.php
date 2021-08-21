@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -5,7 +6,7 @@
  *
  * @author PePiuoX
  */
-class newUser {
+class installUser {
 
     public $baseurl;
     private $connection;
@@ -18,7 +19,10 @@ class newUser {
         $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
         /* If registration data is posted call createUser function. */
         if (isset($_POST["register"])) {
-            $this->Register();
+            $this->RegisterAdmin();
+        }
+        if (isset($_POST["verifyuser"])) {
+            $this->VerifyUser();
         }
     }
 
@@ -101,6 +105,51 @@ class newUser {
         return $output;
     }
 
+    private function CountSUser() {
+        $lvushigh = 'Superadmin';
+
+        $qlv = $this->connection->prepare("SELECT level FROM uverify WHERE level=?");
+        $qlv->bind_param("s", $lvushigh);
+        $qlv->execute();
+        $lvresult = $qlv->get_result();
+        if ($lvresult->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        $qlv->close();
+    }
+
+    private function CountAUser() {
+
+        $lvusmid = 'Admin';
+        $qlv1 = $this->connection->prepare("SELECT level FROM uverify WHERE level=?");
+        $qlv1->bind_param("s", $lvusmid);
+        $qlv1->execute();
+        $lvresult1 = $qlv1->get_result();
+        if ($lvresult1->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        $qlv1->close();
+    }
+
+    private function VerifyUser() {
+        if (isset($_POST["verifyuser"])) {
+            if ($this->CountSUser() === true) {
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['AlertMessage'] = "There is a user with the highest level of administration, delete that user, to continue with the installation.";
+            } else if ($this->CountAUser() === true) {
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['AlertMessage'] = "There is a user with the medium level of administration, delete that user, to continue with the installation.";
+            } else {
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['SuccessMessage'] = "There are no users with administrator level.";
+            }
+        }
+    }
+
     /* start Register() 
      * Function Register(){
      * Function that includes everything for new user creation.
@@ -108,10 +157,10 @@ class newUser {
      * checked that values are filled, if all is correct data is entered to user database.
      */
 
-    private function Register() {
-
-        if (isset($_POST['register'])) {
-
+    private function RegisterAdmin() {
+        if (isset($_POST["register"])) {
+            $firstname = $this->procheck($_POST['firstname']);
+            $lastname = $this->procheck($_POST['lastname']);
             $username = $this->procheck($_POST['username']);
             $email = $this->procheck($_POST['email']);
             $password = $this->procheck($_POST['password']);
@@ -127,7 +176,7 @@ class newUser {
             $time = $dt->format('Y-m-d H:i:s');
 
 // message for incomplete field or actions
-            if (empty($username) || empty($email) || empty($password) || empty($repassword)) {
+            if (empty($firstname) || empty($lastname) || empty($username) || empty($email) || empty($password) || empty($repassword)) {
                 $_SESSION['ErrorMessage'] = "Fill in the fields or boxes!";
             } elseif (!$this->risValidUsername($username)) {
                 $_SESSION['ErrorMessage'] = "Please enter a valid user!";
@@ -140,6 +189,7 @@ class newUser {
             } elseif ($password != $repassword) {
                 $_SESSION['ErrorMessage'] = "The password does not match!";
             } else {
+
 // check first if the password are identical
                 if ($password === $repassword) {
 
@@ -152,25 +202,28 @@ class newUser {
                     $cml = $this->ende_crypter('encrypt', $email, $ekey, $eiv);
                     $eusr = $this->ende_crypter('encrypt', $username, $ekey, $eiv);
                     $pin = rand(000000, 999999);
-                    $code = $this->randkey();
+                    $lvl = 'Superadmin';
+
                     $status = 0;
                     $dvd = 0;
                     $mvd = 0;
-                    $ban = 1;
-                    $is_actd = 0;
+                    $verif = 1;
+                    $is_actd = 1;
+                    $ban = 0;
+                    $ip = $this->ip;
 
                     // adding data in table uverify
-                    $stmt1 = $this->connection->prepare("INSERT INTO uverify (iduv,username,email,password,mktoken,mkkey,mkhash,mkpin,activation_code,is_activated,banned) "
-                            . "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                    $stmt1->bind_param("sssssssssii", $newid, $username, $email, $pass, $ekey, $eiv, $enck, $pin, $code, $is_actd, $ban);
+                    $stmt1 = $this->connection->prepare("INSERT INTO uverify (iduv,username,email,password,mktoken,mkkey,mkhash,mkpin,level,is_activated,verified,banned) "
+                            . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                    $stmt1->bind_param("sssssssssiii", $newid, $username, $email, $pass, $ekey, $eiv, $enck, $pin, $lvl, $is_actd, $verif, $ban);
                     $stmt1->execute();
                     $inst2 = $stmt1->affected_rows;
                     $stmt1->close();
 
                     // adding data in table users and info
-                    $stmt = $this->connection->prepare("INSERT INTO users (idUser,username,email,password,status,ip,signup_time,email_verified,document_verified,mobile_verified,mkpin) "
+                    $stmt = $this->connection->prepare("INSERT INTO users (idUser,username,email,password,verified,status,ip,signup_time,document_verified,mobile_verified,mkpin) "
                             . "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                    $stmt->bind_param("ssssisssiis", $newid, $eusr, $cml, $pass, $status, $this->ip, $time, $code, $dvd, $mvd, $pin);
+                    $stmt->bind_param("ssssiissiis", $newid, $eusr, $cml, $pass, $verif, $status, $ip, $time, $dvd, $mvd, $pin);
                     $stmt->execute();
                     $inst1 = $stmt->affected_rows;
                     $stmt->close();
@@ -184,69 +237,21 @@ class newUser {
 
                     if ($inst1 === 1 && $inst2 === 1 && $inst3 === 1) {
                         // message for PIN save                       
-                        $query = $this->connection->prepare("SELECT * FROM uverify WHERE username=? AND email=? AND password=?");
-                        $query->bind_param("sss", $username, $email, $pass);
-                        $query->execute();
-                        $result = $query->get_result();
-                        if ($result->num_rows === 1) {
-                            $row = $result->fetch_assoc();
-                            $upid = $row['iduv'];
-                            $upin = $row['mkpin'];
 
-                            $_SESSION['uid'] = $row['iduv'];
+                        $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering' . "\n";
+                        $_SESSION['SuccessMessage'] .= "Admin successfully added.";
 
-                            $this->updatePIN($upid, $upin);
-
-                            $this->sendEmail($email, $pin, $code, $enck);
-                            $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering';
-                            $this->rverify();
-                        } else {
-                            $_SESSION['ErrorMessage'] = 'Security log could not be completed, see technical support .';
-                        }
-                        $query->close();
+                        $_SESSION['StepInstall'] = 6;
+                        header("Location: install.php?step=6");
+                        exit();
                     } else {
                         $_SESSION['ErrorMessage'] = 'User creation failed, check with support to continue with your registration.';
                     }
                 }
             }
+
+            $this->connection->close();
         }
-        $this->connection->close();
-    }
-
-    public function rVerify() {
-        return TRUE;
-    }
-
-    private function sendEmail($email, $pin, $code, $enck) {
-        $to = $email;
-        $subject = "Your code to activate your account.";
-        $from = 'admin@fornicard.com'; // This should be changed to an email that you would like to send activation e-mail from.
-        $body = 'Your access PIN code is: <b>' . $pin . '</b>' . "\r\n" . 'We recommend saving it, you do not need to access it with your password.' . "\r\n";
-        $body .= 'To activate your account, click on the following link' . "\r\n" . ' <a href="' . $this->baseurl . '/verify.php?id=' . $email . '&code=' . $code . '&hash=' . $enck . '">Verify your email</a>' . "\r\n"; // Input the URL of your website.
-        $body .= 'Login to your account and create your recovery phrase.';
-        $headers = "From: " . $from . "\r\n";
-        $headers .= "Reply-To: " . $from . "\r\n";
-        $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $success = mail($to, $subject, $body, $headers);
-        if ($success === true) {
-            $_SESSION['SuccessMessage'] = 'A message was sent to your mailbox to verify your new account! ';
-        } else {
-            $_SESSION['ErrorMessage'] = 'Error sending a message to your mailbox to verify your new account! ';
-        }
-    }
-
-    private function updatePIN($upid, $upin) {
-
-        $update = $this->connection->prepare("UPDATE users SET mkpin='$upin' WHERE idUser='$upid '");
-        $update->bind_param("ss", $upin, $upid);
-        $update->execute();
-        if ($update->affected_rows === 1) {
-            $_SESSION['SuccessMessage'] = 'The user has been created! '
-                    . 'The user has successfully registered!'
-                    . '<meta http-equiv="refresh" content="3;URL=index.php" />';
-        }
-        $update->close();
     }
 
     public function generateRandStr($length) {

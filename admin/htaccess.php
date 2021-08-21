@@ -4,7 +4,7 @@ $file = '../config/dbconnection.php';
 if (file_exists($file)) {
     require 'config/dbconnection.php';
 } else {
-    header('Location: install.php');
+    header('Location: ../installer/install.php');
 }
 $hta = '../.htaccess';
 

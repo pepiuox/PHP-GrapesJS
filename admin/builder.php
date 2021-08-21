@@ -8,7 +8,7 @@ if (file_exists($file)) {
     $check = new CheckValidUser();
     $level = new AccessLevel();
 } else {
-    header('Location: install.php');
+    header('Location: ../installer/install.php');
 }
 
 if ($login->isLoggedIn() === true) {

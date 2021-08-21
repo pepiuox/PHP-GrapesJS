@@ -198,7 +198,7 @@ class UserClass {
 //fetching result would go here, but will be covered later
                                 $sqr = $stmt1->get_result();
                                 if ($sqr->num_rows === 0) {
-                                    echo 'Err 0';
+
                                     $_SESSION['ErrorMessage'] = 'The data is wrong.';
 //header('Location: login.php');
                                 }
@@ -399,11 +399,11 @@ class UserClass {
                 unset($_SESSION['level']);
                 unset($_SESSION['hash']);
                 session_destroy(); // Destroy all session data.
-                header('Location: login.php');
+                header('Location: ' . $this->system . 'login.php');
                 exit();
             }
         } else {
-            header('Location: index.php');
+            header('Location: ' . $this->system . 'index.php');
             exit();
         }
     }

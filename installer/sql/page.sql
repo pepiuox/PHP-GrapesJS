@@ -14,37 +14,43 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table projectloginsytem.active_guests
+-- Dumping structure for table newtestcms.active_guests
+DROP TABLE IF EXISTS `active_guests`;
 CREATE TABLE IF NOT EXISTS `active_guests` (
   `ip` varchar(15) NOT NULL,
-  `timestamp` int(11) unsigned NOT NULL
+  `timestamp` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.active_guests: ~0 rows (approximately)
+-- Dumping data for table newtestcms.active_guests: ~1 rows (approximately)
 /*!40000 ALTER TABLE `active_guests` DISABLE KEYS */;
+INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
+	('127.0.0.1', '1629510472');
 /*!40000 ALTER TABLE `active_guests` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.active_sessions
+-- Dumping structure for table newtestcms.active_sessions
+DROP TABLE IF EXISTS `active_sessions`;
 CREATE TABLE IF NOT EXISTS `active_sessions` (
   `session` char(64) COLLATE utf8_bin DEFAULT NULL,
   `date_session` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table projectloginsytem.active_sessions: ~0 rows (approximately)
+-- Dumping data for table newtestcms.active_sessions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `active_sessions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `active_sessions` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.active_users
+-- Dumping structure for table newtestcms.active_users
+DROP TABLE IF EXISTS `active_users`;
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(30) NOT NULL,
   `timestamp` int(11) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.active_users: ~0 rows (approximately)
+-- Dumping data for table newtestcms.active_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `active_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `active_users` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.admins
+-- Dumping structure for table newtestcms.admins
+DROP TABLE IF EXISTS `admins`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `adminid` char(23) NOT NULL DEFAULT 'uuid_short();',
   `userid` char(128) NOT NULL,
@@ -52,11 +58,12 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `superadmin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.admins: ~0 rows (approximately)
+-- Dumping data for table newtestcms.admins: ~0 rows (approximately)
 /*!40000 ALTER TABLE `admins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `admins` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.announcement
+-- Dumping structure for table newtestcms.announcement
+DROP TABLE IF EXISTS `announcement`;
 CREATE TABLE IF NOT EXISTS `announcement` (
   `Announcement_ID` int(11) unsigned NOT NULL,
   `Is_Active` enum('N','Y') NOT NULL DEFAULT 'N',
@@ -72,11 +79,12 @@ CREATE TABLE IF NOT EXISTS `announcement` (
   `Translated_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.announcement: ~0 rows (approximately)
+-- Dumping data for table newtestcms.announcement: ~0 rows (approximately)
 /*!40000 ALTER TABLE `announcement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `announcement` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.app_config
+-- Dumping structure for table newtestcms.app_config
+DROP TABLE IF EXISTS `app_config`;
 CREATE TABLE IF NOT EXISTS `app_config` (
   `setting` char(26) NOT NULL,
   `value` varchar(12000) NOT NULL,
@@ -87,11 +95,12 @@ CREATE TABLE IF NOT EXISTS `app_config` (
   `required` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.app_config: ~0 rows (approximately)
+-- Dumping data for table newtestcms.app_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `app_config` DISABLE KEYS */;
 /*!40000 ALTER TABLE `app_config` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.balance
+-- Dumping structure for table newtestcms.balance
+DROP TABLE IF EXISTS `balance`;
 CREATE TABLE IF NOT EXISTS `balance` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL,
@@ -105,23 +114,25 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `history` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.balance: ~0 rows (approximately)
+-- Dumping data for table newtestcms.balance: ~0 rows (approximately)
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
 /*!40000 ALTER TABLE `balance` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.banned_users
+-- Dumping structure for table newtestcms.banned_users
+DROP TABLE IF EXISTS `banned_users`;
 CREATE TABLE IF NOT EXISTS `banned_users` (
   `user_id` char(128) NOT NULL,
-  `banned_timestamp` datetime NOT NULL,
+  `banned_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `banned_hours` float NOT NULL,
   `hours_remaining` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.banned_users: ~0 rows (approximately)
+-- Dumping data for table newtestcms.banned_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `banned_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `banned_users` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.blocks
+-- Dumping structure for table newtestcms.blocks
+DROP TABLE IF EXISTS `blocks`;
 CREATE TABLE IF NOT EXISTS `blocks` (
   `idB` int(11) NOT NULL AUTO_INCREMENT,
   `blockId` int(11) DEFAULT NULL,
@@ -130,11 +141,12 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   PRIMARY KEY (`idB`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.blocks: ~0 rows (approximately)
+-- Dumping data for table newtestcms.blocks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `blocks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `blocks` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.blocks_content
+-- Dumping structure for table newtestcms.blocks_content
+DROP TABLE IF EXISTS `blocks_content`;
 CREATE TABLE IF NOT EXISTS `blocks_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `blockId` int(11) DEFAULT NULL,
@@ -142,11 +154,12 @@ CREATE TABLE IF NOT EXISTS `blocks_content` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.blocks_content: ~0 rows (approximately)
+-- Dumping data for table newtestcms.blocks_content: ~0 rows (approximately)
 /*!40000 ALTER TABLE `blocks_content` DISABLE KEYS */;
 /*!40000 ALTER TABLE `blocks_content` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.breadcrumblinks
+-- Dumping structure for table newtestcms.breadcrumblinks
+DROP TABLE IF EXISTS `breadcrumblinks`;
 CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `Page_Title` varchar(100) NOT NULL,
   `Page_URL` varchar(100) NOT NULL,
@@ -154,21 +167,23 @@ CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `Rgt` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.breadcrumblinks: ~0 rows (approximately)
+-- Dumping data for table newtestcms.breadcrumblinks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `breadcrumblinks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `breadcrumblinks` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.category
+-- Dumping structure for table newtestcms.category
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.category: ~0 rows (approximately)
+-- Dumping data for table newtestcms.category: ~0 rows (approximately)
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.cols_set
+-- Dumping structure for table newtestcms.cols_set
+DROP TABLE IF EXISTS `cols_set`;
 CREATE TABLE IF NOT EXISTS `cols_set` (
   `id` int(11) NOT NULL,
   `table_name` varchar(50) DEFAULT NULL,
@@ -183,36 +198,39 @@ CREATE TABLE IF NOT EXISTS `cols_set` (
   `col_set` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.cols_set: ~0 rows (approximately)
+-- Dumping data for table newtestcms.cols_set: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cols_set` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cols_set` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.comment
+-- Dumping structure for table newtestcms.comment
+DROP TABLE IF EXISTS `comment`;
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL,
   `message` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.comment: ~0 rows (approximately)
+-- Dumping data for table newtestcms.comment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.configuration
+-- Dumping structure for table newtestcms.configuration
+DROP TABLE IF EXISTS `configuration`;
 CREATE TABLE IF NOT EXISTS `configuration` (
   `config_name` varchar(20) DEFAULT NULL,
   `config_value` varchar(250) DEFAULT NULL,
   UNIQUE KEY `type_name` (`config_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.configuration: ~26 rows (approximately)
+-- Dumping data for table newtestcms.configuration: ~30 rows (approximately)
 /*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
 INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
-	('DOMAIN_SITE', 'www.esrapi.com'),
-	('SITE_NAME', 'ESRAPI'),
+	('DOMAIN_SITE', 'www.phpgrapesjs.com'),
+	('SITE_NAME', 'PHP GrapesJS'),
 	('SITE_DESC', 'Your keywords for your domains'),
 	('SITE_KEYWORDS', 'Your keywords for your domains'),
 	('SITE_DESCRIPTION', 'Your keywords for your domains'),
-	('SITE_ADMIN', 'system'),
+	('SITE_ADMIN', 'Superadmin'),
+	('SITE_CONTROL', 'dashboard'),
 	('SITE_CONFIG', 'config'),
 	('SITE_LIST', 'list'),
 	('SITE_EDITOR', 'editor'),
@@ -224,18 +242,22 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 	('NAME_CONTACT', 'Your Name'),
 	('PHONE_CONTACT', '0051 999888777'),
 	('EMAIL_CONTACT', 'info@yourdomain.com'),
+	('ADDRESS', 'Your local contact address'),
 	('FOLDER_IMAGES', 'uploads'),
-	('SITE_CREATOR', '@pepiuox'),
+	('SITE_CREATOR', '@yourdomain'),
 	('TWITTER', '@yourdomain'),
 	('FACEBOOKID', '26245712364571234572'),
-	('SKYPE', 'Your Name'),
-	('TELEGRAM', 'Your Name'),
+	('SKYPE', 'yourdomain'),
+	('TELEGRAM', 'yourdomain'),
 	('WHATSAPP', '+51 999888777'),
-	('ADMIN_NAME', 'admin'),
-	('ADMIN_LEVEL', '9');
+	('SUPERADMIN_NAME', 'Superadmin'),
+	('SUPERADMIN_LEVEL', '9'),
+	('ADMIN_NAME', 'Admin'),
+	('ADMIN_LEVEL', '5');
 /*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.cookies
+-- Dumping structure for table newtestcms.cookies
+DROP TABLE IF EXISTS `cookies`;
 CREATE TABLE IF NOT EXISTS `cookies` (
   `cookieid` char(23) NOT NULL,
   `userid` char(128) NOT NULL,
@@ -244,22 +266,24 @@ CREATE TABLE IF NOT EXISTS `cookies` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.cookies: ~0 rows (approximately)
+-- Dumping data for table newtestcms.cookies: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cookies` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cookies` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.countries
+-- Dumping structure for table newtestcms.countries
+DROP TABLE IF EXISTS `countries`;
 CREATE TABLE IF NOT EXISTS `countries` (
   `id` smallint(5) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.countries: ~0 rows (approximately)
+-- Dumping data for table newtestcms.countries: ~0 rows (approximately)
 /*!40000 ALTER TABLE `countries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.currency
+-- Dumping structure for table newtestcms.currency
+DROP TABLE IF EXISTS `currency`;
 CREATE TABLE IF NOT EXISTS `currency` (
   `id` int(11) NOT NULL,
   `coin` varchar(50) DEFAULT NULL,
@@ -270,11 +294,12 @@ CREATE TABLE IF NOT EXISTS `currency` (
   `max_supply` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.currency: ~0 rows (approximately)
+-- Dumping data for table newtestcms.currency: ~0 rows (approximately)
 /*!40000 ALTER TABLE `currency` DISABLE KEYS */;
 /*!40000 ALTER TABLE `currency` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.customers
+-- Dumping structure for table newtestcms.customers
+DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
   `Customer_ID` int(11) NOT NULL,
   `Customer_Number` varchar(20) NOT NULL,
@@ -294,11 +319,12 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `Updated_By` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.customers: ~0 rows (approximately)
+-- Dumping data for table newtestcms.customers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.deleted_members
+-- Dumping structure for table newtestcms.deleted_members
+DROP TABLE IF EXISTS `deleted_members`;
 CREATE TABLE IF NOT EXISTS `deleted_members` (
   `id` char(128) NOT NULL,
   `username` varchar(65) NOT NULL DEFAULT '',
@@ -309,22 +335,24 @@ CREATE TABLE IF NOT EXISTS `deleted_members` (
   `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.deleted_members: ~0 rows (approximately)
+-- Dumping data for table newtestcms.deleted_members: ~0 rows (approximately)
 /*!40000 ALTER TABLE `deleted_members` DISABLE KEYS */;
 /*!40000 ALTER TABLE `deleted_members` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.deposit
+-- Dumping structure for table newtestcms.deposit
+DROP TABLE IF EXISTS `deposit`;
 CREATE TABLE IF NOT EXISTS `deposit` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.deposit: ~0 rows (approximately)
+-- Dumping data for table newtestcms.deposit: ~0 rows (approximately)
 /*!40000 ALTER TABLE `deposit` DISABLE KEYS */;
 /*!40000 ALTER TABLE `deposit` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.employee
+-- Dumping structure for table newtestcms.employee
+DROP TABLE IF EXISTS `employee`;
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) NOT NULL COMMENT 'primary key',
   `employee_name` varchar(255) NOT NULL COMMENT 'employee name',
@@ -335,11 +363,12 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `employee_comments` varchar(255) NOT NULL COMMENT 'employee comments'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.employee: ~0 rows (approximately)
+-- Dumping data for table newtestcms.employee: ~0 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.eventlog
+-- Dumping structure for table newtestcms.eventlog
+DROP TABLE IF EXISTS `eventlog`;
 CREATE TABLE IF NOT EXISTS `eventlog` (
   `id` bigint(20) unsigned NOT NULL,
   `event` varchar(200) NOT NULL,
@@ -350,22 +379,24 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.eventlog: ~0 rows (approximately)
+-- Dumping data for table newtestcms.eventlog: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eventlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eventlog` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.exchange
+-- Dumping structure for table newtestcms.exchange
+DROP TABLE IF EXISTS `exchange`;
 CREATE TABLE IF NOT EXISTS `exchange` (
   `id` int(11) NOT NULL,
   `exchange_name` varchar(100) DEFAULT NULL,
   `trading_pairs` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.exchange: ~0 rows (approximately)
+-- Dumping data for table newtestcms.exchange: ~0 rows (approximately)
 /*!40000 ALTER TABLE `exchange` DISABLE KEYS */;
 /*!40000 ALTER TABLE `exchange` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.exchanges
+-- Dumping structure for table newtestcms.exchanges
+DROP TABLE IF EXISTS `exchanges`;
 CREATE TABLE IF NOT EXISTS `exchanges` (
   `id` int(11) NOT NULL,
   `uid` varchar(128) DEFAULT NULL,
@@ -399,11 +430,12 @@ CREATE TABLE IF NOT EXISTS `exchanges` (
   `referral_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.exchanges: ~0 rows (approximately)
+-- Dumping data for table newtestcms.exchanges: ~0 rows (approximately)
 /*!40000 ALTER TABLE `exchanges` DISABLE KEYS */;
 /*!40000 ALTER TABLE `exchanges` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.faq
+-- Dumping structure for table newtestcms.faq
+DROP TABLE IF EXISTS `faq`;
 CREATE TABLE IF NOT EXISTS `faq` (
   `id` int(11) NOT NULL,
   `question` varchar(255) DEFAULT NULL,
@@ -412,33 +444,36 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.faq: ~0 rows (approximately)
+-- Dumping data for table newtestcms.faq: ~0 rows (approximately)
 /*!40000 ALTER TABLE `faq` DISABLE KEYS */;
 /*!40000 ALTER TABLE `faq` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.finance
+-- Dumping structure for table newtestcms.finance
+DROP TABLE IF EXISTS `finance`;
 CREATE TABLE IF NOT EXISTS `finance` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.finance: ~0 rows (approximately)
+-- Dumping data for table newtestcms.finance: ~0 rows (approximately)
 /*!40000 ALTER TABLE `finance` DISABLE KEYS */;
 /*!40000 ALTER TABLE `finance` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.financial_institution
+-- Dumping structure for table newtestcms.financial_institution
+DROP TABLE IF EXISTS `financial_institution`;
 CREATE TABLE IF NOT EXISTS `financial_institution` (
   `id` int(11) NOT NULL,
   `financial_institution` varchar(50) DEFAULT NULL,
   `link` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.financial_institution: ~0 rows (approximately)
+-- Dumping data for table newtestcms.financial_institution: ~0 rows (approximately)
 /*!40000 ALTER TABLE `financial_institution` DISABLE KEYS */;
 /*!40000 ALTER TABLE `financial_institution` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.follow
+-- Dumping structure for table newtestcms.follow
+DROP TABLE IF EXISTS `follow`;
 CREATE TABLE IF NOT EXISTS `follow` (
   `follow_id` int(11) NOT NULL,
   `sender` int(11) NOT NULL,
@@ -446,11 +481,12 @@ CREATE TABLE IF NOT EXISTS `follow` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.follow: ~0 rows (approximately)
+-- Dumping data for table newtestcms.follow: ~0 rows (approximately)
 /*!40000 ALTER TABLE `follow` DISABLE KEYS */;
 /*!40000 ALTER TABLE `follow` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.forgot_pass
+-- Dumping structure for table newtestcms.forgot_pass
+DROP TABLE IF EXISTS `forgot_pass`;
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `idFgp` int(11) NOT NULL,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -460,11 +496,12 @@ CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.forgot_pass: ~0 rows (approximately)
+-- Dumping data for table newtestcms.forgot_pass: ~0 rows (approximately)
 /*!40000 ALTER TABLE `forgot_pass` DISABLE KEYS */;
 /*!40000 ALTER TABLE `forgot_pass` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.forgot_pin
+-- Dumping structure for table newtestcms.forgot_pin
+DROP TABLE IF EXISTS `forgot_pin`;
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `idFgp` int(11) NOT NULL,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -474,11 +511,12 @@ CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.forgot_pin: ~0 rows (approximately)
+-- Dumping data for table newtestcms.forgot_pin: ~0 rows (approximately)
 /*!40000 ALTER TABLE `forgot_pin` DISABLE KEYS */;
 /*!40000 ALTER TABLE `forgot_pin` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.galleries
+-- Dumping structure for table newtestcms.galleries
+DROP TABLE IF EXISTS `galleries`;
 CREATE TABLE IF NOT EXISTS `galleries` (
   `idGal` int(11) NOT NULL AUTO_INCREMENT,
   `gallery` varchar(50) DEFAULT NULL,
@@ -490,11 +528,12 @@ CREATE TABLE IF NOT EXISTS `galleries` (
   PRIMARY KEY (`idGal`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.galleries: ~0 rows (approximately)
+-- Dumping data for table newtestcms.galleries: ~0 rows (approximately)
 /*!40000 ALTER TABLE `galleries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `galleries` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.gallery
+-- Dumping structure for table newtestcms.gallery
+DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE IF NOT EXISTS `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -502,11 +541,12 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.gallery: ~0 rows (approximately)
+-- Dumping data for table newtestcms.gallery: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.gateways
+-- Dumping structure for table newtestcms.gateways
+DROP TABLE IF EXISTS `gateways`;
 CREATE TABLE IF NOT EXISTS `gateways` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -538,11 +578,12 @@ CREATE TABLE IF NOT EXISTS `gateways` (
   `external_icon` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.gateways: ~0 rows (approximately)
+-- Dumping data for table newtestcms.gateways: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gateways` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gateways` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.gateways_fields
+-- Dumping structure for table newtestcms.gateways_fields
+DROP TABLE IF EXISTS `gateways_fields`;
 CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `id` int(11) NOT NULL,
   `gateway_id` int(11) DEFAULT NULL,
@@ -550,11 +591,12 @@ CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `field_number` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.gateways_fields: ~0 rows (approximately)
+-- Dumping data for table newtestcms.gateways_fields: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gateways_fields` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gateways_fields` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.help
+-- Dumping structure for table newtestcms.help
+DROP TABLE IF EXISTS `help`;
 CREATE TABLE IF NOT EXISTS `help` (
   `Help_ID` int(11) NOT NULL,
   `Language` char(2) NOT NULL,
@@ -567,33 +609,36 @@ CREATE TABLE IF NOT EXISTS `help` (
   `Last_Updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.help: ~0 rows (approximately)
+-- Dumping data for table newtestcms.help: ~0 rows (approximately)
 /*!40000 ALTER TABLE `help` DISABLE KEYS */;
 /*!40000 ALTER TABLE `help` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.help_categories
+-- Dumping structure for table newtestcms.help_categories
+DROP TABLE IF EXISTS `help_categories`;
 CREATE TABLE IF NOT EXISTS `help_categories` (
   `Category_ID` int(11) NOT NULL,
   `Language` char(2) NOT NULL,
   `Category_Description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.help_categories: ~0 rows (approximately)
+-- Dumping data for table newtestcms.help_categories: ~0 rows (approximately)
 /*!40000 ALTER TABLE `help_categories` DISABLE KEYS */;
 /*!40000 ALTER TABLE `help_categories` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.history
+-- Dumping structure for table newtestcms.history
+DROP TABLE IF EXISTS `history`;
 CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.history: ~0 rows (approximately)
+-- Dumping data for table newtestcms.history: ~0 rows (approximately)
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.image_gal
+-- Dumping structure for table newtestcms.image_gal
+DROP TABLE IF EXISTS `image_gal`;
 CREATE TABLE IF NOT EXISTS `image_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT 0,
@@ -606,11 +651,12 @@ CREATE TABLE IF NOT EXISTS `image_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.image_gal: ~0 rows (approximately)
+-- Dumping data for table newtestcms.image_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `image_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `image_gal` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.info
+-- Dumping structure for table newtestcms.info
+DROP TABLE IF EXISTS `info`;
 CREATE TABLE IF NOT EXISTS `info` (
   `id` char(128) NOT NULL,
   `username` varchar(128) DEFAULT NULL,
@@ -625,11 +671,24 @@ CREATE TABLE IF NOT EXISTS `info` (
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.info: ~0 rows (approximately)
+-- Dumping data for table newtestcms.info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.items
+-- Dumping structure for table newtestcms.ip
+DROP TABLE IF EXISTS `ip`;
+CREATE TABLE IF NOT EXISTS `ip` (
+  `username` char(65) NOT NULL,
+  `address` char(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newtestcms.ip: ~0 rows (approximately)
+/*!40000 ALTER TABLE `ip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ip` ENABLE KEYS */;
+
+-- Dumping structure for table newtestcms.items
+DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(11) unsigned NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -638,11 +697,12 @@ CREATE TABLE IF NOT EXISTS `items` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.items: ~0 rows (approximately)
+-- Dumping data for table newtestcms.items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.languages
+-- Dumping structure for table newtestcms.languages
+DROP TABLE IF EXISTS `languages`;
 CREATE TABLE IF NOT EXISTS `languages` (
   `Language_Code` char(2) NOT NULL,
   `Language_Name` varchar(20) NOT NULL,
@@ -659,11 +719,12 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `About_Text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.languages: ~0 rows (approximately)
+-- Dumping data for table newtestcms.languages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `languages` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.last_transaction
+-- Dumping structure for table newtestcms.last_transaction
+DROP TABLE IF EXISTS `last_transaction`;
 CREATE TABLE IF NOT EXISTS `last_transaction` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL,
@@ -678,11 +739,12 @@ CREATE TABLE IF NOT EXISTS `last_transaction` (
   `acctions` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.last_transaction: ~0 rows (approximately)
+-- Dumping data for table newtestcms.last_transaction: ~0 rows (approximately)
 /*!40000 ALTER TABLE `last_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `last_transaction` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.lk_sess
+-- Dumping structure for table newtestcms.lk_sess
+DROP TABLE IF EXISTS `lk_sess`;
 CREATE TABLE IF NOT EXISTS `lk_sess` (
   `id` varchar(40) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
@@ -690,37 +752,25 @@ CREATE TABLE IF NOT EXISTS `lk_sess` (
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.lk_sess: ~0 rows (approximately)
+-- Dumping data for table newtestcms.lk_sess: ~0 rows (approximately)
 /*!40000 ALTER TABLE `lk_sess` DISABLE KEYS */;
 /*!40000 ALTER TABLE `lk_sess` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.loginattempts
-CREATE TABLE IF NOT EXISTS `loginattempts` (
-  `IP` varchar(20) NOT NULL,
-  `Attempts` int(11) NOT NULL,
-  `LastLogin` datetime NOT NULL,
-  `Username` varchar(65) DEFAULT NULL,
-  `ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.loginattempts: ~0 rows (approximately)
-/*!40000 ALTER TABLE `loginattempts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `loginattempts` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.login_attempts
+-- Dumping structure for table newtestcms.login_attempts
+DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE IF NOT EXISTS `login_attempts` (
-  `id` int(11) NOT NULL,
   `username` varchar(65) DEFAULT NULL,
-  `ip` varchar(20) NOT NULL,
+  `ip_address` varchar(20) NOT NULL,
   `attempts` int(11) NOT NULL,
-  `lastlogin` datetime NOT NULL
+  `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.login_attempts: ~0 rows (approximately)
+-- Dumping data for table newtestcms.login_attempts: ~0 rows (approximately)
 /*!40000 ALTER TABLE `login_attempts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `login_attempts` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.mail
+-- Dumping structure for table newtestcms.mail
+DROP TABLE IF EXISTS `mail`;
 CREATE TABLE IF NOT EXISTS `mail` (
   `mail_id` int(80) NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
@@ -732,11 +782,12 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `SentDate` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.mail: ~0 rows (approximately)
+-- Dumping data for table newtestcms.mail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mail` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.mail_log
+-- Dumping structure for table newtestcms.mail_log
+DROP TABLE IF EXISTS `mail_log`;
 CREATE TABLE IF NOT EXISTS `mail_log` (
   `id` int(11) NOT NULL,
   `type` varchar(45) NOT NULL DEFAULT 'generic',
@@ -747,11 +798,12 @@ CREATE TABLE IF NOT EXISTS `mail_log` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.mail_log: ~0 rows (approximately)
+-- Dumping data for table newtestcms.mail_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mail_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mail_log` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.members
+-- Dumping structure for table newtestcms.members
+DROP TABLE IF EXISTS `members`;
 CREATE TABLE IF NOT EXISTS `members` (
   `id` char(128) NOT NULL,
   `username` varchar(65) NOT NULL DEFAULT '',
@@ -773,11 +825,12 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.members: ~0 rows (approximately)
+-- Dumping data for table newtestcms.members: ~0 rows (approximately)
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.member_info
+-- Dumping structure for table newtestcms.member_info
+DROP TABLE IF EXISTS `member_info`;
 CREATE TABLE IF NOT EXISTS `member_info` (
   `userid` char(128) NOT NULL,
   `firstname` varchar(60) NOT NULL,
@@ -795,28 +848,12 @@ CREATE TABLE IF NOT EXISTS `member_info` (
   CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.member_info: ~0 rows (approximately)
+-- Dumping data for table newtestcms.member_info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `member_info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_info` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.member_jail
-CREATE TABLE IF NOT EXISTS `member_jail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` char(128) NOT NULL,
-  `banned_hours` float NOT NULL DEFAULT 24,
-  `reason` varchar(2000) DEFAULT NULL,
-  `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  KEY `fk_userid_idx` (`user_id`),
-  CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.member_jail: ~0 rows (approximately)
-/*!40000 ALTER TABLE `member_jail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `member_jail` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.member_roles
+-- Dumping structure for table newtestcms.member_roles
+DROP TABLE IF EXISTS `member_roles`;
 CREATE TABLE IF NOT EXISTS `member_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` char(128) NOT NULL,
@@ -829,11 +866,12 @@ CREATE TABLE IF NOT EXISTS `member_roles` (
   CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.member_roles: ~0 rows (approximately)
+-- Dumping data for table newtestcms.member_roles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `member_roles` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_roles` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.menu
+-- Dumping structure for table newtestcms.menu
+DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
   `sort` int(11) DEFAULT NULL,
@@ -844,25 +882,12 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.menu: ~10 rows (approximately)
+-- Dumping data for table newtestcms.menu: ~0 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
-	(1, NULL, 1, 'Home', 'home', 0),
-	(2, NULL, 2, 'products', 'products', 0),
-	(3, NULL, 3, 'Product', 'product', 0),
-	(4, NULL, 4, 'Cart', 'cart', 0),
-	(5, NULL, 5, 'Checkout', 'checkout', 0),
-	(6, NULL, 6, 'Order', 'order', 0),
-	(7, NULL, 7, 'Process order', 'process-order', 0),
-	(8, NULL, 8, 'Search', 'search', 0),
-	(9, NULL, 9, 'Ofertas', 'ofertas', 0),
-	(10, NULL, 10, 'M&aacute;s visto', 'm&aacute;s-visto', 0),
-	(11, NULL, 11, 'Vender', 'vender', 0),
-	(12, NULL, 12, 'Ayuda', 'ayuda', 0),
-	(13, NULL, 13, 'Categories', 'categories', 0);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.multimedia_gal
+-- Dumping structure for table newtestcms.multimedia_gal
+DROP TABLE IF EXISTS `multimedia_gal`;
 CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT 0,
@@ -876,11 +901,12 @@ CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.multimedia_gal: ~0 rows (approximately)
+-- Dumping data for table newtestcms.multimedia_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `multimedia_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `multimedia_gal` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.orders
+-- Dumping structure for table newtestcms.orders
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_date` datetime NOT NULL DEFAULT current_timestamp(),
@@ -892,11 +918,12 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `order_date` (`order_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.orders: ~0 rows (approximately)
+-- Dumping data for table newtestcms.orders: ~0 rows (approximately)
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.orders_items
+-- Dumping structure for table newtestcms.orders_items
+DROP TABLE IF EXISTS `orders_items`;
 CREATE TABLE IF NOT EXISTS `orders_items` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -904,11 +931,12 @@ CREATE TABLE IF NOT EXISTS `orders_items` (
   PRIMARY KEY (`order_id`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.orders_items: ~0 rows (approximately)
+-- Dumping data for table newtestcms.orders_items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `orders_items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orders_items` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.page
+-- Dumping structure for table newtestcms.page
+DROP TABLE IF EXISTS `page`;
 CREATE TABLE IF NOT EXISTS `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `language` int(11) NOT NULL DEFAULT 1,
@@ -938,25 +966,12 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.page: ~10 rows (approximately)
+-- Dumping data for table newtestcms.page: ~0 rows (approximately)
 /*!40000 ALTER TABLE `page` DISABLE KEYS */;
-INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `starpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
-	(1, 1, 0, 'Inicio', 'home', '#', 'Home', 'home', 'home', '', NULL, 1, 0, NULL, NULL, NULL, NULL, '&lt;div id=&quot;ipy2&quot; class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot;&gt;&lt;div id=&quot;injh&quot;&gt;&lt;div&gt;que hay de nuevo&lt;/div&gt;&lt;div&gt;COMO ESTA TODO.&lt;/div&gt;&lt;div id=&quot;i7zg&quot;&gt;aqui vamos&lt;br/&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot;&gt;&lt;div id=&quot;isefi&quot;&gt;Insert your text here&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;cell&quot;&gt;&lt;img id=&quot;iys1f&quot; src=&quot;uploads/mapa-peru-1913.jpg&quot;/&gt;&lt;/div&gt;&lt;div class=&quot;cell&quot; id=&quot;ihwbg&quot;&gt;&lt;div id=&quot;i9bwr&quot;&gt;Insert your text here&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.cell{min-height:75px;flex-grow:1;flex-basis:100%;}#injh{padding:10px;}#i9bwr{padding:10px;}#iys1f{color:black;}#isefi{padding:10px;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2020-11-25 05:58:14'),
-	(2, 1, 0, 'Products', 'products', '#', 'products', 'products', 'products', '', NULL, 1, 0, 'store', 'products.php', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-10 00:22:18'),
-	(3, 1, 0, 'Product', 'product', '#', 'Product', 'Product', 'Product', '', NULL, 1, 1, 'store', 'product.php', NULL, NULL, '&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot; id=&quot;itd8&quot;&gt;&lt;div id=&quot;ia8k&quot;&gt;Hello&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot; id=&quot;io38&quot;&gt;&lt;div id=&quot;il1e&quot;&gt;Insert your text here&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;cell&quot;&gt;&lt;div id=&quot;ibmhj&quot;&gt;Insert your text here&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;cell&quot;&gt;&lt;div id=&quot;iqqdr&quot;&gt;Insert your text here&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;', '* { box-sizing: border-box; } body {margin: 0;}.cell{min-height:75px;flex-grow:1;flex-basis:100%;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}#ia8k{padding:10px;}#il1e{padding:10px;}#ibmhj{padding:10px;}#iqqdr{padding:10px;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 0, 1, 2, 0, 1, '2021-06-12 03:51:30'),
-	(4, 1, 0, 'Cart', 'cart', '#', 'Cart', 'Cart', 'Cart', '', NULL, 1, 1, 'store', 'cart.php', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-10 16:48:58'),
-	(5, 1, 0, 'Checkout', 'checkout', '#', 'Checkout', 'Checkout', 'Checkout', '', NULL, 1, 1, 'store', 'checkout.php', NULL, NULL, NULL, NULL, 0, 1, 4, 0, 1, '2020-11-10 16:21:07'),
-	(6, 1, 0, 'Order', 'order', '#', 'Order', 'Order', 'Order', '', NULL, 1, 1, 'store', 'order.php', NULL, NULL, NULL, NULL, 0, 1, 4, 0, 1, '2020-11-10 17:32:12'),
-	(7, 1, 0, 'Process order', 'process-order', '#', 'Process order', 'Process order', 'Process order', '', NULL, 1, 1, 'store', 'process_order.php', NULL, NULL, NULL, NULL, 0, 1, 4, 0, 1, '2020-11-10 17:32:14'),
-	(8, 1, 0, 'Search', 'search', NULL, 'Search', 'Search', 'Search', '', NULL, 1, 1, 'store', 'search.php', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-16 19:14:53'),
-	(9, 1, 0, 'Ofertas', 'ofertas', NULL, 'Ofertas', 'Ofertas', 'Ofertas', '', NULL, 1, 0, '', '', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-25 05:53:36'),
-	(10, 1, 0, 'M&aacute;s visto', 'mas-visto', NULL, 'M&aacute;s visto', 'M&aacute;s visto', 'M&aacute;s visto', '', NULL, 1, 0, '', '', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-25 05:57:37'),
-	(11, 1, 0, 'Vender', 'vender', NULL, 'Vender', 'Vender', 'Vender', '', NULL, 1, 0, '', '', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-25 05:55:09'),
-	(12, 1, 0, 'Ayuda', 'ayuda', NULL, 'Ayuda', 'Ayuda', 'Ayuda', '', NULL, 1, 0, '', '', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-11-25 05:55:44'),
-	(13, 1, 0, 'Categories', 'categories', NULL, 'Categories', 'Categories', 'Categories', '', NULL, 1, 1, 'store', 'categories.php', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2020-12-09 18:13:35');
 /*!40000 ALTER TABLE `page` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.payment_transactions
+-- Dumping structure for table newtestcms.payment_transactions
+DROP TABLE IF EXISTS `payment_transactions`;
 CREATE TABLE IF NOT EXISTS `payment_transactions` (
   `Payment_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Ref_ID` varchar(20) DEFAULT NULL,
@@ -975,43 +990,12 @@ CREATE TABLE IF NOT EXISTS `payment_transactions` (
   PRIMARY KEY (`Payment_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.payment_transactions: ~0 rows (approximately)
+-- Dumping data for table newtestcms.payment_transactions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `payment_transactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `payment_transactions` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.permissions
-CREATE TABLE IF NOT EXISTS `permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `category` varchar(50) NOT NULL DEFAULT 'General',
-  `required` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.permissions: ~0 rows (approximately)
-/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
-	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
-	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
-	(3, 'Ban Users', 'Moderation permission allowing the banning of users', 'Users', 1),
-	(4, 'Assign Roles to Users', 'Administration permission allowing the assignment of roles to users', 'Users', 1),
-	(5, 'Assign Users to Roles', 'Administration permission allowing the assignment of users to roles', 'Roles', 1),
-	(6, 'Create Roles', 'Administration permission allowing for the creation of new roles', 'Roles', 1),
-	(7, 'Delete Roles', 'Administration permission allowing for the deletion of roles', 'Roles', 1),
-	(8, 'Create Permissions', 'Administration permission allowing for the creation of new permissions', 'Permissions', 1),
-	(9, 'Delete Permissions', 'Administration permission allowing for the deletion of permissions', 'Permissions', 1),
-	(10, 'Assign Permissions to Roles', 'Administration permission allowing the assignment of permissions to roles', 'Roles', 1),
-	(11, 'Edit Site Config', 'Administration permission allowing the editing of core site configuration (dangerous)', 'Administration', 1),
-	(12, 'View Permissions', 'Administration permission allowing the viewing of all permissions', 'Permissions', 1),
-	(13, 'View Roles', 'Administration permission allowing for the viewing of all roles', 'Roles', 1),
-	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
-	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
-/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.personal_config
+-- Dumping structure for table newtestcms.personal_config
+DROP TABLE IF EXISTS `personal_config`;
 CREATE TABLE IF NOT EXISTS `personal_config` (
   `idPconf` int(11) DEFAULT NULL,
   `looking_for` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -1030,11 +1014,12 @@ CREATE TABLE IF NOT EXISTS `personal_config` (
   `skills` varchar(50) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table projectloginsytem.personal_config: ~0 rows (approximately)
+-- Dumping data for table newtestcms.personal_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `personal_config` DISABLE KEYS */;
 /*!40000 ALTER TABLE `personal_config` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.press_gal
+-- Dumping structure for table newtestcms.press_gal
+DROP TABLE IF EXISTS `press_gal`;
 CREATE TABLE IF NOT EXISTS `press_gal` (
   `idPr` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT NULL,
@@ -1048,11 +1033,12 @@ CREATE TABLE IF NOT EXISTS `press_gal` (
   PRIMARY KEY (`idPr`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.press_gal: ~0 rows (approximately)
+-- Dumping data for table newtestcms.press_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `press_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `press_gal` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.profiles
+-- Dumping structure for table newtestcms.profiles
+DROP TABLE IF EXISTS `profiles`;
 CREATE TABLE IF NOT EXISTS `profiles` (
   `idp` char(128) NOT NULL,
   `mkhash` varchar(256) NOT NULL DEFAULT '',
@@ -1084,13 +1070,14 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.profiles: ~1 rows (approximately)
+-- Dumping data for table newtestcms.profiles: ~1 rows (approximately)
 /*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
 INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('48169186060e51fc7008b9', '22ee5087abbf8e68d089fcb5d31ed60d6eb71a62', NULL, NULL, NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-10-10 01:58:02', '2021-08-08 02:33:28');
+	('2101701539612055bfcdd04', 'e1652256b10749b3f7fe95575ac0eb52a52f3434', 'Jose', 'Mantilla', NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-08-21 01:24:15', '2021-08-21 04:18:27');
 /*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.purchases
+-- Dumping structure for table newtestcms.purchases
+DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE IF NOT EXISTS `purchases` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Purchase_Number` varchar(20) NOT NULL,
@@ -1108,11 +1095,12 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   KEY `TSupplierTBeli` (`Supplier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.purchases: ~0 rows (approximately)
+-- Dumping data for table newtestcms.purchases: ~0 rows (approximately)
 /*!40000 ALTER TABLE `purchases` DISABLE KEYS */;
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.purchases_detail
+-- Dumping structure for table newtestcms.purchases_detail
+DROP TABLE IF EXISTS `purchases_detail`;
 CREATE TABLE IF NOT EXISTS `purchases_detail` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Purchase_Number` varchar(20) NOT NULL,
@@ -1127,31 +1115,12 @@ CREATE TABLE IF NOT EXISTS `purchases_detail` (
   KEY `TBeliTDBeli` (`Purchase_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.purchases_detail: ~0 rows (approximately)
+-- Dumping data for table newtestcms.purchases_detail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `purchases_detail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `purchases_detail` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.roles
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT 0,
-  `default_role` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`),
-  UNIQUE KEY `default_role_UNIQUE` (`default_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.roles: ~0 rows (approximately)
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` (`id`, `name`, `description`, `required`, `default_role`) VALUES
-	(1, 'Superadmin', 'Master administrator of site', 1, NULL),
-	(2, 'Admin', 'Site administrator', 1, NULL),
-	(3, 'Standard User', 'Default site role for standard users', 1, 1);
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.role_permissions
+-- Dumping structure for table newtestcms.role_permissions
+DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE IF NOT EXISTS `role_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
@@ -1163,7 +1132,7 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.role_permissions: ~0 rows (approximately)
+-- Dumping data for table newtestcms.role_permissions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `role_permissions` DISABLE KEYS */;
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
@@ -1192,7 +1161,8 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(24, 2, 15);
 /*!40000 ALTER TABLE `role_permissions` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.route_page
+-- Dumping structure for table newtestcms.route_page
+DROP TABLE IF EXISTS `route_page`;
 CREATE TABLE IF NOT EXISTS `route_page` (
   `idRpg` int(11) NOT NULL AUTO_INCREMENT,
   `language` int(11) NOT NULL DEFAULT 1,
@@ -1221,11 +1191,12 @@ CREATE TABLE IF NOT EXISTS `route_page` (
   PRIMARY KEY (`idRpg`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.route_page: ~0 rows (approximately)
+-- Dumping data for table newtestcms.route_page: ~0 rows (approximately)
 /*!40000 ALTER TABLE `route_page` DISABLE KEYS */;
 /*!40000 ALTER TABLE `route_page` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.sales
+-- Dumping structure for table newtestcms.sales
+DROP TABLE IF EXISTS `sales`;
 CREATE TABLE IF NOT EXISTS `sales` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Sales_Number` varchar(20) NOT NULL,
@@ -1251,11 +1222,12 @@ CREATE TABLE IF NOT EXISTS `sales` (
   KEY `TCustomerTJual` (`Customer_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.sales: ~0 rows (approximately)
+-- Dumping data for table newtestcms.sales: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.sales_detail
+-- Dumping structure for table newtestcms.sales_detail
+DROP TABLE IF EXISTS `sales_detail`;
 CREATE TABLE IF NOT EXISTS `sales_detail` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Sales_Number` varchar(20) NOT NULL,
@@ -1270,11 +1242,12 @@ CREATE TABLE IF NOT EXISTS `sales_detail` (
   KEY `TJualTDJual` (`Sales_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.sales_detail: ~0 rows (approximately)
+-- Dumping data for table newtestcms.sales_detail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_detail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_detail` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.secrets
+-- Dumping structure for table newtestcms.secrets
+DROP TABLE IF EXISTS `secrets`;
 CREATE TABLE IF NOT EXISTS `secrets` (
   `secretid` char(128) NOT NULL DEFAULT '',
   `userid` char(128) NOT NULL,
@@ -1288,11 +1261,12 @@ CREATE TABLE IF NOT EXISTS `secrets` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.secrets: ~0 rows (approximately)
+-- Dumping data for table newtestcms.secrets: ~0 rows (approximately)
 /*!40000 ALTER TABLE `secrets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `secrets` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.sessions
+-- Dumping structure for table newtestcms.sessions
+DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `set_time` int(11) NOT NULL,
@@ -1301,11 +1275,12 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.sessions: ~0 rows (approximately)
+-- Dumping data for table newtestcms.sessions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.settings
+-- Dumping structure for table newtestcms.settings
+DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `Option_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `Option_Default` enum('Y','N') DEFAULT 'N',
@@ -1411,11 +1386,12 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`Option_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.settings: ~0 rows (approximately)
+-- Dumping data for table newtestcms.settings: ~0 rows (approximately)
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.slideshow
+-- Dumping structure for table newtestcms.slideshow
+DROP TABLE IF EXISTS `slideshow`;
 CREATE TABLE IF NOT EXISTS `slideshow` (
   `idSld` int(11) NOT NULL AUTO_INCREMENT,
   `title` char(50) COLLATE utf8_bin NOT NULL,
@@ -1427,11 +1403,12 @@ CREATE TABLE IF NOT EXISTS `slideshow` (
   PRIMARY KEY (`idSld`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table projectloginsytem.slideshow: ~0 rows (approximately)
+-- Dumping data for table newtestcms.slideshow: ~0 rows (approximately)
 /*!40000 ALTER TABLE `slideshow` DISABLE KEYS */;
 /*!40000 ALTER TABLE `slideshow` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.slideshow_image
+-- Dumping structure for table newtestcms.slideshow_image
+DROP TABLE IF EXISTS `slideshow_image`;
 CREATE TABLE IF NOT EXISTS `slideshow_image` (
   `idImg` int(11) NOT NULL AUTO_INCREMENT,
   `slideshow_id` int(11) DEFAULT NULL,
@@ -1446,74 +1423,24 @@ CREATE TABLE IF NOT EXISTS `slideshow_image` (
   CONSTRAINT `SLD1` FOREIGN KEY (`slideshow_id`) REFERENCES `slideshow` (`idSld`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table projectloginsytem.slideshow_image: ~0 rows (approximately)
+-- Dumping data for table newtestcms.slideshow_image: ~0 rows (approximately)
 /*!40000 ALTER TABLE `slideshow_image` DISABLE KEYS */;
 /*!40000 ALTER TABLE `slideshow_image` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.sl_permissions
-CREATE TABLE IF NOT EXISTS `sl_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `category` varchar(50) NOT NULL DEFAULT 'General',
-  `required` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.sl_permissions: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sl_permissions` DISABLE KEYS */;
-INSERT INTO `sl_permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
-	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
-	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
-	(3, 'Ban Users', 'Moderation permission allowing the banning of users', 'Users', 1),
-	(4, 'Assign Roles to Users', 'Administration permission allowing the assignment of roles to users', 'Users', 1),
-	(5, 'Assign Users to Roles', 'Administration permission allowing the assignment of users to roles', 'Roles', 1),
-	(6, 'Create Roles', 'Administration permission allowing for the creation of new roles', 'Roles', 1),
-	(7, 'Delete Roles', 'Administration permission allowing for the deletion of roles', 'Roles', 1),
-	(8, 'Create Permissions', 'Administration permission allowing for the creation of new permissions', 'Permissions', 1),
-	(9, 'Delete Permissions', 'Administration permission allowing for the deletion of permissions', 'Permissions', 1),
-	(10, 'Assign Permissions to Roles', 'Administration permission allowing the assignment of permissions to roles', 'Roles', 1),
-	(11, 'Edit Site Config', 'Administration permission allowing the editing of core site configuration (dangerous)', 'Administration', 1),
-	(12, 'View Permissions', 'Administration permission allowing the viewing of all permissions', 'Permissions', 1),
-	(13, 'View Roles', 'Administration permission allowing for the viewing of all roles', 'Roles', 1),
-	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
-	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
-/*!40000 ALTER TABLE `sl_permissions` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.sl_roles
-CREATE TABLE IF NOT EXISTS `sl_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT 0,
-  `default_role` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`),
-  UNIQUE KEY `default_role_UNIQUE` (`default_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.sl_roles: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sl_roles` DISABLE KEYS */;
-INSERT INTO `sl_roles` (`id`, `name`, `description`, `required`, `default_role`) VALUES
-	(1, 'Superadmin', 'Master administrator of site', 1, NULL),
-	(2, 'Admin', 'Site administrator', 1, NULL),
-	(3, 'Standard User', 'Default site role for standard users', 1, 1);
-/*!40000 ALTER TABLE `sl_roles` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.social_link
+-- Dumping structure for table newtestcms.social_link
+DROP TABLE IF EXISTS `social_link`;
 CREATE TABLE IF NOT EXISTS `social_link` (
   `social_name` varchar(20) DEFAULT NULL,
   `social_url` varchar(150) DEFAULT NULL,
   KEY `social_name` (`social_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.social_link: ~0 rows (approximately)
+-- Dumping data for table newtestcms.social_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `social_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `social_link` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stats_counter
+-- Dumping structure for table newtestcms.stats_counter
+DROP TABLE IF EXISTS `stats_counter`;
 CREATE TABLE IF NOT EXISTS `stats_counter` (
   `Type` varchar(50) NOT NULL DEFAULT '',
   `Variable` varchar(50) NOT NULL DEFAULT '',
@@ -1521,11 +1448,12 @@ CREATE TABLE IF NOT EXISTS `stats_counter` (
   PRIMARY KEY (`Type`,`Variable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stats_counter: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stats_counter: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_counter` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_counter` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stats_counterlog
+-- Dumping structure for table newtestcms.stats_counterlog
+DROP TABLE IF EXISTS `stats_counterlog`;
 CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   `IP_Address` varchar(50) NOT NULL DEFAULT '',
   `Hostname` varchar(50) DEFAULT NULL,
@@ -1535,11 +1463,12 @@ CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   PRIMARY KEY (`IP_Address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stats_counterlog: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stats_counterlog: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_counterlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_counterlog` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stats_date
+-- Dumping structure for table newtestcms.stats_date
+DROP TABLE IF EXISTS `stats_date`;
 CREATE TABLE IF NOT EXISTS `stats_date` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Month` tinyint(4) NOT NULL DEFAULT 0,
@@ -1548,11 +1477,12 @@ CREATE TABLE IF NOT EXISTS `stats_date` (
   PRIMARY KEY (`Date`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stats_date: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stats_date: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_date` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_date` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stats_hour
+-- Dumping structure for table newtestcms.stats_hour
+DROP TABLE IF EXISTS `stats_hour`;
 CREATE TABLE IF NOT EXISTS `stats_hour` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Month` tinyint(4) NOT NULL DEFAULT 0,
@@ -1562,11 +1492,12 @@ CREATE TABLE IF NOT EXISTS `stats_hour` (
   PRIMARY KEY (`Date`,`Hour`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stats_hour: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stats_hour: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_hour` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_hour` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stats_month
+-- Dumping structure for table newtestcms.stats_month
+DROP TABLE IF EXISTS `stats_month`;
 CREATE TABLE IF NOT EXISTS `stats_month` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Month` tinyint(4) NOT NULL DEFAULT 0,
@@ -1574,33 +1505,36 @@ CREATE TABLE IF NOT EXISTS `stats_month` (
   PRIMARY KEY (`Year`,`Month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stats_month: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stats_month: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_month` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_month` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stats_year
+-- Dumping structure for table newtestcms.stats_year
+DROP TABLE IF EXISTS `stats_year`;
 CREATE TABLE IF NOT EXISTS `stats_year` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Hits` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stats_year: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stats_year: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_year` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_year` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stock_categories
+-- Dumping structure for table newtestcms.stock_categories
+DROP TABLE IF EXISTS `stock_categories`;
 CREATE TABLE IF NOT EXISTS `stock_categories` (
   `Category_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Category_Name` varchar(20) NOT NULL,
   PRIMARY KEY (`Category_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stock_categories: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stock_categories: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stock_categories` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock_categories` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.stock_items
+-- Dumping structure for table newtestcms.stock_items
+DROP TABLE IF EXISTS `stock_items`;
 CREATE TABLE IF NOT EXISTS `stock_items` (
   `Stock_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Supplier_Number` varchar(20) NOT NULL,
@@ -1619,11 +1553,12 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   PRIMARY KEY (`Stock_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.stock_items: ~0 rows (approximately)
+-- Dumping data for table newtestcms.stock_items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stock_items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock_items` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.suppliers
+-- Dumping structure for table newtestcms.suppliers
+DROP TABLE IF EXISTS `suppliers`;
 CREATE TABLE IF NOT EXISTS `suppliers` (
   `Supplier_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Supplier_Number` varchar(20) NOT NULL,
@@ -1646,24 +1581,24 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   UNIQUE KEY `KodeCust` (`Supplier_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.suppliers: ~0 rows (approximately)
+-- Dumping data for table newtestcms.suppliers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.table_config
+-- Dumping structure for table newtestcms.table_config
+DROP TABLE IF EXISTS `table_config`;
 CREATE TABLE IF NOT EXISTS `table_config` (
   `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` text DEFAULT NULL,
   PRIMARY KEY (`tcon_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.table_config: ~0 rows (approximately)
+-- Dumping data for table newtestcms.table_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_config` DISABLE KEYS */;
-INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
-	(1, 'configuration');
 /*!40000 ALTER TABLE `table_config` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.table_queries
+-- Dumping structure for table newtestcms.table_queries
+DROP TABLE IF EXISTS `table_queries`;
 CREATE TABLE IF NOT EXISTS `table_queries` (
   `tque_Id` int(11) NOT NULL AUTO_INCREMENT,
   `name_table` varchar(50) DEFAULT NULL,
@@ -1680,11 +1615,12 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   PRIMARY KEY (`tque_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.table_queries: ~0 rows (approximately)
+-- Dumping data for table newtestcms.table_queries: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_queries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `table_queries` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.table_settings
+-- Dumping structure for table newtestcms.table_settings
+DROP TABLE IF EXISTS `table_settings`;
 CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` text NOT NULL,
@@ -1697,25 +1633,24 @@ CREATE TABLE IF NOT EXISTS `table_settings` (
   UNIQUE KEY `table_name` (`table_name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.table_settings: ~2 rows (approximately)
+-- Dumping data for table newtestcms.table_settings: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_settings` DISABLE KEYS */;
-INSERT INTO `table_settings` (`IdTbset`, `table_name`, `views_name`, `adds_name`, `updates_name`, `deletes_name`, `permits_name`) VALUES
-	(1, '', 'config_name,config_value', 'config_name,config_value', 'config_name,config_value', '', 'config_name,config_value'),
-	(2, 'configuration', 'config_name,config_value', 'config_name,config_value', 'config_name,config_value', '', 'config_name,config_value');
 /*!40000 ALTER TABLE `table_settings` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.templates
+-- Dumping structure for table newtestcms.templates
+DROP TABLE IF EXISTS `templates`;
 CREATE TABLE IF NOT EXISTS `templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `templates` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.templates: ~0 rows (approximately)
+-- Dumping data for table newtestcms.templates: ~0 rows (approximately)
 /*!40000 ALTER TABLE `templates` DISABLE KEYS */;
 /*!40000 ALTER TABLE `templates` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.themes
+-- Dumping structure for table newtestcms.themes
+DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
   `Theme_ID` varchar(25) NOT NULL,
   `Theme_Name` varchar(25) NOT NULL,
@@ -1723,22 +1658,24 @@ CREATE TABLE IF NOT EXISTS `themes` (
   PRIMARY KEY (`Theme_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.themes: ~0 rows (approximately)
+-- Dumping data for table newtestcms.themes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `themes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `themes` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.timezone
+-- Dumping structure for table newtestcms.timezone
+DROP TABLE IF EXISTS `timezone`;
 CREATE TABLE IF NOT EXISTS `timezone` (
   `Timezone` varchar(50) NOT NULL,
   `Default` enum('Y','N') NOT NULL DEFAULT 'N',
   PRIMARY KEY (`Timezone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.timezone: ~0 rows (approximately)
+-- Dumping data for table newtestcms.timezone: ~0 rows (approximately)
 /*!40000 ALTER TABLE `timezone` DISABLE KEYS */;
 /*!40000 ALTER TABLE `timezone` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.tokens
+-- Dumping structure for table newtestcms.tokens
+DROP TABLE IF EXISTS `tokens`;
 CREATE TABLE IF NOT EXISTS `tokens` (
   `tokenid` char(25) NOT NULL,
   `userid` char(128) NOT NULL,
@@ -1750,78 +1687,60 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.tokens: ~0 rows (approximately)
+-- Dumping data for table newtestcms.tokens: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.type_blocks
+-- Dumping structure for table newtestcms.type_blocks
+DROP TABLE IF EXISTS `type_blocks`;
 CREATE TABLE IF NOT EXISTS `type_blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_block` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.type_blocks: ~0 rows (approximately)
+-- Dumping data for table newtestcms.type_blocks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `type_blocks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `type_blocks` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.type_gallery
+-- Dumping structure for table newtestcms.type_gallery
+DROP TABLE IF EXISTS `type_gallery`;
 CREATE TABLE IF NOT EXISTS `type_gallery` (
   `idTG` int(11) NOT NULL AUTO_INCREMENT,
   `type_gallery` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idTG`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.type_gallery: ~0 rows (approximately)
+-- Dumping data for table newtestcms.type_gallery: ~0 rows (approximately)
 /*!40000 ALTER TABLE `type_gallery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `type_gallery` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.type_page
+-- Dumping structure for table newtestcms.type_page
+DROP TABLE IF EXISTS `type_page`;
 CREATE TABLE IF NOT EXISTS `type_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_page` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.type_page: ~0 rows (approximately)
+-- Dumping data for table newtestcms.type_page: ~0 rows (approximately)
 /*!40000 ALTER TABLE `type_page` DISABLE KEYS */;
 /*!40000 ALTER TABLE `type_page` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.unit_of_measurement
+-- Dumping structure for table newtestcms.unit_of_measurement
+DROP TABLE IF EXISTS `unit_of_measurement`;
 CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
   `UOM_ID` varchar(10) NOT NULL,
   `UOM_Description` varchar(20) NOT NULL,
   PRIMARY KEY (`UOM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.unit_of_measurement: ~0 rows (approximately)
+-- Dumping data for table newtestcms.unit_of_measurement: ~0 rows (approximately)
 /*!40000 ALTER TABLE `unit_of_measurement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `unit_of_measurement` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.userlevelpermissions
-CREATE TABLE IF NOT EXISTS `userlevelpermissions` (
-  `User_Level_ID` int(11) NOT NULL,
-  `Table_Name` varchar(255) NOT NULL,
-  `Permission` int(11) NOT NULL,
-  PRIMARY KEY (`User_Level_ID`,`Table_Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.userlevelpermissions: ~0 rows (approximately)
-/*!40000 ALTER TABLE `userlevelpermissions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userlevelpermissions` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.userlevels
-CREATE TABLE IF NOT EXISTS `userlevels` (
-  `User_Level_ID` int(11) NOT NULL,
-  `User_Level_Name` varchar(255) NOT NULL,
-  PRIMARY KEY (`User_Level_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table projectloginsytem.userlevels: ~0 rows (approximately)
-/*!40000 ALTER TABLE `userlevels` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userlevels` ENABLE KEYS */;
-
--- Dumping structure for table projectloginsytem.users
+-- Dumping structure for table newtestcms.users
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` char(128) NOT NULL,
   `username` varchar(128) NOT NULL,
@@ -1830,8 +1749,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `verified` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `ip` char(50) NOT NULL,
-  `signup_time` text NOT NULL,
-  `email_verified` varchar(128) NOT NULL DEFAULT '',
+  `signup_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `email_verified` varchar(128) NOT NULL,
   `document_verified` int(11) NOT NULL DEFAULT 0,
   `mobile_verified` int(11) NOT NULL DEFAULT 0,
   `mkpin` char(6) DEFAULT NULL,
@@ -1844,13 +1763,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.users: ~1 rows (approximately)
+-- Dumping data for table newtestcms.users: ~1 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
-	('48169186060e51fc7008b9', 'a2syTkRqSFhtaElqdlpUOFU2N05LUT09', 'KzhCeGhFRUFmTkEzN0RxMXJRcy9Zc0NLSUpBK2JYeVhVQmtjQmF0Sk93az0=', 'a2daZ3VwQlpZMGdxaHVYRC8yVkZFdz09', 1, 0, '::1', '2020-10-10 03:58:02', 'f1b6dd64a66db46bc7100fde8d6a1d931e69116a', 0, 0, '169324', '2020-10-10 01:58:02', '2020-10-10 02:00:29');
+	('2101701539612055bfcdd04', 'RjRyd1psbDRjTEFyMFlhUU5hM2JpUT09', 'dkk3dnNuY0pwem92MG1uUFRvQTQwVHRpak92WkVlOW5QQmYzRTVSYzZXQT0=', 'alh2TktYanh6UWJZOHRXY3JRaThTUT09', 1, 0, '127.0.0.1', '2021-08-21 08:24:15', '', 0, 0, '880867', '2021-08-21 01:24:15', '2021-08-21 01:24:15');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.users_mk
+-- Dumping structure for table newtestcms.users_mk
+DROP TABLE IF EXISTS `users_mk`;
 CREATE TABLE IF NOT EXISTS `users_mk` (
   `id` char(128) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
@@ -1878,11 +1798,66 @@ CREATE TABLE IF NOT EXISTS `users_mk` (
   UNIQUE KEY `password` (`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.users_mk: ~0 rows (approximately)
+-- Dumping data for table newtestcms.users_mk: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users_mk` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_mk` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.users_shop
+-- Dumping structure for table newtestcms.users_permissions
+DROP TABLE IF EXISTS `users_permissions`;
+CREATE TABLE IF NOT EXISTS `users_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `category` varchar(50) NOT NULL DEFAULT 'General',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newtestcms.users_permissions: ~0 rows (approximately)
+/*!40000 ALTER TABLE `users_permissions` DISABLE KEYS */;
+INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
+	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
+	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
+	(3, 'Ban Users', 'Moderation permission allowing the banning of users', 'Users', 1),
+	(4, 'Assign Roles to Users', 'Administration permission allowing the assignment of roles to users', 'Users', 1),
+	(5, 'Assign Users to Roles', 'Administration permission allowing the assignment of users to roles', 'Roles', 1),
+	(6, 'Create Roles', 'Administration permission allowing for the creation of new roles', 'Roles', 1),
+	(7, 'Delete Roles', 'Administration permission allowing for the deletion of roles', 'Roles', 1),
+	(8, 'Create Permissions', 'Administration permission allowing for the creation of new permissions', 'Permissions', 1),
+	(9, 'Delete Permissions', 'Administration permission allowing for the deletion of permissions', 'Permissions', 1),
+	(10, 'Assign Permissions to Roles', 'Administration permission allowing the assignment of permissions to roles', 'Roles', 1),
+	(11, 'Edit Site Config', 'Administration permission allowing the editing of core site configuration (dangerous)', 'Administration', 1),
+	(12, 'View Permissions', 'Administration permission allowing the viewing of all permissions', 'Permissions', 1),
+	(13, 'View Roles', 'Administration permission allowing for the viewing of all roles', 'Roles', 1),
+	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
+	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
+/*!40000 ALTER TABLE `users_permissions` ENABLE KEYS */;
+
+-- Dumping structure for table newtestcms.users_roles
+DROP TABLE IF EXISTS `users_roles`;
+CREATE TABLE IF NOT EXISTS `users_roles` (
+  `idRol` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `required` tinyint(1) NOT NULL DEFAULT 0,
+  `default_role` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`idRol`) USING BTREE,
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  UNIQUE KEY `default_role_UNIQUE` (`default_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newtestcms.users_roles: ~0 rows (approximately)
+/*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
+INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
+	(1, 'Superadmin', 'Master administrator of site', 1, 9),
+	(2, 'Admin', 'Site administrator', 1, 5),
+	(3, 'Standard User', 'Default site role for standard users', 1, 1);
+/*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
+
+-- Dumping structure for table newtestcms.users_shop
+DROP TABLE IF EXISTS `users_shop`;
 CREATE TABLE IF NOT EXISTS `users_shop` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(65) NOT NULL,
@@ -1895,11 +1870,12 @@ CREATE TABLE IF NOT EXISTS `users_shop` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.users_shop: ~0 rows (approximately)
+-- Dumping data for table newtestcms.users_shop: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users_shop` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_shop` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.users_sys
+-- Dumping structure for table newtestcms.users_sys
+DROP TABLE IF EXISTS `users_sys`;
 CREATE TABLE IF NOT EXISTS `users_sys` (
   `Username` varchar(65) NOT NULL,
   `Password` varchar(64) NOT NULL,
@@ -1925,11 +1901,12 @@ CREATE TABLE IF NOT EXISTS `users_sys` (
   PRIMARY KEY (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.users_sys: ~0 rows (approximately)
+-- Dumping data for table newtestcms.users_sys: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users_sys` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_sys` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.user_groups
+-- Dumping structure for table newtestcms.user_groups
+DROP TABLE IF EXISTS `user_groups`;
 CREATE TABLE IF NOT EXISTS `user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(150) NOT NULL,
@@ -1939,11 +1916,12 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
   UNIQUE KEY `group_level` (`group_level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.user_groups: ~0 rows (approximately)
+-- Dumping data for table newtestcms.user_groups: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_groups` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_groups` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.user_info
+-- Dumping structure for table newtestcms.user_info
+DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE IF NOT EXISTS `user_info` (
   `userid` char(128) NOT NULL,
   `firstname` varchar(60) NOT NULL,
@@ -1961,11 +1939,30 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   CONSTRAINT `fk_userids` FOREIGN KEY (`userid`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.user_info: ~0 rows (approximately)
+-- Dumping data for table newtestcms.user_info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.uverify
+-- Dumping structure for table newtestcms.user_jail
+DROP TABLE IF EXISTS `user_jail`;
+CREATE TABLE IF NOT EXISTS `user_jail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(128) NOT NULL,
+  `banned_hours` float NOT NULL DEFAULT 24,
+  `reason` varchar(2000) DEFAULT NULL,
+  `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  KEY `fk_userid_idx` (`user_id`),
+  CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newtestcms.user_jail: ~0 rows (approximately)
+/*!40000 ALTER TABLE `user_jail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_jail` ENABLE KEYS */;
+
+-- Dumping structure for table newtestcms.uverify
+DROP TABLE IF EXISTS `uverify`;
 CREATE TABLE IF NOT EXISTS `uverify` (
   `iduv` char(128) NOT NULL,
   `username` varchar(65) NOT NULL,
@@ -1982,20 +1979,23 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   `pin_key` varchar(256) NOT NULL,
   `rp_active` tinyint(1) NOT NULL DEFAULT 0,
   `is_activated` tinyint(1) NOT NULL DEFAULT 0,
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
   `banned` tinyint(1) NOT NULL DEFAULT 1,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`iduv`),
   UNIQUE KEY `iduv` (`iduv`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.uverify: ~1 rows (approximately)
+-- Dumping data for table newtestcms.uverify: ~1 rows (approximately)
 /*!40000 ALTER TABLE `uverify` DISABLE KEYS */;
-INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `banned`) VALUES
-	('48169186060e51fc7008b9', 'pepiuox', 'contact@pepiuox.net', 'a2daZ3VwQlpZMGdxaHVYRC8yVkZFdz09', '8fbb0aa62c15544c0b519e0e25c1a61b3838a035', '396369b82e17059b9792bd283e8aaaefcec1b831', '22ee5087abbf8e68d089fcb5d31ed60d6eb71a62', '169324', 'Admin', '', '', '', '', 0, 1, 0);
+INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
+	('2101701539612055bfcdd04', 'pepiuox', 'contact@pepiuox.net', 'alh2TktYanh6UWJZOHRXY3JRaThTUT09', '8261f2e063564dd828ea900c4e7158cf211a4d62', 'eef96e54c35952d83ae935ccba8fc28d07da8ddc', 'e1652256b10749b3f7fe95575ac0eb52a52f3434', '880867', 'Superadmin', '', '', '', '', 0, 1, 1, 0, '2021-08-21 04:18:27');
 /*!40000 ALTER TABLE `uverify` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.videos
+-- Dumping structure for table newtestcms.videos
+DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
   `idVd` int(11) NOT NULL AUTO_INCREMENT,
   `pageId` int(11) DEFAULT 0,
@@ -2009,11 +2009,12 @@ CREATE TABLE IF NOT EXISTS `videos` (
   PRIMARY KEY (`idVd`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.videos: ~0 rows (approximately)
+-- Dumping data for table newtestcms.videos: ~0 rows (approximately)
 /*!40000 ALTER TABLE `videos` DISABLE KEYS */;
 /*!40000 ALTER TABLE `videos` ENABLE KEYS */;
 
--- Dumping structure for table projectloginsytem.video_gal
+-- Dumping structure for table newtestcms.video_gal
+DROP TABLE IF EXISTS `video_gal`;
 CREATE TABLE IF NOT EXISTS `video_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT 0,
@@ -2025,11 +2026,12 @@ CREATE TABLE IF NOT EXISTS `video_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.video_gal: ~0 rows (approximately)
+-- Dumping data for table newtestcms.video_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `video_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `video_gal` ENABLE KEYS */;
 
--- Dumping structure for view projectloginsytem.view_purchases_details
+-- Dumping structure for view newtestcms.view_purchases_details
+DROP VIEW IF EXISTS `view_purchases_details`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_purchases_details` (
 	`Purchase_ID` INT(11) NOT NULL,
@@ -2042,7 +2044,8 @@ CREATE TABLE `view_purchases_details` (
 	`Purchasing_Total_Amount` DOUBLE(20,0) NOT NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view projectloginsytem.view_purchases_outstandings
+-- Dumping structure for view newtestcms.view_purchases_outstandings
+DROP VIEW IF EXISTS `view_purchases_outstandings`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_purchases_outstandings` (
 	`Purchase_ID` INT(11) NOT NULL,
@@ -2055,7 +2058,8 @@ CREATE TABLE `view_purchases_outstandings` (
 	`Total_Balance` DOUBLE(20,0) NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view projectloginsytem.view_sales_details
+-- Dumping structure for view newtestcms.view_sales_details
+DROP VIEW IF EXISTS `view_sales_details`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_sales_details` (
 	`Sales_ID` INT(11) NOT NULL,
@@ -2068,7 +2072,8 @@ CREATE TABLE `view_sales_details` (
 	`Sales_Total_Amount` DOUBLE NOT NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view projectloginsytem.view_sales_outstandings
+-- Dumping structure for view newtestcms.view_sales_outstandings
+DROP VIEW IF EXISTS `view_sales_outstandings`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_sales_outstandings` (
 	`Sales_ID` INT(11) NOT NULL,
@@ -2087,7 +2092,21 @@ CREATE TABLE `view_sales_outstandings` (
 	`Final_Total_Amount` DOUBLE NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for table projectloginsytem.volunteer
+-- Dumping structure for table newtestcms.visitor
+DROP TABLE IF EXISTS `visitor`;
+CREATE TABLE IF NOT EXISTS `visitor` (
+  `ip` varchar(15) NOT NULL,
+  `timestamp` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newtestcms.visitor: ~1 rows (approximately)
+/*!40000 ALTER TABLE `visitor` DISABLE KEYS */;
+INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
+	('127.0.0.1', '1629510472');
+/*!40000 ALTER TABLE `visitor` ENABLE KEYS */;
+
+-- Dumping structure for table newtestcms.volunteer
+DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE IF NOT EXISTS `volunteer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(50) DEFAULT NULL,
@@ -2119,85 +2138,12 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table projectloginsytem.volunteer: ~0 rows (approximately)
+-- Dumping data for table newtestcms.volunteer: ~0 rows (approximately)
 /*!40000 ALTER TABLE `volunteer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `volunteer` ENABLE KEYS */;
 
--- Dumping structure for view projectloginsytem.vw_banned_users
--- Creating temporary table to overcome VIEW dependency errors
-CREATE TABLE `vw_banned_users` (
-	`user_id` CHAR(128) NOT NULL COLLATE 'utf8_general_ci',
-	`banned_timestamp` DATETIME NOT NULL,
-	`banned_hours` FLOAT NOT NULL,
-	`hours_remaining` DOUBLE NULL
-) ENGINE=MyISAM;
-
--- Dumping structure for trigger projectloginsytem.assign_default_role
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `assign_default_role` AFTER INSERT ON `members` FOR EACH ROW BEGIN
-   SET @default_role = (SELECT id FROM roles WHERE default_role = 1 LIMIT 1);
-   INSERT INTO member_roles (member_id, role_id) VALUES (NEW.id, @default_role);
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
-
--- Dumping structure for trigger projectloginsytem.move_to_deleted_members
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `move_to_deleted_members` AFTER DELETE ON `members` FOR EACH ROW BEGIN
-   DELETE FROM deleted_members
-      WHERE deleted_members.id = OLD.id;
-   INSERT INTO deleted_members (id, username, password, email, verified)
-      VALUES ( OLD.id, OLD.username, OLD.password, OLD.email, OLD.verified );
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
-
--- Dumping structure for trigger projectloginsytem.prevent_deletion_of_required_perms
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `prevent_deletion_of_required_perms` BEFORE DELETE ON `permissions` FOR EACH ROW BEGIN
-   IF OLD.required = 1 THEN
-      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete required permissions';
-   END IF;
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
-
--- Dumping structure for trigger projectloginsytem.prevent_deletion_of_required_roles
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `prevent_deletion_of_required_roles` BEFORE DELETE ON `roles` FOR EACH ROW BEGIN
-   IF OLD.required = 1 THEN
-      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete required roles';
-   END IF;
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
-
--- Dumping structure for trigger projectloginsytem.prevent_deletion_of_superadmin
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `prevent_deletion_of_superadmin` BEFORE DELETE ON `members` FOR EACH ROW BEGIN
-   IF
-      (SELECT count(m.id)
-      FROM members m
-      INNER JOIN member_roles mr on mr.member_id = m.id
-      INNER JOIN roles r on mr.role_id = r.id
-      WHERE
-         m.verified = 1
-      AND m.banned = 0
-      AND r.name = 'Superadmin'
-      AND m.id = OLD.id) > 0
-      THEN
-      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete superadmin user';
-   END IF;
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
-
--- Dumping structure for view projectloginsytem.view_purchases_details
+-- Dumping structure for view newtestcms.view_purchases_details
+DROP VIEW IF EXISTS `view_purchases_details`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_purchases_details`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_details` AS SELECT
@@ -2212,7 +2158,8 @@ purchases_detail.Purchasing_Total_Amount
 FROM
 purchases_detail ;
 
--- Dumping structure for view projectloginsytem.view_purchases_outstandings
+-- Dumping structure for view newtestcms.view_purchases_outstandings
+DROP VIEW IF EXISTS `view_purchases_outstandings`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_purchases_outstandings`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_outstandings` AS SELECT
@@ -2228,7 +2175,8 @@ FROM
 purchases 
 WHERE purchases.Total_Balance <> 0 ;
 
--- Dumping structure for view projectloginsytem.view_sales_details
+-- Dumping structure for view newtestcms.view_sales_details
+DROP VIEW IF EXISTS `view_sales_details`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_sales_details`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_details` AS SELECT
@@ -2243,7 +2191,8 @@ sales_detail.Sales_Total_Amount
 FROM
 sales_detail ;
 
--- Dumping structure for view projectloginsytem.view_sales_outstandings
+-- Dumping structure for view newtestcms.view_sales_outstandings
+DROP VIEW IF EXISTS `view_sales_outstandings`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_sales_outstandings`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_outstandings` AS SELECT
@@ -2264,17 +2213,6 @@ sales.Final_Total_Amount
 FROM
 sales 
 WHERE sales.Total_Balance <> 0 ;
-
--- Dumping structure for view projectloginsytem.vw_banned_users
--- Removing temporary table and create final VIEW structure
-DROP TABLE IF EXISTS `vw_banned_users`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_banned_users` AS SELECT
-   member_jail.user_id AS `user_id`,
-   member_jail.timestamp AS `banned_timestamp`,
-   member_jail.banned_hours AS `banned_hours`,
-   ( member_jail.banned_hours - (TIME_TO_SEC(TIMEDIFF(NOW(), member_jail.timestamp)) / 3600)) AS `hours_remaining`
-   FROM
-   member_jail ;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

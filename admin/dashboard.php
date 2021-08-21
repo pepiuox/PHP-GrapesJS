@@ -8,9 +8,13 @@ require 'Autoload.php';
 $login = new UserClass();
 $check = new CheckValidUser();
 $level = new AccessLevel();
-if (!empty($_GET['cms'])) {
+
+if (isset($_GET['cms']) && !empty($_GET['cms'])) {
     $cms = $_GET['cms'];
+} else {
+    $cms = '';
 }
+
 $vpages = '';
 ?>
 <?php include '../elements/header.php'; ?>
@@ -113,12 +117,7 @@ $vpages = '';
                         <div class="container-fluid">
                             <!-- Small boxes (Stat box) -->
                             <div class="row">
-                                <div class="col-lg-3 col-6">
-                                    <?php
-                                    $permiss = $level->getRols($_SESSION['levels']);
-
-                                    echo $permiss['permission_id'];
-                                    ?>
+                                <div class="col-lg-3 col-6">                            
                                     <!-- small box -->
                                     <div class="small-box bg-info">
                                         <div class="inner">
@@ -130,7 +129,7 @@ $vpages = '';
                                         <div class="icon">
                                             <i class="ion ion-bag"></i>
                                         </div>
-                                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="dashboard.php?cms=users" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <!-- ./col -->
