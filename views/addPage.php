@@ -159,7 +159,7 @@
 </div>
 
 <script>
-$(function () {
+$(document).ready(function() {
 $("#title").keyup(function () {
 
     var value = $(this).val();
