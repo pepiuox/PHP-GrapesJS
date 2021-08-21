@@ -26,14 +26,23 @@ class installUser {
         }
     }
 
+// This function check that they do not have html symbols 
     public function procheck($string) {
         return htmlspecialchars(trim($string), ENT_QUOTES);
     }
 
+// This function validate string of first name or lastname
+    public function ValidNames($str) {
+        return preg_match('/^[_a-zA-Z ]+$/', $str);
+    }
+
+// This function validate string of username
     public function risValidUsername($str) {
         return preg_match('/^[a-zA-Z0-9-_]+$/', $str);
     }
 
+//  This function validate if your email is correct 
+    // for change TLD change the values {2,3} to {2,6} o last number dependent the limited of personal TLD
     public function risValidEmail($str) {
         if (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $str)) {
             $_SESSION['ErrorMessage'] = 'Please insert the correct email.';
@@ -42,18 +51,21 @@ class installUser {
         return filter_var($str, FILTER_VALIDATE_EMAIL);
     }
 
+// This function check if username exists
     public function checkUsername($username) {
 
         $num = $this->connection->query("SELECT username FROM uverify WHERE username='$username'")->num_rows;
         return $num;
     }
 
+// This function check if email exists
     public function checkEmail($email) {
 
         $num = $this->connection->query("SELECT email FROM uverify WHERE email='$email'")->num_rows;
         return $num;
     }
 
+// This function get IP from visitor
     public function getUserIP() {
         // Get real visitor IP behind CloudFlare network
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
@@ -105,6 +117,7 @@ class installUser {
         return $output;
     }
 
+// function CountSUser() count the hight user level
     private function CountSUser() {
         $lvushigh = 'Superadmin';
 
@@ -120,6 +133,7 @@ class installUser {
         $qlv->close();
     }
 
+// function CountAUser() count the medium user level
     private function CountAUser() {
 
         $lvusmid = 'Admin';
@@ -178,6 +192,10 @@ class installUser {
 // message for incomplete field or actions
             if (empty($firstname) || empty($lastname) || empty($username) || empty($email) || empty($password) || empty($repassword)) {
                 $_SESSION['ErrorMessage'] = "Fill in the fields or boxes!";
+            } elseif (!$this->ValidNames($firstname)) {
+                $_SESSION['ErrorMessage'] = "Please enter a valid firstname without numbers or simbols!";
+            } elseif (!$this->ValidNames($lastname)) {
+                $_SESSION['ErrorMessage'] = "Please enter a valid lastname without numbers or simbols!";
             } elseif (!$this->risValidUsername($username)) {
                 $_SESSION['ErrorMessage'] = "Please enter a valid user!";
             } elseif ($this->checkUsername($username) > 0) {
@@ -229,8 +247,8 @@ class installUser {
                     $stmt->close();
 
                     // adding data in table info
-                    $info = $this->connection->prepare("INSERT INTO profiles(idp,mkhash) VALUES (?,?)");
-                    $info->bind_param("ss", $newid, $enck);
+                    $info = $this->connection->prepare("INSERT INTO profiles(idp,mkhash,firstname,lastname) VALUES (?,?,?,?)");
+                    $info->bind_param("ssss", $newid, $enck, $firstname, $lastname);
                     $info->execute();
                     $inst3 = $info->affected_rows;
                     $info->close();
@@ -238,7 +256,7 @@ class installUser {
                     if ($inst1 === 1 && $inst2 === 1 && $inst3 === 1) {
                         // message for PIN save                       
 
-                        $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering' . "\n";
+                        $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering. ' . "\n";
                         $_SESSION['SuccessMessage'] .= "Admin successfully added.";
 
                         $_SESSION['StepInstall'] = 6;
