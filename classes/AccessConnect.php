@@ -2,7 +2,7 @@
 
 class AccessConnect {
 
-   private $connection;
+    private $connection;
 
     public function __construct() {
         global $conn;
@@ -10,27 +10,37 @@ class AccessConnect {
     }
 
     public function getUserInfo($username) {
-        $q = "SELECT * FROM uverify WHERE username = '$username'";
-        $result = $this->connection->query($q);
-        /* Error occurred, return given name by default */
-        if (!$result || ($result->num_rows < 1)) {
-            return NULL;
+        $stmt = $this->connection->prepare("SELECT iduv, email, level  FROM uverify WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows == 1) {
+             /* Return result array */
+            $dbarray = $result->fetch_assoc();
+            return $dbarray;
+        } else {
+            /* Error occurred, return given name by default */
+            return NULL;           
         }
-        /* Return result array */
-        $dbarray = $result->fetch_array();
-        return $dbarray;
+        $stmt->close();
     }
 
     public function getUserOnly($username) {
-        $q = "SELECT username FROM uverify WHERE username = '$username'";
-        $result = $this->connection->query($q);
-        /* Error occurred, return given name by default */
-        if (!$result || ($result->num_rows < 1)) {
-            return NULL;
+       $stmt = $this->connection->prepare("SELECT username FROM uverify WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows == 1) {
+             /* Return result array */
+            $dbarray = $result->fetch_assoc();
+            return $dbarray['username'];
+        } else {
+            /* Error occurred, return given name by default */
+            return NULL;           
         }
-        /* Return result array */
-        $dbarray = $result->fetch_assoc();
-        return $dbarray;
+        $stmt->close();
     }
 
 }

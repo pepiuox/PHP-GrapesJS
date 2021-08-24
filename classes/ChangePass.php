@@ -77,7 +77,7 @@ class ChangePass {
                     $securing = ende_crypter('encrypt', $password2);
                     $cml = ende_crypter('encrypt', $email);
                     $clenkey = '';
-                    $upd = $this->connection->query("UPDATE uverify password=?, mktoken=?, mkkey=?, mkhash=, password_key=? WHERE email=? AND recovery_phrase=? AND password_key=?");
+                    $upd = $this->connection->prepare("UPDATE uverify password=?, mktoken=?, mkkey=?, mkhash=, password_key=? WHERE email=? AND recovery_phrase=? AND password_key=?");
                     $upd->bind_param("sssss", $securing, $ekey, $eiv, $$enck, $clenkey, $email, $recoveryphrase, $changekey);
                     $upd->execute();
                     $upd->close();

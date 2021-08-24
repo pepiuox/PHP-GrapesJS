@@ -6,6 +6,7 @@ $escaped_url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
 $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
 $active = 1;
+$startpage = 1;
 if (isset($_GET['page']) && !empty($_GET['page'])) {
     $id = (int) $_GET['page'];
 
@@ -13,20 +14,18 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
     $spg->bind_param("ii", $active, $id);
     $spg->execute();
     $rs = $spg->get_result();
-
     $rpx = $rs->fetch_assoc();
 } elseif (isset($basename) && !empty($basename)) {
     $spg = $conn->prepare("SELECT * FROM page WHERE link = ? AND active = ? ");
-    $spg->bind_param("si", $basename, $id);
+    $spg->bind_param("si", $basename, $active);
     $spg->execute();
     $rs = $spg->get_result();
-
     $nm = $rs->num_rows;
     if ($nm > 0) {
         $rpx = $rs->fetch_assoc();
     } else {
-        $spg = $conn->prepare("SELECT * FROM page WHERE starpage = ? AND active = ? ");
-        $spg->bind_param("ii", $basename, $id);
+        $spg = $conn->prepare("SELECT * FROM page WHERE startpage = ? AND active = ? ");
+        $spg->bind_param("ii", $startpage, $active);
         $spg->execute();
         $rs = $spg->get_result();
 
@@ -37,7 +36,7 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
         header("Location: $namelink");
     }
 }
-if ($rs->num_rows === 1) {
+if ($rs->num_rows > 0) {
     $bid = $rpx['id'];
     $title = $rpx['title'];
     $plink = $rpx['link'];

@@ -27,7 +27,7 @@ if ($session->logged_in) {
                         }
                         ?>          
                         <h3>Administrar Configuracion</h3> 
-                        <form action='' method='POST'> 
+                        <form method='POST'> 
                             <?php
                             echo "<table class='table table-striped table-sm'>";
                             echo "<thead>";

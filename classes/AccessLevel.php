@@ -23,7 +23,6 @@ class AccessLevel {
         $stmt = $this->connection->prepare("SELECT level FROM uverify WHERE iduv = ? AND level = ?");
         $stmt->bind_param("ss", $id, $level);
         $stmt->execute();
-
         $result = $stmt->get_result();
         $lvls = $result->fetch_assoc();
         $stmt->close();
@@ -55,7 +54,6 @@ class AccessLevel {
         $stmt = $this->connection->prepare("SELECT idRol, name FROM users_roles WHERE name = ?");
         $stmt->bind_param("s", $level);
         $stmt->execute();
-
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
@@ -65,7 +63,6 @@ class AccessLevel {
         $stmt = $this->connection->prepare("SELECT id, permission_id FROM role_permissions WHERE role_id = ?");
         $stmt->bind_param("s", $idr);
         $stmt->execute();
-
         $result = $stmt->get_result();
         return $result->fetch_array();
     }

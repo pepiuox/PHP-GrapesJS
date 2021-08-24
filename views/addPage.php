@@ -21,10 +21,10 @@
                     );
 
                     if (in_array($file_ext, $extensions)) {
-                        if (file_exists("uploads/" . $file_name)) {
+                        if (file_exists("../uploads/" . $file_name)) {
                             $errors[] = $file_name . " is already exists.";
                         } else {
-                            move_uploaded_file($file_tmp, "uploads/" . $file_name);
+                            move_uploaded_file($file_tmp, "../uploads/" . $file_name);
                             echo '<div class="alert alert-success" role="alert">';
                             echo "Your file was uploaded successfully.";
                             echo '</div>';
@@ -54,60 +54,62 @@
                     echo '</div>';
                 }
 
-                $title = $_POST['title']; // Page name
-                $link = strtolower(str_replace(" ", "-", $_POST['link'])); // Page link
-                $keyword = $_POST['keyword'];
-                $classification = $_POST['classification'];
-                $description = $_POST['description'];
-                $parent = $_POST['parent'];
+                $title = protect($_POST['title']); // Page name
+                $link = protect(strtolower(str_replace(" ", "-", $_POST['link']))); // Page link
+                $keyword = protect($_POST['keyword']);
+                $classification = protect($_POST['classification']);
+                $description = protect($_POST['description']);
+                $startpage = protect($_POST['startpage']);
+                $parent = protect($_POST['parent']);
+                $active = protect($_POST['active']);
+                $change=0;
+
+                $qlv1 = $conn->prepare("SELECT id, startpage FROM page WHERE startpage=?");
+                $qlv1->bind_param("i", $startpage);
+                $qlv1->execute();
+                $presult = $qlv1->get_result();
+                if ($presult->num_rows > 0) {
+                    $dt = $presult->fetch_assoc();
+                    $idsp = $dt['id'];
+                    $updp = $conn->prepare("UPDATE page SET startpage=? WHERE id=?");
+                    $updp->bind_param("ii", $change, $idsp);
+                    $updp->execute();
+                    $updp->close();
+                }
+
+                $qlv1->close();
+
                 // Check if parent exist or is empty
                 if (!is_int($parent) || empty($parent)) {
                     $parent = 0;
                 }
-                $active = $_POST['active'];
 
                 // Insert info in table PAGE 
-                $sql = "INSERT INTO page ( title, link, keyword, classification, description, image, parent, active) VALUES ('" . protect($title) . "', '" . protect($link) . "', '" . protect($keyword) . "', '" . protect($classification) . "', '" . protect($description) . "', '" . protect($file_name) . "','" . protect($parent) . "', '" . protect($active) . "')";
-                if ($conn->query($sql) === TRUE) {
-                    $last_id = $conn->insert_id;
+                $sql = "INSERT INTO page (title, link, keyword, classification, description, image, startpage, parent, active) "
+                        . "VALUES (?,?,?,?,?,?,?,?,?)";
+                $updp = $conn->prepare($sql);
+                $updp->bind_param("ssssssiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active);
+                $updp->execute();
+                $last_id = $conn->insert_id;
+                $updp->close();
+
+                if (!empty($last_id)) {
+
                     // Insert info in table MENU
-                    $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) VALUES ('" . $last_id . "', '" . protect($title) . "', '" . protect($link) . "', '" . protect($parent) . "')";
-                    if ($conn->query($sqlm) === TRUE) {
-                        /*
-                          // Store in folder pages
-                          $directory = 'pages/';
-                          //Check if the directory already exists.
-                          if (!is_dir($directory)) {
-                          //Directory does not exist, so lets create it.
-                          mkdir($directory, 0755, true);
-                          }
-                          // Change to the extension you want.
-                          $ext_files = ".html";
-                          $link_path = $directory . $link . $ext_files;
-                          $myfile = fopen($link_path, "w") or die("Unable to open file!");
-                         */
-                        // For redirect in php
-                        /*
-                          $txt = '<?php header("Location: ../view.php?id=' . $last_id . '"); ?>';
-                         */
-                        // For redirect in html
-                        /*
-                          $txt = '<html><head><script>window.location.replace("../view.php?id=' . $last_id . '");</script></head><body></body></html>';
-                          fwrite($myfile, $text);
-                          fclose($myfile);
-                         */
-                        echo '<div class="alert alert-success" role="alert">';
-                        echo "Page " . $title . " : Created ";
-                        echo '</div>';
+                    $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) "
+                            . "VALUES (?, ?, ?, ?)";
+                    $updpm = $conn->prepare($sqlm);
+                    $updpm->bind_param("issi", $last_id, $title, $link, $parent);
+                    $updpm->execute();
+                    $last_idm = $conn->insert_id;
+                    $updpm->close();
+                    if (!empty($last_idm)) {
+                        $_SESSION['SuccessMessage'] = "Page " . $title . " : Created ";
                     } else {
-                        echo '<div class="alert alert-danger" role="alert">';
-                        echo "Failed: The page was not added to the menu";
-                        echo '</div>';
+                        $_SESSION['ErrorMessage'] = "Failed: The page was not added to the menu";
                     }
                 } else {
-                    echo '<div class="alert alert-danger" role="alert">';
-                    echo "Failed: The page has not been created";
-                    echo '</div>';
+                    $_SESSION['ErrorMessage'] = "Failed: The page has not been created";
                 }
                 echo '<meta http-equiv="refresh" content="3; url=builder.php?id=' . $last_id . '" />';
             }
@@ -136,19 +138,25 @@
     <input type="text" class="form-control" id="description" name="description">
   </div>' . "\n";
             echo '<div class="form-group">
-    <label for="image">Image:</label>
+    <label for="image">Image</label>
     <input type="file" class="form-control" id="imagen" name="image">
   </div>' . "\n";
             echo '<div class="form-group">
     <label for="parent">Parent</label>' . "\n";
             echo nparent();
             echo '</div>' . "\n";
-
+            echo '<div class="form-group">
+    <label for="startpage">Is home page</label>
+    <select class="form-control" id="startpage" name="startpage">
+    <option value="1">Yes</option>
+    <option value="0">No</option>
+</select>
+  </div>' . "\n";
             echo '<div class="form-group">
     <label for="active">Active</label>
     <select class="form-control" id="active" name="active">
-<option value="1">Active</option>
-<option value="0">Inactive</option>
+    <option value="1">Active</option>
+    <option value="0">Inactive</option>
 </select>
   </div>' . "\n";
             echo '<input type="submit" name="submit" class="btn btn-primary" value="Save">' . "\n";

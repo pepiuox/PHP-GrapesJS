@@ -18,29 +18,30 @@ class AdminProcess {
             return;
         }
 
-        /* Admin submitted update user valid form */
+
         if (isset($_POST['subjoin'])) {
+            /* Admin submitted update user valid form */
             $this->procRegisterUser();
-        }
-        /* Admin submitted update user valid form */ else if (isset($_POST['subupdvalid'])) {
+        } else if (isset($_POST['subupdvalid'])) {
+            /* Admin submitted update user valid form */
             $this->procUpdateValid();
-        }
-        /* Admin submitted update user level form */ else if (isset($_POST['subupdlevel'])) {
+        } else if (isset($_POST['subupdlevel'])) {
+            /* Admin submitted update user level form */
             $this->procUpdateLevel();
-        }
-        /* Admin submitted Eliminar Usuario form */ else if (isset($_POST['subdeluser'])) {
+        } else if (isset($_POST['subdeluser'])) {
+            /* Admin submitted Eliminar Usuario form */
             $this->procDeleteUser();
-        }
-        /* Admin submitted delete inactive users form */ else if (isset($_POST['subdelinact'])) {
+        } else if (isset($_POST['subdelinact'])) {
+            /* Admin submitted delete inactive users form */
             $this->procDeleteInactive();
-        }
-        /* Admin submitted ban user form */ else if (isset($_POST['subbanuser'])) {
+        } else if (isset($_POST['subbanuser'])) {
+            /* Admin submitted ban user form */
             $this->procBanUser();
-        }
-        /* Admin submitted delete banned user form */ else if (isset($_POST['subdelbanned'])) {
+        } else if (isset($_POST['subdelbanned'])) {
+            /* Admin submitted delete banned user form */
             $this->procDeleteBannedUser();
-        }
-        /* Should not get here, redirect to home page */ else {
+        } else {
+            /* Should not get here, redirect to home page */
             header("Location: ../index.php");
         }
     }
@@ -133,7 +134,7 @@ class AdminProcess {
             header("Location: " . $this->session->referrer);
         }
         /* Eliminar Usuario from database */ else {
-            $q = "DELETE FROM " . TBL_USERS . " WHERE username = '$subuser'";
+            $q = "DELETE FROM uverify WHERE username = '$subuser'";
             $this->connection->query($q);
             header("Location: " . $this->session->referrer);
         }
@@ -148,7 +149,7 @@ class AdminProcess {
     public function procDeleteInactive() {
 
         $inact_time = $this->session->time - $_POST['inactdays'] * 24 * 60 * 60;
-        $q = "DELETE FROM " . TBL_USERS . " WHERE timestamp < $inact_time "
+        $q = "DELETE FROM uverify WHERE timestamp < $inact_time "
                 . "AND userlevel != " . ADMIN_LEVEL;
         $this->connection->query($q);
         header("Location: " . $this->session->referrer);
@@ -172,10 +173,10 @@ class AdminProcess {
             header("Location: " . $this->session->referrer);
         }
         /* Ban user from member system */ else {
-            $q = "DELETE FROM " . TBL_USERS . " WHERE username = '$subuser'";
+            $q = "DELETE FROM uverify WHERE username = '$subuser'";
             $this->connection->query($q);
 
-            $q = "INSERT INTO " . TBL_BANNED_USERS . " VALUES ('$subuser', $this->session->time)";
+            $q = "INSERT INTO banned_users VALUES ('$subuser', $this->session->time)";
             $this->connection->query($q);
             header("Location: " . $this->session->referrer);
         }
@@ -198,7 +199,7 @@ class AdminProcess {
             header("Location: " . $this->session->referrer);
         }
         /* Eliminar Usuario from database */ else {
-            $q = "DELETE FROM " . TBL_BANNED_USERS . " WHERE username = '$subuser'";
+            $q = "DELETE FROM banned_users WHERE username = '$subuser'";
             $this->connection->query($q);
             header("Location: " . $this->session->referrer);
         }

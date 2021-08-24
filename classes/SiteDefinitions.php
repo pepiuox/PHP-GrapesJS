@@ -14,17 +14,6 @@ class SiteDefinitions {
         }
 
         return implode(' ', $vars) . "\n";
-        /*
-          $definefiles = $base.'classes/define.php';
-          if (!file_exists($definefiles)) {
-          $ndef = '<?php'. "\n";
-          $ndef .= implode(' ', $vars). "\n";
-          $ndef .= '?>'. "\n";
-          file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-          }
-          include $base.'classes/define.php';
-         * 
-         */
     }
 
 }

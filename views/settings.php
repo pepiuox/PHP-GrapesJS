@@ -1,9 +1,9 @@
 <?php
 if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
 
-    $valueCount = count($_POST["type_name"]);
+    $valueCount = count($_POST["config_name"]);
     for ($i = 0; $i < $valueCount; $i++) {
-        $conn->query("UPDATE configuration SET  `config_value` =  '{$_POST['value'][$i]}'   WHERE `config_name` = '{$_POST['type_name'][$i]}' ");
+        $conn->query("UPDATE configuration SET  `config_value` =  '{$_POST['config_value'][$i]}'   WHERE `config_name` = '{$_POST['config_name'][$i]}' ");
     }
 
     $define = $conn->query("SELECT * FROM configuration");
@@ -27,8 +27,7 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
         $ndef .= '?>' . "\n";
         file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
     }
-    header("Refresh:0");
-    exit();
+
 }
 ?>
 <div class="container">            
@@ -38,7 +37,7 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
                 <div class="col-md-12 py-4">
                     <div id="resp"></div>
                     <h3>Manage settings</h3> 
-                    <form action='' method='POST'> 
+                    <form method='POST'> 
                         <?php
                         echo "<table class='table'>";
                         echo "<thead>";
@@ -51,8 +50,8 @@ if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
                         $result = $conn->query("SELECT * FROM `configuration`") or trigger_error($conn->error);
                         while ($row = $result->fetch_array()) {
                             echo "<tr>";
-                            echo "<td valign='top'><label name='type_name[]' id='type_name'>" . $row['config_name'] . " :</label></td>";
-                            echo "<td valign='top'><input type='text' name='value[]' id='value' value='" . $row['config_value'] . "' /></td>";
+                            echo "<td valign='top'><input type='text' name='config_name[]' id='config_name' value='" . $row['config_name'] . "' readonly/></td>";
+                            echo "<td valign='top'><input type='text' name='config_value[]' id='config_value' value='" . $row['config_value'] . "' /></td>";
                             echo "</tr>";
                         }
                         echo "</tbody>";

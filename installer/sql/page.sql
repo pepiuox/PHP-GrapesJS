@@ -236,10 +236,10 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 	('SITE_EDITOR', 'editor'),
 	('SITE_BUILDER', 'builder'),
 	('SITE_LANGUAGE_1', 'English'),
-	('SITE_LANGUAGE_2', 'EspaÃ±ol'),
+	('SITE_LANGUAGE_2', 'Español'),
 	('SITE_EMAIL', 'info@yourdomain.com'),
 	('IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
-	('NAME_CONTACT', 'Your Name'),
+	('NAME_CONTACT', 'Your contact Name'),
 	('PHONE_CONTACT', '0051 999888777'),
 	('EMAIL_CONTACT', 'info@yourdomain.com'),
 	('ADDRESS', 'Your local contact address'),
@@ -957,7 +957,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   `base_template` varchar(150) DEFAULT NULL,
   `content` longtext DEFAULT NULL,
   `style` longtext DEFAULT NULL,
-  `starpage` int(11) DEFAULT 0,
+  `startpage` int(11) DEFAULT 0,
   `level` int(11) DEFAULT 1,
   `parent` int(11) DEFAULT 0,
   `sort` int(11) DEFAULT 0,
@@ -1071,10 +1071,6 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newtestcms.profiles: ~1 rows (approximately)
-/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('2101701539612055bfcdd04', 'e1652256b10749b3f7fe95575ac0eb52a52f3434', 'Jose', 'Mantilla', NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-08-21 01:24:15', '2021-08-21 04:18:27');
-/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
 -- Dumping structure for table newtestcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1132,7 +1128,7 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.role_permissions: ~0 rows (approximately)
+-- Dumping data for table newtestcms.role_permissions: ~24 rows (approximately)
 /*!40000 ALTER TABLE `role_permissions` DISABLE KEYS */;
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
@@ -1182,7 +1178,7 @@ CREATE TABLE IF NOT EXISTS `route_page` (
   `base_template` varchar(150) DEFAULT NULL,
   `content` longtext DEFAULT NULL,
   `style` longtext DEFAULT NULL,
-  `starpage` int(11) DEFAULT 0,
+  `startpage` int(11) DEFAULT 0,
   `level` int(11) DEFAULT 1,
   `parent` int(11) DEFAULT 0,
   `sort` int(11) DEFAULT 0,
@@ -1764,10 +1760,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newtestcms.users: ~1 rows (approximately)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
-	('2101701539612055bfcdd04', 'RjRyd1psbDRjTEFyMFlhUU5hM2JpUT09', 'dkk3dnNuY0pwem92MG1uUFRvQTQwVHRpak92WkVlOW5QQmYzRTVSYzZXQT0=', 'alh2TktYanh6UWJZOHRXY3JRaThTUT09', 1, 0, '127.0.0.1', '2021-08-21 08:24:15', '', 0, 0, '880867', '2021-08-21 01:24:15', '2021-08-21 01:24:15');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table newtestcms.users_mk
 DROP TABLE IF EXISTS `users_mk`;
@@ -1815,7 +1807,7 @@ CREATE TABLE IF NOT EXISTS `users_permissions` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_permissions: ~0 rows (approximately)
+-- Dumping data for table newtestcms.users_permissions: ~15 rows (approximately)
 /*!40000 ALTER TABLE `users_permissions` DISABLE KEYS */;
 INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
@@ -1848,7 +1840,7 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_roles: ~0 rows (approximately)
+-- Dumping data for table newtestcms.users_roles: ~3 rows (approximately)
 /*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Superadmin', 'Master administrator of site', 1, 9),
@@ -1989,10 +1981,6 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newtestcms.uverify: ~1 rows (approximately)
-/*!40000 ALTER TABLE `uverify` DISABLE KEYS */;
-INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('2101701539612055bfcdd04', 'pepiuox', 'contact@pepiuox.net', 'alh2TktYanh6UWJZOHRXY3JRaThTUT09', '8261f2e063564dd828ea900c4e7158cf211a4d62', 'eef96e54c35952d83ae935ccba8fc28d07da8ddc', 'e1652256b10749b3f7fe95575ac0eb52a52f3434', '880867', 'Superadmin', '', '', '', '', 0, 1, 1, 0, '2021-08-21 04:18:27');
-/*!40000 ALTER TABLE `uverify` ENABLE KEYS */;
 
 -- Dumping structure for table newtestcms.videos
 DROP TABLE IF EXISTS `videos`;
