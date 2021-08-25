@@ -13,20 +13,30 @@ if (file_exists($file)) {
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $spg = $conn->prepare("SELECT * FROM page WHERE id=?");
+    $spg->bind_param("i", $id);
+    $spg->execute();
+    $rs = $spg->get_result();
+    $nm = $rs->num_rows;
 
-    $sql = "SELECT * FROM page WHERE id='$id'";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+    $row = $rs->fetch_assoc();
     ?>
     <!doctype html>
     <html lang="en">
         <head>
-            <meta charset="utf-8">
-            <title>Page Builder</title>
-            <link href="<?php echo $base; ?>css/theme.css" rel="stylesheet"
-                  type="text/css" />
-            <link rel="stylesheet" href="<?php echo $base; ?>css/bootnavbar.css">
-
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+            <?php if (empty($description)) { ?>
+                <meta name="description" content="<?php echo $row['description']; ?>" />
+            <?php } if (empty($keyword)) { ?>
+                <meta name="keywords" content="<?php echo $row['keyword']; ?>" />
+            <?php } if (empty($classification)) { ?>
+                <meta name="classification" content="<?php echo $row['classification']; ?>" />
+            <?php } ?>
+            <title><?php echo $row['title']; ?></title>
+            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
             <style>
     <?php
     echo html_entity_decode($row['style']);
@@ -34,27 +44,21 @@ if (isset($_GET['id'])) {
             </style>
         </head>
         <body>
-
             <?php
-            include_once 'menu.php';
-            echo html_entity_decode($row['content']);
+            require '../navbar.php';
             ?>
-            <script src="<?php echo $base; ?>js/bootstrap.min.js"
-            type="text/javascript"></script>
-            <script src="<?php echo $base; ?>js/jquery.min.js"
-            type="text/javascript"></script>
-            <script src="<?php echo $base; ?>js/popper.min.js"
-            type="text/javascript"></script>
-            <script src="<?php echo $base; ?>js/bootnavbar.js"></script>
-            <script>
-                $(function () {
-                    $('#main_navbar').bootnavbar();
-                })
-            </script>
+            <div class='container'>
+                <?php
+                echo html_entity_decode($row['content']) . "\n";
+                ?>
+            </div>
+            <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script> 
         </body>
     </html>
     <?php
 } else {
-    header('Location: list.php');
+    header('Location: dashboard.php?cms=pagelist');
 }
 ?>

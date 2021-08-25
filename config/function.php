@@ -109,6 +109,14 @@ function action($selected) {
     }
 }
 
+function startpg($selected) {
+    $acti = array([0, 'NO'], [1, 'YES']);
+    foreach ($acti as list($key, $val)) {
+        $select = $selected == $key ? ' selected' : null;
+        echo '<option value="' . $key . '"' . $select . '>' . $val . '</option>' . "\n";
+    }
+}
+
 function vwaction($selected) {
     $acti = array([0, 'NO'], [1, 'YES']);
     foreach ($acti as list($key, $val)) {
