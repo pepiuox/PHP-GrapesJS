@@ -5,7 +5,7 @@ class SiteDefinitions {
     public function __construct() {
         global $conn;
 
-        $result = $conn->query("SELECT config_name, config_value FROM configuration");
+        $result = $conn->prepare("SELECT config_name, config_value FROM configuration");
 
         while ($rowt = $result->fetch_array()) {
             $values = $rowt['config_value'];
@@ -14,6 +14,7 @@ class SiteDefinitions {
         }
 
         return implode(' ', $vars) . "\n";
+        $conn->close();
     }
 
 }

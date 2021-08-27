@@ -24,6 +24,7 @@ class CheckValidUser {
                 define('USERS_CURRENTS_OCCUPATION', $urw['occupation']);
                 define('USERS_IMAGE',$urw['profile_image']);
             } else {
+                unset($_SESSION['username']);
                 unset($_SESSION['user_id']);
                 unset($_SESSION['level']);
                 unset($_SESSION['hash']);

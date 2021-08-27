@@ -150,7 +150,7 @@ class AdminProcess {
 
         $inact_time = $this->session->time - $_POST['inactdays'] * 24 * 60 * 60;
         $q = "DELETE FROM uverify WHERE timestamp < $inact_time "
-                . "AND userlevel != " . ADMIN_LEVEL;
+                . "AND level != " . ADMIN_LEVEL;
         $this->connection->query($q);
         header("Location: " . $this->session->referrer);
     }
