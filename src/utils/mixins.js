@@ -1,6 +1,10 @@
 import { keys, isUndefined, isElement, isArray } from 'underscore';
 
-const elProt = window.Element.prototype;
+export const hasWin = () => typeof window !== 'undefined';
+
+export const toLowerCase = str => (str || '').toLowerCase();
+
+const elProt = hasWin() ? window.Element.prototype : {};
 const matches =
   elProt.matches ||
   elProt.webkitMatchesSelector ||

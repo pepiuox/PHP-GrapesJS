@@ -88,9 +88,6 @@
  * ### Modal
  * * `modal:open` - Modal is opened
  * * `modal:close` - Modal is closed
- * ### Parser
- * * `parse:html` - On HTML parse, an object containing the input and the output of the parser is passed as an argument
- * * `parse:css` - On CSS parse, an object containing the input and the output of the parser is passed as an argument
  * ### Commands
  * * `run:{commandName}` - Triggered when some command is called to run (eg. editor.runCommand('preview'))
  * * `stop:{commandName}` - Triggered when some command is called to stop (eg. editor.stopCommand('preview'))
@@ -99,6 +96,10 @@
  * * `abort:{commandName}` - Triggered when the command execution is aborted (`editor.on(`run:preview:before`, opts => opts.abort = 1);`)
  * * `run` - Triggered on run of any command. The id and the result are passed as arguments to the callback
  * * `stop` - Triggered on stop of any command. The id and the result are passed as arguments to the callback
+ * ### Devices
+ * Check the [Devices](/api/device_manager.html) module.
+ * ### Parser
+ * Check the [Parser](/api/parser.html) module.
  * ### Pages
  * Check the [Pages](/api/pages.html) module.
  * ### General
@@ -123,11 +124,8 @@ export default (config = {}) => {
   };
 
   c.pStylePrefix = c.stylePrefix;
-  var em = new EditorModel(c);
-  var editorView = new EditorView({
-    model: em,
-    config: c
-  });
+  let em = new EditorModel(c);
+  let editorView;
 
   return {
     $,
@@ -213,6 +211,7 @@ export default (config = {}) => {
     /**
      * Returns HTML built inside canvas
      * @param {Object} [opts={}] Options
+     * @param {Component} [opts.component] Return the HTML of a specific Component
      * @param {Boolean} [opts.cleanId=false] Remove unnecessary IDs (eg. those created automatically)
      * @returns {string} HTML string
      */
@@ -223,8 +222,10 @@ export default (config = {}) => {
     /**
      * Returns CSS built inside canvas
      * @param {Object} [opts={}] Options
+     * @param {Component} [opts.component] Return the CSS of a specific Component
+     * @param {Boolean} [opts.json=false] Return an array of CssRules instead of the CSS string
      * @param {Boolean} [opts.avoidProtected=false] Don't include protected CSS
-     * @returns {string} CSS string
+     * @returns {String|Array<CssRule>} CSS string or array of CssRules
      */
     getCss(opts) {
       return em.getCss(opts);
@@ -233,8 +234,8 @@ export default (config = {}) => {
     /**
      * Returns JS of all components
      * @param {Object} [opts={}] Options
-     * @param {Component} [opts.component] Get the JS of a particular component
-     * @returns {string} JS string
+     * @param {Component} [opts.component] Get the JS of a specific component
+     * @returns {String} JS string
      */
     getJs(opts) {
       return em.getJs(opts);
@@ -312,7 +313,7 @@ export default (config = {}) => {
      * editor.setStyle('.cls{color: red}');
      * //or
      * editor.setStyle({
-     *   selectors: ['cls']
+     *   selectors: ['cls'],
      *   style: { color: 'red' }
      * });
      */
@@ -427,8 +428,7 @@ export default (config = {}) => {
      * }
      */
     getEditing() {
-      const res = em.getEditing();
-      return (res && res.model) || null;
+      return em.getEditing();
     },
 
     /**
@@ -490,12 +490,34 @@ export default (config = {}) => {
     },
 
     /**
+     * Get the JSON data object, which could be stored and loaded back with `editor.loadData(json)`
+     * @returns {Object}
+     * @example
+     * console.log(editor.storeData());
+     * // { pages: [...], styles: [...], ... }
+     */
+    storeData() {
+      return em.storeData();
+    },
+
+    /**
      * Load data from the current storage
      * @param {Function} clb Callback function
      * @return {Object} Stored data
      */
     load(clb) {
       return em.load(clb);
+    },
+
+    /**
+     * Load data from the JSON data object
+     * @param {Object} data Data to load
+     * @return {Object} Loaded object
+     * @example
+     * editor.loadData({ pages: [...], styles: [...], ... })
+     */
+    loadData(data) {
+      return em.loadData(data);
     },
 
     /**
@@ -691,7 +713,7 @@ export default (config = {}) => {
      * @private
      */
     getEl() {
-      return editorView.el;
+      return editorView && editorView.el;
     },
 
     /**
@@ -708,8 +730,12 @@ export default (config = {}) => {
      * @return {HTMLElement}
      */
     render() {
-      editorView.render();
-      return editorView.el;
+      editorView && editorView.remove();
+      editorView = new EditorView({
+        model: em,
+        config: c
+      });
+      return editorView.render().el;
     },
 
     /**
