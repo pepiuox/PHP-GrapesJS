@@ -161,10 +161,10 @@ CREATE TABLE IF NOT EXISTS `blocks_content` (
 -- Dumping structure for table newtestcms.breadcrumblinks
 DROP TABLE IF EXISTS `breadcrumblinks`;
 CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
-  `Page_Title` varchar(100) NOT NULL,
-  `Page_URL` varchar(100) NOT NULL,
-  `Lft` int(4) NOT NULL,
-  `Rgt` int(4) NOT NULL
+  `page_title` varchar(100) NOT NULL,
+  `page_url` varchar(100) NOT NULL,
+  `lft` int(4) NOT NULL,
+  `rgt` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newtestcms.breadcrumblinks: ~0 rows (approximately)
@@ -323,21 +323,21 @@ CREATE TABLE IF NOT EXISTS `customers` (
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.deleted_members
-DROP TABLE IF EXISTS `deleted_members`;
-CREATE TABLE IF NOT EXISTS `deleted_members` (
-  `id` char(128) NOT NULL,
-  `username` varchar(65) NOT NULL DEFAULT '',
-  `password` varchar(65) NOT NULL DEFAULT '',
+-- Dumping structure for table newtestcms.deleted_users
+DROP TABLE IF EXISTS `deleted_users`;
+CREATE TABLE IF NOT EXISTS `deleted_users` (
+  `user_id` char(128) NOT NULL,
+  `username` varchar(65) NOT NULL,
+  `password` varchar(65) NOT NULL,
   `email` varchar(65) NOT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT 0,
   `banned` tinyint(1) NOT NULL DEFAULT 0,
   `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.deleted_members: ~0 rows (approximately)
-/*!40000 ALTER TABLE `deleted_members` DISABLE KEYS */;
-/*!40000 ALTER TABLE `deleted_members` ENABLE KEYS */;
+-- Dumping data for table newtestcms.deleted_users: ~0 rows (approximately)
+/*!40000 ALTER TABLE `deleted_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `deleted_users` ENABLE KEYS */;
 
 -- Dumping structure for table newtestcms.deposit
 DROP TABLE IF EXISTS `deposit`;
@@ -616,9 +616,9 @@ CREATE TABLE IF NOT EXISTS `help` (
 -- Dumping structure for table newtestcms.help_categories
 DROP TABLE IF EXISTS `help_categories`;
 CREATE TABLE IF NOT EXISTS `help_categories` (
-  `Category_ID` int(11) NOT NULL,
-  `Language` char(2) NOT NULL,
-  `Category_Description` varchar(100) NOT NULL
+  `category_id` int(11) NOT NULL,
+  `language` char(2) NOT NULL,
+  `category_description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newtestcms.help_categories: ~0 rows (approximately)
@@ -654,26 +654,6 @@ CREATE TABLE IF NOT EXISTS `image_gal` (
 -- Dumping data for table newtestcms.image_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `image_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `image_gal` ENABLE KEYS */;
-
--- Dumping structure for table newtestcms.info
-DROP TABLE IF EXISTS `info`;
-CREATE TABLE IF NOT EXISTS `info` (
-  `id` char(128) NOT NULL,
-  `username` varchar(128) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
-  `password` varchar(128) DEFAULT NULL,
-  `mktoken` varchar(128) DEFAULT NULL,
-  `mkkey` varchar(128) DEFAULT NULL,
-  `mkhash` varchar(128) DEFAULT NULL,
-  `mkpin` char(6) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `banned` tinyint(1) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table newtestcms.info: ~0 rows (approximately)
-/*!40000 ALTER TABLE `info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `info` ENABLE KEYS */;
 
 -- Dumping structure for table newtestcms.ip
 DROP TABLE IF EXISTS `ip`;
@@ -882,9 +862,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.menu: ~0 rows (approximately)
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+-- Dumping data for table newtestcms.menu: ~1 rows (approximately)
 
 -- Dumping structure for table newtestcms.multimedia_gal
 DROP TABLE IF EXISTS `multimedia_gal`;
@@ -966,9 +944,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.page: ~0 rows (approximately)
-/*!40000 ALTER TABLE `page` DISABLE KEYS */;
-/*!40000 ALTER TABLE `page` ENABLE KEYS */;
+-- Dumping data for table newtestcms.page: ~1 rows (approximately)
 
 -- Dumping structure for table newtestcms.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
@@ -1070,7 +1046,6 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.profiles: ~1 rows (approximately)
 
 -- Dumping structure for table newtestcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1178,7 +1153,7 @@ CREATE TABLE IF NOT EXISTS `route_page` (
   `base_template` varchar(150) DEFAULT NULL,
   `content` longtext DEFAULT NULL,
   `style` longtext DEFAULT NULL,
-  `startpage` int(11) DEFAULT 0,
+  `starpage` int(11) DEFAULT 0,
   `level` int(11) DEFAULT 1,
   `parent` int(11) DEFAULT 0,
   `sort` int(11) DEFAULT 0,
@@ -1840,12 +1815,13 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_roles: ~3 rows (approximately)
+-- Dumping data for table newtestcms.users_roles: ~4 rows (approximately)
 /*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
-	(1, 'Superadmin', 'Master administrator of site', 1, 9),
+	(1, 'Super Admin', 'Master administrator of site', 1, 9),
 	(2, 'Admin', 'Site administrator', 1, 5),
-	(3, 'Standard User', 'Default site role for standard users', 1, 1);
+	(3, 'Manager', 'Manager content', 1, 3),
+	(4, 'Stantard User', 'Default site role for standard users', 1, 1);
 /*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 
 -- Dumping structure for table newtestcms.users_shop
