@@ -33,6 +33,7 @@ if ($login->isLoggedIn() === true) {
                 <link rel="stylesheet" href="<?php echo $base; ?>css/tooltip.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapesjs-plugin-filestack.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/demos.css">
+                <link href="<?php echo $base; ?>css/grapesjs-project-manager.min.css" rel="stylesheet">
                 <script src="<?php echo $base; ?>js/jquery.min.js"></script>
                 <!--  <script src="<?php echo $base; ?>js/backbone-min.js"></script> -->
                 <script src="<?php echo $base; ?>js/toastr.min.js"></script>
@@ -54,6 +55,10 @@ if ($login->isLoggedIn() === true) {
                 <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js" type="text/javascript"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-uikit"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>                
+                <script src="<?php echo $base; ?>js/grapesjs-project-manager"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-ga"></script>
+<script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         var imp = $("span").find("[data-tooltip='Import']");
@@ -198,8 +203,9 @@ if ($login->isLoggedIn() === true) {
                     var editor = grapesjs.init({
                         avoidInlineStyle: 1,
                         height: '100%',
-                        container: '#gjs',
-                        fromElement: 1,
+                        container: '#gjs',                        
+                        fromElement: 1, // fromElement: true,
+                        //pageManager: true,
                         showOffsets: 1,
                         storageType: '',
                         storeOnChange: true,
@@ -292,9 +298,16 @@ if ($login->isLoggedIn() === true) {
                             'gjs-navbar',
                             'grapesjs-component-code-editor',
                             'grapesjs-script-editor',
-                            'grapesjs-uikit'
+                            'grapesjs-uikit',
+                            'grapesjs-page-break',
+                            'grapesjs-project-manager',
+                            'grapesjs-ga',
+                            'grapesjs-swiper-slider'
+                            
                         ],
                         pluginsOpts: {
+                            'grapesjs-swiper-slider': {
+                            },
                             'grapesjs-component-code-editor': {
                                 panelId:'views-container'
                             },
@@ -332,6 +345,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                 }
                             },
+                            'grapesjs-page-break': {},
                             'grapesjs-indexeddb': {},
                             'grapesjs-echarts': {
                                     intl: {
@@ -348,7 +362,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                   }
                                 },
-                                                                    
+                                                                                            
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -690,8 +704,8 @@ if ($login->isLoggedIn() === true) {
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
-
-                    cmdm.add('canvas-clear', function () {
+                            
+                                     cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
                             var comps = editor.DomComponents.clear();
                             setTimeout(function () {
@@ -769,6 +783,27 @@ if ($login->isLoggedIn() === true) {
                             mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
                         });
                     });
+                    /*
+                    //
+                    pn.addButton('options', {
+    id: 'open-templates',
+    className: 'fa fa-folder-o',
+    attributes: {
+        title: 'Open projects and templates'
+    },
+    command: 'open-templates', //Open modal 
+});
+pn.addButton('views', {
+    id: 'open-pages',
+    className: 'fa fa-file-o',
+    attributes: {
+        title: 'Take Screenshot'
+    },
+    command: 'open-pages',
+    togglable: false
+});
+                    //
+                    */
                     pn.addButton('options', {
                         id: 'open-info',
                         className: 'fa fa-question-circle',
