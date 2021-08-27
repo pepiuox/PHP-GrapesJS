@@ -66,6 +66,8 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                     $vpages = 'Change of password';
                                 } elseif ($user == 'chpin') {
                                     $vpages = 'Security PIN change ';
+                                } elseif ($user == 'contacts') {
+                                    $vpages = 'Contacts ';
                                 } else {
                                     $vpages = 'Profile';
                                 }
@@ -94,6 +96,8 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                         include 'changePIN.php';
                     } elseif ($user == 'sphra') {
                         include 'securePhrase.php';
+                    } elseif ($user == 'contacts') {
+                        include 'contacts.php';
                     } else {
                         ?>
 
