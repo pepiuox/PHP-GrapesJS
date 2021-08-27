@@ -53,6 +53,7 @@ if ($login->isLoggedIn() === true) {
                 <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>                            
                 <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js" type="text/javascript"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-uikit"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         var imp = $("span").find("[data-tooltip='Import']");
@@ -290,7 +291,8 @@ if ($login->isLoggedIn() === true) {
                             'grapesjs-tui-image-editor',
                             'gjs-navbar',
                             'grapesjs-component-code-editor',
-                            'grapesjs-script-editor'
+                            'grapesjs-script-editor',
+                            'grapesjs-uikit'
                         ],
                         pluginsOpts: {
                             'grapesjs-component-code-editor': {

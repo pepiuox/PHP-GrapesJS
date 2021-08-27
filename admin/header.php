@@ -13,7 +13,7 @@
                     <li class="nav-item active"><a class="nav-link"
                                                    href="../index.php?w=select">Inicio</a></li>
                         <?php
-                        if ($level->levels($_SESSION['user_id'], $_SESSION['levels']) === 'Super Admin' || $level->levels(@$_SESSION['user_id'], $_SESSION['levels']) === 'Admin') {
+                        if ($level->levels($_SESSION['user_id'], $_SESSION['levels']) === 'Super Admin' || $level->levels($_SESSION['user_id'], $_SESSION['levels']) === 'Admin') {
                             ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"

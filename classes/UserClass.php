@@ -101,6 +101,11 @@ class UserClass {
 
         return $ip;
     }
+    
+// Create Hash - Function randHash
+    private function randHash($len = 64) {
+        return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
+    }
 
     /*
      * Function Login()
@@ -206,11 +211,7 @@ class UserClass {
                                 $stmt1->close();
                                 $iduv = $row['idUser'];
 
-                                function randHash($len = 64) {
-                                    return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
-                                }
-
-                                $enck = randHash();
+                                $enck = $this->randHash();
 
                                 $up1 = $this->connection->prepare("UPDATE uverify SET mkhash = ? WHERE iduv = ? AND password = ? AND mkhash = ?");
                                 $up1->bind_param("ssss", $enck, $iduv, $passw, $secret_hs);

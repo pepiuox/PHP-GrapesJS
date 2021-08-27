@@ -103,7 +103,7 @@ class Session {
             /* User is logged in, set class variables */
             $this->userinfo = $this->connection->getUserInfo($_SESSION['username']);
             $this->username = $this->userinfo['username'];
-            $this->userid = $this->userinfo['userid'];
+            $this->userid = $this->userinfo['user_id'];
             $this->userlevel = $this->userinfo['userlevel'];
             return true;
         }
@@ -167,7 +167,7 @@ class Session {
         $this->userlevel = $this->userinfo['userlevel'];
 
         /* Insert userid into database and update active users table */
-        $this->connection->updateUserField($this->username, "userid", $this->userid);
+        $this->connection->updateUserField($this->username, "user_id", $this->userid);
         $this->connection->addActiveUser($this->username, $this->time);
         $this->connection->removeActiveGuest($_SERVER['REMOTE_ADDR']);
 

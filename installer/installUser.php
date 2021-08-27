@@ -119,7 +119,7 @@ class installUser {
 
 // function CountSUser() count the hight user level
     private function CountSUser() {
-        $lvushigh = 'Superadmin';
+        $lvushigh = 'Super Admin';
 
         $qlv = $this->connection->prepare("SELECT level FROM uverify WHERE level=?");
         $qlv->bind_param("s", $lvushigh);
@@ -220,7 +220,7 @@ class installUser {
                     $cml = $this->ende_crypter('encrypt', $email, $ekey, $eiv);
                     $eusr = $this->ende_crypter('encrypt', $username, $ekey, $eiv);
                     $pin = rand(000000, 999999);
-                    $lvl = 'Superadmin';
+                    $lvl = 'Super Admin';
 
                     $status = 0;
                     $dvd = 0;
