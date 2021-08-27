@@ -1,6 +1,6 @@
 <?php
 
-include_once 'conn.php';
+include_once '../config/dbconnection.php';
 if (isset($_POST['nome']) && $_POST['nome'] != "") {
     $svlue = $_POST["nome"];
 

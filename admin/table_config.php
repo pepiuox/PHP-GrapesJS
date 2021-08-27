@@ -2,7 +2,7 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-require 'conn.php';
+require '../config/dbconnection.php';
 require 'autoload.php';
 $level = new AccessLevel();
 $login = new UserClass();
@@ -10,12 +10,14 @@ $login = new UserClass();
 if ($login->isLoggedIn() === true) {
     ob_start();
 
+    $myTable = '';
+
     extract($_POST);
     $check_exist_qry = "SELECT * FROM table_config";
     $run_qry = $conn->query($check_exist_qry);
-    $total_found = mysqli_num_rows($run_qry);
+    $total_found = $run_qry->num_rows;
     if ($total_found > 0) {
-        $my_value = mysqli_fetch_assoc($run_qry);
+        $my_value = $run_qry->fetch_assoc();
         $myTable = explode(',', $my_value['table_name']);
     }
 
@@ -54,8 +56,7 @@ include 'top.php';
                         $result->close();
                     }
                     ?>
-                    <h3 class="col-md-4 control-label" for="checkboxes">Tablas
-                        que deseas visualizar:</h3>
+                    <h3 class="col-md-4 control-label" for="checkboxes">Tables you want to view :</h3>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
@@ -80,7 +81,6 @@ include 'top.php';
                                 echo "checked";
                             }
                             echo '> ';
-
                             echo ucfirst($remp) . '</label>' . "\n";
                             echo '</div>' . "\n";
                         }
@@ -100,7 +100,7 @@ include 'top.php';
 
         <?php
     } else {
-        header("Location: login.php");
+        header("Location: ../signin/login.php");
     }
     ?>
 </body>

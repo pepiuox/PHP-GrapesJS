@@ -1,5 +1,4 @@
 <?php
-
 $p = new Protect();
 if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $p->secureStr($_GET['w']);
@@ -14,6 +13,8 @@ if ($w == "select") {
         if ($total_found > 0) {
             $row = $result->fetch_assoc();
             $tableNames = explode(',', $row['table_name']);
+        } else {
+            
         }
     }
     ?>
@@ -54,13 +55,13 @@ if ($w == "select") {
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-6">
-                <h3 id="fttl">Lista de tablas de aplicación</h3>
+                <h3 id="fttl">List of system tables </h3>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <select id="selecttb" name="selecttb" class="form-control">
-                        <option value="">Selecione una Tabla</option>
+                        <option value="">Select a Table </option>
                         <?php
                         foreach ($tableNames as $tname) {
                             $remp = str_replace("_", " ", $tname);
@@ -80,11 +81,10 @@ if ($w == "select") {
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-3">
-                <a class="btn btn-secondary" href="dashboard.php?cms=crud&w=select">Seleccione una
-                    Tabla</a>
+                <a class="btn btn-secondary" href="dashboard.php?cms=crud&w=select">Select a Table </a>
             </div>
             <div class="col-md-9">
-                <h2 class="text-primary">Lista de Datos de <?php echo $titl; ?></h2>
+                <h2 class="text-primary">Data List of <?php echo $titl; ?></h2>
             </div>
         </div>
     </div>
@@ -107,10 +107,10 @@ if ($w == "select") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Volver a la Lista</a>
+                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Back to List</a>
             </div>
             <div class="col-md-9">
-                <h2 class="text-primary">Agregar Datos</h2>
+                <h2 class="text-primary">Add Data </h2>
             </div>
         </div>
         <div class="col-md-12">
@@ -134,10 +134,10 @@ if ($w == "select") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Volver a la Lista</a>
+                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Back to List </a>
             </div>
             <div class="col-md-9">
-                <h2 class="text-primary">Editar Datos</h2>
+                <h2 class="text-primary">Edit Data </h2>
             </div>
         </div>
         <div class="col-md-12">

@@ -219,7 +219,7 @@ class UserClass {
                                 $up1->close();
 
                                 if ($inst1 === 1) {
-
+                                    $_SESSION['username'] = $user;
                                     $_SESSION['user_id'] = $iduv;
                                     $_SESSION['language'] = $row['language'];
                                     $_SESSION['levels'] = $level;
@@ -395,6 +395,7 @@ class UserClass {
                 }
                 $_SESSION = array();
                 /* Unset PHP session variables */
+                unset($_SESSION['username']);
                 unset($_SESSION['user_id']);
                 unset($_SESSION['level']);
                 unset($_SESSION['hash']);

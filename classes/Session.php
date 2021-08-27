@@ -86,17 +86,17 @@ class Session {
         /* Check if user has been remembered */
         if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
             $this->username = $_SESSION['username'] = $_COOKIE['cookname'];
-            $this->userid = $_SESSION['userid'] = $_COOKIE['cookid'];
+            $this->userid = $_SESSION['user_id'] = $_COOKIE['cookid'];
         }
 
         /* Username and userid have been set and not guest */
-        if (isset($_SESSION['username']) && isset($_SESSION['userid']) &&
+        if (isset($_SESSION['username']) && isset($_SESSION['user_id']) &&
                 $_SESSION['username'] != GUEST_NAME) {
             /* Confirm that username and userid are valid */
-            if ($this->connection->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0) {
+            if ($this->connection->confirmUserID($_SESSION['username'], $_SESSION['user_id']) != 0) {
                 /* Variables are incorrect, user not logged in */
                 unset($_SESSION['username']);
-                unset($_SESSION['userid']);
+                unset($_SESSION['user_id']);
                 return false;
             }
 
@@ -163,7 +163,7 @@ class Session {
         /* Username and password correct, register session variables */
         $this->userinfo = $this->connection->getUserInfo($subuser);
         $this->username = $_SESSION['username'] = $this->userinfo['username'];
-        $this->userid = $_SESSION['userid'] = $this->generateRandID();
+        $this->userid = $_SESSION['user_id'] = $this->generateRandID();
         $this->userlevel = $this->userinfo['userlevel'];
 
         /* Insert userid into database and update active users table */
@@ -207,7 +207,7 @@ class Session {
 
         /* Unset PHP session variables */
         unset($_SESSION['username']);
-        unset($_SESSION['userid']);
+        unset($_SESSION['user_id']);
 
         /* Reflect fact that user has logged out */
         $this->logged_in = false;

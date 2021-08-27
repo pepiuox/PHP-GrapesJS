@@ -1,5 +1,5 @@
 <?php
-include '../config/Database.php';
+include '../config/dbconnection.php';
 
 $dbprd = new Database();
 $conn = $dbprd->MysqliConnection('login');

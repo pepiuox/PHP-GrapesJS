@@ -13,6 +13,6 @@ if ($login->isLoggedIn() === true) {
 
     header('Location: dashboard.php');
 } else {
-    header('Location: ' . $bases . 'signin/login.php');
+    header('Location: ' . $base . 'signin/login.php');
 }
 ?>
