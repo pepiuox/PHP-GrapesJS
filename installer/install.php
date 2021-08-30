@@ -16,6 +16,19 @@ if (isset($_GET['step']) && !empty($_GET['step'])) {
 }
 $definefiles = '../config/define.php';
 $file = '../config/dbconnection.php';
+
+if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
+    if ($_SESSION['DBConnected'] === 'Connected') {
+        $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        require 'installUser.php';
+    }
+}
+
+
 // Firts step
 // Check Database
 if (isset($_POST['check'])) {
@@ -40,6 +53,7 @@ if (isset($_POST['check'])) {
     } else {
         $_SESSION['SuccessMessage'] = "The database exists, now you need to import the data tables.";
         $_SESSION['StepInstall'] = 3;
+        $_SESSION['DBConnected'] = 'Connected';
         header("Location: install.php?step=3");
         exit();
     }
@@ -68,6 +82,7 @@ if (isset($_POST['createdb'])) {
         if ($conn->query($sql) === TRUE) {
             $_SESSION['SuccessMessage'] = "Database created successfully";
             $_SESSION['StepInstall'] = 3;
+            $_SESSION['DBConnected'] = 'Connected';
             header("Location: install.php?step=3");
             exit();
         } else {
@@ -80,11 +95,6 @@ if (isset($_POST['createdb'])) {
 // Third step
 // Import tables to Database
 if (isset($_POST['install'])) {
-    $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
     // Name of the file
     $filename = 'sql/page.sql';
 
@@ -120,12 +130,6 @@ if (isset($_POST['install'])) {
 if (isset($_POST['definefile'])) {
     if (file_exists($definefiles)) {
         unlink($definefiles);
-    }
-
-    $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
     }
 
     $valueCount = count($_POST["config_name"]);
@@ -169,31 +173,12 @@ if (isset($_POST['definefile'])) {
 // Create user name for admin access
 if (isset($_POST['register'])) {
 
-    $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    require 'installUser.php';
-
     $newuser = new installUser();
-
-    $conn->close();
 }
+// check if exists user in table 
 if (isset($_POST['verifyuser'])) {
 
-    $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    require 'installUser.php';
-
     $newuser = new installUser();
-
-    $conn->close();
 }
 
 // Sixth step
@@ -305,7 +290,7 @@ session_destroy();
         <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <?php include '../elements/alerts.php'; ?>
+<?php include '../elements/alerts.php'; ?>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 py-4">
@@ -321,9 +306,9 @@ session_destroy();
                                     </p>
                                 </div>
                                 <hr>
-                                <?php
-                                if ($step == 1 && $_SESSION['StepInstall'] == 1) {
-                                    ?>
+<?php
+if ($step == 1 && $_SESSION['StepInstall'] == 1) {
+    ?>
                                     <div class="mb-3">
                                         <div class="alert alert-primary text-center" role="alert">
                                             <h3>1.- First step</h3>
@@ -358,9 +343,9 @@ session_destroy();
                                             If you have already created the database, check the connection and continue with the installation of tables in the third step, otherwise create the table in the second step. 
                                         </p>
                                     </div>
-                                    <?php
-                                } elseif ($step == 2 || $_SESSION['StepInstall'] == 2) {
-                                    ?>
+    <?php
+} elseif ($step == 2 || $_SESSION['StepInstall'] == 2) {
+    ?>
                                     <div class="alert alert-danger" role="alert">
                                         <h5>You don't have the <?php echo $_SESSION['DBNAME']; ?> database installed </h5>
                                     </div>
@@ -400,8 +385,8 @@ session_destroy();
                                         <button name="createdb" type="submit" class="btn btn-primary">Create database </button>
                                     </div>
 
-                                <?php } elseif ($step == 3 || $_SESSION['StepInstall'] == 3) {
-                                    ?>
+<?php } elseif ($step == 3 || $_SESSION['StepInstall'] == 3) {
+    ?>
                                     <div class="alert alert-success" role="alert">
                                         <h5>Your DB is connected to <?php echo $_SESSION['DBNAME']; ?></h5>
                                     </div>
@@ -419,14 +404,14 @@ session_destroy();
                                     <div class="mb-3">
                                         <button class="btn btn-info" type="submit" name="install" id="install">Install tables</button>
                                     </div>
-                                    <?php
-                                } elseif ($step == 4 || $_SESSION['StepInstall'] == 4) {
-                                    $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-                                    // Check connection
-                                    if ($conn->connect_error) {
-                                        die("Connection failed: " . $conn->connect_error);
-                                    }
-                                    ?>
+    <?php
+} elseif ($step == 4 || $_SESSION['StepInstall'] == 4) {
+    $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    ?>
                                     <div class="alert alert-success" role="alert">
                                         <h5>Create configuration for your web site</h5>
                                     </div>
@@ -441,38 +426,38 @@ session_destroy();
                                     </div>
                                     <h4>Define values for the configuration</h4> 
 
-                                    <?php
-                                    echo "<table class='table table-striped table-sm'>";
-                                    echo "<thead>";
-                                    echo "<tr>";
-                                    echo "<th><b>Config / Nombre</b></th>";
-                                    echo "<th><b>Config / Valor</b></th>";
-                                    echo "</tr>";
-                                    echo "</thead>";
-                                    echo "<tbody>";
-                                    $result = $conn->query("SELECT * FROM `configuration`") or trigger_error($conn->error);
-                                    while ($row = $result->fetch_array()) {
-                                        foreach ($row AS $key => $value) {
-                                            $row[$key] = stripslashes($value);
-                                        }
-                                        echo "<tr>";
-                                        echo "<td valign='top'><input type='text' name='config_name[]' id='config_name' value='" . $row['config_name'] . "' readonly /></td>";
-                                        echo "<td valign='top'><input type='text' name='config_value[]' id='config_value' value='" . $row['config_value'] . "' /></td>";
-                                        echo "</tr>";
-                                    }
-                                    echo "</tbody>";
-                                    echo "<tfoot>";
-                                    echo "</tfoot>";
-                                    echo "</table>";
-                                    ?>
+    <?php
+    echo "<table class='table table-striped table-sm'>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th><b>Config / Nombre</b></th>";
+    echo "<th><b>Config / Valor</b></th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+    $result = $conn->query("SELECT * FROM `configuration`") or trigger_error($conn->error);
+    while ($row = $result->fetch_array()) {
+        foreach ($row AS $key => $value) {
+            $row[$key] = stripslashes($value);
+        }
+        echo "<tr>";
+        echo "<td valign='top'><input type='text' name='config_name[]' id='config_name' value='" . $row['config_name'] . "' readonly /></td>";
+        echo "<td valign='top'><input type='text' name='config_value[]' id='config_value' value='" . $row['config_value'] . "' /></td>";
+        echo "</tr>";
+    }
+    echo "</tbody>";
+    echo "<tfoot>";
+    echo "</tfoot>";
+    echo "</table>";
+    ?>
 
                                     <div class="mb-3">
                                         <button class="btn btn-info" type="submit" name="definefile" id="definefile">Define website</button>
                                     </div>
-                                    <?php
-                                    $conn->close();
-                                } elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {
-                                    ?>
+    <?php
+    $conn->close();
+} elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {
+    ?>
                                     <div class="alert alert-success" role="alert">
                                         <h5>Admin registration </h5>
                                     </div>
@@ -525,9 +510,9 @@ session_destroy();
                                         <button type="submit" name="register" class="btn btn-primary btn-block">Register user</button>
                                     </div>
                                     <!-- /.col -->
-                                    <?php
-                                } elseif ($step == 6 || $_SESSION['StepInstall'] == 6) {
-                                    ?>
+    <?php
+} elseif ($step == 6 || $_SESSION['StepInstall'] == 6) {
+    ?>
                                     <div class = "alert alert-success" role = "alert">
                                         <h5>Create file configuration</h5>
                                     </div>
@@ -545,9 +530,9 @@ session_destroy();
                                         <h4>This is the final step to start editing your website. </h4>
                                         <button class = "btn btn-info" type = "submit" name = "createfile" id = "install">Create configuration</button>
                                     </div>
-                                    <?php
-                                }
-                                ?>
+    <?php
+}
+?>
                             </form>
                         </div>
                     </div>                    

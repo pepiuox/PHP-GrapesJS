@@ -14,42 +14,40 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table newtestcms.active_guests
+-- Dumping structure for table newinstall.active_guests
 DROP TABLE IF EXISTS `active_guests`;
 CREATE TABLE IF NOT EXISTS `active_guests` (
   `ip` varchar(15) NOT NULL,
-  `timestamp` varchar(20) NOT NULL
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.active_guests: ~1 rows (approximately)
+-- Dumping data for table newinstall.active_guests: ~0 rows (approximately)
 /*!40000 ALTER TABLE `active_guests` DISABLE KEYS */;
-INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
-	('127.0.0.1', '1629510472');
 /*!40000 ALTER TABLE `active_guests` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.active_sessions
+-- Dumping structure for table newinstall.active_sessions
 DROP TABLE IF EXISTS `active_sessions`;
 CREATE TABLE IF NOT EXISTS `active_sessions` (
   `session` char(64) COLLATE utf8_bin DEFAULT NULL,
   `date_session` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newtestcms.active_sessions: ~0 rows (approximately)
+-- Dumping data for table newinstall.active_sessions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `active_sessions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `active_sessions` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.active_users
+-- Dumping structure for table newinstall.active_users
 DROP TABLE IF EXISTS `active_users`;
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(30) NOT NULL,
   `timestamp` int(11) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.active_users: ~0 rows (approximately)
+-- Dumping data for table newinstall.active_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `active_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `active_users` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.admins
+-- Dumping structure for table newinstall.admins
 DROP TABLE IF EXISTS `admins`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `adminid` char(23) NOT NULL DEFAULT 'uuid_short();',
@@ -58,11 +56,11 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `superadmin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.admins: ~0 rows (approximately)
+-- Dumping data for table newinstall.admins: ~0 rows (approximately)
 /*!40000 ALTER TABLE `admins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `admins` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.announcement
+-- Dumping structure for table newinstall.announcement
 DROP TABLE IF EXISTS `announcement`;
 CREATE TABLE IF NOT EXISTS `announcement` (
   `Announcement_ID` int(11) unsigned NOT NULL,
@@ -79,11 +77,11 @@ CREATE TABLE IF NOT EXISTS `announcement` (
   `Translated_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.announcement: ~0 rows (approximately)
+-- Dumping data for table newinstall.announcement: ~0 rows (approximately)
 /*!40000 ALTER TABLE `announcement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `announcement` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.app_config
+-- Dumping structure for table newinstall.app_config
 DROP TABLE IF EXISTS `app_config`;
 CREATE TABLE IF NOT EXISTS `app_config` (
   `setting` char(26) NOT NULL,
@@ -95,11 +93,11 @@ CREATE TABLE IF NOT EXISTS `app_config` (
   `required` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.app_config: ~0 rows (approximately)
+-- Dumping data for table newinstall.app_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `app_config` DISABLE KEYS */;
 /*!40000 ALTER TABLE `app_config` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.balance
+-- Dumping structure for table newinstall.balance
 DROP TABLE IF EXISTS `balance`;
 CREATE TABLE IF NOT EXISTS `balance` (
   `id` int(11) NOT NULL,
@@ -114,11 +112,11 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `history` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.balance: ~0 rows (approximately)
+-- Dumping data for table newinstall.balance: ~0 rows (approximately)
 /*!40000 ALTER TABLE `balance` DISABLE KEYS */;
 /*!40000 ALTER TABLE `balance` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.banned_users
+-- Dumping structure for table newinstall.banned_users
 DROP TABLE IF EXISTS `banned_users`;
 CREATE TABLE IF NOT EXISTS `banned_users` (
   `user_id` char(128) NOT NULL,
@@ -127,11 +125,11 @@ CREATE TABLE IF NOT EXISTS `banned_users` (
   `hours_remaining` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.banned_users: ~0 rows (approximately)
+-- Dumping data for table newinstall.banned_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `banned_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `banned_users` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.blocks
+-- Dumping structure for table newinstall.blocks
 DROP TABLE IF EXISTS `blocks`;
 CREATE TABLE IF NOT EXISTS `blocks` (
   `idB` int(11) NOT NULL AUTO_INCREMENT,
@@ -141,11 +139,11 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   PRIMARY KEY (`idB`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.blocks: ~0 rows (approximately)
+-- Dumping data for table newinstall.blocks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `blocks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `blocks` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.blocks_content
+-- Dumping structure for table newinstall.blocks_content
 DROP TABLE IF EXISTS `blocks_content`;
 CREATE TABLE IF NOT EXISTS `blocks_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -154,11 +152,11 @@ CREATE TABLE IF NOT EXISTS `blocks_content` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.blocks_content: ~0 rows (approximately)
+-- Dumping data for table newinstall.blocks_content: ~0 rows (approximately)
 /*!40000 ALTER TABLE `blocks_content` DISABLE KEYS */;
 /*!40000 ALTER TABLE `blocks_content` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.breadcrumblinks
+-- Dumping structure for table newinstall.breadcrumblinks
 DROP TABLE IF EXISTS `breadcrumblinks`;
 CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `page_title` varchar(100) NOT NULL,
@@ -167,22 +165,22 @@ CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `rgt` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.breadcrumblinks: ~0 rows (approximately)
+-- Dumping data for table newinstall.breadcrumblinks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `breadcrumblinks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `breadcrumblinks` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.category
+-- Dumping structure for table newinstall.category
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.category: ~0 rows (approximately)
+-- Dumping data for table newinstall.category: ~0 rows (approximately)
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.cols_set
+-- Dumping structure for table newinstall.cols_set
 DROP TABLE IF EXISTS `cols_set`;
 CREATE TABLE IF NOT EXISTS `cols_set` (
   `id` int(11) NOT NULL,
@@ -198,22 +196,22 @@ CREATE TABLE IF NOT EXISTS `cols_set` (
   `col_set` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.cols_set: ~0 rows (approximately)
+-- Dumping data for table newinstall.cols_set: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cols_set` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cols_set` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.comment
+-- Dumping structure for table newinstall.comment
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL,
   `message` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.comment: ~0 rows (approximately)
+-- Dumping data for table newinstall.comment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.configuration
+-- Dumping structure for table newinstall.configuration
 DROP TABLE IF EXISTS `configuration`;
 CREATE TABLE IF NOT EXISTS `configuration` (
   `config_name` varchar(20) DEFAULT NULL,
@@ -221,26 +219,22 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   UNIQUE KEY `type_name` (`config_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.configuration: ~30 rows (approximately)
+-- Dumping data for table newinstall.configuration: ~30 rows (approximately)
 /*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
 INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
-	('DOMAIN_SITE', 'www.phpgrapesjs.com'),
+	('DOMAIN_SITE', 'www.yourdomain.com'),
 	('SITE_NAME', 'PHP GrapesJS'),
 	('SITE_DESC', 'Your keywords for your domains'),
 	('SITE_KEYWORDS', 'Your keywords for your domains'),
 	('SITE_DESCRIPTION', 'Your keywords for your domains'),
-	('SITE_ADMIN', 'Superadmin'),
+	('SITE_ADMIN', 'Super Admin'),
 	('SITE_CONTROL', 'dashboard'),
 	('SITE_CONFIG', 'config'),
-        ('SMTP_SETTINGS', 'smtp.yourdomain.com'),
-	('SMTP_PORT', '25'),
-	('EMAIL_SETTINGS', 'info@yourdomain.com'),
-	('PASSWORD_EMAIL', 'your mail password'),
-        ('CONFIG_PATH', 'config'),
+	('SITE_LIST', 'list'),
 	('SITE_EDITOR', 'editor'),
 	('SITE_BUILDER', 'builder'),
 	('SITE_LANGUAGE_1', 'English'),
-	('SITE_LANGUAGE_2', 'Español'),
+	('SITE_LANGUAGE_2', 'Espaï¿½ol'),
 	('SITE_EMAIL', 'info@yourdomain.com'),
 	('IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
 	('NAME_CONTACT', 'Your contact Name'),
@@ -254,13 +248,13 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 	('SKYPE', 'yourdomain'),
 	('TELEGRAM', 'yourdomain'),
 	('WHATSAPP', '+51 999888777'),
-	('SUPERADMIN_NAME', 'Superadmin'),
+	('SUPERADMIN_NAME', 'Super Admin'),
 	('SUPERADMIN_LEVEL', '9'),
 	('ADMIN_NAME', 'Admin'),
 	('ADMIN_LEVEL', '5');
 /*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.cookies
+-- Dumping structure for table newinstall.cookies
 DROP TABLE IF EXISTS `cookies`;
 CREATE TABLE IF NOT EXISTS `cookies` (
   `cookieid` char(23) NOT NULL,
@@ -270,11 +264,11 @@ CREATE TABLE IF NOT EXISTS `cookies` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.cookies: ~0 rows (approximately)
+-- Dumping data for table newinstall.cookies: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cookies` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cookies` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.countries
+-- Dumping structure for table newinstall.countries
 DROP TABLE IF EXISTS `countries`;
 CREATE TABLE IF NOT EXISTS `countries` (
   `id` smallint(5) unsigned NOT NULL,
@@ -282,11 +276,11 @@ CREATE TABLE IF NOT EXISTS `countries` (
   `code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.countries: ~0 rows (approximately)
+-- Dumping data for table newinstall.countries: ~0 rows (approximately)
 /*!40000 ALTER TABLE `countries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.currency
+-- Dumping structure for table newinstall.currency
 DROP TABLE IF EXISTS `currency`;
 CREATE TABLE IF NOT EXISTS `currency` (
   `id` int(11) NOT NULL,
@@ -298,11 +292,11 @@ CREATE TABLE IF NOT EXISTS `currency` (
   `max_supply` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.currency: ~0 rows (approximately)
+-- Dumping data for table newinstall.currency: ~0 rows (approximately)
 /*!40000 ALTER TABLE `currency` DISABLE KEYS */;
 /*!40000 ALTER TABLE `currency` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.customers
+-- Dumping structure for table newinstall.customers
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
   `Customer_ID` int(11) NOT NULL,
@@ -323,11 +317,11 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `Updated_By` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.customers: ~0 rows (approximately)
+-- Dumping data for table newinstall.customers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.deleted_users
+-- Dumping structure for table newinstall.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
 CREATE TABLE IF NOT EXISTS `deleted_users` (
   `user_id` char(128) NOT NULL,
@@ -339,11 +333,11 @@ CREATE TABLE IF NOT EXISTS `deleted_users` (
   `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.deleted_users: ~0 rows (approximately)
+-- Dumping data for table newinstall.deleted_users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `deleted_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `deleted_users` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.deposit
+-- Dumping structure for table newinstall.deposit
 DROP TABLE IF EXISTS `deposit`;
 CREATE TABLE IF NOT EXISTS `deposit` (
   `id` int(11) NOT NULL,
@@ -351,11 +345,11 @@ CREATE TABLE IF NOT EXISTS `deposit` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.deposit: ~0 rows (approximately)
+-- Dumping data for table newinstall.deposit: ~0 rows (approximately)
 /*!40000 ALTER TABLE `deposit` DISABLE KEYS */;
 /*!40000 ALTER TABLE `deposit` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.employee
+-- Dumping structure for table newinstall.employee
 DROP TABLE IF EXISTS `employee`;
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) NOT NULL COMMENT 'primary key',
@@ -367,11 +361,11 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `employee_comments` varchar(255) NOT NULL COMMENT 'employee comments'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.employee: ~0 rows (approximately)
+-- Dumping data for table newinstall.employee: ~0 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.eventlog
+-- Dumping structure for table newinstall.eventlog
 DROP TABLE IF EXISTS `eventlog`;
 CREATE TABLE IF NOT EXISTS `eventlog` (
   `id` bigint(20) unsigned NOT NULL,
@@ -383,11 +377,11 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.eventlog: ~0 rows (approximately)
+-- Dumping data for table newinstall.eventlog: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eventlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eventlog` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.exchange
+-- Dumping structure for table newinstall.exchange
 DROP TABLE IF EXISTS `exchange`;
 CREATE TABLE IF NOT EXISTS `exchange` (
   `id` int(11) NOT NULL,
@@ -395,11 +389,11 @@ CREATE TABLE IF NOT EXISTS `exchange` (
   `trading_pairs` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.exchange: ~0 rows (approximately)
+-- Dumping data for table newinstall.exchange: ~0 rows (approximately)
 /*!40000 ALTER TABLE `exchange` DISABLE KEYS */;
 /*!40000 ALTER TABLE `exchange` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.exchanges
+-- Dumping structure for table newinstall.exchanges
 DROP TABLE IF EXISTS `exchanges`;
 CREATE TABLE IF NOT EXISTS `exchanges` (
   `id` int(11) NOT NULL,
@@ -434,11 +428,11 @@ CREATE TABLE IF NOT EXISTS `exchanges` (
   `referral_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.exchanges: ~0 rows (approximately)
+-- Dumping data for table newinstall.exchanges: ~0 rows (approximately)
 /*!40000 ALTER TABLE `exchanges` DISABLE KEYS */;
 /*!40000 ALTER TABLE `exchanges` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.faq
+-- Dumping structure for table newinstall.faq
 DROP TABLE IF EXISTS `faq`;
 CREATE TABLE IF NOT EXISTS `faq` (
   `id` int(11) NOT NULL,
@@ -448,11 +442,11 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.faq: ~0 rows (approximately)
+-- Dumping data for table newinstall.faq: ~0 rows (approximately)
 /*!40000 ALTER TABLE `faq` DISABLE KEYS */;
 /*!40000 ALTER TABLE `faq` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.finance
+-- Dumping structure for table newinstall.finance
 DROP TABLE IF EXISTS `finance`;
 CREATE TABLE IF NOT EXISTS `finance` (
   `id` int(11) NOT NULL,
@@ -460,11 +454,11 @@ CREATE TABLE IF NOT EXISTS `finance` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.finance: ~0 rows (approximately)
+-- Dumping data for table newinstall.finance: ~0 rows (approximately)
 /*!40000 ALTER TABLE `finance` DISABLE KEYS */;
 /*!40000 ALTER TABLE `finance` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.financial_institution
+-- Dumping structure for table newinstall.financial_institution
 DROP TABLE IF EXISTS `financial_institution`;
 CREATE TABLE IF NOT EXISTS `financial_institution` (
   `id` int(11) NOT NULL,
@@ -472,11 +466,11 @@ CREATE TABLE IF NOT EXISTS `financial_institution` (
   `link` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.financial_institution: ~0 rows (approximately)
+-- Dumping data for table newinstall.financial_institution: ~0 rows (approximately)
 /*!40000 ALTER TABLE `financial_institution` DISABLE KEYS */;
 /*!40000 ALTER TABLE `financial_institution` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.follow
+-- Dumping structure for table newinstall.follow
 DROP TABLE IF EXISTS `follow`;
 CREATE TABLE IF NOT EXISTS `follow` (
   `follow_id` int(11) NOT NULL,
@@ -485,11 +479,11 @@ CREATE TABLE IF NOT EXISTS `follow` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.follow: ~0 rows (approximately)
+-- Dumping data for table newinstall.follow: ~0 rows (approximately)
 /*!40000 ALTER TABLE `follow` DISABLE KEYS */;
 /*!40000 ALTER TABLE `follow` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.forgot_pass
+-- Dumping structure for table newinstall.forgot_pass
 DROP TABLE IF EXISTS `forgot_pass`;
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `idFgp` int(11) NOT NULL,
@@ -500,11 +494,11 @@ CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.forgot_pass: ~0 rows (approximately)
+-- Dumping data for table newinstall.forgot_pass: ~0 rows (approximately)
 /*!40000 ALTER TABLE `forgot_pass` DISABLE KEYS */;
 /*!40000 ALTER TABLE `forgot_pass` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.forgot_pin
+-- Dumping structure for table newinstall.forgot_pin
 DROP TABLE IF EXISTS `forgot_pin`;
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `idFgp` int(11) NOT NULL,
@@ -515,11 +509,11 @@ CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.forgot_pin: ~0 rows (approximately)
+-- Dumping data for table newinstall.forgot_pin: ~0 rows (approximately)
 /*!40000 ALTER TABLE `forgot_pin` DISABLE KEYS */;
 /*!40000 ALTER TABLE `forgot_pin` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.galleries
+-- Dumping structure for table newinstall.galleries
 DROP TABLE IF EXISTS `galleries`;
 CREATE TABLE IF NOT EXISTS `galleries` (
   `idGal` int(11) NOT NULL AUTO_INCREMENT,
@@ -532,11 +526,11 @@ CREATE TABLE IF NOT EXISTS `galleries` (
   PRIMARY KEY (`idGal`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.galleries: ~0 rows (approximately)
+-- Dumping data for table newinstall.galleries: ~0 rows (approximately)
 /*!40000 ALTER TABLE `galleries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `galleries` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.gallery
+-- Dumping structure for table newinstall.gallery
 DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE IF NOT EXISTS `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -545,11 +539,11 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.gallery: ~0 rows (approximately)
+-- Dumping data for table newinstall.gallery: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.gateways
+-- Dumping structure for table newinstall.gateways
 DROP TABLE IF EXISTS `gateways`;
 CREATE TABLE IF NOT EXISTS `gateways` (
   `id` int(11) NOT NULL,
@@ -582,11 +576,11 @@ CREATE TABLE IF NOT EXISTS `gateways` (
   `external_icon` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.gateways: ~0 rows (approximately)
+-- Dumping data for table newinstall.gateways: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gateways` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gateways` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.gateways_fields
+-- Dumping structure for table newinstall.gateways_fields
 DROP TABLE IF EXISTS `gateways_fields`;
 CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `id` int(11) NOT NULL,
@@ -595,11 +589,11 @@ CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `field_number` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.gateways_fields: ~0 rows (approximately)
+-- Dumping data for table newinstall.gateways_fields: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gateways_fields` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gateways_fields` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.help
+-- Dumping structure for table newinstall.help
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE IF NOT EXISTS `help` (
   `Help_ID` int(11) NOT NULL,
@@ -613,11 +607,11 @@ CREATE TABLE IF NOT EXISTS `help` (
   `Last_Updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.help: ~0 rows (approximately)
+-- Dumping data for table newinstall.help: ~0 rows (approximately)
 /*!40000 ALTER TABLE `help` DISABLE KEYS */;
 /*!40000 ALTER TABLE `help` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.help_categories
+-- Dumping structure for table newinstall.help_categories
 DROP TABLE IF EXISTS `help_categories`;
 CREATE TABLE IF NOT EXISTS `help_categories` (
   `category_id` int(11) NOT NULL,
@@ -625,11 +619,11 @@ CREATE TABLE IF NOT EXISTS `help_categories` (
   `category_description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.help_categories: ~0 rows (approximately)
+-- Dumping data for table newinstall.help_categories: ~0 rows (approximately)
 /*!40000 ALTER TABLE `help_categories` DISABLE KEYS */;
 /*!40000 ALTER TABLE `help_categories` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.history
+-- Dumping structure for table newinstall.history
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL,
@@ -637,11 +631,11 @@ CREATE TABLE IF NOT EXISTS `history` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.history: ~0 rows (approximately)
+-- Dumping data for table newinstall.history: ~0 rows (approximately)
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.image_gal
+-- Dumping structure for table newinstall.image_gal
 DROP TABLE IF EXISTS `image_gal`;
 CREATE TABLE IF NOT EXISTS `image_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -655,23 +649,24 @@ CREATE TABLE IF NOT EXISTS `image_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.image_gal: ~0 rows (approximately)
+-- Dumping data for table newinstall.image_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `image_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `image_gal` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.ip
+-- Dumping structure for table newinstall.ip
 DROP TABLE IF EXISTS `ip`;
 CREATE TABLE IF NOT EXISTS `ip` (
-  `username` char(65) NOT NULL,
+  `id_session` char(128) DEFAULT NULL,
+  `user_data` char(64) NOT NULL,
   `address` char(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.ip: ~0 rows (approximately)
+-- Dumping data for table newinstall.ip: ~0 rows (approximately)
 /*!40000 ALTER TABLE `ip` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ip` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.items
+-- Dumping structure for table newinstall.items
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(11) unsigned NOT NULL,
@@ -681,11 +676,11 @@ CREATE TABLE IF NOT EXISTS `items` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.items: ~0 rows (approximately)
+-- Dumping data for table newinstall.items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.languages
+-- Dumping structure for table newinstall.languages
 DROP TABLE IF EXISTS `languages`;
 CREATE TABLE IF NOT EXISTS `languages` (
   `Language_Code` char(2) NOT NULL,
@@ -703,11 +698,11 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `About_Text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.languages: ~0 rows (approximately)
+-- Dumping data for table newinstall.languages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `languages` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.last_transaction
+-- Dumping structure for table newinstall.last_transaction
 DROP TABLE IF EXISTS `last_transaction`;
 CREATE TABLE IF NOT EXISTS `last_transaction` (
   `id` int(11) NOT NULL,
@@ -723,11 +718,11 @@ CREATE TABLE IF NOT EXISTS `last_transaction` (
   `acctions` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.last_transaction: ~0 rows (approximately)
+-- Dumping data for table newinstall.last_transaction: ~0 rows (approximately)
 /*!40000 ALTER TABLE `last_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `last_transaction` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.lk_sess
+-- Dumping structure for table newinstall.lk_sess
 DROP TABLE IF EXISTS `lk_sess`;
 CREATE TABLE IF NOT EXISTS `lk_sess` (
   `id` varchar(40) NOT NULL,
@@ -736,24 +731,27 @@ CREATE TABLE IF NOT EXISTS `lk_sess` (
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.lk_sess: ~0 rows (approximately)
+-- Dumping data for table newinstall.lk_sess: ~0 rows (approximately)
 /*!40000 ALTER TABLE `lk_sess` DISABLE KEYS */;
 /*!40000 ALTER TABLE `lk_sess` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.login_attempts
+-- Dumping structure for table newinstall.login_attempts
 DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE IF NOT EXISTS `login_attempts` (
-  `username` varchar(65) DEFAULT NULL,
+  `id_session` varchar(128) DEFAULT NULL,
+  `user_data` varchar(65) DEFAULT NULL,
   `ip_address` varchar(20) NOT NULL,
   `attempts` int(11) NOT NULL,
   `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.login_attempts: ~0 rows (approximately)
+-- Dumping data for table newinstall.login_attempts: ~1 rows (approximately)
 /*!40000 ALTER TABLE `login_attempts` DISABLE KEYS */;
+INSERT INTO `login_attempts` (`id_session`, `user_data`, `ip_address`, `attempts`, `lastlogin`) VALUES
+	('120480847efa2ac57cd45cba799ed2cb28dd23bb', 'contact@pepiuox.net', '::1', 3, '2021-08-30 00:52:39');
 /*!40000 ALTER TABLE `login_attempts` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.mail
+-- Dumping structure for table newinstall.mail
 DROP TABLE IF EXISTS `mail`;
 CREATE TABLE IF NOT EXISTS `mail` (
   `mail_id` int(80) NOT NULL,
@@ -766,11 +764,11 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `SentDate` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.mail: ~0 rows (approximately)
+-- Dumping data for table newinstall.mail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mail` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.mail_log
+-- Dumping structure for table newinstall.mail_log
 DROP TABLE IF EXISTS `mail_log`;
 CREATE TABLE IF NOT EXISTS `mail_log` (
   `id` int(11) NOT NULL,
@@ -782,11 +780,11 @@ CREATE TABLE IF NOT EXISTS `mail_log` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.mail_log: ~0 rows (approximately)
+-- Dumping data for table newinstall.mail_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mail_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mail_log` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.members
+-- Dumping structure for table newinstall.members
 DROP TABLE IF EXISTS `members`;
 CREATE TABLE IF NOT EXISTS `members` (
   `id` char(128) NOT NULL,
@@ -809,11 +807,11 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.members: ~0 rows (approximately)
+-- Dumping data for table newinstall.members: ~0 rows (approximately)
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.member_info
+-- Dumping structure for table newinstall.member_info
 DROP TABLE IF EXISTS `member_info`;
 CREATE TABLE IF NOT EXISTS `member_info` (
   `userid` char(128) NOT NULL,
@@ -832,11 +830,11 @@ CREATE TABLE IF NOT EXISTS `member_info` (
   CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.member_info: ~0 rows (approximately)
+-- Dumping data for table newinstall.member_info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `member_info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_info` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.member_roles
+-- Dumping structure for table newinstall.member_roles
 DROP TABLE IF EXISTS `member_roles`;
 CREATE TABLE IF NOT EXISTS `member_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -850,11 +848,11 @@ CREATE TABLE IF NOT EXISTS `member_roles` (
   CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.member_roles: ~0 rows (approximately)
+-- Dumping data for table newinstall.member_roles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `member_roles` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_roles` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.menu
+-- Dumping structure for table newinstall.menu
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
@@ -866,9 +864,13 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.menu: ~1 rows (approximately)
+-- Dumping data for table newinstall.menu: ~1 rows (approximately)
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
+	(1, NULL, 1, 'home', 'home', 0);
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.multimedia_gal
+-- Dumping structure for table newinstall.multimedia_gal
 DROP TABLE IF EXISTS `multimedia_gal`;
 CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -883,11 +885,11 @@ CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.multimedia_gal: ~0 rows (approximately)
+-- Dumping data for table newinstall.multimedia_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `multimedia_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `multimedia_gal` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.orders
+-- Dumping structure for table newinstall.orders
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -900,11 +902,11 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `order_date` (`order_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.orders: ~0 rows (approximately)
+-- Dumping data for table newinstall.orders: ~0 rows (approximately)
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.orders_items
+-- Dumping structure for table newinstall.orders_items
 DROP TABLE IF EXISTS `orders_items`;
 CREATE TABLE IF NOT EXISTS `orders_items` (
   `order_id` int(11) NOT NULL,
@@ -913,11 +915,11 @@ CREATE TABLE IF NOT EXISTS `orders_items` (
   PRIMARY KEY (`order_id`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.orders_items: ~0 rows (approximately)
+-- Dumping data for table newinstall.orders_items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `orders_items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `orders_items` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.page
+-- Dumping structure for table newinstall.page
 DROP TABLE IF EXISTS `page`;
 CREATE TABLE IF NOT EXISTS `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -948,9 +950,13 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.page: ~1 rows (approximately)
+-- Dumping data for table newinstall.page: ~1 rows (approximately)
+/*!40000 ALTER TABLE `page` DISABLE KEYS */;
+INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
+	(1, 1, 0, 'home', 'home', NULL, 'home', 'home', 'home', 'carito-logo.png', NULL, 1, 0, NULL, NULL, NULL, NULL, '&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot; id=&quot;i586&quot;&gt;&lt;div id=&quot;ihcm&quot;&gt;&lt;b&gt;Insert your text here&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot;&gt;&lt;div id=&quot;iveg&quot;&gt;&lt;!--?php echo &#039;hello world&#039;; ?--&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;', '* { box-sizing: border-box; } body {margin: 0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.cell{min-height:75px;flex-grow:1;flex-basis:100%;}#ihcm{padding:10px;}#i586{font-family:Arial, Helvetica, sans-serif;text-align:center;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-08-27 07:15:22');
+/*!40000 ALTER TABLE `page` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.payment_transactions
+-- Dumping structure for table newinstall.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
 CREATE TABLE IF NOT EXISTS `payment_transactions` (
   `Payment_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -970,11 +976,11 @@ CREATE TABLE IF NOT EXISTS `payment_transactions` (
   PRIMARY KEY (`Payment_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.payment_transactions: ~0 rows (approximately)
+-- Dumping data for table newinstall.payment_transactions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `payment_transactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `payment_transactions` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.personal_config
+-- Dumping structure for table newinstall.personal_config
 DROP TABLE IF EXISTS `personal_config`;
 CREATE TABLE IF NOT EXISTS `personal_config` (
   `idPconf` int(11) DEFAULT NULL,
@@ -994,11 +1000,29 @@ CREATE TABLE IF NOT EXISTS `personal_config` (
   `skills` varchar(50) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newtestcms.personal_config: ~0 rows (approximately)
+-- Dumping data for table newinstall.personal_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `personal_config` DISABLE KEYS */;
 /*!40000 ALTER TABLE `personal_config` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.press_gal
+-- Dumping structure for table newinstall.plugins_app
+DROP TABLE IF EXISTS `plugins_app`;
+CREATE TABLE IF NOT EXISTS `plugins_app` (
+  `id` int(11) NOT NULL,
+  `plugins` char(50) COLLATE utf8_bin DEFAULT NULL,
+  `pluginsOpts` char(50) COLLATE utf8_bin DEFAULT NULL,
+  `script` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `css` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `buttons` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `plugins_script` char(250) COLLATE utf8_bin DEFAULT NULL,
+  `plugins_css` char(250) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table newinstall.plugins_app: ~0 rows (approximately)
+/*!40000 ALTER TABLE `plugins_app` DISABLE KEYS */;
+/*!40000 ALTER TABLE `plugins_app` ENABLE KEYS */;
+
+-- Dumping structure for table newinstall.press_gal
 DROP TABLE IF EXISTS `press_gal`;
 CREATE TABLE IF NOT EXISTS `press_gal` (
   `idPr` int(11) NOT NULL AUTO_INCREMENT,
@@ -1013,11 +1037,11 @@ CREATE TABLE IF NOT EXISTS `press_gal` (
   PRIMARY KEY (`idPr`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.press_gal: ~0 rows (approximately)
+-- Dumping data for table newinstall.press_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `press_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `press_gal` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.profiles
+-- Dumping structure for table newinstall.profiles
 DROP TABLE IF EXISTS `profiles`;
 CREATE TABLE IF NOT EXISTS `profiles` (
   `idp` char(128) NOT NULL,
@@ -1050,8 +1074,13 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- Dumping data for table newinstall.profiles: ~1 rows (approximately)
+/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
+INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
+	('1989273849612874d8163d4', 'd3a2b1a54233965744964b2e8ec67d514d0cb7e5', 'Jose', 'Mantilla', NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-08-27 05:15:04', '2021-08-30 01:18:11');
+/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.purchases
+-- Dumping structure for table newinstall.purchases
 DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE IF NOT EXISTS `purchases` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1070,11 +1099,11 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   KEY `TSupplierTBeli` (`Supplier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.purchases: ~0 rows (approximately)
+-- Dumping data for table newinstall.purchases: ~0 rows (approximately)
 /*!40000 ALTER TABLE `purchases` DISABLE KEYS */;
 /*!40000 ALTER TABLE `purchases` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.purchases_detail
+-- Dumping structure for table newinstall.purchases_detail
 DROP TABLE IF EXISTS `purchases_detail`;
 CREATE TABLE IF NOT EXISTS `purchases_detail` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1090,11 +1119,11 @@ CREATE TABLE IF NOT EXISTS `purchases_detail` (
   KEY `TBeliTDBeli` (`Purchase_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.purchases_detail: ~0 rows (approximately)
+-- Dumping data for table newinstall.purchases_detail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `purchases_detail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `purchases_detail` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.role_permissions
+-- Dumping structure for table newinstall.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE IF NOT EXISTS `role_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1107,7 +1136,7 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.role_permissions: ~24 rows (approximately)
+-- Dumping data for table newinstall.role_permissions: ~24 rows (approximately)
 /*!40000 ALTER TABLE `role_permissions` DISABLE KEYS */;
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
@@ -1136,7 +1165,7 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(24, 2, 15);
 /*!40000 ALTER TABLE `role_permissions` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.route_page
+-- Dumping structure for table newinstall.route_page
 DROP TABLE IF EXISTS `route_page`;
 CREATE TABLE IF NOT EXISTS `route_page` (
   `idRpg` int(11) NOT NULL AUTO_INCREMENT,
@@ -1166,11 +1195,11 @@ CREATE TABLE IF NOT EXISTS `route_page` (
   PRIMARY KEY (`idRpg`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.route_page: ~0 rows (approximately)
+-- Dumping data for table newinstall.route_page: ~0 rows (approximately)
 /*!40000 ALTER TABLE `route_page` DISABLE KEYS */;
 /*!40000 ALTER TABLE `route_page` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.sales
+-- Dumping structure for table newinstall.sales
 DROP TABLE IF EXISTS `sales`;
 CREATE TABLE IF NOT EXISTS `sales` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1197,11 +1226,11 @@ CREATE TABLE IF NOT EXISTS `sales` (
   KEY `TCustomerTJual` (`Customer_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.sales: ~0 rows (approximately)
+-- Dumping data for table newinstall.sales: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.sales_detail
+-- Dumping structure for table newinstall.sales_detail
 DROP TABLE IF EXISTS `sales_detail`;
 CREATE TABLE IF NOT EXISTS `sales_detail` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1217,11 +1246,11 @@ CREATE TABLE IF NOT EXISTS `sales_detail` (
   KEY `TJualTDJual` (`Sales_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.sales_detail: ~0 rows (approximately)
+-- Dumping data for table newinstall.sales_detail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_detail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_detail` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.secrets
+-- Dumping structure for table newinstall.secrets
 DROP TABLE IF EXISTS `secrets`;
 CREATE TABLE IF NOT EXISTS `secrets` (
   `secretid` char(128) NOT NULL DEFAULT '',
@@ -1236,11 +1265,11 @@ CREATE TABLE IF NOT EXISTS `secrets` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.secrets: ~0 rows (approximately)
+-- Dumping data for table newinstall.secrets: ~0 rows (approximately)
 /*!40000 ALTER TABLE `secrets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `secrets` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.sessions
+-- Dumping structure for table newinstall.sessions
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -1250,11 +1279,11 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.sessions: ~0 rows (approximately)
+-- Dumping data for table newinstall.sessions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.settings
+-- Dumping structure for table newinstall.settings
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `Option_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -1361,11 +1390,11 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`Option_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.settings: ~0 rows (approximately)
+-- Dumping data for table newinstall.settings: ~0 rows (approximately)
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.slideshow
+-- Dumping structure for table newinstall.slideshow
 DROP TABLE IF EXISTS `slideshow`;
 CREATE TABLE IF NOT EXISTS `slideshow` (
   `idSld` int(11) NOT NULL AUTO_INCREMENT,
@@ -1378,11 +1407,11 @@ CREATE TABLE IF NOT EXISTS `slideshow` (
   PRIMARY KEY (`idSld`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newtestcms.slideshow: ~0 rows (approximately)
+-- Dumping data for table newinstall.slideshow: ~0 rows (approximately)
 /*!40000 ALTER TABLE `slideshow` DISABLE KEYS */;
 /*!40000 ALTER TABLE `slideshow` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.slideshow_image
+-- Dumping structure for table newinstall.slideshow_image
 DROP TABLE IF EXISTS `slideshow_image`;
 CREATE TABLE IF NOT EXISTS `slideshow_image` (
   `idImg` int(11) NOT NULL AUTO_INCREMENT,
@@ -1398,11 +1427,11 @@ CREATE TABLE IF NOT EXISTS `slideshow_image` (
   CONSTRAINT `SLD1` FOREIGN KEY (`slideshow_id`) REFERENCES `slideshow` (`idSld`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newtestcms.slideshow_image: ~0 rows (approximately)
+-- Dumping data for table newinstall.slideshow_image: ~0 rows (approximately)
 /*!40000 ALTER TABLE `slideshow_image` DISABLE KEYS */;
 /*!40000 ALTER TABLE `slideshow_image` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.social_link
+-- Dumping structure for table newinstall.social_link
 DROP TABLE IF EXISTS `social_link`;
 CREATE TABLE IF NOT EXISTS `social_link` (
   `social_name` varchar(20) DEFAULT NULL,
@@ -1410,11 +1439,11 @@ CREATE TABLE IF NOT EXISTS `social_link` (
   KEY `social_name` (`social_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.social_link: ~0 rows (approximately)
+-- Dumping data for table newinstall.social_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `social_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `social_link` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stats_counter
+-- Dumping structure for table newinstall.stats_counter
 DROP TABLE IF EXISTS `stats_counter`;
 CREATE TABLE IF NOT EXISTS `stats_counter` (
   `Type` varchar(50) NOT NULL DEFAULT '',
@@ -1423,11 +1452,11 @@ CREATE TABLE IF NOT EXISTS `stats_counter` (
   PRIMARY KEY (`Type`,`Variable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stats_counter: ~0 rows (approximately)
+-- Dumping data for table newinstall.stats_counter: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_counter` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_counter` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stats_counterlog
+-- Dumping structure for table newinstall.stats_counterlog
 DROP TABLE IF EXISTS `stats_counterlog`;
 CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   `IP_Address` varchar(50) NOT NULL DEFAULT '',
@@ -1438,11 +1467,11 @@ CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   PRIMARY KEY (`IP_Address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stats_counterlog: ~0 rows (approximately)
+-- Dumping data for table newinstall.stats_counterlog: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_counterlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_counterlog` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stats_date
+-- Dumping structure for table newinstall.stats_date
 DROP TABLE IF EXISTS `stats_date`;
 CREATE TABLE IF NOT EXISTS `stats_date` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1452,11 +1481,11 @@ CREATE TABLE IF NOT EXISTS `stats_date` (
   PRIMARY KEY (`Date`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stats_date: ~0 rows (approximately)
+-- Dumping data for table newinstall.stats_date: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_date` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_date` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stats_hour
+-- Dumping structure for table newinstall.stats_hour
 DROP TABLE IF EXISTS `stats_hour`;
 CREATE TABLE IF NOT EXISTS `stats_hour` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1467,11 +1496,11 @@ CREATE TABLE IF NOT EXISTS `stats_hour` (
   PRIMARY KEY (`Date`,`Hour`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stats_hour: ~0 rows (approximately)
+-- Dumping data for table newinstall.stats_hour: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_hour` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_hour` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stats_month
+-- Dumping structure for table newinstall.stats_month
 DROP TABLE IF EXISTS `stats_month`;
 CREATE TABLE IF NOT EXISTS `stats_month` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1480,11 +1509,11 @@ CREATE TABLE IF NOT EXISTS `stats_month` (
   PRIMARY KEY (`Year`,`Month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stats_month: ~0 rows (approximately)
+-- Dumping data for table newinstall.stats_month: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_month` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_month` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stats_year
+-- Dumping structure for table newinstall.stats_year
 DROP TABLE IF EXISTS `stats_year`;
 CREATE TABLE IF NOT EXISTS `stats_year` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1492,11 +1521,11 @@ CREATE TABLE IF NOT EXISTS `stats_year` (
   PRIMARY KEY (`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stats_year: ~0 rows (approximately)
+-- Dumping data for table newinstall.stats_year: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stats_year` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stats_year` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stock_categories
+-- Dumping structure for table newinstall.stock_categories
 DROP TABLE IF EXISTS `stock_categories`;
 CREATE TABLE IF NOT EXISTS `stock_categories` (
   `Category_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1504,11 +1533,11 @@ CREATE TABLE IF NOT EXISTS `stock_categories` (
   PRIMARY KEY (`Category_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stock_categories: ~0 rows (approximately)
+-- Dumping data for table newinstall.stock_categories: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stock_categories` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock_categories` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.stock_items
+-- Dumping structure for table newinstall.stock_items
 DROP TABLE IF EXISTS `stock_items`;
 CREATE TABLE IF NOT EXISTS `stock_items` (
   `Stock_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1528,11 +1557,11 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   PRIMARY KEY (`Stock_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.stock_items: ~0 rows (approximately)
+-- Dumping data for table newinstall.stock_items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stock_items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock_items` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.suppliers
+-- Dumping structure for table newinstall.suppliers
 DROP TABLE IF EXISTS `suppliers`;
 CREATE TABLE IF NOT EXISTS `suppliers` (
   `Supplier_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1556,11 +1585,11 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   UNIQUE KEY `KodeCust` (`Supplier_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.suppliers: ~0 rows (approximately)
+-- Dumping data for table newinstall.suppliers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.table_config
+-- Dumping structure for table newinstall.table_config
 DROP TABLE IF EXISTS `table_config`;
 CREATE TABLE IF NOT EXISTS `table_config` (
   `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1568,11 +1597,11 @@ CREATE TABLE IF NOT EXISTS `table_config` (
   PRIMARY KEY (`tcon_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.table_config: ~0 rows (approximately)
+-- Dumping data for table newinstall.table_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_config` DISABLE KEYS */;
 /*!40000 ALTER TABLE `table_config` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.table_queries
+-- Dumping structure for table newinstall.table_queries
 DROP TABLE IF EXISTS `table_queries`;
 CREATE TABLE IF NOT EXISTS `table_queries` (
   `tque_Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1590,11 +1619,11 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   PRIMARY KEY (`tque_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.table_queries: ~0 rows (approximately)
+-- Dumping data for table newinstall.table_queries: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_queries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `table_queries` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.table_settings
+-- Dumping structure for table newinstall.table_settings
 DROP TABLE IF EXISTS `table_settings`;
 CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
@@ -1608,11 +1637,11 @@ CREATE TABLE IF NOT EXISTS `table_settings` (
   UNIQUE KEY `table_name` (`table_name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.table_settings: ~0 rows (approximately)
+-- Dumping data for table newinstall.table_settings: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_settings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `table_settings` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.templates
+-- Dumping structure for table newinstall.templates
 DROP TABLE IF EXISTS `templates`;
 CREATE TABLE IF NOT EXISTS `templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1620,11 +1649,11 @@ CREATE TABLE IF NOT EXISTS `templates` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.templates: ~0 rows (approximately)
+-- Dumping data for table newinstall.templates: ~0 rows (approximately)
 /*!40000 ALTER TABLE `templates` DISABLE KEYS */;
 /*!40000 ALTER TABLE `templates` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.themes
+-- Dumping structure for table newinstall.themes
 DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
   `Theme_ID` varchar(25) NOT NULL,
@@ -1633,11 +1662,11 @@ CREATE TABLE IF NOT EXISTS `themes` (
   PRIMARY KEY (`Theme_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.themes: ~0 rows (approximately)
+-- Dumping data for table newinstall.themes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `themes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `themes` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.timezone
+-- Dumping structure for table newinstall.timezone
 DROP TABLE IF EXISTS `timezone`;
 CREATE TABLE IF NOT EXISTS `timezone` (
   `Timezone` varchar(50) NOT NULL,
@@ -1645,11 +1674,11 @@ CREATE TABLE IF NOT EXISTS `timezone` (
   PRIMARY KEY (`Timezone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.timezone: ~0 rows (approximately)
+-- Dumping data for table newinstall.timezone: ~0 rows (approximately)
 /*!40000 ALTER TABLE `timezone` DISABLE KEYS */;
 /*!40000 ALTER TABLE `timezone` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.tokens
+-- Dumping structure for table newinstall.tokens
 DROP TABLE IF EXISTS `tokens`;
 CREATE TABLE IF NOT EXISTS `tokens` (
   `tokenid` char(25) NOT NULL,
@@ -1662,11 +1691,11 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.tokens: ~0 rows (approximately)
+-- Dumping data for table newinstall.tokens: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.type_blocks
+-- Dumping structure for table newinstall.type_blocks
 DROP TABLE IF EXISTS `type_blocks`;
 CREATE TABLE IF NOT EXISTS `type_blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1674,11 +1703,11 @@ CREATE TABLE IF NOT EXISTS `type_blocks` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.type_blocks: ~0 rows (approximately)
+-- Dumping data for table newinstall.type_blocks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `type_blocks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `type_blocks` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.type_gallery
+-- Dumping structure for table newinstall.type_gallery
 DROP TABLE IF EXISTS `type_gallery`;
 CREATE TABLE IF NOT EXISTS `type_gallery` (
   `idTG` int(11) NOT NULL AUTO_INCREMENT,
@@ -1686,11 +1715,11 @@ CREATE TABLE IF NOT EXISTS `type_gallery` (
   PRIMARY KEY (`idTG`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.type_gallery: ~0 rows (approximately)
+-- Dumping data for table newinstall.type_gallery: ~0 rows (approximately)
 /*!40000 ALTER TABLE `type_gallery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `type_gallery` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.type_page
+-- Dumping structure for table newinstall.type_page
 DROP TABLE IF EXISTS `type_page`;
 CREATE TABLE IF NOT EXISTS `type_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1698,11 +1727,11 @@ CREATE TABLE IF NOT EXISTS `type_page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.type_page: ~0 rows (approximately)
+-- Dumping data for table newinstall.type_page: ~0 rows (approximately)
 /*!40000 ALTER TABLE `type_page` DISABLE KEYS */;
 /*!40000 ALTER TABLE `type_page` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.unit_of_measurement
+-- Dumping structure for table newinstall.unit_of_measurement
 DROP TABLE IF EXISTS `unit_of_measurement`;
 CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
   `UOM_ID` varchar(10) NOT NULL,
@@ -1710,11 +1739,11 @@ CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
   PRIMARY KEY (`UOM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.unit_of_measurement: ~0 rows (approximately)
+-- Dumping data for table newinstall.unit_of_measurement: ~0 rows (approximately)
 /*!40000 ALTER TABLE `unit_of_measurement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `unit_of_measurement` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.users
+-- Dumping structure for table newinstall.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` char(128) NOT NULL,
@@ -1738,9 +1767,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users: ~1 rows (approximately)
+-- Dumping data for table newinstall.users: ~1 rows (approximately)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
+	('1989273849612874d8163d4', 'ZDhsWVhuZTFWWVBnVXprdk1jaVYxZz09', 'bEhHODBhYkxXT3F3UklQMFNyNTJOMEpFbzgrNEhHcWVweGZSc0o4R09nYz0=', 'YjlwOEgrUlRyL0x0V1JTVk5YMW9XZz09', 1, 0, '127.0.0.1', '2021-08-27 05:18:32', '', 0, 0, '921116', '2021-08-27 05:15:04', '2021-08-27 05:18:32');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.users_mk
+-- Dumping structure for table newinstall.users_mk
 DROP TABLE IF EXISTS `users_mk`;
 CREATE TABLE IF NOT EXISTS `users_mk` (
   `id` char(128) NOT NULL,
@@ -1769,11 +1802,11 @@ CREATE TABLE IF NOT EXISTS `users_mk` (
   UNIQUE KEY `password` (`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_mk: ~0 rows (approximately)
+-- Dumping data for table newinstall.users_mk: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users_mk` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_mk` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.users_permissions
+-- Dumping structure for table newinstall.users_permissions
 DROP TABLE IF EXISTS `users_permissions`;
 CREATE TABLE IF NOT EXISTS `users_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1786,7 +1819,7 @@ CREATE TABLE IF NOT EXISTS `users_permissions` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_permissions: ~15 rows (approximately)
+-- Dumping data for table newinstall.users_permissions: ~15 rows (approximately)
 /*!40000 ALTER TABLE `users_permissions` DISABLE KEYS */;
 INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
@@ -1806,7 +1839,7 @@ INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `requi
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 /*!40000 ALTER TABLE `users_permissions` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.users_roles
+-- Dumping structure for table newinstall.users_roles
 DROP TABLE IF EXISTS `users_roles`;
 CREATE TABLE IF NOT EXISTS `users_roles` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
@@ -1819,7 +1852,7 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_roles: ~4 rows (approximately)
+-- Dumping data for table newinstall.users_roles: ~4 rows (approximately)
 /*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Super Admin', 'Master administrator of site', 1, 9),
@@ -1828,7 +1861,7 @@ INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_
 	(4, 'Stantard User', 'Default site role for standard users', 1, 1);
 /*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.users_shop
+-- Dumping structure for table newinstall.users_shop
 DROP TABLE IF EXISTS `users_shop`;
 CREATE TABLE IF NOT EXISTS `users_shop` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1842,11 +1875,11 @@ CREATE TABLE IF NOT EXISTS `users_shop` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_shop: ~0 rows (approximately)
+-- Dumping data for table newinstall.users_shop: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users_shop` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_shop` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.users_sys
+-- Dumping structure for table newinstall.users_sys
 DROP TABLE IF EXISTS `users_sys`;
 CREATE TABLE IF NOT EXISTS `users_sys` (
   `Username` varchar(65) NOT NULL,
@@ -1873,11 +1906,11 @@ CREATE TABLE IF NOT EXISTS `users_sys` (
   PRIMARY KEY (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.users_sys: ~0 rows (approximately)
+-- Dumping data for table newinstall.users_sys: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users_sys` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_sys` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.user_groups
+-- Dumping structure for table newinstall.user_groups
 DROP TABLE IF EXISTS `user_groups`;
 CREATE TABLE IF NOT EXISTS `user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1888,11 +1921,11 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
   UNIQUE KEY `group_level` (`group_level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.user_groups: ~0 rows (approximately)
+-- Dumping data for table newinstall.user_groups: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_groups` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_groups` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.user_info
+-- Dumping structure for table newinstall.user_info
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE IF NOT EXISTS `user_info` (
   `userid` char(128) NOT NULL,
@@ -1911,11 +1944,11 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   CONSTRAINT `fk_userids` FOREIGN KEY (`userid`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.user_info: ~0 rows (approximately)
+-- Dumping data for table newinstall.user_info: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.user_jail
+-- Dumping structure for table newinstall.user_jail
 DROP TABLE IF EXISTS `user_jail`;
 CREATE TABLE IF NOT EXISTS `user_jail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1929,11 +1962,11 @@ CREATE TABLE IF NOT EXISTS `user_jail` (
   CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.user_jail: ~0 rows (approximately)
+-- Dumping data for table newinstall.user_jail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_jail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_jail` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.uverify
+-- Dumping structure for table newinstall.uverify
 DROP TABLE IF EXISTS `uverify`;
 CREATE TABLE IF NOT EXISTS `uverify` (
   `iduv` char(128) NOT NULL,
@@ -1960,9 +1993,13 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.uverify: ~1 rows (approximately)
+-- Dumping data for table newinstall.uverify: ~1 rows (approximately)
+/*!40000 ALTER TABLE `uverify` DISABLE KEYS */;
+INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
+	('1989273849612874d8163d4', 'pepiuox', 'contact@pepiuox.net', 'YjlwOEgrUlRyL0x0V1JTVk5YMW9XZz09', 'e518821ba9d6494041afbe1ada4c8cee036d3949', '2e412112d2ee65e1458fa2543f00e158ad9ae9d4', 'd3a2b1a54233965744964b2e8ec67d514d0cb7e5', '921116', 'Super Admin', '', '', '', '', 1, 1, 1, 0, '2021-08-30 01:18:11');
+/*!40000 ALTER TABLE `uverify` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.videos
+-- Dumping structure for table newinstall.videos
 DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
   `idVd` int(11) NOT NULL AUTO_INCREMENT,
@@ -1977,11 +2014,11 @@ CREATE TABLE IF NOT EXISTS `videos` (
   PRIMARY KEY (`idVd`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.videos: ~0 rows (approximately)
+-- Dumping data for table newinstall.videos: ~0 rows (approximately)
 /*!40000 ALTER TABLE `videos` DISABLE KEYS */;
 /*!40000 ALTER TABLE `videos` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.video_gal
+-- Dumping structure for table newinstall.video_gal
 DROP TABLE IF EXISTS `video_gal`;
 CREATE TABLE IF NOT EXISTS `video_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1994,11 +2031,11 @@ CREATE TABLE IF NOT EXISTS `video_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.video_gal: ~0 rows (approximately)
+-- Dumping data for table newinstall.video_gal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `video_gal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `video_gal` ENABLE KEYS */;
 
--- Dumping structure for view newtestcms.view_purchases_details
+-- Dumping structure for view newinstall.view_purchases_details
 DROP VIEW IF EXISTS `view_purchases_details`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_purchases_details` (
@@ -2012,7 +2049,7 @@ CREATE TABLE `view_purchases_details` (
 	`Purchasing_Total_Amount` DOUBLE(20,0) NOT NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view newtestcms.view_purchases_outstandings
+-- Dumping structure for view newinstall.view_purchases_outstandings
 DROP VIEW IF EXISTS `view_purchases_outstandings`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_purchases_outstandings` (
@@ -2026,7 +2063,7 @@ CREATE TABLE `view_purchases_outstandings` (
 	`Total_Balance` DOUBLE(20,0) NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view newtestcms.view_sales_details
+-- Dumping structure for view newinstall.view_sales_details
 DROP VIEW IF EXISTS `view_sales_details`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_sales_details` (
@@ -2040,7 +2077,7 @@ CREATE TABLE `view_sales_details` (
 	`Sales_Total_Amount` DOUBLE NOT NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view newtestcms.view_sales_outstandings
+-- Dumping structure for view newinstall.view_sales_outstandings
 DROP VIEW IF EXISTS `view_sales_outstandings`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_sales_outstandings` (
@@ -2060,20 +2097,21 @@ CREATE TABLE `view_sales_outstandings` (
 	`Final_Total_Amount` DOUBLE NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for table newtestcms.visitor
+-- Dumping structure for table newinstall.visitor
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE IF NOT EXISTS `visitor` (
   `ip` varchar(15) NOT NULL,
   `timestamp` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.visitor: ~1 rows (approximately)
+-- Dumping data for table newinstall.visitor: ~2 rows (approximately)
 /*!40000 ALTER TABLE `visitor` DISABLE KEYS */;
 INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
-	('127.0.0.1', '1629510472');
+	('127.0.0.1', '1629510472'),
+	('::1', '1630197317');
 /*!40000 ALTER TABLE `visitor` ENABLE KEYS */;
 
--- Dumping structure for table newtestcms.volunteer
+-- Dumping structure for table newinstall.volunteer
 DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE IF NOT EXISTS `volunteer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2106,11 +2144,11 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newtestcms.volunteer: ~0 rows (approximately)
+-- Dumping data for table newinstall.volunteer: ~0 rows (approximately)
 /*!40000 ALTER TABLE `volunteer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `volunteer` ENABLE KEYS */;
 
--- Dumping structure for view newtestcms.view_purchases_details
+-- Dumping structure for view newinstall.view_purchases_details
 DROP VIEW IF EXISTS `view_purchases_details`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_purchases_details`;
@@ -2126,7 +2164,7 @@ purchases_detail.Purchasing_Total_Amount
 FROM
 purchases_detail ;
 
--- Dumping structure for view newtestcms.view_purchases_outstandings
+-- Dumping structure for view newinstall.view_purchases_outstandings
 DROP VIEW IF EXISTS `view_purchases_outstandings`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_purchases_outstandings`;
@@ -2143,7 +2181,7 @@ FROM
 purchases 
 WHERE purchases.Total_Balance <> 0 ;
 
--- Dumping structure for view newtestcms.view_sales_details
+-- Dumping structure for view newinstall.view_sales_details
 DROP VIEW IF EXISTS `view_sales_details`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_sales_details`;
@@ -2159,7 +2197,7 @@ sales_detail.Sales_Total_Amount
 FROM
 sales_detail ;
 
--- Dumping structure for view newtestcms.view_sales_outstandings
+-- Dumping structure for view newinstall.view_sales_outstandings
 DROP VIEW IF EXISTS `view_sales_outstandings`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_sales_outstandings`;

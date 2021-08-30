@@ -480,6 +480,7 @@ class UserClass {
                 unset($_SESSION['user_id']);
                 unset($_SESSION['level']);
                 unset($_SESSION['hash']);
+                unset($_SESSION);
                 session_destroy(); // Destroy all session data.
                 header('Location: ' . $this->system . 'login.php');
                 exit();

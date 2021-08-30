@@ -1,7 +1,5 @@
 <?php
 include '../elements/alerts.php';
-
-
 ?>
 <div class="login-box">
     <div class="login-logo">
@@ -43,8 +41,7 @@ include '../elements/alerts.php';
                 </div>
                 <div class="row">
                     <div class="col-12">
-
-                        <button type="submit" name="attempts" id="attempts" class="btn btn-primary btn-block">Attempts unlock</button>
+                       <button type="submit" name="attempts" id="attempts" class="btn btn-primary btn-block">Attempts unlock</button>
                     </div>
                     <!-- /.col -->
                 </div>
