@@ -746,10 +746,6 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newinstall.login_attempts: ~1 rows (approximately)
-/*!40000 ALTER TABLE `login_attempts` DISABLE KEYS */;
-INSERT INTO `login_attempts` (`id_session`, `user_data`, `ip_address`, `attempts`, `lastlogin`) VALUES
-	('120480847efa2ac57cd45cba799ed2cb28dd23bb', 'contact@pepiuox.net', '::1', 3, '2021-08-30 00:52:39');
-/*!40000 ALTER TABLE `login_attempts` ENABLE KEYS */;
 
 -- Dumping structure for table newinstall.mail
 DROP TABLE IF EXISTS `mail`;
@@ -865,10 +861,6 @@ CREATE TABLE IF NOT EXISTS `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newinstall.menu: ~1 rows (approximately)
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
-	(1, NULL, 1, 'home', 'home', 0);
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 -- Dumping structure for table newinstall.multimedia_gal
 DROP TABLE IF EXISTS `multimedia_gal`;
@@ -951,10 +943,6 @@ CREATE TABLE IF NOT EXISTS `page` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newinstall.page: ~1 rows (approximately)
-/*!40000 ALTER TABLE `page` DISABLE KEYS */;
-INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
-	(1, 1, 0, 'home', 'home', NULL, 'home', 'home', 'home', 'carito-logo.png', NULL, 1, 0, NULL, NULL, NULL, NULL, '&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot; id=&quot;i586&quot;&gt;&lt;div id=&quot;ihcm&quot;&gt;&lt;b&gt;Insert your text here&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;cell&quot;&gt;&lt;div id=&quot;iveg&quot;&gt;&lt;!--?php echo &#039;hello world&#039;; ?--&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;', '* { box-sizing: border-box; } body {margin: 0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.cell{min-height:75px;flex-grow:1;flex-basis:100%;}#ihcm{padding:10px;}#i586{font-family:Arial, Helvetica, sans-serif;text-align:center;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-08-27 07:15:22');
-/*!40000 ALTER TABLE `page` ENABLE KEYS */;
 
 -- Dumping structure for table newinstall.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
@@ -1075,10 +1063,6 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newinstall.profiles: ~1 rows (approximately)
-/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('1989273849612874d8163d4', 'd3a2b1a54233965744964b2e8ec67d514d0cb7e5', 'Jose', 'Mantilla', NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-08-27 05:15:04', '2021-08-30 01:18:11');
-/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
 -- Dumping structure for table newinstall.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1768,10 +1752,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newinstall.users: ~1 rows (approximately)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
-	('1989273849612874d8163d4', 'ZDhsWVhuZTFWWVBnVXprdk1jaVYxZz09', 'bEhHODBhYkxXT3F3UklQMFNyNTJOMEpFbzgrNEhHcWVweGZSc0o4R09nYz0=', 'YjlwOEgrUlRyL0x0V1JTVk5YMW9XZz09', 1, 0, '127.0.0.1', '2021-08-27 05:18:32', '', 0, 0, '921116', '2021-08-27 05:15:04', '2021-08-27 05:18:32');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table newinstall.users_mk
 DROP TABLE IF EXISTS `users_mk`;
@@ -1994,10 +1974,6 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newinstall.uverify: ~1 rows (approximately)
-/*!40000 ALTER TABLE `uverify` DISABLE KEYS */;
-INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1989273849612874d8163d4', 'pepiuox', 'contact@pepiuox.net', 'YjlwOEgrUlRyL0x0V1JTVk5YMW9XZz09', 'e518821ba9d6494041afbe1ada4c8cee036d3949', '2e412112d2ee65e1458fa2543f00e158ad9ae9d4', 'd3a2b1a54233965744964b2e8ec67d514d0cb7e5', '921116', 'Super Admin', '', '', '', '', 1, 1, 1, 0, '2021-08-30 01:18:11');
-/*!40000 ALTER TABLE `uverify` ENABLE KEYS */;
 
 -- Dumping structure for table newinstall.videos
 DROP TABLE IF EXISTS `videos`;
