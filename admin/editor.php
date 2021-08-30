@@ -1,14 +1,11 @@
 <?php
 session_start();
-$file = '../config/dbconnection.php';
-if (file_exists($file)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
-    $login = new UserClass();
-    $check = new CheckValidUser();
-} else {
-    header('Location: ../installer/install.php');
-}
+include '../config/checkfile.php';
+require '../config/dbconnection.php';
+require 'Autoload.php';
+$login = new UserClass();
+$check = new CheckValidUser();
+
 if ($login->isLoggedIn() === true) {
 
     $base = "http://{$_SERVER['HTTP_HOST']}/PHP-GrapesJS/";
@@ -358,7 +355,7 @@ if ($login->isLoggedIn() === true) {
                                         }
                                       }
                                     },
-                                                                                                                                                                    
+                                                                                                                                                                                
                                 'gjs-navbar': {},
                                 'gjs-preset-webpage': {
                                     modalImportTitle: 'Import Template',

@@ -22,8 +22,7 @@ if (file_exists($file)) {
 
     require_once 'start.php';
 } else {
-    $folder = basename(dirname(__FILE__));
-    $_SESSION['PathInstall'] = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $folder;
+    $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     header('Location: installer/install.php');
     exit();
 }

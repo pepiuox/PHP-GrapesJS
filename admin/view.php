@@ -1,16 +1,11 @@
 <?php
 session_start();
-$file = '../config/dbconnection.php';
-if (file_exists($file)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
-    $login = new UserClass();
-    $check = new CheckValidUser();
-    $level = new AccessLevel();
-} else {
-    header('Location: ../installer/install.php');
-}
-
+include '../config/checkfile.php';
+require '../config/dbconnection.php';
+require 'Autoload.php';
+$login = new UserClass();
+$check = new CheckValidUser();
+$level = new AccessLevel();
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $spg = $conn->prepare("SELECT * FROM page WHERE id=?");

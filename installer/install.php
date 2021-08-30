@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$folder = basename(dirname(__DIR__));
 if (isset($_SESSION['PathInstall'])) {
     $base = $_SESSION['PathInstall'];
 } else {
+    $folder = basename(dirname(__DIR__));
     $base = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
 }
 

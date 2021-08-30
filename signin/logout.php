@@ -3,6 +3,7 @@
 if (!isset($_SESSION)) {
     session_start();
 }
+include '../config/checkfile.php';
 require '../config/dbconnection.php';
 require 'Autoload.php';
 

@@ -1,15 +1,13 @@
 <?php
-session_start();
-$file = '../config/dbconnection.php';
-if (file_exists($file)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
-    $login = new UserClass();
-    $check = new CheckValidUser();
-    $level = new AccessLevel();
-} else {
-    header('Location: ../installer/install.php');
+if (!isset($_SESSION)) {
+    session_start();
 }
+include '../config/checkfile.php';
+require '../config/dbconnection.php';
+require 'Autoload.php';
+$login = new UserClass();
+$check = new CheckValidUser();
+$level = new AccessLevel();
 
 if ($login->isLoggedIn() === true) {
 
@@ -304,7 +302,7 @@ if ($login->isLoggedIn() === true) {
                             'grapesjs-project-manager',
                             'grapesjs-ga',
                             'grapesjs-swiper-slider'
-                                    
+                                            
                         ],
                         pluginsOpts: {
                             'grapesjs-swiper-slider': {},
@@ -362,7 +360,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                   }
                                 },
-                                                                                                    
+                                                                                                            
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -704,7 +702,7 @@ if ($login->isLoggedIn() === true) {
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
-                                    
+                                            
                                      cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
                             var comps = editor.DomComponents.clear();

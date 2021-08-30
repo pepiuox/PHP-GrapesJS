@@ -2,6 +2,11 @@
 if (!isset($_SESSION)) {
     session_start();
 }
+include '../config/checkfile.php';
+$file = '../config/dbconnection.php';
+if (!file_exists($file)) {
+    header('Location: ../index.php');
+}
 require '../config/dbconnection.php';
 require 'Autoload.php';
 
