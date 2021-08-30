@@ -58,7 +58,8 @@ if ($login->isLoggedIn() === true) {
                 <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>                
                 <script src="<?php echo $base; ?>js/grapesjs-project-manager"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-ga"></script>
-<script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         var imp = $("span").find("[data-tooltip='Import']");
@@ -303,11 +304,10 @@ if ($login->isLoggedIn() === true) {
                             'grapesjs-project-manager',
                             'grapesjs-ga',
                             'grapesjs-swiper-slider'
-                            
+                                    
                         ],
                         pluginsOpts: {
-                            'grapesjs-swiper-slider': {
-                            },
+                            'grapesjs-swiper-slider': {},
                             'grapesjs-component-code-editor': {
                                 panelId:'views-container'
                             },
@@ -340,7 +340,7 @@ if ($login->isLoggedIn() === true) {
                                         strings: [
                                             'Text row one',
                                             'Text row two',
-                                            'Text row three',
+                                            'Text row three'
                                         ],
                                     }
                                 }
@@ -362,7 +362,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                   }
                                 },
-                                                                                            
+                                                                                                    
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -704,7 +704,7 @@ if ($login->isLoggedIn() === true) {
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
-                            
+                                    
                                      cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
                             var comps = editor.DomComponents.clear();
@@ -786,22 +786,22 @@ if ($login->isLoggedIn() === true) {
                     /*
                     //
                     pn.addButton('options', {
-    id: 'open-templates',
-    className: 'fa fa-folder-o',
-    attributes: {
+        id: 'open-templates',
+        className: 'fa fa-folder-o',
+        attributes: {
         title: 'Open projects and templates'
-    },
-    command: 'open-templates', //Open modal 
-});
-pn.addButton('views', {
-    id: 'open-pages',
-    className: 'fa fa-file-o',
-    attributes: {
+        },
+        command: 'open-templates', //Open modal 
+        });
+        pn.addButton('views', {
+        id: 'open-pages',
+        className: 'fa fa-file-o',
+        attributes: {
         title: 'Take Screenshot'
-    },
-    command: 'open-pages',
-    togglable: false
-});
+        },
+        command: 'open-pages',
+        togglable: false
+        });
                     //
                     */
                     pn.addButton('options', {

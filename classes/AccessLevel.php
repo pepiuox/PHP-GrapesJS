@@ -34,6 +34,12 @@ class AccessLevel {
         }
     }
 
+    public function DefaulRoles($level) {
+        $this->userrole = $this->roles($level);
+        $rol = $this->userrole['default_role'];
+        return $rol;
+    }
+
     public function getRols($level) {
         $this->userrole = $this->roles($level);
         $rol = $this->userrole['idRol'];
@@ -51,7 +57,7 @@ class AccessLevel {
 
     private function roles($level) {
 
-        $stmt = $this->connection->prepare("SELECT idRol, name FROM users_roles WHERE name = ?");
+        $stmt = $this->connection->prepare("SELECT idRol, name, default_role FROM users_roles WHERE name = ?");
         $stmt->bind_param("s", $level);
         $stmt->execute();
         $result = $stmt->get_result();

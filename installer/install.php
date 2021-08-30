@@ -223,8 +223,8 @@ if (isset($_POST['createfile'])) {
     } else {
         $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . "\n";
     }
-    $filecontent .= "\$path = 'http://' . \$_SERVER['SCRIPT_FILENAME'];" . "\n";
-    $filecontent .= "\$fname = basename(\$path, '.php');" . "\n";
+    $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
+    $filecontent .= "\$rname = \$fname . '.php';" . "\n\n";
     $filecontent .= "require 'function.php';" . "\n";
     $filecontent .= "require 'define.php';
             

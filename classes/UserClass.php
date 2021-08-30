@@ -101,7 +101,7 @@ class UserClass {
 
         return $ip;
     }
-    
+
 // Create Hash - Function randHash
     private function randHash($len = 64) {
         return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
@@ -121,7 +121,6 @@ class UserClass {
                 $_SESSION['attempt'] = 0;
                 $_SESSION['attempt_again'] = 0;
             }
-
             // Check that data has been submited.
             // Check that both username and password fields are filled with values.
             if (empty($_POST['email'])) {
@@ -132,14 +131,16 @@ class UserClass {
                 $_SESSION['ErrorMessage'] = 'Please fill in the PIN field.';
             } else {
                 //check if there are 3 attempts already
-                if ($_SESSION['attempt_again'] === 3) {
+                if ($_SESSION['attempt_again'] >= 3) {
                     $_SESSION['error'] = 'Your are allowed 3 attempts in 10 minutes';
                 } else {
+                    // User input from Login Form(loginForm.php).
+                    $useremail = trim($_POST['email']);
+
+                    $this->verifyAttempts($useremail);
 
                     // verify if PIN is numeric
                     if (is_numeric($_POST['PIN']) && strlen($_POST['PIN']) === 6) {
-                        // User input from Login Form(loginForm.php).
-                        $useremail = trim($_POST['email']);
                         $userpsw = trim($_POST['password']);
                         $userpin = trim($_POST['PIN']);
                         $remember = trim($_POST['remember']);
@@ -154,114 +155,103 @@ class UserClass {
 //fetching result would go here, but will be covered later
                         $result = $stmt->get_result();
                         if ($result->num_rows === 0) {
-                            $_SESSION['ErrorMessage'] = 'The data is wrong.';
-                            header('Location: login.php');
-                            exit();
-                        }
-                        $urw = $result->fetch_assoc();
+                            $this->nAttempt($useremail);
+                        } else {
 
-                        if (!empty($urw['password_key'])) {
-                            $_SESSION['ErrorMessage'] = 'Your account is not active by request for password recovery, check your email or please contact support';
-                            header("Location: login.php");
-                            exit();
-                        }
-                        if (!empty($urw['pin_key'])) {
-                            $_SESSION['ErrorMessage'] = 'Your account is not active by request for PIN recovery, check your email or please contact support.';
-                            header("Location: login.php");
-                            exit();
-                        }
-                        if ($urw['banned'] === 1) {
-                            $_SESSION['ErrorMessage'] = 'Access could not be completed, account may be blocked, please contact support.';
-                            header("Location: login.php");
-                            exit();
-                        }
+                            $urw = $result->fetch_assoc();
 
-                        if ($urw['is_activated'] === 1 && $urw['banned'] === 0) {
-                            $user = $urw['username'];
-                            $cml = $urw['email'];
-                            $passw = $urw['password'];
-                            $level = $urw['level'];
-                            $rpa = $urw['rp_active'];
-                            $secret_key = $urw['mktoken'];
-                            $secret_iv = $urw['mkkey'];
-                            $secret_hs = $urw['mkhash'];
-
-                            $cus = $this->ende_crypter('encrypt', $user, $secret_key, $secret_iv);
-                            $pass = $this->ende_crypter('decrypt', $passw, $secret_key, $secret_iv);
-                            $mail = $this->ende_crypter('encrypt', $cml, $secret_key, $secret_iv);
-
-                            if ($userpsw === $pass) {
-
-                                if ($rpa === 0) {
-                                    $_SESSION['AlertMessage'] = 'Recovery phrase needs to be created for your safety.';
-                                    $_SESSION['RecoveryMessage'] = 1;
-                                }
-
-                                $stmt1 = $this->connection->prepare("SELECT * FROM users WHERE username = ? AND email = ? AND password = ? AND mkpin = ?");
-                                $stmt1->bind_param("ssss", $cus, $mail, $passw, $userpin);
-                                $stmt1->execute();
-//fetching result would go here, but will be covered later
-                                $sqr = $stmt1->get_result();
-                                if ($sqr->num_rows === 0) {
-
-                                    $_SESSION['ErrorMessage'] = 'The data is wrong.';
-//header('Location: login.php');
-                                }
-                                $row = $sqr->fetch_assoc();
-                                $stmt1->close();
-                                $iduv = $row['idUser'];
-
-                                $enck = $this->randHash();
-
-                                $up1 = $this->connection->prepare("UPDATE uverify SET mkhash = ? WHERE iduv = ? AND password = ? AND mkhash = ?");
-                                $up1->bind_param("ssss", $enck, $iduv, $passw, $secret_hs);
-                                $up1->execute();
-                                $inst1 = $up1->affected_rows;
-                                $up1->close();
-
-                                if ($inst1 === 1) {
-                                    $_SESSION['username'] = $user;
-                                    $_SESSION['user_id'] = $iduv;
-                                    $_SESSION['language'] = $row['language'];
-                                    $_SESSION['levels'] = $level;
-                                    $_SESSION['hash'] = $enck;
-
-                                    $pro = $this->connection->prepare("UPDATE profiles SET mkhash = ? WHERE idp = ? AND mkhash = ?");
-                                    $pro->bind_param("sss", $enck, $iduv, $secret_hs);
-                                    $pro->execute();
-                                    $inst2 = $pro->affected_rows;
-                                    $pro->close();
-                                    if ($inst2 === 1) {
-                                        $_SESSION['SuccessMessage'] = 'Congratulations you now have access!';
-                                        unset($_SESSION['attempt']);
-                                        unset($_SESSION['attempt_again']);
-                                    }
-                                } else {
-                                    session_destroy();
-                                    $_SESSION['ErrorMessage'] = 'Access error!';
-                                }
-                            } else {
-                                //create attempts action 
-                                //this is where we put our 3 attempt limit
-                                $_SESSION['attempt'] += 1;
-//set the time to allow login if third attempt is reach
-                                if ($_SESSION['attempt'] === 3) {
-                                    $att = $this->connection->prepare("INSERT INTO `login_attempts` (`username`,`ip_address`,attempts)VALUES (?,?,?)");
-                                    $att->bind_param("ssi", $user, $this->ip, $_SESSION['attempt']);
-                                    $att->execute();
-                                    //note 10*60 = 5mins, 60*60 = 1hr, to set to 2hrs change it to 2*60*60
-                                }
-                                // Call class attempts for record logs 
-                                $this->Attempts($user);
-                                $_SESSION['ErrorMessage'] = 'Invalid username or password incorrect.';
+                            if (!empty($urw['password_key'])) {
+                                $_SESSION['ErrorMessage'] = 'Your account is not active by request for password recovery, check your email or please contact support';
                                 header("Location: login.php");
                                 exit();
                             }
-                        } else {
+                            if (!empty($urw['pin_key'])) {
+                                $_SESSION['ErrorMessage'] = 'Your account is not active by request for PIN recovery, check your email or please contact support.';
+                                header("Location: login.php");
+                                exit();
+                            }
+                            if ($urw['banned'] === 1) {
+                                $_SESSION['ErrorMessage'] = 'Access could not be completed, account may be blocked, please contact support.';
+                                header("Location: login.php");
+                                exit();
+                            }
 
-                            $_SESSION['ErrorMessage'] = 'Your account is not active, some process is incomplete, please contact support.';
-                            header("Location: login.php");
-                            exit();
+                            if ($urw['is_activated'] === 1 && $urw['banned'] === 0) {
+                                $user = $urw['username'];
+                                $cml = $urw['email'];
+                                $passw = $urw['password'];
+                                $level = $urw['level'];
+                                $rpa = $urw['rp_active'];
+                                $secret_key = $urw['mktoken'];
+                                $secret_iv = $urw['mkkey'];
+                                $secret_hs = $urw['mkhash'];
+
+                                $cus = $this->ende_crypter('encrypt', $user, $secret_key, $secret_iv);
+                                $pass = $this->ende_crypter('decrypt', $passw, $secret_key, $secret_iv);
+                                $mail = $this->ende_crypter('encrypt', $cml, $secret_key, $secret_iv);
+
+                                if ($userpsw === $pass) {
+
+                                    if ($rpa === 0) {
+                                        $_SESSION['AlertMessage'] = 'Recovery phrase needs to be created for your safety.';
+                                        $_SESSION['RecoveryMessage'] = 1;
+                                    }
+
+                                    $stmt1 = $this->connection->prepare("SELECT * FROM users WHERE username = ? AND email = ? AND password = ? AND mkpin = ?");
+                                    $stmt1->bind_param("ssss", $cus, $mail, $passw, $userpin);
+                                    $stmt1->execute();
+//fetching result would go here, but will be covered later
+                                    $sqr = $stmt1->get_result();
+                                    if ($sqr->num_rows === 0) {
+
+                                        $_SESSION['ErrorMessage'] = 'The data is wrong.';
+//header('Location: login.php');
+                                    }
+                                    $row = $sqr->fetch_assoc();
+                                    $stmt1->close();
+                                    $iduv = $row['idUser'];
+
+                                    $enck = $this->randHash();
+
+                                    $up1 = $this->connection->prepare("UPDATE uverify SET mkhash = ? WHERE iduv = ? AND password = ? AND mkhash = ?");
+                                    $up1->bind_param("ssss", $enck, $iduv, $passw, $secret_hs);
+                                    $up1->execute();
+                                    $inst1 = $up1->affected_rows;
+                                    $up1->close();
+
+                                    if ($inst1 === 1) {
+                                        $_SESSION['username'] = $user;
+                                        $_SESSION['user_id'] = $iduv;
+                                        $_SESSION['language'] = $row['language'];
+                                        $_SESSION['levels'] = $level;
+                                        $_SESSION['hash'] = $enck;
+
+                                        $pro = $this->connection->prepare("UPDATE profiles SET mkhash = ? WHERE idp = ? AND mkhash = ?");
+                                        $pro->bind_param("sss", $enck, $iduv, $secret_hs);
+                                        $pro->execute();
+                                        $inst2 = $pro->affected_rows;
+                                        $pro->close();
+                                        if ($inst2 === 1) {
+                                            $_SESSION['SuccessMessage'] = 'Congratulations you now have access!';
+                                            unset($_SESSION['attempt']);
+                                            unset($_SESSION['attempt_again']);
+                                            unset($_SESSION['id_session_attempt']);
+                                        }
+                                    } else {
+                                        session_destroy();
+                                        $_SESSION['ErrorMessage'] = 'Access error!';
+                                    }
+                                } else {
+                                    $this->nAttempt($useremail);
+                                    header("Location: login.php");
+                                    exit();
+                                }
+                            } else {
+
+                                $_SESSION['ErrorMessage'] = 'Your account is not active, some process is incomplete, please contact support.';
+                                header("Location: login.php");
+                                exit();
+                            }
                         }
                     } else {
                         $_SESSION['ErrorMessage'] = 'The PIN is not numeric or is not complete.';
@@ -276,6 +266,27 @@ class UserClass {
     }
 
     /* End Login() */
+    /*
+     * Function VieLogAttempts()
+     * Verifies if the existence of records of user in the table login_attempts 
+     */
+
+    private function viewLogAttempts($id, $udt) {
+        $result = $this->connection->prepare("SELECT id_session, user_data FROM login_attempts WHERE id_session= ? AND user_data = ?");
+        $result->bind_param("ss", $id, $udt);
+        $result->execute();
+        $num = $result->get_result();
+        if ($num->num_rows > 0) {
+            return true;
+        } else {
+            $attempts = 3;
+            $att = $this->connection->prepare("INSERT INTO `login_attempts` (`id_session`,`user_data`,`ip_address`,`attempts`)VALUES (?,?,?,?)");
+            $att->bind_param("sssi", $id, $udt, $this->ip, $attempts);
+            $att->execute();
+            return false;
+        }
+    }
+
     /*
      * Function CheckAttemps()
      * Create a failed login session , destroys all attempts session data.
@@ -302,71 +313,140 @@ class UserClass {
                     $_SESSION['ErrorMessage'] = 'The data is wrong.';
                     header('Location: login.php');
                     exit();
-                }
-                $urw = $result->fetch_assoc();
-                if ($urw['is_activated'] === 1 && $urw['banned'] === 0) {
-                    $user = $urw['username'];
-                    $passw = $urw['password'];
-                    $secret_key = $urw['mktoken'];
-                    $secret_iv = $urw['mkkey'];
+                } else {
+                    $urw = $result->fetch_assoc();
+                    if ($urw['is_activated'] === 1 && $urw['banned'] === 0) {
+                        $email = $urw['email'];
+                        $user = $urw['username'];
+                        $passw = $urw['password'];
+                        $secret_key = $urw['mktoken'];
+                        $secret_iv = $urw['mkkey'];
 
-                    $cus = $this->ende_crypter('encrypt', $user, $secret_key, $secret_iv);
-                    $pass = $this->ende_crypter('decrypt', $passw, $secret_key, $secret_iv);
+                        $cus = $this->ende_crypter('encrypt', $user, $secret_key, $secret_iv);
+                        $pass = $this->ende_crypter('decrypt', $passw, $secret_key, $secret_iv);
 
-                    if ($userpsw === $pass) {
-                        $stmt1 = $this->connection->prepare("SELECT * FROM users WHERE username = ? AND password = ? AND mkpin = ?");
-                        $stmt1->bind_param("sss", $cus, $passw, $userpin);
-                        $stmt1->execute();
+                        if ($userpsw === $pass) {
+                            $stmt1 = $this->connection->prepare("SELECT * FROM users WHERE username = ? AND password = ? AND mkpin = ?");
+                            $stmt1->bind_param("sss", $cus, $passw, $userpin);
+                            $stmt1->execute();
 //fetching result would go here, but will be covered later
-                        $sqr = $stmt1->get_result();
-                        if ($sqr->num_rows > 0) {
-                            $att = $this->connection->prepare("DELETE FROM `ip` WHERE username = ? AND address = ?");
-                            $att->bind_param("ss", $user, $this->ip);
-                            $att->execute();
-                            unset($_SESSION['attempt']);
-                            unset($_SESSION['attempt_again']);
-                            $_SESSION['SuccessMessage'] = 'Congratulations you now have access!';
-                            header('Location: login.php');
+                            $sqr = $stmt1->get_result();
+                            if ($sqr->num_rows > 0) {
+                                $att = $this->connection->prepare("DELETE FROM `ip` WHERE id_session = ? AND user_data = ?");
+                                $att->bind_param("ss", $_SESSION['id_session_attempt'], $email);
+                                $att->execute();
+                                unset($_SESSION['attempt']);
+                                unset($_SESSION['attempt_again']);
+                                unset($_SESSION['id_session_attempt']);
+                                $_SESSION['SuccessMessage'] = 'Congratulations you now have access!';
+                                header('Location: login.php');
+                                exit();
+                            }
+                        } else {
+                            $_SESSION['ErrorMessage'] = 'Password incorrect.';
+                            header("Location: login.php");
                             exit();
                         }
                     } else {
-                        $_SESSION['ErrorMessage'] = 'Password incorrect.';
+                        $_SESSION['ErrorMessage'] = 'Invalid username or password incorrect.';
                         header("Location: login.php");
                         exit();
                     }
-                } else {
-                    $_SESSION['ErrorMessage'] = 'Invalid username or password incorrect.';
-                    header("Location: login.php");
-                    exit();
                 }
             }
         }
     }
 
     /*
-     * Function Attemps()
-     * create a failed login session , destroys all session data.
+     * Function verifyAttempts()
+     * Show a failed login session  for more that 3 attempts and block the access.
      */
 
-    private function Attempts($user) {
-        if (isset($_SESSION['attempt_again'])) {
+    private function verifyAttempts($udata) {
+        $result = $this->connection->prepare("SELECT id_session, user_data FROM `ip` WHERE `user_data` = ? GROUP BY id_session");
+        $result->bind_param("s", $udata);
+        $result->execute();
+        $num = $result->get_result();
 
-            $stmt = $this->connection->prepare("INSERT INTO `ip` (`username`, `address`)VALUES (?,?)");
-            $stmt->bind_param("ss", $user, $this->ip);
-            $stmt->execute();
+        if ($num->num_rows >= 3) {
+            $_SESSION['attempt_again'] = $_SESSION['attempt'] = 3;
+            // Get data from IP
+            $idss = $num->fetch_assoc();
 
-            $result = $this->connection->prepare("SELECT address FROM `ip` WHERE `username` = ? AND `address` = ?");
-            $result->bind_param("ss", $user, $this->ip);
-            $result->execute();
-            $num = $result->get_result();
+            $_SESSION['id_session_attempt'] = $idss['id_session'];
+            // Call function nAttempt();
 
-            $_SESSION['attempt_again'] = $num->num_rows;
             if ($_SESSION['attempt_again'] >= 3) {
-                $_SESSION['error'] = 'Your are allowed 3 attempts in 10 minutes';
+                $_SESSION['ErrorMessage'] = 'You have the account blocked for more than 3 failed access attempts.';
+                header("Location: login.php");
+                exit();
             }
         }
     }
 
+    /*
+     * Function nAttempt()
+     * Create a failed login session , destroys all attempts session data.
+     */
+
+    private function nAttempt($useremail) {
+        //Create id session attempts
+        if (!isset($_SESSION['id_session_attempt'])) {
+            $idattempt = $this->randHash();
+            $_SESSION['id_session_attempt'] = $idattempt;
+        } else {
+            $idattempt = $_SESSION['id_session_attempt'];
+        }
+        //this is where we put our 3 attempt limit
+        $_SESSION['attempt'] += 1;
+        //set the time to allow login if third attempt is reach
+        // Call class attempts for record logs 
+        $this->Attempts($idattempt, $useremail);
+    }
+
+    /*
+     * Function Attemps()
+     * Create a failed login session , destroys all session data.
+     */
+
+    private function Attempts($idatt, $udata) {
+        if (isset($_SESSION['attempt_again'])) {
+
+            $stmt = $this->connection->prepare("INSERT INTO `ip` (`id_session`, `user_data`, `address`)VALUES (?,?,?)");
+            $stmt->bind_param("sss", $idatt, $udata, $this->ip);
+            $stmt->execute();
+
+            $result = $this->connection->prepare("SELECT id_session, user_data FROM `ip` WHERE `user_data` = ?");
+            $result->bind_param("s", $udata);
+            $result->execute();
+            $num = $result->get_result();
+
+            $_SESSION['attempt_again'] = $num->num_rows;
+
+            if ($_SESSION['attempt'] >= 3) {
+                $att = $this->connection->prepare("INSERT INTO `login_attempts` (`id_session`,`user_data`,`ip_address`,attempts)VALUES (?,?,?,?)");
+                $att->bind_param("sssi", $idatt, $udata, $this->ip, $_SESSION['attempt']);
+                $att->execute();
+                //note 10*60 = 5mins, 60*60 = 1hr, to set to 2hrs change it to 2*60*60
+            }
+            if ($_SESSION['attempt_again'] >= 3) {
+                $_SESSION['error'] = 'Your are allowed 3 attempts in 10 minutes';
+                header("Location: login.php");
+                exit();
+            } else {
+                $_SESSION['ErrorMessage'] = 'Invalid email, password or PIN incorrect.';
+                header("Location: login.php");
+                exit();
+            }
+        }
+    }
+
+    public function activeAttempts(){
+        $lastlogs = '2021-08-28 21:46:41';
+        $tnow = time();
+        $lastlogs = strtotime($lastlogs);
+        echo round(abs($tnow - $lastlogs) / 60);
+    }
     /* Function DiffTime()
      * Find the difference between two dates. 
      */
@@ -627,11 +707,11 @@ class UserClass {
     }
 
     public function isSuperdmin() {
-        return ($this->userlevel == ADMIN_LEVEL || $this->username == SUPERADMIN_NAME);
+        return ($this->userlevel == SUPERADMIN_LEVEL);
     }
 
     public function isAdmin() {
-        return ($this->userlevel == ADMIN_LEVEL || $this->username == ADMIN_NAME);
+        return ($this->userlevel == ADMIN_LEVEL);
     }
 
     public function isMaster() {
