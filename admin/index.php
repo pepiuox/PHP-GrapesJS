@@ -9,8 +9,7 @@ if (file_exists($connfile)) {
     require 'Autoload.php';
 
     $login = new UserClass();
-    $check = new CheckValidUser();
-    $level = new AccessLevel();
+
     if ($login->isLoggedIn() === true) {
 
         header('Location: dashboard.php');
