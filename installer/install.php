@@ -16,8 +16,13 @@ if (isset($_GET['step']) && !empty($_GET['step'])) {
     $_SESSION['StepInstall'] = 1;
     header("Location: install.php?step=1");
 }
+
 $definefiles = '../config/define.php';
-$connfile = '../config/dbconnection.php';
+
+$file = '../config/dbconnection.php';
+if (file_exists($file)) {
+    header('Location: ../index.php');
+}
 
 if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
     if ($_SESSION['DBConnected'] === 'Connected') {

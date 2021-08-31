@@ -28,10 +28,14 @@ This is a PHP-based CMS that uses the GrapesJS Web Builder Framework, it also in
 <img src="https://pepiuox.net/files/fifth-step1.jpg">
 <hr>
 
-## Fifth step
-### Create user for administration.
+## Sixth step
+### Create file connection and installation completion.
 <img src="https://pepiuox.net/files/sixth-step.jpg">
 <hr>
+
+## Seventh step 
+### Rename installation files, to prevent illegal installations. 
+
 
 ## Plugins
 
