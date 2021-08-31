@@ -206,9 +206,9 @@ if (isset($_POST['createfile'])) {
     $filecontent .= "\$conn->set_charset('utf8mb4');" . "\n";
 
     if (!empty($base)) {
-        $filecontent .= "\$base = '" . $base . "/';" . "\n";
+        $filecontent .= "\$base = '" . $base . "';" . "\n";
     } else {
-        $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'/" . "\n";
+        $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . "\n";
     }
     $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
     $filecontent .= "\$rname = \$fname . '.php';" . "\n\n";
