@@ -1,28 +1,31 @@
 # PHP GrapesJS
 
 This is a PHP-based CMS that uses the GrapesJS Web Builder Framework, it also includes an access and registration system. 
-## PHP files and more
-<p>Add configuration, this make dbconnection.php file</p>
-<img src="https://pepiuox.net/files/addconf.jpg">
-<hr>
-<p>Edit configuration, remake dbconnection.php file</p>
-<img src="https://pepiuox.net/files/editconf.jpg">
-<hr>
-<p>Verify configuration and file dbconnection.php</p>
-<img src="https://pepiuox.net/files/verifyconf.jpg">
-<hr>
-<p>View page list</p>
-<img src="https://pepiuox.net/files/pagelist.jpg">
-<hr>
-<p>Add new page</p>
-<img src="https://pepiuox.net/files/addpage.jpg">
-<hr>
-<p>Edit page</p>
-<img src="https://pepiuox.net/files/editpage.jpg">
-<hr>
-<p>Delete page</p>
-<img src="https://pepiuox.net/files/deletepage.jpg">
 
+
+## First step
+### Installation start, connect to database.
+<img src="https://pepiuox.net/files/first-step.jpg">
+<hr>
+## Second step
+### Verify the base connection and create database.
+<img src="https://pepiuox.net/files/second-step1.jpg">
+<hr>
+## Third step
+### Install tables.
+<img src="https://pepiuox.net/files/third-step.jpg">
+<hr>
+## Fourth step
+### Define configuration.
+<img src="https://pepiuox.net/files/fourth-step1.jpg">
+## Fifth step
+### Create user for administration.
+<img src="https://pepiuox.net/files/fifth-step1.jpg">
+<hr>
+## Fifth step
+### Create user for administration.
+<img src="https://pepiuox.net/files/sixth-step.jpg">
+<hr>
 
 ## Plugins
 
