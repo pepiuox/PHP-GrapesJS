@@ -2,11 +2,10 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-
-require '../config/dbconnection.php';
-require 'Autoload.php';
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
     $login = new UserClass();
     $forgotpass = new userForgot();
 } else {
