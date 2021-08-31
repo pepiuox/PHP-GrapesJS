@@ -12,6 +12,7 @@ if (file_exists($connfile)) {
     $level = new AccessLevel();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 
 if (isset($_GET['user']) && !empty($_GET['user'])) {
@@ -504,6 +505,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
         <?php
     } else {
         header('Location: ../index.php');
+        exit();
     }
     require '../elements/footer.php';
     ?>

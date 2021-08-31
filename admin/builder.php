@@ -11,6 +11,7 @@ if (file_exists($connfile)) {
     $level = new AccessLevel();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 if ($login->isLoggedIn() === true) {
 
@@ -305,7 +306,7 @@ if ($login->isLoggedIn() === true) {
                             'grapesjs-project-manager',
                             'grapesjs-ga',
                             'grapesjs-swiper-slider'
-                                                    
+                                                            
                         ],
                         pluginsOpts: {
                             'grapesjs-swiper-slider': {},
@@ -363,7 +364,7 @@ if ($login->isLoggedIn() === true) {
                                     }
                                   }
                                 },
-                                                                                                                    
+                                                                                                                            
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -705,7 +706,7 @@ if ($login->isLoggedIn() === true) {
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
-                                                    
+                                                            
                                      cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
                             var comps = editor.DomComponents.clear();
@@ -1047,8 +1048,10 @@ if ($login->isLoggedIn() === true) {
         <?php
     } else {
         header('Location: dashboard.php');
+        exit();
     }
 } else {
     header('Location: ../signin/login.php');
+    exit();
 }
 ?>

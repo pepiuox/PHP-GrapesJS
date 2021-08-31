@@ -553,7 +553,8 @@ session_destroy();
 
         </body>
     </html>
-<?php } else {
+    <?php
+} else {
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -568,9 +569,13 @@ session_destroy();
         <body class="bg-dark">
             <div class="container py-4">
                 <div class="row">
+
                     <div class="card">
                         <div class="card-body text-center">
                             <h3>PHP GrapesJS is already installed</h3>
+                            <p>
+                                <a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/signin/login.php'; ?>" target="_self" class="btn btn-info">Go to homepage</a> 
+                            </p>                           
                         </div>
                     </div>
                 </div>

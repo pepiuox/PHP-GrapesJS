@@ -34,6 +34,7 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
         $namelink = $base . $rpx['link'];
 
         header("Location: $namelink");
+        exit();
     }
 }
 if ($rs->num_rows > 0) {
@@ -91,7 +92,13 @@ if ($rs->num_rows > 0) {
     </html>
     <?php
 } else {
-    header('Location: signin/login.php');
+    if ($login->isLoggedIn() === true) {
+        header('Location: admin/dashboard.php');
+        exit();
+    } else {
+        header('Location: signin/login.php');
+        exit();
+    }
 }
 ?>
 

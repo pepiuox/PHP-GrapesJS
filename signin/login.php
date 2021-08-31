@@ -11,6 +11,7 @@ if (file_exists($connfile)) {
     $level = new AccessLevel();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 ?>
 <?php include '../elements/header.php'; ?>
@@ -19,6 +20,7 @@ if (file_exists($connfile)) {
     <?php
     if ($login->isLoggedIn() === true) {
         header('Location: ../users/profile.php');
+        exit();
     } else {
         /* login-box */
         if (isset($_SESSION['attempt']) || isset($_SESSION['attempt_again'])) {

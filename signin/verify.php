@@ -10,6 +10,7 @@ if (file_exists($connfile)) {
     $verify = new UserVerify();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 ?>
 <?php include '../elements/header.php'; ?>

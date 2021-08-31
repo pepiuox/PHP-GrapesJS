@@ -11,7 +11,11 @@ session_start();
 
 $currentDate = new DateTime();
 $file = 'config/dbconnection.php';
-if (file_exists($connfile)) {
+if (!file_exists($connfile)) {
+    $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    header('Location: installer/install.php');
+    exit();
+} else {
     include 'config/dbconnection.php';
     include 'classes/GetVisitor.php';
     $mypage = $_SERVER['PHP_SELF'];
@@ -21,9 +25,5 @@ if (file_exists($connfile)) {
     $visitor = new GetVisitor($timestamp);
 
     require_once 'start.php';
-} else {
-    $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    header('Location: installer/install.php');
-    exit();
 }
 ?>

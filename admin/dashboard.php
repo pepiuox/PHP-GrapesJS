@@ -12,6 +12,7 @@ if (file_exists($connfile)) {
     $level = new AccessLevel();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 if (isset($_GET['cms']) && !empty($_GET['cms'])) {
     $cms = $_GET['cms'];
@@ -209,6 +210,7 @@ $vpages = '';
         <?php
     } else {
         header('Location: ../signin/login.php');
+        exit();
     }
     include '../elements/footer.php';
     ?>

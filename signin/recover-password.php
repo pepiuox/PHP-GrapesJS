@@ -11,6 +11,7 @@ if (file_exists($connfile)) {
     $forgotpass = new userForgot();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 ?>
 <?php include '../elements/header.php'; ?>

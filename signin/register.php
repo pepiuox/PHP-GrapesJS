@@ -12,6 +12,7 @@ if (file_exists($connfile)) {
     $newuser = new newUser();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 ?>
 <?php include '../elements/header.php'; ?>

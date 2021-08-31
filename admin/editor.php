@@ -8,6 +8,7 @@ if (file_exists($connfile)) {
     $check = new CheckValidUser();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 if ($login->isLoggedIn() === true) {
 
@@ -1226,6 +1227,7 @@ if ($login->isLoggedIn() === true) {
     }
 } else {
     header('Location: ../index.php');
+    exit();
 }
 ?>
 
