@@ -553,7 +553,7 @@ session_destroy();
 
         </body>
     </html>
-    <?php } else {
+<?php } else {
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -565,11 +565,13 @@ session_destroy();
             <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
             <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
         </head>
-        <body>
-            <div class="container">
+        <body class="bg-dark">
+            <div class="container py-4">
                 <div class="row">
-                    <div class="col-md-12 py-4 text-center">
-                        <h4>PHP GrapesJS is already installed</h4>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3>PHP GrapesJS is already installed</h3>
+                        </div>
                     </div>
                 </div>
             </div>
