@@ -8,8 +8,7 @@ if (isset($_SESSION['PathInstall'])) {
     $base = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
 }
 
-$fname = basename($_SERVER['SCRIPT_FILENAME'], '.php');
-$rname = $fname . '.php';
+$rname = $_SERVER["REQUEST_URI"];
 
 if (isset($_GET['step']) && !empty($_GET['step'])) {
     $step = $_GET['step'];
