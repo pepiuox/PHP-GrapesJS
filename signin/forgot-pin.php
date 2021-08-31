@@ -17,8 +17,15 @@ if (file_exists($connfile)) {
 </head>
 <body class="hold-transition login-page">
 
-    <?php include '../views/forgotPin.php'; ?>
-    <?php include '../elements/footer.php'; ?>
+    <?php
+    if ($login->isLoggedIn() === true) {
+        header('Location: ../users/profile.php');
+        exit();
+    } else {
+        include '../views/forgotPin.php';
+        include '../elements/footer.php';
+    }
+    ?>
 
 </body>
 </html>
