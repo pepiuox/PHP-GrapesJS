@@ -11,16 +11,16 @@ if (file_exists($connfile)) {
     $login = new UserClass();
     $check = new CheckValidUser();
     $level = new AccessLevel();
+    if ($login->isLoggedIn() === true) {
+
+        header('Location: dashboard.php');
+        exit();
+    } else {
+        header('Location: ' . $base . 'signin/login.php');
+        exit();
+    }
 } else {
     header('Location: ../installer/install.php');
-    exit();
-}
-if ($login->isLoggedIn() === true) {
-
-    header('Location: dashboard.php');
-    exit();
-} else {
-    header('Location: ' . $base . 'signin/login.php');
     exit();
 }
 ?>
