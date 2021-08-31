@@ -7,6 +7,8 @@ $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
 $active = 1;
 $startpage = 1;
+$nm = '';
+
 if (isset($_GET['page']) && !empty($_GET['page'])) {
     $id = (int) $_GET['page'];
 
@@ -21,6 +23,7 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
     $spg->execute();
     $rs = $spg->get_result();
     $nm = $rs->num_rows;
+
     if ($nm > 0) {
         $rpx = $rs->fetch_assoc();
     } else {
@@ -28,7 +31,6 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
         $spg->bind_param("ii", $startpage, $active);
         $spg->execute();
         $rs = $spg->get_result();
-
         $rpx = $rs->fetch_assoc();
 
         $namelink = $base . $rpx['link'];
@@ -37,7 +39,8 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
         exit();
     }
 }
-if ($rs->num_rows > 0) {
+
+if ($nm > 0) {
     $bid = $rpx['id'];
     $title = $rpx['title'];
     $plink = $rpx['link'];

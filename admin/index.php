@@ -3,17 +3,24 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-include '../config/checkfile.php';
-require '../config/dbconnection.php';
-require 'Autoload.php';
+$connfile = '../config/dbconnection.php';
+if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
 
-$login = new UserClass();
-$check = new CheckValidUser();
-$level = new AccessLevel();
+    $login = new UserClass();
+    $check = new CheckValidUser();
+    $level = new AccessLevel();
+} else {
+    header('Location: ../installer/install.php');
+    exit();
+}
 if ($login->isLoggedIn() === true) {
 
     header('Location: dashboard.php');
+    exit();
 } else {
     header('Location: ' . $base . 'signin/login.php');
+    exit();
 }
 ?>

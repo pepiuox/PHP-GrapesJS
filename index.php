@@ -7,23 +7,27 @@
 //  Email      : contact@pepiuox.net
 //
 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 $currentDate = new DateTime();
-$file = 'config/dbconnection.php';
-if (!file_exists($connfile)) {
-    $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    header('Location: installer/install.php');
-    exit();
-} else {
-    include 'config/dbconnection.php';
-    include 'classes/GetVisitor.php';
-    $mypage = $_SERVER['PHP_SELF'];
-    $page = $mypage;
+$connfile = 'config/dbconnection.php';
+if (file_exists($connfile)) {
+    $page = $_SERVER['PHP_SELF'];
 
+    require 'config/dbconnection.php';
+    require 'classes/UserClass.php';
+    require 'classes/GetVisitor.php';
+
+    $login = new UserClass();
     $timestamp = $currentDate->format('Y-m-d H:i:s');
     $visitor = new GetVisitor($timestamp);
 
-    require_once 'start.php';
+    require 'start.php';
+} else {
+    $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    header('Location: installer/install.php');
+    exit();
 }
 ?>
