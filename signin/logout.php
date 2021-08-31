@@ -3,12 +3,15 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-include '../config/checkfile.php';
-require '../config/dbconnection.php';
-require 'Autoload.php';
+$connfile = '../config/dbconnection.php';
+if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
 
-$login = new UserClass();
-
+    $login = new UserClass();
+} else {
+    header('Location: ../installer/install.php');
+}
 if ($login->isLoggedIn() === true) {
     $login->logout();
 } else {

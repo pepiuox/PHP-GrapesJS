@@ -2,11 +2,15 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-include '../config/checkfile.php';
-require '../config/dbconnection.php';
-require 'Autoload.php';
+$connfile = '../config/dbconnection.php';
+if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
 
-$verify = new UserVerify();
+    $verify = new UserVerify();
+} else {
+    header('Location: ../installer/install.php');
+}
 ?>
 <?php include '../elements/header.php'; ?>
 </head>

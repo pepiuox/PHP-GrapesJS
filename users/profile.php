@@ -2,17 +2,18 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-include '../config/checkfile.php';
-$file = '../config/dbconnection.php';
-if (!file_exists($file)) {
-    header('Location: ../index.php');
-}
-require '../config/dbconnection.php';
-require 'Autoload.php';
+$connfile = '../config/dbconnection.php';
+if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
 
-$login = new UserClass();
-$check = new CheckValidUser();
-$level = new AccessLevel();
+    $login = new UserClass();
+    $check = new CheckValidUser();
+    $level = new AccessLevel();
+} else {
+    header('Location: ../installer/install.php');
+}
+
 if (isset($_GET['user']) && !empty($_GET['user'])) {
     $user = $_GET['user'];
 } else {

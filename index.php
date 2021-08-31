@@ -11,7 +11,7 @@ session_start();
 
 $currentDate = new DateTime();
 $file = 'config/dbconnection.php';
-if (file_exists($file)) {
+if (file_exists($connfile)) {
     include 'config/dbconnection.php';
     include 'classes/GetVisitor.php';
     $mypage = $_SERVER['PHP_SELF'];

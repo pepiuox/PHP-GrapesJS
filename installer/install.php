@@ -17,7 +17,7 @@ if (isset($_GET['step']) && !empty($_GET['step'])) {
     header("Location: install.php?step=1");
 }
 $definefiles = '../config/define.php';
-$file = '../config/dbconnection.php';
+$connfile = '../config/dbconnection.php';
 
 if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
     if ($_SESSION['DBConnected'] === 'Connected') {
@@ -219,7 +219,7 @@ if (isset($_POST['createfile'])) {
     ";
     file_put_contents($file, $filecontent, FILE_APPEND | LOCK_EX);
 
-    if (file_exists($file)) {
+    if (file_exists($connfile)) {
         $_SESSION['SuccessMessage'] = "Configuration file created successfully, installation is complete. ";
         $_SESSION['AlertMessage'] = "Now you will be redirected to the home page . ";
         $finalstep = 'finalstep.php';

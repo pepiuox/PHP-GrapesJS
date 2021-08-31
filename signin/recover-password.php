@@ -2,32 +2,36 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-include '../config/checkfile.php';
-require '../config/dbconnection.php';
-require 'Autoload.php';
+$connfile = '../config/dbconnection.php';
+if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'Autoload.php';
 
-$login = new UserClass();
-$forgotpass = new userForgot();
+    $login = new UserClass();
+    $forgotpass = new userForgot();
+} else {
+    header('Location: ../installer/install.php');
+}
 ?>
 <?php include '../elements/header.php'; ?>
 </head>
 <body class="hold-transition login-page">
     <div class="container">
-            <div class="row">
-                <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
-                    <div class="alert alert-danger alert-container" id="alert">
-                        <strong><center><?php echo htmlentities($_SESSION['ErrorMessage']) ?></center></strong>
-                        <?php unset($_SESSION['ErrorMessage']); ?>
-                    </div>
-                <?php } ?>
-                <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
-                    <div class="alert alert-success alert-container" id="alert">
-                        <strong><center><?php echo htmlentities($_SESSION['SuccessMessage']) ?></center></strong>
-                        <?php unset($_SESSION['SuccessMessage']); ?>
-                    </div>
-                <?php } ?>
-            </div>
+        <div class="row">
+            <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
+                <div class="alert alert-danger alert-container" id="alert">
+                    <strong><center><?php echo htmlentities($_SESSION['ErrorMessage']) ?></center></strong>
+                    <?php unset($_SESSION['ErrorMessage']); ?>
+                </div>
+            <?php } ?>
+            <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
+                <div class="alert alert-success alert-container" id="alert">
+                    <strong><center><?php echo htmlentities($_SESSION['SuccessMessage']) ?></center></strong>
+                    <?php unset($_SESSION['SuccessMessage']); ?>
+                </div>
+            <?php } ?>
         </div>
+    </div>
     <div class="login-box">
         <div class="login-logo">
             <a href="<?php echo $base; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>

@@ -2,12 +2,15 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-include '../config/checkfile.php';
-require '../config/dbconnection.php';
-require 'autoload.php';
-$level = new AccessLevel();
-$login = new UserClass();
-
+$connfile = '../config/dbconnection.php';
+if (file_exists($connfile)) {
+    require '../config/dbconnection.php';
+    require 'autoload.php';
+    $level = new AccessLevel();
+    $login = new UserClass();
+} else {
+    header('Location: ../installer/install.php');
+}
 if ($login->isLoggedIn() === true) {
     ob_start();
 
