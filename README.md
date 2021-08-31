@@ -7,21 +7,27 @@ This is a PHP-based CMS that uses the GrapesJS Web Builder Framework, it also in
 ### Installation start, connect to database.
 <img src="https://pepiuox.net/files/first-step.jpg">
 <hr>
+
 ## Second step
 ### Verify the base connection and create database.
 <img src="https://pepiuox.net/files/second-step1.jpg">
 <hr>
+
 ## Third step
 ### Install tables.
 <img src="https://pepiuox.net/files/third-step.jpg">
 <hr>
+
 ## Fourth step
 ### Define configuration.
 <img src="https://pepiuox.net/files/fourth-step1.jpg">
+<hr>
+
 ## Fifth step
 ### Create user for administration.
 <img src="https://pepiuox.net/files/fifth-step1.jpg">
 <hr>
+
 ## Fifth step
 ### Create user for administration.
 <img src="https://pepiuox.net/files/sixth-step.jpg">
