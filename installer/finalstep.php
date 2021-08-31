@@ -1,18 +1,18 @@
 <?php
 session_start();
 
-function randHash($len = 32) {
-    return substr(md5(openssl_random_pseudo_bytes(20)), -$len);
-}
+        function randHash($len = 32) {
+            return substr(md5(openssl_random_pseudo_bytes(20)), -$len);
+        }
 
-$nf = randHash(32) . '.php';
-$nu = randHash(30) . '.php';
-rename('install.php', $nf);
-rename('installUser.php', $nu);
-?>
+        $nf = randHash(32) . '.php';
+        $nu = randHash(30) . '.php';
+        rename('install.php', $nf);
+        rename('installUser.php', $nu);
+        ?>
+            
 
-
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -24,7 +24,7 @@ rename('installUser.php', $nu);
         <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <?php
+    <?php
         include "../elements/alerts.php";
         ?>
         <div class="container">
@@ -32,8 +32,8 @@ rename('installUser.php', $nu);
                 <div class="progress">
                     <div class="progress-bar" role = "progressbar" style = "width: 100%;" aria-valuenow = "100" aria-valuemin = "0" aria-valuemax = "100">95%</div>
                 </div>
-            </div>
-        </div>
+             </div>
+         </div>
         <script src="../js/jquery.min.js" type="text/javascript"></script>
         <script src="../js/bootstrap.min.js" type="text/javascript"></script>
         <script src="../js/popper.min.js" type="text/javascript"></script>   

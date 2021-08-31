@@ -239,6 +239,9 @@ if (isset($_POST['createfile'])) {
         ?>
             " . "\n";
         $lastcontent .= '
+            <?php 
+            $rname = $_SERVER["REQUEST_URI"]; 
+            ?>
         <!DOCTYPE html>
 <html lang="en">
     <head>
