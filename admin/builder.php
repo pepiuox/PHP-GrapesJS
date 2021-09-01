@@ -13,7 +13,7 @@ if (file_exists($connfile)) {
     header('Location: ../installer/install.php');
     exit();
 }
-if ($login->isLoggedIn() === true) {
+if ($login->isLoggedIn() === true && $level->levels() === true) {
 
     $id = '';
     $pcontent = '';

@@ -14,7 +14,7 @@ class SiteDefinitions {
         }
 
         return implode(' ', $vars) . "\n";
-        $conn->close();
+       $conn->close();
     }
 
 }

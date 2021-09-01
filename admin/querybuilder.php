@@ -10,6 +10,7 @@ if (file_exists($connfile)) {
     $login = new UserClass();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 if ($login->isLoggedIn() === true) {
     ob_start();
@@ -23,6 +24,7 @@ if ($login->isLoggedIn() === true) {
 
     if ($file == $fileName) {
         header('Location: querybuilder.php?w=select');
+        exit();
     }
 
     function protect($string) {
@@ -41,7 +43,7 @@ include '../elements/header.php';
     if ($login->isLoggedIn() === true) {
         if ($w == "select") {
             if ($result = $conn->query("SELECT * FROM table_config")) {
-                $total_found = mysqli_num_rows($result);
+                $total_found = $result->num_rows;
 
                 if ($total_found > 0) {
                     $row = mysqli_fetch_assoc($result);
@@ -98,7 +100,7 @@ include '../elements/header.php';
 
                     if ($result = $conn->query($query)) {
                         // Return the number of rows in result set
-                        $rowcount = mysqli_num_rows($result);
+                        $rowcount = $result->num_rows;
                         $r = 0;
                         if ($rowcount > $r) {
 
@@ -190,7 +192,7 @@ include '../elements/header.php';
                 $sql = "SELECT * FROM table_queries WHERE name_table='{$tble}'";
 
                 $qresult = $conn->query($sql);
-                $count = mysqli_num_rows($qresult);
+                $count = $qresult->num_rows;
                 $q = 1;
                 ?>
                 <?php
@@ -458,6 +460,7 @@ include '../elements/header.php';
     <?php
 } else {
     header("Location: login.php");
+    exit();
 }
 ?>
 </body>

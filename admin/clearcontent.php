@@ -3,7 +3,7 @@
 session_start();
 $clear = $_POST['clear'];
 
-if ('clear' === $clear) {
+if ($clear === 'clear') {
     if (isset($_SESSION["page"])) {
         unset($_SESSION["title"]);
         unset($_SESSION["page"]);

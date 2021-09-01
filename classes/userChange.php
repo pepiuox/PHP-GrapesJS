@@ -57,6 +57,7 @@ class userChange {
                 if ($nowTime >= $et) {
                     $_SESSION['ErrorMessage'] = 'Time expired to reset your password.';
                     header('Location: index.php');
+                    exit();
                 }
                 if (!empty($password3) && !empty($email)) {
                 // User input from Forgot password form(passwordResetForm.php).
@@ -129,6 +130,7 @@ class userChange {
                                 $stmt->execute();
                                 $stmt->close();
                                 header('Location: index.php');
+                                exit();
                             }
                         } else {
                             $_SESSION['ErrorMessage'] = 'The data does not match to update your password.';
@@ -175,6 +177,7 @@ class userChange {
                 if ($nowTime >= $et) {
                     $_SESSION['ErrorMessage'] = 'Time expired to reset your PIN.';
                     header('Location: index.php');
+                    exit();
                 }
 // User input from Forgot password form(passwordResetForm.php).
                 $vemail = trim($_POST['vemail']);
@@ -225,6 +228,7 @@ class userChange {
                                         $stmt->execute();
                                         $stmt->close();
                                         header('Location: index.php');
+                                        exit();
                                     }
                                 }
                             }

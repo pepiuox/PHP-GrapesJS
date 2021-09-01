@@ -43,6 +43,7 @@ class AdminProcess {
         } else {
             /* Should not get here, redirect to home page */
             header("Location: ../index.php");
+            exit();
         }
     }
 
@@ -61,16 +62,19 @@ class AdminProcess {
             $_SESSION['reguname'] = $_POST['user'];
             $_SESSION['regsuccess'] = true;
             header("Location: " . $this->session->referrer);
+            exit();
         }
         /* Error found with form */ else if ($retval == 1) {
             $_SESSION['value_array'] = $_POST;
             $_SESSION['error_array'] = $this->form->getErrorArray();
             header("Location: " . $this->session->referrer);
+            exit();
         }
         /* Registration attempt failed */ else if ($retval == 2) {
             $_SESSION['reguname'] = $_POST['user'];
             $_SESSION['regsuccess'] = false;
             header("Location: " . $this->session->referrer);
+            exit();
         }
     }
 

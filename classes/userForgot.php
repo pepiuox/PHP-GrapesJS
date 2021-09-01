@@ -270,6 +270,7 @@ class userForgot {
                                 $stmt->execute();
                                 $stmt->close();
                                 header('Location: index.php');
+                                exit();
                             }
                         } else {
                             $_SESSION['ErrorMessage'] = 'The data does not match to update your password.';
@@ -366,6 +367,7 @@ class userForgot {
                                         $stmt->execute();
                                         $stmt->close();
                                         header('Location: index.php');
+                                        exit();
                                     }
                                 }
                             }

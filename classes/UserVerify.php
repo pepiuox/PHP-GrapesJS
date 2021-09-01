@@ -123,6 +123,7 @@ class UserVerify {
         $stmt->execute();
         if ($stmt->affected_rows === 1) {
             header('Location: verify.php');
+            exit();
         } else {
             $_SESSION['ErrorMessage'] = 'Error in verifying the activation of your account! ';
         }

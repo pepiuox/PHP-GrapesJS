@@ -10,7 +10,7 @@ if (file_exists($connfile)) {
     header('Location: ../installer/install.php');
     exit();
 }
-if ($login->isLoggedIn() === true) {
+if ($login->isLoggedIn() === true && $level->levels() === true) {
 
     $base = "http://{$_SERVER['HTTP_HOST']}/PHP-GrapesJS/";
     $hostlk = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -359,7 +359,7 @@ if ($login->isLoggedIn() === true) {
                                         }
                                       }
                                     },
-                                                                                                                                                                                            
+                                                                                                                                                                                                        
                                 'gjs-navbar': {},
                                 'gjs-preset-webpage': {
                                     modalImportTitle: 'Import Template',

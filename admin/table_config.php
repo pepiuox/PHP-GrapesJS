@@ -10,6 +10,7 @@ if (file_exists($connfile)) {
     $login = new UserClass();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 if ($login->isLoggedIn() === true) {
     ob_start();
@@ -32,11 +33,13 @@ if ($login->isLoggedIn() === true) {
             $upd_qry = "UPDATE table_config SET table_name='" . $all_table_value . "'";
             $conn->query($upd_qry);
             header("Location: table_config.php");
+            exit();
         } else {
             // insert
             $ins_qry = "INSERT INTO table_config(table_name) VALUES('" . $all_table_value . "')";
             $conn->query($ins_qry);
             header("Location: table_config.php");
+            exit();
         }
     }
 }
@@ -105,6 +108,7 @@ include 'top.php';
         <?php
     } else {
         header("Location: ../signin/login.php");
+        exit();
     }
     ?>
 </body>

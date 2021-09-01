@@ -9,6 +9,7 @@ if (file_exists($connfile)) {
     $level = new AccessLevel();
 } else {
     header('Location: ../installer/install.php');
+    exit();
 }
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -59,5 +60,6 @@ if (isset($_GET['id'])) {
     <?php
 } else {
     header('Location: dashboard.php?cms=pagelist');
+    exit();
 }
 ?>

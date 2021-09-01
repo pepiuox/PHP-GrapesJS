@@ -26,7 +26,7 @@ $vpages = '';
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <?php
-    if ($login->isLoggedIn() === true) {
+    if ($login->isLoggedIn() === true && $level->levels() === true) {
         ?>
         <div class="wrapper">        
             <!-- Navbar -->
@@ -117,6 +117,10 @@ $vpages = '';
                         include 'adduser.php';
                     } elseif ($cms == 'crud') {
                         include '../views/crud.php';
+                    } elseif ($cms == 'querybuilder') {
+                        include ' querybuilder.php';
+                    } elseif ($cms == 'table_manager') {
+                        include 'table_manager.php';
                     } else {
                         ?>
                         <div class="container-fluid">
