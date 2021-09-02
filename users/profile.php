@@ -120,7 +120,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                                 <h4>Wellcome <?php echo USERS_FULLNAMES; ?></h4>
                                                 <hr class="colorgraph">
                                                 <p>
-                                                    You are already connected.
+                                                    You are connected as <strong><?php echo $_SESSION['levels']; ?></strong>                                                    
                                                 </p>                                             
                                             </div>
                                         </div>

@@ -26,7 +26,7 @@ $vpages = '';
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <?php
-    if ($login->isLoggedIn() === true && $level->levels() === true) {
+    if ($login->isLoggedIn() === true && $level->levels() === 9) {
         ?>
         <div class="wrapper">        
             <!-- Navbar -->

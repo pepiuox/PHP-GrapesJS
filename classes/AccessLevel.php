@@ -28,20 +28,23 @@ class AccessLevel {
         $stmt->bind_param("ss", $this->user_id, $this->level);
         $stmt->execute();
         $result = $stmt->get_result();
-        $lvls = $result->fetch_assoc();
         $stmt->close();
+
+        $lvls = $result->fetch_assoc();
+
         $this->userrole = $this->roles($this->level);
         $rol = $this->userrole['name'];
         $rold = $this->userrole['default_role'];
-        if ($rold === 9 || $rold === 5) {
-            if ($lvls['level'] === $rol) {
-                return true;
+
+        if ($lvls['level'] === $rol) {
+            if ($rold === 9) {
+                return 9;
+            } elseif ($rold === 5) {
+                return 5;
             } else {
-                return false;
+                return 1;
             }
-        } else {
-            return false;
-        }
+        } 
     }
 
     public function DefaulRoles() {

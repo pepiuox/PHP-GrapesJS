@@ -50,7 +50,7 @@ include 'top.php';
 
     <?php
     include 'header.php';
-    if ($login->isLoggedIn() === true) {
+    if ($login->isLoggedIn() === true && $level->levels() === 9) {
         ?>
         <div class="container">
 
@@ -72,11 +72,10 @@ include 'top.php';
                         $i = 0;
                         $x = 0;
 
-                        $sql = "SHOW TABLES FROM $row[0]";
-                        $result = $conn->query($sql);
-                        $arrayCount = 0;
+                        $result = $conn->query("SHOW TABLES FROM $row[0]");
+                        $tableNames = array();
                         while ($row = mysqli_fetch_row($result)) {
-                            $tableNames[$arrayCount] = $row[0];
+                            $tableNames[] = $row[0];
                             $arrayCount++; // only do this to make sure it starts at index 0
                         }
                         foreach ($tableNames as $tname) {
