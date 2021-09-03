@@ -79,6 +79,12 @@ $vpages = '';
                                     $vpages = 'Delete Page';
                                 } elseif ($cms == 'siteconf') {
                                     $vpages = 'Site Definitions';
+                                } elseif ($cms == 'crud') {
+                                    $vpages = 'CRUD';
+                                } elseif ($cms == 'querybuilder') {
+                                    $vpages = 'Query Builder';
+                                } elseif ($cms == 'table_config') {
+                                    $vpages = 'Table Config';
                                 } else {
                                     $vpages = 'Dashboard';
                                 }
@@ -118,7 +124,9 @@ $vpages = '';
                     } elseif ($cms == 'crud') {
                         include '../views/crud.php';
                     } elseif ($cms == 'querybuilder') {
-                        include ' querybuilder.php';
+                        include 'querybuilder.php';
+                    } elseif ($cms == 'table_config') {
+                        include 'table_config.php';
                     } elseif ($cms == 'table_manager') {
                         include 'table_manager.php';
                     } else {

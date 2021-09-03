@@ -171,7 +171,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/table_config.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
                     if ($fname === 'table_config') {
                         echo 'active';
                     }
@@ -181,7 +181,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/querybuilder.php" class="nav-link <?php
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
                     if ($fname === 'querybuilder') {
                         echo 'active';
                     }

@@ -2,25 +2,28 @@
 
 class MyCRUD {
 
-   private $connection;
+    private $connection;
 
     public function __construct() {
         global $conn;
         $this->connection = $conn;
     }
 
-    public function protect($string) {
-        return htmlspecialchars(trim($string), ENT_QUOTES);
+    public function protect($str) {
+        $str = trim($str);
+        $str = stripslashes($str);
+        $str = htmlentities($str, ENT_QUOTES);
+        $str = htmlspecialchars(trim($str), ENT_QUOTES);
+        $str = mysqli_real_escape_string($this->connection, $str);
+        return $str;
     }
 
     public function sQueries($tble) {
-
         $sql = "SELECT * FROM $tble";
         return $this->connection->query($sql);
     }
 
     public function wQueries($query) {
-
         return $this->connection->query($query);
     }
 
@@ -62,7 +65,7 @@ class MyCRUD {
         try {
             $dbDdata = new PDO("mysql:host=$hostDB;dbname=$baseDB", $userDB, $passDB);
         } catch (Exception $e) {
-            echo "Ocurri� algo con la base de datos: " . $e->getMessage();
+            echo "Something happened to the database: " . $e->getMessage();
         }
         return $dbDdata->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type
             FROM information_schema.columns WHERE
@@ -314,47 +317,47 @@ class MyCRUD {
                 ?>
                 <nav aria-label="navigation mx-auto">
                     <ul class="pagination justify-content-center">
-                <?php if ($page > 1) { ?>
+                        <?php if ($page > 1) { ?>
                             <li class="prev"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page - 1 ?>">Anterior</a></li>
-                        <?php } ?>
+                            <?php } ?>
 
-                <?php if ($page > 3) { ?>
+                        <?php if ($page > 3) { ?>
                             <li class="start"><a href="<?php echo $url; ?>&page=1">1</a></li>
                             <li class="dots">...</li>
                         <?php } ?>
 
-                <?php if ($page - 2 > 0) { ?>
+                        <?php if ($page - 2 > 0) { ?>
                             <li class="page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a></li>
                             <?php } ?>
-                <?php if ($page - 1 > 0) { ?>
+                            <?php if ($page - 1 > 0) { ?>
                             <li class="page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a></li>
-                <?php } ?>
+                            <?php } ?>
 
                         <li class="currentpage"><a
                                 href="<?php echo $url; ?>&page=<?php echo $page ?>"><?php echo $page ?></a></li>
 
-                <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1) { ?>
+                        <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1) { ?>
                             <li class="page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a></li>
                             <?php } ?>
-                <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1) { ?>
+                            <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1) { ?>
                             <li class="page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a></li>
-                        <?php } ?>
+                            <?php } ?>
 
-                <?php if ($page < ceil($total_pages / $num_results_on_page) - 2) { ?>
+                        <?php if ($page < ceil($total_pages / $num_results_on_page) - 2) { ?>
                             <li class="dots">...</li>
                             <li class="end"><a
                                     href="<?php echo $url; ?>&page=<?php echo ceil($total_pages / $num_results_on_page) ?>"><?php echo ceil($total_pages / $num_results_on_page) ?></a></li>
-                        <?php } ?>
+                            <?php } ?>
 
-                <?php if ($page < ceil($total_pages / $num_results_on_page)) { ?>
+                        <?php if ($page < ceil($total_pages / $num_results_on_page)) { ?>
                             <li class="next"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page + 1 ?>">Siguiente</a></li>
-                <?php } ?>
+                            <?php } ?>
                     </ul>
                 </nav>
                 <?php
@@ -846,7 +849,6 @@ class MyCRUD {
 
     // addrow
     public function addData($tble) {
-
 
         $ncol = $this->getID($tble);
         //

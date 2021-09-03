@@ -1,8 +1,5 @@
 <?php
-include '../config/dbconnection.php';
 
-$dbprd = new Database();
-$dbc = $dbprd->MysqliConnection('login');
 $w = '';
 if (isset($_GET['w'])) {
     $w = $_GET['w'];
@@ -12,7 +9,7 @@ if ($w == "set") {
     if (isset($_GET['tbl'])) {
         $table = $_GET['tbl'];
     }
-    if ($result = $dbc->query("SELECT * FROM table_config")) {
+    if ($result = $conn->query("SELECT * FROM table_config")) {
         $total_found = $result->num_rows;
 
         if ($total_found > 0) {
@@ -37,13 +34,13 @@ if ($w == "set") {
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-6">
-                <h3 id="fttl">Lista de tablas de aplicación</h3>
+                <h3 id="fttl">List of application tables</h3>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <select id="selecttb" name="selecttb" class="form-control">
-                        <option value="">Selecione una Tabla</option>
+                        <option value="">Select a Table </option>
                         <?php
                         foreach ($tableNames as $tname) {
                             $remp = str_replace("_", " ", $tname);
@@ -59,7 +56,7 @@ if ($w == "set") {
     extract($_POST);
     $check_exist_qry = "SELECT * FROM table_settings WHERE table_name='$table'";
 
-    $run_qry = $dbc->query($check_exist_qry);
+    $run_qry = $conn->query($check_exist_qry);
     $total_found = $run_qry->num_rows;
     if ($total_found > 0) {
         $my_value = mysqli_fetch_assoc($run_qry);
@@ -78,7 +75,7 @@ if ($w == "set") {
 
 // update
             $upd_qry = "UPDATE table_settings SET views_name='" . $views_value . "', adds_name='" . $adds_value . "', updates_name='" . $updates_value . "', deletes_name='" . $deletes_value . "', permits_name='" . $permits_value . "' WHERE table_name='.$table.";
-            $dbc->query($upd_qry);
+            $conn->query($upd_qry);
             header("Location: ColunmManager.php?w=set&tbl=$table");
         }
         ?>        
@@ -86,24 +83,23 @@ if ($w == "set") {
             <div class="row">
                 <form class="form-horizontal" method="post" action="">
                     <div class="col_md_12">
-                        <h3 class="col-md-4 control-label" for="checkviews">Tablas
-                            que deseas visualizar:</h3>
+                        <h3 class="col-md-4 control-label" for="checkviews">Tables you want to view:</h3>
                     </div>
                     <div class="col-md-4">
                         <table width="100%" cellspacing="0" cellpadding="0" border="1">
                             <thead>
                                 <tr>
-                                    <th valign="top" align="center">Columnas<br>
+                                    <th valign="top" align="center">Columns<br>
                                     </th>
-                                    <th valign="top" align="center">Ver<br>
+                                    <th valign="top" align="center">View<br>
                                     </th>
-                                    <th valign="top" align="center">Agregar<br>
+                                    <th valign="top" align="center">Add<br>
                                     </th>
-                                    <th valign="top" align="center">Actualizar<br>
+                                    <th valign="top" align="center">Update<br>
                                     </th>
-                                    <th valign="top" align="center">Eliminar<br>
+                                    <th valign="top" align="center">Delete<br>
                                     </th>
-                                    <th valign="top" align="center">Permisos<br>
+                                    <th valign="top" align="center">Permissions <br>
                                     </th>
                                 </tr>
                             </thead>
@@ -111,7 +107,7 @@ if ($w == "set") {
                                 <?php
                                 $i = 0;
                                 $x = 0;
-                                $result = $dbc->query("SELECT * FROM " . $table);
+                                $result = $conn->query("SELECT * FROM " . $table);
                                 $finfos = $result->fetch_fields();
 
                                 foreach ($finfos as $val) {
@@ -208,7 +204,7 @@ if ($w == "set") {
                         <div class="form-group">
                             <button type="submit" id="submit" name="submit"
                                     class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span> Visualizar Tablas
+                                <span class="glyphicon glyphicon-plus"></span> View Table
                             </button>
                         </div>
                     </div>
@@ -220,14 +216,14 @@ if ($w == "set") {
         if (isset($_POST['submit'])) {
             $table_name = $_POST['addtb'];
             $ins_qry = "INSERT INTO table_settings(table_name) VALUES('" . $table_name . "')";
-            $dbc->query($ins_qry);
+            $conn->query($ins_qry);
             header("Location: ColunmManager.php?w=set&tbl=$table_name");
         }
         ?>
         <form method="post">
             <div class="form-group">
                 <select id="addtb" name="addtb" class="form-control">
-                    <option value="">Selecione una Tabla</option>
+                    <option value="">Select a Table </option>
                     <?php
                     foreach ($tableNames as $tname) {
                         $remp = str_replace("_", " ", $tname);
@@ -239,12 +235,12 @@ if ($w == "set") {
             <div class="form-group">
                 <button type="submit" id="submit" name="submit"
                         class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> Agregar tabla
+                    <span class="glyphicon glyphicon-plus"></span> Add table
                 </button>
             </div>
         </form>
         <?php
-        echo '<h4>La table no esta agregada<h4>';
+        echo '<h4>The table is not added <h4>';
     }
 }
 ?>

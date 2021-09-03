@@ -1,11 +1,4 @@
 <?php
-include '../config/dbconnection.php';
-
-$dbprd = new Database();
-$conn = $dbprd->MysqliConnection('login');
-?>
-
-<?php
 extract($_POST);
 $check_exist_qry = "SELECT * FROM table_config";
 $run_qry = $conn->query($check_exist_qry);

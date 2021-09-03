@@ -1,5 +1,19 @@
 <?php
 
+/* Protect html content in your query
+ * 
+ */
+
+function protect($str) {
+    global $conn;
+    $str = trim($str);
+    $str = stripslashes($str);
+    $str = htmlentities($str, ENT_QUOTES);
+    $str = htmlspecialchars(trim($str), ENT_QUOTES);
+    $str = mysqli_real_escape_string($conn, $str);
+    return $str;
+}
+
 /* get number of pages
  * 
  */
@@ -28,15 +42,6 @@ function numusers() {
     global $conn;
     $nu = $conn->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
     return $nu;
-}
-
-function protect($str) {
-    global $conn;
-    $str = trim($str);
-    $str = stripslashes($str);
-    $str = htmlentities($str, ENT_QUOTES);
-    $str = mysqli_real_escape_string($conn, $str);
-    return $str;
 }
 
 /*

@@ -18,19 +18,7 @@ if ($w == "select") {
         }
     }
     ?>
-    <script>
-        $(function () {
-            $("#selecttb").change(function () {
-                var selecttb = $(this).val();
-                var value = selecttb;
-                //var path=$(location).attr('href');     
-                value = value.replace("_", " ");
-                var url = 'dashboard.php?cms=crud&w=list&tbl=' + selecttb;
-                $('#fttl').text('Form ' + value);
-                window.location.replace(url);
-            });
-        });
-    </script>
+
     <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
         <div class="container">
             <div class="row pt-2">
@@ -56,20 +44,34 @@ if ($w == "select") {
         <div class="row pt-3">
             <div class="col-md-6">
                 <h3 id="fttl">List of system tables </h3>
-
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <select id="selecttb" name="selecttb" class="form-control">
-                        <option value="">Select a Table </option>
-                        <?php
-                        foreach ($tableNames as $tname) {
-                            $remp = str_replace("_", " ", $tname);
-                            echo '<option value="' . $tname . '">' . ucfirst($remp) . '</option>' . "\n";
-                        }
-                        ?>
-                    </select>
-                </div>
+                <form method="post">
+                    <div class="form-group">
+                        <label class="control-label" for="selecttb">Select Table</label> <select
+                            id="selecttb" name="selecttb" class="form-control">
+                            <option value="">Select Table</option>
+                            <?php
+                            if (!empty($tableNames)) {
+                                foreach ($tableNames as $tname) {
+                                    $remp = str_replace("_", " ", $tname);
+                                    echo '<option value="' . $tname . '">' . ucfirst($remp) . '</option>' . "\n";
+                                }
+                            }
+                            ?>
+                        </select>
+                        <script>
+                            let select =  document.querySelector('#selecttb');
+                            let result = document.querySelector('#fttl');
+                            select.addEventListener('change', function () {                                        
+                                let nvalue = this.value.replace("_", " ");
+                                let url = 'dashboard.php?cms=crud&w=list&tbl=' + this.value;
+                                result.textContent='Form ' + nvalue;
+                                window.location.replace(url);
+                            });
+                        </script>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
