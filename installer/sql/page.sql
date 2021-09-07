@@ -1012,7 +1012,7 @@ CREATE TABLE IF NOT EXISTS `plugins_app` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newcms.plugins_app: ~0 rows (approximately)
+-- Dumping data for table newcms.plugins_app: ~35 rows (approximately)
 /*!40000 ALTER TABLE `plugins_app` DISABLE KEYS */;
 INSERT INTO `plugins_app` (`id`, `plugins`, `pluginsOpts`, `script`, `css`, `buttons`, `plugins_script`, `plugins_css`) VALUES
 	(1, 'gjs-component-countdown', '', '', '', '', '', ''),
@@ -1075,12 +1075,12 @@ DROP TABLE IF EXISTS `profiles`;
 CREATE TABLE IF NOT EXISTS `profiles` (
   `idp` char(128) NOT NULL,
   `mkhash` varchar(256) NOT NULL DEFAULT '',
-  `firstname` varchar(128) DEFAULT NULL,
-  `lastname` varchar(128) DEFAULT NULL,
+  `firstname` varchar(128) NOT NULL,
+  `lastname` varchar(128) NOT NULL,
   `gender` enum('Woman','Male','With doubt') DEFAULT NULL,
   `age` tinyint(3) DEFAULT NULL,
   `avatar` varchar(250) DEFAULT NULL,
-  `birthday` date NOT NULL,
+  `birthday` date DEFAULT NULL,
   `phone` varchar(128) DEFAULT NULL,
   `website` varchar(128) DEFAULT NULL,
   `social_media` varchar(350) DEFAULT NULL,
@@ -1093,8 +1093,8 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `profile_cover` varchar(128) DEFAULT NULL,
   `profile_bio` text DEFAULT NULL,
   `language` varchar(128) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT NULL,
-  `banned` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
+  `banned` tinyint(1) NOT NULL DEFAULT 1,
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idp`) USING BTREE,
@@ -1104,10 +1104,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.profiles: ~1 rows (approximately)
-/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('1095616718612d749c68bc3', '0e6ad62e638fb53e4947f06409f5689528e7edc7', 'Jose', 'Mantilla', NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-08-31 00:15:24', '2021-08-31 09:19:11');
-/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
+
 
 -- Dumping structure for table newcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1628,6 +1625,8 @@ CREATE TABLE IF NOT EXISTS `table_config` (
 
 -- Dumping data for table newcms.table_config: ~0 rows (approximately)
 /*!40000 ALTER TABLE `table_config` DISABLE KEYS */;
+INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
+	(3, 'blocks,cols_set,plugins_app');
 /*!40000 ALTER TABLE `table_config` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.table_queries
@@ -1645,7 +1644,7 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   `j_as` varchar(50) DEFAULT NULL,
   `query` varchar(250) DEFAULT NULL,
   `jvpos` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tque_Id`)
+  PRIMARY KEY (`tque_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.table_queries: ~0 rows (approximately)
@@ -1783,10 +1782,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `ip` char(50) NOT NULL,
   `signup_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `email_verified` varchar(128) NOT NULL,
+  `email_verified` varchar(128) DEFAULT NULL,
   `document_verified` int(11) NOT NULL DEFAULT 0,
   `mobile_verified` int(11) NOT NULL DEFAULT 0,
-  `mkpin` char(6) DEFAULT NULL,
+  `mkpin` char(6) NOT NULL,
   `create_user` timestamp NOT NULL DEFAULT current_timestamp(),
   `update_user` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idUser`),
@@ -1797,10 +1796,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.users: ~1 rows (approximately)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
-	('1095616718612d749c68bc3', 'Qnc5RllYMi9QendaSEQraGIweHlXdz09', 'TGRSOUdDM3o1N2hhaUJGRFJoaEltdmFXTExKTlkrK1VxaHVQUGVoSkJ4dz0=', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', 1, 0, '127.0.0.1', '2021-08-31 00:15:24', '', 0, 0, '550044', '2021-08-31 00:15:24', '2021-08-31 00:15:24');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
 
 -- Dumping structure for table newcms.users_mk
 DROP TABLE IF EXISTS `users_mk`;
@@ -2007,10 +2003,10 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   `mkhash` varchar(256) NOT NULL,
   `mkpin` varchar(6) NOT NULL,
   `level` char(50) NOT NULL DEFAULT 'Guest',
-  `recovery_phrase` varchar(128) NOT NULL,
-  `activation_code` varchar(128) NOT NULL,
-  `password_key` varchar(256) NOT NULL,
-  `pin_key` varchar(256) NOT NULL,
+  `recovery_phrase` varchar(128) DEFAULT NULL,
+  `activation_code` varchar(128) DEFAULT NULL,
+  `password_key` varchar(256) DEFAULT NULL,
+  `pin_key` varchar(256) DEFAULT NULL,
   `rp_active` tinyint(1) NOT NULL DEFAULT 0,
   `is_activated` tinyint(1) NOT NULL DEFAULT 0,
   `verified` tinyint(1) NOT NULL DEFAULT 0,
@@ -2023,10 +2019,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.uverify: ~1 rows (approximately)
-/*!40000 ALTER TABLE `uverify` DISABLE KEYS */;
-INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', '0e6ad62e638fb53e4947f06409f5689528e7edc7', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2021-08-31 09:19:11');
-/*!40000 ALTER TABLE `uverify` ENABLE KEYS */;
+
 
 -- Dumping structure for table newcms.videos
 DROP TABLE IF EXISTS `videos`;

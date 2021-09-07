@@ -53,16 +53,12 @@ class installUser {
 
 // This function check if username exists
     public function checkUsername($username) {
-
-        $num = $this->connection->query("SELECT username FROM uverify WHERE username='$username'")->num_rows;
-        return $num;
+        return $this->connection->query("SELECT username FROM uverify WHERE username='$username'")->num_rows;
     }
 
 // This function check if email exists
     public function checkEmail($email) {
-
-        $num = $this->connection->query("SELECT email FROM uverify WHERE email='$email'")->num_rows;
-        return $num;
+        return $this->connection->query("SELECT email FROM uverify WHERE email='$email'")->num_rows;
     }
 
 // This function get IP from visitor
@@ -125,12 +121,12 @@ class installUser {
         $qlv->bind_param("s", $lvushigh);
         $qlv->execute();
         $lvresult = $qlv->get_result();
+        $qlv->close();
         if ($lvresult->num_rows > 0) {
             return true;
         } else {
             return false;
         }
-        $qlv->close();
     }
 
 // function CountAUser() count the medium user level
@@ -141,12 +137,12 @@ class installUser {
         $qlv1->bind_param("s", $lvusmid);
         $qlv1->execute();
         $lvresult1 = $qlv1->get_result();
+        $qlv1->close();
         if ($lvresult1->num_rows > 0) {
             return true;
         } else {
             return false;
         }
-        $qlv1->close();
     }
 
     private function VerifyUser() {
@@ -180,9 +176,10 @@ class installUser {
             $password = $this->procheck($_POST['password']);
             $repassword = $this->procheck($_POST['password2']);
             $agree = $this->procheck($_POST['agreeTerms']);
+
             if ($agree != 'agree') {
                 $_SESSION['ErrorMessage'] = "You need to accept the terms and conditions, to register your account!";
-                header('Location: register.php');
+                header('Location: install.php?step=5');
                 exit();
             }
 
@@ -228,32 +225,31 @@ class installUser {
                     $verif = 1;
                     $is_actd = 1;
                     $ban = 0;
-                    $ip = $this->ip;
 
                     // adding data in table uverify
-                    $stmt1 = $this->connection->prepare("INSERT INTO uverify (iduv,username,email,password,mktoken,mkkey,mkhash,mkpin,level,is_activated,verified,banned) "
+                    $stmt = $this->connection->prepare("INSERT INTO uverify (iduv,username,email,password,mktoken,mkkey,mkhash,mkpin,level,is_activated,verified,banned) "
                             . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-                    $stmt1->bind_param("sssssssssiii", $newid, $username, $email, $pass, $ekey, $eiv, $enck, $pin, $lvl, $is_actd, $verif, $ban);
-                    $stmt1->execute();
-                    $inst2 = $stmt1->affected_rows;
-                    $stmt1->close();
-
-                    // adding data in table users and info
-                    $stmt = $this->connection->prepare("INSERT INTO users (idUser,username,email,password,verified,status,ip,signup_time,document_verified,mobile_verified,mkpin) "
-                            . "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                    $stmt->bind_param("ssssiissiis", $newid, $eusr, $cml, $pass, $verif, $status, $ip, $time, $dvd, $mvd, $pin);
-                    $stmt->execute();
-                    $inst1 = $stmt->affected_rows;
+                    $stmt->bind_param("sssssssssiii", $newid, $username, $email, $pass, $ekey, $eiv, $enck, $pin, $lvl, $is_actd, $verif, $ban);
+                    $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+                    $inst = $stmt->affected_rows;
                     $stmt->close();
 
-                    // adding data in table info
-                    $info = $this->connection->prepare("INSERT INTO profiles(idp,mkhash,firstname,lastname) VALUES (?,?,?,?)");
-                    $info->bind_param("ssss", $newid, $enck, $firstname, $lastname);
-                    $info->execute();
-                    $inst3 = $info->affected_rows;
-                    $info->close();
+                    // adding data in table users and info
+                    $stmt1 = $this->connection->prepare("INSERT INTO users (idUser,username,email,password,verified,status,ip,signup_time,document_verified,mobile_verified,mkpin) "
+                            . "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                    $stmt1->bind_param("ssssiissiis", $newid, $eusr, $cml, $pass, $verif, $status, $this->ip, $time, $dvd, $mvd, $pin);
+                    $stmt1->execute() or trigger_error($stmt1->error, E_USER_ERROR);
+                    $inst1 = $stmt1->affected_rows;
+                    $stmt1->close();
 
-                    if ($inst1 === 1 && $inst2 === 1 && $inst3 === 1) {
+                    // adding data in table info
+                    $profi = $this->connection->prepare("INSERT INTO profiles(idp,mkhash,firstname,lastname,active,banned) VALUES (?,?,?,?,?,?)");
+                    $profi->bind_param("ssssii", $newid, $enck, $firstname, $lastname,$is_actd, $ban);
+                    $profi->execute() or trigger_error($profi->error, E_USER_ERROR);
+                    $inst2 = $profi->affected_rows;
+                    $profi->close();
+
+                    if ($inst === 1 && $inst1 === 1 && $inst2 === 1) {
                         // message for PIN save                       
 
                         $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering. ' . "\n";
@@ -265,6 +261,8 @@ class installUser {
                     } else {
                         $_SESSION['ErrorMessage'] = 'User creation failed, check with support to continue with your registration.';
                     }
+                } else {
+                    $_SESSION['ErrorMessage'] = 'The passwords are not the same .';
                 }
             }
 

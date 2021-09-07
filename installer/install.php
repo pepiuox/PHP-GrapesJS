@@ -464,6 +464,7 @@ session_destroy();
                                         <?php
                                         $conn->close();
                                     } elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {
+                                     
                                         ?>
                                         <div class="alert alert-success" role="alert">
                                             <h5>Admin registration </h5>
