@@ -24,6 +24,9 @@ if ($base === $initweb) {
     $spg->execute();
     $rs = $spg->get_result();
     $rpx = $rs->fetch_assoc();
+    $namelink = $base . $rpx['link'];
+    header("Location: $namelink");
+    exit();
     
 } elseif (isset($basename) && !empty($basename)) {
     $spg = $conn->prepare("SELECT * FROM page WHERE link = ? AND active = ? ");
@@ -39,10 +42,8 @@ if ($base === $initweb) {
         $spg->bind_param("ii", $startpage, $active);
         $spg->execute();
         $rs = $spg->get_result();
+        $nm = $rs->num_rows;
         $rpx = $rs->fetch_assoc();
-        $namelink = $base . $rpx['link'];
-        header("Location: $namelink");
-        exit();
     }
 }
 

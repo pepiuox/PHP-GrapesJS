@@ -1,6 +1,6 @@
 # PHP GrapesJS
 
-### This is a PHP-based CMS that uses the GrapesJS Web Builder Framework, it also includes an access and registration system. 
+## This is a PHP-based CMS that uses the GrapesJS Web Builder Framework, it also includes an access and registration system. 
 
 Easy installation recommendation, unzip your source in the folder to install and follow each step each step, in case you need to configure your database first, the page.sql file is in the installer/sql/ folder then continue with installation. 
 

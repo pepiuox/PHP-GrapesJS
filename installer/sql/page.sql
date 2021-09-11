@@ -224,9 +224,9 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 	('DOMAIN_SITE', 'www.yourdomain.com'),
 	('SITE_NAME', 'PHP GrapesJS'),
-	('SITE_DESC', 'Your keywords for your domains'),
+	('SITE_DESCRIPTION', 'Your description for your domains'),
 	('SITE_KEYWORDS', 'Your keywords for your domains'),
-	('SITE_DESCRIPTION', 'Your keywords for your domains'),
+	('SITE_CLASSIFICATION', 'Your classification for your domains'),
 	('SITE_ADMIN', 'Super Admin'),
 	('SITE_CONTROL', 'dashboard'),
 	('SITE_CONFIG', 'config'),
@@ -862,8 +862,10 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.menu: ~0 rows (approximately)
+-- Dumping data for table newcms.menu: ~1 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
+	(1, NULL, 1, 'Home', 'home', 0);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.multimedia_gal
@@ -946,9 +948,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.page: ~0 rows (approximately)
-/*!40000 ALTER TABLE `page` DISABLE KEYS */;
-/*!40000 ALTER TABLE `page` ENABLE KEYS */;
+-- Dumping data for table newcms.page: ~1 rows (approximately)
 
 -- Dumping structure for table newcms.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
@@ -1104,7 +1104,6 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.profiles: ~1 rows (approximately)
-
 
 -- Dumping structure for table newcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1797,7 +1796,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Dumping data for table newcms.users: ~1 rows (approximately)
 
-
 -- Dumping structure for table newcms.users_mk
 DROP TABLE IF EXISTS `users_mk`;
 CREATE TABLE IF NOT EXISTS `users_mk` (
@@ -2020,7 +2018,6 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 
 -- Dumping data for table newcms.uverify: ~1 rows (approximately)
 
-
 -- Dumping structure for table newcms.videos
 DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
@@ -2127,11 +2124,6 @@ CREATE TABLE IF NOT EXISTS `visitor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.visitor: ~2 rows (approximately)
-/*!40000 ALTER TABLE `visitor` DISABLE KEYS */;
-INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
-	('127.0.0.1', '1629510472'),
-	('::1', '1630197317');
-/*!40000 ALTER TABLE `visitor` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.volunteer
 DROP TABLE IF EXISTS `volunteer`;
