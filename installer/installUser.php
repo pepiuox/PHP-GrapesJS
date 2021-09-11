@@ -244,7 +244,7 @@ class installUser {
 
                     // adding data in table info
                     $profi = $this->connection->prepare("INSERT INTO profiles(idp,mkhash,firstname,lastname,active,banned) VALUES (?,?,?,?,?,?)");
-                    $profi->bind_param("ssssii", $newid, $enck, $firstname, $lastname,$is_actd, $ban);
+                    $profi->bind_param("ssssii", $newid, $enck, $firstname, $lastname, $is_actd, $ban);
                     $profi->execute() or trigger_error($profi->error, E_USER_ERROR);
                     $inst2 = $profi->affected_rows;
                     $profi->close();

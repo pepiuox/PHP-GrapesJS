@@ -174,17 +174,16 @@ if (!file_exists($file)) {
         $conn->close();
     }
 // Fifth step
+// // check if exists user in table 
+    if (isset($_POST['verifyuser'])) {
+
+        $newuser = new installUser();
+    }
 // Create user name for admin access
     if (isset($_POST['register'])) {
 
         $newuser = new installUser();
     }
-// check if exists user in table 
-    if (isset($_POST['verifyuser'])) {
-
-        $newuser = new installUser();
-    }
-
 // Sixth step
 // Create file for connection
     if (isset($_POST['createfile'])) {
@@ -221,7 +220,7 @@ if (!file_exists($file)) {
     ";
         file_put_contents($file, $filecontent, FILE_APPEND | LOCK_EX);
 
-        if (file_exists($connfile)) {
+        if (file_exists($file)) {
             $_SESSION['SuccessMessage'] = "Configuration file created successfully, installation is complete. ";
             $_SESSION['AlertMessage'] = "Now you will be redirected to the home page . ";
             $finalstep = 'finalstep.php';
