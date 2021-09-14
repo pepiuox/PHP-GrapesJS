@@ -252,8 +252,8 @@ class installUser {
                     if ($inst === 1 && $inst1 === 1 && $inst2 === 1) {
                         // message for PIN save                       
 
-                        $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering. ' . "\n";
-                        $_SESSION['SuccessMessage'] .= "Admin successfully added.";
+                        $_SESSION['FullSuccess'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering. ' . "\n";
+                        $_SESSION['SuccessMessage'] = "Admin successfully added.";
 
                         $_SESSION['StepInstall'] = 6;
                         header("Location: install.php?step=6");

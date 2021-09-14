@@ -271,6 +271,7 @@ if (!file_exists($file)) {
     </body>
 </html>  
 <?php
+unset($_SESSION["FullSuccess"]);
 unset($_SESSION["PathInstall"]);
 unset($_SESSION["DBHOST"]);
 unset($_SESSION["DBUSER"]);

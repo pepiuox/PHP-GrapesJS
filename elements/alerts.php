@@ -39,5 +39,13 @@
                 <meta http-equiv="Refresh" content="5; url='<?php echo $rname; ?>'" />
             </div>                
         <?php } ?>
+        <?php
+        if (!empty($_SESSION['FullSuccess'])) {
+            ?>            
+            <div class="alert alert-success alert-container" id="alert">
+                <strong><center><?php echo $_SESSION['success']; ?></center></strong>
+                <?php unset($_SESSION['FullSuccess']); ?>               
+            </div>                
+        <?php } ?>
     </div>
 </div>
