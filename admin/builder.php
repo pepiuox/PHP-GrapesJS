@@ -971,7 +971,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         location.reload();
                     }
                     function newContent() {
-                        var url = 'add.php';
+                        var url = 'dashboard.php?cms=addpage';
                         location.replace(url);
                     }
                     function clearContent() {
