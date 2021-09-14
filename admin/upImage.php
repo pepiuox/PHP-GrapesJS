@@ -2,7 +2,7 @@
 
 /* Upload images */
 if ($_FILES) {
-    $targetDir = "uploads";
+    $targetDir = "../uploads";
     $resultArray = array();
     foreach ($_FILES as $file) {
         $fileName = $file['name'];

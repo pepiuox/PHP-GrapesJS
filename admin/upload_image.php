@@ -2,7 +2,7 @@
 
 /* Upload image */
 if ($_FILES) {
-    $targetDir = "uploads";
+    $targetDir = "../uploads";
 
     $resultArray = array();
     foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
