@@ -862,7 +862,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.menu: ~1 rows (approximately)
+-- Dumping data for table newcms.menu: ~0 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
 	(1, NULL, 1, 'Home', 'home', 0);
@@ -948,7 +948,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.page: ~1 rows (approximately)
+-- Dumping data for table newcms.page: ~0 rows (approximately)
 
 -- Dumping structure for table newcms.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
