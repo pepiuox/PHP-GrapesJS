@@ -11,25 +11,32 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $myTable = explode(',', $my_value['table_name']);
     }
 
-    if (isset($submit)) {
+    if (isset($_POST['submit'])) {
         $all_table_value = implode(",", $_POST['tables']);
         if ($total_found > 0) {
             // update
             $upd_qry = "UPDATE table_config SET table_name='" . $all_table_value . "'";
-            $conn->query($upd_qry);
-            header("Location: dashboard.php?cms=table_config");
-            exit();
+            $restup = $conn->query($upd_qry);
+            if (!$restup) {
+                $_SESSION['ErrorMessage'] = 'There was an error updating.';
+            } else {
+                $_SESSION['SuccessMessage'] = 'Was updated the tables in the table config';
+            }
         } else {
             // insert
             $ins_qry = "INSERT INTO table_config(table_name) VALUES('" . $all_table_value . "')";
-            $conn->query($ins_qry);
-            header("Location: dashboard.php?cms=table_config");
-            exit();
+            $restadd = $conn->query($ins_qry);
+            if (!$restadd) {
+                $_SESSION['ErrorMessage'] = 'There was an error adding.';
+            } else {
+                $_SESSION['SuccessMessage'] = 'The tables was adding in the table config';
+            }
         }
+        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_config" />';
     }
     ?>
     <div class="container">
-        <form class="form-horizontal" method="post" action="">
+        <form class="form-horizontal" method="post">
             <div class="col_md_12">
                 <?php
                 if ($result = $conn->query("SELECT DATABASE()")) {
