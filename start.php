@@ -16,7 +16,6 @@ if ($base === $initweb) {
     $rs = $spg->get_result();
     $nm = $rs->num_rows;
     $rpx = $rs->fetch_assoc();
-    
 } elseif (isset($_GET['page']) && !empty($_GET['page'])) {
     $id = (int) $_GET['page'];
     $spg = $conn->prepare("SELECT * FROM page WHERE id = ? AND active = ? ");
@@ -27,7 +26,6 @@ if ($base === $initweb) {
     $namelink = $base . $rpx['link'];
     header("Location: $namelink");
     exit();
-    
 } elseif (isset($basename) && !empty($basename)) {
     $spg = $conn->prepare("SELECT * FROM page WHERE link = ? AND active = ? ");
     $spg->bind_param("si", $basename, $active);
@@ -69,7 +67,7 @@ if ($nm > 0) {
             <meta charset="utf-8"/>
             <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-            <?php if (!empty($description)) { ?>
+    <?php if (!empty($description)) { ?>
                 <meta name="description" content="<?php echo $description; ?>" />
             <?php } else { ?>
                 <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />
@@ -93,18 +91,18 @@ if ($nm > 0) {
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
             <style>
     <?php
-    echo html_entity_decode($style);
+    echo decodeContent($style);
     ?>
             </style>
         </head>
         <body>
-            <?php
-            require 'navbar.php';
-            ?>
+    <?php
+    require 'navbar.php';
+    ?>
             <div class='container'>
-                <?php
-                echo html_entity_decode($content) . "\n";
-                ?>
+            <?php
+            echo decodeContent($content) . "\n";
+            ?>
             </div>
             <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
@@ -130,13 +128,13 @@ if ($nm > 0) {
 
         </head>
         <body>
-            <?php
-            require 'navbar.php';
-            ?>
+    <?php
+    require 'navbar.php';
+    ?>
             <div class='container'>
                 <div class="row">
                     <div  class="col-12 text-center">
-                        <?php echo $initweb . ' - ' . $base; ?>
+    <?php echo $initweb . ' - ' . $base; ?>
                         <h3> Start creating your first page of content </h3>
                         <a href="signin/login.php">Login</a> - <a href="admin/dashboard.php">Dashboard</a>
                     </div>

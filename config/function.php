@@ -9,9 +9,13 @@ function protect($str) {
     $str = trim($str);
     $str = stripslashes($str);
     $str = htmlentities($str, ENT_QUOTES);
-    $str = htmlspecialchars(trim($str), ENT_QUOTES);
+    $str = htmlspecialchars($str, ENT_QUOTES);
     $str = mysqli_real_escape_string($conn, $str);
     return $str;
+}
+
+function decodeContent($str) {
+    return htmlspecialchars_decode(html_entity_decode($str));
 }
 
 /* get number of pages

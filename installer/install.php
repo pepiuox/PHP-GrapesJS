@@ -212,7 +212,8 @@ if (!file_exists($file)) {
             $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . "\n";
         }
         $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
-        $filecontent .= "\$rname = \$fname . '.php';" . "\n\n";
+        $filecontent .= "\$rname = \$fname . '.php';" . "\n";
+        $filecontent .= "\$alertpg = \$_SERVER['REQUEST_URI'];" . "\n\n";
         $filecontent .= "require 'function.php';" . "\n";
         $filecontent .= "require 'define.php';
             

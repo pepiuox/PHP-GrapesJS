@@ -26,21 +26,20 @@
                                 $errors[] = $file_name . " is already exists.";
                             } else {
                                 move_uploaded_file($file_tmp, "../uploads/" . $file_name);
-                                echo '<div class="alert alert-success" role="alert">';
-                                echo "Your file was uploaded successfully.";
-                                echo '</div>';
+
+                                $_SESSION['success'] = "Your file was uploaded successfully.";
                             }
                         } else {
                             $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
                         }
 
-                        if ($file_size > 2097152) {
-                            $errors[] = 'File size must be excately 2 MB';
+                        if ($file_size > 5000000) {
+                            $errors[] = 'File size must be excately 4 MB';
                         }
 
                         if (empty($errors) === true) {
                             echo '<div class="alert alert-success" role="alert">';
-                            echo "Success";
+                            $_SESSION['success'] = "Success";
                             echo '</div>';
                         } else {
                             foreach ($errors as $key => $item) {
@@ -50,9 +49,7 @@
                             }
                         }
                     } else {
-                        echo '<div class="alert alert-danger" role="alert">';
-                        echo "It is necessary to add an image that relates the page";
-                        echo '</div>';
+                        $_SESSION['error'] = "It is necessary to add an image that relates the page";
                     }
 
                     $title = protect($_POST['title']); // Page name
@@ -168,15 +165,12 @@
         </div>
     </div>
 </div>
- <script>
-        $(function () {
-            $("#title").keyup(function () {
-
-                var value = $(this).val();
-                value = value.toLowerCase();
-
-                value = value.replace(/ /g, "-");
-                $("#link").val(value);
-            }).keyup();
-        });
-    </script>
+<script>
+    document.getElementById("title").addEventListener("keyup", mkeyup);
+    function mkeyup() {
+        let ttl = document.getElementById("title").value;
+        ttl = ttl.toLowerCase();
+        ttl = ttl.replace(/ /g, "-");
+         document.getElementById("link").value = ttl;
+   }
+</script>

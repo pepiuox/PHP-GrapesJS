@@ -217,8 +217,8 @@ class MyCRUD {
 
                 $i_row = $row[0];
                 echo '<td><!-- Button -->
-                      <a href="./?a=' . $tble . '&b=edit&id=' . $i_row . '" title="Edit"><i class="fa fa-pencil"></i></a>
-                      <a href="./?a=' . $tble . '&b=delete&id=' . $i_row . '" title="Delete"><i class="fa fa-times"></i></a>
+                      <a href="./?a=' . $tble . '&b=edit&id=' . $i_row . '" title="Edit"><i class="fas fa-edit"></i></a>
+                      <a href="./?a=' . $tble . '&b=delete&id=' . $i_row . '" title="Delete"><i class="fas fa-trash-alt"></i></a>
 </td>';
 
                 echo '</tr>' . "\n";
@@ -226,7 +226,7 @@ class MyCRUD {
             }
         } else {
             if ($searching == "1") {
-                echo '<tr><td colspan="8">No hay resultados para <b>' . $qry . '</b>.</td></tr>';
+                echo '<tr><td colspan="8">No results for <b>' . $qry . '</b>.</td></tr>';
             } else {
                 echo '<tr><td colspan="8">Still no have exchanges.</td></tr>';
             }
@@ -267,7 +267,7 @@ class MyCRUD {
 	<table class="table">
 			<thead>
 				<tr>
-<th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard.php?cms=crud&w=add&tbl=' . $tble . '">Agregar <i class="fa fa-plus-square" aria-hidden="true"></i></a></th>';
+<th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard.php?cms=crud&w=add&tbl=' . $tble . '">Agregar <i class="fa fa-plus-square"></i></a></th>';
             foreach ($colmns as $colmn) {
                 $tremp = ucfirst(str_replace("_", " ", $colmn->name));
                 $remp = str_replace(" id", " ", $tremp);
@@ -281,8 +281,8 @@ class MyCRUD {
 
                 echo '<tr>' . "\n";
                 echo '<td><!--Button -->
-                <a id="editrow" name="editrow" title="Editar" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-<a id="deleterow" name="deleterow" title="Eliminar" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
+<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
@@ -299,7 +299,7 @@ class MyCRUD {
                                 $val = $trow['j_value'];
                                 $rest = $this->connection->query("SELECT * FROM $tb WHERE $id='$fd'");
                                 $tow = $rest->fetch_assoc();
-                                echo '<td><a class="goto" href="buscar.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>';
+                                echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>';
                             }
                         }
                     } else {
@@ -319,7 +319,7 @@ class MyCRUD {
                     <ul class="pagination justify-content-center">
                         <?php if ($page > 1) { ?>
                             <li class="prev"><a
-                                    href="<?php echo $url; ?>&page=<?php echo $page - 1 ?>">Anterior</a></li>
+                                    href="<?php echo $url; ?>&page=<?php echo $page - 1 ?>">Previous</a></li>
                             <?php } ?>
 
                         <?php if ($page > 3) { ?>
@@ -356,7 +356,7 @@ class MyCRUD {
 
                         <?php if ($page < ceil($total_pages / $num_results_on_page)) { ?>
                             <li class="next"><a
-                                    href="<?php echo $url; ?>&page=<?php echo $page + 1 ?>">Siguiente</a></li>
+                                    href="<?php echo $url; ?>&page=<?php echo $page + 1 ?>">Next </a></li>
                             <?php } ?>
                     </ul>
                 </nav>
@@ -516,7 +516,7 @@ class MyCRUD {
 
             $i_row = $row[0];
             echo '<td><!--Button -->
-                <a id="editrow" name="editrow" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Editar</a>
+                <a id="editrow" name="editrow" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
                 <a id="deleterow" name="deleterow" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
                 </td>';
 
@@ -823,7 +823,7 @@ class MyCRUD {
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $dtpe->name . "'";
 
                     $iresult = $this->connection->query($isql);
-                    $row = mysqli_fetch_array($iresult);
+                    $row = $iresult->fetch_array();
                     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
                     //

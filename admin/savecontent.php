@@ -1,16 +1,6 @@
 <?php
 
-session_start();
 include '../config/dbconnection.php';
-
-function protect($str) {
-    global $conn;
-    $str = trim($str);
-    $str = stripslashes($str);
-    $str = htmlentities($str, ENT_QUOTES);
-    $str = mysqli_real_escape_string($conn, $str);
-    return $str;
-}
 
 if (isset($_POST['title'])) {
     $title = $_POST['title'];

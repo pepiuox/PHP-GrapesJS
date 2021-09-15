@@ -131,9 +131,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <div id="gjs" class="gjs-editor-cont"
                      style="height: 100%; min-height: 700px; overflow: hidden">
                          <?php
-                         echo html_entity_decode($pcontent) . "\n";
+                         echo decodeContent($pcontent) . "\n";
                          echo '<style>' . "\n";
-                         echo html_entity_decode($pstyle) . "\n";
+                         echo decodeContent($pstyle) . "\n";
                          echo '</style>' . "\n";
                          ?>
 
