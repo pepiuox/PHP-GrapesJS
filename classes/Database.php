@@ -47,11 +47,9 @@ class Database {
 
         if (is_array($this->config['connections'])) {
             $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
-            //$this->dsn = "mysql:host=" . $data['server'] . ";dbname=" . $data['database'] . ";charset=" . $data['charset'] . ";port=" . $data['charset'];
-
+           
             try {
-                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-                //$this->db = new PDO($this->dsn, $data['username'], $data['password'], $this->options);
+                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);             
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage(), (int) $e->getCode());
             }

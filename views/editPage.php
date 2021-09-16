@@ -126,7 +126,9 @@
                             $classification = $row['classification'];
                             $description = $row['description'];
                             $image = $row['image'];
-
+                            $menu = $row['menu'];
+                            $type = $row['type'];
+                            $hidden_page = $row['hidden_page'];
                             echo '<h3>Edit page: ' . $title . '</h3>' . "\n";
                             echo '<form method="post" enctype="multipart/form-data">' . "\n";
                             echo '<div class="row"><div class="col-md-6">' . "\n";
@@ -162,8 +164,24 @@
   </div>
   </div>' . "\n";
                             echo '<div class="form-group">
+				<label for="type" class ="control-label col-sm-3">Type:</label> 
+                                <input type="text" class="form-control" id="type" name="type" value="'.$type.'">
+			</div>';
+
+                            echo '<div class="form-group">
+				<label for="menu" class ="control-label col-sm-3">Menu:</label> 
+                                ';
+                            menuopt($menu);
+                            echo '</div>';
+
+                            echo '<div class="form-group">
+				<label for="hidden_page" class ="control-label col-sm-3">Hidden page:</label> 
+                                <select class="form-select" id="hidden_page" name="hidden_page">';
+                            action($hidden_page);
+			echo '</select></div>';
+                            echo '<div class="form-group">
     <label for="startpage">Is home page</label>
-    <select class="form-control" id="startpage" name="startpage">';
+    <select class="form-select" id="startpage" name="startpage">';
                             startpg($row['startpage']);
                             echo '</select>
   </div>' . "\n";
@@ -174,7 +192,7 @@
 
                             echo '<div class="form-group">
     <label for="active">Active</label>
-    <select class="form-control" id="active" name="active">';
+    <select class="form-select" id="active" name="active">';
                             action($row['active']);
                             echo '</select>
   </div>' . "\n";

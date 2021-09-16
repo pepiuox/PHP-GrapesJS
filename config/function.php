@@ -24,8 +24,7 @@ function decodeContent($str) {
 
 function numpages() {
     global $conn;
-    $np = $conn->query("SELECT id FROM page")->num_rows;
-    return $np;
+    return $conn->query("SELECT id FROM page")->num_rows;
 }
 
 /* get number of visitor
@@ -34,8 +33,7 @@ function numpages() {
 
 function numvisitor() {
     global $conn;
-    $ng = $conn->query("SELECT ip FROM active_guests")->num_rows;
-    return $ng;
+    return $conn->query("SELECT ip FROM active_guests")->num_rows;
 }
 
 /* get number of users
@@ -44,8 +42,7 @@ function numvisitor() {
 
 function numusers() {
     global $conn;
-    $nu = $conn->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
-    return $nu;
+    return $conn->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
 }
 
 /*
@@ -59,14 +56,14 @@ function nparent() {
     $numr = $result->num_rows;
     $sp = "";
     if ($numr > 0) {
-        $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
+        $sp .= '<select class="form-select" name="parent" id="parent">' . "\n";
         $sp .= '<option>Select a parent</option>' . "\n";
         while ($row = $result->fetch_array()) {
             $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
         }
         $sp .= '</select>' . "\n";
     } else {
-        $sp .= '<select class="form-control" name="parent" id="parent">' . "\n";
+        $sp .= '<select class="form-select" name="parent" id="parent">' . "\n";
         $sp .= '<option>There are no pages yet</option>' . "\n";
         $sp .= '</select>' . "\n";
     }
@@ -88,7 +85,7 @@ function sparent($parent) {
 
     $result = $conn->query("SELECT * FROM page");
     $sp = "";
-    $sp .= '<select class="form-control" name="parent" id="parent">';
+    $sp .= '<select class="form-select" name="parent" id="parent">';
     $sp .= '<option>Select a parent</option>';
     while ($row = $result->fetch_array()) {
         $select = $parent == $row['id'] ? ' selected' : null;
@@ -101,11 +98,35 @@ function sparent($parent) {
 function pparent($parent) {
     global $conn;
     $result = $conn->query("SELECT * FROM page");
-    echo '<select class="form-control" name="parent" id="parent">' . "\n";
+    echo '<select class="form-select" name="parent" id="parent">' . "\n";
     echo '<option>Select a parent</option>' . "\n";
     while ($row = $result->fetch_array()) {
         $select = $parent == $row['id'] ? ' selected' : null;
         echo '<option value="' . $row['id'] . '"' . $select . '>' . $row['title'] . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+}
+
+function slmenu() {
+    global $conn;
+    $result = $conn->query("SELECT * FROM menu_options");
+    echo '<select class="form-select" name="menu" id="menu">' . "\n";
+    echo '<option>Select a menu</option>' . "\n";
+    while ($row = $result->fetch_array()) {
+
+        echo '<option value="' . $row['id'] . '">' . $row['id_menu'] . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+}
+
+function menuopt($menu) {
+    global $conn;
+    $result = $conn->query("SELECT * FROM menu_options");
+    echo '<select class="form-select" name="menu" id="menu">' . "\n";
+    echo '<option>Select a menu</option>' . "\n";
+    while ($row = $result->fetch_array()) {
+        $select = $menu == $row['id'] ? ' selected' : null;
+        echo '<option value="' . $row['id'] . '"' . $select . '>' . $row['id_menu'] . '</option>' . "\n";
     }
     echo '</select>' . "\n";
 }

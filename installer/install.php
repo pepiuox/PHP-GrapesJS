@@ -205,18 +205,24 @@ if (!file_exists($file)) {
     }" . "\n";
 
         $filecontent .= "\$conn->set_charset('utf8mb4');" . "\n";
+        $filecontent .= "require 'function.php';" . "\n";
+        $filecontent .= "require 'define.php'";
 
+        $filecontent .= "
+        if (!empty(SITE_PATH)) {
+            \$base = SITE_PATH;
+        } else {" . "\n";
         if (!empty($base)) {
             $filecontent .= "\$base = '" . $base . "';" . "\n";
         } else {
             $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . "\n";
         }
+        $filecontent .= "}" . "\n";
+
         $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
         $filecontent .= "\$rname = \$fname . '.php';" . "\n";
         $filecontent .= "\$alertpg = \$_SERVER['REQUEST_URI'];" . "\n\n";
-        $filecontent .= "require 'function.php';" . "\n";
-        $filecontent .= "require 'define.php';
-            
+        $filecontent .= "    
     ?>
     ";
         file_put_contents($file, $filecontent, FILE_APPEND | LOCK_EX);
@@ -465,7 +471,6 @@ session_destroy();
                                         <?php
                                         $conn->close();
                                     } elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {
-                                     
                                         ?>
                                         <div class="alert alert-success" role="alert">
                                             <h5>Admin registration </h5>

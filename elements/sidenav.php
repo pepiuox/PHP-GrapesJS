@@ -29,6 +29,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=menu" class="nav-link">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Menu template                  
+                        </p>
+                    </a>
+                </li>
             </ul>
         </li>
 
@@ -47,7 +55,7 @@
                     $plink = $page['link'];
                     $ptitle = $page['title'];
                     echo'<li class="nav-item">                   
-                        <a href="' . $base . $plink . '" class="nav-link ';
+                        <a href="' . $base . $plink . '" target="_blank" class="nav-link ';
                     if ($fname === $plink) {
                         echo 'active';
                     }
@@ -133,6 +141,47 @@
         </li>
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-database"></i>
+                <p>
+                    CRUD System       
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
+                    if ($fname === 'crud') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-table nav-icon"></i>
+                        <p>CRUD</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
+                    if ($fname === 'table_config') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-server nav-icon"></i>
+                        <p>Table Config</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
+                    if ($fname === 'querybuilder') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-calendar-check nav-icon"></i>
+                        <p>Query Builder</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
                 <i class="nav-icon far fa-plus-square"></i>
                 <p>
                     Extras
@@ -160,36 +209,7 @@
                         <p>Add User</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
-                    if ($fname === 'crud') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>CRUD</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
-                    if ($fname === 'table_config') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Table Config</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
-                    if ($fname === 'querybuilder') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Query Builder</p>
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/recover-password.php" class="nav-link <?php
                     if ($fname === 'recover-password') {
@@ -282,6 +302,6 @@
                 </li>
             </ul>
         </li>
-        
+
     </ul>
 </nav>

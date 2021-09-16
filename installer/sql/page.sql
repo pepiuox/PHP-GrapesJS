@@ -223,6 +223,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 /*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
 INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 	('DOMAIN_SITE', 'www.yourdomain.com'),
+        ('SITE_PATH', 'http://www.yourdomain.com/'),
 	('SITE_NAME', 'PHP GrapesJS'),
 	('SITE_DESCRIPTION', 'Your description for your domains'),
 	('SITE_KEYWORDS', 'Your keywords for your domains'),
@@ -662,8 +663,11 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.ip: ~0 rows (approximately)
+-- Dumping data for table newcms.ip: ~1 rows (approximately)
 /*!40000 ALTER TABLE `ip` DISABLE KEYS */;
+INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
+	('0592ad6e0a352cd36b91970f6a7a9dc98d45485d', 'pepiuox@contact.net', '127.0.0.1', '2021-09-14 05:29:43'),
+	('22a0fbc2d9a8667bea2a38d69a6e0f41cff9a798', 'contatct@pepiuox.net', '127.0.0.1', '2021-09-16 04:21:49');
 /*!40000 ALTER TABLE `ip` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.items
@@ -868,6 +872,25 @@ INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `par
 	(1, NULL, 1, 'Home', 'home', 0);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
+-- Dumping structure for table newcms.menu_options
+DROP TABLE IF EXISTS `menu_options`;
+CREATE TABLE IF NOT EXISTS `menu_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_menu` char(50) NOT NULL,
+  `fluid` enum('Yes','No') DEFAULT NULL,
+  `placement` enum('top','bottom','sticky-top') DEFAULT NULL,
+  `aligment` enum('start','center','end') DEFAULT NULL,
+  `background` enum('primary','secondary','light','dark','info','success','warning','danger') DEFAULT NULL,
+  `color` enum('light','dark') DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table newcms.menu_options: ~1 rows (approximately)
+/*!40000 ALTER TABLE `menu_options` DISABLE KEYS */;
+INSERT INTO `menu_options` (`id`, `id_menu`, `fluid`, `placement`, `aligment`, `background`, `color`) VALUES
+	(1, 'main_navbar', 'No', 'sticky-top', 'start', 'primary', 'dark');
+/*!40000 ALTER TABLE `menu_options` ENABLE KEYS */;
+
 -- Dumping structure for table newcms.multimedia_gal
 DROP TABLE IF EXISTS `multimedia_gal`;
 CREATE TABLE IF NOT EXISTS `multimedia_gal` (
@@ -949,6 +972,10 @@ CREATE TABLE IF NOT EXISTS `page` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.page: ~0 rows (approximately)
+/*!40000 ALTER TABLE `page` DISABLE KEYS */;
+INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
+	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', NULL, 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8fd&amp;quot; class=&amp;quot;cell&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ib1g&amp;quot; class=&amp;quot;cell&amp;quot;&amp;gt;&amp;lt;img id=&amp;quot;iio9&amp;quot; src=&amp;quot;../uploads/29853.jpg&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iklg&amp;quot; class=&amp;quot;cell&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ix9f&amp;quot;&amp;gt;Hello big friends&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;invn&amp;quot; class=&amp;quot;cell&amp;quot;&amp;gt;&amp;lt;section class=&amp;quot;bdg-sect&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;heading&amp;quot;&amp;gt;Insert title here&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;paragraph&amp;quot;&amp;gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua&amp;lt;/p&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.cell{min-height:75px;flex-grow:1;flex-basis:100%;}#iio9{color:black;width:500px;height:500px;}#ix9f{padding:10px;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-09-16 17:52:19');
+/*!40000 ALTER TABLE `page` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
@@ -1104,6 +1131,10 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.profiles: ~1 rows (approximately)
+/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
+INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
+	('1095616718612d749c68bc3', 'fa3da5b466ea951e1b400956f869124cb48fd8a0', 'Jose', 'Mantilla', NULL, NULL, NULL, '0000-00-00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2021-08-31 00:15:24', '2021-09-16 04:22:23');
+/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1189,40 +1220,6 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(23, 2, 14),
 	(24, 2, 15);
 /*!40000 ALTER TABLE `role_permissions` ENABLE KEYS */;
-
--- Dumping structure for table newcms.route_page
-DROP TABLE IF EXISTS `route_page`;
-CREATE TABLE IF NOT EXISTS `route_page` (
-  `idRpg` int(11) NOT NULL AUTO_INCREMENT,
-  `language` int(11) NOT NULL DEFAULT 1,
-  `position` int(11) NOT NULL DEFAULT 0,
-  `title` varchar(50) DEFAULT 'Title',
-  `link` varchar(150) DEFAULT '#',
-  `url` varchar(150) DEFAULT '#',
-  `keyword` varchar(150) DEFAULT NULL,
-  `classification` varchar(150) DEFAULT NULL,
-  `description` varchar(160) DEFAULT NULL,
-  `image` varchar(150) DEFAULT '#',
-  `type` int(11) DEFAULT NULL,
-  `menu` int(11) DEFAULT 1,
-  `path` varchar(250) DEFAULT NULL,
-  `file_name` varchar(250) DEFAULT NULL,
-  `template` varchar(150) DEFAULT NULL,
-  `base_template` varchar(150) DEFAULT NULL,
-  `content` longtext DEFAULT NULL,
-  `style` longtext DEFAULT NULL,
-  `starpage` int(11) DEFAULT 0,
-  `level` int(11) DEFAULT 1,
-  `parent` int(11) DEFAULT 0,
-  `sort` int(11) DEFAULT 0,
-  `active` int(11) DEFAULT 1,
-  `update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`idRpg`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table newcms.route_page: ~0 rows (approximately)
-/*!40000 ALTER TABLE `route_page` DISABLE KEYS */;
-/*!40000 ALTER TABLE `route_page` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.sales
 DROP TABLE IF EXISTS `sales`;
@@ -1622,10 +1619,10 @@ CREATE TABLE IF NOT EXISTS `table_config` (
   PRIMARY KEY (`tcon_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.table_config: ~0 rows (approximately)
+-- Dumping data for table newcms.table_config: ~1 rows (approximately)
 /*!40000 ALTER TABLE `table_config` DISABLE KEYS */;
 INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
-	(3, 'blocks,cols_set,plugins_app');
+	(4, 'menu,menu_options,page,plugins_app');
 /*!40000 ALTER TABLE `table_config` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.table_queries
@@ -1795,6 +1792,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.users: ~1 rows (approximately)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
+	('1095616718612d749c68bc3', 'Qnc5RllYMi9QendaSEQraGIweHlXdz09', 'TGRSOUdDM3o1N2hhaUJGRFJoaEltdmFXTExKTlkrK1VxaHVQUGVoSkJ4dz0=', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', 1, 0, '127.0.0.1', '2021-08-31 00:15:24', '', 0, 0, '550044', '2021-08-31 00:15:24', '2021-08-31 00:15:24');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.users_mk
 DROP TABLE IF EXISTS `users_mk`;
@@ -2017,6 +2018,10 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.uverify: ~1 rows (approximately)
+/*!40000 ALTER TABLE `uverify` DISABLE KEYS */;
+INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
+	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', 'fa3da5b466ea951e1b400956f869124cb48fd8a0', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2021-09-16 04:22:23');
+/*!40000 ALTER TABLE `uverify` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.videos
 DROP TABLE IF EXISTS `videos`;
@@ -2124,6 +2129,11 @@ CREATE TABLE IF NOT EXISTS `visitor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.visitor: ~2 rows (approximately)
+/*!40000 ALTER TABLE `visitor` DISABLE KEYS */;
+INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
+	('127.0.0.1', '1629510472'),
+	('::1', '1630197317');
+/*!40000 ALTER TABLE `visitor` ENABLE KEYS */;
 
 -- Dumping structure for table newcms.volunteer
 DROP TABLE IF EXISTS `volunteer`;

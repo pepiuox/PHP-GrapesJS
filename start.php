@@ -53,7 +53,7 @@ if ($nm > 0) {
     $classification = $rpx['classification'];
     $description = $rpx['description'];
     $cont = $rpx['type'];
-    $men = $rpx['menu'];
+    $menu = $rpx['menu'];
     $content = $rpx['content'];
     $style = $rpx['style'];
     $prnt = $rpx['parent'];
@@ -87,8 +87,8 @@ if ($nm > 0) {
                 <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
             <?php } ?>
             <title><?php echo $title; ?></title>
-            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
+            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
             <style>
     <?php
     echo decodeContent($style);
@@ -97,7 +97,7 @@ if ($nm > 0) {
         </head>
         <body>
     <?php
-    require 'navbar.php';
+    require 'menu.php';
     ?>
             <div class='container'>
             <?php
@@ -123,8 +123,8 @@ if ($nm > 0) {
             <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
 
             <title><?php echo SITE_NAME; ?></title>
-            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" data-type="keditor-style"/>
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" data-type="keditor-style" />
+            <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
 
         </head>
         <body>

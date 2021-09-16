@@ -18,28 +18,6 @@ if ($w == "select") {
         }
     }
     ?>
-
-    <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
-        <div class="container">
-            <div class="row pt-2">
-                <div class="alert alert-success alert-container" id="alert">
-                    <strong><center><?php echo htmlentities($_SESSION['SuccessMessage']) ?></center></strong>
-                    <?php unset($_SESSION['SuccessMessage']); ?>
-                    <meta http-equiv="refresh" content="5;URL=index.php" />
-                </div>
-            </div>
-        </div>
-    <?php } ?>
-    <?php if (!empty($_SESSION['AlertMessage'])) { ?>
-        <div class="container">
-            <div class="row pt-2">
-                <div class="alert alert-success alert-container" id="alert">
-                    <strong><center><?php echo htmlentities($_SESSION['AlertMessage']) ?></center></strong> 
-                    <meta http-equiv="refresh" content="4;URL=profile.php" />
-                </div>
-            </div>
-        </div>
-    <?php } ?>
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-6">

@@ -739,13 +739,13 @@ class MyCRUD {
                     //
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select type="text" class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
                         $soption = '<option value="' . $option . '"';
                         $soption .= ($default_value === $option) ? ' SELECTED' : '';
-                        $soption .= '>' . $option . '</option>' . "\n";
+                        $soption .= '>' . $option . '</option>';
                         echo $soption . "\n";
                     }
                     echo '</select>' . "\n";
@@ -829,13 +829,13 @@ class MyCRUD {
                     //
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '" >' . "\n";
+                       <select type="text" class="form-select" id="' . $dtpe->name . '" name="' . $dtpe->name . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
                         $soption = '<option value="' . $option . '"';
                         $soption .= ($default_value === $option) ? ' SELECTED' : '';
-                        $soption .= '>' . $option . '</option>' . "\n";
+                        $soption .= '>' . $option . '</option>';
                         echo $soption . "\n";
                     }
                     echo '</select>' . "\n";
@@ -1064,7 +1064,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
                     //
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select type="text" class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
@@ -1168,7 +1168,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
                     //
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select type="text" class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
