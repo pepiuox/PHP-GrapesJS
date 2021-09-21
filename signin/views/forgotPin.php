@@ -1,23 +1,6 @@
-<div class="container">
-    <div class="row">
-        <!-- If there is an error it will be shown. --> 
-        <?php if (!empty($_SESSION['ErrorMessage'])): ?>
-            <div class="alert alert-danger alert-container"
-                 id="alert">
-                <strong><?php echo htmlentities($_SESSION['ErrorMessage']) ?></strong>
-                <?php unset($_SESSION['ErrorMessage']); ?>
-            </div>
-        <?php endif; ?>
-        <!-- If e-mail has been sent. -->
-        <?php if (!empty($_SESSION['SuccessMessage'])): ?>
-            <div class="alert alert-success alert-container"
-                 id="alert">
-                <strong><?php echo htmlentities($_SESSION['SuccessMessage']) ?></strong>
-                <?php unset($_SESSION['SuccessMessage']); ?>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
+<?php
+include '../elements/alerts.php';
+?>
 <div class="login-box">
     <div class="login-logo">
         <a href="<?php echo $base; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>

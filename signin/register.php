@@ -23,7 +23,7 @@ if (file_exists($connfile)) {
         header('Location: ../users/profile.php');
         exit();
     } else {
-        include '../views/register.php';
+        include 'views/register.php';
         include '../elements/footer.php';
     }
     ?>

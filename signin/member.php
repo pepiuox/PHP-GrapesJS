@@ -21,22 +21,9 @@ if (file_exists($connfile)) {
         exit();
     } else {
         ?>
-        <div class="container">
-            <div class="row">
-                <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
-                    <div class="alert alert-danger alert-container" id="alert">
-                        <strong><center><?php echo htmlentities($_SESSION['ErrorMessage']) ?></center></strong>
-                        <?php unset($_SESSION['ErrorMessage']); ?>
-                    </div>
-                <?php } ?>
-                <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
-                    <div class="alert alert-success alert-container" id="alert">
-                        <strong><center><?php echo htmlentities($_SESSION['SuccessMessage']) ?></center></strong>
-                        <?php unset($_SESSION['SuccessMessage']); ?>
-                    </div>
-                <?php } ?>
-            </div>
-        </div>
+        <?php
+        include '../elements/alerts.php';
+        ?>
         <div class="login-box">
             <div class="login-logo">
                 <a href="<?php echo $base; ?>index2.php"><?php echo SITE_NAME; ?></a>

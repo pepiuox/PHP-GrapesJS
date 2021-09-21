@@ -22,7 +22,7 @@ if (file_exists($connfile)) {
         header('Location: ../users/profile.php');
         exit();
     } else {
-        include '../views/forgotPin.php';
+        include 'views/forgotPin.php';
         include '../elements/footer.php';
     }
     ?>

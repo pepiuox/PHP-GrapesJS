@@ -25,9 +25,9 @@ if (file_exists($connfile)) {
         /* login-box */
         if (isset($_SESSION['attempt']) || isset($_SESSION['attempt_again'])) {
             if ($_SESSION['attempt'] === 3 || $_SESSION['attempt_again'] >= 3) {
-                include '../views/attempts.php';
+                include 'views/attempts.php';
             } else {
-                include '../views/login.php';
+                include 'views/login.php';
             }
         } else {
             include '../views/login.php';

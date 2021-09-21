@@ -1,21 +1,6 @@
-<div class="container">
-    <div class="row">
-        <!-- If there is an error it will be shown. --> 
-
-        <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
-            <div class="alert alert-danger alert-container" id="alert">
-                <strong><center><?php echo htmlentities($_SESSION['ErrorMessage']) ?></center></strong>
-                <?php unset($_SESSION['ErrorMessage']); ?>
-            </div>
-        <?php } ?>
-        <?php if (!empty($_SESSION['SuccessMessage'])) { ?>
-            <div class="alert alert-success alert-container" id="alert">
-                <strong><center><?php echo htmlentities($_SESSION['SuccessMessage']) ?></center></strong>
-                <?php unset($_SESSION['SuccessMessage']); ?>
-            </div>
-        <?php } ?>
-    </div>
-</div>
+<?php
+include '../elements/alerts.php';
+?>
 <div class="register-box">
     <div class="register-logo">
         <a href="<?php echo $base; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>

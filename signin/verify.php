@@ -22,6 +22,9 @@ if (file_exists($connfile)) {
         exit();
     } else {
         ?>
+        <?php
+        include '../elements/alerts.php';
+        ?>
         <div class="container">
             <div class="row">
                 <div class="login-box">
@@ -30,22 +33,6 @@ if (file_exists($connfile)) {
                     </div>
                     <div class="col-md-12 p-3">   
                         <?php
-                        if (!empty($_SESSION['SuccessMessage'])) {
-                            ?>
-                            <div class="alert alert-success alert-container" id="alert">
-                                <strong><center><?php echo htmlentities($_SESSION['SuccessMessage']) ?></center></strong>
-                                <?php unset($_SESSION['SuccessMessage']); ?>
-                            </div>
-
-                        <?php } ?>
-                        <?php if (!empty($_SESSION['ErrorMessage'])) { ?>
-                            <div class="alert alert-danger alert-container" id="alert">
-                                <strong><center><?php echo htmlentities($_SESSION['ErrorMessage']) ?></center></strong>
-                                <?php unset($_SESSION['ErrorMessage']); ?>
-                            </div>
-
-                            <?php
-                        }
                         if (isset($_GET['id']) && isset($_GET['code']) && isset($_GET['hash'])) {
                             ?>
                             <h3 class="text-center">You can now activate your account.</h3>
