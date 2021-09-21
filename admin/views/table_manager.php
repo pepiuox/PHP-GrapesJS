@@ -34,8 +34,7 @@ if (isset($submit)) {
                 $result->close();
             }
             ?>
-            <h3 class="col-md-4 control-label" for="checkboxes">Tablas
-                que deseas visualizar:</h3>
+            <h3 class="col-md-4 control-label" for="checkboxes">Tables you want to view :</h3>
         </div>
         <div class="col-md-4">
             <div class="form-group">

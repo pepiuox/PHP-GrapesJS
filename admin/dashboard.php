@@ -110,29 +110,29 @@ $vpages = '';
                     <!-- Main row -->
                     <?php
                     if ($cms == 'pagelist') {
-                        include '../views/pageList.php';
+                        include 'views/pageList.php';
                     } elseif ($cms == 'addpage') {
-                        include '../views/addPage.php';
+                        include 'views/addPage.php';
                     } elseif ($cms == 'editpage') {
-                        include '../views/editPage.php';
+                        include 'views/editPage.php';
                     } elseif ($cms == 'deletepage') {
-                        include '../views/deletePage.php';
+                        include 'views/deletePage.php';
                     } elseif ($cms == 'siteconf') {
-                        include '../views/settings.php';
+                        include 'views/settings.php';
                     } elseif ($cms == 'menu') {
-                        include 'menu.php';
+                        include 'views/menu.php';
                     }elseif ($cms == 'users') {
                         include 'admin.php';
                     } elseif ($cms == 'adduser') {
                         include 'adduser.php';
                     } elseif ($cms == 'crud') {
-                        include '../views/crud.php';
+                        include 'views/crud.php';
                     } elseif ($cms == 'querybuilder') {
-                        include 'querybuilder.php';
+                        include 'views/querybuilder.php';
                     } elseif ($cms == 'table_config') {
-                        include 'table_config.php';
+                        include 'views/table_config.php';
                     } elseif ($cms == 'table_manager') {
-                        include 'table_manager.php';
+                        include 'views/table_manager.php';
                     } else {
                         ?>
                         <div class="container-fluid">

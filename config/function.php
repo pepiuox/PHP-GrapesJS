@@ -131,6 +131,33 @@ function menuopt($menu) {
     echo '</select>' . "\n";
 }
 
+function enumsel($tble, $labelc) {
+    global $conn;
+    $remp = ucfirst(str_replace("_", " ", $labelc));
+    $frmp = str_replace(" id", "", $remp);
+
+    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $labelc . "'";
+
+    $iresult = $conn->query($isql);
+    $row = $iresult->fetch_array();
+    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
+    $default_value = '';
+    //
+    echo '<div class="form-group">
+                       <label for="' . $labelc . '" class ="control-label col-sm-3">' . $frmp . ':</label>
+                       <select class="form-select" id="' . $labelc . '" name="' . $labelc . '" >' . "\n";
+
+    $options = $enum_list;
+    foreach ($options as $option) {
+        $soption = '<option value="' . $option . '"';
+        $soption .= ($default_value === $option) ? ' SELECTED' : '';
+        $soption .= '>' . $option . '</option>';
+        echo $soption . "\n";
+    }
+    echo '</select>' . "\n";
+    echo '</div>' . "\n";
+}
+
 function action($selected) {
     $acti = array([0, 'NO'], [1, 'YES']);
     foreach ($acti as list($key, $val)) {
