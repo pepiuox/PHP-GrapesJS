@@ -156,10 +156,10 @@ VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color'
 
         $query = "UPDATE `$tble` SET id_menu = '$id_menu', fluid = '$fluid', placement = '$placement', aligment = '$aligment', background = '$background', color = '$color' WHERE id=$id ";
         if ($conn->query($query) === TRUE) {
-            $_SESSION['success'] = "Los datos fueron actualizados correctamente.";
-            header("Location: dashboard.php?cms=crud&w=list&tbl=menu_options");
+            $_SESSION['success'] = "The data was updated correctly.";
+            header("Location: dashboard.php?cms=menu&w=list");
         } else {
-            $_SESSION['error'] = "Error en actualizar datos: " . $conn->error;
+            $_SESSION['error'] = "Error updating data: " . $conn->error;
         }
     }
 
@@ -169,7 +169,7 @@ VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color'
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Back to List </a>
+                   href="dashboard.php?cms=menu&w=list">Back to List </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Edit Menu Options </h2>
