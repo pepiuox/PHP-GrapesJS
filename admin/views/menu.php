@@ -40,7 +40,6 @@ if ($w == "list") {
                         ';
                     }
                     ?>
-
                 </tbody>
             </table>
         </div>
@@ -185,11 +184,11 @@ VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color'
                                     <input type="text" class="form-control" id="id_menu" name="id_menu" value='<?php echo $mopt['id_menu'] ?>'>
                                 </div>
                                 <?php
-                                enumsel($tble, 'fluid');
-                                enumsel($tble, 'placement');
-                                enumsel($tble, 'aligment');
-                                enumsel($tble, 'background');
-                                enumsel($tble, 'color');
+                                enumsel($tble, 'fluid', $mopt['fluid']);
+                                enumsel($tble, 'placement', $mopt['placement']);
+                                enumsel($tble, 'aligment', $mopt['aligment']);
+                                enumsel($tble, 'background', $mopt['background']);
+                                enumsel($tble, 'color', $mopt['color']);
                                 ?>                        
                                 <div class="form-group">
                                     <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class="fas fa-edit"></span> Edit</button>

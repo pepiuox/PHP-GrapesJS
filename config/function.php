@@ -131,21 +131,20 @@ function menuopt($menu) {
     echo '</select>' . "\n";
 }
 
-function enumsel($tble, $labelc) {
+function enumsel($tble, $labelc, $nrow='') {
     global $conn;
     $remp = ucfirst(str_replace("_", " ", $labelc));
     $frmp = str_replace(" id", "", $remp);
 
     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $labelc . "'";
-
     $iresult = $conn->query($isql);
     $row = $iresult->fetch_array();
     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
-    $default_value = '';
+    $default_value = $nrow;
     //
     echo '<div class="form-group">
-                       <label for="' . $labelc . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <select class="form-select" id="' . $labelc . '" name="' . $labelc . '" >' . "\n";
+        <label for="' . $labelc . '" class ="control-label col-sm-3">' . $frmp . ':</label>
+            <select class="form-select" id="' . $labelc . '" name="' . $labelc . '" >' . "\n";
 
     $options = $enum_list;
     foreach ($options as $option) {

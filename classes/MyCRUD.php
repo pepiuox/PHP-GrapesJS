@@ -1058,7 +1058,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
                     // ----------------------
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
                     $iresult = $this->wQueries($isql);
-                    $row = mysqli_fetch_array($iresult);
+                    $row = $iresult->fetch_array();
                     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
                     //
