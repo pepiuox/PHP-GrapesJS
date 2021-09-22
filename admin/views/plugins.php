@@ -19,7 +19,7 @@ if ($w == "list") {
                         <th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard.php?cms=plugins&w=add">Add <i class="fas fa-plus-square"></i></a></th>
                         <th>Id</th>
                         <th>Plugins</th>
-                        <th>PluginsOpts</th>
+                        <th>Plugins Opts</th>
                         <th>Script</th>
                         <th>Css</th>
                         <th>Buttons</th>
@@ -57,18 +57,19 @@ if ($w == "list") {
     $tble = 'plugins_app';
     if (isset($_POST['addrow'])) {
         $plugins = $_POST['plugins'];
-        $pluginsOpts = $_POST['pluginsOpts'];
+        $plugins_opts = $_POST['plugins_opts'];
         $script = $_POST['script'];
         $css = $_POST['css'];
         $buttons = $_POST['buttons'];
         $plugins_script = $_POST['plugins_script'];
         $plugins_css = $_POST['plugins_css'];
 
-        $sql = "INSERT INTO plugins_app (plugins, pluginsOpts, script, css, buttons, plugins_script, plugins_css) "
-                . "VALUES ('$plugins', '$pluginsOpts', '$script', '$css', '$buttons', '$plugins_script', '$plugins_css')";
+        $sql = "INSERT INTO plugins_app (plugins, plugins_opts, script, css, buttons, plugins_script, plugins_css) "
+                . "VALUES ('$plugins', '$plugins_opts', '$script', '$css', '$buttons', '$plugins_script', '$plugins_css')";
         if ($conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly';
-            header('Location: dashboard.php?cms=plugind&w=list');
+            header('Location: dashboard.php?cms=plugins&w=list');
+            exit();
         } else {
             $_SESSION['error'] = 'Error: ' . $conn->error;
         }
@@ -95,8 +96,8 @@ if ($w == "list") {
                                     <input type="text" class="form-control" id="plugins" name="plugins">
                                 </div>
                                 <div class="form-group">
-                                    <label for="pluginsOpts">PluginsOpts:</label>
-                                    <input type="text" class="form-control" id="pluginsOpts" name="pluginsOpts">
+                                    <label for="plugins_opts">Plugins Opts:</label>
+                                    <input type="text" class="form-control" id="plugins_opts" name="plugins_opts">
                                 </div>
                                 <div class="form-group">
                                     <label for="script">Script:</label>
@@ -137,17 +138,17 @@ if ($w == "list") {
 
     if (isset($_POST['editrow'])) {
         $plugins = $_POST["plugins"];
-        $pluginsOpts = $_POST["pluginsOpts"];
+        $plugins_opts = $_POST["plugins_opts"];
         $script = $_POST["script"];
         $css = $_POST["css"];
         $buttons = $_POST["buttons"];
         $plugins_script = $_POST["plugins_script"];
         $plugins_css = $_POST["plugins_css"];
 
-        $query = "UPDATE `$tble` SET plugins = '$plugins', pluginsOpts = '$pluginsOpts', script = '$script', css = '$css', buttons = '$buttons', plugins_script = '$plugins_script', plugins_css = '$plugins_css' WHERE id=$id ";
+        $query = "UPDATE `$tble` SET plugins = '$plugins', plugins_opts = '$plugins_opts', script = '$script', css = '$css', buttons = '$buttons', plugins_script = '$plugins_script', plugins_css = '$plugins_css' WHERE id=$id ";
         if ($conn->query($query) === TRUE) {
             $_SESSION["success"] = "The data was updated correctly.";
-            header("Location: dashboard.php?cms=crud&w=list");
+            header("Location: dashboard.php?cms=plugins&w=list");
             exit();
         } else {
             $_SESSION["error"] = "Error updating data: " . $conn->error;
@@ -172,31 +173,31 @@ if ($w == "list") {
                             <form role="form" id="add_plugins_app" method="POST">
                                 <div class="form-group">
                                     <label for="plugins" class ="control-label col-sm-3">Plugins:</label>
-                                    <input type="text" class="form-control" id="plugins" name="plugins" value="gjs-component-countdown">
+                                    <input type="text" class="form-control" id="plugins" name="plugins" value="<?php echo $mopt['plugins']; ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label for="pluginsOpts" class ="control-label col-sm-3">PluginsOpts:</label>
-                                    <input type="text" class="form-control" id="pluginsOpts" name="pluginsOpts" value="">
+                                    <label for="plugins_opts" class ="control-label col-sm-3">Plugins Opts:</label>
+                                    <input type="text" class="form-control" id="plugins_opts" name="plugins_opts" value="<?php echo $mopt['plugins_opts']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="script" class ="control-label col-sm-3">Script:</label>
-                                    <input type="text" class="form-control" id="script" name="script" value="">
+                                    <input type="text" class="form-control" id="script" name="script" value="<?php echo $mopt['script']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="css" class ="control-label col-sm-3">Css:</label>
-                                    <input type="text" class="form-control" id="css" name="css" value="">
+                                    <input type="text" class="form-control" id="css" name="css" value="<?php echo $mopt['css']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="buttons" class ="control-label col-sm-3">Buttons:</label>
-                                    <input type="text" class="form-control" id="buttons" name="buttons" value="">
+                                    <input type="text" class="form-control" id="buttons" name="buttons" value="<?php echo $mopt['buttons']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="plugins_script" class ="control-label col-sm-3">Plugins script:</label>
-                                    <input type="text" class="form-control" id="plugins_script" name="plugins_script" value="">
+                                    <input type="text" class="form-control" id="plugins_script" name="plugins_script" value="<?php echo $mopt['plugins_script']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="plugins_css" class ="control-label col-sm-3">Plugins css:</label>
-                                    <input type="text" class="form-control" id="plugins_css" name="plugins_css" value="">
+                                    <input type="text" class="form-control" id="plugins_css" name="plugins_css" value="<?php echo $mopt['plugins_css']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "fas fa-edit"></span> Edit</button>

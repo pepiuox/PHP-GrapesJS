@@ -13,7 +13,7 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/index.php" class="nav-link <?php
-                    if ($fname === 'index') {
+                    if ($fname === 'dashboard') {
                         echo 'active';
                     }
                     ?>">
@@ -22,7 +22,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=siteconf" class="nav-link">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=siteconf" class="nav-link <?php
+                    if ($cms === 'siteconf') {
+                        echo 'active';
+                    }
+                    ?>">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
                             Site Definitions                  
@@ -30,7 +34,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=menu" class="nav-link">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=menu" class="nav-link <?php
+                    if ($cms === 'menu') {
+                        echo 'active';
+                    }
+                    ?>">
                         <i class="nav-icon fas fa-bars"></i>
                         <p>
                             Menu template                  
@@ -38,7 +46,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=plugins" class="nav-link">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=plugins" class="nav-link <?php
+                    if ($cms === 'plugins') {
+                        echo 'active';
+                    }
+                    ?>">
                         <i class="nav-icon fas fa-th-large"></i>
                         <p>
                             Plugins App                  
@@ -79,7 +91,11 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>admin/dashboard.php?cms=pagelist" class="nav-link">
+            <a href="<?php echo $base; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
+                    if ($cms === 'pagelist') {
+                        echo 'active';
+                    }
+                    ?>">
                 <i class="nav-icon fas fa-list-alt"></i>
                 <p>
                     Page list                    
@@ -87,7 +103,11 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>admin/dashboard.php?cms=addpage" class="nav-link">
+            <a href="<?php echo $base; ?>admin/dashboard.php?cms=addpage" class="nav-link <?php
+                    if ($cms === 'addpage') {
+                        echo 'active';
+                    }
+                    ?>">
                 <i class="nav-icon fas fa-file-alt"></i>
                 <p>
                     Add page                   
@@ -105,7 +125,7 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>users/profile.php?user=pinfo" class="nav-link <?php
-                    if ($fname === 'personalinfo') {
+                    if ($user === 'pinfo') {
                         echo 'active';
                     }
                     ?>">
@@ -115,7 +135,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>users/profile.php?user=sphra" class="nav-link <?php
-                    if ($fname === 'securephrase') {
+                    if ($user === 'sphra') {
                         echo 'active';
                     }
                     ?>">
@@ -125,7 +145,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>users/profile.php?user=chpass" class="nav-link <?php
-                    if ($fname === 'changepass') {
+                    if ($user === 'chpass') {
                         echo 'active';
                     }
                     ?>">
@@ -135,7 +155,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>users/profile.php?user=chpin" class="nav-link <?php
-                    if ($fname === 'changepin') {
+                    if ($user === 'chpin') {
                         echo 'active';
                     }
                     ?>">
@@ -158,7 +178,7 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
-                    if ($fname === 'crud') {
+                    if ($crud === 'crud') {
                         echo 'active';
                     }
                     ?>">
@@ -168,7 +188,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
-                    if ($fname === 'table_config') {
+                    if ($cms === 'table_config') {
                         echo 'active';
                     }
                     ?>">
@@ -178,7 +198,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
-                    if ($fname === 'querybuilder') {
+                    if ($cms === 'querybuilder') {
                         echo 'active';
                     }
                     ?>">
@@ -199,7 +219,7 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=users" class="nav-link <?php
-                    if ($fname === 'users') {
+                    if ($cms === 'users') {
                         echo 'active';
                     }
                     ?>">
@@ -209,7 +229,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
-                    if ($fname === 'adduser') {
+                    if ($cms === 'adduser') {
                         echo 'active';
                     }
                     ?>">
