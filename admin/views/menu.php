@@ -58,7 +58,7 @@ if ($w == "list") {
         $sql = "INSERT INTO menu_options (id_menu, fluid, placement, aligment, background, color)
 VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
         if ($conn->query($sql) === TRUE) {
-            $_SESSION['success'] = 'Se agrego el dato correctamente';
+            $_SESSION['success'] = 'The data was added correctly.';
             header('Location: dashboard.php?cms=crud&w=list&tbl=menu_options');
         } else {
             $_SESSION['error'] = 'Error: ' . $conn->error;
@@ -74,7 +74,7 @@ VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color'
                    href="dashboard.php?cms=menu&w=list">Back to List </a>
             </div>
             <div class="col-md-9">
-                <h2 class="text-primary">Add Menu Option </h2>
+                <h2 class="text-primary">Add Menu Options </h2>
             </div>
             <div class="card py-3">
                 <div class="card-body">
@@ -224,16 +224,23 @@ VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color'
                     if (isset($_GET["id"])) {
                         $id = $_GET["id"];
                     }
-
                     if (isset($_POST["deleterow"])) {
 
-                        if ($conn->query("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
+                        if ($conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
                             $_SESSION['success'] = "Record deleted successfully";
+                            header('Location: dashboard.php?cms=menu&w=list');
+                            exit();
                         } else {
                             $_SESSION['error'] = "Error deleting record";
                         }
                     }
                     ?>
+                    <form method="post">
+                        <div class="form-group">
+                            <button type="submit" id="deleterow" name="deleterow" class="btn btn-primary"><span class="fas fa-trash-alt"></span> Delete</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
