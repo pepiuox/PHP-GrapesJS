@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
         <button type="submit" id="addrow" name="addrow" class="btn btn-primary">
-            <span class="glyphicon glyphicon-plus" onclick="dVals();"></span> Add</button>
+            <span class="fas fa-plus-square" onclick="dVals();"></span> Add</button>
     </div>
 </form>
 
@@ -64,6 +64,6 @@
     </div>
     <div class="form-group">
         <button type="submit" id="editrow" name="editrow" class="btn btn-primary">
-            <span class = "glyphicon glyphicon-plus"></span> Edit</button>
+            <span class = "fas fa-plus-square"></span> Edit</button>
     </div>
 </form>

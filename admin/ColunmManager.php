@@ -204,7 +204,7 @@ if ($w == "set") {
                         <div class="form-group">
                             <button type="submit" id="submit" name="submit"
                                     class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span> View Table
+                                <span class="fas fa-plus-square"></span> View Table
                             </button>
                         </div>
                     </div>
@@ -235,7 +235,7 @@ if ($w == "set") {
             <div class="form-group">
                 <button type="submit" id="submit" name="submit"
                         class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> Add table
+                    <span class="fas fa-plus-square"></span> Add table
                 </button>
             </div>
         </form>

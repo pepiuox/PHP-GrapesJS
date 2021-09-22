@@ -55,8 +55,8 @@ if ($w == "list") {
         $background = $_POST['background'];
         $color = $_POST['color'];
 
-        $sql = "INSERT INTO menu_options (id_menu, fluid, placement, aligment, background, color)
-VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
+        $sql = "INSERT INTO menu_options (id_menu, fluid, placement, aligment, background, color) "
+                . "VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
         if ($conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly.';
             header('Location: dashboard.php?cms=crud&w=list&tbl=menu_options');

@@ -69,7 +69,7 @@ if (isset($submit)) {
             <div class="form-group">
                 <button type="submit" id="submit" name="submit"
                         class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> Visualizar Tablas
+                    <span class="fas fa-plus-square"></span> Visualizar Tablas
                 </button>
             </div>
         </div>

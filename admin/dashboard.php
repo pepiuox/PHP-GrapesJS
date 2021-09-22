@@ -81,7 +81,9 @@ $vpages = '';
                                     $vpages = 'Site Definitions';
                                 } elseif ($cms == 'menu') {
                                     $vpages = 'Menu Template';
-                                }elseif ($cms == 'crud') {
+                                } elseif ($cms == 'plugins') {
+                                    $vpages = 'Plugins App';
+                                } elseif ($cms == 'crud') {
                                     $vpages = 'CRUD';
                                 } elseif ($cms == 'querybuilder') {
                                     $vpages = 'Query Builder';
@@ -121,7 +123,9 @@ $vpages = '';
                         include 'views/settings.php';
                     } elseif ($cms == 'menu') {
                         include 'views/menu.php';
-                    }elseif ($cms == 'users') {
+                    } elseif ($cms == 'plugins') {
+                        include 'views/plugins.php';
+                    } elseif ($cms == 'users') {
                         include 'admin.php';
                     } elseif ($cms == 'adduser') {
                         include 'adduser.php';

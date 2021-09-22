@@ -11,10 +11,10 @@ $plugins_css = $_POST["plugins_css"];
 
         $query="UPDATE `$tble` SET plugins = '$plugins', pluginsOpts = '$pluginsOpts', script = '$script', css = '$css', buttons = '$buttons', plugins_script = '$plugins_script', plugins_css = '$plugins_css' WHERE id=$id ";
 if ($this->connection->query($query) === TRUE) {
-               echo "Los datos fueron actualizados correctamente.";
+               $_SESSION["success"] = "The data was updated correctly.";
                header("Location: dashboard.php?cms=crud&w=list&tbl=plugins_app");
             } else {
-               echo "Error en actualizar datos: " . $this->connection->error;
+              $_SESSION["error"] = "Error updating data: " . $this->connection->error;
             }
     } 
 ?> 

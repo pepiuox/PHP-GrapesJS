@@ -255,7 +255,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                           </div>' . "\n";
             }
             echo '<div class="form-group">
-                        <button type = "submit" id="updatequeries" name="updatequeries" class="btn btn-primary"><span class = "glyphicon glyphicon-plus"></span>Agregar Consultas</button>
+                        <button type = "submit" id="updatequeries" name="updatequeries" class="btn btn-primary"><span class = "fas fa-plus-square"></span>Agregar Consultas</button>
                       </div>' . "\n";
             echo '</form>' . "\n";
 

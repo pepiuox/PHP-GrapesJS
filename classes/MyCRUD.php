@@ -695,7 +695,7 @@ class MyCRUD {
   <div class="custom-file">
     <input type="file" class="custom-file-input" id="' . $c_nm . '" name="' . $c_nm . '"
       aria-describedby="i' . $c_nm . '">
-    <label class="custom-file-label" for="' . $c_nm . '">Elegir archivo</label>
+    <label class="custom-file-label" for="' . $c_nm . '">Choose file </label>
   </div>
 </div>
 <div id="preview">
@@ -876,10 +876,10 @@ class MyCRUD {
         $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
         $content .= 'VALUES (' . $pnames . ')";' . "\n";
         $content .= "if (\$this->connection->query(\$sql) === TRUE) {
-    echo 'Se agrego el dato correctamente';
+    \$_SESSION['success'] = 'The data was added correctly';
 header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
 } else {
-    echo 'Error: ' . \$this->connection->error;
+    \$_SESSION['error'] = 'Error: ' . \$this->connection->error;
 }
 
 \$this->connection->close();" . "\n";
@@ -895,7 +895,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $this->joinCols($tble);
 
         echo '<div class="form-group">
-        <button type="submit" id="addrow" name="addrow" class="btn btn-primary"><span class="glyphicon glyphicon-plus" onclick="dVals();"></span> Add</button>
+        <button type="submit" id="addrow" name="addrow" class="btn btn-primary"><span class="fas fa-plus-square" onclick="dVals();"></span> Add</button>
     </div>' . "\n";
         echo '</form>' . "\n";
     }
@@ -927,10 +927,10 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $content .= $scpt . "\r\n";
         $content .= '        $query="UPDATE `$tble` SET ' . $ecols . ' WHERE ' . $ncol . '=$id ";' . "\r\n";
         $content .= 'if ($this->connection->query($query) === TRUE) {
-               echo "Los datos fueron actualizados correctamente.";
+               $_SESSION["success"] = "The data was updated correctly.";
                header("Location: dashboard.php?cms=crud&w=list&tbl=' . $tble . '");
             } else {
-               echo "Error en actualizar datos: " . $this->connection->error;
+              $_SESSION["error"] = "Error updating data: " . $this->connection->error;
             }' . "\r\n";
         $content .= "    } \r\n";
         $content .= "?> \n";
@@ -1081,7 +1081,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
             }
             /* test input */
             echo '<div class="form-group">
-        <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "glyphicon glyphicon-plus"></span> Actualizar</button>
+        <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "fas fa-edit"></span> Update</button>
     </div>' . "\n";
             echo '</form>' . "\n";
         } else {
@@ -1185,7 +1185,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
             }
             /* test input */
             echo '<div class="form-group">
-        <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "glyphicon glyphicon-plus"></span> Edit</button>
+        <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "fas fa-edit"></span> Edit</button>
     </div>' . "\n";
             echo '</form>' . "\n";
         }
@@ -1211,9 +1211,9 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $content .= $ptadds . "\n";
         $content .= '$sql = "UPDATE $tble SET ' . $pnames . ' WHERE $ncol=' . $id . '";' . "\n";
         $content .= "if (\$this->connection->query(\$sql) === TRUE) {
-        echo \"New record created successfully\";
+        \$_SESSION['success'] = \"New record created successfully\";
     } else {
-        echo \"Error: \" . \$sql . \"<br>\" . \$this->connection->error;
+       \$_SESSION['error'] = \"Error: \" . \$sql . \"<br>\" . \$this->connection->error;
     }" . "\n";
         $content .= " }" . "\n";
         $content .= "?> \n";
@@ -1242,7 +1242,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
             }
         }
         echo '<div class="form-group">
-        <button type = "submit" id="deleterow" name="deleterow" class="btn btn-primary"><span class = "glyphicon glyphicon-plus"></span> Delete</button>
+        <button type = "submit" id="deleterow" name="deleterow" class="btn btn-primary"><span class = "fas fa-trash-alt"></span> Delete</button>
     </div>' . "\n";
         echo '</form>' . "\n";
     }
@@ -1264,7 +1264,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
             }
         }
         echo '<div class="form-group">
-        <button type = "submit" id="addqueries" name="addqueries" class="btn btn-primary"><span class = "glyphicon glyphicon-plus"></span> Add queries</button>
+        <button type = "submit" id="addqueries" name="addqueries" class="btn btn-primary"><span class = "fas fa-plus-square"></span> Add queries</button>
     </div>' . "\n";
         echo '</form>' . "\n";
     }
@@ -1404,7 +1404,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
             echo '<!-- Button -->
         <div class="form-group">
             <div class="col-md-4">
-                <button type="button" id="editrow" name="editrow" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Edit</button>
+                <button type="button" id="editrow" name="editrow" class="btn btn-primary"><span class="fas fa-edit"></span> Edit</button>
             </div>
         </div>';
             echo '</fieldset>
