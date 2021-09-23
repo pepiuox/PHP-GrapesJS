@@ -99,7 +99,7 @@ if ($nm > 0) {
     <?php
     require 'menu.php';
     ?>
-            <div class='container'>
+            <div class='container-fluid'>
             <?php
             echo decodeContent($content) . "\n";
             ?>

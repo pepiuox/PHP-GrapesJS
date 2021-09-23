@@ -30,7 +30,7 @@ if (file_exists($connfile)) {
                 include 'views/login.php';
             }
         } else {
-            include '../views/login.php';
+            include 'views/login.php';
         }
     }
     ?>
