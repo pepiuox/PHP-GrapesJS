@@ -1,0 +1,37 @@
+{
+    "name": "pepiuox/php-grapesjs",
+    "description": "PHP-based CMS that uses the GrapesJS Web Builder Framework, it also includes an access and registration system",
+    "type": "web-builder",
+    "keywords": [
+        "Web builder", 
+        "framework", 
+        "GrapesJS", 
+        "bootstrap", 
+        "cms", 
+        "bootstrap cms",                                 
+        "Bootstrap CMS", 
+        "Bootstrap-CMS", 
+        "blog", "login",
+        "grapes",
+        "grapesjs", 
+        "Grapes JS",
+        "wysiwyg",
+        "web",
+        "template",
+        "editor",
+        "newsletter",
+        "site",
+        "builder"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jose Mantilla",
+            "email": "contact@pepiuox.net"
+        }
+    ],
+    "support": {},
+    "require-dev": {},
+    "require": {},
+    "repositories": []
+}
