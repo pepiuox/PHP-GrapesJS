@@ -94,6 +94,7 @@ function displayBannedUsers() {
 <div class="container-fluid"> 
     <div class="row my-2 py-2">    
         <div class="col-md-12">
+
             <?php
             /**
              * The user is already logged in, not allowed to register.
@@ -186,150 +187,128 @@ function displayBannedUsers() {
 <div class="container-fluid"> 
     <div class="row my-2 py-2">   
         <div class="col-md-12">
-            <div><br /></div>
             <hr>
-            <br />
-        </div>
-        <div class="col-md-4">
-            <div class="card p-3">
-                <h4>Validate and Invalidate User</h4>
-                <?php echo $form->error("valuser"); ?>
-                <form action="adminprocess.php" method="POST">
-                    <p><b>Username:</b><br /> <input type="text" name="valuser" maxlength="30" value="<?php echo $form->value("valuser"); ?>"></p>
-                    <p><b>Validate and Invalidate:</b><br />
-                        <select name="updvalid">
-                            <option value="1">Validate</option>
-                            <option value="0">Invalidate</option>                                                                                
-                        </select>
-                    </p>
-                    <input type="hidden" name="subupdvalid" value="1">
-                    <input class="button" type="submit" value="Change state">
-                </form>
-            </div>
-        </div>    
-        <?php
-        /**
-         * Update User Level
-         */
-        ?>                             
-        <div class="col-md-4">
-            <div class="card p-3">
-                <h4>Update User Level </h4>
-                <?php echo $form->error("upduser"); ?>
-                <form action="adminprocess.php" method="POST">
-                    <p><b>Username:</b><br /> <input type="text" name="upduser" maxlength="30" value="<?php echo $form->value("upduser"); ?>"></p>
-                    <p><b>Level:</b><br />
-                        <select name="updlevel">
-                            <option value = "1"> Seller </option>
-                            <option value = "2"> Vendor Supervisor </option>
-                            <option value = "3"> Agent </option>
-                            <option value = "4"> Member Agent </option>
-                            <option value = "5"> Agent Supervisor </option>
-                            <option value = "7"> Manager </option>
-                            <option value = "9"> Administrator </option> 
-                        </select>
-                    </p>
-                    <input type="hidden" name="subupdlevel" value="1">
-                    <input class="button" type="submit" value="Level">
-                </form>                            
-            </div>
-        </div>                                         
-        <?php
-        /**
-         * Eliminar Usuario
-         */
-        ?>                     
-        <div class="col-md-4">
-            <div class="card p-3">
-                <h4>Delete User</h4>
-                <?php echo $form->error("deluser"); ?>
-                <form action="adminprocess.php" method="POST">
-                    <p><b>Username:</b><br /> <input type="text" name="deluser" maxlength="30" value="<?php echo $form->value("deluser"); ?>"></p>
-                    <input type="hidden" name="subdeluser" value="1">
-                    <input class="button" type="submit" value="Delete User">
-                </form>
+            <div class="card">
+                <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#invuser" data-toggle="tab">Validate and Invalidate User</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#upduser" data-toggle="tab">Update User Level</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#deluser" data-toggle="tab">Delete User</a></li>
+                    </ul>
+                </div><!-- /.card-header -->
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="invuser">
+                            <h4>Validate and Invalidate User</h4>
+                            <?php echo $form->error("valuser"); ?>
+                            <form action="adminprocess.php" method="POST">
+                                <p><b>Username:</b><br /> <input type="text" name="valuser" maxlength="30" value="<?php echo $form->value("valuser"); ?>"></p>
+                                <p><b>Validate and Invalidate:</b><br />
+                                    <select name="updvalid">
+                                        <option value="1">Validate</option>
+                                        <option value="0">Invalidate</option>                                                                                
+                                    </select>
+                                </p>
+                                <input type="hidden" name="subupdvalid" value="1">
+                                <input class="button" type="submit" value="Change state">
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="upduser">
+                            <h4>Update User Level </h4>
+                            <?php echo $form->error("upduser"); ?>
+                            <form action="adminprocess.php" method="POST">
+                                <p><b>Username:</b><br /> <input type="text" name="upduser" maxlength="30" value="<?php echo $form->value("upduser"); ?>"></p>
+                                <p><b>Level:</b><br />
+                                    <select name="updlevel">
+                                        <option value = "1"> Seller </option>
+                                        <option value = "2"> Vendor Supervisor </option>
+                                        <option value = "3"> Agent </option>
+                                        <option value = "4"> Member Agent </option>
+                                        <option value = "5"> Agent Supervisor </option>
+                                        <option value = "7"> Manager </option>
+                                        <option value = "9"> Administrator </option> 
+                                    </select>
+                                </p>
+                                <input type="hidden" name="subupdlevel" value="1">
+                                <input class="button" type="submit" value="Level">
+                            </form>  
+                        </div>
+                        <div class="tab-pane" id="deluser">
+                            <h4>Delete User</h4>
+                            <?php echo $form->error("deluser"); ?>
+                            <form action="adminprocess.php" method="POST">
+                                <p><b>Username:</b><br /> <input type="text" name="deluser" maxlength="30" value="<?php echo $form->value("deluser"); ?>"></p>
+                                <input type="hidden" name="subdeluser" value="1">
+                                <input class="button" type="submit" value="Delete User">
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="container-fluid"> 
     <div class="row my-2 py-2">  
-
         <div class="col-md-12">
-            <div><br /></div>
             <hr>
-            <br />
-        </div>
-        <?php
-        /**
-         * Delete Inactive Users
-         */
-        ?>
-        <div class="col-md-4">
-            <div class="card p-2 bg-alert">
-                <h4>Delete Inactive Users </h4>
-                <p>
-                    This will remove all users (non-administrators), who have not logged into the site within a certain period of time. The days spent inactive are specified. </p>
-                <form action="adminprocess.php" method="POST">
-                    <p><b>Dias:</b><br />
-                        <select name="inactdays">
-                            <option value="3">3</option>
-                            <option value="7">7</option>
-                            <option value="14">14</option>
-                            <option value="30">30</option>
-                            <option value="100">100</option>
-                            <option value="365">365</option>
-                        </select>
-                    </p>
-                    <input type="hidden" name="subdelinact" value="1">
-                    <input class="button" type="submit" value="Eliminar todos inactivos">
-                </form>
-            </div>
-        </div>                    
-        <?php
-        /**
-         * Usuario Prohibido
-         */
-        ?>
-        <div class="col-md-4">
-            <div class="card p-3">
-                <h4>Banned User </h4><?php echo $form->error("banuser"); ?>
-                <p>Prohibit access to the system of a user. <br />
-                    If you only want to restrict, or it is recommended to deactivate it in any case. </p>
-                <form action="adminprocess.php" method="POST">
-                    <p><b>Username:</b><br /> <input type="text" name="banuser" maxlength="30" value="<?php echo $form->value("banuser"); ?>"></p>
-                    <input type="hidden" name="subbanuser" value="1">
-                    <input class="button" type="submit" value="Banned User">
-                </form>
-            </div>
-        </div>
-
-        <?php
-        /**
-         * Display Banned Users Table
-         */
-        ?>
-
-        <div class="col-md-4">
-            <div class="card p-3">
-                <h4>Table of prohibited users for system :</h4>
-                <?php
-                displayBannedUsers();
-                ?>
-
-                <?php
-                /**
-                 * Eliminar usuario prohibido
-                 */
-                ?>
-                <h4>Remove Banned Users </h4><?php echo $form->error("delbanuser"); ?>
-                <form action="adminprocess.php" method="POST">
-                    <p><b>Username:</b><br /> <input type="text" name="delbanuser" maxlength="30" value="<?php echo $form->value("delbanuser"); ?>"></p>
-                    <input type="hidden" name="subdelbanned" value="1">
-                    <input class="button" type="submit" value="Eliminar usuario prohibido">
-                </form>
+            <div class="card">
+                <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#deiuser" data-toggle="tab">Delete Inactive Users</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#banuser" data-toggle="tab">Banned User</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#rebuser" data-toggle="tab">Remove Banned Users</a></li>
+                    </ul>
+                </div><!-- /.card-header -->
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="deiuser">
+                            <h4>Delete Inactive Users </h4>
+                            <p>
+                                This will remove all users (non-administrators), who have not logged into the site within a certain period of time. The days spent inactive are specified. </p>
+                            <form action="adminprocess.php" method="POST">
+                                <p><b>Dias:</b><br />
+                                    <select name="inactdays">
+                                        <option value="3">3</option>
+                                        <option value="7">7</option>
+                                        <option value="14">14</option>
+                                        <option value="30">30</option>
+                                        <option value="100">100</option>
+                                        <option value="365">365</option>
+                                    </select>
+                                </p>
+                                <input type="hidden" name="subdelinact" value="1">
+                                <input class="button" type="submit" value="Eliminar todos inactivos">
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="banuser">
+                            <h4>Banned User </h4><?php echo $form->error("banuser"); ?>
+                            <p>Prohibit access to the system of a user. <br />
+                                If you only want to restrict, or it is recommended to deactivate it in any case. </p>
+                            <form action="adminprocess.php" method="POST">
+                                <p><b>Username:</b><br /> <input type="text" name="banuser" maxlength="30" value="<?php echo $form->value("banuser"); ?>"></p>
+                                <input type="hidden" name="subbanuser" value="1">
+                                <input class="button" type="submit" value="Banned User">
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="rebuser">
+                            <h4>Table of prohibited users for system :</h4>
+                            <?php
+                            displayBannedUsers();
+                            ?>
+                            <h4>Remove Banned Users </h4><?php echo $form->error("delbanuser"); ?>
+                            <form action="adminprocess.php" method="POST">
+                                <p><b>Username:</b><br /> <input type="text" name="delbanuser" maxlength="30" value="<?php echo $form->value("delbanuser"); ?>"></p>
+                                <input type="hidden" name="subdelbanned" value="1">
+                                <input class="button" type="submit" value="Eliminar usuario prohibido">
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div> 
+    </div>
+</div>
+</div> 
 </div>
 
