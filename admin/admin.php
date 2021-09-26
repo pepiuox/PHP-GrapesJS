@@ -201,7 +201,7 @@ function displayBannedUsers() {
                         <div class="active tab-pane" id="invuser">
                             <h4>Validate and Invalidate User</h4>
                             <?php echo $form->error("valuser"); ?>
-                            <form action="adminprocess.php" method="POST">
+                            <form  method="POST">
                                 <p><b>Username:</b><br /> <input type="text" name="valuser" maxlength="30" value="<?php echo $form->value("valuser"); ?>"></p>
                                 <p><b>Validate and Invalidate:</b><br />
                                     <select name="updvalid">
@@ -216,7 +216,7 @@ function displayBannedUsers() {
                         <div class="tab-pane" id="upduser">
                             <h4>Update User Level </h4>
                             <?php echo $form->error("upduser"); ?>
-                            <form action="adminprocess.php" method="POST">
+                            <form  method="POST">
                                 <p><b>Username:</b><br /> <input type="text" name="upduser" maxlength="30" value="<?php echo $form->value("upduser"); ?>"></p>
                                 <p><b>Level:</b><br />
                                     <select name="updlevel">
@@ -236,7 +236,7 @@ function displayBannedUsers() {
                         <div class="tab-pane" id="deluser">
                             <h4>Delete User</h4>
                             <?php echo $form->error("deluser"); ?>
-                            <form action="adminprocess.php" method="POST">
+                            <form method="POST">
                                 <p><b>Username:</b><br /> <input type="text" name="deluser" maxlength="30" value="<?php echo $form->value("deluser"); ?>"></p>
                                 <input type="hidden" name="subdeluser" value="1">
                                 <input class="button" type="submit" value="Delete User">
@@ -266,7 +266,7 @@ function displayBannedUsers() {
                             <h4>Delete Inactive Users </h4>
                             <p>
                                 This will remove all users (non-administrators), who have not logged into the site within a certain period of time. The days spent inactive are specified. </p>
-                            <form action="adminprocess.php" method="POST">
+                            <form  method="POST">
                                 <p><b>Dias:</b><br />
                                     <select name="inactdays">
                                         <option value="3">3</option>
@@ -285,7 +285,7 @@ function displayBannedUsers() {
                             <h4>Banned User </h4><?php echo $form->error("banuser"); ?>
                             <p>Prohibit access to the system of a user. <br />
                                 If you only want to restrict, or it is recommended to deactivate it in any case. </p>
-                            <form action="adminprocess.php" method="POST">
+                            <form  method="POST">
                                 <p><b>Username:</b><br /> <input type="text" name="banuser" maxlength="30" value="<?php echo $form->value("banuser"); ?>"></p>
                                 <input type="hidden" name="subbanuser" value="1">
                                 <input class="button" type="submit" value="Banned User">
@@ -297,10 +297,10 @@ function displayBannedUsers() {
                             displayBannedUsers();
                             ?>
                             <h4>Remove Banned Users </h4><?php echo $form->error("delbanuser"); ?>
-                            <form action="adminprocess.php" method="POST">
+                            <form  method="POST">
                                 <p><b>Username:</b><br /> <input type="text" name="delbanuser" maxlength="30" value="<?php echo $form->value("delbanuser"); ?>"></p>
                                 <input type="hidden" name="subdelbanned" value="1">
-                                <input class="button" type="submit" value="Eliminar usuario prohibido">
+                                <input class="button" type="submit" value="Delete banned user">
                             </form>
                         </div>
                     </div>
