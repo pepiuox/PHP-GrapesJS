@@ -89,6 +89,8 @@ $vpages = '';
                                     $vpages = 'Query Builder';
                                 } elseif ($cms == 'table_config') {
                                     $vpages = 'Table Config';
+                                } elseif ($cms == 'volunteer') {
+                                    $vpages = 'Volunteer';
                                 } else {
                                     $vpages = 'Dashboard';
                                 }
@@ -137,6 +139,8 @@ $vpages = '';
                         include 'views/table_config.php';
                     } elseif ($cms == 'table_manager') {
                         include 'views/table_manager.php';
+                    } elseif ($cms == 'volunteer') {
+                        include 'views/volunteer.php';
                     } else {
                         ?>
                         <div class="container-fluid">

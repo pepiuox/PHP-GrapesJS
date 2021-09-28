@@ -92,10 +92,10 @@
         </li>
         <li class="nav-item">
             <a href="<?php echo $base; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
-                    if ($cms === 'pagelist') {
-                        echo 'active';
-                    }
-                    ?>">
+            if ($cms === 'pagelist') {
+                echo 'active';
+            }
+            ?>">
                 <i class="nav-icon fas fa-list-alt"></i>
                 <p>
                     Page list                    
@@ -104,10 +104,10 @@
         </li>
         <li class="nav-item">
             <a href="<?php echo $base; ?>admin/dashboard.php?cms=addpage" class="nav-link <?php
-                    if ($cms === 'addpage') {
-                        echo 'active';
-                    }
-                    ?>">
+            if ($cms === 'addpage') {
+                echo 'active';
+            }
+            ?>">
                 <i class="nav-icon fas fa-file-alt"></i>
                 <p>
                     Add page                   
@@ -178,7 +178,7 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
-                    if ($crud === 'crud') {
+                    if ($cms === 'crud') {
                         echo 'active';
                     }
                     ?>">
@@ -217,6 +217,16 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=volunteer" class="nav-link <?php
+                    if ($cms === 'volunteer') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-table nav-icon"></i>
+                        <p>Volunteer</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=users" class="nav-link <?php
                     if ($cms === 'users') {

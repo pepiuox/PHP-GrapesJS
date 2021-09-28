@@ -126,7 +126,7 @@ if ($w == "select") {
                 $id = $_GET["id"];
             }
 
-            $c->updateScript($tble, $id);
+            $c->updateScript($tble);
             include 'updatetmp.php';
             $c->inputQEdit($tble, $id);
             ?>             
@@ -161,9 +161,10 @@ if ($w == "select") {
                 if (isset($_POST["deleterow"])) {
 
                     if ($c->wQueries("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
-                        echo "Record deleted successfully";
+                        $_SESSION['success'] = "Record deleted successfully";
+                        
                     } else {
-                        echo "Error deleting record";
+                        $_SESSION['error'] = "Error deleting record";
                     }
                 }
 

@@ -16,6 +16,6 @@ error_reporting(E_ERROR | E_WARNING);
 error_reporting(E_ALL & ~E_NOTICE);
 
 /* (B) TO TURN OFF ALL ERROR REPORTING */
-ini_set("display_errors", 0);
+
 error_reporting(0);
 ?>

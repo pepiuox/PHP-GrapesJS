@@ -3,10 +3,12 @@
 class MyCRUD {
 
     private $connection;
+    public $pname;
 
     public function __construct() {
-        global $conn;
+        global $conn, $rname;
         $this->connection = $conn;
+        $this->pname = $rname;
     }
 
     public function protect($str) {
@@ -120,7 +122,7 @@ class MyCRUD {
     public function getList($sql, $col) {
         $result = $this->wQueries($sql);
 
-        if (mysqli_num_fields($result) > 0) {
+        if ($result->field_count > 0) {
             while ($th = $result->fetch_field()) {
                 $ths[] = $th->name;
             }
@@ -162,8 +164,8 @@ class MyCRUD {
         echo '<table class="table table-bordered">' . "\n";
         echo '<thead class="bg-info">' . "\n";
         echo '<tr>' . "\n";
-        while ($i < mysqli_num_fields($result)) {
-            $meta = mysqli_fetch_field($result);
+        while ($i < $result->field_count) {
+            $meta = $result->fetch_field();
             $remp = str_replace("_", " ", $meta->name);
             echo '<th>' . ucfirst($remp) . '</th>' . "\n";
             $i = $i + 1;
@@ -226,9 +228,9 @@ class MyCRUD {
             }
         } else {
             if ($searching == "1") {
-                echo '<tr><td colspan="8">No results for <b>' . $qry . '</b>.</td></tr>';
+                echo '<tr><td colspan="8">No results for <b>' . $qry . '</b>.</td></tr>' . "\n";
             } else {
-                echo '<tr><td colspan="8">Still no have exchanges.</td></tr>';
+                echo '<tr><td colspan="8">Still no have exchanges.</td></tr>' . "\n";
             }
         }
         echo '</tbody>' . "\n";
@@ -267,11 +269,11 @@ class MyCRUD {
 	<table class="table">
 			<thead>
 				<tr>
-<th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard.php?cms=crud&w=add&tbl=' . $tble . '">Agregar <i class="fa fa-plus-square"></i></a></th>';
+<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pname . '?cms=crud&w=add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>';
             foreach ($colmns as $colmn) {
                 $tremp = ucfirst(str_replace("_", " ", $colmn->name));
                 $remp = str_replace(" id", " ", $tremp);
-                echo '<th>' . $remp . '</th>';
+                echo '<th>' . $remp . '</th>' . "\n";
             }
             echo '
 			</tr>
@@ -281,8 +283,8 @@ class MyCRUD {
 
                 echo '<tr>' . "\n";
                 echo '<td><!--Button -->
-                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
-<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
+                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pname . '?cms=crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
+<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pname . '?cms=crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
@@ -292,18 +294,18 @@ class MyCRUD {
                         while ($trow = $resultq->fetch_array()) {
 
                             if ($colmn->name === 'imagen') {
-                                echo '<td><img src="' . $row[$colmn->name] . '" style="width:auto; height: 100px;"></td>';
+                                echo '<td><img src="' . $row[$colmn->name] . '" style="width:auto; height: 100px;"></td>' . "\n";
                             } else {
                                 $tb = $trow['j_table'];
                                 $id = $trow['j_id'];
                                 $val = $trow['j_value'];
                                 $rest = $this->connection->query("SELECT * FROM $tb WHERE $id='$fd'");
                                 $tow = $rest->fetch_assoc();
-                                echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>';
+                                echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>' . "\n";
                             }
                         }
                     } else {
-                        echo '<td>' . $row[$colmn->name] . '</td>';
+                        echo '<td>' . $row[$colmn->name] . '</td>' . "\n";
                     }
                 }
 
@@ -313,49 +315,49 @@ class MyCRUD {
 		</table>' . "\n";
 
             if (ceil($total_pages / $num_results_on_page) > 0) {
-                $url = 'dashboard.php?cms=crud&w=list&tbl=' . $tble;
+                $url = $this->pname . '?cms=crud&w=list&tbl=' . $tble;
                 ?>
-                <nav aria-label="navigation mx-auto">
+                <nav aria-label="Page navigation mx-auto">
                     <ul class="pagination justify-content-center">
                         <?php if ($page > 1) { ?>
-                            <li class="prev"><a
+                            <li class="page-item prev"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page - 1 ?>">Previous</a></li>
                             <?php } ?>
 
                         <?php if ($page > 3) { ?>
-                            <li class="start"><a href="<?php echo $url; ?>&page=1">1</a></li>
-                            <li class="dots">...</li>
+                            <li class="page-item start"><a href="<?php echo $url; ?>&page=1">1</a></li>
+                            <li class="page-item dots">...</li>
                         <?php } ?>
 
                         <?php if ($page - 2 > 0) { ?>
-                            <li class="page"><a
+                            <li class="page-item page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a></li>
                             <?php } ?>
                             <?php if ($page - 1 > 0) { ?>
-                            <li class="page"><a
+                            <li class="page-item page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a></li>
                             <?php } ?>
 
-                        <li class="currentpage"><a
+                        <li class="page-item currentpage"><a
                                 href="<?php echo $url; ?>&page=<?php echo $page ?>"><?php echo $page ?></a></li>
 
                         <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1) { ?>
-                            <li class="page"><a
+                            <li class="page-item page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a></li>
                             <?php } ?>
                             <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1) { ?>
-                            <li class="page"><a
+                            <li class="page-item page"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a></li>
                             <?php } ?>
 
                         <?php if ($page < ceil($total_pages / $num_results_on_page) - 2) { ?>
-                            <li class="dots">...</li>
-                            <li class="end"><a
+                            <li class="page-item dots">...</li>
+                            <li class="page-item end"><a
                                     href="<?php echo $url; ?>&page=<?php echo ceil($total_pages / $num_results_on_page) ?>"><?php echo ceil($total_pages / $num_results_on_page) ?></a></li>
                             <?php } ?>
 
                         <?php if ($page < ceil($total_pages / $num_results_on_page)) { ?>
-                            <li class="next"><a
+                            <li class="page-item next"><a
                                     href="<?php echo $url; ?>&page=<?php echo $page + 1 ?>">Next </a></li>
                             <?php } ?>
                     </ul>
@@ -470,13 +472,13 @@ class MyCRUD {
             }
         }
 
-        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="dashboard.php?cms=crud&w=add&tbl=' . $tble . '">Agregar</a></th>' . "\n";
+        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pname . '?cms=crud&w=add&tbl=' . $tble . '">Add</a></th>' . "\n";
         echo '</tr>' . "\n";
         echo '</thead>' . "\n";
         echo '<tbody>' . "\n";
         // end table head
         // start body table
-        while ($row = mysqli_fetch_row($res)) {
+        while ($row = $res->fetch_row()) {
             echo '<tr>' . "\n";
             $rw = $result->fetch_array();
             $count = count($row);
@@ -516,8 +518,8 @@ class MyCRUD {
 
             $i_row = $row[0];
             echo '<td><!--Button -->
-                <a id="editrow" name="editrow" class="btn btn-success" href="dashboard.php?cms=crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
-                <a id="deleterow" name="deleterow" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
+                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pname . '?cms=crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
+                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pname . '?cms=crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
                 </td>';
 
             echo '</tr>' . "\n";
@@ -527,7 +529,7 @@ class MyCRUD {
         echo '</table>' . "\n";
         // end body table
         // end
-        $url = 'dashboard.php?cms=crud&w=list&tbl=' . $tble;
+        $url = $this->pname . '?cms=crud&w=list&tbl=' . $tble;
 
         if ($i < $rowcq) {
             echo '<nav aria-label="navigation">';
@@ -611,7 +613,7 @@ class MyCRUD {
         //
         $sqlq = "SELECT * FROM table_queries WHERE name_table='$tble'";
         $resultq = $this->connection->query($sqlq);
-        $rowcq = mysqli_num_rows($resultq);
+        $rowcq = $resultq->num_rows;
         if ($rowcq > 0) {
             while ($rqu = $resultq->fetch_assoc()) {
 
@@ -733,7 +735,7 @@ class MyCRUD {
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
 
                     $iresult = $this->connection->query($isql);
-                    $row = mysqli_fetch_array($iresult);
+                    $row = $iresult->fetch_array();
                     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
                     //
@@ -877,7 +879,7 @@ class MyCRUD {
         $content .= 'VALUES (' . $pnames . ')";' . "\n";
         $content .= "if (\$this->connection->query(\$sql) === TRUE) {
     \$_SESSION['success'] = 'The data was added correctly';
-header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
+header('Location: " . $this->pname . "?cms=crud&w=list&tbl=" . $tble . "');
 } else {
     \$_SESSION['error'] = 'Error: ' . \$this->connection->error;
 }
@@ -901,15 +903,18 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
     }
 
     // addScript
-    public function updateScript($tble, $id) {
+    public function updateScript($tble) {
+
         $result = $this->sQueries($tble);
         $ncol = $this->getID($tble);
+
         $r = 0;
         $postnames = array();
         $varnames = array();
 
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+
+            while ($info = $result->fetch_field()) {
                 if ($info->name != $ncol) {
                     $postnames[] = '$' . $info->name . ' = $_POST["' . $info->name . '"]; ' . "\r\n";
                     $varnames[] = $info->name . " = '$" . $info->name . "'";
@@ -925,14 +930,19 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $content .= '//This is temporal file only for add new row' . "\n";
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
         $content .= $scpt . "\r\n";
-        $content .= '        $query="UPDATE `$tble` SET ' . $ecols . ' WHERE ' . $ncol . '=$id ";' . "\r\n";
-        $content .= 'if ($this->connection->query($query) === TRUE) {
-               $_SESSION["success"] = "The data was updated correctly.";
-               header("Location: dashboard.php?cms=crud&w=list&tbl=' . $tble . '");
-            } else {
-              $_SESSION["error"] = "Error updating data: " . $this->connection->error;
+        $content .= "\$query=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . "='\$id' \";" . "\r\n";
+        $content .= 'if ($conn->query($query) === TRUE) {
+ $_SESSION["success"] = "The data was updated correctly.";
+            '. "\n";
+        $content .= "echo \"<script>
+window.onload = function() {
+    location.href = '" . $this->pname . '?cms=crud&w=list&tbl=' . $tble . "';
+}
+</script>\";". "\n";
+        $content .= ' } else {
+              $_SESSION["error"] = "Error updating data: " . $conn->error;
             }' . "\r\n";
-        $content .= "    } \r\n";
+        $content .= "} \r\n";
         $content .= "?> \n";
 
         fwrite($myfile, $content);
@@ -943,7 +953,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $columns = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
         $resultq = $this->wQueries("SELECT * FROM table_queries WHERE name_table='$tble'");
-        $rowcq = mysqli_num_rows($resultq);
+        $rowcq = $resultq->num_rows;
         $r = 0;
         if ($rowcq > $r) {
             echo '<form class="form-horizontal" role="form" id="add_' . $tble . '" method="POST" enctype="multipart/form-data">' . "\n";
@@ -1162,7 +1172,7 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
 
                     $iresult = $this->wQueries($isql);
-                    $row = mysqli_fetch_array($iresult);
+                    $row = $iresult->fetch_array();
                     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
                     //
@@ -1224,11 +1234,11 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
     }
 
     // deleterow
-    function deleteData($tble, $id) {
+    public function deleteData($tble, $id) {
         $ncol = $this->getID($tble);
         $qresult = $this->wQueries("select * from $tble where $ncol = '$id' ");
         echo '<form role="form" id="delete_' . $tble . '" method="POST">' . "\n";
-        $row = mysqli_fetch_array($qresult, MYSQLI_ASSOC);
+        $row = $qresult->fetch_assoc();
         while ($finfo = $qresult->fetch_field()) {
             $cdta = $row[$finfo->name];
             if ($finfo->name == $ncol) {
@@ -1274,8 +1284,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $r = 0;
         $postnames = array();
-        while (mysqli_num_fields($result) > $r) {
-            $info = mysqli_fetch_field($result);
+        while ($result->field_count > $r) {
+            $info = $result->fetch_field();
             if ($info->name != $this->getID($tble)) {
                 $postnames[] = '$' . $info->name . ' = $_POST["' . $info->name . '"]; ' . "\r\n";
             }
@@ -1289,8 +1299,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $varnames = array();
         $r = 0;
-        while (mysqli_num_fields($result) > $r) {
-            $name = mysqli_fetch_field($result);
+        while ($result->field_count > $r) {
+            $name = $result->fetch_field();
 
             if ($name->name != $this->getID($tble)) {
                 $varnames[] = $name->name . " = '$" . $name->name . "'";
@@ -1305,8 +1315,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $checkd = array();
         $r = 0;
-        while (mysqli_num_fields($result) > $r) {
-            $info = mysqli_fetch_field($result);
+        while ($result->field_count > $r) {
+            $info = $result->fetch_field();
             if ($info->name != $this->getID($tble)) {
                 $checkd[] = '!empty($' . $info->name . ')';
             }
@@ -1321,8 +1331,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $checkd = array();
         $r = 0;
-        while (mysqli_num_fields($result) > $r) {
-            $info = mysqli_fetch_field($result);
+        while ($result->field_count > $r) {
+            $info = $result->fetch_field();
             if ($info->name != $this->getID($tble)) {
                 $checkd[] = '`' . $info->name . '`';
             }
@@ -1337,8 +1347,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $checkd = array();
         $r = 0;
-        while (mysqli_num_fields($result) > $r) {
-            $info = mysqli_fetch_field($result);
+        while ($result->field_count > $r) {
+            $info = $result->fetch_field();
             if ($info->name != $this->getID($tble)) {
                 $checkd[] = "'$" . $info->name . "'";
             }
@@ -1352,8 +1362,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $checkd = array();
         $r = 0;
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($info = $result->fetch_field()) {
                 if ($info->name != $this->getID($tble)) {
                     $checkd[] = '!empty($_POST["' . $info->name . '"])';
                 }
@@ -1380,8 +1390,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         <legend>' . ucfirst($ttle) . '</legend>';
 
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            while ($i < mysqli_num_fields($result)) {
-                $meta = mysqli_fetch_field($result);
+            while ($i < $result->field_count) {
+                $meta = $result->fetch_field();
                 if ($meta->name == $ncol) {
                     continue;
                 } else {
@@ -1426,8 +1436,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
 
         <!-- Form Name -->
         <legend>' . $tble . '</legend>';
-            if (mysqli_num_fields($result) > $i) {
-                while ($meta = mysqli_fetch_field($result)) {
+            if ($result->field_count > $i) {
+                while ($meta = $result->fetch_field()) {
                     $remp = str_replace("_", " ", $meta->name);
                     echo '<!-- Text input-->
         <div class="form-group">
@@ -1455,8 +1465,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $varnames = array();
         $r = 0;
-        if (mysqli_num_fields($result) > $r) {
-            while ($name = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($name = $result->fetch_field()) {
                 $varnames[] = $name->name . ': $' . $name->name;
             }
             echo implode(", ", $varnames);
@@ -1467,8 +1477,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $varnames = array();
         $r = 0;
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($info = $result->fetch_field()) {
                 $varnames[] = $info->name . ':' . $info->name;
             }
             echo implode(", ", $varnames);
@@ -1479,8 +1489,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $r = 0;
         $varnames = '';
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($info = $result->fetch_field()) {
                 if ($info->name != $this->getID($tble)) {
                     $varnames = '$' . $info->name . ' = mysqli_real_escape_string($conn,$_REQUEST["' . $info->name . '"]); ' . "\n\r";
                 }
@@ -1493,8 +1503,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $checkd = array();
         $r = 0;
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($info = $result->fetch_field()) {
                 if ($info->name != $this->getID($tble)) {
                     $checkd[] = "' " . $info->name . " : $" . $info->name . " '";
                 }
@@ -1507,8 +1517,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
         $result = $this->sQueries($tble);
         $checkd = array();
         $r = 0;
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($info = $result->fetch_field()) {
                 if ($info->name != $this->getID($tble)) {
                     $checkd[] = "'$" . $info->name . "'";
                 }
@@ -1520,8 +1530,8 @@ header('Location: dashboard.php?cms=crud&w=list&tbl=" . $tble . "');
     public function sValues($tble) {
         $result = $this->sQueries($tble);
         $r = 0;
-        if (mysqli_num_fields($result) > $r) {
-            while ($info = mysqli_fetch_field($result)) {
+        if ($result->field_count > $r) {
+            while ($info = $result->fetch_field()) {
                 if ($info->name != $this->getID($tble)) {
                     $checkd = 'var ' . $info->name . ' = $("#' . $info->name . '").val();' . "\n";
                 }
