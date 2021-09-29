@@ -734,7 +734,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         stop: function () {}
                     });
                     // Store DB
-                    cmdm.add('save-database', {
+                    cmdm.add('save-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             saveContent();
@@ -819,9 +819,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     });
                     //More Buttom
                     pn.addButton('options', [{
-                            id: 'save-database',
+                            id: 'save-page',
                             className: 'fa fa-floppy-o',
-                            command: 'save-database',
+                            command: 'save-page',
                             attributes: {
                                 title: 'Save page',
                                 'data-tooltip-pos': 'bottom'
@@ -936,14 +936,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                     window.editor = editor;
                     function viewContent() {
-                        var id = '<?php echo $id; ?>';
-                        var url = 'view.php?id=' + id;
+                        let id = '<?php echo $id; ?>';
+                        let url = 'view.php?id=' + id;
                         window.open(url);
                     }
                     function saveContent() {
-                        var idp = '<?php echo $id; ?>';
-                        var content = editor.getHtml(); //get html content of document
-                        var style = editor.getCss(); //get css content of document
+                        let idp = '<?php echo $id; ?>';
+                        let content = editor.getHtml(); //get html content of document
+                        let style = editor.getCss(); //get css content of document
                         // Get edit field value
                         $.ajax({
                             url: 'save.php',

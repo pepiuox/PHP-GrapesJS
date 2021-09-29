@@ -9,7 +9,7 @@ $active = 1;
 $startpage = 1;
 $nm = '';
 
-if ($base === $initweb) {
+if ($initweb === $url) {
     $spg = $conn->prepare("SELECT * FROM page WHERE startpage = ? AND active = ? ");
     $spg->bind_param("ii", $startpage, $active);
     $spg->execute();
@@ -67,7 +67,7 @@ if ($nm > 0) {
             <meta charset="utf-8"/>
             <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <?php if (!empty($description)) { ?>
+            <?php if (!empty($description)) { ?>
                 <meta name="description" content="<?php echo $description; ?>" />
             <?php } else { ?>
                 <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />
@@ -96,13 +96,13 @@ if ($nm > 0) {
             </style>
         </head>
         <body>
-    <?php
-    require 'menu.php';
-    ?>
-            <div class='container-fluid'>
             <?php
-            echo decodeContent($content) . "\n";
+            require 'menu.php';
             ?>
+            <div class='container-fluid'>
+                <?php
+                echo decodeContent($content) . "\n";
+                ?>
             </div>
             <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
@@ -128,13 +128,13 @@ if ($nm > 0) {
 
         </head>
         <body>
-    <?php
-    require 'navbar.php';
-    ?>
+            <?php
+            require 'navbar.php';
+            ?>
             <div class='container'>
                 <div class="row">
                     <div  class="col-12 text-center">
-    <?php echo $initweb . ' - ' . $base; ?>
+                        <?php echo $initweb . ' - ' . $base; ?>
                         <h3> Start creating your first page of content </h3>
                         <a href="signin/login.php">Login</a> - <a href="admin/dashboard.php">Dashboard</a>
                     </div>

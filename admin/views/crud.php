@@ -97,9 +97,7 @@ if ($w == "select") {
             <?php
             $c->addData($tble);
             ?>                        
-
         </div>
-
         <div class="row">
             <div id="dataTable"></div>
         </div>
