@@ -56,7 +56,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>                                           
                 <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>             
-                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>                                
+                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>  
+                <script src="<?php echo $base; ?>js/grapesjs-project-manager.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-style-bg.min.js"></script>
@@ -306,10 +307,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             'grapesjs-project-manager',
                             'grapesjs-ga',
                             'grapesjs-swiper-slider'
-                                                                                            
+                                                                                                            
                         ],
                         pluginsOpts: {
-                                     
+                                                     
                             'gjs-plugin-ckeditor': {
             position: 'center',
             options: {
@@ -382,7 +383,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     }
                                   }
                                 },
-                                                                                                                                                            
+                                                                                                                                                                            
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -723,7 +724,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
-                                                                                            
+                                                                                                            
                     cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
                             var comps = editor.DomComponents.clear();
@@ -751,6 +752,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         stop: function () {}
                     });
                     // Store DB
+                     cmdm.add('dashboard', {
+                        run: function (em, sender) {
+                            sender.set('active', true);
+                            dashboardPage();
+                        }
+                    });
                     cmdm.add('save-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
@@ -787,12 +794,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             viewContent();
                         }
                     });
-                    cmdm.add('dashboard', {
-                        run: function (em, sender) {
-                            sender.set('active', true);
-                            dashboardPage();
-                        }
-                    });
+                                   
                     // Add info command
 
                     var mdlClass = 'gjs-mdl-dialog-sm';
@@ -808,27 +810,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
                         });
                     });
-                    /*
-                    //
-                    pn.addButton('options', {
-        id: 'open-templates',
-        className: 'fa fa-folder-o',
-        attributes: {
-        title: 'Open projects and templates'
-        },
-        command: 'open-templates', //Open modal 
-        });
-        pn.addButton('views', {
-        id: 'open-pages',
-        className: 'fa fa-file-o',
-        attributes: {
-        title: 'Take Screenshot'
-        },
-        command: 'open-pages',
-        togglable: false
-        });
-                    //
-                    */
+                                    
                     pn.addButton('options', {
                         id: 'open-info',
                         className: 'fa fa-question-circle',
@@ -841,6 +823,32 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         }
                     });
                     //More Buttom
+                    pn.addButton('options', {
+        id: 'open-templates',
+        className: 'fa fa-folder-o',
+        attributes: {
+        title: 'Open projects and templates'
+        },
+        command: 'open-templates' //Open modal 
+        });
+        pn.addButton('views', {
+        id: 'open-pages',
+        className: 'fa fa-file-o',
+        attributes: {
+        title: 'Take Screenshot'
+        },
+        command: 'open-pages',
+        togglable: false
+        });
+                    pn.addButton('options', [{
+                            id: 'dashboard',
+                            className: 'fa fa-tachometer',
+                            command: 'dashboard',
+                            attributes: {
+                                title: 'Dashboard',
+                                'data-tooltip-pos': 'bottom'
+                            }
+                        }]);
                     pn.addButton('options', [{
                             id: 'save-page',
                             className: 'fa fa-floppy-o',
@@ -886,15 +894,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
-                    pn.addButton('options', [{
-                            id: 'dashboard',
-                            className: 'fa fa-tachometer',
-                            command: 'dashboard',
-                            attributes: {
-                                title: 'Dashboard',
-                                'data-tooltip-pos': 'bottom'
-                            }
-                        }]);
+                                    
                     // Simple warn notifier
                     var origWarn = console.warn;
                     toastr.options = {
@@ -1044,7 +1044,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         });
                     }
 
-                           
+                                           
                 </script>
             </body>
         </html>
