@@ -40,11 +40,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <!--  <script src="<?php echo $base; ?>js/backbone-min.js"></script> -->
                 <script src="<?php echo $base; ?>js/toastr.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapes.min.js"></script>
-                <script src="<?php echo $base; ?>ckeditor/ckeditor.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-preset-webpage.min.js"></script>
+                <script src="<?php echo $base; ?>ckeditor/ckeditor.js"></script>                
+                <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>                 
                 <script src="<?php echo $base; ?>js/grapesjs-lory-slider.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-tabs.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-component-code-editor.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-custom-code.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-touch.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
@@ -52,16 +53,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="<?php echo $base; ?>js/grapesjs-tui-image-editor.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-navbar.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-blocks-bootstrap4.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>                            
-                <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-uikit"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>                
-                <script src="<?php echo $base; ?>js/grapesjs-project-manager"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-ga"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>                                           
+                <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>             
+                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>                                
                 <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-style-bg.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         var imp = $("span").find("[data-tooltip='Import']");
@@ -108,13 +106,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                              justify-content-end">
                             <ul class="navbar-nav nav-pills nav-fill">
                                 <li class="nav-item">
-                                    <a class="btn btn-success" href="dashboard.php?cms=pagelist"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
+                                    <a class="nav-link" href="dashboard.php?cms=pagelist"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-primary" href="dashboard.php?cms=addpage"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
+                                    <a class="nav-link" href="dashboard.php?cms=addpage"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
                                 </li> 
                                 <li class="nav-item">
-                                    <a class="btn btn-secondary" href="dashboard.php"><i class="fa fa-gear" aria-hidden="true"></i> Dashboard</a> 
+                                    <a class="nav-link" href="dashboard.php"><i class="fa fa-gear" aria-hidden="true"></i> Dashboard</a> 
                                 </li>
                             </ul>   
                         </div>
@@ -288,6 +286,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         styleManager: {clearProperties: 1},
                         plugins: [
                             'gjs-preset-webpage',
+                            'gjs-plugin-ckeditor',
+                            'grapesjs-style-bg',
                             'grapesjs-lory-slider',
                             'grapesjs-tabs',
                             'grapesjs-custom-code',
@@ -306,9 +306,27 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             'grapesjs-project-manager',
                             'grapesjs-ga',
                             'grapesjs-swiper-slider'
-                                                            
+                                                                                            
                         ],
                         pluginsOpts: {
+                                     
+                            'gjs-plugin-ckeditor': {
+            position: 'center',
+            options: {
+              startupFocus: true,
+              extraAllowedContent: '*(*);*{*}', // Allows any class and any inline style
+              allowedContent: true, // Disable auto-formatting, class removing, etc.
+              enterMode: CKEDITOR.ENTER_BR,
+              extraPlugins: 'sharedspace,justify,colorbutton,panelbutton,font',
+              toolbar: [
+                { name: 'styles', items: ['Font', 'FontSize' ] },
+                ['Bold', 'Italic', 'Underline', 'Strike'],
+                {name: 'paragraph', items : [ 'NumberedList', 'BulletedList']},
+                {name: 'links', items: ['Link', 'Unlink']},
+                {name: 'colors', items: [ 'TextColor', 'BGColor' ]}
+              ]
+            }
+          },
                             'grapesjs-swiper-slider': {},
                             'grapesjs-component-code-editor': {
                                 panelId:'views-container'
@@ -364,7 +382,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     }
                                   }
                                 },
-                                                                                                                            
+                                                                                                                                                            
                             'gjs-navbar': {},
                             'gjs-preset-webpage': {
                                 modalImportTitle: 'Import Template',
@@ -669,18 +687,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     }
                                 ]
                             }
-                        }/*
-                         // Canvas
-                         canvas: {
+                        },
+                         canvas: {/*
                          styles: [
-                         'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
-                         ],
-                         scripts: [
-                         'https://code.jquery.com/jquery-3.3.1.min.js',
-                         'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
-                         'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'
-                         ]
-                         }*/
+                'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'
+            ],
+            scripts: [
+                'https://code.jquery.com/jquery-3.3.1.slim.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
+                'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'
+            ]*/
+                         }
                     });
 
                     // Store and load events
@@ -706,8 +723,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
-                                                            
-                                     cmdm.add('canvas-clear', function () {
+                                                                                            
+                    cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
                             var comps = editor.DomComponents.clear();
                             setTimeout(function () {
@@ -746,10 +763,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             viewContent();
                         }
                     });
-                    cmdm.add('update-page', {
+                    cmdm.add('page-list', {
                         run: function (em, sender) {
                             sender.set('active', true);
-                            updateContent();
+                            pageList();
                         }
                     });
                     cmdm.add('refresh-page', {
@@ -768,6 +785,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         run: function (em, sender) {
                             sender.set('active', true); //get full HTML structure after design
                             viewContent();
+                        }
+                    });
+                    cmdm.add('dashboard', {
+                        run: function (em, sender) {
+                            sender.set('active', true);
+                            dashboardPage();
                         }
                     });
                     // Add info command
@@ -825,15 +848,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             attributes: {
                                 title: 'Save page',
                                 'data-tooltip-pos': 'bottom'
-                            }}]);
+                            }
+                        }]);
                     pn.addButton('options', [{
-                            id: 'update-page',
-                            className: 'fa fa-pencil-square-o',
-                            command: 'update-page',
+                            id: 'page-list',
+                            className: 'fa fa-list',
+                            command: 'page-list',
                             attributes: {
-                                title: 'Update page',
+                                title: 'Page list',
                                 'data-tooltip-pos': 'bottom'
-                            }}]);
+                            }
+                        }]);                            
                     pn.addButton('options', [{
                             id: 'view-page',
                             className: 'fa fa-file-text-o',
@@ -841,7 +866,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             attributes: {
                                 title: 'View Page',
                                 'data-tooltip-pos': 'bottom'
-                            }}]);
+                            }
+                        }]);
                     pn.addButton('options', [{
                             id: 'refresh-page',
                             className: 'fa fa-refresh',
@@ -849,7 +875,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             attributes: {
                                 title: 'Refresh page',
                                 'data-tooltip-pos': 'bottom'
-                            }}]);
+                            }
+                        }]);
                     pn.addButton('options', [{
                             id: 'new-page',
                             className: 'fa fa-file-o',
@@ -857,7 +884,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             attributes: {
                                 title: 'New page',
                                 'data-tooltip-pos': 'bottom'
-                            }}]);
+                            }
+                        }]);
+                    pn.addButton('options', [{
+                            id: 'dashboard',
+                            className: 'fa fa-tachometer',
+                            command: 'dashboard',
+                            attributes: {
+                                title: 'Dashboard',
+                                'data-tooltip-pos': 'bottom'
+                            }
+                        }]);
                     // Simple warn notifier
                     var origWarn = console.warn;
                     toastr.options = {
@@ -953,20 +990,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             alert(rsp);
                         });
                     }
-                    function updateContent() {
-                        var idp = '<?php echo $id; ?>';
-                        var content = editor.getHtml(); //get html content of document
-                        var style = editor.getCss(); //get css content of document
-                        // Get edit field value
-                        $.ajax({
-                            url: 'update.php',
-                            type: 'post',
-                            data: {idp: idp, content: content, style: style}
-                        }).done(function (rsp) {
-                            alert(rsp);
-                        });
+                    function pageList() {
+                        var url = 'dashboard.php?cms=pagelist';
+                        location.replace(url);
                     }
-
+                    function dashboardPage() {
+                        var url = 'dashboard.php';
+                        location.replace(url);
+                    }
                     function refreshContent() {
                         location.reload();
                     }
@@ -1013,35 +1044,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         });
                     }
 
-                    $(document).ready(function (argument) {
-                        $('.btn-save-button').click(function () {
-                            saveContent();
-                        });
-                        $('#save').click(function () {
-                            var content = editor.getHtml();
-                            var style = editor.getCss(); //get css content of document
-                            // Get edit field value
-
-                            $.ajax({
-                                url: 'savecontent.php',
-                                type: 'post',
-                                data: {content: content, style: style}
-                            }).done(function (rsp) {
-                                alert(rsp);
-                            });
-                        });
-                        $('#clear').click(function () {
-                            var clear = 'clear';
-                            $.ajax({
-                                url: 'clearcontent.php',
-                                type: 'post',
-                                data: {clear: clear}
-                            }).done(function (rsp) {
-                                alert(rsp);
-                            });
-                        });
-                    });
-
+                           
                 </script>
             </body>
         </html>

@@ -59,7 +59,7 @@ if ($w == "list") {
                 . "VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
         if ($conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly.';
-            header('Location: dashboard.php?cms=crud&w=list&tbl=menu_options');
+            echo '<script> window.location.replace("dashboard.php?cms=menu&w=list"); </script>';
         } else {
             $_SESSION['error'] = 'Error: ' . $conn->error;
         }
@@ -157,7 +157,7 @@ if ($w == "list") {
         $query = "UPDATE `$tble` SET id_menu = '$id_menu', fluid = '$fluid', placement = '$placement', aligment = '$aligment', background = '$background', color = '$color' WHERE id=$id ";
         if ($conn->query($query) === TRUE) {
             $_SESSION['success'] = "The data was updated correctly.";
-            header("Location: dashboard.php?cms=menu&w=list");
+            echo '<script> window.location.replace("dashboard.php?cms=menu&w=list"); </script>';
         } else {
             $_SESSION['error'] = "Error updating data: " . $conn->error;
         }
@@ -228,8 +228,7 @@ if ($w == "list") {
 
                         if ($conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
                             $_SESSION['success'] = "Record deleted successfully";
-                            header('Location: dashboard.php?cms=menu&w=list');
-                            exit();
+                            echo '<script> window.location.replace("dashboard.php?cms=menu&w=list"); </script>';
                         } else {
                             $_SESSION['error'] = "Error deleting record";
                         }

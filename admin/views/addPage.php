@@ -110,7 +110,7 @@
                     } else {
                         $_SESSION['ErrorMessage'] = "Failed: The page has not been created";
                     }
-                    echo '<meta http-equiv="refresh" content="3; url=builder.php?id=' . $last_id . '" />';
+                    echo '<script> window.location.replace("builder.php?id=' . $last_id . '"); </script>';
                 }
                 echo '<h3>Add new page</h3>' . "\n";
                 echo '<form method="post" enctype="multipart/form-data">' . "\n";
