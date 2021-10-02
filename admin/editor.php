@@ -36,11 +36,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapesjs-plugin-filestack.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/demos.css">
                 <link href="<?php echo $base; ?>css/grapesjs-project-manager.min.css" rel="stylesheet">
-                <script src="<?php echo $base; ?>js/bootstrap.bundle.min.js" type="text/javascript"></script>
                 <script src="<?php echo $base; ?>js/jquery.min.js"></script>
+                <script src="<?php echo $base; ?>js/bootstrap.bundle.min.js" type="text/javascript"></script>            
                 <!--  <script src="<?php echo $base; ?>js/backbone-min.js"></script> -->
                 <script src="<?php echo $base; ?>js/toastr.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapes.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-bootstrap-elements.js"></script>
                 <script src="<?php echo $base; ?>ckeditor/ckeditor.js"></script>                
                 <script src="<?php echo $base; ?>js/grapesjs-preset-webpage.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-lory-slider.min.js"></script>
@@ -202,6 +203,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
 
                 <script type="text/javascript">
+        
 
                     var images = <?php echo $storeImage; ?>;
                     var editor = grapesjs.init({
@@ -289,6 +291,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         styleManager: {clearProperties: 1},
                         plugins: [
                             'gjs-preset-webpage',
+                            'grapesjs-bootstrap-elements',
                             'grapesjs-lory-slider',
                             'grapesjs-tabs',
                             'grapesjs-custom-code',
@@ -308,7 +311,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             'grapesjs-ga',
                             'grapesjs-swiper-slider'
                         ],
-                        pluginsOpts: {                            
+                        pluginsOpts: {
+                            'grapesjs-bootstrap-elements': {
+                blocks: {},
+                blockCategories: {},
+                labels: {},
+                gridDevicesPanel: true,
+                formPredefinedActions: [
+                    {name: 'Contact', value: '/contact'},
+                    {name: 'landing', value: '/landing'},
+                ]
+            },
                             'grapesjs-swiper-slider': {},
                             'grapesjs-component-code-editor': {
                                 panelId: 'views-container'
@@ -663,20 +676,20 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               }
             ],
           },
-                                
+                                                        
                         },
-                        /*
+                        
                         canvas: {
             styles: [
-                'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'
+                '../css/bootstrap.min.css'
             ],
             scripts: [
-                'https://code.jquery.com/jquery-3.3.1.slim.min.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
-                'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'
-            ],
+                '../js/jquery.min.js',
+                '../js/popper.min.js',
+                '../js/bootstrap.min.js'
+            ]
                         }
-*/
+        
                     });
 
                     // More functions
@@ -692,11 +705,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
           }
         }
         });
-                        
+                                                
         var pn = editor.Panels;
         var modal = editor.Modal;
         var cmdm = editor.Commands;
-                
+                                        
         // test for custom blocks
         var blockManager = editor.BlockManager;
         blockManager.add('covers1', {
@@ -712,19 +725,19 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         '</div>'+
         '</div>'
         });
-blockManager.add('covers2', {
+        blockManager.add('covers2', {
         label: '<div class="gjs-block-label">Covers 2</div>',
         content: '<div class="py-5 text-center">'+
-    '<div class="container">'+
-      '<div class="row">'+
+        '<div class="container">'+
+        '<div class="row">'+
         '<div class="bg-white p-5 mx-auto col-md-8 col-10">'+
           '<h3 class="display-3">I feel the charm</h3>'+
           '<p class="mb-3 lead">Of existence in this spot</p>'+
           '<p class="mb-4">Which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p> <a class="btn btn-outline-primary" href="#">Read more</a>'+
         '</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>'
+        '</div>'+
+        '</div>'+
+        '</div>'
         });
         // end custom blocks
 
@@ -806,27 +819,7 @@ blockManager.add('covers2', {
                             mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
                         });
                     });
-                    /*
-                     //
-                     pn.addButton('options', {
-                     id: 'open-templates',
-                     className: 'fa fa-folder-o',
-                     attributes: {
-                     title: 'Open projects and templates'
-                     },
-                     command: 'open-templates', //Open modal 
-                     });
-                     pn.addButton('views', {
-                     id: 'open-pages',
-                     className: 'fa fa-file-o',
-                     attributes: {
-                     title: 'Take Screenshot'
-                     },
-                     command: 'open-pages',
-                     togglable: false
-                     });
-                     //
-                     */
+
                     pn.addButton('options', {
                         id: 'open-info',
                         className: 'fa fa-question-circle',
