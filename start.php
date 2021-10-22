@@ -96,13 +96,15 @@ if ($nm > 0) {
             </style>
         </head>
         <body>
-            <?php
-            require 'menu.php';
-            ?>
-            <div class='container-fluid'>
+            <div class="wrapper"> 
                 <?php
-                echo decodeContent($content) . "\n";
+                require 'menu.php';
                 ?>
+                <div class='container-fluid'>
+                    <?php
+                    echo decodeContent($content) . "\n";
+                    ?>
+                </div>
             </div>
             <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
@@ -128,15 +130,17 @@ if ($nm > 0) {
 
         </head>
         <body>
-            <?php
-            require 'navbar.php';
-            ?>
-            <div class='container'>
-                <div class="row">
-                    <div  class="col-12 text-center">
-                        <?php echo $initweb . ' - ' . $base; ?>
-                        <h3> Start creating your first page of content </h3>
-                        <a href="signin/login.php">Login</a> - <a href="admin/dashboard.php">Dashboard</a>
+            <div class="wrapper"> 
+                <?php
+                require 'navbar.php';
+                ?>
+                <div class='container'>
+                    <div class="row">
+                        <div  class="col-12 text-center">
+                            <?php echo $initweb . ' - ' . $base; ?>
+                            <h3> Start creating your first page of content </h3>
+                            <a href="signin/login.php">Login</a> - <a href="admin/dashboard.php">Dashboard</a>
+                        </div>
                     </div>
                 </div>
             </div>

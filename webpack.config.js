@@ -7,7 +7,7 @@ export default ({ config }) => ({
   ...config,
   output: {
     ...config.output,
-    filename: 'grapes.min.js',
+    filename: 'php-grapes.min.js',
     libraryExport: 'default',
   },
   devServer: {

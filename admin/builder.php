@@ -65,7 +65,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="<?php echo $base; ?>js/grapesjs-style-bg.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
-                        var imp = $("span").find("[data-tooltip='Import']");
+                        let imp = $("span").find("[data-tooltip='Import']");
                         alert();
                     });
                 </script>
@@ -203,8 +203,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 <script type="text/javascript">
 
-                    var images = <?php echo $storeImage; ?>;
-                    var editor = grapesjs.init({
+                    let images = <?php echo $storeImage; ?>;
+                    let editor = grapesjs.init({
         avoidInlineStyle: 1,
         height: '100%',
         container: '#gjs',
@@ -223,9 +223,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         multiUpload: true,
         assets: images,
         uploadFile: function(e) {
-            var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-            var formData = new FormData();
-            for (var i in files) {
+            let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+            let formData = new FormData();
+            for (let i in files) {
                 formData.append('file-' + i, files[i]); //containing all the selected images from local
             }
             $.ajax({
@@ -238,11 +238,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 mimeType: "multipart/form-data",
                 processData: false,
                 success: function(result) {
-                    var myJSON = [];
+                    let myJSON = [];
                     $.each(result['data'], function(key, value) {
                         myJSON[key] = value;
                     });
-                    var images = myJSON;
+                    let images = myJSON;
                     editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
                 }
             });
@@ -345,6 +345,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         name: 'paragraph',
                         items: ['NumberedList', 'BulletedList']
                     },
+                   /* {
+                        name: 'headings',
+                        items: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
+                    },*/
                     {
                         name: 'links',
                         items: ['Link', 'Unlink']
@@ -882,13 +886,15 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         });
 
 
-                    var pn = editor.Panels;
-var modal = editor.Modal;
-var cmdm = editor.Commands;
+window.editor = editor;
+let pn = editor.Panels;
+let modal = editor.Modal;
+let cmdm = editor.Commands;
+let blockManager = editor.BlockManager;
 
 cmdm.add('canvas-clear', function() {
     if (confirm('Are you sure to clean the canvas?')) {
-        var comps = editor.DomComponents.clear();
+        let comps = editor.DomComponents.clear();
         setTimeout(function() {
             localStorage.clear();
         }, 0);
@@ -958,10 +964,10 @@ cmdm.add('view-page', {
 
 // Add info command
 
-var mdlClass = 'gjs-mdl-dialog-sm';
-var infoContainer = document.getElementById('info-panel');
+let mdlClass = 'gjs-mdl-dialog-sm';
+let infoContainer = document.getElementById('info-panel');
 cmdm.add('open-info', function() {
-    var mdlDialog = document.querySelector('.gjs-mdl-dialog');
+    let mdlDialog = document.querySelector('.gjs-mdl-dialog');
     mdlDialog.className += ' ' + mdlClass;
     infoContainer.style.display = 'block';
     modal.setTitle('About this demo');
@@ -1056,8 +1062,137 @@ pn.addButton('options', [{
     }
 }]);
 
+
+blockManager.add('testBlock', {
+    label: 'Block',
+    attributes: {
+        class: 'gjs-fonts gjs-f-b1'
+    },
+    content: `<div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>`
+});
+blockManager.add('covers1', {
+    label: '<div class="gjs-block-label">Covers 1</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Covers",
+    activate: 1,
+    content: '<div class="py-5 text-center h-100 align-items-center d-flex">' +
+        '<div class="container py-5">' +
+        '<div class="row">' +
+        '<div class="mx-auto col-lg-8 col-md-10">' +
+        '<h1 class="display-3 mb-4">A wonderful serenity</h1>' +
+        '<p class="lead mb-5">Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.</p> <a href="#" class="btn btn-lg btn-primary mx-1">Take me there</a> <a class="btn btn-lg mx-1 btn-outline-primary" href="#">Go</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+});
+
+blockManager.add('covers2', {
+    label: '<div class="gjs-block-label">Covers 2</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Covers",
+    activate: 1,
+    content: '<div class="py-5 text-center">' +
+        '<div class="container">' +
+        '<div class="row">' +
+        '<div class="bg-white p-5 mx-auto col-md-8 col-10">' +
+        '<h3 class="display-3">I feel the charm</h3>' +
+        '<p class="mb-3 lead">Of existence in this spot</p>' +
+        '<p class="mb-4">Which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p> <a class="btn btn-outline-primary" href="#">Read more</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+});
+
+blockManager.add("card", {
+    label: '<div class="gjs-block-label">Card</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Cards",
+    activate: 1,
+    content: '<div class="card">' +
+        '<img class="card-img-top" src="..." alt="..." >' +
+        '<div class="card-body">' +
+        '<h4 class="card-title">Card title</h4>' +
+        '<p class="card-text">Some quick example text to build on the card title content.</p>' +
+        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+        '</div>' +
+        '</div>'
+});
+
+blockManager.add("card", {
+    label: '<div class="gjs-block-label">Card</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Cards"
+});
+
+blockManager.add("input", {
+    label: '<div class="gjs-block-label">Input</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Inputs"
+});
+
+blockManager.add("form", {
+    label: '<div class="gjs-block-label">Form</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Forms"
+});
+
+blockManager.add("grid", {
+    label: '<div class="gjs-block-label">Grid</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Grids"
+});
+
+blockManager.add("nav", {
+    label: '<div class="gjs-block-label">Nav</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Navs"
+});
+
+blockManager.add("navbar", {
+    label: '<div class="gjs-block-label">Navbars</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Navbars"
+});
+
+blockManager.add("list", {
+    label: '<div class="gjs-block-label">List</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "List"
+});
+
+blockManager.add("media", {
+    label: '<div class="gjs-block-label">Media</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Media"
+});
+
+
 // Simple warn notifier
-var origWarn = console.warn;
+let origWarn = console.warn;
 toastr.options = {
     closeButton: true,
     preventDuplicates: true,
@@ -1098,10 +1233,10 @@ console.warn = function(msg) {
         'data-tooltip-pos': 'bottom'
     });
 });
-var titles = document.querySelectorAll('*[title]');
-for (var i = 0; i < titles.length; i++) {
-    var el = titles[i];
-    var title = el.getAttribute('title');
+let titles = document.querySelectorAll('*[title]');
+for (let i = 0; i < titles.length; i++) {
+    let el = titles[i];
+    let title = el.getAttribute('title');
     title = title ? title.trim() : '';
     if (!title)
         break;
@@ -1115,27 +1250,27 @@ pn.getButton('options', 'sw-visibility').set('active', 1);
 
 // Do stuff on load
 editor.on('load', function() {
-    var $ = grapesjs.$;
+    let $ = grapesjs.$;
     // Show logo with the version
-    var logoCont = document.querySelector('.gjs-logo-cont');
+    let logoCont = document.querySelector('.gjs-logo-cont');
     document.querySelector('.gjs-logo-version').innerHTML = 'v' + grapesjs.version;
-    var logoPanel = document.querySelector('.gjs-pn-commands');
+    let logoPanel = document.querySelector('.gjs-pn-commands');
     logoPanel.appendChild(logoCont);
     // Load and show settings and style manager
-    var openTmBtn = pn.getButton('views', 'open-tm');
+    let openTmBtn = pn.getButton('views', 'open-tm');
     openTmBtn && openTmBtn.set('active', 1);
-    var openSm = pn.getButton('views', 'open-sm');
+    let openSm = pn.getButton('views', 'open-sm');
     openSm && openSm.set('active', 1);
     // Add Settings Sector
-    var traitsSector = $('<div class="gjs-sm-sector no-select">' +
+    let traitsSector = $('<div class="gjs-sm-sector no-select">' +
         '<div class="gjs-sm-title"><span class="icon-settings fa fa-cog"></span> Settings</div>' +
         '<div class="gjs-sm-properties" style="display: none;"></div></div>');
-    var traitsProps = traitsSector.find('.gjs-sm-properties');
+    let traitsProps = traitsSector.find('.gjs-sm-properties');
     traitsProps.append($('.gjs-trt-traits'));
     $('.gjs-sm-sectors').before(traitsSector);
     traitsSector.find('.gjs-sm-title').on('click', function() {
-        var traitStyle = traitsProps.get(0).style;
-        var hidden = traitStyle.display == 'none';
+        let traitStyle = traitsProps.get(0).style;
+        let hidden = traitStyle.display == 'none';
         if (hidden) {
             traitStyle.display = 'block';
         } else {
@@ -1143,13 +1278,23 @@ editor.on('load', function() {
         }
     });
     // Open block manager
-    var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
+    let openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
     openBlocksBtn && openBlocksBtn.set('active', 1);
 });
 
 // function buttom
 
-window.editor = editor;
+
+$(function() {
+    let $menu = $('#menu'),
+        $target = $('#target');
+
+    $menu.on('click', '> a', function(event) {
+        let $this = $(this);
+        event.preventDefault();
+        $target.load($this.attr('href'));
+    });
+});
 
 function viewContent() {
     let id = '<?php echo $id; ?>';
@@ -1176,12 +1321,12 @@ function saveContent() {
 }
 
 function pageList() {
-    var url = 'dashboard.php?cms=pagelist';
+    let url = 'dashboard.php?cms=pagelist';
     location.replace(url);
 }
 
 function dashboardPage() {
-    var url = 'dashboard.php';
+    let url = 'dashboard.php';
     location.replace(url);
 }
 
@@ -1190,12 +1335,12 @@ function refreshContent() {
 }
 
 function newContent() {
-    var url = 'dashboard.php?cms=addpage';
+    let url = 'dashboard.php?cms=addpage';
     location.replace(url);
 }
 
 function clearContent() {
-    var clear = 'clear';
+    let clear = 'clear';
     $.ajax({
         url: 'clearcontent.php',
         type: 'post',
@@ -1210,13 +1355,13 @@ function clearContent() {
 function getContent() {}
 
 function uploadImages() {
-    var files = $('#gjs-am-uploadFile')[0].files[0];
+    let files = $('#gjs-am-uploadFile')[0].files[0];
     formData.append('file', files);
     aler(files);
     /*
-     var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-     var formData = new FormData();
-     for(var i in files){
+     let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+     let formData = new FormData();
+     for(let i in files){
      formData.append('file-'+i, files[i]) //containing all the selected images from local
      }*/
     $.ajax({
@@ -1227,11 +1372,11 @@ function uploadImages() {
         cache: false,
         processData: false
     }).done(function(result) {
-        var myJSON = [];
+        let myJSON = [];
         $.each(result['data'], function(key, value) {
             myJSON[key] = value;
         });
-        var images = myJSON;
+        let images = myJSON;
         editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
     });
 }

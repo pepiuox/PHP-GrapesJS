@@ -74,12 +74,12 @@ if ($rmopt['color'] === 'light') {
                     return 'builder.php?id=' . $row['id'];
                 }
 
-                function second($mid) {
+                function second($mid, $plink) {
                     global $conn;
                     $mresult = $conn->query("SELECT * FROM page WHERE parent='$mid'");
                     echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">' . "\n";
                     while ($mrow = $mresult->fetch_array()) {
-                        echo '<li><a class="dropdown-item" href="' . $mrow['link'] . '">' . $mrow['title'] . '</a></li>' . "\n";
+                        echo '<li><a class="dropdown-item" href="' . $plink . '/' . $mrow['link'] . '">' . $mrow['title'] . '</a></li>' . "\n";
                     }
                     echo '</ul>' . "\n";
                 }
@@ -93,16 +93,18 @@ if ($rmopt['color'] === 'light') {
                     $result = $conn->query("SELECT * FROM page WHERE parent=0");
                     while ($row = $result->fetch_array()) {
                         $mid = $row['id'];
+                        $plink = SITE_PATH . $row['link'];
+
                         if (in_array($row['id'], $parents)) {
                             echo '<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="' . $row['link'] . '" id="navbarDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         ' . $row['title'] . '
                     </a>' . "\n";
-                            echo second($mid);
+                            echo second($mid, $plink);
                             echo '</li>' . "\n";
                         } else {
-                            echo '<li class="nav-item"><a class="nav-link" href="' . $row['link'] . '">' . $row['title'] . '</a></li>' . "\n";
+                            echo '<li class="nav-item"><a class="nav-link" href="' . $plink . '">' . $row['title'] . '</a></li>' . "\n";
                         }
                     }
                 }

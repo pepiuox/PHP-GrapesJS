@@ -39,6 +39,8 @@ Many more functionalities are being developed, but as this is very functional an
 ## Seventh step 
 ### Rename installation files, to prevent illegal installations. 
 
+# CRUD system included.
+## Create, read, update and delete data from your tables without making forms. 
 
 ## Plugins
 

@@ -34,8 +34,8 @@ if ($w == "list") {
                         <td>' . $mnop['fluid'] . '</td>
                         <td>' . $mnop['placement'] . '</td>
                         <td>' . $mnop['aligment'] . '</td>
-                        <td>' . $mnop['id'] . '</td>
-                        <td>' . $mnop['id'] . '</td>
+                        <td>' . $mnop['background'] . '</td>
+                        <td>' . $mnop['color'] . '</td>
                     </tr>
                         ';
                     }

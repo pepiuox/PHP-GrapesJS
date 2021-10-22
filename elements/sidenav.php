@@ -57,6 +57,36 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=volunteer" class="nav-link <?php
+                    if ($cms === 'volunteer') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-table nav-icon"></i>
+                        <p>Volunteer</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=users" class="nav-link <?php
+                    if ($cms === 'users') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
+                    if ($cms === 'adduser') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Add User</p>
+                    </a>
+                </li>
             </ul>
         </li>
 
@@ -216,38 +246,7 @@
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=volunteer" class="nav-link <?php
-                    if ($cms === 'volunteer') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-table nav-icon"></i>
-                        <p>Volunteer</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=users" class="nav-link <?php
-                    if ($cms === 'users') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-users nav-icon"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
-                    if ($cms === 'adduser') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-users nav-icon"></i>
-                        <p>Add User</p>
-                    </a>
-                </li>
-
+            <ul class="nav nav-treeview">                
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/recover-password.php" class="nav-link <?php
                     if ($fname === 'recover-password') {

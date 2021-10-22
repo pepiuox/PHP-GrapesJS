@@ -3,7 +3,7 @@
     "description": "Free and Open Source Web Builder Framework",
     "version": "0.0.2",
     "author": "Jose Mantilla",
-    "main": "js/grapes.min.js",
+    "main": "js/php-grapes.min.js",     
     "sideEffects": [
         "*.vue",
         "*.css",
@@ -26,6 +26,10 @@
     "devDependencies": {
         "@babel/cli": "^7.14.8",
         "@babel/core": "^7.15.5",
+        "@babel/plugin-proposal-object-rest-spread": "^7.15.6",
+        "@babel/preset-env": "^7.15.6",
+        "babel-loader": "^8.2.2",
+        "eslint": "^7.32.0",
         "@vuepress/plugin-google-analytics": "^1.8.2",
         "documentation": "^13.2.5",
         "eslint": "^7.32.0",
@@ -39,7 +43,13 @@
         "sinon": "^7.5.0",
         "string-replace-loader": "^2.2.0",
         "vuepress": "^1.8.2",
-        "whatwg-fetch": "^3.6.2"
+        "html-webpack-plugin": "^5.3.2",
+        "raw-loader": "^4.0.2",
+        "whatwg-fetch": "^3.6.2",
+        "terser-webpack-plugin": "^5.1.1",
+        "webpack": "^5.55.1",
+        "webpack-cli": "^4.8.0",
+        "webpack-dev-server": "^4.3.0"
     },
     "resolutions": {
         "backbone-undo/backbone": "1.3.3",
@@ -113,8 +123,11 @@
         "docs:build": "npm run docs:api && npm run docs:build-vp",
         "docs:deploy": "docs/deploy.sh",
         "lint": "eslint src",
+        "v:patch": "npm version --no-git-tag-version patch",
+        "v:minor": "npm version --no-git-tag-version minor",
         "check": "npm run lint && npm run test",
         "build": "npm run check && run-s build:*",
+        "build-dev": "npm run && webpack --env production",
         "build:js": "grapesjs-cli build --targets=\"> 1%, ie 11, safari 8, not dead\" --statsOutput=\"stats.json\" --localePath=\"src/i18n/locale\"",
         "build:css": "sass src/styles/scss/main.scss dist/css/grapes.min.css --no-source-map --style=compressed --load-path=node_modules",
         "start": "run-p start:*",
@@ -123,5 +136,5 @@
         "format": "prettier --single-quote --write './{src,test}/**/*.js'",
         "test": "jest",
         "test:dev": "jest --watch"
-    }
+    }    
 }

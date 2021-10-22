@@ -1,0 +1,38 @@
+body {
+  margin: 20px !important; }
+
+body > * {
+  margin-bottom: 20px !important;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  box-shadow: none;
+  transition: all 0s !important; 
+}
+
+body > *:hover {
+  box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1); 
+}
+
+.h-100,
+.h-75 {
+  min-height: 50% !important;
+  max-height: 50% !important; }
+
+body > * * {
+  pointer-events: none; }
+
+.pi-draggable {
+  pointer-events: all !important;
+  position: relative;
+  cursor: -webkit-grab !important;
+  cursor: -moz-grab !important;
+  cursor: grab !important; }
+
+.pi-draggable:active {
+  cursor: -webkit-grabbing !important;
+  cursor: -moz-grabbing !important;
+  cursor: grabbing !important; }
+
+
+ 

@@ -7,6 +7,7 @@
   border-radius: 3px;
   overflow: hidden; }
 
+.gjs-am-preview-cont,
 .gjs-am-assets-cont #gjs-am-meta,
 .gjs-am-assets-cont #gjs-am-preview-cont {
   width: 100%; }

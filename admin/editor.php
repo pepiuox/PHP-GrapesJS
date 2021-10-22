@@ -27,7 +27,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <meta charset="utf-8">
                 <title><?php echo SITE_NAME; ?> | Builder</title>
                 <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
-                <link rel="stylesheet" href="<?php echo $base; ?>css/font-awesome.css">
+                <!-- Font Awesome -->
+                <link href="<?php echo $base; ?>css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo $base; ?>plugins/fontawesome-free/css/all.min.css">  
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapesjs-preset-webpage.min.css">
@@ -66,7 +68,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
-                        var imp = $("span").find("[data-tooltip='Import']");
+                        let imp = $("span").find("[data-tooltip='Import']");
                         alert();
                     });
                 </script>
@@ -110,16 +112,68 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                              justify-content-end">
                             <ul class="navbar-nav nav-pills nav-fill">
                                 <li class="nav-item">
-                                    <a class="btn btn-success" href="dashboard.php?cms=pagelist"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
+                                    <a class="nav-link" href="dashboard.php?cms=pagelist"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-primary" href="dashboard.php?cms=addpage"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
+                                    <a class="nav-link" href="dashboard.php?cms=addpage"><i class="fa fa-file" aria-hidden="true"></i> Add New Page</a>
                                 </li> 
                                 <li class="nav-item">
-                                    <a class="btn btn-secondary" href="dashboard.php"><i class="fa fa-gear" aria-hidden="true"></i> Dashboard</a> 
+                                    <a class="nav-link" href="dashboard.php"><i class="fa fa-gear" aria-hidden="true"></i> Dashboard</a> 
                                 </li>
                             </ul>   
                         </div>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown user-menu">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                    <?php
+                                    if (!empty(USERS_AVATARS)) {
+                                        echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                    }
+                                    ?>
+                                    <i class="far fa-user"></i>
+                                    <span class="d-none d-md-inline"><?php echo USERS_FULLNAMES; ?></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <!-- User image -->
+                                    <li class="user-header bg-primary">
+                                        <?php
+                                        if (!empty(USERS_AVATARS)) {
+                                            echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                        }
+                                        ?>
+                                        <p>
+                                            <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
+                                            <small>Member since Nov. 2012</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-4 text-center">
+                                                <a href="#">Followers</a>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <a href="#">Sales</a>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <a href="#">Friends</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <form method="post">
+                                            <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
+                                            <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
+                                                Sign out
+                                            </button>
+                                        </form>
+
+                                    </li>
+                                </ul>
+                            </li>        
+                        </ul>
                     </div>
                 </nav>
                 <!<!-- end menu -->
@@ -151,25 +205,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     </g></svg>
                     <br />
                     <div class="info-panel-label">
-                        <b>GrapesJS Webpage Builder</b> is a simple showcase of what is
-                        possible to achieve with the <a class="info-panel-link gjs-four-color"
-                                                        target="_blank" href="https://github.com/artf/grapesjs">GrapesJS</a>
-                        core library <br /> <br /> For any hint about the demo check the <a
-                            class="info-panel-link gjs-four-color" target="_blank"
-                            href="https://github.com/artf/grapesjs-preset-webpage">Webpage Preset
-                            repository</a> and open an issue. For problems with the builder
-                        itself, open an issue on the main <a
-                            class="info-panel-link gjs-four-color" target="_blank"
-                            href="https://github.com/artf/grapesjs">GrapesJS repository</a> <br />
-                        <br /> Being a free and open source project contributors and
-                        supporters are extremely welcome. If you like the project support it
-                        with a donation of your choice or become a backer/sponsor via <a
-                            class="info-panel-link gjs-four-color" target="_blank"
-                            href="https://opencollective.com/grapesjs">Open Collective</a>
+                        <b>PHP GrapesJS Webpage Builder</b>
                     </div>
                 </div>
                 <div id="blocks"></div>
                 <div id="result"></div>
+
                 <?php
                 $targetDir = "../uploads/";
 
@@ -203,10 +244,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
 
                 <script type="text/javascript">
-        
-
-                    var images = <?php echo $storeImage; ?>;
-                    var editor = grapesjs.init({
+                                        
+                    let images = <?php echo $storeImage; ?>;
+                    let editor = grapesjs.init({
                         avoidInlineStyle: 1,
                         height: '100%',
                         container: '#gjs',
@@ -225,9 +265,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             multiUpload: true,
                             assets: images,
                             uploadFile: function (e) {
-                                var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-                                var formData = new FormData();
-                                for (var i in files) {
+                                let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+                                let formData = new FormData();
+                                for (let i in files) {
                                     formData.append('file-' + i, files[i]); //containing all the selected images from local
                                 }
                                 $.ajax({
@@ -240,11 +280,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     mimeType: "multipart/form-data",
                                     processData: false,
                                     success: function (result) {
-                                        var myJSON = [];
+                                        let myJSON = [];
                                         $.each(result['data'], function (key, value) {
                                             myJSON[key] = value;
                                         });
-                                        var images = myJSON;
+                                        let images = myJSON;
                                         editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
                                     }
                                 });
@@ -319,7 +359,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 gridDevicesPanel: true,
                 formPredefinedActions: [
                     {name: 'Contact', value: '/contact'},
-                    {name: 'landing', value: '/landing'},
+                    {name: 'landing', value: '/landing'}
                 ]
             },
                             'grapesjs-swiper-slider': {},
@@ -356,7 +396,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                             'Text row one',
                                             'Text row two',
                                             'Text row three'
-                                        ],
+                                        ]
                                     }
                                 }
                             },
@@ -382,7 +422,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             modalImportTitle: 'Import Template',
             modalImportLabel: '<div style="margin-bottom: 10px; font-size: 13px;">Paste here your HTML/CSS and click Import</div>',
             modalImportContent: function(editor) {
-              return editor.getHtml() + '<style>'+editor.getCss()+'</style>'
+              return editor.getHtml() + '<style>'+editor.getCss()+'</style>';
             },
             filestackOpts: null, //{ key: 'AYmqZc2e8RLGLE7TGkX3Hz' },
             aviaryOpts: false,
@@ -399,10 +439,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     { value: 'none', className: 'fa fa-times'},
                     { value: 'left', className: 'fa fa-align-left'},
                     { value: 'right', className: 'fa fa-align-right'}
-                  ],
+                  ]
                 },
                 { property: 'position', type: 'select'}
-              ],
+              ]
             },{
                 name: 'Dimension',
                 open: false,
@@ -413,7 +453,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   name: 'Width',
                   units: ['px', '%'],
                   property: 'flex-basis',
-                  toRequire: 1,
+                  toRequire: 1
                 },{
                   property: 'margin',
                   properties:[
@@ -421,7 +461,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     { name: 'Right', property: 'margin-right'},
                     { name: 'Bottom', property: 'margin-bottom'},
                     { name: 'Left', property: 'margin-left'}
-                  ],
+                  ]
                 },{
                   property  : 'padding',
                   properties:[
@@ -429,8 +469,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     { name: 'Right', property: 'padding-right'},
                     { name: 'Bottom', property: 'padding-bottom'},
                     { name: 'Left', property: 'padding-left'}
-                  ],
-                }],
+                  ]
+                }]
               },{
                 name: 'Typography',
                 open: false,
@@ -448,7 +488,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       { value : 'center',  name : 'Center',  className: 'fa fa-align-center' },
                       { value : 'right',   name : 'Right',   className: 'fa fa-align-right'},
                       { value : 'justify', name : 'Justify',   className: 'fa fa-align-justify'}
-                    ],
+                    ]
                   },{
                     property: 'text-decoration',
                     type: 'radio',
@@ -457,7 +497,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       { value: 'none', name: 'None', className: 'fa fa-times'},
                       { value: 'underline', name: 'underline', className: 'fa fa-underline' },
                       { value: 'line-through', name: 'Line-through', className: 'fa fa-strikethrough'}
-                    ],
+                    ]
                   },{
                     property: 'text-shadow',
                     properties: [
@@ -465,8 +505,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       { name: 'Y position', property: 'text-shadow-v'},
                       { name: 'Blur', property: 'text-shadow-blur'},
                       { name: 'Color', property: 'text-shadow-color'}
-                    ],
-                }],
+                    ]
+                }]
               },{
                 name: 'Decorations',
                 open: false,
@@ -477,7 +517,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   defaults: 1,
                   step: 0.01,
                   max: 1,
-                  min:0,
+                  min:0
                 },{
                   property: 'border-radius',
                   properties  : [
@@ -485,7 +525,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     { name: 'Right', property: 'border-top-right-radius'},
                     { name: 'Bottom', property: 'border-bottom-left-radius'},
                     { name: 'Left', property: 'border-bottom-right-radius'}
-                  ],
+                  ]
                 },{
                   property: 'box-shadow',
                   properties: [
@@ -495,12 +535,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     { name: 'Spread', property: 'box-shadow-spread'},
                     { name: 'Color', property: 'box-shadow-color'},
                     { name: 'Shadow type', property: 'box-shadow-type'}
-                  ],
+                  ]
                 },{
                   id: 'background-bg',
                   property: 'background',
-                  type: 'bg',
-                },],
+                  type: 'bg'
+                }]
               },{
                 name: 'Extra',
                 open: false,
@@ -511,7 +551,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     { name: 'Property', property: 'transition-property'},
                     { name: 'Duration', property: 'transition-duration'},
                     { name: 'Easing', property: 'transition-timing-function'}
-                  ],
+                  ]
                 },{
                   property: 'transform',
                   properties:[
@@ -612,11 +652,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             value   : 'center',
                             title    : 'Center',
                             className : 'icons-flex icon-al-center'
-                          }],
+                          }]
                 },{
                   name: 'Flex Children',
                   property: 'label-parent-flex',
-                  type: 'integer',
+                  type: 'integer'
                 },{
                   name:     'Order',
                   property:   'order',
@@ -654,7 +694,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   defaults  : 'auto',
                   list    : [{
                             value   : 'auto',
-                            name    : 'Auto',
+                            name    : 'Auto'
                           },{
                             value   : 'flex-start',
                             title    : 'Start',
@@ -674,11 +714,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                           }]
                 }]
               }
-            ],
-          },
-                                                        
+            ]
+          }
+                                                                                        
                         },
-                        
+                                                        
                         canvas: {
             styles: [
                 '../css/bootstrap.min.css'
@@ -689,7 +729,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 '../js/bootstrap.min.js'
             ]
                         }
-        
+                                        
                     });
 
                     // More functions
@@ -705,13 +745,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
           }
         }
         });
-                                                
-        var pn = editor.Panels;
-        var modal = editor.Modal;
-        var cmdm = editor.Commands;
-                                        
+                                                                                
+        let pn = editor.Panels;
+        let modal = editor.Modal;
+        let cmdm = editor.Commands;
+                                                                        
         // test for custom blocks
-        var blockManager = editor.BlockManager;
+        let blockManager = editor.BlockManager;
+                                        
         blockManager.add('covers1', {
         label: '<div class="gjs-block-label">Covers 1</div>',
         content: '<div class="py-5 text-center text-white h-100 align-items-center d-flex">'+
@@ -725,6 +766,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         '</div>'+
         '</div>'
         });
+                                        
         blockManager.add('covers2', {
         label: '<div class="gjs-block-label">Covers 2</div>',
         content: '<div class="py-5 text-center">'+
@@ -743,30 +785,34 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                     cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
-                            var comps = editor.DomComponents.clear();
+                            let comps = editor.DomComponents.clear();
                             setTimeout(function () {
                                 localStorage.clear();
                             }, 0);
                         }
                     });
+                                                    
                     cmdm.add('set-device-desktop', {
                         run: function (ed) {
                             ed.setDevice('Desktop');
                         },
                         stop: function () {}
                     });
+                                                    
                     cmdm.add('set-device-tablet', {
                         run: function (ed) {
                             ed.setDevice('Tablet');
                         },
                         stop: function () {}
                     });
+                                                    
                     cmdm.add('set-device-mobile', {
                         run: function (ed) {
                             ed.setDevice('Mobile portrait');
                         },
                         stop: function () {}
                     });
+                                                    
                     // Store DB
                     cmdm.add('save-database', {
                         run: function (em, sender) {
@@ -774,30 +820,35 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             saveContent();
                         }
                     });
+                                                    
                     cmdm.add('view-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             viewContent();
                         }
                     });
+                                                    
                     cmdm.add('update-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             updateContent();
                         }
                     });
+                                                    
                     cmdm.add('refresh-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             refreshContent();
                         }
                     });
+                                                    
                     cmdm.add('new-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             newContent();
                         }
                     });
+                                                    
                     cmdm.add('view-page', {
                         run: function (em, sender) {
                             sender.set('active', true); //get full HTML structure after design
@@ -806,13 +857,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     });
                     // Add info command
 
-                    var mdlClass = 'gjs-mdl-dialog-sm';
-                    var infoContainer = document.getElementById('info-panel');
+                    let mdlClass = 'gjs-mdl-dialog-sm';
+                    let infoContainer = document.getElementById('info-panel');
                     cmdm.add('open-info', function () {
-                        var mdlDialog = document.querySelector('.gjs-mdl-dialog');
+                        let mdlDialog = document.querySelector('.gjs-mdl-dialog');
                         mdlDialog.className += ' ' + mdlClass;
                         infoContainer.style.display = 'block';
-                        modal.setTitle('About this demo');
+                        modal.setTitle('<?php echo SITE_NAME; ?>');
                         modal.setContent(infoContainer);
                         modal.open();
                         modal.getModel().once('change:open', function () {
@@ -840,6 +891,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Save page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
+                                                    
                     pn.addButton('options', [{
                             id: 'update-page',
                             className: 'fa fa-pencil-square-o',
@@ -848,14 +900,16 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Update page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
+                                                    
                     pn.addButton('options', [{
                             id: 'view-page',
-                            className: 'fa fa-file-text-o',
+                            className: 'far fa-file-alt',
                             command: 'view-page',
                             attributes: {
                                 title: 'View Page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
+                                                    
                     pn.addButton('options', [{
                             id: 'refresh-page',
                             className: 'fa fa-refresh',
@@ -864,22 +918,25 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Refresh page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
+                                                    
                     pn.addButton('options', [{
                             id: 'new-page',
-                            className: 'fa fa-file-o',
+                            className: 'far fa-file',
                             command: 'new-page',
                             attributes: {
                                 title: 'New page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
+                                                    
                     // Simple warn notifier
-                    var origWarn = console.warn;
+                    let origWarn = console.warn;
                     toastr.options = {
                         closeButton: true,
                         preventDuplicates: true,
                         showDuration: 250,
                         hideDuration: 150
                     };
+                                                    
                     console.warn = function (msg) {
                         if (msg.indexOf('[undefined]') == -1) {
                             toastr.warning(msg);
@@ -897,10 +954,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             .forEach(function (item) {
                                 pn.getButton('views', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
                             });
-                    var titles = document.querySelectorAll('*[title]');
-                    for (var i = 0; i < titles.length; i++) {
-                        var el = titles[i];
-                        var title = el.getAttribute('title');
+                                                            
+                    let titles = document.querySelectorAll('*[title]');
+                    for (let i = 0; i < titles.length; i++) {
+                        let el = titles[i];
+                        let title = el.getAttribute('title');
                         title = title ? title.trim() : '';
                         if (!title)
                             break;
@@ -911,30 +969,29 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     // Show borders by default
                     pn.getButton('options', 'sw-visibility').set('active', 1);
 
-
                     // Do stuff on load
                     editor.on('load', function () {
-                        var $ = grapesjs.$;
+                        let $ = grapesjs.$;
                         // Show logo with the version
-                        var logoCont = document.querySelector('.gjs-logo-cont');
+                        let logoCont = document.querySelector('.gjs-logo-cont');
                         document.querySelector('.gjs-logo-version').innerHTML = 'v' + grapesjs.version;
-                        var logoPanel = document.querySelector('.gjs-pn-commands');
+                        let logoPanel = document.querySelector('.gjs-pn-commands');
                         logoPanel.appendChild(logoCont);
                         // Load and show settings and style manager
-                        var openTmBtn = pn.getButton('views', 'open-tm');
+                        let openTmBtn = pn.getButton('views', 'open-tm');
                         openTmBtn && openTmBtn.set('active', 1);
-                        var openSm = pn.getButton('views', 'open-sm');
+                        let openSm = pn.getButton('views', 'open-sm');
                         openSm && openSm.set('active', 1);
                         // Add Settings Sector
-                        var traitsSector = $('<div class="gjs-sm-sector no-select">' +
+                        let traitsSector = $('<div class="gjs-sm-sector no-select">' +
                                 '<div class="gjs-sm-title"><span class="icon-settings fa fa-cog"></span> Settings</div>' +
                                 '<div class="gjs-sm-properties" style="display: none;"></div></div>');
-                        var traitsProps = traitsSector.find('.gjs-sm-properties');
+                        let traitsProps = traitsSector.find('.gjs-sm-properties');
                         traitsProps.append($('.gjs-trt-traits'));
                         $('.gjs-sm-sectors').before(traitsSector);
                         traitsSector.find('.gjs-sm-title').on('click', function () {
-                            var traitStyle = traitsProps.get(0).style;
-                            var hidden = traitStyle.display == 'none';
+                            let traitStyle = traitsProps.get(0).style;
+                            let hidden = traitStyle.display == 'none';
                             if (hidden) {
                                 traitStyle.display = 'block';
                             } else {
@@ -942,22 +999,24 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             }
                         });
                         // Open block manager
-                        var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
+                        let openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
                         openBlocksBtn && openBlocksBtn.set('active', 1);
                     });
 
                     // function buttom
 
                     window.editor = editor;
+                                                    
                     function viewContent() {
-                        var id = '<?php echo $id; ?>';
-                        var url = 'view.php?id=' + id;
+                        let id = '<?php echo $id; ?>';
+                        let url = 'view.php?id=' + id;
                         window.open(url);
                     }
+                                                    
                     function saveContent() {
-                        var idp = '<?php echo $id; ?>';
-                        var content = editor.getHtml(); //get html content of document
-                        var style = editor.getCss(); //get css content of document
+                        let idp = '<?php echo $id; ?>';
+                        let content = editor.getHtml(); //get html content of document
+                        let style = editor.getCss(); //get css content of document
                         // Get edit field value
                         $.ajax({
                             url: 'save.php',
@@ -967,10 +1026,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             alert(rsp);
                         });
                     }
+                                                    
                     function updateContent() {
-                        var idp = '<?php echo $id; ?>';
-                        var content = editor.getHtml(); //get html content of document
-                        var style = editor.getCss(); //get css content of document
+                        let idp = '<?php echo $id; ?>';
+                        let content = editor.getHtml(); //get html content of document
+                        let style = editor.getCss(); //get css content of document
                         // Get edit field value
                         $.ajax({
                             url: 'update.php',
@@ -984,12 +1044,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     function refreshContent() {
                         location.reload();
                     }
+                                                    
                     function newContent() {
-                        var url = 'dashboard.php?cms=addpage';
+                        let url = 'dashboard.php?cms=addpage';
                         location.replace(url);
                     }
+                                                    
                     function clearContent() {
-                        var clear = 'clear';
+                        let clear = 'clear';
                         $.ajax({
                             url: 'clearcontent.php',
                             type: 'post',
@@ -998,16 +1060,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             $('#result').html(rsp);
                         });
                     }
+                                                    
                     function getContent() {
                     }
+                                                    
                     function uploadImages() {
-                        var files = $('#gjs-am-uploadFile')[0].files[0];
+                        let files = $('#gjs-am-uploadFile')[0].files[0];
                         formData.append('file', files);
                         aler(files);
                         /*
-                         var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-                         var formData = new FormData();
-                         for(var i in files){
+                         let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+                         let formData = new FormData();
+                         for(let i in files){
                          formData.append('file-'+i, files[i]) //containing all the selected images from local
                          }*/
                         $.ajax({
@@ -1018,11 +1082,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             cache: false,
                             processData: false
                         }).done(function (result) {
-                            var myJSON = [];
+                            let myJSON = [];
                             $.each(result['data'], function (key, value) {
                                 myJSON[key] = value;
                             });
-                            var images = myJSON;
+                            let images = myJSON;
                             editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
                         });
                     }
@@ -1032,8 +1096,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             saveContent();
                         });
                         $('#save').click(function () {
-                            var content = editor.getHtml();
-                            var style = editor.getCss(); //get css content of document
+                            let content = editor.getHtml();
+                            let style = editor.getCss(); //get css content of document
                             // Get edit field value
 
                             $.ajax({
@@ -1045,7 +1109,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             });
                         });
                         $('#clear').click(function () {
-                            var clear = 'clear';
+                            let clear = 'clear';
                             $.ajax({
                                 url: 'clearcontent.php',
                                 type: 'post',
@@ -1056,6 +1120,175 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         });
                     });
 
+                </script>
+                <script>
+                    /* draggable element */
+        const item = document.querySelector('.item');
+
+        item.addEventListener('dragstart', dragStart);
+
+        function dragStart(e) {
+        e.dataTransfer.setData('text/plain', e.target.id);
+        setTimeout(() => {
+        e.target.classList.add('hide');
+        }, 0);
+        }
+
+
+        /* drop targets */
+        const boxes = document.querySelectorAll('.box');
+
+        boxes.forEach(box => {
+        box.addEventListener('dragenter', dragEnter)
+        box.addEventListener('dragover', dragOver);
+        box.addEventListener('dragleave', dragLeave);
+        box.addEventListener('drop', drop);
+        });
+
+
+        function dragEnter(e) {
+        e.preventDefault();
+        e.target.classList.add('drag-over');
+        }
+
+        function dragOver(e) {
+        e.preventDefault();
+        e.target.classList.add('drag-over');
+        }
+
+        function dragLeave(e) {
+        e.target.classList.remove('drag-over');
+        }
+
+        function drop(e) {
+        e.target.classList.remove('drag-over');
+
+        // get the draggable element
+        const id = e.dataTransfer.getData('text/plain');
+        const draggable = document.getElementById(id);
+
+        // add it to the drop target
+        e.target.appendChild(draggable);
+
+        // display the draggable element
+        draggable.classList.remove('hide');
+        }
+        
+        interact('.dropzone').dropzone({
+  // only accept elements matching this CSS selector
+  accept: '#yes-drop',
+  // Require a 75% element overlap for a drop to be possible
+  overlap: 0.75,
+
+  // listen for drop related events:
+
+  ondropactivate: function (event) {
+    // add active dropzone feedback
+    event.target.classList.add('drop-active')
+  },
+  ondragenter: function (event) {
+    var draggableElement = event.relatedTarget
+    var dropzoneElement = event.target
+
+    // feedback the possibility of a drop
+    dropzoneElement.classList.add('drop-target')
+    draggableElement.classList.add('can-drop')
+    draggableElement.textContent = 'Dragged in'
+  },
+  ondragleave: function (event) {
+    // remove the drop feedback style
+    event.target.classList.remove('drop-target')
+    event.relatedTarget.classList.remove('can-drop')
+    event.relatedTarget.textContent = 'Dragged out'
+  },
+  ondrop: function (event) {
+    event.relatedTarget.textContent = 'Dropped'
+  },
+  ondropdeactivate: function (event) {
+    // remove active dropzone feedback
+    event.target.classList.remove('drop-active')
+    event.target.classList.remove('drop-target')
+  }
+})
+
+interact('.drag-drop')
+  .draggable({
+    inertia: true,
+    modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: 'parent',
+        endOnly: true
+      })
+    ],
+    autoScroll: true,
+    // dragMoveListener from the dragging demo above
+    listeners: { move: dragMoveListener }
+  })
+  
+  
+  document.addEventListener('DOMContentLoaded', (event) => {
+
+  var dragSrcEl = null;
+  
+  function handleDragStart(e) {
+    this.style.opacity = '0.4';
+    
+    dragSrcEl = this;
+
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.innerHTML);
+  }
+
+  function handleDragOver(e) {
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+
+    e.dataTransfer.dropEffect = 'move';
+    
+    return false;
+  }
+
+  function handleDragEnter(e) {
+    this.classList.add('over');
+  }
+
+  function handleDragLeave(e) {
+    this.classList.remove('over');
+  }
+
+  function handleDrop(e) {
+    if (e.stopPropagation) {
+      e.stopPropagation(); // stops the browser from redirecting.
+    }
+    
+    if (dragSrcEl != this) {
+      dragSrcEl.innerHTML = this.innerHTML;
+      this.innerHTML = e.dataTransfer.getData('text/html');
+    }
+    
+    return false;
+  }
+
+  function handleDragEnd(e) {
+    this.style.opacity = '1';
+    
+    items.forEach(function (item) {
+      item.classList.remove('over');
+    });
+  }
+  
+  
+  let items = document.querySelectorAll('.container .box');
+  items.forEach(function(item) {
+    item.addEventListener('dragstart', handleDragStart, false);
+    item.addEventListener('dragenter', handleDragEnter, false);
+    item.addEventListener('dragover', handleDragOver, false);
+    item.addEventListener('dragleave', handleDragLeave, false);
+    item.addEventListener('drop', handleDrop, false);
+    item.addEventListener('dragend', handleDragEnd, false);
+  });
+});
                 </script>
             </body>
         </html>
