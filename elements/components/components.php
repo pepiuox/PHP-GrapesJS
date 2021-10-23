@@ -1,18 +1,18 @@
-<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="row pi-draggable">
+<li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
+    <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6"></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="row pi-draggable">
+    <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="row pi-draggable">
+    <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-3"></div>
         <div class="col-md-3"></div>
@@ -20,53 +20,55 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="row pi-draggable">
+    <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-8"></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="row pi-draggable">
+    <div class="row">
         <div class="col-md-8"></div>
         <div class="col-md-4"></div>
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-
-    <h1 class="display-1 pi-draggable ">Title</h1>
+    <h1 class="display-1">Title</h1>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <h1 class="pi-draggable">Heading</h1>
+    <h1>Heading</h1>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <p class="lead pi-draggable">Lead paragraph </p>
+    <h2>Heading</h2>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <p class="pi-draggable">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p class="lead">Lead paragraph </p>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="list-inline pi-draggable">
+    <p>Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <ul class="list-inline">
         <li class="list-inline-item">One</li>
         <li class="list-inline-item">Two</li>
         <li class="list-inline-item">Three</li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="pi-draggable">
+    <ul>
         <li>One</li>
         <li>Two</li>
         <li>Three</li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ol class="pi-draggable">
+    <ol>
         <li>One</li>
         <li>Two</li>
         <li>Three</li>
     </ol>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="blockquote pi-draggable">
+    <div class="blockquote">
         <p class="mb-0">Blockquoute</p>
         <div class="blockquote-footer">Someone famous in My memories</div>
     </div>
@@ -76,49 +78,51 @@
         <span class="sr-only">Loading...</span>
     </div>
 </li>
-
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <a class="btn btn-primary pi-draggable" href="#">Button </a> <br>
-    <div class="btn-group pi-draggable"> <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Dropdown </button>
+    <a class="btn btn-primary" href="#">Button </a> 
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="btn-group"> 
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> Dropdown </button>
         <div class="dropdown-menu"> <a class="dropdown-item" href="#">Action</a>
-            <div class="dropdown-divider"></div> <a class="dropdown-item" href="#">Separated link</a> </div>
+            <div class="dropdown-divider"></div> <a class="dropdown-item" href="#">Separated link</a> 
+        </div>
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-draggable btn-group"> 
+    <div class="btn-group"> 
         <a href="#" class="btn btn-primary">Btn 1</a> 
         <a href="#" class="btn btn-primary">Btn 2</a> 
         <a href="#" class="btn btn-primary">Btn 3</a> 
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <a href="#" class="btn btn-outline-primary pi-draggable">Button</a> 
+    <a href="#" class="btn btn-outline-primary">Button</a> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="btn-group pi-draggable">
+    <div class="btn-group">
         <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> Dropdown </button>
         <div class="dropdown-menu"> <a class="dropdown-item" href="#">Action</a>
             <div class="dropdown-divider"></div> <a class="dropdown-item" href="#">Separated link</a> </div>
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-draggable btn-group"> 
+    <div class="btn-group"> 
         <a href="#" class="btn btn-outline-primary">Btn 1</a> 
         <a href="#" class="btn btn-outline-primary">Btn 2</a> 
         <a href="#" class="btn btn-outline-primary">Btn 3</a> 
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-
-    <img class="img-fluid d-block pi-draggable" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
+    <img class="img-fluid d-block" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-wrapper pi-draggable">
+    <div class="pi-wrapper">
         <iframe  width="100%" height="400" src="https://maps.google.com/maps?hl=en&amp;q=New%20York&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" scrolling="no" frameborder="0"></iframe>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div id="carousel" class="carousel slide pi-draggable" data-ride="carousel">
+    <div id="carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg">
                 <div class="carousel-caption">
@@ -136,17 +140,17 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="embed-responsive embed-responsive-4by3 pi-draggable"> <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ctvlUvN6wSE?autoplay=0" allowfullscreen=""> </iframe> 
+    <div class="embed-responsive embed-responsive-4by3"> <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ctvlUvN6wSE?autoplay=0" allowfullscreen=""> </iframe> 
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-draggable embed-responsive embed-responsive-4by3"> <video src="https://static.pingendo.com/video-placeholder.mp4" class="embed-responsive-item" controls="controls">
+    <div class="embed-responsive embed-responsive-4by3"> <video src="https://static.pingendo.com/video-placeholder.mp4" class="embed-responsive-item" controls="controls">
             Your browser does not support HTML5 video.
         </video> </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <i class="d-block  fa fa-5x fa-font-awesome pi-draggable"></i> <label id="navs">Navs </label>
-    <nav class="navbar navbar-expand-md pi-draggable bg-primary navbar-dark">
+    <i class="d-block  fa fa-5x fa-font-awesome"></i> <label id="navs">Navs </label>
+    <nav class="navbar navbar-expand-md bg-primary navbar-dark">
         <div class="container"> <a class="navbar-brand" href="#">Navbar</a> <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent"> <span class="navbar-toggler-icon"></span> </button>
             <div class="collapse navbar-collapse text-center justify-content-end"
                  id="navbar2SupportedContent">
@@ -158,34 +162,34 @@
     </nav>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="nav nav-tabs pi-draggable">
+    <ul class="nav nav-tabs">
         <li class="nav-item"> <a href="#" class="active nav-link"><i class="fa fa-home fa-home"></i>&nbsp;Home</a> </li>
         <li class="nav-item"> <a class="nav-link" href="#">Item</a> </li>
         <li class="nav-item"> <a href="#" class="nav-link">Item</a> </li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="nav nav-pills pi-draggable">
+    <ul class="nav nav-pills">
         <li class="nav-item"> <a href="#" class="active nav-link"> <i class="fa fa-home fa-home"></i>&nbsp;Home</a> </li>
         <li class="nav-item"> <a class="nav-link" href="#">Item</a> </li>
         <li class="nav-item"> <a href="#" class="nav-link">Item</a> </li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="nav nav-pills flex-column pi-draggable">
+    <ul class="nav nav-pills flex-column">
         <li class="nav-item"> <a href="#" class="active nav-link"><i class="fa fa-home fa-home"></i>&nbsp;Home</a> </li>
         <li class="nav-item"> <a class="nav-link" href="#">Item</a> </li>
         <li class="nav-item"> <a href="#" class="nav-link">Item</a> </li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="pi-draggable  breadcrumb" style="margin-bottom:0px;margin-top:0px">
+    <ul class=" breadcrumb" style="margin-bottom:0px;margin-top:0px">
         <li class="breadcrumb-item"> <a href="#">Home</a> </li>
         <li class="breadcrumb-item active">Link</li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <ul class="pagination pi-draggable">
+    <ul class="pagination">
         <li class="page-item"> <a class="page-link" href="#"> <span>«</span> <span class="sr-only">Previous</span> </a> </li>
         <li class="page-item"> <a class="page-link" href="#">1</a> </li>
         <li class="page-item"> <a class="page-link" href="#">2</a> </li>
@@ -195,7 +199,7 @@
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-wrapper pi-draggable">
+    <div class="pi-wrapper">
         <ul class="nav nav-pills">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Tab 1</a> </li>
             <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">Tab 2</a> </li>
@@ -215,7 +219,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-wrapper pi-draggable">
+    <div class="col-12">
         <ul class="nav nav-tabs">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="tab" data-target="#tabone">Tab 1</a> </li>
             <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">Tab 2</a> </li>
@@ -236,7 +240,7 @@
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div style="width: 690px; min-width: 400px;transform: scale(0.8);transform-origin: center left;margin-bottom: 3.7px;height: 80px;margin-left: 20px">
-        <div class="row pi-draggable">
+        <div class="row">
             <div class="col-4">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Tab 1</a> </li>
@@ -261,15 +265,14 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-
-    <ul class="list-group pi-draggable">
+    <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center"> Cras justo odio <span class="badge badge-primary badge-pill">14</span> </li>
         <li class="list-group-item d-flex justify-content-between align-items-center"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
         <li class="list-group-item d-flex justify-content-between align-items-center"> Morbi leo risus <span class="badge badge-primary badge-pill">1</span> </li>
     </ul>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="list-group pi-draggable">
+    <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">List group</h5> <small>3 days ago</small> </div>
@@ -281,7 +284,7 @@
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card pi-draggable">
+    <div class="card">
         <div class="card-header"> Header </div>
         <div class="card-body">
             <h4>Card title</h4>
@@ -291,14 +294,14 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card pi-draggable"> <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
+    <div class="card"> <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> <a href="#" class="btn btn-primary">Go somewhere</a> </div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card pi-draggable"> <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
+    <div class="card"> <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Cras justo odio</li>
             <li class="list-group-item">Dapibus ac facilisis in</li>
@@ -308,7 +311,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card pi-draggable"> <img class="card-img" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image">
+    <div class="card"> <img class="card-img" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image">
         <div class="card-img-overlay d-flex justify-content-center align-items-center">
             <h2 class="text-primary">Card title</h2>
         </div>
@@ -316,13 +319,13 @@
 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <form class="pi-draggable">
+    <form class="form">
         <div class="form-group"> <label>Email address</label> <input type="email" class="form-control" placeholder="Enter email"> <small class="form-text text-muted">We'll never share your email with anyone else.</small> </div>
         <div class="form-group"> <label>Password</label> <input type="password" class="form-control" placeholder="Password"> </div> <button type="submit" class="btn btn-primary">Submit</button> 
     </form>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <form id="c_form-h" class="pi-draggable" style="max-width:200%; transform-origin: left; transform: scale(0.65);">
+    <form id="c_form-h" class="form" style="max-width:200%; transform-origin: left; transform: scale(0.65);">
         <div class="form-group row"> <label for="inputmailh" class="col-sm-2 col-form-label">E-mail</label>
             <div class="col-sm-10">
                 <input type="email" class="form-control" id="inputmailh" placeholder="mail@example.com"> </div>
@@ -335,7 +338,7 @@
     </form>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <form class="form-inline pi-draggable" id="c_form-inline" style="max-width:200%; min-width:160%; transform-origin: left; transform: scale(0.575);">
+    <form class="form-inline" id="c_form-inline" style="max-width:200%; min-width:160%; transform-origin: left; transform: scale(0.575);">
         <div class="form-group my-2">
             <input type="email" class="form-control" id="inputmailinline" placeholder="mail@example.com"> </div>
         <div class="form-group mx-3 my-2">
@@ -344,7 +347,7 @@
     </form>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <form class="pi-draggable" id="c_form-complex" style="max-width:200%; min-width:160%; transform-origin: left; transform: scale(0.575);">
+    <form class="form" id="c_form-complex" style="max-width:200%; min-width:160%; transform-origin: left; transform: scale(0.575);">
         <div class="form-row">
             <div class="form-group col-md-6"> <label for="inputEmail4">Email</label>
                 <input type="email" class="form-control" id="inputEmail4" placeholder="Email"> </div>
@@ -375,7 +378,7 @@
     </form> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <form class="form-inline pi-draggable">
+    <form class="form-inline">
         <div class="input-group"> <input type="email" class="form-control" placeholder="Your email">
             <div class="input-group-append"> <button class="btn btn-primary" type="button">Subscribe</button> </div>
         </div>
@@ -383,18 +386,18 @@
 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="alert alert-primary pi-draggable" role="alert"> <button type="button" class="close" data-dismiss="alert">×</button>
+    <div class="alert alert-primary" role="alert"> <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">Well done!</h4>
         <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="progress pi-draggable">
+    <div class="progress">
         <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%">50%</div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="jumbotron jumbotron-fluid pi-draggable">
+    <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-3">Jumbotron</h1>
             <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
@@ -403,7 +406,7 @@
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="table-responsive">
-        <table class="table pi-draggable">
+        <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
@@ -432,7 +435,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="modal  pi-draggable">
+    <div class="modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -451,7 +454,7 @@
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="modal pi-draggable">
+    <div class="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

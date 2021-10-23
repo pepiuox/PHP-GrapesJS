@@ -1,5 +1,5 @@
-
-<ul class="nav pi-draggable">
+<li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
+<ul class="nav">
     <li class="nav-item">
         <a href="#" class="nav-link active">Nav item</a>
     </li>
@@ -17,23 +17,31 @@
         </div>
     </li>
 </ul>
-<ul class="nav nav-pills pi-draggable">
+    </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<ul class="nav nav-pills">
     <li class="nav-item"> <a href="#" class="active nav-link">Nav pill</a> </li>
     <li class="nav-item"> <a class="nav-link" href="#">Nav pill</a> </li>
     <li class="nav-item"> <a href="#" class="nav-link disabled">Nav pill</a> </li>
 </ul>
-<ul class="nav nav-pills pi-draggable">
+    </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<ul class="nav nav-pills">
     <li class="nav-item"> <a href="#" class="active nav-link"><i class="d-block fa fa-lg fa-bell-o"></i></a> </li>
     <li class="nav-item"> <a href="#" class="nav-link"><i class="d-block fa fa-lg fa-area-chart"></i></a> </li>
     <li class="nav-item"> <a class="nav-link" href="#"><i class="d-block fa fa-lg fa-clock-o"></i></a> </li>
     <li class="nav-item"> <a href="#" class="nav-link"><i class="d-block fa fa-lg fa-cloud-upload"></i></a> </li>
 </ul>
+    </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
 <ul class="pi-draggable breadcrumb">
     <li class="breadcrumb-item"> <a href="#">Home</a> </li>
     <li class="breadcrumb-item active">Link</li>
     <li class="breadcrumb-item active">Link</li>
 </ul>
-<ul class="pagination pi-draggable">
+    </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<ul class="pagination">
     <li class="page-item"> <a class="page-link" href="#"> <span>«</span></a> </li>
     <li class="page-item active"> <a class="page-link" href="#">1</a> </li>
     <li class="page-item"> <a class="page-link" href="#">2</a> </li>
@@ -41,7 +49,7 @@
     <li class="page-item"> <a class="page-link" href="#">4</a> </li>
     <li class="page-item"> <a class="page-link" href="#"> <span>»</span></a> </li>
 </ul>
-<ul class="pagination pi-draggable">
+<ul class="pagination">
     <li class="page-item"> <a class="page-link" href="#">Prev</a> </li>
     <li class="page-item"> <a class="page-link" href="#">1</a> </li>
     <li class="page-item"> <a class="page-link" href="#">2</a> </li>
@@ -49,7 +57,7 @@
     <li class="page-item"> <a class="page-link" href="#">4</a> </li>
     <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
 </ul>
-<div class="pi-wrapper pi-draggable">
+<div class="pi-wrapper">
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a href="" class="active nav-link" data-toggle="tab" data-target="#tabone">Tab 1</a> </li>
         <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">Tab 2</a> </li>
@@ -67,7 +75,7 @@
         </div>
     </div>
 </div>
-<div class="pi-wrapper pi-draggable">
+<div class="pi-wrapper">
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fa fa-home"></i> Tab 1</a> </li>
         <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo"><i class="fa fa-bed"></i> Tab 2</a> </li>
@@ -85,7 +93,7 @@
         </div>
     </div>
 </div>
-<div class="pi-wrapper pi-draggable">
+<div class="pi-wrapper">
     <ul class="nav nav-pills">
         <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Tab 1</a> </li>
         <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">Tab 2</a> </li>
@@ -103,7 +111,7 @@
         </div>
     </div>
 </div>
-<div class="pi-wrapper pi-draggable">
+<div class="pi-wrapper">
     <ul class="nav nav-pills">
         <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fa fa-lg fa-envelope-open"></i> </a> </li>
         <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo"><i class="fa fa-lg fa-comment"></i></a> </li>
@@ -121,7 +129,7 @@
         </div>
     </div>
 </div>
-<div class="row  pi-draggable">
+<div class="row ">
     <div class="col-3">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Tab 1</a> </li>
