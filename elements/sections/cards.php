@@ -1,55 +1,5 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-  <meta charset="utf-8">
-  <base href="http://localhost:8000/" target="_blank">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" data-theme="true" href="theme.css">
-</head>
-
-<body>
   <style>
-    body {
-      margin: 10px;
-    }
-
-    body>* {
-      margin-bottom: 25px !important;
-      left: 5% !important;
-      max-width: 90% !important;
-      overflow: visible;
-      transition: all 0.5 ease-in;
-    }
-
-    .row {
-      width: 100%;
-    }
-
-    /*
-    .pi-draggable:hover {
-      box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
-    } */
-    .pi-draggable * {
-      pointer-events: none !important;
-    }
-
-    .pi-draggable {
-      pointer-events: all !important;
-      position: relative;
-      cursor: -webkit-grab !important;
-      cursor: -moz-grab !important;
-      cursor: grab !important;
-    }
-
-    .pi-draggable:active {
-      cursor: -webkit-grabbing !important;
-      cursor: -moz-grabbing !important;
-      cursor: grabbing !important;
-    }
-
     img,
     iframe {
       min-height: 222px;
@@ -237,10 +187,4 @@
       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
-  <script src="sections.js"></script>
-</body>
-
-</html>
+  

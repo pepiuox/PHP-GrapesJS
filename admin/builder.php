@@ -27,6 +27,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <meta charset="utf-8">
                 <title><?php echo SITE_NAME; ?> | Builder</title>
                 <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+                <link href="<?php echo $base; ?>css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
                 <link rel="stylesheet" href="<?php echo $base; ?>css/font-awesome.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">

@@ -1,5 +1,4 @@
 <?php
-
 $w = '';
 if (isset($_GET['w'])) {
     $w = $_GET['w'];
@@ -59,7 +58,7 @@ if ($w == "set") {
     $run_qry = $conn->query($check_exist_qry);
     $total_found = $run_qry->num_rows;
     if ($total_found > 0) {
-        $my_value = mysqli_fetch_assoc($run_qry);
+        $my_value = $run_qry->fetch_assoc();
         $vTable = explode(',', $my_value['views_name']);
         $aTable = explode(',', $my_value['adds_name']);
         $uTable = explode(',', $my_value['updates_name']);

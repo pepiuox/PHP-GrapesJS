@@ -205,17 +205,7 @@
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
-                    if ($cms === 'crud') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-table nav-icon"></i>
-                        <p>CRUD</p>
-                    </a>
-                </li>
+            <ul class="nav nav-treeview">                
                 <li class="nav-item">
                     <a href="<?php echo $base; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
                     if ($cms === 'table_config') {
@@ -234,6 +224,16 @@
                     ?>">
                         <i class="fas fa-calendar-check nav-icon"></i>
                         <p>Query Builder</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
+                    if ($cms === 'crud') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-table nav-icon"></i>
+                        <p>CRUD</p>
                     </a>
                 </li>
             </ul>

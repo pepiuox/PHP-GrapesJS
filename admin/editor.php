@@ -29,6 +29,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
                 <!-- Font Awesome -->
                 <link href="<?php echo $base; ?>css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo $base; ?>css/font-awesome.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>plugins/fontawesome-free/css/all.min.css">  
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">
@@ -85,6 +86,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
             </head>
             <body>
+
                 <!-- start menu -->                     
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container-fluid">
@@ -183,17 +185,62 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         <div class="gjs-logo-version"></div>
                     </div>
                 </div>
-                <!-- start content editor -->
-                <div id="gjs" class="gjs-editor-cont"
-                     style="height: 100%; min-height: 700px; overflow: hidden">
-                         <?php
-                         echo decodeContent($pcontent) . "\n";
-                         echo '<style>' . "\n";
-                         echo decodeContent($pstyle) . "\n";
-                         echo '</style>' . "\n";
-                         ?>
-
+                <div class="app-wrap chiller-theme toggled">
+                    <!-- Vue app for pages -->
+                    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                    <div class="pages-wrp sidebar-wrapper" id="sidebar">
+                        <div class="sidebar-brand">
+                            <a href="#">Components</a>
+                            <div id="close-sidebar">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </div>
+                        <div class="panels">
+                            <nav class="component">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a tabindex="-1" href="#">About</a>
+                                        <ul>
+                                            <li>
+                                                <?php include 'components/actions.php'; ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a tabindex="-1" href="#">Help</a>
+                                        <ul>
+                                            <li>
+                                                <?php include 'components/articles.php'; ?> 
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a tabindex="-1" href="#">Contact</a>
+                                        <ul>
+                                            <li>
+                                                <?php include 'components/components.php'; ?>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="editor-wrap">
+                        <!-- start content editor -->
+                        <div id="gjs" class='box gjs-editor-cont' ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)" style="height: 100%; min-height: 700px; overflow: hidden">
+                            <?php
+                            echo decodeContent($pcontent) . "\n";
+                            echo '<style>' . "\n";
+                            echo decodeContent($pstyle) . "\n";
+                            echo '</style>' . "\n";
+                            ?>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- end content editor -->
                 <div id="info-panel" style="display: none">
                     <br />
@@ -244,7 +291,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
 
                 <script type="text/javascript">
-                                        
+                                                        
                     let images = <?php echo $storeImage; ?>;
                     let editor = grapesjs.init({
                         avoidInlineStyle: 1,
@@ -716,9 +763,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               }
             ]
           }
-                                                                                        
+                                                                                                        
                         },
-                                                        
+                                                                        
                         canvas: {
             styles: [
                 '../css/bootstrap.min.css'
@@ -729,7 +776,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 '../js/bootstrap.min.js'
             ]
                         }
-                                        
+                                                        
                     });
 
                     // More functions
@@ -745,14 +792,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
           }
         }
         });
-                                                                                
+                                                                                                
         let pn = editor.Panels;
         let modal = editor.Modal;
         let cmdm = editor.Commands;
-                                                                        
+                                                                                        
         // test for custom blocks
         let blockManager = editor.BlockManager;
-                                        
+                                                        
         blockManager.add('covers1', {
         label: '<div class="gjs-block-label">Covers 1</div>',
         content: '<div class="py-5 text-center text-white h-100 align-items-center d-flex">'+
@@ -766,7 +813,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         '</div>'+
         '</div>'
         });
-                                        
+                                                        
         blockManager.add('covers2', {
         label: '<div class="gjs-block-label">Covers 2</div>',
         content: '<div class="py-5 text-center">'+
@@ -791,28 +838,28 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             }, 0);
                         }
                     });
-                                                    
+                                                                    
                     cmdm.add('set-device-desktop', {
                         run: function (ed) {
                             ed.setDevice('Desktop');
                         },
                         stop: function () {}
                     });
-                                                    
+                                                                    
                     cmdm.add('set-device-tablet', {
                         run: function (ed) {
                             ed.setDevice('Tablet');
                         },
                         stop: function () {}
                     });
-                                                    
+                                                                    
                     cmdm.add('set-device-mobile', {
                         run: function (ed) {
                             ed.setDevice('Mobile portrait');
                         },
                         stop: function () {}
                     });
-                                                    
+                                                                    
                     // Store DB
                     cmdm.add('save-database', {
                         run: function (em, sender) {
@@ -820,35 +867,35 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             saveContent();
                         }
                     });
-                                                    
+                                                                    
                     cmdm.add('view-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             viewContent();
                         }
                     });
-                                                    
+                                                                    
                     cmdm.add('update-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             updateContent();
                         }
                     });
-                                                    
+                                                                    
                     cmdm.add('refresh-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             refreshContent();
                         }
                     });
-                                                    
+                                                                    
                     cmdm.add('new-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             newContent();
                         }
                     });
-                                                    
+                                                                    
                     cmdm.add('view-page', {
                         run: function (em, sender) {
                             sender.set('active', true); //get full HTML structure after design
@@ -891,7 +938,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Save page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                    
+                                                                    
                     pn.addButton('options', [{
                             id: 'update-page',
                             className: 'fa fa-pencil-square-o',
@@ -900,7 +947,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Update page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                    
+                                                                    
                     pn.addButton('options', [{
                             id: 'view-page',
                             className: 'far fa-file-alt',
@@ -909,7 +956,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'View Page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                    
+                                                                    
                     pn.addButton('options', [{
                             id: 'refresh-page',
                             className: 'fa fa-refresh',
@@ -918,7 +965,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Refresh page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                    
+                                                                    
                     pn.addButton('options', [{
                             id: 'new-page',
                             className: 'far fa-file',
@@ -927,7 +974,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'New page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                    
+                                                                    
                     // Simple warn notifier
                     let origWarn = console.warn;
                     toastr.options = {
@@ -936,7 +983,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         showDuration: 250,
                         hideDuration: 150
                     };
-                                                    
+                                                                    
                     console.warn = function (msg) {
                         if (msg.indexOf('[undefined]') == -1) {
                             toastr.warning(msg);
@@ -954,7 +1001,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             .forEach(function (item) {
                                 pn.getButton('views', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
                             });
-                                                            
+                                                                            
                     let titles = document.querySelectorAll('*[title]');
                     for (let i = 0; i < titles.length; i++) {
                         let el = titles[i];
@@ -1006,13 +1053,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     // function buttom
 
                     window.editor = editor;
-                                                    
+                                                                    
                     function viewContent() {
                         let id = '<?php echo $id; ?>';
                         let url = 'view.php?id=' + id;
                         window.open(url);
                     }
-                                                    
+                                                                    
                     function saveContent() {
                         let idp = '<?php echo $id; ?>';
                         let content = editor.getHtml(); //get html content of document
@@ -1026,7 +1073,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             alert(rsp);
                         });
                     }
-                                                    
+                                                                    
                     function updateContent() {
                         let idp = '<?php echo $id; ?>';
                         let content = editor.getHtml(); //get html content of document
@@ -1044,12 +1091,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     function refreshContent() {
                         location.reload();
                     }
-                                                    
+                                                                    
                     function newContent() {
                         let url = 'dashboard.php?cms=addpage';
                         location.replace(url);
                     }
-                                                    
+                                                                    
                     function clearContent() {
                         let clear = 'clear';
                         $.ajax({
@@ -1060,10 +1107,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             $('#result').html(rsp);
                         });
                     }
-                                                    
+                                                                    
                     function getContent() {
                     }
-                                                    
+                                                                    
                     function uploadImages() {
                         let files = $('#gjs-am-uploadFile')[0].files[0];
                         formData.append('file', files);
@@ -1173,122 +1220,122 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         // display the draggable element
         draggable.classList.remove('hide');
         }
-        
+                        
         interact('.dropzone').dropzone({
-  // only accept elements matching this CSS selector
-  accept: '#yes-drop',
-  // Require a 75% element overlap for a drop to be possible
-  overlap: 0.75,
+        // only accept elements matching this CSS selector
+        accept: '#yes-drop',
+        // Require a 75% element overlap for a drop to be possible
+        overlap: 0.75,
 
-  // listen for drop related events:
+        // listen for drop related events:
 
-  ondropactivate: function (event) {
-    // add active dropzone feedback
-    event.target.classList.add('drop-active')
-  },
-  ondragenter: function (event) {
-    var draggableElement = event.relatedTarget
-    var dropzoneElement = event.target
+        ondropactivate: function (event) {
+        // add active dropzone feedback
+        event.target.classList.add('drop-active')
+        },
+        ondragenter: function (event) {
+        var draggableElement = event.relatedTarget
+        var dropzoneElement = event.target
 
-    // feedback the possibility of a drop
-    dropzoneElement.classList.add('drop-target')
-    draggableElement.classList.add('can-drop')
-    draggableElement.textContent = 'Dragged in'
-  },
-  ondragleave: function (event) {
-    // remove the drop feedback style
-    event.target.classList.remove('drop-target')
-    event.relatedTarget.classList.remove('can-drop')
-    event.relatedTarget.textContent = 'Dragged out'
-  },
-  ondrop: function (event) {
-    event.relatedTarget.textContent = 'Dropped'
-  },
-  ondropdeactivate: function (event) {
-    // remove active dropzone feedback
-    event.target.classList.remove('drop-active')
-    event.target.classList.remove('drop-target')
-  }
-})
+        // feedback the possibility of a drop
+        dropzoneElement.classList.add('drop-target')
+        draggableElement.classList.add('can-drop')
+        draggableElement.textContent = 'Dragged in'
+        },
+        ondragleave: function (event) {
+        // remove the drop feedback style
+        event.target.classList.remove('drop-target')
+        event.relatedTarget.classList.remove('can-drop')
+        event.relatedTarget.textContent = 'Dragged out'
+        },
+        ondrop: function (event) {
+        event.relatedTarget.textContent = 'Dropped'
+        },
+        ondropdeactivate: function (event) {
+        // remove active dropzone feedback
+        event.target.classList.remove('drop-active')
+        event.target.classList.remove('drop-target')
+        }
+        })
 
-interact('.drag-drop')
-  .draggable({
-    inertia: true,
-    modifiers: [
-      interact.modifiers.restrictRect({
+        interact('.drag-drop')
+        .draggable({
+        inertia: true,
+        modifiers: [
+        interact.modifiers.restrictRect({
         restriction: 'parent',
         endOnly: true
-      })
-    ],
-    autoScroll: true,
-    // dragMoveListener from the dragging demo above
-    listeners: { move: dragMoveListener }
-  })
-  
-  
-  document.addEventListener('DOMContentLoaded', (event) => {
+        })
+        ],
+        autoScroll: true,
+        // dragMoveListener from the dragging demo above
+        listeners: { move: dragMoveListener }
+        })
+                  
+                  
+        document.addEventListener('DOMContentLoaded', (event) => {
 
-  var dragSrcEl = null;
-  
-  function handleDragStart(e) {
-    this.style.opacity = '0.4';
-    
-    dragSrcEl = this;
+        var dragSrcEl = null;
+                  
+        function handleDragStart(e) {
+        this.style.opacity = '0.4';
+                    
+        dragSrcEl = this;
 
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.innerHTML);
-  }
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+        }
 
-  function handleDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
+        function handleDragOver(e) {
+        if (e.preventDefault) {
+        e.preventDefault();
+        }
 
-    e.dataTransfer.dropEffect = 'move';
-    
-    return false;
-  }
+        e.dataTransfer.dropEffect = 'move';
+                    
+        return false;
+        }
 
-  function handleDragEnter(e) {
-    this.classList.add('over');
-  }
+        function handleDragEnter(e) {
+        this.classList.add('over');
+        }
 
-  function handleDragLeave(e) {
-    this.classList.remove('over');
-  }
+        function handleDragLeave(e) {
+        this.classList.remove('over');
+        }
 
-  function handleDrop(e) {
-    if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
-    }
-    
-    if (dragSrcEl != this) {
-      dragSrcEl.innerHTML = this.innerHTML;
-      this.innerHTML = e.dataTransfer.getData('text/html');
-    }
-    
-    return false;
-  }
+        function handleDrop(e) {
+        if (e.stopPropagation) {
+        e.stopPropagation(); // stops the browser from redirecting.
+        }
+                    
+        if (dragSrcEl != this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+                    
+        return false;
+        }
 
-  function handleDragEnd(e) {
-    this.style.opacity = '1';
-    
-    items.forEach(function (item) {
-      item.classList.remove('over');
-    });
-  }
-  
-  
-  let items = document.querySelectorAll('.container .box');
-  items.forEach(function(item) {
-    item.addEventListener('dragstart', handleDragStart, false);
-    item.addEventListener('dragenter', handleDragEnter, false);
-    item.addEventListener('dragover', handleDragOver, false);
-    item.addEventListener('dragleave', handleDragLeave, false);
-    item.addEventListener('drop', handleDrop, false);
-    item.addEventListener('dragend', handleDragEnd, false);
-  });
-});
+        function handleDragEnd(e) {
+        this.style.opacity = '1';
+                    
+        items.forEach(function (item) {
+        item.classList.remove('over');
+        });
+        }
+                  
+                  
+        let items = document.querySelectorAll('.container .box');
+        items.forEach(function(item) {
+        item.addEventListener('dragstart', handleDragStart, false);
+        item.addEventListener('dragenter', handleDragEnter, false);
+        item.addEventListener('dragover', handleDragOver, false);
+        item.addEventListener('dragleave', handleDragLeave, false);
+        item.addEventListener('drop', handleDrop, false);
+        item.addEventListener('dragend', handleDragEnd, false);
+        });
+        });
                 </script>
             </body>
         </html>
