@@ -1,29 +1,4 @@
-
-<style>
-
-    img,
-    iframe {
-        min-height: 222px;
-    }
-    .carousel-item {
-        align-items: center;
-    }
-
-    .embed-responsive {
-        pointer-events: none;
-    }
-
-    .embed-responsive-item {
-        pointer-events: all;
-    }
-
-    .pi-draggable>.col-md-6 {
-        width: 50%;
-        float: left
-    }
-</style>
-</li>
-<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
     <div class="container">
         <div class="row">
             <div class="col-6 p-0 pr-1">

@@ -1,4 +1,4 @@
-<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
     <div class="py-3">
         <div class="container">
             <div class="row">

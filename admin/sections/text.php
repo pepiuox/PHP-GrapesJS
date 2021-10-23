@@ -1,5 +1,5 @@
 
-<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
     <p class="lead">Lead paragraph. A wonderful serenity has taken possession of my entire soul.</p>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">

@@ -199,31 +199,43 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         </div>
                         <div class="panels">
                             <nav class="component">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a tabindex="-1" href="#">About</a>
-                                        <ul>
-                                            <li>
-                                                <?php include 'components/actions.php'; ?>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a tabindex="-1" href="#">Help</a>
-                                        <ul>
-                                            <li>
-                                                <?php include 'components/articles.php'; ?> 
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a tabindex="-1" href="#">Contact</a>
-                                        <ul>
-                                            <li>
-                                                <?php include 'components/components.php'; ?>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                <ul class="nav">
+
+                                    <?php
+
+                                    function getListcomponent($directory) {
+                                        $results_array = array();
+
+                                        if (is_dir($directory)) {
+                                            if ($handle = opendir($directory)) {
+
+                                                while (($file = readdir($handle)) !== FALSE) {
+                                                    $results_array[] = $file;
+                                                }
+                                                closedir($handle);
+                                            }
+                                        }
+
+                                        foreach ($results_array as $value) {
+                                            $ext = pathinfo($value, PATHINFO_EXTENSION);
+                                            if ($ext != 'php') {
+                                                continue;
+                                            }
+                                            $file = basename($value, "." . $ext);
+                                            echo '<li class="nav-item">
+                                <a tabindex="-1" href="#">' . ucfirst($file) . '</a>
+                                <ul>                                    
+                                        ';
+                                            include $directory . $value;
+                                            echo '
+                                </ul>
+                            </li>';
+                                        }
+                                    }
+
+                                    getListcomponent('components/');
+                                    getListcomponent('sections/');
+                                    ?>
                                 </ul>
                             </nav>
                         </div>
@@ -291,7 +303,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
 
                 <script type="text/javascript">
-                                                        
+                                                                        
                     let images = <?php echo $storeImage; ?>;
                     let editor = grapesjs.init({
                         avoidInlineStyle: 1,
@@ -763,9 +775,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               }
             ]
           }
-                                                                                                        
+                                                                                                                        
                         },
-                                                                        
+                                                                                        
                         canvas: {
             styles: [
                 '../css/bootstrap.min.css'
@@ -776,7 +788,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 '../js/bootstrap.min.js'
             ]
                         }
-                                                        
+                                                                        
                     });
 
                     // More functions
@@ -792,14 +804,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
           }
         }
         });
-                                                                                                
+                                                                                                                
         let pn = editor.Panels;
         let modal = editor.Modal;
         let cmdm = editor.Commands;
-                                                                                        
+                                                                                                        
         // test for custom blocks
         let blockManager = editor.BlockManager;
-                                                        
+                                                                        
         blockManager.add('covers1', {
         label: '<div class="gjs-block-label">Covers 1</div>',
         content: '<div class="py-5 text-center text-white h-100 align-items-center d-flex">'+
@@ -813,7 +825,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         '</div>'+
         '</div>'
         });
-                                                        
+                                                                        
         blockManager.add('covers2', {
         label: '<div class="gjs-block-label">Covers 2</div>',
         content: '<div class="py-5 text-center">'+
@@ -838,28 +850,28 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             }, 0);
                         }
                     });
-                                                                    
+                                                                                    
                     cmdm.add('set-device-desktop', {
                         run: function (ed) {
                             ed.setDevice('Desktop');
                         },
                         stop: function () {}
                     });
-                                                                    
+                                                                                    
                     cmdm.add('set-device-tablet', {
                         run: function (ed) {
                             ed.setDevice('Tablet');
                         },
                         stop: function () {}
                     });
-                                                                    
+                                                                                    
                     cmdm.add('set-device-mobile', {
                         run: function (ed) {
                             ed.setDevice('Mobile portrait');
                         },
                         stop: function () {}
                     });
-                                                                    
+                                                                                    
                     // Store DB
                     cmdm.add('save-database', {
                         run: function (em, sender) {
@@ -867,35 +879,35 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             saveContent();
                         }
                     });
-                                                                    
+                                                                                    
                     cmdm.add('view-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             viewContent();
                         }
                     });
-                                                                    
+                                                                                    
                     cmdm.add('update-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             updateContent();
                         }
                     });
-                                                                    
+                                                                                    
                     cmdm.add('refresh-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             refreshContent();
                         }
                     });
-                                                                    
+                                                                                    
                     cmdm.add('new-page', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             newContent();
                         }
                     });
-                                                                    
+                                                                                    
                     cmdm.add('view-page', {
                         run: function (em, sender) {
                             sender.set('active', true); //get full HTML structure after design
@@ -938,7 +950,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Save page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                                    
+                                                                                    
                     pn.addButton('options', [{
                             id: 'update-page',
                             className: 'fa fa-pencil-square-o',
@@ -947,7 +959,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Update page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                                    
+                                                                                    
                     pn.addButton('options', [{
                             id: 'view-page',
                             className: 'far fa-file-alt',
@@ -956,7 +968,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'View Page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                                    
+                                                                                    
                     pn.addButton('options', [{
                             id: 'refresh-page',
                             className: 'fa fa-refresh',
@@ -965,7 +977,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'Refresh page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                                    
+                                                                                    
                     pn.addButton('options', [{
                             id: 'new-page',
                             className: 'far fa-file',
@@ -974,7 +986,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 title: 'New page',
                                 'data-tooltip-pos': 'bottom'
                             }}]);
-                                                                    
+                                                                                    
                     // Simple warn notifier
                     let origWarn = console.warn;
                     toastr.options = {
@@ -983,7 +995,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         showDuration: 250,
                         hideDuration: 150
                     };
-                                                                    
+                                                                                    
                     console.warn = function (msg) {
                         if (msg.indexOf('[undefined]') == -1) {
                             toastr.warning(msg);
@@ -1001,7 +1013,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             .forEach(function (item) {
                                 pn.getButton('views', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
                             });
-                                                                            
+                                                                                            
                     let titles = document.querySelectorAll('*[title]');
                     for (let i = 0; i < titles.length; i++) {
                         let el = titles[i];
@@ -1053,13 +1065,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     // function buttom
 
                     window.editor = editor;
-                                                                    
+                                                                                    
                     function viewContent() {
                         let id = '<?php echo $id; ?>';
                         let url = 'view.php?id=' + id;
                         window.open(url);
                     }
-                                                                    
+                                                                                    
                     function saveContent() {
                         let idp = '<?php echo $id; ?>';
                         let content = editor.getHtml(); //get html content of document
@@ -1073,7 +1085,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             alert(rsp);
                         });
                     }
-                                                                    
+                                                                                    
                     function updateContent() {
                         let idp = '<?php echo $id; ?>';
                         let content = editor.getHtml(); //get html content of document
@@ -1091,12 +1103,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     function refreshContent() {
                         location.reload();
                     }
-                                                                    
+                                                                                    
                     function newContent() {
                         let url = 'dashboard.php?cms=addpage';
                         location.replace(url);
                     }
-                                                                    
+                                                                                    
                     function clearContent() {
                         let clear = 'clear';
                         $.ajax({
@@ -1107,10 +1119,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             $('#result').html(rsp);
                         });
                     }
-                                                                    
+                                                                                    
                     function getContent() {
                     }
-                                                                    
+                                                                                    
                     function uploadImages() {
                         let files = $('#gjs-am-uploadFile')[0].files[0];
                         formData.append('file', files);
@@ -1220,7 +1232,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         // display the draggable element
         draggable.classList.remove('hide');
         }
-                        
+                                        
         interact('.dropzone').dropzone({
         // only accept elements matching this CSS selector
         accept: '#yes-drop',
@@ -1271,15 +1283,15 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         // dragMoveListener from the dragging demo above
         listeners: { move: dragMoveListener }
         })
-                  
-                  
+                                  
+                                  
         document.addEventListener('DOMContentLoaded', (event) => {
 
         var dragSrcEl = null;
-                  
+                                  
         function handleDragStart(e) {
         this.style.opacity = '0.4';
-                    
+                                    
         dragSrcEl = this;
 
         e.dataTransfer.effectAllowed = 'move';
@@ -1292,7 +1304,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         }
 
         e.dataTransfer.dropEffect = 'move';
-                    
+                                    
         return false;
         }
 
@@ -1308,24 +1320,24 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         if (e.stopPropagation) {
         e.stopPropagation(); // stops the browser from redirecting.
         }
-                    
+                                    
         if (dragSrcEl != this) {
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = e.dataTransfer.getData('text/html');
         }
-                    
+                                    
         return false;
         }
 
         function handleDragEnd(e) {
         this.style.opacity = '1';
-                    
+                                    
         items.forEach(function (item) {
         item.classList.remove('over');
         });
         }
-                  
-                  
+                                  
+                                  
         let items = document.querySelectorAll('.container .box');
         items.forEach(function(item) {
         item.addEventListener('dragstart', handleDragStart, false);
@@ -1335,6 +1347,39 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         item.addEventListener('drop', handleDrop, false);
         item.addEventListener('dragend', handleDragEnd, false);
         });
+        });
+                </script>
+                <script>
+        jQuery(function ($) {
+
+        $(".sidebar-dropdown > a").click(function() {
+        $(".sidebar-submenu").slideUp(200);
+        if (
+        $(this)
+        .parent()
+        .hasClass("active")
+        ) {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+        .parent()
+        .removeClass("active");
+        } else {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+        .next(".sidebar-submenu")
+        .slideDown(200);
+        $(this)
+        .parent()
+        .addClass("active");
+        }
+        });
+
+        $("#close-sidebar").click(function() {
+        $(".app-wrap").removeClass("toggled");
+        });
+        $("#show-sidebar").click(function() {
+        $(".app-wrap").addClass("toggled");
+        });  
         });
                 </script>
             </body>

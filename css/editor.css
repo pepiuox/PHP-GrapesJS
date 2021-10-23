@@ -1,0 +1,148 @@
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+li {
+    padding: 12px;
+    width:100%;
+    color:#fff;
+}
+.component ul {
+    height:100%;
+    list-style-type: none;
+    font-size: 12px;
+    overflow-y: auto;
+    color:#ffffff;
+}
+.component ul li a{
+    color:#ffffff;
+    text-decoration:none;
+}
+.component > ul {
+    width:250px;
+    background-color:#3F3436;
+    position:relative;
+    overflow:visible;
+}
+.component > ul > li {
+    padding: 7px 12px;
+}
+.component > ul > li:hover {
+    background-color:#212529;
+}
+.component > ul > li > ul {
+    z-index: 999;
+    display:none;
+    position:absolute;
+    left:250px;
+    top:0;
+    width:250px;
+    background-color:#444444;
+}
+.component > ul > li:hover > ul {
+    display:block;
+    width:600px;
+    height:600px;
+    padding: 0px;
+    overflow-y: auto;
+    overflow-x: no-display;
+}
+.component > ul > li > ul > li {
+    margin-bottom: 10px;
+    padding: 0px;
+}
+.component > ul > li > ul >li:hover {
+    background-color:#31353D;
+}
+.component > ul > li > ul  {
+    display:none;
+    position:absolute;
+    right:-250px;
+    top:0;
+    width:250px;
+    background-color:#212529;
+}
+.component > ul > li > ul > li:hover ul {
+    display:block;
+}
+.component > ul > li > ul > li > ul > li:hover {
+    background-color:#212529;
+}
+.component > ul > li > ul > li ul li ul li {
+    border-bottom:1px dotted #fff;
+    padding:20px;
+}
+.side-navbar {
+    width: 250px;
+    height: 100%;
+    position: absolute;
+    margin-left: -250px;
+    background-color: #100901;
+    transition: 0.5s;
+}
+
+.nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+    background-color: #ffffff;
+}
+
+.editor-wrap {
+    transition: 0.4s;
+}
+
+.active-nav {
+    margin-left: 0;
+}
+
+/* for main section */
+.active-cont {
+    margin-left: 250px;
+}
+
+#menu-btn {
+    background-color: #463A3C;
+    color: #fff;
+    margin-left: -42px;
+}
+
+.editor-wrap input {
+    border-radius: 2rem;
+    padding: 2px 20px;
+}
+
+.app-wrap {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+.editor-wrap  {
+    width: 100%;
+    height: 100%;
+}
+.pages-wrp, .panel-wrp, #panels {
+    display: flex;
+    flex-direction: column
+}
+.pages-wrp {
+    background: #333;
+    padding: 5px;
+}
+
+.pi-draggable {
+    padding:10px;
+    -moz-user-select:none;
+    pointer-events: all !important;
+    position: relative;
+    cursor: -webkit-grab !important;
+    cursor: -moz-grab !important;
+    cursor: grab !important;
+}
+
+.pi-draggable:active {
+    cursor: -webkit-grabbing !important;
+    cursor: -moz-grabbing !important;
+    cursor: grabbing !important;
+}

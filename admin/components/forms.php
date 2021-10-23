@@ -1,4 +1,4 @@
-<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+<li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
     <div class="py-5 text-center" style="background-image: linear-gradient(to left bottom, rgba(189, 195, 199, .75), rgba(44, 62, 80, .75)); background-size: 100%;">
         <div class="container">
             <div class="row">

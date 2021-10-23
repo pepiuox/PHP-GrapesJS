@@ -20,50 +20,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     $pstyle = '';
 
     if (isset($_GET['id']) && !empty($_GET['id'])) {
-
-        $targetDir = "../uploads/";
-
-        function Get_ImagesToFolder($targetDir) {
-            $ImagesArray = [];
-            $file_display = [
-                'jpg',
-                'jpeg',
-                'png',
-                'gif'
-            ];
-
-            if (file_exists($targetDir) == false) {
-                return [
-                    "Directory \'', $targetDir, '\' not found!"
-                ];
-            } else {
-                $dir_contents = scandir($targetDir);
-                foreach ($dir_contents as $file) {
-                    $file_type = pathinfo($file, PATHINFO_EXTENSION);
-                    if (in_array($file_type, $file_display) === true) {
-                        $ImagesArray[] = "'" . $targetDir . $file . "'";
-                    }
-                }
-                return $ImagesArray;
-            }
-        }
-
-        $ImagesA = Get_ImagesToFolder($targetDir);
-        $storeImage = "[" . implode(',', $ImagesA) . "]";
         ?>
-
         <!doctype html>
         <html lang="en">
             <head>
                 <meta charset="utf-8">
                 <title><?php echo SITE_NAME; ?> | Builder</title>
-                <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
-                <!-- Font Awesome -->
-                <link rel="stylesheet" href="<?php echo $base; ?>css/fontawesome.min.css"  type="text/css"/>               
-                <!-- <link rel="stylesheet" href="<?php echo $base; ?>plugins/fontawesome-free/css/all.min.css"> --> 
+                <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+                <link href="<?php echo $base; ?>css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo $base; ?>css/font-awesome.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapes.min.css">
-                <link href="<?php echo $base; ?>css/editor.css" rel="stylesheet" type="text/css"/>
                 <link rel="stylesheet" href="<?php echo $base; ?>css/grapesjs-preset-webpage.min.css">
                 <link href="<?php echo $base; ?>css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
                 <link rel="stylesheet" href="<?php echo $base; ?>css/tooltip.css">
@@ -71,16 +38,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <link rel="stylesheet" href="<?php echo $base; ?>css/demos.css">
                 <link href="<?php echo $base; ?>css/grapesjs-project-manager.min.css" rel="stylesheet">
                 <script src="<?php echo $base; ?>js/jquery.min.js"></script>
-                <script src="<?php echo $base; ?>js/bootstrap.bundle.min.js" type="text/javascript"></script>            
+                <script src="<?php echo $base; ?>js/bootstrap.bundle.js" type="text/javascript"></script>
                 <!--  <script src="<?php echo $base; ?>js/backbone-min.js"></script> -->
                 <script src="<?php echo $base; ?>js/toastr.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapes.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-preset-webpage.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-bootstrap-elements.js"></script>
                 <script src="<?php echo $base; ?>ckeditor/ckeditor.js"></script>                
-                <script src="<?php echo $base; ?>js/grapesjs-preset-webpage.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>                 
                 <script src="<?php echo $base; ?>js/grapesjs-lory-slider.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-tabs.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-component-code-editor.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-custom-code.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-touch.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
@@ -88,16 +56,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="<?php echo $base; ?>js/grapesjs-tui-image-editor.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-navbar.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-blocks-bootstrap4.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-plugin-ckeditor.min.js"></script>                            
-                <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-uikit"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>                
-                <script src="<?php echo $base; ?>js/grapesjs-project-manager"></script>
-                <script src="<?php echo $base; ?>js/grapesjs-ga"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-code-editor.min.js"></script>                                           
+                <script src="<?php echo $base; ?>js/grapesjs-script-editor.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-typed.js"></script>             
+                <script src="<?php echo $base; ?>js/grapesjs-page-break.min.js"></script>  
+                <script src="<?php echo $base; ?>js/grapesjs-project-manager.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-parser-postcss.min.js"></script>
                 <script src="<?php echo $base; ?>js/grapesjs-swiper-slider.min.js"></script>
+                <script src="<?php echo $base; ?>js/grapesjs-style-bg.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         let imp = $("span").find("[data-tooltip='Import']");
@@ -115,147 +81,128 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $pstyle = "";
                 }
                 ?>
-
             </head>
             <body>
-                <div class="app-wrap">
-                    <!-- Side-Nav -->
-                    <div class="panel-wrp">
-                        <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar" >
-                            <nav class="component">
-
-                                <ul class="nav flex-column text-white w-100">
-                                    <div class="nav-link my-2">
-                                        Components
-                                    </div>
+                <!-- start menu -->                     
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <div class="menu-logo">
+                            <div class="navbar-brand">
+                                <a href="index.php" class="brand-link">
                                     <?php
-
-                                    function getListcomponent($directory) {
-                                        $results_array = array();
-
-                                        if (is_dir($directory)) {
-                                            if ($handle = opendir($directory)) {
-
-                                                while (($file = readdir($handle)) !== FALSE) {
-                                                    $results_array[] = $file;
-                                                }
-                                                closedir($handle);
-                                            }
-                                        }
-
-                                        foreach ($results_array as $value) {
-                                            $ext = pathinfo($value, PATHINFO_EXTENSION);
-                                            if ($ext != 'php') {
-                                                continue;
-                                            }
-                                            $file = basename($value, "." . $ext);
-                                            echo '<li class="nav-item">
-                                <a tabindex="-1" href="#">' . ucfirst($file) . '</a>
-                                <ul>                                    
-                                        ';
-                                            include $directory . $value;
-                                            echo '
-                                </ul>
-                            </li>';
-                                        }
+                                    $logo = IMG_PAGE;
+                                    if (file_exists($logo)) {
+                                        ?>
+                                        <img src="<?php echo $logo; ?>" alt="<?php echo SITE_NAME; ?>" height="36" style="opacity: .8">
+                                        <span class="brand-text font-weight-light"><?php echo SITE_NAME; ?></span>
+                                        <?php
+                                    } else {
+                                        echo SITE_NAME;
                                     }
-
-                                    getListcomponent('components/');
-                                    getListcomponent('sections/');
                                     ?>
-                                </ul>
-                            </nav>
+                                </a>
+                            </div>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span> 
+                        </button>
+                        <div id="navbarNavDropdown" class="navbar-collapse collapse
+                             justify-content-end">
+                            <ul class="navbar-nav nav-pills nav-fill">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="dashboard.php?cms=pagelist"><i class="fa fa-list" aria-hidden="true"></i> View Page List</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="dashboard.php?cms=addpage"><i class="fa fa-file-o" aria-hidden="true"></i> Add New Page</a>
+                                </li> 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="dashboard.php"><i class="fa fa-gear" aria-hidden="true"></i> Dashboard</a> 
+                                </li>
+                            </ul>   
                         </div>
                     </div>
-                    <div class="editor-wrap active-cont">
-                        <!-- Top Nav -->
-                        <nav class="navbar top-navbar navbar-dark bg-dark px-5">
-                            <a class="btn border-0" id="menu-btn"><i class="fa fa-bars"></i></a>
-                            <div class="container-fluid">
-                                <div class="menu-logo">
-                                    <div class="navbar-brand">
-                                        <a href="index.php" class="brand-link">
-                                            <?php
-                                            $logo = IMG_PAGE;
-                                            if (file_exists($logo)) {
-                                                ?>
-                                                <img src="<?php echo $logo; ?>" alt="<?php echo SITE_NAME; ?>" height="36" style="opacity: .8">
-                                                <span class="brand-text font-weight-light"><?php echo SITE_NAME; ?></span>
-                                                <?php
-                                            } else {
-                                                echo SITE_NAME;
-                                            }
-                                            ?>
-                                        </a>
-                                    </div>
-                                </div>
-                 
-                                <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item dropdown user-menu">
-                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                            <?php
-                                            if (!empty(USERS_AVATARS)) {
-                                                echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
-                                            }
-                                            ?>
-                                            <i class="far fa-user"></i>
-                                            <span class="d-none d-md-inline"><?php echo USERS_FULLNAMES; ?></span>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                            <!-- User image -->
-                                            <li class="user-header bg-primary">
-                                                <?php
-                                                if (!empty(USERS_AVATARS)) {
-                                                    echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
-                                                }
-                                                ?>
-                                                <p>
-                                                    <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
-                                                    <small>Member since Nov. 2012</small>
-                                                </p>
-                                            </li>
-                                            <!-- Menu Body -->
-                                            <li class="user-body">
-                                                <div class="row">
-                                                    <div class="col-4 text-center">
-                                                        <a href="#">Followers</a>
-                                                    </div>
-                                                    <div class="col-4 text-center">
-                                                        <a href="#">Sales</a>
-                                                    </div>
-                                                    <div class="col-4 text-center">
-                                                        <a href="#">Friends</a>
-                                                    </div>
-                                                </div>
-                                                <!-- /.row -->
-                                            </li>
-                                            <!-- Menu Footer-->
-                                            <li class="user-footer">
-                                                <form method="post">
-                                                    <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
-                                                    <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
-                                                        Sign out
-                                                    </button>
-                                                </form>
-
-                                            </li>
-                                        </ul>
-                                    </li>        
-                                </ul>
-                            </div>
-                        </nav>
-
-                        <div id="gjs" class='box' ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)">
-                            <?php
-                            echo decodeContent($pcontent) . "\n";
-                            echo '<style>' . "\n";
-                            echo decodeContent($pstyle) . "\n";
-                            echo '</style>' . "\n";
-                            ?>
-                        </div>
+                </nav>
+                <!-- end menu -->
+                <div style="display: none">
+                    <div class="gjs-logo-cont">
+                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo $base; ?>img/grapesjs-logo-cl.png"></a>
+                        <div class="gjs-logo-version"></div>
                     </div>
                 </div>
-  <script type="text/javascript">
+                <!-- start content editor -->
+                <div id="gjs" class="gjs-editor-cont"
+                     style="height: 100%; min-height: 700px; overflow: hidden">
+                         <?php
+                         echo decodeContent($pcontent) . "\n";
+                         echo '<style>' . "\n";
+                         echo decodeContent($pstyle) . "\n";
+                         echo '</style>' . "\n";
+                         ?>
+
+                </div>
+                <!-- end content editor -->
+                <div id="info-panel" style="display: none">
+                    <br />
+                    <svg class="info-panel-logo" xmlns="//www.w3.org/2000/svg" version="1">
+                    <g id="gjs-logo">
+                    <path
+                        d="M40 5l-12.9 7.4 -12.9 7.4c-1.4 0.8-2.7 2.3-3.7 3.9 -0.9 1.6-1.5 3.5-1.5 5.1v14.9 14.9c0 1.7 0.6 3.5 1.5 5.1 0.9 1.6 2.2 3.1 3.7 3.9l12.9 7.4 12.9 7.4c1.4 0.8 3.3 1.2 5.2 1.2 1.9 0 3.8-0.4 5.2-1.2l12.9-7.4 12.9-7.4c1.4-0.8 2.7-2.2 3.7-3.9 0.9-1.6 1.5-3.5 1.5-5.1v-14.9 -12.7c0-4.6-3.8-6-6.8-4.2l-28 16.2"
+                        style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:10;stroke:#fff" />
+                    </g></svg>
+                    <br />
+                    <div class="info-panel-label">
+                        <b>GrapesJS Webpage Builder</b> is a simple showcase of what is
+                        possible to achieve with the <a class="info-panel-link gjs-four-color"
+                                                        target="_blank" href="https://github.com/artf/grapesjs">GrapesJS</a>
+                        core library <br /> <br /> For any hint about the demo check the <a
+                            class="info-panel-link gjs-four-color" target="_blank"
+                            href="https://github.com/artf/grapesjs-preset-webpage">Webpage Preset
+                            repository</a> and open an issue. For problems with the builder
+                        itself, open an issue on the main <a
+                            class="info-panel-link gjs-four-color" target="_blank"
+                            href="https://github.com/artf/grapesjs">GrapesJS repository</a> <br />
+                        <br /> Being a free and open source project contributors and
+                        supporters are extremely welcome. If you like the project support it
+                        with a donation of your choice or become a backer/sponsor via <a
+                            class="info-panel-link gjs-four-color" target="_blank"
+                            href="https://opencollective.com/grapesjs">Open Collective</a>
+                    </div>
+                </div>
+                <div id="blocks"></div>
+                <div id="result"></div>
+                <?php
+                $targetDir = "../uploads/";
+
+                function Get_ImagesToFolder($targetDir) {
+                    $ImagesArray = [];
+                    $file_display = [
+                        'jpg',
+                        'jpeg',
+                        'png',
+                        'gif'
+                    ];
+
+                    if (file_exists($targetDir) == false) {
+                        return [
+                            "Directory \'', $targetDir, '\' not found!"
+                        ];
+                    } else {
+                        $dir_contents = scandir($targetDir);
+                        foreach ($dir_contents as $file) {
+                            $file_type = pathinfo($file, PATHINFO_EXTENSION);
+                            if (in_array($file_type, $file_display) === true) {
+                                $ImagesArray[] = "'" . $targetDir . $file . "'";
+                            }
+                        }
+                        return $ImagesArray;
+                    }
+                }
+
+                $ImagesA = Get_ImagesToFolder($targetDir);
+                $storeImage = "[" . implode(',', $ImagesA) . "]";
+                ?>
+
+                <script type="text/javascript">
 
                     let images = <?php echo $storeImage; ?>;
                     let editor = grapesjs.init({
@@ -946,6 +893,15 @@ let modal = editor.Modal;
 let cmdm = editor.Commands;
 let blockManager = editor.BlockManager;
 
+pn.addButton('myNewPanel',{
+  id: 'myNewButton',
+  className: 'someClass',
+  command: 'someCommand',
+  attributes: { title: 'Some title'},
+  active: false
+});
+const removedButton = pn.removeButton('myNewPanel', 'myNewButton');
+
 cmdm.add('canvas-clear', function() {
     if (confirm('Are you sure to clean the canvas?')) {
         let comps = editor.DomComponents.clear();
@@ -1031,15 +987,7 @@ cmdm.add('open-info', function() {
         mdlDialog.className = mdlDialog.className.replace(mdlClass, '');
     });
 });
-pn.addButton('views', {
-    id: 'open-pages',
-    className: 'fa fa-file-o',
-    attributes: {
-        title: 'Take Screenshot'
-    },
-    command: 'open-pages',
-    togglable: false
-});
+
 pn.addButton('options', {
     id: 'open-info',
     className: 'fa fa-question-circle',
@@ -1060,7 +1008,15 @@ pn.addButton('options', {
     },
     command: 'open-templates' //Open modal 
 });
-
+pn.addButton('views', {
+    id: 'open-pages',
+    className: 'fa fa-file-o',
+    attributes: {
+        title: 'Take Screenshot'
+    },
+    command: 'open-pages',
+    togglable: false
+});
 pn.addButton('options', [{
     id: 'dashboard',
     className: 'fa fa-tachometer',
@@ -1115,6 +1071,134 @@ pn.addButton('options', [{
         'data-tooltip-pos': 'bottom'
     }
 }]);
+
+
+blockManager.add('testBlock', {
+    label: 'Block',
+    attributes: {
+        class: 'gjs-fonts gjs-f-b1'
+    },
+    content: `<div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>`
+});
+blockManager.add('covers1', {
+    label: '<div class="gjs-block-label">Covers 1</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Covers",
+    activate: 1,
+    content: '<div class="py-5 text-center h-100 align-items-center d-flex">' +
+        '<div class="container py-5">' +
+        '<div class="row">' +
+        '<div class="mx-auto col-lg-8 col-md-10">' +
+        '<h1 class="display-3 mb-4">A wonderful serenity</h1>' +
+        '<p class="lead mb-5">Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.</p> <a href="#" class="btn btn-lg btn-primary mx-1">Take me there</a> <a class="btn btn-lg mx-1 btn-outline-primary" href="#">Go</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+});
+
+blockManager.add('covers2', {
+    label: '<div class="gjs-block-label">Covers 2</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Covers",
+    activate: 1,
+    content: '<div class="py-5 text-center">' +
+        '<div class="container">' +
+        '<div class="row">' +
+        '<div class="bg-white p-5 mx-auto col-md-8 col-10">' +
+        '<h3 class="display-3">I feel the charm</h3>' +
+        '<p class="mb-3 lead">Of existence in this spot</p>' +
+        '<p class="mb-4">Which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p> <a class="btn btn-outline-primary" href="#">Read more</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+});
+
+blockManager.add("card", {
+    label: '<div class="gjs-block-label">Card</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Cards",
+    activate: 1,
+    content: '<div class="card">' +
+        '<img class="card-img-top" src="..." alt="..." >' +
+        '<div class="card-body">' +
+        '<h4 class="card-title">Card title</h4>' +
+        '<p class="card-text">Some quick example text to build on the card title content.</p>' +
+        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+        '</div>' +
+        '</div>'
+});
+
+blockManager.add("card", {
+    label: '<div class="gjs-block-label">Card</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Cards"
+});
+
+blockManager.add("input", {
+    label: '<div class="gjs-block-label">Input</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Inputs"
+});
+
+blockManager.add("form", {
+    label: '<div class="gjs-block-label">Form</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Forms"
+});
+
+blockManager.add("grid", {
+    label: '<div class="gjs-block-label">Grid</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Grids"
+});
+
+blockManager.add("nav", {
+    label: '<div class="gjs-block-label">Nav</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Navs"
+});
+
+blockManager.add("navbar", {
+    label: '<div class="gjs-block-label">Navbars</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Navbars"
+});
+
+blockManager.add("list", {
+    label: '<div class="gjs-block-label">List</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "List"
+});
+
+blockManager.add("media", {
+    label: '<div class="gjs-block-label">Media</div>',
+    attributes: {
+        class: "fa fa-id-card-o"
+    },
+    category: "Media"
+});
 
 
 // Simple warn notifier
@@ -1309,91 +1393,6 @@ function uploadImages() {
 
                                                    
                 </script>
-                <script>
-
-        var btn = document.querySelector('.add');
-        var remove = document.querySelector('.pi-draggable');
-
-        function dragStart(e) {
-          this.style.opacity = '0.4';
-          dragSrcEl = this;
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/html', this.innerHTML);
-        };
-
-        function dragEnter(e) {
-          this.classList.add('over');
-        }
-
-        function dragLeave(e) {
-          e.stopPropagation();
-          this.classList.remove('over');
-        }
-
-        function dragOver(e) {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = 'move';
-          return false;
-        }
-
-        function dragDrop(e) {
-          if (dragSrcEl != this) {
-            dragSrcEl.innerHTML = this.innerHTML;
-            this.innerHTML = e.dataTransfer.getData('text/html');
-          }
-          return false;
-        }
-
-        function dragEnd(e) {
-          var listItens = document.querySelectorAll('.pi-draggable');
-          [].forEach.call(listItens, function(item) {
-            item.classList.remove('over');
-          });
-          this.style.opacity = '1';
-        }
-
-        function addEventsDragAndDrop(el) {
-          el.addEventListener('dragstart', dragStart, false);
-          el.addEventListener('dragenter', dragEnter, false);
-          el.addEventListener('dragover', dragOver, false);
-          el.addEventListener('dragleave', dragLeave, false);
-          el.addEventListener('drop', dragDrop, false);
-          el.addEventListener('dragend', dragEnd, false);
-        }
-
-        var listItens = document.querySelectorAll('.pi-draggable');
-        [].forEach.call(listItens, function(item) {
-          addEventsDragAndDrop(item);
-        });
-
-        function addNewItem() {
-          var newItem = document.querySelector('.input').value;
-          if (newItem != '') {
-            document.querySelector('.input').value = '';
-            var li = document.createElement('li');
-            var attr = document.createAttribute('draggable');
-            var ul = document.querySelector('ul');
-            li.className = 'draggable';
-            attr.value = 'true';
-            li.setAttributeNode(attr);
-            li.appendChild(document.createTextNode(newItem));
-            ul.appendChild(li);
-            addEventsDragAndDrop(li);
-          }
-        }
-
-        btn.addEventListener('click', addNewItem);
-                </script>
-                <script>
-               var menu_btn = document.querySelector("#menu-btn");
-               var sidebar = document.querySelector("#sidebar");
-               var container = document.querySelector(".editor-wrap");
-               menu_btn.addEventListener("click", () => {
-                 sidebar.classList.toggle("active-nav");
-                 container.classList.toggle("active-cont");
-               });
-                </script>
-
             </body>
         </html>
         <?php
