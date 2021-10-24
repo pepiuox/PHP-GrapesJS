@@ -16,7 +16,7 @@ Many more functionalities are being developed, but as this is very functional an
 <img src="https://pepiuox.net/files/builder2.jpg">
 <hr>
 
-### Components drap and drop.
+### Components drag and drop.
 <img src="https://pepiuox.net/files/builder3.jpg">
 <hr>
 
