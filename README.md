@@ -6,6 +6,20 @@ Easy installation recommendation, unzip your source in the folder to install and
 
 Many more functionalities are being developed, but as this is very functional and practical.
 
+## Dashboard
+### Basic and classic.
+<img src="https://pepiuox.net/files/builder1.jpg">
+<hr>
+
+## Builder
+### Build and edit your web site.
+<img src="https://pepiuox.net/files/builder2.jpg">
+<hr>
+
+### Components drap and drop.
+<img src="https://pepiuox.net/files/builder3.jpg">
+<hr>
+
 ## First step
 ### Installation start, connect to database.
 <img src="https://pepiuox.net/files/first-step.jpg">
