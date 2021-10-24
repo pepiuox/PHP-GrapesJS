@@ -24,6 +24,12 @@
     <h1 >Heading 1</h1>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <h1 class="display-6">Display 6</h1>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <h1 class="display-5">Display 5</h1>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <h1 class="display-4">Display 4</h1>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
@@ -198,4 +204,24 @@
             </tbody>
         </table>
     </div>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <figure class="text-end">
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
 </li>

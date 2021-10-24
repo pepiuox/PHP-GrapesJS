@@ -1393,7 +1393,34 @@ function uploadImages() {
                  container.classList.toggle("active-cont");
                });
                 </script>
+<script>
+var $el = $(".pi-draggable");
+var elHeight = $el.outerHeight();
+var elWidth = $el.outerWidth();
 
+function doResize(event, ui) {
+  
+  var scale, origin;
+    
+  scale = Math.min(
+    ui.size.width / elWidth,    
+    ui.size.height / elHeight
+  );
+  
+  $el.css({
+    transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
+  });
+  
+}
+
+var starterData = { 
+  size: {
+    width: $el.width(),
+    height: $el.height()
+  }
+}
+doResize(null, starterData);
+</script>
             </body>
         </html>
         <?php

@@ -48,13 +48,12 @@ li {
     padding: 0px;
     overflow-y: auto;
     overflow-x: no-display;
-    
+
 }
 .component > ul > li > ul > li {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10px;
-    padding: 0px;
+    padding: 5px;
     background-color:#ffffff;
     color:#212529;
 }
@@ -63,13 +62,14 @@ li {
     background-color: #B9A5A6;
     color:#444444;
 }
-.component > ul > li > ul > li >div{
+.component > ul > li > ul > li >div, .component > ul > li > ul > li >nav{
     position: relative;
     resize: both;
     transform: scale(1, 1);
     zoom: 1;
     -moz-transform: scale(1);
     -moz-transform-origin: 0 0;
+
 }
 .component > ul > li > ul  {
     display:none;
@@ -205,27 +205,32 @@ li {
 
 .pi-draggable>.col-md-8 {
     width: 66.6%;
-    float: left
+    float: left;
+    border: 1px solid #818181;
 }
 
 .pi-draggable>.col-md-6 {
     width: 50%;
-    float: left
+    float: left;
+    border: 1px solid #818181;
 }
 
 .pi-draggable>.col-md-4 {
     width: 33.3%;
-    float: left
+    float: left;
+    border: 1px solid #818181;
 }
 
 .pi-draggable>.col-md-3 {
     width: 25%;
-    float: left
+    float: left;
+    border: 1px solid #818181;
 }
 
 .pi-draggable>.col-md-2 {
     width: 16.6%;
-    float: left
+    float: left;
+    border: 1px solid #818181;
 }
 
 [class*=col-]:empty:after {
