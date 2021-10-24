@@ -1,4 +1,4 @@
-<div class="py-5 text-center text-white h-100 align-items-center d-flex" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(https://static.pingendo.com/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+<div class="py-5 text-center text-white h-100 align-items-center d-flex" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>img/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
     <div class="container py-5">
         <div class="row">
             <div class="mx-auto col-lg-8 col-md-10">
@@ -10,7 +10,7 @@
 </div>
 
 
-<div class="py-5 text-center" style="background-image: url('https://static.pingendo.com/cover-bubble-dark.svg');background-size:cover;">
+<div class="py-5 text-center" style="background-image: url('<?php echo $base; ?>img/cover-bubble-dark.svg');background-size:cover;">
     <div class="container">
         <div class="row">
             <div class="bg-white p-5 mx-auto col-md-8 col-10">
@@ -35,12 +35,12 @@
 </div>
 
 
-<div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(https://static.pingendo.com/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+<div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>img/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <h1 class="mb-3">I enjoy with my whole heart</h1>
-                <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> <img class="img-fluid d-block mx-auto" src="https://static.pingendo.com/img-placeholder-tablet.svg" width="750">
+                <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> <img class="img-fluid d-block mx-auto" src="<?php echo $base; ?>img/img-placeholder-tablet.svg" width="750">
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 
 
 <div class="py-5 text-center text-white" style="position: relative; overflow: hidden;"> <video autoplay="" loop="" muted="" plays-inline="" style="position: absolute; right: 0; top: 0; min-width:100%; z-index: -100;">
-        <source src="https://static.pingendo.com/video-placeholder.mp4" type="video/mp4"> </video>
+        <source src="<?php echo $base; ?>img/video-placeholder.mp4" type="video/mp4"> </video>
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
@@ -61,7 +61,7 @@
 </div>
 
 
-<div class="py-5" style="background-image: url(&quot;https://static.pingendo.com/cover-stripes.svg&quot;); background-position: right bottom; background-size: cover;">
+<div class="py-5" style="background-image: url(&quot;<?php echo $base; ?>img/cover-stripes.svg&quot;); background-position: right bottom; background-size: cover;">
     <div class="container">
         <div class="row">
             <div class="p-5 bg-white ml-auto col-md-5 border">
@@ -73,7 +73,7 @@
 </div>
 
 
-<div class="py-5 text-center text-md-right" style="background-image: url(https://static.pingendo.com/cover-bubble-dark.svg);	background-position: right bottom;	background-size: cover;	background-repeat: repeat; background-attachment: fixed;">
+<div class="py-5 text-center text-md-right" style="background-image: url(<?php echo $base; ?>img/cover-bubble-dark.svg);	background-position: right bottom;	background-size: cover;	background-repeat: repeat; background-attachment: fixed;">
     <div class="container">
         <div class="row">
             <div class="p-5 mx-auto mx-md-0 ml-md-auto col-10 col-md-9">
@@ -94,7 +94,7 @@
     <div class="container">
         <div class="row">
             <div class="px-5 col-md-8 text-center mx-auto">
-                <h3 class="text-primary display-4"> <b>Pingendo</b> </h3>
+                <h3 class="text-primary display-4"> <b>PHP GrapesJS</b> </h3>
                 <h2 class="my-3">I am so happy, my dear friend.</h2>
                 <p class="mb-3">I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable.</p> <a href="#" class="btn btn-primary">Download</a>
                 <p class="mt-2"> <small>Currently v2.0.3</small> </p>
@@ -124,11 +124,11 @@
 </div>
 
 
-<div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(https://static.pingendo.com/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+<div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>img/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
     <div class="container">
         <div class="row">
             <div class="col-lg-5 p-0">
-                <div class="embed-responsive embed-responsive-4by3"> <video src="https://static.pingendo.com/video-placeholder.mp4" class="embed-responsive-item" type="video/mp4" controls="controls"> Your browser does not support HTML5 video. </video> </div>
+                <div class="embed-responsive embed-responsive-4by3"> <video src="<?php echo $base; ?>img/video-placeholder.mp4" class="embed-responsive-item" type="video/mp4" controls="controls"> Your browser does not support HTML5 video. </video> </div>
             </div>
             <div class="p-5 col-lg-7 d-flex flex-column justify-content-center">
                 <h3 class="display-4 mb-3">The lovely valley</h3>
@@ -154,7 +154,7 @@
 <div class="pt-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 mr-auto order-2 order-md-1"> <img class="img-fluid d-block" src="https://static.pingendo.com/img-placeholder-mobile.svg"> </div>
+            <div class="col-md-4 mr-auto order-2 order-md-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-mobile.svg"> </div>
             <div class="px-md-5 p-3 d-flex flex-column align-items-start justify-content-center col-md-7 order-1 order-md-2"> <i class="d-block fa fa-stop-circle fa-4x mb-3 text-muted"></i>
                 <h1> Indescribable forms</h1>
                 <p class="mb-3 lead">And yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface.</p>
@@ -178,7 +178,7 @@
                     <div class="col-md-12"> <i class="fa fa-stop-circle fa-3x mr-3 text-muted d-inline"></i> <i class="fa fa-circle-o fa-3x mx-3 text-muted d-inline"></i> <i class="fa fa-stop-circle-o fa-3x mx-3 text-muted d-inline"></i> <i class="fa fa-circle fa-3x ml-3 text-muted d-inline"></i> </div>
                 </div>
             </div>
-            <div class="col-md-6"> <img class="img-fluid d-block" src="https://static.pingendo.com/img-placeholder-tablet.svg" > </div>
+            <div class="col-md-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-tablet.svg" > </div>
         </div>
     </div>
 </div>

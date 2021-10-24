@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+                    <p class="mb-0">© 2021 PHP GrapesJS. All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
                         <li class="nav-item"> <a class="nav-link" href="#">Pricing</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">About</a> </li>
                     </ul>
-                    <p class="mb-0 py-1">© 2014-2018 Pingendo. All rights reserved</p>
+                    <p class="mb-0 py-1">© 2021 PHP GrapesJS. All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mt-2 mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+                    <p class="mt-2 mb-0">© 2021 PHP GrapesJS. All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mb-0 mt-2">© 2014-2018 Pingendo. All rights reserved</p>
+                    <p class="mb-0 mt-2">© 2021 PHP GrapesJS. All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
                     <p> <a href="https://goo.gl/maps/AUq7b9W7yYJ2" target="_blank"> Fake street, 100
                             <br>NYC - 20179, USA</a> </p>
                     <p> <a href="tel:+246 - 542 550 5462">+1 - 256 845 87 86</a> </p>
-                    <p class="mb-0"> <a href="mailto:info@pingendo.com">info@pingendo.com</a> </p>
+                    <p class="mb-0"> <a href="mailto:info@PHP GrapesJS.com">info@PHP GrapesJS.com</a> </p>
                 </div>
                 <div class="col-md-4 p-3">
                     <h5> <b>About</b> </h5>
@@ -140,7 +140,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mb-0 mt-2">© 2014-2018 Pingendo. All rights reserved</p>
+                    <p class="mb-0 mt-2">© 2021 PHP GrapesJS. All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@
                         <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">Pricing</a> </li>
                     </ul> <i class="d-block fa fa-stop-circle fa-3x mx-auto text-primary"></i>
-                    <p class="mb-0 py-1">©2018 Pingendo All rights reserved</p>
+                    <p class="mb-0 py-1">©2018 PHP GrapesJS All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
                     <p> <a href="https://goo.gl/maps/AUq7b9W7yYJ2" target="_blank"> Fake street, 100
                             <br>NYC - 20179, USA</a> </p>
                     <p> <a href="tel:+246 - 542 550 5462">+1 - 256 845 87 86</a> </p>
-                    <p class="mb-0"> <a href="mailto:info@pingendo.com">info@pingendo.com</a> </p>
+                    <p class="mb-0"> <a href="mailto:info@PHP GrapesJS.com">info@PHP GrapesJS.com</a> </p>
                 </div>
             </div>
             <div class="row">
@@ -190,7 +190,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mb-0">© 2014-2018 Pingendo. All rights reserved</p>
+                    <p class="mb-0">© 2021 PHP GrapesJS. All rights reserved</p>
                 </div>
             </div>
         </div>
@@ -217,7 +217,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mt-3 text-center">
-                    <p>© Copyright 2018 Pingendo - All rights reserved.</p>
+                    <p>© Copyright 2018 PHP GrapesJS - All rights reserved.</p>
                 </div>
             </div>
         </div>
@@ -228,7 +228,7 @@
         <div class="container">
             <div class="row">
                 <div class="p-4 col-md-3">
-                    <h2 class="mb-4">Pingendo</h2>
+                    <h2 class="mb-4">PHP GrapesJS</h2>
                     <p>A company for whatever you may need, from website prototyping to publishing</p>
                 </div>
                 <div class="p-4 col-md-3">
@@ -240,7 +240,7 @@
                     <p> <a href="#" class="text-dark">
                             <i class="fa d-inline mr-3 text-muted fa-phone"></i>+246 - 542 550 5462</a> </p>
                     <p> <a href="#" class="text-dark">
-                            <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>info@pingendo.com</a> </p>
+                            <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>info@PHP GrapesJS.com</a> </p>
                     <p> <a href="#" class="text-dark">
                             <i class="fa d-inline mr-3 fa-map-marker text-muted"></i>365 Park Street, NY</a> </p>
                 </div>
@@ -252,18 +252,18 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mt-3">
-                    <p class="text-center">© Copyright 2018 Pingendo - All rights reserved. </p>
+                    <p class="text-center">© Copyright 2018 PHP GrapesJS - All rights reserved. </p>
                 </div>
             </div>
         </div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(https://static.pingendo.com/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>img/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center align-self-center p-4">
-                    <p class="mb-5"> <strong>Pingendo Inc.</strong> <br>795 Folsom Ave, Suite 600 <br>San Francisco, CA 94107 <br> <abbr title="Phone">P:</abbr> (123) 456-7890 </p>
+                    <p class="mb-5"> <strong>PHP GrapesJS Inc.</strong> <br>795 Folsom Ave, Suite 600 <br>San Francisco, CA 94107 <br> <abbr title="Phone">P:</abbr> (123) 456-7890 </p>
                     <div class="row">
                         <div class="col-md-12 d-flex align-items-center justify-content-around"> <a href="#">
                                 <i class="d-block fa fa-facebook-official text-light fa-lg mx-2"></i>

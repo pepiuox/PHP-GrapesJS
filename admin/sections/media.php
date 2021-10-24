@@ -2,10 +2,10 @@
     <div class="container">
         <div class="row">
             <div class="col-6 p-0 pr-1">
-                <img class="img-fluid d-block" src="https://static.pingendo.com/img-placeholder-1.svg">
+                <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-1.svg">
             </div>
             <div class="col-6 p-0 pl-1">
-                <img class="img-fluid d-block rounded-circle" src="https://static.pingendo.com/img-placeholder-3.svg">
+                <img class="img-fluid d-block rounded-circle" src="<?php echo $base; ?>img/img-placeholder-3.svg">
             </div>
         </div>
     </div>
@@ -40,19 +40,19 @@
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="carousel slide" data-ride="carousel" id="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="https://static.pingendo.com/cover-bubble-dark.svg">
+            <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/cover-bubble-dark.svg">
                 <div class="carousel-caption">
                     <h5 class="m-0">Carousel</h5>
                     <p>with controls</p>
                 </div>
             </div>
-            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="https://static.pingendo.com/cover-bubble-light.svg">
+            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/cover-bubble-light.svg">
                 <div class="carousel-caption">
                     <h5 class="m-0">Carousel</h5>
                     <p>with controls</p>
                 </div>
             </div>
-            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="https://static.pingendo.com/cover-moon.svg">
+            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/cover-moon.svg">
                 <div class="carousel-caption">
                     <h5 class="m-0">Carousel</h5>
                     <p>with controls</p>
@@ -69,19 +69,19 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="2"> </li>
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="https://static.pingendo.com/cover-moon.svg">
+            <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/cover-moon.svg">
                 <div class="carousel-caption">
                     <h5 class="m-0">Carousel</h5>
                     <p>with indicators</p>
                 </div>
             </div>
-            <div class="carousel-item "> <img class="d-block img-fluid w-100" src="https://static.pingendo.com/cover-bubble-dark.svg">
+            <div class="carousel-item "> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/cover-bubble-dark.svg">
                 <div class="carousel-caption">
                     <h5 class="m-0">Carousel</h5>
                     <p>with indicators</p>
                 </div>
             </div>
-            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="https://static.pingendo.com/cover-bubble-light.svg">
+            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/cover-bubble-light.svg">
                 <div class="carousel-caption">
                     <h5 class="m-0">Carousel</h5>
                     <p>with indicators</p>
@@ -112,6 +112,6 @@
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="pi-draggable embed-responsive embed-responsive-16by9">
-        <video src="https://static.pingendo.com/video-placeholder.mp4" class="embed-responsive-item" controls="controls"> Your browser does not support HTML5 video. </video>
+        <video src="<?php echo $base; ?>img/video-placeholder.mp4" class="embed-responsive-item" controls="controls"> Your browser does not support HTML5 video. </video>
     </div>
 </li>

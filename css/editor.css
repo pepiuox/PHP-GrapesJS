@@ -17,7 +17,7 @@ li {
     color:#ffffff;
 }
 .component ul li a{
-    color:#ffffff;
+    color:#B9A5A6;
     text-decoration:none;
 }
 .component > ul {
@@ -36,7 +36,7 @@ li {
     z-index: 999;
     display:none;
     position:absolute;
-    left:250px;
+    left:160px;
     top:0;
     width:250px;
     background-color:#444444;
@@ -44,24 +44,39 @@ li {
 .component > ul > li:hover > ul {
     display:block;
     width:600px;
-    height:600px;
+    height: 100%;
     padding: 0px;
     overflow-y: auto;
     overflow-x: no-display;
+    
 }
 .component > ul > li > ul > li {
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 10px;
     padding: 0px;
+    background-color:#ffffff;
+    color:#212529;
 }
+
 .component > ul > li > ul >li:hover {
-    background-color:#31353D;
+    background-color: #B9A5A6;
+    color:#444444;
+}
+.component > ul > li > ul > li >div{
+    position: relative;
+    resize: both;
+    transform: scale(1, 1);
+    zoom: 1;
+    -moz-transform: scale(1);
+    -moz-transform-origin: 0 0;
 }
 .component > ul > li > ul  {
     display:none;
     position:absolute;
-    right:-250px;
+    right:-160px;
     top:0;
-    width:250px;
+    width:160px;
     background-color:#212529;
 }
 .component > ul > li > ul > li:hover ul {
@@ -75,10 +90,10 @@ li {
     padding:20px;
 }
 .side-navbar {
-    width: 250px;
+    width: 160px;
     height: 100%;
     position: absolute;
-    margin-left: -250px;
+    margin-left: -160px;
     background-color: #100901;
     transition: 0.5s;
 }
@@ -99,7 +114,7 @@ li {
 
 /* for main section */
 .active-cont {
-    margin-left: 250px;
+    margin-left: 160px;
 }
 
 #menu-btn {
@@ -129,6 +144,99 @@ li {
 .pages-wrp {
     background: #333;
     padding: 5px;
+}
+.h-100,
+.h-75 {
+    min-height: 50% !important;
+    max-height: 50% !important;
+}
+
+
+.pi-draggable>p:hover,
+.pi-draggable>div:hover,
+.pi-draggable>h1:hover,
+.pi-draggable>ul:hover,
+.pi-draggable>ol:hover,
+.pi-draggable>a:hover,
+.pi-draggable>hr:hover,
+.pi-draggable>.embed-responsive-item:hover {
+    opacity: 1;
+}
+
+.pi-draggable>.btn:hover,
+.pi-draggable>.btn-group:hover,
+.pi-draggable>.pi-wrapper:hover,
+.pi-draggable>img:hover,
+.pi-draggable>.carousel:hover,
+.pi-draggable>.embed-responsive:hover,
+.pi-draggable>.nav:hover,
+.pi-draggable>nav:hover,
+.pi-draggable>.breadcrumb:hover,
+.pi-draggable>.pagination:hover
+{
+    box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.pi-draggable>img,
+.pi-draggable>iframe {
+    min-height: 222px;
+}
+
+.pi-draggable>.pi-wrapper>* {
+    width: 100%;
+}
+
+.pi-draggable>.carousel-item {
+    align-items: center;
+}
+
+.pi-draggable>.embed-responsive {
+    pointer-events: none;
+}
+
+.pi-draggable>.embed-responsive-item {
+    pointer-events: all;
+}
+
+.pi-draggable>.col-md-12 {
+    width: 100%;
+    float: left
+}
+
+.pi-draggable>.col-md-8 {
+    width: 66.6%;
+    float: left
+}
+
+.pi-draggable>.col-md-6 {
+    width: 50%;
+    float: left
+}
+
+.pi-draggable>.col-md-4 {
+    width: 33.3%;
+    float: left
+}
+
+.pi-draggable>.col-md-3 {
+    width: 25%;
+    float: left
+}
+
+.pi-draggable>.col-md-2 {
+    width: 16.6%;
+    float: left
+}
+
+[class*=col-]:empty:after {
+    content: "Col" !important;
+}
+
+[class*=col-]:empty {
+    background-color: rgba(0, 0, 0, .1) !important;
+}
+.pi-draggable * {
+    pointer-events: none !important;
 }
 
 .pi-draggable {
