@@ -1209,19 +1209,6 @@ editor.on('load', function() {
 });
 
 // function buttom
-
-
-$(function() {
-    let $menu = $('#menu'),
-        $target = $('#target');
-
-    $menu.on('click', '> a', function(event) {
-        let $this = $(this);
-        event.preventDefault();
-        $target.load($this.attr('href'));
-    });
-});
-
 function viewContent() {
     let id = '<?php echo $id; ?>';
     let url = 'view.php?id=' + id;

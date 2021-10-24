@@ -95,8 +95,8 @@
                     <h1>O my friend</h1>
                     <p class="mb-4">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
                     <form class="form-inline d-flex justify-content-around">
-                        <div class="form-group"> <input type="email" class="form-control" id="form7" placeholder="Your email"> </div>
-                        <div class="form-group"> <input type="password" class="form-control" id="form8" placeholder="Password"> </div> <button type="submit" class="btn btn-primary">Confirm identity</button> </form>
+                        <div class="mb-3"> <input type="email" class="form-control" id="form7" placeholder="Your email"> </div>
+                        <div class="mb-3"> <input type="password" class="form-control" id="form8" placeholder="Password"> </div> <button type="submit" class="btn btn-primary">Confirm identity</button> </form>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
                 <div class="mx-auto col-md-6 col-10 bg-white p-5">
                     <h1 class="mb-4">Log in</h1>
                     <form>
-                        <div class="form-group"> <input type="email" class="form-control" placeholder="Enter email" id="form9"> </div>
+                        <div class="mb-3"> <input type="email" class="form-control" placeholder="Enter email" id="form9"> </div>
                         <div class="form-group mb-3"> <input type="password" class="form-control" placeholder="Password" id="form10"> <small class="form-text text-muted text-right">
                                 <a href="#"> Recover password</a>
                             </small> </div> <button type="submit" class="btn btn-primary">Submit</button> </form>
@@ -126,10 +126,12 @@
                     <h1>I am so happy, my dear</h1>
                     <p class="mb-3">So absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p>
                     <form>
-                        <div class="form-group"> <input type="email" class="form-control" placeholder="Enter email" id="form11"> </div>
-                        <div class="form-group"> <input type="password" class="form-control" placeholder="Password" id="form12"> <small class="form-text text-muted text-right">
+                        <div class="mb-3"> <input type="email" class="form-control" placeholder="Enter email" id="form11"> </div>
+                        <div class="mb-3"> <input type="password" class="form-control" placeholder="Password" id="form12"> <small class="form-text text-muted text-right">
                                 <a href="#"> Forgot your password?</a>
-                            </small> </div> <button type="submit" class="btn btn-primary">Submit</button> </form>
+                            </small> </div> 
+                        <button type="submit" class="btn btn-primary">Submit</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -142,9 +144,9 @@
                 <div class="p-5 col-lg-6 col-10 mx-auto border">
                     <h1 class="mb-4">I hear the buzz </h1>
                     <form>
-                        <div class="form-group"> <input type="text" class="form-control" placeholder="Name" id="form13"> </div>
-                        <div class="form-group"> <input type="email" class="form-control" placeholder="Email" id="form14"> </div>
-                        <div class="form-group"> <input type="password" class="form-control" placeholder="Password" id="form15"> <small class="form-text text-muted text-right">
+                        <div class="mb-3"> <input type="text" class="form-control" placeholder="Name" id="form13"> </div>
+                        <div class="mb-3"> <input type="email" class="form-control" placeholder="Email" id="form14"> </div>
+                        <div class="mb-3"> <input type="password" class="form-control" placeholder="Password" id="form15"> <small class="form-text text-muted text-right">
                                 <a href="#"> Already have an account?</a>
                             </small> </div> <button type="submit" class="btn btn-primary">Submit</button> </form>
                 </div>
@@ -160,17 +162,18 @@
                     <h1>O my friend</h1>
                     <p class="mb-3">When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees.</p>
                     <form class="text-left">
-                        <div class="form-group"> <label for="form16">Your Name</label> <input type="text" class="form-control" id="form16" placeholder="Johann W. Goethe"> </div>
-                        <div class="form-group"> <label for="form17">Your Company</label> <input type="text" class="form-control" id="form17" placeholder="Werther Inc."> </div>
-                        <div class="form-group"> <label for="form18">Your email</label> <input type="email" class="form-control" id="form18" placeholder="j.goethe@werther.com"> </div>
+                        <div class="mb-3"> <label for="form16">Your Name</label> <input type="text" class="form-control" id="form16" placeholder="Johann W. Goethe"> </div>
+                        <div class="mb-3"> <label for="form17">Your Company</label> <input type="text" class="form-control" id="form17" placeholder="Werther Inc."> </div>
+                        <div class="mb-3"> <label for="form18">Your email</label> <input type="email" class="form-control" id="form18" placeholder="j.goethe@werther.com"> </div>
                         <div class="form-row">
                             <div class="form-group col-md-6"> <label for="form19">Password</label> <input type="password" class="form-control" id="form19" placeholder="••••"> </div>
                             <div class="form-group col-md-6"> <label for="form20">Confirm Password</label> <input type="password" class="form-control" id="form20" placeholder="••••"> </div>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="form-check"> <input class="form-check-input" type="checkbox" id="form21" value="on"> <label class="form-check-label" for="form21"> I Agree with
                                     <a href="#">Term and Conditions</a> of the service </label> </div>
-                        </div> <button type="submit" class="btn btn-primary">Sign in</button> </form>
+                        </div> <button type="submit" class="btn btn-primary">Sign in</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -189,8 +192,10 @@
                             <div class="form-group col-md-4"> <input type="email" class="form-control" id="form23" placeholder="Email*"> </div>
                             <div class="form-group col-md-4"> <input type="number" class="form-control" id="form24" placeholder="Phone"> </div>
                         </div>
-                        <div class="form-group"> <input type="text" class="form-control" id="form25" placeholder="Subject"> </div>
-                        <div class="form-group"> <textarea class="form-control" id="form26" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-primary">Send</button> </form>
+                        <div class="mb-3"> <input type="text" class="form-control" id="form25" placeholder="Subject"> </div>
+                        <div class="mb-3"> <textarea class="form-control" id="form26" rows="3" placeholder="Your message"></textarea> </div> 
+                        <button type="submit" class="btn btn-primary">Send</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -207,8 +212,10 @@
                             <div class="form-group col-md-6"> <input type="text" class="form-control" id="form27" placeholder="Name"> </div>
                             <div class="form-group col-md-6"> <input type="email" class="form-control" id="form28" placeholder="Email"> </div>
                         </div>
-                        <div class="form-group"> <input type="text" class="form-control" id="form29" placeholder="Subject"> </div>
-                        <div class="form-group"> <textarea class="form-control" id="form30" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-primary">Send</button> </form>
+                        <div class="mb-3"> <input type="text" class="form-control" id="form29" placeholder="Subject"> </div>
+                        <div class="mb-3"> <textarea class="form-control" id="form30" rows="3" placeholder="Your message"></textarea> </div> 
+                        <button type="submit" class="btn btn-primary">Send</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -221,9 +228,11 @@
                 <div class="mx-auto p-4 col-md-7">
                     <h1 class="mb-4">I am so happy</h1>
                     <form>
-                        <div class="form-group"> <input type="email" class="form-control" id="form33" placeholder="Your Email"> </div>
-                        <div class="form-group"> <input type="text" class="form-control" id="form34" placeholder="Subject"> </div>
-                        <div class="form-group"> <textarea class="form-control" id="form35" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-outline-primary btn-block">Send</button> </form>
+                        <div class="mb-3"> <input type="email" class="form-control" id="form33" placeholder="Your Email"> </div>
+                        <div class="mb-3"> <input type="text" class="form-control" id="form34" placeholder="Subject"> </div>
+                        <div class="mb-3"> <textarea class="form-control" id="form35" rows="3" placeholder="Your message"></textarea> </div> 
+                        <button type="submit" class="btn btn-outline-primary btn-block">Send</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -243,8 +252,10 @@
                 <div class="mx-auto p-4 col-md-6">
                     <h2 class="mb-4">A greater artist</h2>
                     <form>
-                        <div class="form-group"> <input type="email" class="form-control" id="form31" placeholder="Email"> </div>
-                        <div class="form-group"> <textarea class="form-control" id="form32" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-primary">Send</button> </form>
+                        <div class="mb-3"> <input type="email" class="form-control" id="form31" placeholder="Email"> </div>
+                        <div class="mb-3"> <textarea class="form-control" id="form32" rows="3" placeholder="Your message"></textarea> </div>
+                        <button type="submit" class="btn btn-primary">Send</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -279,14 +290,16 @@
                             <div class="form-group col-md-6"> <input type="text" class="form-control" id="form36" placeholder="First Name"> </div>
                             <div class="form-group col-md-6"> <input type="text" class="form-control" id="form37" placeholder="Last Name"> </div>
                         </div>
-                        <div class="form-group"> <input type="text" class="form-control" id="form38" placeholder="Company"> </div>
-                        <div class="form-group"> <input type="email" class="form-control" id="form39" placeholder="Email"> </div>
+                        <div class="mb-3"> <input type="text" class="form-control" id="form38" placeholder="Company"> </div>
+                        <div class="mb-3"> <input type="email" class="form-control" id="form39" placeholder="Email"> </div>
                         <div class="form-row">
                             <div class="form-group col-md-6"> <input type="number" class="form-control" id="form40" placeholder="Phone (optional)"> </div>
                             <div class="form-group col-md-6"> <input type="text" class="form-control" id="form41" placeholder="Country"> </div>
                         </div>
-                        <div class="form-group"> <input type="text" class="form-control" id="form42" placeholder="Subject"> </div>
-                        <div class="form-group"> <textarea class="form-control" id="form43" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-primary">Send</button> </form>
+                        <div class="mb-3"> <input type="text" class="form-control" id="form42" placeholder="Subject"> </div>
+                        <div class="mb-3"> <textarea class="form-control" id="form43" rows="3" placeholder="Your message"></textarea> </div> 
+                        <button type="submit" class="btn btn-primary">Send</button> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -306,11 +319,57 @@
                 <div class="px-4 order-1 order-md-2 col-lg-6">
                     <h2 class="mb-4">A greater artist</h2>
                     <form>
-                        <div class="form-group"> <input type="text" class="form-control" id="form44" placeholder="Name"> </div>
-                        <div class="form-group"> <input type="email" class="form-control" id="form45" placeholder="Email"> </div>
-                        <div class="form-group"> <textarea class="form-control" id="form46" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-primary">Send</button> </form>
+                        <div class="mb-3"> <input type="text" class="form-control" id="form44" placeholder="Name"> </div>
+                        <div class="mb-3"> <input type="email" class="form-control" id="form45" placeholder="Email"> </div>
+                        <div class="mb-3"> <textarea class="form-control" id="form46" rows="3" placeholder="Your message"></textarea> </div> <button type="submit" class="btn btn-primary">Send</button> </form>
                 </div>
             </div>
         </div>
     </div>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <form class="row g-3">
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail4">
+        </div>
+        <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="password" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <input type="text" class="form-control" id="inputCity">
+        </div>
+        <div class="col-md-4">
+            <label for="inputState" class="form-label">State</label>
+            <select id="inputState" class="form-select">
+                <option selected>Choose...</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="inputZip">
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </form>
 </li>
