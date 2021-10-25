@@ -22,7 +22,7 @@ li {
 }
 .component > ul {
     width:250px;
-    background-color:#3F3436;
+    background-color:#212529;
     position:relative;
     overflow:visible;
 }
@@ -30,7 +30,7 @@ li {
     padding: 7px 12px;
 }
 .component > ul > li:hover {
-    background-color:#212529;
+    background-color:#343A40;
 }
 .component > ul > li > ul {
     z-index: 999;

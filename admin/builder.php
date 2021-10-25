@@ -196,7 +196,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                             echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
                                         }
                                         ?>
-                                        <i class="far fa-user"></i>
+                                        <i class="fa fa-user"></i>
                                         <span class="d-none d-md-inline"><?php echo USERS_FULLNAMES; ?></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">                                    
@@ -1163,11 +1163,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               // Do stuff on load
               editor.on('load', function() {
                   let $ = grapesjs.$;
-                  // Show logo with the version
-                  let logoCont = document.querySelector('.gjs-logo-cont');
-                  document.querySelector('.gjs-logo-version').innerHTML = 'v' + grapesjs.version;
-                  let logoPanel = document.querySelector('.gjs-pn-commands');
-                  logoPanel.appendChild(logoCont);
+                  
                   // Load and show settings and style manager
                   let openTmBtn = pn.getButton('views', 'open-tm');
                   openTmBtn && openTmBtn.set('active', 1);
@@ -1339,23 +1335,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
           addEventsDragAndDrop(item);
         });
 
-        function addNewItem() {
-          var newItem = document.querySelector('.input').value;
-          if (newItem != '') {
-            document.querySelector('.input').value = '';
-            var li = document.createElement('li');
-            var attr = document.createAttribute('draggable');
-            var ul = document.querySelector('ul');
-            li.className = 'draggable';
-            attr.value = 'true';
-            li.setAttributeNode(attr);
-            li.appendChild(document.createTextNode(newItem));
-            ul.appendChild(li);
-            addEventsDragAndDrop(li);
-          }
-        }
-
-        btn.addEventListener('click', addNewItem);
+        
                 </script>
                 <script>
                var menu_btn = document.querySelector("#menu-btn");
