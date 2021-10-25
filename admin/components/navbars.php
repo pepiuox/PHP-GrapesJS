@@ -177,7 +177,8 @@
                 <ul class="navbar-nav">
                     <li class="nav-item mx-2"> <a class="nav-link" href="#">Products</a> </li>
                     <li class="nav-item mx-2"> <a class="nav-link" href="#">FAQ</a> </li>
-                    <li class="nav-item mx-2"> <a class="nav-link navbar-brand mr-0 text-white" href="#"><i class="fa d-inline fa-lg fa-stop-circle-o"></i>
+                    <li class="nav-item mx-2"> <a class="nav-link navbar-brand mr-0 text-white" href="#">
+                            <i class="fa d-inline fa-lg fa-stop-circle-o"></i>
                             <b> BRAND</b></a> </li>
                     <li class="nav-item mx-2"> <a class="nav-link" href="#">About us</a> </li>
                     <li class="nav-item mx-2"> <a class="nav-link" href="#">Contacts
@@ -256,7 +257,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar13"> <a class="navbar-brand d-none d-md-block" href="#">
                     <i class="fa d-inline fa-lg fa-stop-circle-o"></i>
-                    <b> BRAND</b>
+                    <a class="navbar-brand" href="#">BRAND</a>
                 </a>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li>
@@ -282,7 +283,7 @@
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container"> <button class="navbar-toggler navbar-toggler-right border-0 p-0" type="button" data-toggle="collapse" data-target="#navbar14">
                 <p class="navbar-brand mb-0 text-white">
-                    <i class="fa d-inline fa-lg fa-stop-circle"></i> BRAND </p>
+                    <i class="fa d-inline fa-lg fa-stop-circle"></i> <a class="navbar-brand" href="#">BRAND</a> </p>
             </button>
             <div class="collapse navbar-collapse" id="navbar14">
                 <ul class="navbar-nav mr-auto">
@@ -310,7 +311,7 @@
     <nav class="navbar bg-primary navbar-dark">
         <div class="container"> <a class="navbar-brand" href="#">
                 <i class="fa d-inline fa-lg fa-circle" ></i>
-                <b> BRAND</b>
+                <a class="navbar-brand" href="#">BRAND</a>
             </a> </div>
     </nav>
 </li>
@@ -345,7 +346,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <div class="container"> <a class="navbar-brand" href="#">
                 <i class="fa d-inline fa-lg fa-stop-circle"></i>
-                <b> BRAND</b>
+                <a class="navbar-brand" href="#">BRAND</a>
             </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar16">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -363,7 +364,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container"> <a class="navbar-brand" href="#">
                 <i class="fa d-inline fa-lg fa-circle-o"></i>
-                <b> BRAND</b>
+                <a class="navbar-brand" href="#">BRAND</a>
             </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar17">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -388,7 +389,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar18"> <a class="navbar-brand d-none d-md-block" href="#">
                     <i class="fa d-inline fa-lg fa-circle"></i>
-                    <b> BRAND</b>
+                    <a class="navbar-brand" href="#">BRAND</a>
                 </a>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li>
@@ -410,7 +411,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar19"> <a class="navbar-brand d-none d-md-block" href="#">
                     <i class="fa d-inline fa-lg fa-stop-circle-o"></i>
-                    <b> BRAND</b>
+                   <a class="navbar-brand" href="#">BRAND</a>
                 </a>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"> <a class="nav-link" href="#">Features</a> </li>
@@ -436,7 +437,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container"> <button class="navbar-toggler navbar-toggler-right border-0 p-0" type="button" data-toggle="collapse" data-target="#navbar20">
                 <p class="navbar-brand text-white mb-0">
-                    <i class="fa d-inline fa-lg fa-stop-circle"></i> BRAND </p>
+                    <i class="fa d-inline fa-lg fa-stop-circle"></i> <a class="navbar-brand" href="#">BRAND</a> </p>
             </button>
             <div class="collapse navbar-collapse" id="navbar20">
                 <ul class="navbar-nav mr-auto">
@@ -455,6 +456,30 @@
                     <li class="nav-item mx-1"> <a class="nav-link" href="#">
                             <i class="fa fa-bitbucket fa-fw fa-lg"></i>
                         </a> </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">BRAND</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

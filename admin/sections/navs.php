@@ -49,6 +49,8 @@
         <li class="page-item"> <a class="page-link" href="#">4</a> </li>
         <li class="page-item"> <a class="page-link" href="#"> <span>»</span></a> </li>
     </ul>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <ul class="pagination">
         <li class="page-item"> <a class="page-link" href="#">Prev</a> </li>
         <li class="page-item"> <a class="page-link" href="#">1</a> </li>
@@ -57,7 +59,9 @@
         <li class="page-item"> <a class="page-link" href="#">4</a> </li>
         <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
     </ul>
-    <div class="pi-wrapper">
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="py-1">
         <ul class="nav nav-tabs">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="tab" data-target="#tabone">Tab 1</a> </li>
             <li class="nav-item"> <a class="nav-link" href="" data-toggle="tab" data-target="#tabtwo">Tab 2</a> </li>
@@ -75,7 +79,9 @@
             </div>
         </div>
     </div>
-    <div class="pi-wrapper">
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="py-1">
         <ul class="nav nav-tabs">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fa fa-home"></i> Tab 1</a> </li>
             <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo"><i class="fa fa-bed"></i> Tab 2</a> </li>
@@ -93,7 +99,9 @@
             </div>
         </div>
     </div>
-    <div class="pi-wrapper">
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="py-1">
         <ul class="nav nav-pills">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Tab 1</a> </li>
             <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">Tab 2</a> </li>
@@ -111,7 +119,9 @@
             </div>
         </div>
     </div>
-    <div class="pi-wrapper">
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="py-1">
         <ul class="nav nav-pills">
             <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fa fa-lg fa-envelope-open"></i> </a> </li>
             <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo"><i class="fa fa-lg fa-comment"></i></a> </li>
@@ -129,6 +139,8 @@
             </div>
         </div>
     </div>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="row ">
         <div class="col-3">
             <ul class="nav nav-pills flex-column">
@@ -151,3 +163,4 @@
             </div>
         </div>
     </div>
+</li>
