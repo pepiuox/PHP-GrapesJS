@@ -114,7 +114,7 @@
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <img class="img-fluid d-block" src="<?php echo $base; ?>img/photo-1.jpg">
+    <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/photo-1.jpg">
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="pi-wrapper">
@@ -124,13 +124,13 @@
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div id="carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/photo-1.jpg">
+            <div class="carousel-item active"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>assets/images/photo-1.jpg">
                 <div class="carousel-caption">
                     <h3>First slide label</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                 </div>
             </div>
-            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>img/photo-1.jpg">
+            <div class="carousel-item"> <img class="d-block img-fluid w-100" src="<?php echo $base; ?>assets/images/photo-1.jpg">
                 <div class="carousel-caption">
                     <h3>Second slide label</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -144,7 +144,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="embed-responsive embed-responsive-4by3"> <video src="<?php echo $base; ?>img/video-placeholder.mp4" class="embed-responsive-item" controls="controls">
+    <div class="embed-responsive embed-responsive-4by3"> <video src="<?php echo $base; ?>assets/images/video-placeholder.mp4" class="embed-responsive-item" controls="controls">
             Your browser does not support HTML5 video.
         </video> </div> 
 </li>
@@ -294,14 +294,14 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card"> <img class="card-img-top" src="<?php echo $base; ?>img/photo-1.jpg" alt="Card image cap">
+    <div class="card"> <img class="card-img-top" src="<?php echo $base; ?>assets/images/photo-1.jpg" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> <a href="#" class="btn btn-primary">Go somewhere</a> </div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card"> <img class="card-img-top" src="<?php echo $base; ?>img/photo-1.jpg" alt="Card image cap">
+    <div class="card"> <img class="card-img-top" src="<?php echo $base; ?>assets/images/photo-1.jpg" alt="Card image cap">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Cras justo odio</li>
             <li class="list-group-item">Dapibus ac facilisis in</li>
@@ -311,7 +311,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card"> <img class="card-img" src="<?php echo $base; ?>img/photo-1.jpg" alt="Card image">
+    <div class="card"> <img class="card-img" src="<?php echo $base; ?>assets/images/photo-1.jpg" alt="Card image">
         <div class="card-img-overlay d-flex justify-content-center align-items-center">
             <h2 class="text-primary">Card title</h2>
         </div>

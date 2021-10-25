@@ -41,7 +41,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card"> <img class="card-img-top" src="<?php echo $base; ?>img/cover-moon.svg" alt="Card image cap">
+    <div class="card"> <img class="card-img-top" src="<?php echo $base; ?>assets/images/cover-moon.svg" alt="Card image cap">
         <div class="card-body">
             <h4 class="card-title">Card title</h4>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> <a href="#" class="btn btn-primary">Go somewhere</a>
@@ -49,7 +49,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card text-center"> <img class="card-img-top" src="<?php echo $base; ?>img/cover-bubble-light.svg" alt="Card image cap">
+    <div class="card text-center"> <img class="card-img-top" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg" alt="Card image cap">
         <div class="card-body">
             <p class="card-text">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
         </div>
@@ -62,12 +62,12 @@
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
-        <img class="card-img-bottom" src="<?php echo $base; ?>img/cover-bubble-dark.svg" alt="Card image cap">
+        <img class="card-img-bottom" src="<?php echo $base; ?>assets/images/cover-bubble-dark.svg" alt="Card image cap">
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="card">
-        <img class="card-img-top" src="<?php echo $base; ?>img/cover-moon.svg" alt="Card image cap">
+        <img class="card-img-top" src="<?php echo $base; ?>assets/images/cover-moon.svg" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">Title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -84,7 +84,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="card"> <img class="card-img" src="<?php echo $base; ?>img/cover-bubble-light.svg" alt="Card image">
+    <div class="card"> <img class="card-img" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg" alt="Card image">
         <div class="card-img-overlay d-flex justify-content-center align-items-center">
             <h2 class="text-primary">Card title</h2>
         </div>
@@ -92,7 +92,7 @@
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="card">
-        <img class="card-img" src="<?php echo $base; ?>img/cover-moon.svg" alt="Card image">
+        <img class="card-img" src="<?php echo $base; ?>assets/images/cover-moon.svg" alt="Card image">
         <div class="card-img-overlay">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

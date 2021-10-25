@@ -44,9 +44,9 @@ if ($num_ct > 0) {
                         </ul>
                     </div>
                     <div class="galleryPreviewArrows">
-                        <a href="#" class="previousSlideArrow"><img src="<?php echo $base; ?>img/arrow-l.png"/></a>
-                        <a href="#" class="stopSlideArrow"><img src="<?php echo $base; ?>img/arrow-l.png"/></a>
-                        <a href="#" class="nextSlideArrow"><img src="<?php echo $base; ?>img/arrow-r.png"/></a>
+                        <a href="#" class="previousSlideArrow"><img src="<?php echo $base; ?>assets/images/arrow-l.png"/></a>
+                        <a href="#" class="stopSlideArrow"><img src="<?php echo $base; ?>assets/images/arrow-l.png"/></a>
+                        <a href="#" class="nextSlideArrow"><img src="<?php echo $base; ?>assets/images/arrow-r.png"/></a>
                     </div>
                 </div> 
                 <div class="galleryContent">

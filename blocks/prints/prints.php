@@ -17,9 +17,9 @@ if ($num_ct > 0) {
         </div>
         <div class="col-md-2">
             <div class="controls text-right">                 
-                <a class="boxes"><img src="<?php echo $base; ?>img/boxes.png" /></a>
-                <a class="square"><img src="<?php echo $base; ?>img/square.png" /></a>
-                <a onclick="$(document).toggleFullScreen()"><img src="<?php echo $base; ?>img/e-arrows.png" /></a>                                                             
+                <a class="boxes"><img src="<?php echo $base; ?>assets/images/boxes.png" /></a>
+                <a class="square"><img src="<?php echo $base; ?>assets/images/square.png" /></a>
+                <a onclick="$(document).toggleFullScreen()"><img src="<?php echo $base; ?>assets/images/e-arrows.png" /></a>                                                             
             </div>
         </div>
     </div>

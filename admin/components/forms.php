@@ -56,7 +56,7 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 order-2 order-lg-1 p-0"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-moon.svg"> </div>
+                <div class="col-lg-6 order-2 order-lg-1 p-0"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-moon.svg"> </div>
                 <div class="px-5 col-lg-6 d-flex flex-column align-items-start justify-content-center order-1 order-lg-2">
                     <h1>Then, my friend</h1>
                     <p class="mb-3">I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me.</p>
@@ -71,7 +71,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center" style="background-image: url(<?php echo $base; ?>img/cover-bubble-dark.svg); background-position: right bottom;  background-size: cover; background-repeat: repeat; background-attachment: fixed;">
+    <div class="py-5 text-center" style="background-image: url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg); background-position: right bottom;  background-size: cover; background-repeat: repeat; background-attachment: fixed;">
         <div class="container">
             <div class="row">
                 <div class="bg-white p-4 col-10 mx-auto mx-md-0 col-lg-6">
@@ -103,7 +103,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center" style="background-image: url('<?php echo $base; ?>img/cover-bubble-dark.svg');background-size:cover;">
+    <div class="py-5 text-center" style="background-image: url('<?php echo $base; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-md-6 col-10 bg-white p-5">
@@ -119,7 +119,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url('<?php echo $base; ?>img/cover-stripes.svg'); background-position:left center; background-size: cover;">
+    <div class="py-5" style="background-image: url('<?php echo $base; ?>assets/images/cover-stripes.svg'); background-position:left center; background-size: cover;">
         <div class="container">
             <div class="row">
                 <div class="p-5 col-lg-6">
@@ -180,7 +180,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>img/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-md-10 p-4">

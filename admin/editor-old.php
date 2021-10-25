@@ -181,7 +181,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <!<!-- end menu -->
                 <div style="display: none">
                     <div class="gjs-logo-cont">
-                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo $base; ?>img/grapesjs-logo-cl.png"></a>
+                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo $base; ?>assets/images/grapesjs-logo-cl.png"></a>
                         <div class="gjs-logo-version"></div>
                     </div>
                 </div>

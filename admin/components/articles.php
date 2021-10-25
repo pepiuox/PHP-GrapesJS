@@ -209,7 +209,7 @@
                     <h1>O my friend</h1>
                     <p class="mb-3 lead">I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies</p>
                 </div>
-                <div class="col-lg-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-moon.svg"> </div>
+                <div class="col-lg-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-moon.svg"> </div>
             </div>
         </div>
     </div>
@@ -222,7 +222,7 @@
                     <p class="lead mb-0">I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless
                         indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath of that universal love.</p>
                 </div>
-                <div class="p-0 col-lg-5"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-dark.svg"> </div>
+                <div class="p-0 col-lg-5"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-dark.svg"> </div>
             </div>
         </div>
     </div>
@@ -231,7 +231,7 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="p-0 col-lg-5 order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-light.svg"> </div>
+                <div class="p-0 col-lg-5 order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg"> </div>
                 <div class="d-flex flex-column justify-content-center p-3 col-lg-7 order-1 order-lg-2">
                     <p class="lead mb-0">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the
                         impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary.</p>
@@ -248,10 +248,10 @@
                     <p class="lead mb-0">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
                         I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment.</p>
                 </div>
-                <div class="p-0 col-lg-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-2.svg"> </div>
+                <div class="p-0 col-lg-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-2.svg"> </div>
             </div>
             <div class="row my-4 d-flex justify-content-center">
-                <div class="p-0 order-2 order-lg-1 col-lg-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-4.svg"> </div>
+                <div class="p-0 order-2 order-lg-1 col-lg-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-4.svg"> </div>
                 <div class="d-flex flex-column justify-content-center p-3 col-lg-7 order-1 order-lg-2">
                     <p class="lead mb-0">Yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the
                         inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar
@@ -265,12 +265,12 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-light.svg" width="1500">
+                <div class="col-md-6 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg" width="1500">
                     <p class="mt-2 mb-0">I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist
                         than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among
                         the tall grass by the trickling stream.</p>
                 </div>
-                <div class="col-md-6 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-dark.svg" width="1500">
+                <div class="col-md-6 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-dark.svg" width="1500">
                     <p class="mt-2 mb-0">As I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence
                         of the Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth
                         seem to dwell in my soul.</p>
@@ -283,8 +283,8 @@
     <div class="py-5 text-center">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-8 order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-2.svg"> </div>
-                <div class="col-lg-2 col-4 d-flex flex-column justify-content-between order-3 order-lg-2"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-1.svg"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/img-placeholder-4.svg"> </div>
+                <div class="col-lg-4 col-8 order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-2.svg"> </div>
+                <div class="col-lg-2 col-4 d-flex flex-column justify-content-between order-3 order-lg-2"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-1.svg"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-4.svg"> </div>
                 <div class="px-md-5 p-3 d-flex flex-column justify-content-center col-lg-6 order-1 order-lg-3">
                     <i class="d-block fa fa-circle fa-3x mb-2 text-muted"></i>
                     <h1>O my friend</h1>
@@ -298,8 +298,8 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6 order-2 order-lg-1 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-dark.svg"> </div>
-                <div class="col-lg-4 col-md-6 order-3 order-lg-2 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-light.svg"> </div>
+                <div class="col-lg-4 col-md-6 order-2 order-lg-1 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-dark.svg"> </div>
+                <div class="col-lg-4 col-md-6 order-3 order-lg-2 p-3"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg"> </div>
                 <div class="col-lg-4 d-flex flex-column justify-content-center order-1 order-lg-3 p-3">
                     <p class="mb-0">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the
                         impenetrable foliage of my trees.</p>
@@ -316,7 +316,7 @@
                     <h1>I enjoy with my whole heart</h1>
                     <p class="mb-3 lead">Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.</p> <a class="btn btn-link"
                                                                                                                                                                                                         href="#">Let's Go</a> </div>
-                <div class="p-0 col-lg-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-moon.svg"> </div>
+                <div class="p-0 col-lg-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-moon.svg"> </div>
             </div>
         </div>
     </div>
@@ -325,7 +325,7 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>img/cover-bubble-light.svg"> </div>
+                <div class="col-md-6"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg"> </div>
                 <div class="px-md-5 p-3 col-md-6 d-flex flex-column justify-content-center">
                     <h1>A thousand plants</h1>
                     <p class="mb-3 lead">Has taken possession of my entire soul</p>
