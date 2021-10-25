@@ -90,9 +90,9 @@ if (file_exists($connfile)) {
         </div>
         <!-- /.login-box -->
     <?php } ?>
-    <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
-    <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
-    <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
+    <script src="<?php echo $base; ?>assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="<?php echo $base; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>        
+    <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script>
 
 </body>
 </html>

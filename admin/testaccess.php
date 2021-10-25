@@ -20,8 +20,8 @@ if (file_exists($connfile)) {
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     </head>
     <body>
-        <link href="<?php echo $base; ?>css/sortablemenu.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo $base; ?>js/sortablemenu.js" type="text/javascript"></script>
+        <link href="<?php echo $base; ?>assets/css/sortablemenu.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo $base; ?>assets/js/sortablemenu.js" type="text/javascript"></script>
 
 <style>
     #sortable-row { list-style: none; }

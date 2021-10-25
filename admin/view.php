@@ -59,8 +59,8 @@ if (isset($_GET['id'])) {
                     <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
                 <?php } ?>
                 <title><?php echo $title; ?></title>
-                <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-                <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
+                <link href="<?php echo $base; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+                <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/css/font-awesome.min.css" />
                 <style>
         <?php
         echo decodeContent($style) . "\n";
@@ -76,9 +76,9 @@ if (isset($_GET['id'])) {
                     echo decodeContent($content) . "\n";
                     ?>
                 </div>
-                <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script> 
+                <script src="<?php echo $base; ?>assets/js/jquery.min.js" type="text/javascript"></script>
+                <script src="<?php echo $base; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>
+                <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
             </body>
         </html>
         <?php

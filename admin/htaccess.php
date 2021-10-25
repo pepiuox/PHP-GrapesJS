@@ -43,8 +43,8 @@ if (isset($_POST['submit'])) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
         <title>Content Editor</title>
-        <link href="<?php echo $base; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>css/font-awesome.min.css" />
+        <link href="<?php echo $base; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/css/font-awesome.min.css" />
     </head>
     <body>
         <!-- start menu -->                     
@@ -112,8 +112,8 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
         </div>
-        <script src="<?php echo $base; ?>js/jquery.min.js" type="text/javascript"></script>
-        <script src="<?php echo $base; ?>js/bootstrap.min.js" type="text/javascript"></script>        
-        <script src="<?php echo $base; ?>js/popper.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>assets/js/jquery.min.js" type="text/javascript"></script>
+        <script src="<?php echo $base; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>        
+        <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script>
     </body>
 </html>
