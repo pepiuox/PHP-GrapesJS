@@ -1,3 +1,4 @@
+
 <?php
 $p = new Protect();
 if (isset($_GET['w']) && !empty($_GET['w'])) {
@@ -13,9 +14,7 @@ if ($w == "select") {
         if ($total_found > 0) {
             $row = $result->fetch_assoc();
             $tableNames = explode(',', $row['table_name']);
-        } else {
-            
-        }
+        } 
     }
     ?>
     <div class="container">

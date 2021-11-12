@@ -9,6 +9,7 @@ if (isset($_SESSION['PathInstall'])) {
 }
 
 $rname = $_SERVER["REQUEST_URI"];
+$alertpg = $rname;
 $definefiles = '../config/define.php';
 $file = '../config/dbconnection.php';
 
@@ -298,10 +299,12 @@ session_destroy();
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>PHP GrapesJS</title>
+            <title>PHP Login Secure System</title>
 
-            <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-            <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
+            <link href="../plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+            <link href="../plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+            <link href="../plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
+            <script src="../plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
         </head>
         <body>
             <?php include '../elements/alerts.php'; ?>
@@ -314,8 +317,8 @@ session_destroy();
                             <div class="card-body">
                                 <form method="post">
                                     <div class="mb-3">
-                                        <h2>PHP GrapesJS</h2>
-                                        <h4>You are about to install PHP GrapesJS.</h4>
+                                        <h2>PHP Login Secure System</h2>
+                                        <h4>You are about to install PHP Login Secure System.</h4>
                                         <p>We recommend that you follow the steps carefully and verify that everything is correctly installed.
                                         </p>
                                     </div>
@@ -568,7 +571,7 @@ session_destroy();
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>PHP GrapesJS</title>
+            <title>PHP Login Secure System</title>
 
             <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
             <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
@@ -579,7 +582,7 @@ session_destroy();
 
                     <div class="card">
                         <div class="card-body text-center">
-                            <h3>PHP GrapesJS is already installed</h3>
+                            <h3>PHP Login Secure System is already installed</h3>
                             <p>
                                 <a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/signin/login.php'; ?>" target="_self" class="btn btn-info">Go to homepage</a> 
                             </p>                           
