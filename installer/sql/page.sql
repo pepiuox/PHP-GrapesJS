@@ -85,6 +85,23 @@ CREATE TABLE IF NOT EXISTS `app_config` (
 
 -- Dumping data for table newcms.app_config: ~0 rows (approximately)
 
+-- Dumping structure for table newcms.balance
+DROP TABLE IF EXISTS `balance`;
+CREATE TABLE IF NOT EXISTS `balance` (
+  `id` int(11) NOT NULL,
+  `user_id` char(128) NOT NULL,
+  `currency` varchar(50) DEFAULT NULL,
+  `balance` varchar(50) DEFAULT NULL,
+  `awaiting_deposit` varchar(50) DEFAULT NULL,
+  `reserved_in_orders` varchar(50) DEFAULT NULL,
+  `est_USD` varchar(50) DEFAULT NULL,
+  `deposit` varchar(50) DEFAULT NULL,
+  `withdrawal` varchar(50) DEFAULT NULL,
+  `history` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.balance: ~0 rows (approximately)
+
 -- Dumping structure for table newcms.banned_users
 DROP TABLE IF EXISTS `banned_users`;
 CREATE TABLE IF NOT EXISTS `banned_users` (
@@ -96,6 +113,76 @@ CREATE TABLE IF NOT EXISTS `banned_users` (
 
 -- Dumping data for table newcms.banned_users: ~0 rows (approximately)
 
+-- Dumping structure for table newcms.blocks
+DROP TABLE IF EXISTS `blocks`;
+CREATE TABLE IF NOT EXISTS `blocks` (
+  `idB` int(11) NOT NULL AUTO_INCREMENT,
+  `blockId` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `pageId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idB`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.blocks: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.blocks_content
+DROP TABLE IF EXISTS `blocks_content`;
+CREATE TABLE IF NOT EXISTS `blocks_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `blockId` int(11) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.blocks_content: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.breadcrumblinks
+DROP TABLE IF EXISTS `breadcrumblinks`;
+CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
+  `page_title` varchar(100) NOT NULL,
+  `page_url` varchar(100) NOT NULL,
+  `lft` int(4) NOT NULL,
+  `rgt` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.breadcrumblinks: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.category
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE IF NOT EXISTS `category` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.category: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.cols_set
+DROP TABLE IF EXISTS `cols_set`;
+CREATE TABLE IF NOT EXISTS `cols_set` (
+  `id` int(11) NOT NULL,
+  `table_name` varchar(50) DEFAULT NULL,
+  `col_name` varchar(50) DEFAULT NULL,
+  `type_input` varchar(50) DEFAULT NULL,
+  `list_page` varchar(50) DEFAULT NULL,
+  `add_page` varchar(50) DEFAULT NULL,
+  `update_page` varchar(50) DEFAULT NULL,
+  `view_page` varchar(50) DEFAULT NULL,
+  `delete_page` varchar(50) DEFAULT NULL,
+  `search_text` varchar(50) DEFAULT NULL,
+  `col_set` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.cols_set: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.comment
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id` int(11) NOT NULL,
+  `message` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.comment: ~0 rows (approximately)
+
 -- Dumping structure for table newcms.configuration
 DROP TABLE IF EXISTS `configuration`;
 CREATE TABLE IF NOT EXISTS `configuration` (
@@ -106,7 +193,8 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 
 -- Dumping data for table newcms.configuration: ~30 rows (approximately)
 INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
-	('DOMAIN_SITE', 'http://www.yourdomain.com'),
+	('DOMAIN_SITE', 'http://phpgrapesjs.com'),
+	('SITE_PATH', 'http://phpgrapesjs.com/'),
 	('SITE_NAME', 'PHP GrapesJS'),
 	('SITE_DESCRIPTION', 'Your description for your domains'),
 	('SITE_KEYWORDS', 'Your keywords for your domains'),
@@ -137,6 +225,65 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 	('ADMIN_NAME', 'Admin'),
 	('ADMIN_LEVEL', '5');
 
+-- Dumping structure for table newcms.cookies
+DROP TABLE IF EXISTS `cookies`;
+CREATE TABLE IF NOT EXISTS `cookies` (
+  `cookieid` char(23) NOT NULL,
+  `userid` char(128) NOT NULL,
+  `tokenid` char(25) NOT NULL,
+  `expired` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.cookies: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.countries
+DROP TABLE IF EXISTS `countries`;
+CREATE TABLE IF NOT EXISTS `countries` (
+  `id` smallint(5) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `code` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.countries: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.currency
+DROP TABLE IF EXISTS `currency`;
+CREATE TABLE IF NOT EXISTS `currency` (
+  `id` int(11) NOT NULL,
+  `coin` varchar(50) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `symbol` varchar(50) DEFAULT NULL,
+  `rating` varchar(50) DEFAULT NULL,
+  `total_supply` varchar(50) DEFAULT NULL,
+  `max_supply` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.currency: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.customers
+DROP TABLE IF EXISTS `customers`;
+CREATE TABLE IF NOT EXISTS `customers` (
+  `Customer_ID` int(11) NOT NULL,
+  `Customer_Number` varchar(20) NOT NULL,
+  `Customer_Name` varchar(50) NOT NULL,
+  `Address` text NOT NULL,
+  `City` varchar(50) NOT NULL,
+  `Country` varchar(30) NOT NULL,
+  `Contact_Person` varchar(50) NOT NULL,
+  `Phone_Number` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Mobile_Number` varchar(50) NOT NULL,
+  `Notes` varchar(50) NOT NULL,
+  `Balance` double DEFAULT 0,
+  `Date_Added` datetime DEFAULT NULL,
+  `Added_By` varchar(50) DEFAULT NULL,
+  `Date_Updated` datetime DEFAULT NULL,
+  `Updated_By` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.customers: ~0 rows (approximately)
+
 -- Dumping structure for table newcms.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
 CREATE TABLE IF NOT EXISTS `deleted_users` (
@@ -150,6 +297,284 @@ CREATE TABLE IF NOT EXISTS `deleted_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.deleted_users: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.deposit
+DROP TABLE IF EXISTS `deposit`;
+CREATE TABLE IF NOT EXISTS `deposit` (
+  `id` int(11) NOT NULL,
+  `user_id` char(128) NOT NULL DEFAULT '0',
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.deposit: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.employee
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE IF NOT EXISTS `employee` (
+  `id` int(11) NOT NULL COMMENT 'primary key',
+  `employee_name` varchar(255) NOT NULL COMMENT 'employee name',
+  `employee_lastname` varchar(255) NOT NULL COMMENT 'employee lastname',
+  `employee_email` varchar(255) NOT NULL COMMENT 'employee email',
+  `employee_phone` int(11) NOT NULL COMMENT 'employee phone',
+  `employee_bridge` varchar(255) NOT NULL COMMENT 'employee bridge',
+  `employee_comments` varchar(255) NOT NULL COMMENT 'employee comments'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.employee: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.eventlog
+DROP TABLE IF EXISTS `eventlog`;
+CREATE TABLE IF NOT EXISTS `eventlog` (
+  `id` bigint(20) unsigned NOT NULL,
+  `event` varchar(200) NOT NULL,
+  `eventRowIdOrRef` varchar(20) DEFAULT NULL,
+  `eventDesc` text DEFAULT NULL,
+  `eventTable` varchar(20) DEFAULT NULL,
+  `staffInCharge` bigint(20) unsigned NOT NULL,
+  `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.eventlog: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.exchange
+DROP TABLE IF EXISTS `exchange`;
+CREATE TABLE IF NOT EXISTS `exchange` (
+  `id` int(11) NOT NULL,
+  `exchange_name` varchar(100) DEFAULT NULL,
+  `trading_pairs` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.exchange: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.exchanges
+DROP TABLE IF EXISTS `exchanges`;
+CREATE TABLE IF NOT EXISTS `exchanges` (
+  `id` int(11) NOT NULL,
+  `uid` varchar(128) DEFAULT NULL,
+  `wid` int(11) DEFAULT NULL,
+  `gateway_send` int(11) DEFAULT NULL,
+  `gateway_receive` int(11) DEFAULT NULL,
+  `amount_send` varchar(255) DEFAULT NULL,
+  `amount_receive` varchar(255) DEFAULT NULL,
+  `rate_from` varchar(255) DEFAULT NULL,
+  `rate_to` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created` int(11) NOT NULL DEFAULT 0,
+  `updated` int(11) NOT NULL DEFAULT 0,
+  `expired` int(11) NOT NULL DEFAULT 0,
+  `u_field_1` varchar(255) DEFAULT NULL,
+  `u_field_2` varchar(255) DEFAULT NULL,
+  `u_field_3` varchar(255) DEFAULT NULL,
+  `u_field_4` varchar(255) DEFAULT NULL,
+  `u_field_5` varchar(255) DEFAULT NULL,
+  `u_field_6` varchar(255) DEFAULT NULL,
+  `u_field_7` varchar(255) DEFAULT NULL,
+  `u_field_8` varchar(255) DEFAULT NULL,
+  `u_field_9` varchar(255) DEFAULT NULL,
+  `u_field_10` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `transaction_id` text DEFAULT NULL,
+  `exchange_id` varchar(255) DEFAULT NULL,
+  `referral_id` varchar(255) NOT NULL DEFAULT '0',
+  `referral_amount` varchar(255) DEFAULT NULL,
+  `referral_currency` varchar(255) DEFAULT NULL,
+  `referral_status` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.exchanges: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.faq
+DROP TABLE IF EXISTS `faq`;
+CREATE TABLE IF NOT EXISTS `faq` (
+  `id` int(11) NOT NULL,
+  `question` varchar(255) DEFAULT NULL,
+  `answer` text DEFAULT NULL,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.faq: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.finance
+DROP TABLE IF EXISTS `finance`;
+CREATE TABLE IF NOT EXISTS `finance` (
+  `id` int(11) NOT NULL,
+  `user_id` char(128) NOT NULL DEFAULT '0',
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.finance: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.financial_institution
+DROP TABLE IF EXISTS `financial_institution`;
+CREATE TABLE IF NOT EXISTS `financial_institution` (
+  `id` int(11) NOT NULL,
+  `financial_institution` varchar(50) DEFAULT NULL,
+  `link` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.financial_institution: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.follow
+DROP TABLE IF EXISTS `follow`;
+CREATE TABLE IF NOT EXISTS `follow` (
+  `follow_id` int(11) NOT NULL,
+  `sender` int(11) NOT NULL,
+  `receiver` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.follow: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.forgot_pass
+DROP TABLE IF EXISTS `forgot_pass`;
+CREATE TABLE IF NOT EXISTS `forgot_pass` (
+  `idFgp` int(11) NOT NULL,
+  `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `password_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `create` timestamp NULL DEFAULT current_timestamp(),
+  `expire` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.forgot_pass: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.forgot_pin
+DROP TABLE IF EXISTS `forgot_pin`;
+CREATE TABLE IF NOT EXISTS `forgot_pin` (
+  `idFgp` int(11) NOT NULL,
+  `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `pin_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `create` timestamp NULL DEFAULT current_timestamp(),
+  `expire` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.forgot_pin: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.galleries
+DROP TABLE IF EXISTS `galleries`;
+CREATE TABLE IF NOT EXISTS `galleries` (
+  `idGal` int(11) NOT NULL AUTO_INCREMENT,
+  `gallery` varchar(50) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `type` int(11) DEFAULT 1,
+  `description` text DEFAULT NULL,
+  `pageId` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT 0,
+  PRIMARY KEY (`idGal`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.galleries: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.gallery
+DROP TABLE IF EXISTS `gallery`;
+CREATE TABLE IF NOT EXISTS `gallery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `link` varchar(100) DEFAULT '#',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.gallery: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.gateways
+DROP TABLE IF EXISTS `gateways`;
+CREATE TABLE IF NOT EXISTS `gateways` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `currency` varchar(255) DEFAULT NULL,
+  `reserve` varchar(255) DEFAULT NULL,
+  `min_amount` varchar(255) DEFAULT NULL,
+  `max_amount` varchar(255) DEFAULT NULL,
+  `exchange_type` int(11) DEFAULT NULL,
+  `include_fee` int(11) DEFAULT NULL,
+  `extra_fee` varchar(255) DEFAULT NULL,
+  `fee` varchar(255) DEFAULT NULL,
+  `allow_send` int(11) DEFAULT NULL,
+  `allow_receive` int(11) DEFAULT NULL,
+  `default_send` int(11) DEFAULT NULL,
+  `default_receive` int(11) DEFAULT NULL,
+  `allow_payouts` int(11) DEFAULT NULL,
+  `field_1` varchar(255) DEFAULT NULL,
+  `field_2` varchar(255) DEFAULT NULL,
+  `field_3` varchar(255) DEFAULT NULL,
+  `field_4` varchar(255) DEFAULT NULL,
+  `field_5` varchar(255) DEFAULT NULL,
+  `field_6` varchar(255) DEFAULT NULL,
+  `field_7` varchar(255) DEFAULT NULL,
+  `field_8` varchar(255) DEFAULT NULL,
+  `field_9` varchar(255) DEFAULT NULL,
+  `field_10` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `external_gateway` int(11) NOT NULL DEFAULT 0,
+  `external_icon` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.gateways: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.gateways_fields
+DROP TABLE IF EXISTS `gateways_fields`;
+CREATE TABLE IF NOT EXISTS `gateways_fields` (
+  `id` int(11) NOT NULL,
+  `gateway_id` int(11) DEFAULT NULL,
+  `field_name` varchar(255) DEFAULT NULL,
+  `field_number` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.gateways_fields: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.help
+DROP TABLE IF EXISTS `help`;
+CREATE TABLE IF NOT EXISTS `help` (
+  `Help_ID` int(11) NOT NULL,
+  `Language` char(2) NOT NULL,
+  `Topic` varchar(255) NOT NULL,
+  `Description` longtext NOT NULL,
+  `Category` int(11) NOT NULL,
+  `Order` int(11) NOT NULL,
+  `Display_in_Page` varchar(100) NOT NULL,
+  `Updated_By` varchar(20) DEFAULT NULL,
+  `Last_Updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.help: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.help_categories
+DROP TABLE IF EXISTS `help_categories`;
+CREATE TABLE IF NOT EXISTS `help_categories` (
+  `category_id` int(11) NOT NULL,
+  `language` char(2) NOT NULL,
+  `category_description` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.help_categories: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.history
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE IF NOT EXISTS `history` (
+  `id` int(11) NOT NULL,
+  `user_id` char(128) NOT NULL DEFAULT '0',
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.history: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.image_gal
+DROP TABLE IF EXISTS `image_gal`;
+CREATE TABLE IF NOT EXISTS `image_gal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `galId` int(11) DEFAULT 0,
+  `sort` int(11) DEFAULT 0,
+  `image` varchar(100) DEFAULT '',
+  `caption_en` text DEFAULT NULL,
+  `caption_es` text DEFAULT NULL,
+  `paypal_code` text DEFAULT NULL,
+  `link` varchar(250) DEFAULT '#',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.image_gal: ~0 rows (approximately)
 
 -- Dumping structure for table newcms.ip
 DROP TABLE IF EXISTS `ip`;
@@ -167,6 +592,67 @@ INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
 	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'contact@ppiuox.net', '127.0.0.1', '2021-10-22 05:10:53'),
 	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'pepiuox@pepiuox.net', '127.0.0.1', '2021-10-22 05:11:27');
 
+-- Dumping structure for table newcms.items
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE IF NOT EXISTS `items` (
+  `id` int(11) unsigned NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.items: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.languages
+DROP TABLE IF EXISTS `languages`;
+CREATE TABLE IF NOT EXISTS `languages` (
+  `Language_Code` char(2) NOT NULL,
+  `Language_Name` varchar(20) NOT NULL,
+  `Default` enum('Y','N') DEFAULT 'N',
+  `Site_Logo` varchar(100) NOT NULL,
+  `Site_Title` varchar(100) NOT NULL,
+  `Default_Thousands_Separator` varchar(5) DEFAULT NULL,
+  `Default_Decimal_Point` varchar(5) DEFAULT NULL,
+  `Default_Currency_Symbol` varchar(10) DEFAULT NULL,
+  `Default_Money_Thousands_Separator` varchar(5) DEFAULT NULL,
+  `Default_Money_Decimal_Point` varchar(5) DEFAULT NULL,
+  `Terms_And_Condition_Text` text NOT NULL,
+  `Announcement_Text` text NOT NULL,
+  `About_Text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.languages: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.last_transaction
+DROP TABLE IF EXISTS `last_transaction`;
+CREATE TABLE IF NOT EXISTS `last_transaction` (
+  `id` int(11) NOT NULL,
+  `user_id` char(128) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` varchar(50) NOT NULL,
+  `send_amount` varchar(50) NOT NULL,
+  `received_amount` varchar(50) NOT NULL,
+  `bonus_amount` varchar(50) NOT NULL,
+  `rate` varchar(50) NOT NULL,
+  `total` varchar(50) NOT NULL,
+  `fee` varchar(50) NOT NULL,
+  `acctions` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.last_transaction: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.lk_sess
+DROP TABLE IF EXISTS `lk_sess`;
+CREATE TABLE IF NOT EXISTS `lk_sess` (
+  `id` varchar(40) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT 0,
+  `data` blob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.lk_sess: ~0 rows (approximately)
+
 -- Dumping structure for table newcms.login_attempts
 DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE IF NOT EXISTS `login_attempts` (
@@ -178,6 +664,337 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.login_attempts: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.mail
+DROP TABLE IF EXISTS `mail`;
+CREATE TABLE IF NOT EXISTS `mail` (
+  `mail_id` int(80) NOT NULL,
+  `Deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `UserTo` tinytext NOT NULL,
+  `UserFrom` tinytext NOT NULL,
+  `Subject` mediumtext NOT NULL,
+  `Message` longtext NOT NULL,
+  `status` text NOT NULL,
+  `SentDate` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.mail: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.mail_log
+DROP TABLE IF EXISTS `mail_log`;
+CREATE TABLE IF NOT EXISTS `mail_log` (
+  `id` int(11) NOT NULL,
+  `type` varchar(45) NOT NULL DEFAULT 'generic',
+  `status` varchar(45) DEFAULT NULL,
+  `recipient` varchar(5000) DEFAULT NULL,
+  `response` mediumtext NOT NULL,
+  `isread` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.mail_log: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.members
+DROP TABLE IF EXISTS `members`;
+CREATE TABLE IF NOT EXISTS `members` (
+  `id` char(128) NOT NULL,
+  `username` varchar(65) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(65) NOT NULL DEFAULT '',
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `banned` tinyint(1) NOT NULL DEFAULT 0,
+  `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `recovery_password` varchar(128) NOT NULL DEFAULT '0',
+  `mktoken` varchar(128) NOT NULL DEFAULT '',
+  `mkkey` varchar(128) NOT NULL,
+  `mkhash` varchar(128) NOT NULL,
+  `mkiv` varchar(128) NOT NULL,
+  `mkpin` char(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.members: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.member_info
+DROP TABLE IF EXISTS `member_info`;
+CREATE TABLE IF NOT EXISTS `member_info` (
+  `userid` char(128) NOT NULL,
+  `firstname` varchar(60) NOT NULL,
+  `lastname` varchar(60) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address1` varchar(45) DEFAULT NULL,
+  `address2` varchar(45) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `state` varchar(30) DEFAULT NULL,
+  `country` varchar(45) DEFAULT NULL,
+  `bio` varchar(20000) DEFAULT NULL,
+  `userimage` varchar(255) DEFAULT NULL,
+  UNIQUE KEY `userid_UNIQUE` (`userid`),
+  KEY `fk_userid_idx` (`userid`),
+  CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.member_info: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.member_roles
+DROP TABLE IF EXISTS `member_roles`;
+CREATE TABLE IF NOT EXISTS `member_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` char(128) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_unique_idx` (`member_id`,`role_id`),
+  KEY `member_id_idx` (`member_id`),
+  KEY `fk_role_id_idx` (`role_id`),
+  CONSTRAINT `fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.member_roles: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.menu
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE IF NOT EXISTS `menu` (
+  `idMenu` int(11) NOT NULL AUTO_INCREMENT,
+  `sort` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
+  `title_page` varchar(100) DEFAULT NULL,
+  `link_page` varchar(100) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT 0,
+  PRIMARY KEY (`idMenu`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.menu: ~0 rows (approximately)
+INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
+	(1, NULL, 1, 'Home', 'home', 0),
+	(2, NULL, 2, 'Test', 'test', 0);
+
+-- Dumping structure for table newcms.menu_options
+DROP TABLE IF EXISTS `menu_options`;
+CREATE TABLE IF NOT EXISTS `menu_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_menu` char(50) NOT NULL,
+  `fluid` enum('Yes','No') DEFAULT NULL,
+  `placement` enum('top','bottom','sticky-top') DEFAULT NULL,
+  `aligment` enum('start','center','end') DEFAULT NULL,
+  `background` enum('primary','secondary','light','dark','info','success','warning','danger') DEFAULT NULL,
+  `color` enum('light','dark') DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_menu` (`id_menu`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table newcms.menu_options: ~0 rows (approximately)
+INSERT INTO `menu_options` (`id`, `id_menu`, `fluid`, `placement`, `aligment`, `background`, `color`) VALUES
+	(1, 'main_navbar', 'Yes', 'top', 'start', 'secondary', 'dark'),
+	(2, 'main_menu', 'Yes', 'top', 'end', 'dark', 'dark');
+
+-- Dumping structure for table newcms.multimedia_gal
+DROP TABLE IF EXISTS `multimedia_gal`;
+CREATE TABLE IF NOT EXISTS `multimedia_gal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `galId` int(11) DEFAULT 0,
+  `sort` int(11) DEFAULT 0,
+  `name` varchar(100) DEFAULT NULL,
+  `image` varchar(250) DEFAULT '',
+  `description_en` text DEFAULT NULL,
+  `description_es` text DEFAULT NULL,
+  `source` varchar(50) DEFAULT NULL,
+  `idlink` varchar(20) DEFAULT '#',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.multimedia_gal: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.orders
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `order_name` varchar(255) NOT NULL,
+  `order_email` varchar(255) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `name` (`order_name`),
+  KEY `email` (`order_email`),
+  KEY `order_date` (`order_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.orders: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.orders_items
+DROP TABLE IF EXISTS `orders_items`;
+CREATE TABLE IF NOT EXISTS `orders_items` (
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.orders_items: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.page
+DROP TABLE IF EXISTS `page`;
+CREATE TABLE IF NOT EXISTS `page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `language` int(11) NOT NULL DEFAULT 1,
+  `position` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(50) DEFAULT 'Title',
+  `link` varchar(150) DEFAULT NULL,
+  `url` varchar(150) DEFAULT NULL,
+  `keyword` varchar(150) DEFAULT NULL,
+  `classification` varchar(150) DEFAULT NULL,
+  `description` varchar(160) DEFAULT NULL,
+  `image` varchar(150) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `menu` int(11) DEFAULT 1,
+  `hidden_page` tinyint(1) DEFAULT 0,
+  `path_file` varchar(250) DEFAULT NULL,
+  `script_name` varchar(250) DEFAULT NULL,
+  `template` varchar(150) DEFAULT NULL,
+  `base_template` varchar(150) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `style` longtext DEFAULT NULL,
+  `startpage` int(11) DEFAULT 0,
+  `level` int(11) DEFAULT 1,
+  `parent` int(11) DEFAULT 0,
+  `sort` int(11) DEFAULT 0,
+  `active` int(11) DEFAULT 1,
+  `update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.page: ~2 rows (approximately)
+INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
+	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', NULL, 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;div id=&amp;quot;ix6i&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center h-100 align-items-center d-flex text-dark&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Go&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;bg-white p-5 mx-auto col-md-8 col-10&amp;quot;&amp;gt;&amp;lt;h3 class=&amp;quot;display-3&amp;quot;&amp;gt;I feel the charm&amp;lt;/h3&amp;gt;&amp;lt;p class=&amp;quot;mb-3 lead&amp;quot;&amp;gt;Of existence in this spot&amp;lt;/p&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;Which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-10-02 08:21:31'),
+	(2, 1, 0, 'Test', 'test', NULL, 'test', 'test', 'test', 'logopao2.jpg', NULL, 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;table class=&amp;quot;table text-center&amp;quot;&amp;gt;&amp;lt;thead&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;&amp;nbsp;&amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Standard &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;15$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Pro &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;49$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Ultimate &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;99$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Contact us&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;nbsp;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Small business and startups&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Growing activities&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Big firms and companies&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/thead&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;One&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Two&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Three&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Four&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Five&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Six&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 0, 1, 0, 0, 1, '2021-10-24 02:57:17');
+
+-- Dumping structure for table newcms.payment_transactions
+DROP TABLE IF EXISTS `payment_transactions`;
+CREATE TABLE IF NOT EXISTS `payment_transactions` (
+  `Payment_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Ref_ID` varchar(20) DEFAULT NULL,
+  `Type` enum('sales','purchase') DEFAULT NULL,
+  `Customer` varchar(20) DEFAULT NULL,
+  `Supplier` varchar(20) DEFAULT NULL,
+  `Sub_Total` double NOT NULL DEFAULT 0,
+  `Payment` double NOT NULL DEFAULT 0,
+  `Balance` double NOT NULL DEFAULT 0,
+  `Due_Date` date DEFAULT NULL,
+  `Date_Transaction` date DEFAULT NULL,
+  `Date_Added` datetime DEFAULT NULL,
+  `Added_By` varchar(50) DEFAULT NULL,
+  `Date_Updated` datetime DEFAULT NULL,
+  `Updated_By` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Payment_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.payment_transactions: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.personal_config
+DROP TABLE IF EXISTS `personal_config`;
+CREATE TABLE IF NOT EXISTS `personal_config` (
+  `idPconf` int(11) DEFAULT NULL,
+  `looking_for` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `education` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `occupation_industry` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `relationship` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `ethnicity` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `smokes` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `drinks` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `children` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `body_type` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `height` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `width` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `about_me` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `interest` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `skills` varchar(50) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table newcms.personal_config: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.plugins_app
+DROP TABLE IF EXISTS `plugins_app`;
+CREATE TABLE IF NOT EXISTS `plugins_app` (
+  `id` int(11) NOT NULL,
+  `plugins` char(50) COLLATE utf8_bin DEFAULT NULL,
+  `plugins_opts` char(50) COLLATE utf8_bin DEFAULT NULL,
+  `script` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `css` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `buttons` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `plugins_script` char(250) COLLATE utf8_bin DEFAULT NULL,
+  `plugins_css` char(250) COLLATE utf8_bin DEFAULT NULL,
+  `active` enum('Yes','No') COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table newcms.plugins_app: ~35 rows (approximately)
+INSERT INTO `plugins_app` (`id`, `plugins`, `plugins_opts`, `script`, `css`, `buttons`, `plugins_script`, `plugins_css`, `active`) VALUES
+	(1, 'gjs-component-countdown', '', '', '', '', 'gjs-component-countdown.js', '', 'Yes'),
+	(2, 'gjs-navbar', '', '', '', '', 'gjs-navbar.js', '', 'Yes'),
+	(3, 'gjs-plugin-ckeditor', '', '', '', '', 'gjs-plugin-ckeditor.js', '', 'Yes'),
+	(4, 'gjs-plugin-filestack', '', '', '', '', 'gjs-plugin-filestack.js', '', 'Yes'),
+	(5, 'gjs-preset-newsletter', '', '', '', '', '', '', NULL),
+	(6, 'gjs-preset-webpage', '', '', '', '', '', '', NULL),
+	(7, 'gjs-component-bootstrap4', '', '', '', '', 'grapesjs-blocks-bootstrap4.min.js', '', 'Yes'),
+	(8, 'grapesjs-code-editor', '', '', '', '', '', '', NULL),
+	(9, 'grapesjs-component-code-editor', '', '', '', '', '', '', NULL),
+	(10, 'grapesjs-custom-code', '', '', '', '', '', '', NULL),
+	(11, 'grapesjs-echarts', '', '', '', '', '', '', NULL),
+	(12, 'grapesjs-firestore', '', '', '', '', '', '', NULL),
+	(13, 'grapesjs-ga', '', '', '', '', '', '', NULL),
+	(14, 'grapesjs-indexeddb', '', '', '', '', '', '', NULL),
+	(15, 'grapesjs-lory-slider', '', '', '', '', '', '', NULL),
+	(16, 'grapesjs-mjml', '', '', '', '', '', '', NULL),
+	(17, 'grapesjs-page-break', '', '', '', '', '', '', NULL),
+	(18, 'grapesjs-parser-postcss', '', '', '', '', '', '', NULL),
+	(19, 'grapesjs-plugin-export', '', '', '', '', '', '', NULL),
+	(20, 'grapesjs-plugin-forms', '', '', '', '', '', '', NULL),
+	(21, 'grapesjs-plugin-toolbox', '', '', '', '', '', '', NULL),
+	(22, 'grapesjs-project-manager', '', '', '', '', '', '', NULL),
+	(23, 'grapesjs-script-editor', '', '', '', '', '', '', NULL),
+	(24, 'grapesjs-style-bg', '', '', '', '', '', '', NULL),
+	(25, 'grapesjs-style-filter', '', '', '', '', '', '', NULL),
+	(26, 'grapesjs-style-gradient', '', '', '', '', '', '', NULL),
+	(27, 'grapesjs-swiper-slider', '', '', '', '', '', '', NULL),
+	(28, 'grapesjs-table', '', '', '', '', '', '', NULL),
+	(29, 'grapesjs-tabs', '', '', '', '', '', '', NULL),
+	(30, 'grapesjs-tooltip', '', '', '', '', '', '', NULL),
+	(31, 'grapesjs-touch', '', '', '', '', '', '', NULL),
+	(32, 'grapesjs-tui-image-editor', '', '', '', '', '', '', NULL),
+	(33, 'grapesjs-typed', '', '', '', '', '', '', NULL),
+	(34, 'grapesjs-uikit', '', '', '', '', '', '', NULL);
+
+-- Dumping structure for table newcms.preset
+DROP TABLE IF EXISTS `preset`;
+CREATE TABLE IF NOT EXISTS `preset` (
+  `id` int(11) NOT NULL,
+  `preset` char(50) DEFAULT NULL,
+  `plugins` char(50) DEFAULT NULL,
+  `plugins_opts` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.preset: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.press_gal
+DROP TABLE IF EXISTS `press_gal`;
+CREATE TABLE IF NOT EXISTS `press_gal` (
+  `idPr` int(11) NOT NULL AUTO_INCREMENT,
+  `galId` int(11) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL,
+  `image` varchar(150) DEFAULT NULL,
+  `title` varchar(50) DEFAULT '',
+  `subtitle` varchar(100) DEFAULT '',
+  `description` text DEFAULT NULL,
+  `printing_date` varchar(30) DEFAULT NULL,
+  `type_press` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`idPr`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.press_gal: ~0 rows (approximately)
 
 -- Dumping structure for table newcms.profiles
 DROP TABLE IF EXISTS `profiles`;
@@ -215,6 +1032,45 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 -- Dumping data for table newcms.profiles: ~1 rows (approximately)
 INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
 	('1095616718612d749c68bc3', '1b1fe70518efa4692018bd268bc86673fcbff952', 'Jose', 'Mantilla', 'Male', 46, '', '0000-00-00', '', '', '', '', '', '', '', 0, '', '', '', '', 0, 0, '2021-08-31 00:15:24', '2021-11-11 16:58:18');
+
+-- Dumping structure for table newcms.purchases
+DROP TABLE IF EXISTS `purchases`;
+CREATE TABLE IF NOT EXISTS `purchases` (
+  `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Purchase_Number` varchar(20) NOT NULL,
+  `Purchase_Date` datetime NOT NULL,
+  `Supplier_ID` varchar(20) NOT NULL,
+  `Notes` varchar(50) DEFAULT NULL,
+  `Total_Amount` double(20,0) DEFAULT 0,
+  `Total_Payment` double(20,0) DEFAULT 0,
+  `Total_Balance` double(20,0) DEFAULT 0,
+  `Date_Added` datetime DEFAULT NULL,
+  `Added_By` varchar(50) DEFAULT NULL,
+  `Date_Updated` datetime DEFAULT NULL,
+  `Updated_By` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Purchase_ID`),
+  KEY `TSupplierTBeli` (`Supplier_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.purchases: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.purchases_detail
+DROP TABLE IF EXISTS `purchases_detail`;
+CREATE TABLE IF NOT EXISTS `purchases_detail` (
+  `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Purchase_Number` varchar(20) NOT NULL,
+  `Supplier_Number` varchar(20) NOT NULL,
+  `Stock_Item` varchar(15) NOT NULL,
+  `Purchasing_Quantity` double(20,0) NOT NULL DEFAULT 0,
+  `Purchasing_Price` double(20,0) NOT NULL DEFAULT 0,
+  `Selling_Price` double(20,0) NOT NULL DEFAULT 0,
+  `Purchasing_Total_Amount` double(20,0) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Purchase_ID`),
+  KEY `TBarangTDBeli` (`Stock_Item`),
+  KEY `TBeliTDBeli` (`Purchase_Number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.purchases_detail: ~0 rows (approximately)
 
 -- Dumping structure for table newcms.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
@@ -256,6 +1112,70 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(23, 2, 14),
 	(24, 2, 15);
 
+-- Dumping structure for table newcms.sales
+DROP TABLE IF EXISTS `sales`;
+CREATE TABLE IF NOT EXISTS `sales` (
+  `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Sales_Number` varchar(20) NOT NULL,
+  `Sales_Date` datetime NOT NULL,
+  `Customer_ID` varchar(20) NOT NULL,
+  `Notes` varchar(50) DEFAULT NULL,
+  `Total_Amount` double DEFAULT 0,
+  `Total_Payment` double DEFAULT 0,
+  `Total_Balance` double DEFAULT 0,
+  `Discount_Type` char(1) DEFAULT NULL,
+  `Discount_Percentage` double DEFAULT 0,
+  `Discount_Amount` double DEFAULT 0,
+  `Tax_Percentage` double DEFAULT 0,
+  `Tax_Amount` double DEFAULT 0,
+  `Tax_Description` varchar(50) DEFAULT NULL,
+  `Final_Total_Amount` double DEFAULT 0,
+  `Date_Added` datetime DEFAULT NULL,
+  `Added_By` varchar(50) DEFAULT NULL,
+  `Date_Updated` datetime DEFAULT NULL,
+  `Updated_By` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Sales_ID`),
+  UNIQUE KEY `NoFaktur` (`Sales_Number`),
+  KEY `TCustomerTJual` (`Customer_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.sales: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.sales_detail
+DROP TABLE IF EXISTS `sales_detail`;
+CREATE TABLE IF NOT EXISTS `sales_detail` (
+  `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Sales_Number` varchar(20) NOT NULL,
+  `Supplier_Number` varchar(20) NOT NULL,
+  `Stock_Item` varchar(15) NOT NULL,
+  `Sales_Quantity` double NOT NULL DEFAULT 0,
+  `Purchasing_Price` double NOT NULL DEFAULT 0,
+  `Sales_Price` double NOT NULL DEFAULT 0,
+  `Sales_Total_Amount` double NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Sales_ID`),
+  KEY `TBarangTDJual` (`Stock_Item`),
+  KEY `TJualTDJual` (`Sales_Number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.sales_detail: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.secrets
+DROP TABLE IF EXISTS `secrets`;
+CREATE TABLE IF NOT EXISTS `secrets` (
+  `secretid` char(128) NOT NULL DEFAULT '',
+  `userid` char(128) NOT NULL,
+  `tokenusr` varchar(256) DEFAULT NULL,
+  `hashusr` varchar(256) DEFAULT NULL,
+  `keyusr` varchar(256) DEFAULT NULL,
+  `ivusr` varchar(256) DEFAULT NULL,
+  `codeusr` char(8) DEFAULT NULL,
+  PRIMARY KEY (`secretid`),
+  UNIQUE KEY `secretid` (`secretid`),
+  UNIQUE KEY `userid` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.secrets: ~0 rows (approximately)
+
 -- Dumping structure for table newcms.sessions
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
@@ -267,6 +1187,515 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.sessions: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.settings
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE IF NOT EXISTS `settings` (
+  `Option_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `Option_Default` enum('Y','N') DEFAULT 'N',
+  `Default_Theme` varchar(30) DEFAULT NULL,
+  `Menu_Horizontal` enum('Y','N') DEFAULT 'Y',
+  `Vertical_Menu_Width` int(3) DEFAULT 150,
+  `Show_Border_Layout` enum('N','Y') DEFAULT 'Y',
+  `Show_Shadow_Layout` enum('N','Y') DEFAULT 'Y',
+  `Show_Announcement` enum('Y','N') DEFAULT 'N',
+  `Demo_Mode` enum('N','Y') DEFAULT 'N',
+  `Show_Page_Processing_Time` enum('Y','N') DEFAULT 'N',
+  `Allow_User_Preferences` enum('N','Y') DEFAULT 'Y',
+  `SMTP_Server` varchar(50) DEFAULT NULL,
+  `SMTP_Server_Port` varchar(5) DEFAULT NULL,
+  `SMTP_Server_Username` varchar(50) DEFAULT NULL,
+  `SMTP_Server_Password` varchar(50) DEFAULT NULL,
+  `Sender_Email` varchar(50) DEFAULT NULL,
+  `Recipient_Email` varchar(50) DEFAULT NULL,
+  `Use_Default_Locale` enum('Y','N') DEFAULT 'Y',
+  `Default_Language` varchar(5) DEFAULT NULL,
+  `Default_Timezone` varchar(50) DEFAULT NULL,
+  `Default_Thousands_Separator` varchar(5) DEFAULT NULL,
+  `Default_Decimal_Point` varchar(5) DEFAULT NULL,
+  `Default_Currency_Symbol` varchar(10) DEFAULT NULL,
+  `Default_Money_Thousands_Separator` varchar(5) DEFAULT NULL,
+  `Default_Money_Decimal_Point` varchar(5) DEFAULT NULL,
+  `Maintenance_Mode` enum('N','Y') DEFAULT 'N',
+  `Maintenance_Finish_DateTime` datetime DEFAULT NULL,
+  `Auto_Normal_After_Maintenance` enum('Y','N') DEFAULT 'Y',
+  `Allow_User_To_Register` enum('Y','N') DEFAULT 'Y',
+  `Suspend_New_User_Account` enum('N','Y') DEFAULT 'N',
+  `User_Need_Activation_After_Registered` enum('Y','N') DEFAULT 'Y',
+  `Show_Captcha_On_Registration_Page` enum('Y','N') DEFAULT 'N',
+  `Show_Terms_And_Conditions_On_Registration_Page` enum('Y','N') DEFAULT 'Y',
+  `Show_Captcha_On_Login_Page` enum('N','Y') DEFAULT 'N',
+  `Show_Captcha_On_Forgot_Password_Page` enum('N','Y') DEFAULT 'N',
+  `Show_Captcha_On_Change_Password_Page` enum('N','Y') DEFAULT 'N',
+  `User_Auto_Login_After_Activation_Or_Registration` enum('Y','N') DEFAULT 'Y',
+  `User_Auto_Logout_After_Idle_In_Minutes` int(3) DEFAULT 20,
+  `User_Login_Maximum_Retry` int(3) DEFAULT 3,
+  `User_Login_Retry_Lockout` int(3) DEFAULT 5,
+  `Redirect_To_Last_Visited_Page_After_Login` enum('Y','N') DEFAULT 'Y',
+  `Enable_Password_Expiry` enum('Y','N') DEFAULT 'Y',
+  `Password_Expiry_In_Days` int(3) DEFAULT 90,
+  `Show_Entire_Header` enum('Y','N') DEFAULT 'Y',
+  `Logo_Width` int(3) DEFAULT 170,
+  `Show_Site_Title_In_Header` enum('Y','N') DEFAULT 'Y',
+  `Show_Current_User_In_Header` enum('Y','N') DEFAULT 'Y',
+  `Text_Align_In_Header` enum('left','center','right') DEFAULT 'left',
+  `Site_Title_Text_Style` enum('normal','capitalize','uppercase') DEFAULT 'normal',
+  `Language_Selector_Visibility` enum('inheader','belowheader','hidethemall') DEFAULT 'inheader',
+  `Language_Selector_Align` enum('autoadjust','left','center','right') DEFAULT 'autoadjust',
+  `Show_Entire_Footer` enum('Y','N') DEFAULT 'Y',
+  `Show_Text_In_Footer` enum('Y','N') DEFAULT 'Y',
+  `Show_Back_To_Top_On_Footer` enum('N','Y') DEFAULT 'Y',
+  `Show_Terms_And_Conditions_On_Footer` enum('Y','N') DEFAULT 'Y',
+  `Show_About_Us_On_Footer` enum('N','Y') DEFAULT 'Y',
+  `Pagination_Position` enum('1','2','3') DEFAULT '3',
+  `Pagination_Style` enum('1','2') DEFAULT '2',
+  `Selectable_Records_Per_Page` varchar(50) DEFAULT '1,2,3,5,10,15,20,50',
+  `Selectable_Groups_Per_Page` varchar(50) DEFAULT '1,2,3,5,10',
+  `Default_Record_Per_Page` int(3) DEFAULT 10,
+  `Default_Group_Per_Page` int(3) DEFAULT 3,
+  `Maximum_Selected_Records` int(3) DEFAULT 50,
+  `Maximum_Selected_Groups` int(3) DEFAULT 50,
+  `Show_PageNum_If_Record_Not_Over_Pagesize` enum('Y','N') DEFAULT 'Y',
+  `Table_Width_Style` enum('1','2','3') DEFAULT '2' COMMENT '1 = Scroll, 2 = Normal, 3 = 100%',
+  `Scroll_Table_Width` int(4) DEFAULT 800,
+  `Scroll_Table_Height` int(4) DEFAULT 300,
+  `Show_Record_Number_On_List_Page` enum('N','Y') DEFAULT 'Y',
+  `Show_Empty_Table_On_List_Page` enum('N','Y') DEFAULT 'Y',
+  `Search_Panel_Collapsed` enum('Y','N') DEFAULT 'Y',
+  `Filter_Panel_Collapsed` enum('Y','N') DEFAULT 'Y',
+  `Rows_Vertical_Align_Top` enum('N','Y') DEFAULT 'Y',
+  `Show_Add_Success_Message` enum('N','Y') DEFAULT 'Y',
+  `Show_Edit_Success_Message` enum('N','Y') DEFAULT 'Y',
+  `jQuery_Auto_Hide_Success_Message` enum('N','Y') DEFAULT 'N',
+  `Show_Record_Number_On_Detail_Preview` enum('N','Y') DEFAULT 'Y',
+  `Show_Empty_Table_In_Detail_Preview` enum('N','Y') DEFAULT 'Y',
+  `Detail_Preview_Table_Width` int(3) DEFAULT 100,
+  `Password_Minimum_Length` int(2) DEFAULT 6,
+  `Password_Maximum_Length` int(2) DEFAULT 20,
+  `Password_Must_Comply_With_Minumum_Length` enum('N','Y') DEFAULT 'Y',
+  `Password_Must_Comply_With_Maximum_Length` enum('N','Y') DEFAULT 'Y',
+  `Password_Must_Contain_At_Least_One_Lower_Case` enum('N','Y') DEFAULT 'Y',
+  `Password_Must_Contain_At_Least_One_Upper_Case` enum('N','Y') DEFAULT 'Y',
+  `Password_Must_Contain_At_Least_One_Numeric` enum('N','Y') DEFAULT 'Y',
+  `Password_Must_Contain_At_Least_One_Symbol` enum('N','Y') DEFAULT 'Y',
+  `Password_Must_Be_Difference_Between_Old_And_New` enum('N','Y') DEFAULT 'Y',
+  `Export_Record_Options` enum('selectedrecords','currentpage','allpages') DEFAULT 'selectedrecords',
+  `Show_Record_Number_On_Exported_List_Page` enum('N','Y') DEFAULT 'Y',
+  `Use_Table_Setting_For_Export_Field_Caption` enum('N','Y') DEFAULT 'Y',
+  `Use_Table_Setting_For_Export_Original_Value` enum('N','Y') DEFAULT 'Y',
+  `Font_Name` varchar(50) DEFAULT 'tahoma',
+  `Font_Size` varchar(4) DEFAULT '11px',
+  `Use_Javascript_Message` enum('1','0') DEFAULT '1',
+  `Login_Window_Type` enum('popup','default') DEFAULT 'popup',
+  `Forgot_Password_Window_Type` enum('popup','default') DEFAULT 'popup',
+  `Change_Password_Window_Type` enum('popup','default') DEFAULT 'popup',
+  `Registration_Window_Type` enum('popup','default') DEFAULT 'popup',
+  `Reset_Password_Field_Options` enum('EmailOrUsername','Username','Email') DEFAULT 'EmailOrUsername',
+  `Action_Button_Alignment` enum('Right','Left') DEFAULT 'Right',
+  PRIMARY KEY (`Option_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.settings: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.slideshow
+DROP TABLE IF EXISTS `slideshow`;
+CREATE TABLE IF NOT EXISTS `slideshow` (
+  `idSld` int(11) NOT NULL AUTO_INCREMENT,
+  `title` char(50) COLLATE utf8_bin NOT NULL,
+  `page_id` int(11) NOT NULL,
+  `comment` char(150) COLLATE utf8_bin NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `create` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`idSld`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table newcms.slideshow: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.slideshow_image
+DROP TABLE IF EXISTS `slideshow_image`;
+CREATE TABLE IF NOT EXISTS `slideshow_image` (
+  `idImg` int(11) NOT NULL AUTO_INCREMENT,
+  `slideshow_id` int(11) DEFAULT NULL,
+  `title_image` char(60) COLLATE utf8_bin DEFAULT NULL,
+  `description` int(100) DEFAULT NULL,
+  `slide_image` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `btn_color` enum('primary','secondary','light','dark','info','success','warning','danger','gray') COLLATE utf8_bin DEFAULT 'primary',
+  `btn_text` char(30) COLLATE utf8_bin DEFAULT NULL,
+  `link` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`idImg`),
+  KEY `SLD1` (`slideshow_id`),
+  CONSTRAINT `SLD1` FOREIGN KEY (`slideshow_id`) REFERENCES `slideshow` (`idSld`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table newcms.slideshow_image: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.social_link
+DROP TABLE IF EXISTS `social_link`;
+CREATE TABLE IF NOT EXISTS `social_link` (
+  `social_name` varchar(20) DEFAULT NULL,
+  `social_url` varchar(150) DEFAULT NULL,
+  KEY `social_name` (`social_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.social_link: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stats_counter
+DROP TABLE IF EXISTS `stats_counter`;
+CREATE TABLE IF NOT EXISTS `stats_counter` (
+  `Type` varchar(50) NOT NULL DEFAULT '',
+  `Variable` varchar(50) NOT NULL DEFAULT '',
+  `Counter` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Type`,`Variable`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stats_counter: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stats_counterlog
+DROP TABLE IF EXISTS `stats_counterlog`;
+CREATE TABLE IF NOT EXISTS `stats_counterlog` (
+  `IP_Address` varchar(50) NOT NULL DEFAULT '',
+  `Hostname` varchar(50) DEFAULT NULL,
+  `First_Visit` datetime NOT NULL,
+  `Last_Visit` datetime NOT NULL,
+  `Counter` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`IP_Address`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stats_counterlog: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stats_date
+DROP TABLE IF EXISTS `stats_date`;
+CREATE TABLE IF NOT EXISTS `stats_date` (
+  `Year` smallint(6) NOT NULL DEFAULT 0,
+  `Month` tinyint(4) NOT NULL DEFAULT 0,
+  `Date` tinyint(4) NOT NULL DEFAULT 0,
+  `Hits` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Date`,`Month`,`Year`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stats_date: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stats_hour
+DROP TABLE IF EXISTS `stats_hour`;
+CREATE TABLE IF NOT EXISTS `stats_hour` (
+  `Year` smallint(6) NOT NULL DEFAULT 0,
+  `Month` tinyint(4) NOT NULL DEFAULT 0,
+  `Date` tinyint(4) NOT NULL DEFAULT 0,
+  `Hour` tinyint(4) NOT NULL DEFAULT 0,
+  `Hits` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Date`,`Hour`,`Month`,`Year`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stats_hour: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stats_month
+DROP TABLE IF EXISTS `stats_month`;
+CREATE TABLE IF NOT EXISTS `stats_month` (
+  `Year` smallint(6) NOT NULL DEFAULT 0,
+  `Month` tinyint(4) NOT NULL DEFAULT 0,
+  `Hits` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Year`,`Month`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stats_month: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stats_year
+DROP TABLE IF EXISTS `stats_year`;
+CREATE TABLE IF NOT EXISTS `stats_year` (
+  `Year` smallint(6) NOT NULL DEFAULT 0,
+  `Hits` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Year`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stats_year: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stock_categories
+DROP TABLE IF EXISTS `stock_categories`;
+CREATE TABLE IF NOT EXISTS `stock_categories` (
+  `Category_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Category_Name` varchar(20) NOT NULL,
+  PRIMARY KEY (`Category_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stock_categories: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.stock_items
+DROP TABLE IF EXISTS `stock_items`;
+CREATE TABLE IF NOT EXISTS `stock_items` (
+  `Stock_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Supplier_Number` varchar(20) NOT NULL,
+  `Stock_Number` varchar(15) NOT NULL,
+  `Stock_Name` varchar(50) NOT NULL,
+  `Unit_Of_Measurement` varchar(20) NOT NULL,
+  `Category` int(11) NOT NULL,
+  `Purchasing_Price` double(20,0) NOT NULL DEFAULT 0,
+  `Selling_Price` double(20,0) NOT NULL DEFAULT 0,
+  `Notes` varchar(50) NOT NULL,
+  `Quantity` double(20,0) NOT NULL DEFAULT 0,
+  `Date_Added` datetime DEFAULT NULL,
+  `Added_By` varchar(50) DEFAULT NULL,
+  `Date_Updated` datetime DEFAULT NULL,
+  `Updated_By` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Stock_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.stock_items: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.suppliers
+DROP TABLE IF EXISTS `suppliers`;
+CREATE TABLE IF NOT EXISTS `suppliers` (
+  `Supplier_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Supplier_Number` varchar(20) NOT NULL,
+  `Supplier_Name` varchar(50) NOT NULL,
+  `Address` text NOT NULL,
+  `City` varchar(20) NOT NULL,
+  `Country` varchar(50) NOT NULL,
+  `Contact_Person` varchar(50) NOT NULL,
+  `Phone_Number` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Mobile_Number` varchar(50) NOT NULL,
+  `Notes` text NOT NULL,
+  `Balance` double DEFAULT 0,
+  `Is_Stock_Available` enum('N','Y') NOT NULL DEFAULT 'N',
+  `Date_Added` datetime DEFAULT NULL,
+  `Added_By` varchar(50) DEFAULT NULL,
+  `Date_Updated` datetime DEFAULT NULL,
+  `Updated_By` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Supplier_ID`),
+  UNIQUE KEY `KodeCust` (`Supplier_Number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.suppliers: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.table_config
+DROP TABLE IF EXISTS `table_config`;
+CREATE TABLE IF NOT EXISTS `table_config` (
+  `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
+  `table_name` text DEFAULT NULL,
+  PRIMARY KEY (`tcon_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.table_config: ~0 rows (approximately)
+INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
+	(4, 'configuration,menu,menu_options,page,plugins_app,preset,profiles,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
+
+-- Dumping structure for table newcms.table_queries
+DROP TABLE IF EXISTS `table_queries`;
+CREATE TABLE IF NOT EXISTS `table_queries` (
+  `tque_Id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_table` varchar(50) DEFAULT NULL,
+  `col_name` varchar(50) DEFAULT NULL,
+  `col_type` varchar(50) DEFAULT NULL,
+  `input_type` int(11) DEFAULT NULL,
+  `joins` varchar(50) DEFAULT NULL,
+  `j_table` varchar(50) DEFAULT NULL,
+  `j_id` varchar(50) DEFAULT NULL,
+  `j_value` varchar(50) DEFAULT NULL,
+  `j_as` varchar(50) DEFAULT NULL,
+  `query` varchar(250) DEFAULT NULL,
+  `jvpos` int(11) DEFAULT NULL,
+  PRIMARY KEY (`tque_Id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.table_queries: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.table_settings
+DROP TABLE IF EXISTS `table_settings`;
+CREATE TABLE IF NOT EXISTS `table_settings` (
+  `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
+  `table_name` text NOT NULL,
+  `views_name` text NOT NULL,
+  `adds_name` text NOT NULL,
+  `updates_name` text NOT NULL,
+  `deletes_name` text NOT NULL,
+  `permits_name` text NOT NULL,
+  PRIMARY KEY (`IdTbset`) USING BTREE,
+  UNIQUE KEY `table_name` (`table_name`) USING HASH
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.table_settings: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.templates
+DROP TABLE IF EXISTS `templates`;
+CREATE TABLE IF NOT EXISTS `templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `templates` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.templates: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.themes
+DROP TABLE IF EXISTS `themes`;
+CREATE TABLE IF NOT EXISTS `themes` (
+  `theme_id` varchar(25) NOT NULL,
+  `theme_name` varchar(25) NOT NULL,
+  `default` enum('Yes','No') NOT NULL DEFAULT 'No',
+  PRIMARY KEY (`theme_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.themes: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.theme_base_colors
+DROP TABLE IF EXISTS `theme_base_colors`;
+CREATE TABLE IF NOT EXISTS `theme_base_colors` (
+  `theme_id` char(25) NOT NULL,
+  `body` char(50) DEFAULT NULL,
+  `text` char(50) DEFAULT NULL,
+  `links` char(50) DEFAULT NULL,
+  PRIMARY KEY (`theme_id`) USING BTREE,
+  UNIQUE KEY `theme_id` (`theme_id`),
+  CONSTRAINT `FK_tbase_color` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.theme_base_colors: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.theme_base_font
+DROP TABLE IF EXISTS `theme_base_font`;
+CREATE TABLE IF NOT EXISTS `theme_base_font` (
+  `theme_id` char(25) NOT NULL,
+  `family` char(50) DEFAULT NULL,
+  `size` char(50) DEFAULT NULL,
+  `weight` enum('default','light','normal','bold') DEFAULT NULL,
+  `line_height` char(50) DEFAULT NULL,
+  PRIMARY KEY (`theme_id`) USING BTREE,
+  UNIQUE KEY `theme_id` (`theme_id`),
+  CONSTRAINT `FK_tbase_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.theme_base_font: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.theme_headings_font
+DROP TABLE IF EXISTS `theme_headings_font`;
+CREATE TABLE IF NOT EXISTS `theme_headings_font` (
+  `theme_id` char(25) NOT NULL,
+  `family` char(50) DEFAULT NULL,
+  `weight` enum('default','light','normal','bold') DEFAULT NULL,
+  `line_weight` char(50) DEFAULT NULL,
+  PRIMARY KEY (`theme_id`),
+  UNIQUE KEY `theme_id` (`theme_id`),
+  CONSTRAINT `FK_headings_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.theme_headings_font: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.theme_lead_font
+DROP TABLE IF EXISTS `theme_lead_font`;
+CREATE TABLE IF NOT EXISTS `theme_lead_font` (
+  `theme_id` char(25) NOT NULL,
+  `size` char(50) DEFAULT NULL,
+  `weight` char(50) DEFAULT NULL,
+  PRIMARY KEY (`theme_id`) USING BTREE,
+  UNIQUE KEY `theme_id` (`theme_id`),
+  CONSTRAINT `FK_tlead_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.theme_lead_font: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.theme_palette
+DROP TABLE IF EXISTS `theme_palette`;
+CREATE TABLE IF NOT EXISTS `theme_palette` (
+  `theme_id` char(25) NOT NULL,
+  `primary` char(7) DEFAULT NULL,
+  `secondary` char(7) DEFAULT NULL,
+  `info` char(7) DEFAULT NULL,
+  `light` char(7) DEFAULT NULL,
+  `dark` char(7) DEFAULT NULL,
+  `success` char(7) DEFAULT NULL,
+  `warning` char(7) DEFAULT NULL,
+  `danger` char(7) DEFAULT NULL,
+  `custom` char(7) DEFAULT NULL,
+  `custom_light` char(7) DEFAULT NULL,
+  `custom_dark` char(7) DEFAULT NULL,
+  PRIMARY KEY (`theme_id`) USING BTREE,
+  UNIQUE KEY `theme_id` (`theme_id`),
+  CONSTRAINT `FK_tpalette` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.theme_palette: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.theme_settings
+DROP TABLE IF EXISTS `theme_settings`;
+CREATE TABLE IF NOT EXISTS `theme_settings` (
+  `theme_id` char(25) NOT NULL,
+  `container` enum('default','narrow') NOT NULL DEFAULT 'default',
+  `spacer` enum('x 2','x 1.5','x 1.2','default','x .8','x .5') NOT NULL DEFAULT 'default',
+  `radius` char(50) DEFAULT NULL,
+  `radius_sm` char(50) DEFAULT NULL,
+  `radius_lg` char(50) DEFAULT NULL,
+  `font_size` enum('default','responsive','unresponsive') NOT NULL DEFAULT 'default',
+  PRIMARY KEY (`theme_id`) USING BTREE,
+  UNIQUE KEY `theme_id` (`theme_id`),
+  CONSTRAINT `FK_tsettings` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.theme_settings: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.timezone
+DROP TABLE IF EXISTS `timezone`;
+CREATE TABLE IF NOT EXISTS `timezone` (
+  `Timezone` varchar(50) NOT NULL,
+  `Default` enum('Y','N') NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`Timezone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.timezone: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.tokens
+DROP TABLE IF EXISTS `tokens`;
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `tokenid` char(25) NOT NULL,
+  `userid` char(128) NOT NULL,
+  `expired` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`tokenid`),
+  UNIQUE KEY `tokenid_UNIQUE` (`tokenid`),
+  UNIQUE KEY `userid_UNIQUE` (`userid`),
+  CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.tokens: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.type_blocks
+DROP TABLE IF EXISTS `type_blocks`;
+CREATE TABLE IF NOT EXISTS `type_blocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_block` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.type_blocks: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.type_gallery
+DROP TABLE IF EXISTS `type_gallery`;
+CREATE TABLE IF NOT EXISTS `type_gallery` (
+  `idTG` int(11) NOT NULL AUTO_INCREMENT,
+  `type_gallery` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`idTG`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.type_gallery: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.type_page
+DROP TABLE IF EXISTS `type_page`;
+CREATE TABLE IF NOT EXISTS `type_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_page` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.type_page: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.unit_of_measurement
+DROP TABLE IF EXISTS `unit_of_measurement`;
+CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
+  `UOM_ID` varchar(10) NOT NULL,
+  `UOM_Description` varchar(20) NOT NULL,
+  PRIMARY KEY (`UOM_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.unit_of_measurement: ~0 rows (approximately)
 
 -- Dumping structure for table newcms.users
 DROP TABLE IF EXISTS `users`;
@@ -295,6 +1724,37 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table newcms.users: ~1 rows (approximately)
 INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
 	('1095616718612d749c68bc3', 'Qnc5RllYMi9QendaSEQraGIweHlXdz09', 'TGRSOUdDM3o1N2hhaUJGRFJoaEltdmFXTExKTlkrK1VxaHVQUGVoSkJ4dz0=', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', 1, 0, '127.0.0.1', '2021-08-31 00:15:24', '', 0, 0, '550044', '2021-08-31 00:15:24', '2021-08-31 00:15:24');
+
+-- Dumping structure for table newcms.users_mk
+DROP TABLE IF EXISTS `users_mk`;
+CREATE TABLE IF NOT EXISTS `users_mk` (
+  `id` char(128) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `password_recovery` text DEFAULT NULL,
+  `email_verified` int(11) DEFAULT NULL,
+  `email_hash` text DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `last_login` int(11) DEFAULT NULL,
+  `signup_time` int(11) DEFAULT NULL,
+  `document_verified` int(11) DEFAULT NULL,
+  `document_1` text DEFAULT NULL,
+  `document_2` text DEFAULT NULL,
+  `mobile_verified` int(11) DEFAULT NULL,
+  `mobile_number` text DEFAULT NULL,
+  `mktoken` varchar(128) DEFAULT NULL,
+  `mkkey` varchar(128) DEFAULT NULL,
+  `mkhash` varchar(128) DEFAULT NULL,
+  `mkpin` int(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `password` (`password`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.users_mk: ~0 rows (approximately)
 
 -- Dumping structure for table newcms.users_permissions
 DROP TABLE IF EXISTS `users_permissions`;
@@ -473,6 +1933,219 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 -- Dumping data for table newcms.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
 	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', '1b1fe70518efa4692018bd268bc86673fcbff952', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2021-11-11 16:58:18');
+
+-- Dumping structure for table newcms.videos
+DROP TABLE IF EXISTS `videos`;
+CREATE TABLE IF NOT EXISTS `videos` (
+  `idVd` int(11) NOT NULL AUTO_INCREMENT,
+  `pageId` int(11) DEFAULT 0,
+  `title` varchar(100) DEFAULT '',
+  `image` varchar(150) DEFAULT '',
+  `description_en` text DEFAULT NULL,
+  `description_es` text DEFAULT NULL,
+  `source` varchar(50) DEFAULT NULL,
+  `idlink` varchar(20) DEFAULT '#',
+  `active` int(11) DEFAULT 0,
+  PRIMARY KEY (`idVd`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.videos: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.video_gal
+DROP TABLE IF EXISTS `video_gal`;
+CREATE TABLE IF NOT EXISTS `video_gal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `galId` int(11) DEFAULT 0,
+  `title` varchar(100) DEFAULT '',
+  `image` varchar(100) DEFAULT '',
+  `description` text DEFAULT NULL,
+  `source` varchar(50) DEFAULT NULL,
+  `idlink` varchar(20) DEFAULT '#',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.video_gal: ~0 rows (approximately)
+
+-- Dumping structure for view newcms.view_purchases_details
+DROP VIEW IF EXISTS `view_purchases_details`;
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `view_purchases_details` (
+	`Purchase_ID` INT(11) NOT NULL,
+	`Purchase_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Supplier_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Stock_Item` VARCHAR(15) NOT NULL COLLATE 'utf8_general_ci',
+	`Purchasing_Quantity` DOUBLE(20,0) NOT NULL,
+	`Purchasing_Price` DOUBLE(20,0) NOT NULL,
+	`Selling_Price` DOUBLE(20,0) NOT NULL,
+	`Purchasing_Total_Amount` DOUBLE(20,0) NOT NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for view newcms.view_purchases_outstandings
+DROP VIEW IF EXISTS `view_purchases_outstandings`;
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `view_purchases_outstandings` (
+	`Purchase_ID` INT(11) NOT NULL,
+	`Purchase_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Purchase_Date` DATETIME NOT NULL,
+	`Supplier_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Notes` VARCHAR(50) NULL COLLATE 'utf8_general_ci',
+	`Total_Amount` DOUBLE(20,0) NULL,
+	`Total_Payment` DOUBLE(20,0) NULL,
+	`Total_Balance` DOUBLE(20,0) NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for view newcms.view_sales_details
+DROP VIEW IF EXISTS `view_sales_details`;
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `view_sales_details` (
+	`Sales_ID` INT(11) NOT NULL,
+	`Sales_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Supplier_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Stock_Item` VARCHAR(15) NOT NULL COLLATE 'utf8_general_ci',
+	`Sales_Quantity` DOUBLE NOT NULL,
+	`Purchasing_Price` DOUBLE NOT NULL,
+	`Sales_Price` DOUBLE NOT NULL,
+	`Sales_Total_Amount` DOUBLE NOT NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for view newcms.view_sales_outstandings
+DROP VIEW IF EXISTS `view_sales_outstandings`;
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `view_sales_outstandings` (
+	`Sales_ID` INT(11) NOT NULL,
+	`Sales_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Sales_Date` DATETIME NOT NULL,
+	`Customer_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`Notes` VARCHAR(50) NULL COLLATE 'utf8_general_ci',
+	`Total_Amount` DOUBLE NULL,
+	`Total_Payment` DOUBLE NULL,
+	`Total_Balance` DOUBLE NULL,
+	`Discount_Type` CHAR(1) NULL COLLATE 'utf8_general_ci',
+	`Discount_Percentage` DOUBLE NULL,
+	`Discount_Amount` DOUBLE NULL,
+	`Tax_Percentage` DOUBLE NULL,
+	`Tax_Description` VARCHAR(50) NULL COLLATE 'utf8_general_ci',
+	`Final_Total_Amount` DOUBLE NULL
+) ENGINE=MyISAM;
+
+-- Dumping structure for table newcms.visitor
+DROP TABLE IF EXISTS `visitor`;
+CREATE TABLE IF NOT EXISTS `visitor` (
+  `ip` varchar(15) NOT NULL,
+  `timestamp` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.visitor: ~2 rows (approximately)
+INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
+	('127.0.0.1', '1629510472'),
+	('::1', '1630197317');
+
+-- Dumping structure for table newcms.volunteer
+DROP TABLE IF EXISTS `volunteer`;
+CREATE TABLE IF NOT EXISTS `volunteer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `gender` enum('Woman','Male') DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `age` tinyint(2) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `social_media` varchar(50) DEFAULT NULL,
+  `web_blog` varchar(150) DEFAULT NULL,
+  `address` varchar(150) DEFAULT NULL,
+  `address_line_2` varchar(150) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `state_province_region` varchar(50) DEFAULT NULL,
+  `zip_code` varchar(50) DEFAULT NULL,
+  `country` varchar(50) DEFAULT NULL,
+  `profession` varchar(50) DEFAULT NULL,
+  `personal_interest` varchar(50) DEFAULT NULL,
+  `skills` varchar(50) DEFAULT NULL,
+  `allergies` varchar(50) DEFAULT NULL,
+  `allergy_description` text DEFAULT NULL,
+  `diseases` varchar(50) DEFAULT NULL,
+  `disease_description` text DEFAULT NULL,
+  `comments` varchar(50) DEFAULT NULL,
+  `contact_person_name` varchar(50) DEFAULT NULL,
+  `contact_person_phone` varchar(50) DEFAULT NULL,
+  `contact_person_email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.volunteer: ~0 rows (approximately)
+
+-- Dumping structure for view newcms.view_purchases_details
+DROP VIEW IF EXISTS `view_purchases_details`;
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `view_purchases_details`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_details` AS SELECT
+purchases_detail.Purchase_ID,
+purchases_detail.Purchase_Number,
+purchases_detail.Supplier_Number,
+purchases_detail.Stock_Item,
+purchases_detail.Purchasing_Quantity,
+purchases_detail.Purchasing_Price,
+purchases_detail.Selling_Price,
+purchases_detail.Purchasing_Total_Amount
+FROM
+purchases_detail ;
+
+-- Dumping structure for view newcms.view_purchases_outstandings
+DROP VIEW IF EXISTS `view_purchases_outstandings`;
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `view_purchases_outstandings`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_outstandings` AS SELECT
+purchases.Purchase_ID,
+purchases.Purchase_Number,
+purchases.Purchase_Date,
+purchases.Supplier_ID,
+purchases.Notes,
+purchases.Total_Amount,
+purchases.Total_Payment,
+purchases.Total_Balance
+FROM
+purchases 
+WHERE purchases.Total_Balance <> 0 ;
+
+-- Dumping structure for view newcms.view_sales_details
+DROP VIEW IF EXISTS `view_sales_details`;
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `view_sales_details`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_details` AS SELECT
+sales_detail.Sales_ID,
+sales_detail.Sales_Number,
+sales_detail.Supplier_Number,
+sales_detail.Stock_Item,
+sales_detail.Sales_Quantity,
+sales_detail.Purchasing_Price,
+sales_detail.Sales_Price,
+sales_detail.Sales_Total_Amount
+FROM
+sales_detail ;
+
+-- Dumping structure for view newcms.view_sales_outstandings
+DROP VIEW IF EXISTS `view_sales_outstandings`;
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `view_sales_outstandings`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_outstandings` AS SELECT
+sales.Sales_ID,
+sales.Sales_Number,
+sales.Sales_Date,
+sales.Customer_ID,
+sales.Notes,
+sales.Total_Amount,
+sales.Total_Payment,
+sales.Total_Balance,
+sales.Discount_Type,
+sales.Discount_Percentage,
+sales.Discount_Amount,
+sales.Tax_Percentage,
+sales.Tax_Description,
+sales.Final_Total_Amount
+FROM
+sales 
+WHERE sales.Total_Balance <> 0 ;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

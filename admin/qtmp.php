@@ -1,26 +1,25 @@
 <?php
 //This is temporal file only for add new row
-if(isset($_POST['addtable'])){
-$result = $conn->query("SELECT name_table FROM table_queries WHERE name_table = 'cols_set'");
-if ($result->num_rows > 0) {
-echo 'This table already exists, It was already added.';
-}else{
-$query = "INSERT INTO table_queries (name_table, col_name, col_type) VALUES
-('cols_set', 'table_name', 'varchar'), 
-('cols_set', 'col_name', 'varchar'), 
-('cols_set', 'type_input', 'varchar'), 
-('cols_set', 'list_page', 'varchar'), 
-('cols_set', 'add_page', 'varchar'), 
-('cols_set', 'update_page', 'varchar'), 
-('cols_set', 'view_page', 'varchar'), 
-('cols_set', 'delete_page', 'varchar'), 
-('cols_set', 'search_text', 'varchar'), 
-('cols_set', 'col_set', 'varchar')";
-if ($conn->query($query) === TRUE) {
-            echo "Record added successfully";
-        } else {
-            echo "Error added record: " . $conn->error;
-        }
-    }
-}
-?>
+if (isset($_POST["updatequeries"])) {
+$id_menu = $_POST['id_menu'];
+$sql0 = "UPDATE table_queries SET query='$id_menu' WHERE tque_Id='1' ";
+$conn->query($sql0);
+$fluid = $_POST['fluid'];
+$sql1 = "UPDATE table_queries SET query='$fluid' WHERE tque_Id='2' ";
+$conn->query($sql1);
+$placement = $_POST['placement'];
+$sql2 = "UPDATE table_queries SET query='$placement' WHERE tque_Id='3' ";
+$conn->query($sql2);
+$aligment = $_POST['aligment'];
+$sql3 = "UPDATE table_queries SET query='$aligment' WHERE tque_Id='4' ";
+$conn->query($sql3);
+$background = $_POST['background'];
+$sql4 = "UPDATE table_queries SET query='$background' WHERE tque_Id='5' ";
+$conn->query($sql4);
+$color = $_POST['color'];
+$sql5 = "UPDATE table_queries SET query='$color' WHERE tque_Id='6' ";
+$conn->query($sql5);
+echo "Record added successfully";
+header("Location: dashboard.php?cms=querybuilder&w=editor&tbl=menu_options");
+} 
+?> 

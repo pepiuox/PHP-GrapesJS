@@ -339,8 +339,8 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                                                 10 Feb. 2014
                                                             </span>
                                                         </div>
-                                                        <!-- /.timeline-label -->
-                                                        <!-- timeline item -->
+                                                        <!-- /.timeline-label --> 
+                                                       <!-- timeline item -->
                                                         <div>
                                                             <i class="fas fa-envelope bg-primary"></i>
 

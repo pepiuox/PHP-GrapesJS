@@ -44,7 +44,7 @@ include '../elements/alerts.php';
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8">
+                    <div class="mb-3">
                         <div class="icheck-primary">
                             <input type="checkbox" id="agreeTerms" name="agreeTerms" value="agree">
                             <label for="agreeTerms">
@@ -54,7 +54,7 @@ include '../elements/alerts.php';
                     </div>
 
                     <!-- /.col -->
-                    <div class="col-4">
+                    <div class="mb-3">
                         <button type="submit" name="register" class="btn btn-primary btn-block">Register</button>
                     </div>
                     <!-- /.col -->

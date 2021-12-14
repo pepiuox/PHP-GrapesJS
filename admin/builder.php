@@ -57,48 +57,51 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <head>
                 <meta charset="utf-8">
                 <title><?php echo SITE_NAME; ?> | Builder</title>
-                <link href="<?php echo $base; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
+                <!-- stylesheet -->
+                <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
                 <!-- Font Awesome -->
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/css/fontawesome.min.css"  type="text/css"/>               
-                <!-- <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/fontawesome-free/css/all.min.css"> --> 
+                <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/fontawesome-free/css/all.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/css/toastr.min.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/grapes.min.css">
+                <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/grapesjs/css/grapes.min.css">
                 <link href="<?php echo $base; ?>assets/css/editor.css" rel="stylesheet" type="text/css"/>
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/grapesjs-preset-webpage.min.css">
+                <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/grapesjs/css/grapesjs-preset-webpage.min.css">
                 <link href="<?php echo $base; ?>assets/css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/css/tooltip.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/grapesjs-plugin-filestack.css">
+                <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/grapesjs/css/grapesjs-plugin-filestack.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/css/demos.css">
-                <link href="<?php echo $base; ?>assets/css/grapesjs-project-manager.min.css" rel="stylesheet">
+                <link href="<?php echo $base; ?>assets/plugins/grapesjs/css/grapesjs-project-manager.min.css" rel="stylesheet">
+                <!--  script  -->
                 <script src="<?php echo $base; ?>assets/js/jquery.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>            
+                <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>            
                 <!--  <script src="<?php echo $base; ?>assets/js/backbone-min.js"></script> -->
+                <script src="<?php echo $base; ?>assets/plugins/ckeditor/ckeditor.js"></script> 
                 <script src="<?php echo $base; ?>assets/js/toastr.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapes.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-bootstrap-elements.js"></script>
-                <script src="<?php echo $base; ?>assets/ckeditor/ckeditor.js"></script>                
-                <script src="<?php echo $base; ?>assets/js/grapesjs-preset-webpage.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-lory-slider.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-tabs.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-custom-code.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-touch.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-tooltip.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-tui-image-editor.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-navbar.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-blocks-bootstrap4.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-code-editor.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-plugin-ckeditor.min.js"></script>                            
-                <script src="<?php echo $base; ?>assets/js/grapesjs-script-editor.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-typed.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-uikit"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-page-break.min.js"></script>                
-                <script src="<?php echo $base; ?>assets/js/grapesjs-project-manager"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-ga"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-swiper-slider.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapes.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-bootstrap-elements.js"></script>                               
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-preset-webpage.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-lory-slider.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-tabs.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-custom-code.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-touch.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-tooltip.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-tui-image-editor.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-navbar.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-blocks-bootstrap4.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-code-editor.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-plugin-ckeditor.min.js"></script>                            
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-script-editor.min.js" type="text/javascript"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-typed.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-uikit"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-page-break.min.js"></script>                
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-project-manager"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-ga"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo $base; ?>assets/plugins/grapesjs/js/grapesjs-swiper-slider.min.js"></script>
                 <script>
+  
                     $(".gjs-pn-buttons").click(function () {
                         let imp = $("span").find("[data-tooltip='Import']");
                         alert();
@@ -197,47 +200,47 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         <span class="d-none d-md-inline"><?php echo USERS_FULLNAMES; ?></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">                                    
-                                            <!-- User image -->
-                                            <li class="dropdown-item user-header">
-                                                <?php
-                                                if (!empty(USERS_AVATARS)) {
-                                                    echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
-                                                }
-                                                ?>
-                                                <p>
-                                                    <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
-                                                    <small>Member since Nov. 2012</small>
-                                                </p>
-                                            </li>
-                                            <!-- Menu Body -->
-                                            <li class="dropdown-item user-body">
-                                                <div class="row">
-                                                    <div class="col-4 text-center">
-                                                        <a href="#">Followers</a>
-                                                    </div>
-                                                    <div class="col-4 text-center">
-                                                        <a href="#">Sales</a>
-                                                    </div>
-                                                    <div class="col-4 text-center">
-                                                        <a href="#">Friends</a>
-                                                    </div>
+                                        <!-- User image -->
+                                        <li class="dropdown-item user-header">
+                                            <?php
+                                            if (!empty(USERS_AVATARS)) {
+                                                echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                            }
+                                            ?>
+                                            <p>
+                                                <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
+                                                <small>Member since Nov. 2012</small>
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        <li class="dropdown-item user-body">
+                                            <div class="row">
+                                                <div class="col-4 text-center">
+                                                    <a href="#">Followers</a>
                                                 </div>
-                                                <!-- /.row -->
-                                            </li>
-                                            <!-- Menu Footer-->
-                                            <li class="dropdown-item user-footer">
-                                                <form method="post">
-                                                    <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
-                                                    <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
-                                                        Sign out
-                                                    </button>
-                                                </form>
+                                                <div class="col-4 text-center">
+                                                    <a href="#">Sales</a>
+                                                </div>
+                                                <div class="col-4 text-center">
+                                                    <a href="#">Friends</a>
+                                                </div>
+                                            </div>
+                                            <!-- /.row -->
+                                        </li>
+                                        <!-- Menu Footer-->
+                                        <li class="dropdown-item user-footer">
+                                            <form method="post">
+                                                <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
+                                                <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
+                                                    Sign out
+                                                </button>
+                                            </form>
 
-                                            </li>
-                                        </ul>
+                                        </li>
+                                    </ul>
                                     </ul>
                                 </div>
-                                
+
                             </div>
                         </nav>
 
@@ -925,12 +928,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       },
                       canvas: {
                           styles: [
-                              '../css/bootstrap.min.css'
+                              '<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css'
                           ],
                           scripts: [
-                              '../js/jquery.min.js',
-                              '../js/popper.min.js',
-                              '../js/bootstrap.min.js'
+                              '<?php echo $base; ?>assets/plugins/jquery/jquery.min.js',
+                              '<?php echo $base; ?>assets/js/popper.min.js',
+                              '<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js'
                           ]
                                       }
                       });
@@ -1160,7 +1163,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               // Do stuff on load
               editor.on('load', function() {
                   let $ = grapesjs.$;
-                  
+                          
                   // Load and show settings and style manager
                   let openTmBtn = pn.getButton('views', 'open-tm');
                   openTmBtn && openTmBtn.set('active', 1);
@@ -1273,7 +1276,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   });
               }
 
-                                                           
+                                                                   
                 </script>
                 <script>
 
@@ -1332,7 +1335,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
           addEventsDragAndDrop(item);
         });
 
-        
+                
                 </script>
                 <script>
                var menu_btn = document.querySelector("#menu-btn");
@@ -1349,18 +1352,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 var elWidth = $el.outerWidth();
 
                 function doResize(event, ui) {
-          
+                  
                   var scale, origin;
-            
+                    
                   scale = Math.min(
                     ui.size.width / elWidth,    
                     ui.size.height / elHeight
                   );
-          
+                  
                   $el.css({
                     transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
                   });
-          
+                  
                 }
 
                 var starterData = { 

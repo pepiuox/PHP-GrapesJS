@@ -301,10 +301,10 @@ session_destroy();
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>PHP Login Secure System</title>
 
-            <link href="../plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-            <link href="../plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
-            <link href="../plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
-            <script src="../plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
+            <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+            <link href="../assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+            <link href="../assets/plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
+            <script src="../assets/plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
         </head>
         <body>
             <?php include '../elements/alerts.php'; ?>
@@ -590,9 +590,9 @@ session_destroy();
                     </div>
                 </div>
             </div>
-            <script src="../js/jquery.min.js" type="text/javascript"></script>
-            <script src="../js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="../js/popper.min.js" type="text/javascript"></script>   
+            <script src="../assets/js/jquery.min.js" type="text/javascript"></script>
+            <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="../assets/js/popper.min.js" type="text/javascript"></script>   
         </body>
     </html>
     <?php

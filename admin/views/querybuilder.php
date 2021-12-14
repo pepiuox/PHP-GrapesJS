@@ -206,7 +206,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     }  
                                 }
                             
-                          </script>' . "\n";
+                      </script>' . "\n";
 
                 echo '<div class="form-group">
                             <label class="col-md-4 control-label" for="type">Select Input Type for ' . ucfirst($remp) . '</label>
@@ -227,7 +227,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     echo 'selected="selected"';
                 }
                 echo '>Select</option>
-<option value="4" ';
+                    <option value="4" ';
                 if ($finfo['input_type'] == 4) {
                     echo 'selected="selected"';
                 }

@@ -39,7 +39,7 @@ include '../elements/alerts.php';
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8">
+                    <div class="mb-3">
                         <div class="icheck-primary">
                             <input type="checkbox" id="remember" name="remember" value=”Yes”>
                             <label for="remember">
@@ -48,7 +48,7 @@ include '../elements/alerts.php';
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-4">
+                    <div class="mb-3">
                         <button type="submit" name="signin" id="signin" class="btn btn-primary btn-block">Sign In</button>
                     </div>
                     <!-- /.col -->

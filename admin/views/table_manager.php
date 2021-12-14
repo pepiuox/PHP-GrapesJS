@@ -24,7 +24,6 @@ if (isset($submit)) {
 }
 ?>        
 <div class="container">
-
     <form class="form-horizontal" method="post" action="">
         <div class="col_md_12">
             <?php
@@ -38,7 +37,6 @@ if (isset($submit)) {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-
                 <?php
                 $i = 0;
                 $x = 0;
@@ -65,7 +63,6 @@ if (isset($submit)) {
                 }
                 ?>
             </div>
-
             <div class="form-group">
                 <button type="submit" id="submit" name="submit"
                         class="btn btn-primary">
