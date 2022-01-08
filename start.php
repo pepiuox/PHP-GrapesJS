@@ -88,7 +88,7 @@ if ($nm > 0) {
             <?php } ?>
             <title><?php echo $title; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/css/font-awesome.min.css" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/plugins/fontawesome/css/font-awesome.min.css" />
             <style>
     <?php
     echo decodeContent($style);
@@ -106,8 +106,8 @@ if ($nm > 0) {
                     ?>
                 </div>
             </div>
-            <script src="<?php echo $base; ?>assets/js/jquery.min.js" type="text/javascript"></script>
-            <script src="<?php echo $base; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
         </body>
     </html>
@@ -126,7 +126,7 @@ if ($nm > 0) {
 
             <title><?php echo SITE_NAME; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/css/font-awesome.min.css" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/fontawesome/css/font-awesome.min.css" />
 
         </head>
         <body>
@@ -144,7 +144,7 @@ if ($nm > 0) {
                     </div>
                 </div>
             </div>
-            <script src="<?php echo $base; ?>assets/js/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
         </body>
