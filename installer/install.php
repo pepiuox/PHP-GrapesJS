@@ -259,8 +259,8 @@ if (!file_exists($file)) {
         <meta http-equiv="refresh" content="5; url=../signin/login.php" />
         <title>PHP GrapesJS</title>
 
-        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-        <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../asset/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+        <link href="../asset/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
     <?php
@@ -273,9 +273,9 @@ if (!file_exists($file)) {
                 </div>
              </div>
          </div>
-        <script src="../js/jquery.min.js" type="text/javascript"></script>
-        <script src="../js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../js/popper.min.js" type="text/javascript"></script>   
+        <script src="../asset/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="../asset/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../asset/js/popper.min.js" type="text/javascript"></script>   
     </body>
 </html>  
 <?php
@@ -557,9 +557,9 @@ session_destroy();
                 </div>
             </div>
 
-            <script src="../js/jquery.min.js" type="text/javascript"></script>
-            <script src="../js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="../js/popper.min.js" type="text/javascript"></script>   
+            <script src="../asset/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="../asset/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="../asset/js/popper.min.js" type="text/javascript"></script>   
 
         </body>
     </html>
@@ -573,8 +573,8 @@ session_destroy();
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>PHP Login Secure System</title>
 
-            <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-            <link href="../css/all.min.css" rel="stylesheet" type="text/css"/>
+            <link href="../asset/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+            <link href="../assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         </head>
         <body class="bg-dark">
             <div class="container py-4">
@@ -590,7 +590,7 @@ session_destroy();
                     </div>
                 </div>
             </div>
-            <script src="../assets/js/jquery.min.js" type="text/javascript"></script>
+            <script src="../assets/jquery/jquery.min.js" type="text/javascript"></script>
             <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
             <script src="../assets/js/popper.min.js" type="text/javascript"></script>   
         </body>

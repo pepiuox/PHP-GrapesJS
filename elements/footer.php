@@ -18,6 +18,13 @@
         });
     });
 </script>
+<script>
+$(document).ready(function(){
+  $(".nav-tabs a").click(function(){
+    $(this).tab('show');
+  });
+});
+</script>
 <?php if ($fname === 'slider') { ?>
     <!-- Ion Slider -->
     <script src="<?php echo $base; ?>assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
