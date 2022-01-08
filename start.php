@@ -88,7 +88,7 @@ if ($nm > 0) {
             <?php } ?>
             <title><?php echo $title; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/plugins/fontawesome/css/font-awesome.min.css" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/plugins/font-awesome/css/font-awesome.min.css" />
             <style>
     <?php
     echo decodeContent($style);
@@ -126,7 +126,7 @@ if ($nm > 0) {
 
             <title><?php echo SITE_NAME; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/fontawesome/css/font-awesome.min.css" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/font-awesome/css/font-awesome.min.css" />
 
         </head>
         <body>
