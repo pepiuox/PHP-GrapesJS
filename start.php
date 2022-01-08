@@ -127,7 +127,6 @@ if ($nm > 0) {
             <title><?php echo SITE_NAME; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/font-awesome/css/font-awesome.min.css" />
-
         </head>
         <body>
             <div class="wrapper"> 

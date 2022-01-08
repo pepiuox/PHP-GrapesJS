@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               10.4.21-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             11.3.0.6369
+-- HeidiSQL Version:             11.3.0.6372
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -186,44 +186,46 @@ CREATE TABLE IF NOT EXISTS `comment` (
 -- Dumping structure for table newcms.configuration
 DROP TABLE IF EXISTS `configuration`;
 CREATE TABLE IF NOT EXISTS `configuration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `config_name` varchar(20) DEFAULT NULL,
   `config_value` varchar(250) DEFAULT NULL,
-  UNIQUE KEY `type_name` (`config_name`) USING BTREE
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `config_name` (`config_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.configuration: ~30 rows (approximately)
-INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
-	('DOMAIN_SITE', 'http://phpgrapesjs.com'),
-	('SITE_PATH', 'http://phpgrapesjs.com/'),
-	('SITE_NAME', 'PHP GrapesJS'),
-	('SITE_DESCRIPTION', 'Your description for your domains'),
-	('SITE_KEYWORDS', 'Your keywords for your domains'),
-	('SITE_CLASSIFICATION', 'Your classification for your domains'),
-	('SITE_ADMIN', 'Super Admin'),
-	('SITE_CONTROL', 'dashboard'),
-	('SITE_CONFIG', 'config'),
-	('SITE_LIST', 'list'),
-	('SITE_EDITOR', 'editor'),
-	('SITE_BUILDER', 'builder'),
-	('SITE_LANGUAGE_1', 'English'),
-	('SITE_LANGUAGE_2', 'EspaÃ±ol'),
-	('SITE_EMAIL', 'info@yourdomain.com'),
-	('IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
-	('NAME_CONTACT', 'Your contact Name'),
-	('PHONE_CONTACT', '0051 999888777'),
-	('EMAIL_CONTACT', 'info@yourdomain.com'),
-	('ADDRESS', 'Your local contact address'),
-	('FOLDER_IMAGES', 'uploads'),
-	('SITE_CREATOR', '@yourdomain'),
-	('TWITTER', '@yourdomain'),
-	('FACEBOOKID', '26245712364571234572'),
-	('SKYPE', 'yourdomain'),
-	('TELEGRAM', 'yourdomain'),
-	('WHATSAPP', '+51 999888777'),
-	('SUPERADMIN_NAME', 'Super Admin'),
-	('SUPERADMIN_LEVEL', '9'),
-	('ADMIN_NAME', 'Admin'),
-	('ADMIN_LEVEL', '5');
+INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
+	(1, 'DOMAIN_SITE', 'http://www.yourdomain.com'),
+	(2, 'SITE_NAME', 'PHP GrapesJS'),
+	(3, 'SITE_DESCRIPTION', 'Your description for your domains'),
+	(4, 'SITE_KEYWORDS', 'Your keywords for your domains'),
+	(5, 'SITE_CLASSIFICATION', 'Your classification for your domains'),
+	(6, 'SITE_ADMIN', 'Super Admin'),
+	(7, 'SITE_CONTROL', 'dashboard'),
+	(8, 'SITE_CONFIG', 'config'),
+	(9, 'SITE_LIST', 'list'),
+	(10, 'SITE_EDITOR', 'editor'),
+	(11, 'SITE_BUILDER', 'builder'),
+	(12, 'SITE_LANGUAGE_1', 'English'),
+	(13, 'SITE_LANGUAGE_2', 'EspaÃ±ol'),
+	(14, 'SITE_EMAIL', 'info@yourdomain.com'),
+	(15, 'IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
+	(16, 'NAME_CONTACT', 'Your contact Name'),
+	(17, 'PHONE_CONTACT', '0051 999888777'),
+	(18, 'EMAIL_CONTACT', 'info@yourdomain.com'),
+	(19, 'ADDRESS', 'Your local contact address'),
+	(20, 'FOLDER_IMAGES', 'uploads'),
+	(21, 'SITE_CREATOR', '@yourdomain'),
+	(22, 'TWITTER', '@yourdomain'),
+	(23, 'FACEBOOKID', '26245712364571234572'),
+	(24, 'SKYPE', 'yourdomain'),
+	(25, 'TELEGRAM', 'yourdomain'),
+	(26, 'WHATSAPP', '+51 999888777'),
+	(27, 'SUPERADMIN_NAME', 'Super Admin'),
+	(28, 'SUPERADMIN_LEVEL', '9'),
+	(29, 'ADMIN_NAME', 'Admin'),
+	(30, 'ADMIN_LEVEL', '5'),
+	(31, 'SITE_BRAND_IMG', 'http://yourdomain.com/images/logo.jpg');
 
 -- Dumping structure for table newcms.cookies
 DROP TABLE IF EXISTS `cookies`;
@@ -868,7 +870,7 @@ CREATE TABLE IF NOT EXISTS `page` (
 
 -- Dumping data for table newcms.page: ~2 rows (approximately)
 INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
-	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', NULL, 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;div id=&amp;quot;ix6i&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center h-100 align-items-center d-flex text-dark&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Go&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;bg-white p-5 mx-auto col-md-8 col-10&amp;quot;&amp;gt;&amp;lt;h3 class=&amp;quot;display-3&amp;quot;&amp;gt;I feel the charm&amp;lt;/h3&amp;gt;&amp;lt;p class=&amp;quot;mb-3 lead&amp;quot;&amp;gt;Of existence in this spot&amp;lt;/p&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;Which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-10-02 08:21:31'),
+	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', NULL, 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;div id=&amp;quot;iofz&amp;quot; class=&amp;quot;py-5 text-center text-white h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-3 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;A thousand unknown plants&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;One&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle-o fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Two&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Three&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle-o fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Four&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;Oh, would I could describe these conceptions, could impress upon paper all that is living so full.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}@media (max-width: [object Object]){#iofz{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}.py-5.text-center.text-white.h-100.align-items-center.d-flex{background-repeat:no-repeat;background-position:left top;background-attachment:fixed;background-size:cover;background-image:url(&amp;#039;../uploads/29853.jpg&amp;#039;);}}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-12-05 01:44:26'),
 	(2, 1, 0, 'Test', 'test', NULL, 'test', 'test', 'test', 'logopao2.jpg', NULL, 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;table class=&amp;quot;table text-center&amp;quot;&amp;gt;&amp;lt;thead&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;&amp;nbsp;&amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Standard &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;15$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Pro &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;49$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Ultimate &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;99$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Contact us&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;nbsp;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Small business and startups&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Growing activities&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Big firms and companies&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/thead&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;One&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Two&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Three&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Four&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Five&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Six&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 0, 1, 0, 0, 1, '2021-10-24 02:57:17');
 
 -- Dumping structure for table newcms.payment_transactions
@@ -1031,7 +1033,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 
 -- Dumping data for table newcms.profiles: ~1 rows (approximately)
 INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('1095616718612d749c68bc3', '1b1fe70518efa4692018bd268bc86673fcbff952', 'Jose', 'Mantilla', 'Male', 46, '', '0000-00-00', '', '', '', '', '', '', '', 0, '', '', '', '', 0, 0, '2021-08-31 00:15:24', '2021-11-11 16:58:18');
+	('1095616718612d749c68bc3', '4d52e51f527b46645dfabbaf3bda2c3616024f1f', 'Jose', 'Mantilla', 'Male', 46, '', '0000-00-00', '', '', '', '', '', '', '', 0, '', '', '', '', 0, 0, '2021-08-31 00:15:24', '2022-01-07 23:41:47');
 
 -- Dumping structure for table newcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1297,6 +1299,52 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 -- Dumping data for table newcms.settings: ~0 rows (approximately)
 
+-- Dumping structure for table newcms.site_configuration
+DROP TABLE IF EXISTS `site_configuration`;
+CREATE TABLE IF NOT EXISTS `site_configuration` (
+  `ID_Site` int(11) NOT NULL,
+  `DOMAIN_SITE` varchar(60) NOT NULL,
+  `SITE_NAME` varchar(60) NOT NULL,
+  `SITE_BRAND_IMG` varchar(250) DEFAULT NULL,
+  `SITE_DESCRIPTION` tinytext DEFAULT NULL,
+  `SITE_KEYWORDS` tinytext DEFAULT NULL,
+  `SITE_CLASSIFICATION` tinytext DEFAULT NULL,
+  `SITE_EMAIL` varchar(60) DEFAULT NULL,
+  `SITE_IMAGE` varchar(250) DEFAULT NULL,
+  `SITE_ADMIN` varchar(60) DEFAULT NULL,
+  `SITE_CONTROL` varchar(60) DEFAULT NULL,
+  `SITE_CONFIG` varchar(60) DEFAULT NULL,
+  `SITE_LANGUAGE_1` varchar(60) DEFAULT NULL,
+  `SITE_LANGUAGE_2` varchar(60) DEFAULT NULL,
+  `FOLDER_IMAGES` varchar(60) DEFAULT NULL,
+  `SITE_CREATOR` varchar(60) DEFAULT NULL,
+  `SITE_EDITOR` varchar(60) DEFAULT NULL,
+  `SITE_BUILDER` varchar(60) DEFAULT NULL,
+  `SITE_LIST` varchar(60) DEFAULT NULL,
+  `NAME_CONTACT` varchar(60) DEFAULT NULL,
+  `PHONE_CONTACT` varchar(60) DEFAULT NULL,
+  `EMAIL_CONTACT` varchar(60) DEFAULT NULL,
+  `ADDRESS` tinytext DEFAULT NULL,
+  `TWITTER` varchar(60) DEFAULT NULL,
+  `FACEBOOKID` varchar(60) DEFAULT NULL,
+  `SKYPE` varchar(60) DEFAULT NULL,
+  `TELEGRAM` varchar(60) DEFAULT NULL,
+  `WHATSAPP` varchar(60) DEFAULT NULL,
+  `SUPERADMIN_NAME` varchar(60) DEFAULT NULL,
+  `SUPERADMIN_LEVEL` varchar(60) DEFAULT NULL,
+  `ADMIN_NAME` tinyint(4) NOT NULL,
+  `ADMIN_LEVEL` tinyint(4) NOT NULL,
+  `SECURE_HASH` varchar(256) DEFAULT NULL,
+  `SECURE_TOKEN` varchar(256) DEFAULT NULL,
+  `CREATE` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UPDATED` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.site_configuration: ~0 rows (approximately)
+INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
+	(1, 'http://www.yourdomain.com', 'PHP GrapesJS', NULL, 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'config', 'list', 'editor', 'builder', 'English', 'EspaÃ±ol', 'info@yourdomain.com', 'http://yourdomain.com/uploads/image-page.jpg', 'Your contact Name', '0051 999888777', 'info@yourdomain.com', 'Your local contact address', 'uploads', '@yourdomain', '@yourdomain', '26245712364571234572', 'yourdomain', 'yourdomain', '+51 999888777', 'Super Admin', '9', 0, 5, 'http://yourdomain.com/images/logo.jpg', NULL, '2022-01-08 13:42:41', '2022-01-08 14:00:17');
+
 -- Dumping structure for table newcms.slideshow
 DROP TABLE IF EXISTS `slideshow`;
 CREATE TABLE IF NOT EXISTS `slideshow` (
@@ -1478,7 +1526,7 @@ CREATE TABLE IF NOT EXISTS `table_config` (
 
 -- Dumping data for table newcms.table_config: ~0 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
-	(4, 'configuration,menu,menu_options,page,plugins_app,preset,profiles,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
+	(4, 'configuration,menu,menu_options,page,plugins_app,preset,profiles,site_configuration,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
 
 -- Dumping structure for table newcms.table_queries
 DROP TABLE IF EXISTS `table_queries`;
@@ -1498,7 +1546,14 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   PRIMARY KEY (`tque_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.table_queries: ~0 rows (approximately)
+-- Dumping data for table newcms.table_queries: ~6 rows (approximately)
+INSERT INTO `table_queries` (`tque_Id`, `name_table`, `col_name`, `col_type`, `input_type`, `joins`, `j_table`, `j_id`, `j_value`, `j_as`, `query`, `jvpos`) VALUES
+	(1, 'menu_options', 'id_menu', 'char', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 'menu_options', 'fluid', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 'menu_options', 'placement', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 'menu_options', 'aligment', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 'menu_options', 'background', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(6, 'menu_options', 'color', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table newcms.table_settings
 DROP TABLE IF EXISTS `table_settings`;
@@ -1932,7 +1987,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 
 -- Dumping data for table newcms.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', '1b1fe70518efa4692018bd268bc86673fcbff952', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2021-11-11 16:58:18');
+	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', '4d52e51f527b46645dfabbaf3bda2c3616024f1f', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2022-01-07 23:41:47');
 
 -- Dumping structure for table newcms.videos
 DROP TABLE IF EXISTS `videos`;
