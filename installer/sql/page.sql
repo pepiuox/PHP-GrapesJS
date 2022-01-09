@@ -1033,7 +1033,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 
 -- Dumping data for table newcms.profiles: ~1 rows (approximately)
 INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('1095616718612d749c68bc3', '4d52e51f527b46645dfabbaf3bda2c3616024f1f', 'Jose', 'Mantilla', 'Male', 46, '', '0000-00-00', '', '', '', '', '', '', '', 0, '', '', '', '', 0, 0, '2021-08-31 00:15:24', '2022-01-07 23:41:47');
+	('1095616718612d749c68bc3', 'f34e34985564b1c01d919cc5fc2f085e01db956b', 'Jose', 'Mantilla', 'Male', 46, '', '0000-00-00', '', '', '', '', '', '', '', 0, '', '', '', '', 0, 0, '2021-08-31 00:15:24', '2022-01-09 06:01:45');
 
 -- Dumping structure for table newcms.purchases
 DROP TABLE IF EXISTS `purchases`;
@@ -1306,6 +1306,7 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   `DOMAIN_SITE` varchar(60) NOT NULL,
   `SITE_NAME` varchar(60) NOT NULL,
   `SITE_BRAND_IMG` varchar(250) DEFAULT NULL,
+  `SITE_PATH` varchar(250) DEFAULT NULL,
   `SITE_DESCRIPTION` tinytext DEFAULT NULL,
   `SITE_KEYWORDS` tinytext DEFAULT NULL,
   `SITE_CLASSIFICATION` tinytext DEFAULT NULL,
@@ -1331,8 +1332,8 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   `TELEGRAM` varchar(60) DEFAULT NULL,
   `WHATSAPP` varchar(60) DEFAULT NULL,
   `SUPERADMIN_NAME` varchar(60) DEFAULT NULL,
-  `SUPERADMIN_LEVEL` varchar(60) DEFAULT NULL,
-  `ADMIN_NAME` tinyint(4) NOT NULL,
+  `SUPERADMIN_LEVEL` tinyint(4) DEFAULT NULL,
+  `ADMIN_NAME` varchar(60) NOT NULL DEFAULT '',
   `ADMIN_LEVEL` tinyint(4) NOT NULL,
   `SECURE_HASH` varchar(256) DEFAULT NULL,
   `SECURE_TOKEN` varchar(256) DEFAULT NULL,
@@ -1342,8 +1343,8 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table newcms.site_configuration: ~0 rows (approximately)
-INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
-	(1, 'http://www.yourdomain.com', 'PHP GrapesJS', NULL, 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'config', 'list', 'editor', 'builder', 'English', 'EspaÃ±ol', 'info@yourdomain.com', 'http://yourdomain.com/uploads/image-page.jpg', 'Your contact Name', '0051 999888777', 'info@yourdomain.com', 'Your local contact address', 'uploads', '@yourdomain', '@yourdomain', '26245712364571234572', 'yourdomain', 'yourdomain', '+51 999888777', 'Super Admin', '9', 0, 5, 'http://yourdomain.com/images/logo.jpg', NULL, '2022-01-08 13:42:41', '2022-01-08 14:00:17');
+INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
+	(1, 'http://www.phpgrapesjs.com', 'PHP GrapesJS', NULL, 'http://localhost:130/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox', 'pepiuox', 'pepiuox', '+51 999063645', 'Super Admin', 9, 'Admin', 5, '25cce270791d66425793131d4a7f8199c53ef5c80f3377bf424ee92794e2b0c9eda604eafd869312', '4d52e51f527b46645dfab9eda604eafd869312131d4a7f8199c53ef5c80f3baf3bda2c3616024f1f', '2022-01-08 13:42:41', '2022-01-09 05:55:50');
 
 -- Dumping structure for table newcms.slideshow
 DROP TABLE IF EXISTS `slideshow`;
@@ -1987,7 +1988,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 
 -- Dumping data for table newcms.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', '4d52e51f527b46645dfabbaf3bda2c3616024f1f', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2022-01-07 23:41:47');
+	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', 'f34e34985564b1c01d919cc5fc2f085e01db956b', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2022-01-09 06:01:45');
 
 -- Dumping structure for table newcms.videos
 DROP TABLE IF EXISTS `videos`;

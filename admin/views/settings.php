@@ -44,9 +44,45 @@ if (isset($_POST['Update'])) {
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
     if ($conn->query($update) === TRUE) {
-        echo "Settings : Updated";
+        $_SESSION['SuccessMessage'] = "Web site settings : Updated.";
+        header("Location: dashboard.php?cms=siteconf");
+        exit();
     } else {
-        echo "Failed";
+        $_SESSION['ErrorMessage'] = "Updated settings : Error.";
+        header("Location: dashboard.php?cms=siteconf");
+        exit();
+    }
+}
+
+
+$sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
+
+if ($result = $conn->query($sql)) {
+    $fname = $result->fetch_fields();
+    $fdata = $result->fetch_assoc();
+
+    foreach ($fname as $val) {
+        if ($val->name === 'ID_Site') {
+            continue;
+        } elseif ($val->name === 'CREATE') {
+            continue;
+        } elseif ($val->name === 'UPDATED') {
+            continue;
+        }
+        $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+    }
+    $definefiles = '../config/define.php';
+    if (!file_exists($definefiles)) {
+        $ndef = '<?php' . "\n";
+        $ndef .= implode(" ", $fldname);
+        $ndef .= '?>' . "\n";
+        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+    } else {
+        unlink($definefiles);
+        $ndef = '<?php' . "\n";
+        $ndef .= implode("\n ", $fldname);
+        $ndef .= '?>' . "\n";
+        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
     }
 }
 ?>
@@ -83,6 +119,10 @@ if (isset($_POST['Update'])) {
                                 <div class="form-group">
                                     <label for="SITE_BRAND_IMG">SITE BRAND IMG:</label>
                                     <input type="FILE" class="form-control" id="SITE_BRAND_IMG" name="SITE_BRAND_IMG" value="<?php echo $confs["SITE_BRAND_IMG"]; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="SITE_PATH">SITE PATH:</label>
+                                    <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $confs["SITE_PATH"]; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE_DESCRIPTION">SITE DESCRIPTION:</label>
