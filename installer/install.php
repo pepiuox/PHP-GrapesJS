@@ -132,46 +132,59 @@ if (!file_exists($file)) {
 
 // Fourth step
 // Define configuration for the website
+    extract($_POST);
     if (isset($_POST['definefile'])) {
+        $definefiles = '../config/define.php';
         if (file_exists($definefiles)) {
             unlink($definefiles);
         }
-
-        $valueCount = count($_POST["config_name"]);
-
-        for ($i = 0; $i < $valueCount; $i++) {
-
-            $conn->query("UPDATE `configuration` SET  `config_value` =  '{$_POST['config_value'][$i]}'   WHERE `config_name` = '{$_POST['config_name'][$i]}' ");
-        }
-
         $_SESSION['AlertMessage'] = "The definitions are up to date.";
-
-        $rvals = $conn->query("SELECT config_name, config_value FROM configuration");
-
-        while ($rowt = $rvals->fetch_array()) {
-            $values = $rowt['config_value'];
-            $names = $rowt['config_name'];
-            $vars[] = "define('" . $names . "', '" . $values . "');" . "\n";
-        }
-
-        if (!file_exists($definefiles)) {
-            $def = fopen($definefiles, 'w');
-            if (!$def) {
-                $_SESSION['ErrorMessage'] = 'Error creating the file ' . $definefiles;
+        foreach ($_POST as $k => $v) {
+            if ($_POST['Update'] === $v) {
+                continue;
             }
-
-            $ndef = '<?php' . "\n";
-            $ndef .= implode(' ', $vars) . "\n";
-            $ndef .= '?>' . "\n";
-            file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-
-            $_SESSION['SuccessMessage'] = "The configuration definitions file has been created ";
-
-            $_SESSION['StepInstall'] = 5;
-            header("Location: install.php?step=5");
-            exit();
+            $vals[] = "`" . $k . "` = '" . $v . "'";
         }
+        $vupdates = implode(", ", $vals);
+        $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
+        if ($conn->query($update) === TRUE) {
+            $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
+            if ($result = $conn->query($sql)) {
+                $fname = $result->fetch_fields();
+                $fdata = $result->fetch_assoc();
 
+                foreach ($fname as $val) {
+                    if ($val->name === 'ID_Site') {
+                        continue;
+                    } elseif ($val->name === 'CREATE') {
+                        continue;
+                    } elseif ($val->name === 'UPDATED') {
+                        continue;
+                    }
+                    $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+                }
+
+                if (!file_exists($definefiles)) {
+                    $def = fopen($definefiles, 'w');
+                    if (!$def) {
+                        $_SESSION['ErrorMessage'] = 'Error creating the file ' . $definefiles;
+                    }
+
+                    $ndef = '<?php' . "\n";
+                    $ndef .= implode("\n ", $fldname);
+                    $ndef .= '?>' . "\n";
+                    file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+
+                    $_SESSION['SuccessMessage'] = "The configuration definitions file has been created ";
+
+                    $_SESSION['StepInstall'] = 5;
+                    header("Location: install.php?step=5");
+                    exit();
+                }
+            }
+        } else {
+            $_SESSION['ErrorMessage'] = 'Error Updating configutations. ';
+        }
         $conn->close();
     }
 // Fifth step
@@ -428,6 +441,8 @@ session_destroy();
                                         if ($conn->connect_error) {
                                             die("Connection failed: " . $conn->connect_error);
                                         }
+                                        $result = $conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'") or trigger_error($conn->error);
+                                        $confs = $result->fetch_assoc();
                                         ?>
                                         <div class="alert alert-success" role="alert">
                                             <h5>Create configuration for your web site</h5>
@@ -443,34 +458,25 @@ session_destroy();
                                         </div>
                                         <h4>Define values for the configuration</h4> 
 
-                                        <?php
-                                        echo "<table class='table table-striped table-sm'>";
-                                        echo "<thead>";
-                                        echo "<tr>";
-                                        echo "<th><b>Config / Nombre</b></th>";
-                                        echo "<th><b>Config / Valor</b></th>";
-                                        echo "</tr>";
-                                        echo "</thead>";
-                                        echo "<tbody>";
-                                        $result = $conn->query("SELECT * FROM `configuration`") or trigger_error($conn->error);
-                                        while ($row = $result->fetch_array()) {
-                                            foreach ($row AS $key => $value) {
-                                                $row[$key] = stripslashes($value);
-                                            }
-                                            echo "<tr>";
-                                            echo "<td valign='top'><input type='text' name='config_name[]' id='config_name' value='" . $row['config_name'] . "' readonly /></td>";
-                                            echo "<td valign='top'><input type='text' name='config_value[]' id='config_value' value='" . $row['config_value'] . "' /></td>";
-                                            echo "</tr>";
-                                        }
-                                        echo "</tbody>";
-                                        echo "<tfoot>";
-                                        echo "</tfoot>";
-                                        echo "</table>";
-                                        ?>
+                                        <form method="post" enctype="multipart/form-data">
 
-                                        <div class="mb-3">
-                                            <button class="btn btn-info" type="submit" name="definefile" id="definefile">Define website</button>
-                                        </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <label for="DOMAIN_SITE">DOMAIN SITE:</label>
+                                                <input type="text" class="form-control" id="DOMAIN_SITE" name="DOMAIN_SITE" value="<?php echo $confs["DOMAIN_SITE"]; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="SITE_NAME">SITE NAME:</label>
+                                                <input type="text" class="form-control" id="SITE_NAME" name="SITE_NAME" value="<?php echo $confs["SITE_NAME"]; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $confs["SITE_PATH"]; ?>">
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
                                         <?php
                                         $conn->close();
                                     } elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {

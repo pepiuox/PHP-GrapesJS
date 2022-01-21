@@ -45,44 +45,40 @@ if (isset($_POST['Update'])) {
     $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
     if ($conn->query($update) === TRUE) {
         $_SESSION['SuccessMessage'] = "Web site settings : Updated.";
+
+        $fname = $result->fetch_fields();
+        $fdata = $result->fetch_assoc();
+
+        foreach ($fname as $val) {
+            if ($val->name === 'ID_Site') {
+                continue;
+            } elseif ($val->name === 'CREATE') {
+                continue;
+            } elseif ($val->name === 'UPDATED') {
+                continue;
+            }
+            $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+        }
+        $definefiles = '../config/define.php';
+        if (!file_exists($definefiles)) {
+            $ndef = '<?php' . "\n";
+            $ndef .= implode(" ", $fldname);
+            $ndef .= '?>' . "\n";
+            file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+        } else {
+            unlink($definefiles);
+            $ndef = '<?php' . "\n";
+            $ndef .= implode("\n ", $fldname);
+            $ndef .= '?>' . "\n";
+            file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+        }
+
         header("Location: dashboard.php?cms=siteconf");
         exit();
     } else {
         $_SESSION['ErrorMessage'] = "Updated settings : Error.";
         header("Location: dashboard.php?cms=siteconf");
         exit();
-    }
-}
-
-
-$sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
-
-if ($result = $conn->query($sql)) {
-    $fname = $result->fetch_fields();
-    $fdata = $result->fetch_assoc();
-
-    foreach ($fname as $val) {
-        if ($val->name === 'ID_Site') {
-            continue;
-        } elseif ($val->name === 'CREATE') {
-            continue;
-        } elseif ($val->name === 'UPDATED') {
-            continue;
-        }
-        $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
-    }
-    $definefiles = '../config/define.php';
-    if (!file_exists($definefiles)) {
-        $ndef = '<?php' . "\n";
-        $ndef .= implode(" ", $fldname);
-        $ndef .= '?>' . "\n";
-        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-    } else {
-        unlink($definefiles);
-        $ndef = '<?php' . "\n";
-        $ndef .= implode("\n ", $fldname);
-        $ndef .= '?>' . "\n";
-        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
     }
 }
 ?>
