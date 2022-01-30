@@ -1,10 +1,13 @@
 <?php
 session_start();
-
+$folder = basename(dirname(__DIR__));
+$laststep = 'finalstep.php';
+if (file_exists($laststep)) {
+    unlink($laststep);
+}
 if (isset($_SESSION['PathInstall'])) {
     $base = $_SESSION['PathInstall'];
 } else {
-    $folder = basename(dirname(__DIR__));
     $base = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
 }
 
@@ -132,8 +135,24 @@ if (!file_exists($file)) {
 
 // Fourth step
 // Define configuration for the website
+    function RandHash($len = 64) {
+
+        $secret = substr(sha1(openssl_random_pseudo_bytes(21)), - $len) . sha1(openssl_random_pseudo_bytes(13));
+        return substr(hash('sha256', $secret), 0, $len);
+    }
+
+    function RandKey($length = 128) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ}#[$)%&{]@(';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     extract($_POST);
-    if (isset($_POST['definefile'])) {
+    if (isset($_POST['Update'])) {
         $definefiles = '../config/define.php';
         if (file_exists($definefiles)) {
             unlink($definefiles);
@@ -220,7 +239,7 @@ if (!file_exists($file)) {
 
         $filecontent .= "\$conn->set_charset('utf8mb4');" . "\n";
         $filecontent .= "require 'function.php';" . "\n";
-        $filecontent .= "require 'define.php'";
+        $filecontent .= "require 'define.php';";
 
         $filecontent .= "
         if (!empty(SITE_PATH)) {
@@ -229,7 +248,7 @@ if (!file_exists($file)) {
         if (!empty($base)) {
             $filecontent .= "\$base = '" . $base . "';" . "\n";
         } else {
-            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . "\n";
+            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
         $filecontent .= "}" . "\n";
 
@@ -458,8 +477,7 @@ session_destroy();
                                         </div>
                                         <h4>Define values for the configuration</h4> 
 
-                                        <form method="post" enctype="multipart/form-data">
-
+                                        <form method="post">
                                             <hr>
                                             <div class="form-group">
                                                 <label for="DOMAIN_SITE">DOMAIN SITE:</label>
@@ -471,8 +489,18 @@ session_destroy();
                                             </div>
                                             <div class="form-group">
                                                 <label for="SITE_PATH">SITE PATH:</label>
-                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $confs["SITE_PATH"]; ?>">
+                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $base; ?>">
                                             </div>
+                                            <hr>
+                                            <h5>Secure installs strings</h5>
+                                            <div class="form-group">
+                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo RandHash(); ?>" readonly="yes">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                <textarea class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" readonly="yes"><?php echo RandKey(); ?></textarea>
+                                            </div>              
                                             <div class="col-12">
                                                 <button type="submit" name="Update" class="btn btn-primary">Save</button>
                                             </div>
