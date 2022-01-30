@@ -15,8 +15,6 @@ if (isset($_SESSION['PathInstall'])) {
     $siteinstall = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
 }
 
-
-
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
 $definefiles = '../config/define.php';
