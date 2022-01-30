@@ -1,15 +1,21 @@
 <?php
 session_start();
+
 $folder = basename(dirname(__DIR__));
+
 $laststep = 'finalstep.php';
 if (file_exists($laststep)) {
     unlink($laststep);
 }
 if (isset($_SESSION['PathInstall'])) {
-    $base = $_SESSION['PathInstall'];
+    //$_SESSION['PathInstall'] = "http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+    $siteinstall = $_SESSION['PathInstall'];
+    echo $_SESSION['PathInstall'];
 } else {
-    $base = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
+    $siteinstall = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
 }
+
+
 
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
@@ -20,20 +26,13 @@ if (!file_exists($file)) {
 
     if (isset($_GET['step']) && !empty($_GET['step'])) {
         $step = $_GET['step'];
+
+        if ($step == 1) {
+            $_SESSION['DBConnected'] = '';
+        }
     } else {
         $_SESSION['StepInstall'] = 1;
         header("Location: install.php?step=1");
-    }
-
-    if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
-        if ($_SESSION['DBConnected'] === 'Connected') {
-            $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            require 'installUser.php';
-        }
     }
 
 
@@ -66,7 +65,13 @@ if (!file_exists($file)) {
             exit();
         }
     }
-
+    if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
+        if ($_SESSION['DBConnected'] === 'Connected') {
+            $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
+            // Check connection
+            require 'installUser.php';
+        }
+    }
 // Back to first step
     if (isset($_POST['init'])) {
         $_SESSION['StepInstall'] = 1;
@@ -243,12 +248,12 @@ if (!file_exists($file)) {
 
         $filecontent .= "
         if (!empty(SITE_PATH)) {
-            \$base = SITE_PATH;
+            \$siteinstall = SITE_PATH;
         } else {" . "\n";
-        if (!empty($base)) {
-            $filecontent .= "\$base = '" . $base . "';" . "\n";
+        if (!empty($siteinstall)) {
+            $filecontent .= "\$siteinstall = '" . $siteinstall . "';" . "\n";
         } else {
-            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
+            $filecontent .= "\$siteinstall = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
         $filecontent .= "}" . "\n";
 
@@ -489,7 +494,7 @@ session_destroy();
                                             </div>
                                             <div class="form-group">
                                                 <label for="SITE_PATH">SITE PATH:</label>
-                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $base; ?>">
+                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $siteinstall; ?>">
                                             </div>
                                             <hr>
                                             <h5>Secure installs strings</h5>

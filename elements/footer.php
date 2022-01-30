@@ -3,98 +3,91 @@
 <!-- Bootstrap 4 -->
 <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="<?php echo $base; ?>assets/js/adminlte.min.js"></script>
+<script src="<?php echo $base; ?>assets/plugins/adminlte/js/adminlte.min.js"></script>
 
 <script>
     $(function () {
-        $("a").find('.active').each(function () {
-            $(this).parent().closest('.has-treeview').addClass("menu-open");
-
-            $('.has-treeview').children('a').first().addClass("active");
-
-            $('.has-treeview').find('a').each(function () {
-                $(this).addClass("active");
-            });
-        });
+    $("a").find('.active').each(function () {
+    $(this).parent().closest('.has-treeview').addClass("menu-open");
+    $('.has-treeview').children('a').first().addClass("active");
+    $('.has-treeview').find('a').each(function () {
+    $(this).addClass("active");
     });
-</script>
+    });
+    });</script>
 <script>
-$(document).ready(function(){
-  $(".nav-tabs a").click(function(){
+    $(document).ready(function(){
+    $(".nav-tabs a").click(function(){
     $(this).tab('show');
-  });
-});
-</script>
+    });
+    });</script>
 <?php if ($fname === 'slider') { ?>
     <!-- Ion Slider -->
     <script src="<?php echo $base; ?>assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
     <!-- Bootstrap slider -->
     <script src="<?php echo $base; ?>assets/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
     <script>
-    $(function () {
+        $(function () {
         /* BOOTSTRAP SLIDER */
         $('.slider').bootstrapSlider();
-
         /* ION SLIDER */
         $('#range_1').ionRangeSlider({
-            min: 0,
-            max: 5000,
-            from: 1000,
-            to: 4000,
-            type: 'double',
-            step: 1,
-            prefix: '$',
-            prettify: false,
-            hasGrid: true
+        min: 0,
+                max: 5000,
+                from: 1000,
+                to: 4000,
+                type: 'double',
+                step: 1,
+                prefix: '$',
+                prettify: false,
+                hasGrid: true
         });
         $('#range_2').ionRangeSlider();
-
         $('#range_5').ionRangeSlider({
-            min: 0,
-            max: 10,
-            type: 'single',
-            step: 0.1,
-            postfix: ' mm',
-            prettify: false,
-            hasGrid: true
+        min: 0,
+                max: 10,
+                type: 'single',
+                step: 0.1,
+                postfix: ' mm',
+                prettify: false,
+                hasGrid: true
         });
         $('#range_6').ionRangeSlider({
-            min: -50,
-            max: 50,
-            from: 0,
-            type: 'single',
-            step: 1,
-            postfix: '°',
-            prettify: false,
-            hasGrid: true
+        min: - 50,
+                max: 50,
+                from: 0,
+                type: 'single',
+                step: 1,
+                postfix: '°',
+                prettify: false,
+                hasGrid: true
         });
         $('#range_4').ionRangeSlider({
-            type: 'single',
-            step: 100,
-            postfix: ' light years',
-            from: 55000,
-            hideMinMax: true,
-            hideFromTo: false
+        type: 'single',
+                step: 100,
+                postfix: ' light years',
+                from: 55000,
+                hideMinMax: true,
+                hideFromTo: false
         });
         $('#range_3').ionRangeSlider({
-            type: 'double',
-            postfix: ' miles',
-            step: 10000,
-            from: 25000000,
-            to: 35000000,
-            onChange: function (obj) {
+        type: 'double',
+                postfix: ' miles',
+                step: 10000,
+                from: 25000000,
+                to: 35000000,
+                onChange: function (obj) {
                 var t = ''
-                for (var prop in obj) {
-                    t += prop + ': ' + obj[prop] + '\r\n'
+                        for (var prop in obj) {
+                t += prop + ': ' + obj[prop] + '\r\n'
                 }
                 $('#result').php(t)
-            },
-            onLoad: function (obj) {
+                },
+                onLoad: function (obj) {
                 //
-            }
+                }
         });
-    });
-    </script>
+        });</script>
 <?php } if ($fname === 'ribbons') { ?>
 
     <!-- Ion Slider -->
@@ -102,231 +95,222 @@ $(document).ready(function(){
     <!-- Bootstrap slider -->
     <script src="<?php echo $base; ?>assets/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
     <script>
-    $(function () {
+        $(function () {
         /* BOOTSTRAP SLIDER */
         $('.slider').bootstrapSlider();
-
         /* ION SLIDER */
         $('#range_1').ionRangeSlider({
-            min: 0,
-            max: 5000,
-            from: 1000,
-            to: 4000,
-            type: 'double',
-            step: 1,
-            prefix: '$',
-            prettify: false,
-            hasGrid: true
+        min: 0,
+                max: 5000,
+                from: 1000,
+                to: 4000,
+                type: 'double',
+                step: 1,
+                prefix: '$',
+                prettify: false,
+                hasGrid: true
         });
         $('#range_2').ionRangeSlider();
-
         $('#range_5').ionRangeSlider({
-            min: 0,
-            max: 10,
-            type: 'single',
-            step: 0.1,
-            postfix: ' mm',
-            prettify: false,
-            hasGrid: true
+        min: 0,
+                max: 10,
+                type: 'single',
+                step: 0.1,
+                postfix: ' mm',
+                prettify: false,
+                hasGrid: true
         });
         $('#range_6').ionRangeSlider({
-            min: -50,
-            max: 50,
-            from: 0,
-            type: 'single',
-            step: 1,
-            postfix: '°',
-            prettify: false,
-            hasGrid: true
+        min: - 50,
+                max: 50,
+                from: 0,
+                type: 'single',
+                step: 1,
+                postfix: '°',
+                prettify: false,
+                hasGrid: true
         });
-
         $('#range_4').ionRangeSlider({
-            type: 'single',
-            step: 100,
-            postfix: ' light years',
-            from: 55000,
-            hideMinMax: true,
-            hideFromTo: false
+        type: 'single',
+                step: 100,
+                postfix: ' light years',
+                from: 55000,
+                hideMinMax: true,
+                hideFromTo: false
         });
         $('#range_3').ionRangeSlider({
-            type: 'double',
-            postfix: ' miles',
-            step: 10000,
-            from: 25000000,
-            to: 35000000,
-            onChange: function (obj) {
+        type: 'double',
+                postfix: ' miles',
+                step: 10000,
+                from: 25000000,
+                to: 35000000,
+                onChange: function (obj) {
                 var t = ''
-                for (var prop in obj) {
-                    t += prop + ': ' + obj[prop] + '\r\n'
+                        for (var prop in obj) {
+                t += prop + ': ' + obj[prop] + '\r\n'
                 }
                 $('#result').php(t)
-            },
-            onLoad: function (obj) {
+                },
+                onLoad: function (obj) {
                 //
-            }
+                }
         });
-    });
-    </script>
+        });</script>
 <?php } if ($fname === 'moddals') { ?>
     <!-- SweetAlert2 -->
     <script src="<?php echo $base; ?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?php echo $base; ?>assets/plugins/toastr/toastr.min.js"></script>   
     <script>
-    $(function () {
+        $(function () {
         var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
+        toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
         });
-
         $('.swalDefaultSuccess').click(function () {
-            Toast.fire({
-                icon: 'success',
+        Toast.fire({
+        icon: 'success',
                 title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.swalDefaultInfo').click(function () {
-            Toast.fire({
-                icon: 'info',
+        Toast.fire({
+        icon: 'info',
                 title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.swalDefaultError').click(function () {
-            Toast.fire({
-                icon: 'error',
+        Toast.fire({
+        icon: 'error',
                 title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.swalDefaultWarning').click(function () {
-            Toast.fire({
-                icon: 'warning',
+        Toast.fire({
+        icon: 'warning',
                 title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.swalDefaultQuestion').click(function () {
-            Toast.fire({
-                icon: 'question',
+        Toast.fire({
+        icon: 'question',
                 title: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
         });
-
+        });
         $('.toastrDefaultSuccess').click(function () {
-            toastr.success("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
+        toastr.success("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
         });
         $('.toastrDefaultInfo').click(function () {
-            toastr.info("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
+        toastr.info("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
         });
         $('.toastrDefaultError').click(function () {
-            toastr.error("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
+        toastr.error("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
         });
         $('.toastrDefaultWarning').click(function () {
-            toastr.warning("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
+        toastr.warning("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.")
         });
-
         $('.toastsDefaultDefault').click(function () {
-            $(document).Toasts('create', {
-                title: 'Toast Title',
+        $(document).Toasts('create', {
+        title: 'Toast Title',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultTopLeft').click(function () {
-            $(document).Toasts('create', {
-                title: 'Toast Title',
+        $(document).Toasts('create', {
+        title: 'Toast Title',
                 position: 'topLeft',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultBottomRight').click(function () {
-            $(document).Toasts('create', {
-                title: 'Toast Title',
+        $(document).Toasts('create', {
+        title: 'Toast Title',
                 position: 'bottomRight',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultBottomLeft').click(function () {
-            $(document).Toasts('create', {
-                title: 'Toast Title',
+        $(document).Toasts('create', {
+        title: 'Toast Title',
                 position: 'bottomLeft',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultAutohide').click(function () {
-            $(document).Toasts('create', {
-                title: 'Toast Title',
+        $(document).Toasts('create', {
+        title: 'Toast Title',
                 autohide: true,
                 delay: 750,
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultNotFixed').click(function () {
-            $(document).Toasts('create', {
-                title: 'Toast Title',
+        $(document).Toasts('create', {
+        title: 'Toast Title',
                 fixed: false,
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultFull').click(function () {
-            $(document).Toasts('create', {
-                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        $(document).Toasts('create', {
+        body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 icon: 'fas fa-envelope fa-lg',
-            });
+        });
         });
         $('.toastsDefaultFullImage').click(function () {
-            $(document).Toasts('create', {
-                body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        $(document).Toasts('create', {
+        body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 image: '../../dist/img/user3-128x128.jpg',
                 imageAlt: 'User Picture',
-            });
+        });
         });
         $('.toastsDefaultSuccess').click(function () {
-            $(document).Toasts('create', {
-                class: 'bg-success',
+        $(document).Toasts('create', {
+        class: 'bg-success',
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultInfo').click(function () {
-            $(document).Toasts('create', {
-                class: 'bg-info',
+        $(document).Toasts('create', {
+        class: 'bg-info',
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultWarning').click(function () {
-            $(document).Toasts('create', {
-                class: 'bg-warning',
+        $(document).Toasts('create', {
+        class: 'bg-warning',
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultDanger').click(function () {
-            $(document).Toasts('create', {
-                class: 'bg-danger',
+        $(document).Toasts('create', {
+        class: 'bg-danger',
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
+        });
         });
         $('.toastsDefaultMaroon').click(function () {
-            $(document).Toasts('create', {
-                class: 'bg-maroon',
+        $(document).Toasts('create', {
+        class: 'bg-maroon',
                 title: 'Toast Title',
                 subtitle: 'Subtitle',
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
-            });
         });
-    });
-
-    </script>   
+        });
+        });</script>   
 
 <?php } if ($fname === 'inline') { ?>
     <!-- jQuery Knob -->
@@ -335,284 +319,263 @@ $(document).ready(function(){
     <script src="<?php echo $base; ?>assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- page script -->
     <script>
-    $(function () {
+        $(function () {
         /* jQueryKnob */
 
         $('.knob').knob({
-            /*change : function (value) {
-             //console.log("change : " + value);
-             },
-             release : function (value) {
-             console.log("release : " + value);
-             },
-             cancel : function () {
-             console.log("cancel : " + this.value);
-             },*/
-            draw: function () {
+        /*change : function (value) {
+         //console.log("change : " + value);
+         },
+         release : function (value) {
+         console.log("release : " + value);
+         },
+         cancel : function () {
+         console.log("cancel : " + this.value);
+         },*/
+        draw: function () {
 
-                // "tron" case
-                if (this.$.data('skin') == 'tron') {
+        // "tron" case
+        if (this.$.data('skin') == 'tron') {
 
-                    var a = this.angle(this.cv)  // Angle
-                            ,
-                            sa = this.startAngle          // Previous start angle
-                            ,
-                            sat = this.startAngle         // Start angle
-                            ,
-                            ea                            // Previous end angle
-                            ,
-                            eat = sat + a                 // End angle
-                            ,
-                            r = true
+        var a = this.angle(this.cv)  // Angle
+                ,
+                sa = this.startAngle          // Previous start angle
+                ,
+                sat = this.startAngle         // Start angle
+                ,
+                ea                            // Previous end angle
+                ,
+                eat = sat + a                 // End angle
+                ,
+                r = true
 
-                    this.g.lineWidth = this.lineWidth
+                this.g.lineWidth = this.lineWidth
 
-                    this.o.cursor
-                            && (sat = eat - 0.3)
-                            && (eat = eat + 0.3)
+                this.o.cursor
+                && (sat = eat - 0.3)
+                && (eat = eat + 0.3)
 
-                    if (this.o.displayPrevious) {
-                        ea = this.startAngle + this.angle(this.value)
-                        this.o.cursor
-                                && (sa = ea - 0.3)
-                                && (ea = ea + 0.3)
-                        this.g.beginPath();
-                        this.g.strokeStyle = this.previousColor
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false)
-                        this.g.stroke();
-                    }
+                if (this.o.displayPrevious) {
+        ea = this.startAngle + this.angle(this.value)
+                this.o.cursor
+                && (sa = ea - 0.3)
+                && (ea = ea + 0.3)
+                this.g.beginPath();
+        this.g.strokeStyle = this.previousColor
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false)
+                this.g.stroke();
+        }
 
-                    this.g.beginPath();
-                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor
-                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false)
-                    this.g.stroke();
-
-                    this.g.lineWidth = 2
-                    this.g.beginPath();
-                    this.g.strokeStyle = this.o.fgColor
-                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false)
-                    this.g.stroke();
-
-                    return false
-                }
-            }
+        this.g.beginPath();
+        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false)
+                this.g.stroke();
+        this.g.lineWidth = 2
+                this.g.beginPath();
+        this.g.strokeStyle = this.o.fgColor
+                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false)
+                this.g.stroke();
+        return false
+        }
+        }
         });
         /* END JQUERY KNOB */
 
         //INITIALIZE SPARKLINE CHARTS
         $('.sparkline').each(function () {
-            var $this = $(this)
-            $this.sparkline('html', $this.data())
+        var $this = $(this)
+                $this.sparkline('html', $this.data())
         });
-
         /* SPARKLINE DOCUMENTATION EXAMPLES https://omnipotent.net/jquery.sparkline/#s-about */
         drawDocSparklines();
         drawMouseSpeedDemo();
-
-    });
-
-    function drawDocSparklines() {
+        });
+        function drawDocSparklines() {
 
         // Bar + line composite charts
         $('#compositebar').sparkline('html', {
-            type: 'bar',
-            barColor: '#aaf'
+        type: 'bar',
+                barColor: '#aaf'
         });
         $('#compositebar').sparkline([4, 1, 5, 7, 9, 9, 8, 7, 6, 6, 4, 7, 8, 4, 3, 2, 2, 5, 6, 7],
-                {
-                    composite: true,
-                    fillColor: false,
-                    lineColor: 'red'
-                });
-
-
+        {
+        composite: true,
+                fillColor: false,
+                lineColor: 'red'
+        });
         // Line charts taking their values from the tag
         $('.sparkline-1').sparkline();
-
         // Larger line charts for the docs
         $('.largeline').sparkline('html',
-                {
-                    type: 'line',
-                    height: '2.5em',
-                    width: '4em'
-                });
-
+        {
+        type: 'line',
+                height: '2.5em',
+                width: '4em'
+        });
         // Customized line chart
         $('#linecustom').sparkline('html',
-                {
-                    height: '1.5em',
-                    width: '8em',
-                    lineColor: '#f00',
-                    fillColor: '#ffa',
-                    minSpotColor: false,
-                    maxSpotColor: false,
-                    spotColor: '#77f',
-                    spotRadius: 3
-                });
-
+        {
+        height: '1.5em',
+                width: '8em',
+                lineColor: '#f00',
+                fillColor: '#ffa',
+                minSpotColor: false,
+                maxSpotColor: false,
+                spotColor: '#77f',
+                spotRadius: 3
+        });
         // Bar charts using inline values
         $('.sparkbar').sparkline('html', {type: 'bar'});
-
         $('.barformat').sparkline([1, 3, 5, 3, 8], {
-            type: 'bar',
-            tooltipFormat: '{{value:levels}} - {{value}}',
-            tooltipValueLookups: {
+        type: 'bar',
+                tooltipFormat: '{{value:levels}} - {{value}}',
+                tooltipValueLookups: {
                 levels: $.range_map({
-                    ':2': 'Low',
-                    '3:6': 'Medium',
-                    '7:': 'High'
+                ':2': 'Low',
+                        '3:6': 'Medium',
+                        '7:': 'High'
                 });
-            }
+                }
         });
-
         // Tri-state charts using inline values
         $('.sparktristate').sparkline('html', {type: 'tristate'});
         $('.sparktristatecols').sparkline('html',
-                {
-                    type: 'tristate',
-                    colorMap: {
-                        '-2': '#fa7',
+        {
+        type: 'tristate',
+                colorMap: {
+                '-2': '#fa7',
                         '2': '#44f'
-                    }
-                });
-
+                }
+        });
         // Composite line charts, the second using values supplied via javascript
         $('#compositeline').sparkline('html', {
-            fillColor: false,
-            changeRangeMin: 0,
-            chartRangeMax: 10
+        fillColor: false,
+                changeRangeMin: 0,
+                chartRangeMax: 10
         });
         $('#compositeline').sparkline([4, 1, 5, 7, 9, 9, 8, 7, 6, 6, 4, 7, 8, 4, 3, 2, 2, 5, 6, 7],
-                {
-                    composite: true,
-                    fillColor: false,
-                    lineColor: 'red',
-                    changeRangeMin: 0,
-                    chartRangeMax: 10
-                });
-
+        {
+        composite: true,
+                fillColor: false,
+                lineColor: 'red',
+                changeRangeMin: 0,
+                chartRangeMax: 10
+        });
         // Line charts with normal range marker
         $('#normalline').sparkline('html',
-                {
-                    fillColor: false,
-                    normalRangeMin: -1,
-                    normalRangeMax: 8
-                });
+        {
+        fillColor: false,
+                normalRangeMin: - 1,
+                normalRangeMax: 8
+        });
         $('#normalExample').sparkline('html',
-                {
-                    fillColor: false,
-                    normalRangeMin: 80,
-                    normalRangeMax: 95,
-                    normalRangeColor: '#4f4'
-                });
-
+        {
+        fillColor: false,
+                normalRangeMin: 80,
+                normalRangeMax: 95,
+                normalRangeColor: '#4f4'
+        });
         // Discrete charts
         $('.discrete1').sparkline('html',
-                {
-                    type: 'discrete',
-                    lineColor: 'blue',
-                    xwidth: 18
-                });
+        {
+        type: 'discrete',
+                lineColor: 'blue',
+                xwidth: 18
+        });
         $('#discrete2').sparkline('html',
-                {
-                    type: 'discrete',
-                    lineColor: 'blue',
-                    thresholdColor: 'red',
-                    thresholdValue: 4
-                });
-
+        {
+        type: 'discrete',
+                lineColor: 'blue',
+                thresholdColor: 'red',
+                thresholdValue: 4
+        });
         // Bullet charts
         $('.sparkbullet').sparkline('html', {type: 'bullet'});
-
         // Pie charts
         $('.sparkpie').sparkline('html', {
-            type: 'pie',
-            height: '1.0em'
+        type: 'pie',
+                height: '1.0em'
         });
-
         // Box plots
         $('.sparkboxplot').sparkline('html', {type: 'box'});
         $('.sparkboxplotraw').sparkline([1, 3, 5, 8, 10, 15, 18],
-                {
-                    type: 'box',
-                    raw: true,
-                    showOutliers: true,
-                    target: 6
-                });
-
+        {
+        type: 'box',
+                raw: true,
+                showOutliers: true,
+                target: 6
+        });
         // Box plot with specific field order
         $('.boxfieldorder').sparkline('html', {
-            type: 'box',
-            tooltipFormatFieldlist: ['med', 'lq', 'uq'],
-            tooltipFormatFieldlistKey: 'field'
+        type: 'box',
+                tooltipFormatFieldlist: ['med', 'lq', 'uq'],
+                tooltipFormatFieldlistKey: 'field'
         });
-
         // click event demo sparkline
         $('.clickdemo').sparkline();
         $('.clickdemo').bind('sparklineClick', function (ev) {
-            var sparkline = ev.sparklines[0],
-                    region = sparkline.getCurrentRegionFields();
-            value = region.y
-            alert('Clicked on x=' + region.x + ' y=' + region.y)
+        var sparkline = ev.sparklines[0],
+                region = sparkline.getCurrentRegionFields();
+        value = region.y
+                alert('Clicked on x=' + region.x + ' y=' + region.y)
         });
-
         // mouseover event demo sparkline
         $('.mouseoverdemo').sparkline();
         $('.mouseoverdemo').bind('sparklineRegionChange', function (ev) {
-            var sparkline = ev.sparklines[0],
-                    region = sparkline.getCurrentRegionFields();
-            value = region.y
-            $('.mouseoverregion').text('x=' + region.x + ' y=' + region.y)
+        var sparkline = ev.sparklines[0],
+                region = sparkline.getCurrentRegionFields();
+        value = region.y
+                $('.mouseoverregion').text('x=' + region.x + ' y=' + region.y)
         }).bind('mouseleave', function () {
-            $('.mouseoverregion').text('')
+        $('.mouseoverregion').text('')
         });
-    }
+        }
 
-    /**
-     ** Draw the little mouse speed animated graph
-     ** This just attaches a handler to the mousemove event to see
-     ** (roughly) how far the mouse has moved
-     ** and then updates the display a couple of times a second via
-     ** setTimeout();
-     **/
-    function drawMouseSpeedDemo() {
+        /**
+         ** Draw the little mouse speed animated graph
+         ** This just attaches a handler to the mousemove event to see
+         ** (roughly) how far the mouse has moved
+         ** and then updates the display a couple of times a second via
+         ** setTimeout();
+         **/
+        function drawMouseSpeedDemo() {
         var mrefreshinterval = 500 // update display every 500ms
-        var lastmousex = -1
-        var lastmousey = -1
-        var lastmousetime
-        var mousetravel = 0
-        var mpoints = []
-        var mpoints_max = 30
-        $('html').mousemove(function (e) {
-            var mousex = e.pageX
-            var mousey = e.pageY
-            if (lastmousex > -1) {
-                mousetravel += Math.max(Math.abs(mousex - lastmousex), Math.abs(mousey - lastmousey))
-            }
-            lastmousex = mousex
-            lastmousey = mousey
+                var lastmousex = - 1
+                var lastmousey = - 1
+                var lastmousetime
+                var mousetravel = 0
+                var mpoints = []
+                var mpoints_max = 30
+                $('html').mousemove(function (e) {
+        var mousex = e.pageX
+                var mousey = e.pageY
+                if (lastmousex > - 1) {
+        mousetravel += Math.max(Math.abs(mousex - lastmousex), Math.abs(mousey - lastmousey))
+        }
+        lastmousex = mousex
+                lastmousey = mousey
         });
         var mdraw = function () {
-            var md = new Date();
-            var timenow = md.getTime();
-            if (lastmousetime && lastmousetime != timenow) {
-                var pps = Math.round(mousetravel / (timenow - lastmousetime) * 1000)
+        var md = new Date();
+        var timenow = md.getTime();
+        if (lastmousetime && lastmousetime != timenow) {
+        var pps = Math.round(mousetravel / (timenow - lastmousetime) * 1000)
                 mpoints.push(pps)
                 if (mpoints.length > mpoints_max) {
-                    mpoints.splice(0, 1)
-                }
-                mousetravel = 0
+        mpoints.splice(0, 1)
+        }
+        mousetravel = 0
                 $('#mousespeed').sparkline(mpoints, {
-                    width: mpoints.length * 2,
-                    tooltipSuffix: ' pixels per second'
-                });
-            }
-            lastmousetime = timenow
-            setTimeout(mdraw, mrefreshinterval)
+        width: mpoints.length * 2,
+                tooltipSuffix: ' pixels per second'
+        });
+        }
+        lastmousetime = timenow
+                setTimeout(mdraw, mrefreshinterval)
         }
         // We could use setInterval instead, but I prefer to do it this way
         setTimeout(mdraw, mrefreshinterval);
-    }
+        }
     </script>
 <?php } if ($fname === 'flot') { ?>
     <!-- jQuery UI -->
@@ -625,7 +588,7 @@ $(document).ready(function(){
     <script src="<?php echo $base; ?>assets/plugins/flot-old/jquery.flot.pie.min.js"></script>
     <!-- Page script -->
     <script>
-    $(function () {
+        $(function () {
         /*
          * Flot Interactive Chart
          * -----------------------
@@ -635,91 +598,91 @@ $(document).ready(function(){
         var data = [],
                 totalPoints = 100
 
-        function getRandomData() {
+                function getRandomData() {
 
-            if (data.length > 0) {
+                if (data.length > 0) {
                 data = data.slice(1)
-            }
+                }
 
-            // Do a random walk
-            while (data.length < totalPoints) {
+                // Do a random walk
+                while (data.length < totalPoints) {
 
                 var prev = data.length > 0 ? data[data.length - 1] : 50,
                         y = prev + Math.random(); * 10 - 5
 
-                if (y < 0) {
-                    y = 0
+                        if (y < 0) {
+                y = 0
                 } else if (y > 100) {
-                    y = 100
+                y = 100
                 }
 
                 data.push(y)
-            }
+                }
 
-            // Zip the generated y values with the x values
-            var res = []
-            for (var i = 0; i < data.length; ++i) {
+                // Zip the generated y values with the x values
+                var res = []
+                        for (var i = 0; i < data.length; ++i) {
                 res.push([i, data[i]])
-            }
+                }
 
-            return res
-        }
+                return res
+                }
 
         var interactive_plot = $.plot('#interactive', [
-            {
-                data: getRandomData(),
-            }
+        {
+        data: getRandomData(),
+        }
         ],
-                {
-                    grid: {
-                        borderColor: '#f3f3f3',
-                        borderWidth: 1,
-                        tickColor: '#f3f3f3'
-                    },
-                    series: {
-                        color: '#3c8dbc',
+        {
+        grid: {
+        borderColor: '#f3f3f3',
+                borderWidth: 1,
+                tickColor: '#f3f3f3'
+        },
+                series: {
+                color: '#3c8dbc',
                         lines: {
-                            lineWidth: 2,
-                            show: true,
-                            fill: true,
+                        lineWidth: 2,
+                                show: true,
+                                fill: true,
                         },
-                    },
-                    yaxis: {
-                        min: 0,
+                },
+                yaxis: {
+                min: 0,
                         max: 100,
                         show: true
-                    },
-                    xaxis: {
-                        show: true
-                    }
+                },
+                xaxis: {
+                show: true
                 }
+        }
         )
 
-        var updateInterval = 500 //Fetch data ever x milliseconds
-        var realtime = 'on' //If == to on then fetch data every x seconds. else stop fetching
-        function update() {
+                var updateInterval = 500 //Fetch data ever x milliseconds
+                var realtime = 'on' //If == to on then fetch data every x seconds. else stop fetching
+                function update() {
 
-            interactive_plot.setData([getRandomData()])
+                interactive_plot.setData([getRandomData()])
 
-            // Since the axes don't change, we don't need to call plot.setupGrid();
-            interactive_plot.draw();
-            if (realtime === 'on') {
+                        // Since the axes don't change, we don't need to call plot.setupGrid();
+                        interactive_plot.draw();
+                if (realtime === 'on') {
                 setTimeout(update, updateInterval)
-            }
-        }
+                }
+                }
 
         //INITIALIZE REALTIME DATA FETCHING
         if (realtime === 'on') {
-            update();
+        update();
         }
         //REALTIME TOGGLE
         $('#realtime .btn').click(function () {
-            if ($(this).data('toggle') === 'on') {
-                realtime = 'on'
-            } else {
-                realtime = 'off'
-            }
-            update();
+        if ($(this).data('toggle') === 'on') {
+        realtime = 'on'
+        } else {
+        realtime = 'off'
+        }
+        update();
         });
         /*
          * END INTERACTIVE CHART
@@ -734,66 +697,66 @@ $(document).ready(function(){
 
         var sin = [],
                 cos = []
-        for (var i = 0; i < 14; i += 0.5) {
-            sin.push([i, Math.sin(i)])
-            cos.push([i, Math.cos(i)])
+                for (var i = 0; i < 14; i += 0.5) {
+        sin.push([i, Math.sin(i)])
+                cos.push([i, Math.cos(i)])
         }
         var line_data1 = {
-            data: sin,
-            color: '#3c8dbc'
+        data: sin,
+                color: '#3c8dbc'
         }
         var line_data2 = {
-            data: cos,
-            color: '#00c0ef'
+        data: cos,
+                color: '#00c0ef'
         }
         $.plot('#line-chart', [line_data1, line_data2], {
-            grid: {
-                hoverable: true,
+        grid: {
+        hoverable: true,
                 borderColor: '#f3f3f3',
                 borderWidth: 1,
                 tickColor: '#f3f3f3'
-            },
-            series: {
+        },
+                series: {
                 shadowSize: 0,
-                lines: {
-                    show: true
+                        lines: {
+                        show: true
+                        },
+                        points: {
+                        show: true
+                        }
                 },
-                points: {
-                    show: true
-                }
-            },
-            lines: {
+                lines: {
                 fill: false,
-                color: ['#3c8dbc', '#f56954']
-            },
-            yaxis: {
+                        color: ['#3c8dbc', '#f56954']
+                },
+                yaxis: {
                 show: true
-            },
-            xaxis: {
+                },
+                xaxis: {
                 show: true
-            }
+                }
         });
         //Initialize tooltip on hover
         $('<div class="tooltip-inner" id="line-chart-tooltip"></div>').css({
-            position: 'absolute',
-            display: 'none',
-            opacity: 0.8
+        position: 'absolute',
+                display: 'none',
+                opacity: 0.8
         }).appendTo('body')
-        $('#line-chart').bind('plothover', function (event, pos, item) {
+                $('#line-chart').bind('plothover', function (event, pos, item) {
 
-            if (item) {
-                var x = item.datapoint[0].toFixed(2),
-                        y = item.datapoint[1].toFixed(2)
+        if (item) {
+        var x = item.datapoint[0].toFixed(2),
+                y = item.datapoint[1].toFixed(2)
 
                 $('#line-chart-tooltip').php(item.series.label + ' of ' + x + ' = ' + y)
-                        .css({
-                            top: item.pageY + 5,
-                            left: item.pageX + 5
-                        });
-                        .fadeIn(200)
-            } else {
-                $('#line-chart-tooltip').hide();
-            }
+                .css({
+                top: item.pageY + 5,
+                        left: item.pageX + 5
+                });
+        .fadeIn(200)
+        } else {
+        $('#line-chart-tooltip').hide();
+        }
 
         });
         /* END LINE CHART */
@@ -803,27 +766,26 @@ $(document).ready(function(){
          * -----------------
          */
         var areaData = [[2, 88.0], [3, 93.3], [4, 102.0], [5, 108.5], [6, 115.7], [7, 115.6],
-            [8, 124.6], [9, 130.3], [10, 134.3], [11, 141.4], [12, 146.5], [13, 151.7], [14, 159.9],
-            [15, 165.4], [16, 167.8], [17, 168.7], [18, 169.5], [19, 168.0]]
-        $.plot('#area-chart', [areaData], {
-            grid: {
+        [8, 124.6], [9, 130.3], [10, 134.3], [11, 141.4], [12, 146.5], [13, 151.7], [14, 159.9],
+        [15, 165.4], [16, 167.8], [17, 168.7], [18, 169.5], [19, 168.0]]
+                $.plot('#area-chart', [areaData], {
+                grid: {
                 borderWidth: 0
-            },
-            series: {
-                shadowSize: 0, // Drawing is faster without shadows
-                color: '#00c0ef',
-                lines: {
-                    fill: true //Converts the line chart to area chart
                 },
-            },
-            yaxis: {
-                show: false
-            },
-            xaxis: {
-                show: false
-            }
-        });
-
+                        series: {
+                        shadowSize: 0, // Drawing is faster without shadows
+                                color: '#00c0ef',
+                                lines: {
+                                fill: true //Converts the line chart to area chart
+                                },
+                        },
+                        yaxis: {
+                        show: false
+                        },
+                        xaxis: {
+                        show: false
+                        }
+                });
         /* END AREA CHART */
 
         /*
@@ -832,24 +794,24 @@ $(document).ready(function(){
          */
 
         var bar_data = {
-            data: [[1, 10], [2, 8], [3, 4], [4, 13], [5, 17], [6, 9]],
-            bars: {show: true}
+        data: [[1, 10], [2, 8], [3, 4], [4, 13], [5, 17], [6, 9]],
+                bars: {show: true}
         }
         $.plot('#bar-chart', [bar_data], {
-            grid: {
-                borderWidth: 1,
+        grid: {
+        borderWidth: 1,
                 borderColor: '#f3f3f3',
                 tickColor: '#f3f3f3'
-            },
-            series: {
+        },
+                series: {
                 bars: {
-                    show: true, barWidth: 0.5, align: 'center',
+                show: true, barWidth: 0.5, align: 'center',
                 },
-            },
-            colors: ['#3c8dbc'],
-            xaxis: {
+                },
+                colors: ['#3c8dbc'],
+                xaxis: {
                 ticks: [[1, 'January'], [2, 'February'], [3, 'March'], [4, 'April'], [5, 'May'], [6, 'June']]
-            }
+                }
         });
         /* END BAR CHART */
 
@@ -859,64 +821,63 @@ $(document).ready(function(){
          */
 
         var donutData = [
-            {
-                label: 'Series2',
+        {
+        label: 'Series2',
                 data: 30,
                 color: '#3c8dbc'
-            },
-            {
-                label: 'Series3',
+        },
+        {
+        label: 'Series3',
                 data: 20,
                 color: '#0073b7'
-            },
-            {
-                label: 'Series4',
+        },
+        {
+        label: 'Series4',
                 data: 50,
                 color: '#00c0ef'
-            }
+        }
         ]
-        $.plot('#donut-chart', donutData, {
-            series: {
+                $.plot('#donut-chart', donutData, {
+                series: {
                 pie: {
-                    show: true,
-                    radius: 1,
-                    innerRadius: 0.5,
-                    label: {
+                show: true,
+                        radius: 1,
+                        innerRadius: 0.5,
+                        label: {
                         show: true,
-                        radius: 2 / 3,
-                        formatter: labelFormatter,
-                        threshold: 0.1
-                    }
+                                radius: 2 / 3,
+                                formatter: labelFormatter,
+                                threshold: 0.1
+                        }
 
                 }
-            },
-            legend: {
-                show: false
-            }
-        });
+                },
+                        legend: {
+                        show: false
+                        }
+                });
         /*
          * END DONUT CHART
          */
 
-    });
-
-    /*
-     * Custom Label formatter
-     * ----------------------
-     */
-    function labelFormatter(label, series) {
+        });
+        /*
+         * Custom Label formatter
+         * ----------------------
+         */
+        function labelFormatter(label, series) {
         return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
                 + label
                 + '<br>'
                 + Math.round(series.percent) + '%</div>'
-    }
+                }
     </script>
 <?php } if ($fname === 'chartjs') { ?>
     <!-- ChartJS -->
     <script src="<?php echo $base; ?>assets/plugins/chart.js/Chart.min.js"></script>        
     <!-- page script -->
     <script>
-    $(function () {
+        $(function () {
         /* ChartJS
          * -------
          * Here we will create a few charts using ChartJS
@@ -929,110 +890,107 @@ $(document).ready(function(){
         // Get context with jQuery - using jQuery's .get(); method.
         var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
-        var areaChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'Digital Goods',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: false,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188,1)',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: [28, 48, 40, 19, 86, 27, 90]
-                },
-                {
-                    label: 'Electronics',
-                    backgroundColor: 'rgba(210, 214, 222, 1)',
-                    borderColor: 'rgba(210, 214, 222, 1)',
-                    pointRadius: false,
-                    pointColor: 'rgba(210, 214, 222, 1)',
-                    pointStrokeColor: '#c1c7d1',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(220,220,220,1)',
-                    data: [65, 59, 80, 81, 56, 55, 40]
-                },
-            ]
-        }
+                var areaChartData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        datasets: [
+                        {
+                        label: 'Digital Goods',
+                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                borderColor: 'rgba(60,141,188,0.8)',
+                                pointRadius: false,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(60,141,188,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
+                                data: [28, 48, 40, 19, 86, 27, 90]
+                        },
+                        {
+                        label: 'Electronics',
+                                backgroundColor: 'rgba(210, 214, 222, 1)',
+                                borderColor: 'rgba(210, 214, 222, 1)',
+                                pointRadius: false,
+                                pointColor: 'rgba(210, 214, 222, 1)',
+                                pointStrokeColor: '#c1c7d1',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(220,220,220,1)',
+                                data: [65, 59, 80, 81, 56, 55, 40]
+                        },
+                        ]
+                }
 
         var areaChartOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-            legend: {
+        maintainAspectRatio: false,
+                responsive: true,
+                legend: {
                 display: false
-            },
-            scales: {
+                },
+                scales: {
                 xAxes: [{
+                gridLines: {
+                display: false,
+                }
+                }],
+                        yAxes: [{
                         gridLines: {
-                            display: false,
+                        display: false,
                         }
-                    }],
-                yAxes: [{
-                        gridLines: {
-                            display: false,
-                        }
-                    }]
-            }
+                        }]
+                }
         }
 
         // This will get the first returned node in the jQuery collection.
         var areaChart = new Chart(areaChartCanvas, {
-            type: 'line',
-            data: areaChartData,
-            options: areaChartOptions
+        type: 'line',
+                data: areaChartData,
+                options: areaChartOptions
         });
-
         //-------------
         //- LINE CHART -
         //--------------
         var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-        var lineChartOptions = $.extend(true, {}, areaChartOptions)
-        var lineChartData = $.extend(true, {}, areaChartData)
-        lineChartData.datasets[0].fill = false;
+                var lineChartOptions = $.extend(true, {}, areaChartOptions)
+                var lineChartData = $.extend(true, {}, areaChartData)
+                lineChartData.datasets[0].fill = false;
         lineChartData.datasets[1].fill = false;
         lineChartOptions.datasetFill = false
 
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        });
-
+                var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                        data: lineChartData,
+                        options: lineChartOptions
+                });
         //-------------
         //- DONUT CHART -
         //-------------
         // Get context with jQuery - using jQuery's .get(); method.
         var donutChartCanvas = $('#donutChart').get(0).getContext('2d');
         var donutData = {
-            labels: [
+        labels: [
                 'Chrome',
                 'IE',
                 'FireFox',
                 'Safari',
                 'Opera',
                 'Navigator'
-            ],
-            datasets: [
+        ],
+                datasets: [
                 {
-                    data: [700, 500, 400, 600, 300, 100],
-                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
+                data: [700, 500, 400, 600, 300, 100],
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de']
                 }
-            ]
+                ]
         };
         var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true
+        maintainAspectRatio: false,
+                responsive: true
         };
         //Create pie or douhnut chart
         // You can switch between pie and douhnut using the method below.
         var donutChart = new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
+        type: 'doughnut',
+                data: donutData,
+                options: donutOptions
         });
-
         //-------------
         //- PIE CHART -
         //-------------
@@ -1040,17 +998,16 @@ $(document).ready(function(){
         var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
         var pieData = donutData;
         var pieOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
+        maintainAspectRatio: false,
+                responsive: true,
         }
         //Create pie or douhnut chart
         // You can switch between pie and douhnut using the method below.
         var pieChart = new Chart(pieChartCanvas, {
-            type: 'pie',
-            data: pieData,
-            options: pieOptions
+        type: 'pie',
+                data: pieData,
+                options: pieOptions
         });
-
         //-------------
         //- BAR CHART -
         //-------------
@@ -1060,71 +1017,62 @@ $(document).ready(function(){
         var temp1 = areaChartData.datasets[1];
         barChartData.datasets[0] = temp1;
         barChartData.datasets[1] = temp0;
-
         var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
+        responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
         };
-
         var barChart = new Chart(barChartCanvas, {
-            type: 'bar',
-            data: barChartData,
-            options: barChartOptions
+        type: 'bar',
+                data: barChartData,
+                options: barChartOptions
         });
-
         //---------------------
         //- STACKED BAR CHART -
         //---------------------
         var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d');
         var stackedBarChartData = $.extend(true, {}, barChartData);
-
         var stackedBarChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
+        responsive: true,
+                maintainAspectRatio: false,
+                scales: {
                 xAxes: [{
+                stacked: true
+                }],
+                        yAxes: [{
                         stacked: true
-                    }],
-                yAxes: [{
-                        stacked: true
-                    }]
-            }
+                        }]
+                }
         }
 
         var stackedBarChart = new Chart(stackedBarChartCanvas, {
-            type: 'bar',
-            data: stackedBarChartData,
-            options: stackedBarChartOptions
+        type: 'bar',
+                data: stackedBarChartData,
+                options: stackedBarChartOptions
         });
-    });
-    </script>
+        });</script>
 <?php } if ($fname === 'jsgrid') { ?>
     <!-- jsGrid -->
     <script src="<?php echo $base; ?>assets/plugins/jsgrid/demos/db.js"></script>
     <script src="<?php echo $base; ?>assets/plugins/jsgrid/jsgrid.min.js"></script>
     <!-- page script -->
     <script>
-    $(function () {
+        $(function () {
         $("#jsGrid1").jsGrid({
-            height: "100%",
-            width: "100%",
-
-            sorting: true,
-            paging: true,
-
-            data: db.clients,
-
-            fields: [
+        height: "100%",
+                width: "100%",
+                sorting: true,
+                paging: true,
+                data: db.clients,
+                fields: [
                 {name: "Name", type: "text", width: 150},
                 {name: "Age", type: "number", width: 50},
                 {name: "Address", type: "text", width: 200},
                 {name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name"},
                 {name: "Married", type: "checkbox", title: "Is Married"}
-            ]
+                ]
         });
-    });
-    </script>
+        });</script>
 <?php } if ($fname === 'data') { ?>
     <!-- DataTables -->
     <script src="<?php echo $base; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -1134,56 +1082,53 @@ $(document).ready(function(){
 
     <!-- page script -->
     <script>
-    $(function () {
+        $(function () {
         $("#example1").DataTable({
-            "responsive": true,
-            "autoWidth": false,
+        "responsive": true,
+                "autoWidth": false,
         });
         $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
+        "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
         });
-    });
-    </script>
+        });</script>
 <?php }if ($fname === 'mailbox') { ?>
     <!-- Page Script -->
     <script>
         $(function () {
-            //Enable check and uncheck all functionality
-            $('.checkbox-toggle').click(function () {
-                var clicks = $(this).data('clicks')
+        //Enable check and uncheck all functionality
+        $('.checkbox-toggle').click(function () {
+        var clicks = $(this).data('clicks')
                 if (clicks) {
-                    //Uncheck all checkboxes
-                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
-                    $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
-                } else {
-                    //Check all checkboxes
-                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
-                    $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
-                }
-                $(this).data('clicks', !clicks)
-            });
-
-            //Handle starring for font awesome
-            $('.mailbox-star').click(function (e) {
-                e.preventDefault();
-                //detect type
-                var $this = $(this).find('a > i')
+        //Uncheck all checkboxes
+        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+                $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+        } else {
+        //Check all checkboxes
+        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+                $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+        }
+        $(this).data('clicks', !clicks)
+        });
+        //Handle starring for font awesome
+        $('.mailbox-star').click(function (e) {
+        e.preventDefault();
+        //detect type
+        var $this = $(this).find('a > i')
                 var fa = $this.hasClass('fa')
 
                 //Switch states
                 if (fa) {
-                    $this.toggleClass('fa-star')
-                    $this.toggleClass('fa-star-o')
-                }
-            });
+        $this.toggleClass('fa-star')
+                $this.toggleClass('fa-star-o')
+        }
         });
-    </script>
+        });</script>
 <?php } if ($fname === 'advanced') { ?>
     <!-- Select2 -->
     <script src="<?php echo $base; ?>assets/plugins/select2/js/select2.full.min.js"></script>
@@ -1204,94 +1149,82 @@ $(document).ready(function(){
     <!-- Page script -->
     <script>
         $(function () {
-            //Initialize Select2 Elements
-            $('.select2').select2();
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            });
-
-            //Datemask dd/mm/yyyy
-            $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'});
-            //Datemask2 mm/dd/yyyy
-            $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'});
-            //Money Euro
-            $('[data-mask]').inputmask();
-
-            //Date range picker
-            $('#reservationdate').datetimepicker({
-                format: 'L'
-            });
-            //Date range picker
-            $('#reservation').daterangepicker();
-            //Date range picker with time picker
-            $('#reservationtime').daterangepicker({
-                timePicker: true,
+        //Initialize Select2 Elements
+        $('.select2').select2();
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+        theme: 'bootstrap4'
+        });
+        //Datemask dd/mm/yyyy
+        $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'});
+        //Datemask2 mm/dd/yyyy
+        $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'});
+        //Money Euro
+        $('[data-mask]').inputmask();
+        //Date range picker
+        $('#reservationdate').datetimepicker({
+        format: 'L'
+        });
+        //Date range picker
+        $('#reservation').daterangepicker();
+        //Date range picker with time picker
+        $('#reservationtime').daterangepicker({
+        timePicker: true,
                 timePickerIncrement: 30,
                 locale: {
-                    format: 'MM/DD/YYYY hh:mm A'
+                format: 'MM/DD/YYYY hh:mm A'
                 }
-            });
-            //Date range as a button
-            $('#daterange-btn').daterangepicker(
-                    {
-                        ranges: {
-                            'Today': [moment(), moment()],
-                            'Yesterday': [moment();.subtract(1, 'days'), moment();.subtract(1, 'days')],
-                            'Last 7 Days': [moment();.subtract(6, 'days'), moment()],
-                            'Last 30 Days': [moment();.subtract(29, 'days'), moment()],
-                            'This Month': [moment();.startOf('month'), moment();.endOf('month')],
-                            'Last Month': [moment();.subtract(1, 'month').startOf('month'), moment();.subtract(1, 'month').endOf('month')]
-                        },
-                        startDate: moment();.subtract(29, 'days'),
-                        endDate: moment();
-                    },
-                    function (start, end) {
-                        $('#reportrange span').php(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                    }
-            );
-
-            //Timepicker
-            $('#timepicker').datetimepicker({
-                format: 'LT'
-            });
-
-            //Bootstrap Duallistbox
-            $('.duallistbox').bootstrapDualListbox();
-
-            //Colorpicker
-            $('.my-colorpicker1').colorpicker();
-            //color picker with addon
-            $('.my-colorpicker2').colorpicker();
-
-            $('.my-colorpicker2').on('colorpickerChange', function (event) {
-                $('.my-colorpicker2 .fa-square').css('color', event.color.toString(););
-            });
-
-            $("input[data-bootstrap-switch]").each(function () {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            });
-
         });
-    </script>
+        //Date range as a button
+        $('#daterange-btn').daterangepicker(
+        {
+        ranges: {
+        'Today': [moment(), moment()],
+                'Yesterday': [moment(); .subtract(1, 'days'), moment(); .subtract(1, 'days')],
+                'Last 7 Days': [moment(); .subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment(); .subtract(29, 'days'), moment()],
+                'This Month': [moment(); .startOf('month'), moment(); .endOf('month')],
+                'Last Month': [moment(); .subtract(1, 'month').startOf('month'), moment(); .subtract(1, 'month').endOf('month')]
+        },
+                startDate: moment(); .subtract(29, 'days'),
+                endDate: moment();
+        },
+                function (start, end) {
+                $('#reportrange span').php(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+        );
+        //Timepicker
+        $('#timepicker').datetimepicker({
+        format: 'LT'
+        });
+        //Bootstrap Duallistbox
+        $('.duallistbox').bootstrapDualListbox();
+        //Colorpicker
+        $('.my-colorpicker1').colorpicker();
+        //color picker with addon
+        $('.my-colorpicker2').colorpicker();
+        $('.my-colorpicker2').on('colorpickerChange', function (event) {
+        $('.my-colorpicker2 .fa-square').css('color', event.color.toString(); );
+        });
+        $("input[data-bootstrap-switch]").each(function () {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        });
+        });</script>
 <?php } if ($fname === 'editors') { ?>
     <!-- Summernote -->
     <script src="<?php echo $base; ?>assets/plugins/summernote/summernote-bs4.min.js"></script>
     <script>
         $(function () {
-            // Summernote
-            $('.textarea').summernote();
-        });
-    </script>
+        // Summernote
+        $('.textarea').summernote();
+        });</script>
 <?php } if ($fname === 'general') { ?>
     <!-- bs-custom-file-input -->
     <script src="<?php echo $base; ?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>       
     <script>
         $(function () {
-            bsCustomFileInput.init();
-        });
-    </script>
+        bsCustomFileInput.init();
+        });</script>
 <?php } if ($fname === 'validation') { ?>
 
     <!-- jquery-validation -->
@@ -1299,50 +1232,49 @@ $(document).ready(function(){
     <script src="<?php echo $base; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
     <script>
         $(function () {
-            $.validator.setDefaults({
-                submitHandler: function () {
-                    alert("Form successful submitted!");
-                }
-            });
-            $('#quickForm').validate({
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        required: true,
+        $.validator.setDefaults({
+        submitHandler: function () {
+        alert("Form successful submitted!");
+        }
+        });
+        $('#quickForm').validate({
+        rules: {
+        email: {
+        required: true,
+                email: true
+        },
+                password: {
+                required: true,
                         minlength: 5
-                    },
-                    terms: {
-                        required: true
-                    },
                 },
+                terms: {
+                required: true
+                },
+        },
                 messages: {
-                    email: {
-                        required: "Please enter a email address",
+                email: {
+                required: "Please enter a email address",
                         email: "Please enter a vaild email address"
-                    },
-                    password: {
+                },
+                        password: {
                         required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long"
-                    },
-                    terms: "Please accept our terms"
+                                minlength: "Your password must be at least 5 characters long"
+                        },
+                        terms: "Please accept our terms"
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
                 },
                 highlight: function (element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
+                $(element).addClass('is-invalid');
                 },
                 unhighlight: function (element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
+                $(element).removeClass('is-invalid');
                 }
-            });
         });
-    </script>
+        });</script>
 <?php } if ($fname === 'fixed-sidebar') { ?>
     <!-- overlayScrollbars -->
     <script src="<?php echo $base; ?>assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
@@ -1352,8 +1284,8 @@ $(document).ready(function(){
     <!-- Page Script -->
     <script>
         $(function () {
-            //Add text editor
-            $('#compose-textarea').summernote();
+        //Add text editor
+        $('#compose-textarea').summernote();
         });
     </script>
 <?php } ?>

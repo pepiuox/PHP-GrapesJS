@@ -13,7 +13,12 @@ if (!isset($_SESSION)) {
 
 $currentDate = new DateTime();
 $connfile = 'config/dbconnection.php';
-if (file_exists($connfile)) {
+if (!file_exists($connfile)) {
+
+    $_SESSION['PathInstall'] = "http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+    header('Location: installer/install.php');
+    exit();
+} else {
     $page = $_SERVER['PHP_SELF'];
 
     require 'config/dbconnection.php';
@@ -25,9 +30,5 @@ if (file_exists($connfile)) {
     $visitor = new GetVisitor($timestamp);
 
     require 'start.php';
-} else {
-    $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    header('Location: installer/install.php');
-    exit();
 }
 ?>
