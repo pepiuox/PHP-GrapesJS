@@ -10,7 +10,7 @@ if (file_exists($laststep)) {
 if (isset($_SESSION['PathInstall'])) {
     //$_SESSION['PathInstall'] = "http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
     $siteinstall = $_SESSION['PathInstall'];
-    echo $_SESSION['PathInstall'];
+   
 } else {
     $siteinstall = "http://" . $_SERVER['HTTP_HOST'] . '/' . $folder . '/';
 }
@@ -251,9 +251,9 @@ if (!file_exists($file)) {
             \$siteinstall = SITE_PATH;
         } else {" . "\n";
         if (!empty($siteinstall)) {
-            $filecontent .= "\$siteinstall = '" . $siteinstall . "';" . "\n";
+            $filecontent .= "\$base = '" . $siteinstall . "';" . "\n";
         } else {
-            $filecontent .= "\$siteinstall = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
+            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
         $filecontent .= "}" . "\n";
 
