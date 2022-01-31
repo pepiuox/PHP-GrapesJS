@@ -23,12 +23,12 @@
         "spectrum-colorpicker": "^1.8.0",
         "underscore": "^1.13.1"
     },
-    "devDependencies": {
-        "@babel/cli": "^7.14.8",
-        "@babel/core": "^7.15.5",
-        "@babel/plugin-proposal-object-rest-spread": "^7.15.6",
-        "@babel/preset-env": "^7.15.6",
-        "@vuepress/plugin-google-analytics": "^1.8.2",
+    "devDependencies": {"@vuepress\/plugin-google-analytics": "^1.8.2","@babel\/preset-env": "^7.15.6","@babel\/plugin-proposal-object-rest-spread": "^7.15.6","@babel\/core": "^7.15.5","@babel\/cli": "^7.14.8",
+        "@babel/cli": "^7.16.8",
+        "@babel/core": "^7.16.12",
+        "@babel/plugin-proposal-object-rest-spread": "^7.16.7",
+        "@babel/preset-env": "^7.16.11",
+        "@vuepress/plugin-google-analytics": "^1.9.7",
         "babel-loader": "^8.2.2",
         "documentation": "^13.2.5",
         "eslint": "^7.32.0",

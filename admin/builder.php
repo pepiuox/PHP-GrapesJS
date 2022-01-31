@@ -61,7 +61,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
                 <!-- Font Awesome -->
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/font-awesome/css/fontawesome.min.css"  type="text/css"/>               
+                <!--
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/fontawesome-free/css/all.min.css">
+                -->
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/css/toastr.min.css">
                 <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/grapesjs/css/grapes.min.css">
                 <link href="<?php echo $base; ?>assets/css/editor.css" rel="stylesheet" type="text/css"/>
