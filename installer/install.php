@@ -201,7 +201,7 @@ if (!file_exists($file)) {
 // Sixth step
 // Create file for connection
     if (isset($_POST['createfile'])) {
-
+// Create file for server connection
         fopen($serverfile, 'w') or die('Cannot open file:  ' . $serverfile);
 
         $svcontent .= '';
