@@ -24,7 +24,7 @@ if (file_exists($connfile)) {
     $timestamp = $currentDate->format('Y-m-d H:i:s');
     $visitor = new GetVisitor($timestamp);
 
-    require 'start.php';
+    include 'start.php';
 } else {
     $_SESSION['PathInstall'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     header('Location: installer/install.php');

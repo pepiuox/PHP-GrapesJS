@@ -141,8 +141,12 @@
     <input type="file" class="form-control" id="imagen" name="image">
   </div>' . "\n";
                 echo '<div class="form-group">
-				<label for="type" class ="control-label col-sm-3">Type:</label> 
-                                <input type="text" class="form-control" id="type" name="type" value="">
+			<label for="type" class ="control-label col-sm-3">Type:</label> 
+                            <select class="form-select" id="type" name="type">
+                            <option value="Design">Design</option>
+                            <option value="File">File</option>
+                            <option value="Link">Link</option>
+                            </select>
 			</div>';
 
                 echo '<div class="form-group">
@@ -158,18 +162,18 @@
     </select>
 			</div>';
                 echo '<div class="form-group">
-    <label for="startpage">Is home page</label>
+    <label for="startpage" class ="control-label col-sm-3">Is home page</label>
     <select class="form-select" id="startpage" name="startpage">
     <option value="1">Yes</option>
     <option value="0">No</option>
 </select>
   </div>' . "\n";
                 echo '<div class="form-group">
-    <label for="parent">Parent</label>' . "\n";
+    <label for="parent" class ="control-label col-sm-3">Parent</label>' . "\n";
                 echo nparent();
                 echo '</div>' . "\n";
                 echo '<div class="form-group">
-    <label for="active">Active</label>
+    <label for="active" class ="control-label col-sm-3">Active</label>
     <select class="form-select" id="active" name="active">
     <option value="1">Active</option>
     <option value="0">Inactive</option>

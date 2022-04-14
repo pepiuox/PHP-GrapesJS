@@ -1,18 +1,11 @@
 <?php
 
 include 'error_report.php';
-define('DBHOST', 'localhost');
-define('DBUSER', 'root');
-define('DBPASS', 'truelove');
-define('DBNAME', 'newcms');
+include 'Database.php';
 
-$conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
+$link = new Database();
+$conn = $link-> MysqliConnection();
 
-/* If connection fails for some reason */
-if ($conn->connect_error) {
-    die('Error, Database connection failed: (' . $conn->connect_errno . ') ' . $conn->connect_error);
-}
-$conn->set_charset('utf8mb4');
 require 'function.php';
 require 'define.php';
 

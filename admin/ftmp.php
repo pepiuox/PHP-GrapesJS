@@ -1,46 +1,35 @@
 <?php
 if(isset($_POST['addrow'])){
-$DOMAIN_SITE = $_POST['DOMAIN_SITE'];
- $SITE_NAME = $_POST['SITE_NAME'];
- $SITE_BRAND_IMG = $_POST['SITE_BRAND_IMG'];
- $SITE_DESCRIPTION = $_POST['SITE_DESCRIPTION'];
- $SITE_KEYWORDS = $_POST['SITE_KEYWORDS'];
- $SITE_CLASSIFICATION = $_POST['SITE_CLASSIFICATION'];
- $SITE_EMAIL = $_POST['SITE_EMAIL'];
- $SITE_IMAGE = $_POST['SITE_IMAGE'];
- $SITE_ADMIN = $_POST['SITE_ADMIN'];
- $SITE_CONTROL = $_POST['SITE_CONTROL'];
- $SITE_CONFIG = $_POST['SITE_CONFIG'];
- $SITE_LANGUAGE_1 = $_POST['SITE_LANGUAGE_1'];
- $SITE_LANGUAGE_2 = $_POST['SITE_LANGUAGE_2'];
- $FOLDER_IMAGES = $_POST['FOLDER_IMAGES'];
- $SITE_CREATOR = $_POST['SITE_CREATOR'];
- $SITE_EDITOR = $_POST['SITE_EDITOR'];
- $SITE_BUILDER = $_POST['SITE_BUILDER'];
- $SITE_LIST = $_POST['SITE_LIST'];
- $NAME_CONTACT = $_POST['NAME_CONTACT'];
- $PHONE_CONTACT = $_POST['PHONE_CONTACT'];
- $EMAIL_CONTACT = $_POST['EMAIL_CONTACT'];
- $ADDRESS = $_POST['ADDRESS'];
- $TWITTER = $_POST['TWITTER'];
- $FACEBOOKID = $_POST['FACEBOOKID'];
- $SKYPE = $_POST['SKYPE'];
- $TELEGRAM = $_POST['TELEGRAM'];
- $WHATSAPP = $_POST['WHATSAPP'];
- $SUPERADMIN_NAME = $_POST['SUPERADMIN_NAME'];
- $SUPERADMIN_LEVEL = $_POST['SUPERADMIN_LEVEL'];
- $ADMIN_NAME = $_POST['ADMIN_NAME'];
- $ADMIN_LEVEL = $_POST['ADMIN_LEVEL'];
- $SECURE_HASH = $_POST['SECURE_HASH'];
- $SECURE_TOKEN = $_POST['SECURE_TOKEN'];
- $CREATE = $_POST['CREATE'];
- $UPDATED = $_POST['UPDATED'];
+$language = $_POST['language'];
+ $position = $_POST['position'];
+ $title = $_POST['title'];
+ $link = $_POST['link'];
+ $url = $_POST['url'];
+ $keyword = $_POST['keyword'];
+ $classification = $_POST['classification'];
+ $description = $_POST['description'];
+ $image = $_POST['image'];
+ $type = $_POST['type'];
+ $menu = $_POST['menu'];
+ $hidden_page = $_POST['hidden_page'];
+ $path_file = $_POST['path_file'];
+ $script_name = $_POST['script_name'];
+ $template = $_POST['template'];
+ $base_template = $_POST['base_template'];
+ $content = $_POST['content'];
+ $style = $_POST['style'];
+ $startpage = $_POST['startpage'];
+ $level = $_POST['level'];
+ $parent = $_POST['parent'];
+ $sort = $_POST['sort'];
+ $active = $_POST['active'];
+ $update = $_POST['update'];
 
-$sql = "INSERT INTO site_configuration (DOMAIN_SITE, SITE_NAME, SITE_BRAND_IMG, SITE_DESCRIPTION, SITE_KEYWORDS, SITE_CLASSIFICATION, SITE_EMAIL, SITE_IMAGE, SITE_ADMIN, SITE_CONTROL, SITE_CONFIG, SITE_LANGUAGE_1, SITE_LANGUAGE_2, FOLDER_IMAGES, SITE_CREATOR, SITE_EDITOR, SITE_BUILDER, SITE_LIST, NAME_CONTACT, PHONE_CONTACT, EMAIL_CONTACT, ADDRESS, TWITTER, FACEBOOKID, SKYPE, TELEGRAM, WHATSAPP, SUPERADMIN_NAME, SUPERADMIN_LEVEL, ADMIN_NAME, ADMIN_LEVEL, SECURE_HASH, SECURE_TOKEN, CREATE, UPDATED)
-VALUES ('$DOMAIN_SITE', '$SITE_NAME', '$SITE_BRAND_IMG', '$SITE_DESCRIPTION', '$SITE_KEYWORDS', '$SITE_CLASSIFICATION', '$SITE_EMAIL', '$SITE_IMAGE', '$SITE_ADMIN', '$SITE_CONTROL', '$SITE_CONFIG', '$SITE_LANGUAGE_1', '$SITE_LANGUAGE_2', '$FOLDER_IMAGES', '$SITE_CREATOR', '$SITE_EDITOR', '$SITE_BUILDER', '$SITE_LIST', '$NAME_CONTACT', '$PHONE_CONTACT', '$EMAIL_CONTACT', '$ADDRESS', '$TWITTER', '$FACEBOOKID', '$SKYPE', '$TELEGRAM', '$WHATSAPP', '$SUPERADMIN_NAME', '$SUPERADMIN_LEVEL', '$ADMIN_NAME', '$ADMIN_LEVEL', '$SECURE_HASH', '$SECURE_TOKEN', '$CREATE', '$UPDATED')";
+$sql = "INSERT INTO page (language, position, title, link, url, keyword, classification, description, image, type, menu, hidden_page, path_file, script_name, template, base_template, content, style, startpage, level, parent, sort, active, update)
+VALUES ('$language', '$position', '$title', '$link', '$url', '$keyword', '$classification', '$description', '$image', '$type', '$menu', '$hidden_page', '$path_file', '$script_name', '$template', '$base_template', '$content', '$style', '$startpage', '$level', '$parent', '$sort', '$active', '$update')";
 if ($this->connection->query($sql) === TRUE) {
     $_SESSION['success'] = 'The data was added correctly';
-header('Location: dashboard.php?cms=crud&w=list&tbl=site_configuration');
+header('Location: dashboard.php?cms=crud&w=list&tbl=page');
 } else {
     $_SESSION['error'] = 'Error: ' . $this->connection->error;
 }

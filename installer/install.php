@@ -12,7 +12,7 @@ $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
 $definefiles = '../config/define.php';
 $file = '../config/dbconnection.php';
-
+$serverfile = '../config/server.php';
 if (!file_exists($file)) {
 
     if (isset($_GET['step']) && !empty($_GET['step'])) {
@@ -183,7 +183,7 @@ if (!file_exists($file)) {
                 }
             }
         } else {
-            $_SESSION['ErrorMessage'] = 'Error Updating configutations. ';
+            $_SESSION['ErrorMessage'] = 'Error Updating configutations.';
         }
         $conn->close();
     }
@@ -202,23 +202,45 @@ if (!file_exists($file)) {
 // Create file for connection
     if (isset($_POST['createfile'])) {
 
+        fopen($serverfile, 'w') or die('Cannot open file:  ' . $serverfile);
+
+        $svcontent .= '';
+        $svcontent .= "<?php
+
+\$settings = array(
+    'default-connection' => 'cms',
+    'connections' => array(
+        'cms' => array(
+            'server' => '" . $_SESSION['DBHOST'] . "',
+            'database' => '" . $_SESSION['DBNAME'] . "',
+            'username' => '" . $_SESSION['DBUSER'] . "',
+            'password' => '" . $_SESSION['DBPASSWORD'] . "',
+            'charset' => 'utf8',
+            'port' => '3306',
+        ),// use different connection for another DB in this app, and change values.
+         'ecommerce' => array(
+            'server' => 'localhost',
+            'database' => 'ecommerce',
+            'username' => 'user',
+            'password' => 'password',
+            'charset' => 'utf8',
+            'port' => '3306',
+        ),
+        ),
+);
+        ?>";
+
+        file_put_contents($serverfile, $svcontent, FILE_APPEND | LOCK_EX);
+
         fopen($file, 'w') or die('Cannot open file:  ' . $file);
 
         $filecontent = '';
         $filecontent .= '<?php' . "\n\n";
         $filecontent .= "include 'error_report.php';" . "\n";
-        $filecontent .= "define('DBHOST', '" . $_SESSION['DBHOST'] . "');" . "\n";
-        $filecontent .= "define('DBUSER', '" . $_SESSION['DBUSER'] . "');" . "\n";
-        $filecontent .= "define('DBPASS', '" . $_SESSION['DBPASSWORD'] . "');" . "\n";
-        $filecontent .= "define('DBNAME', '" . $_SESSION['DBNAME'] . "');" . "\n\n";
-        $filecontent .= '$conn = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);' . "\n";
-        $filecontent .= "
-    /* If connection fails for some reason */
-    if (\$conn->connect_error) {
-        die('Error, Database connection failed: (' . \$conn->connect_errno . ') ' . \$conn->connect_error);
-    }" . "\n";
+        $filecontent .= "include 'Database.php';" . "\n";
+        $filecontent .= '$link = new Database();';
+        $filecontent .= '$conn = $link-> MysqliConnection();';
 
-        $filecontent .= "\$conn->set_charset('utf8mb4');" . "\n";
         $filecontent .= "require 'function.php';" . "\n";
         $filecontent .= "require 'define.php'";
 

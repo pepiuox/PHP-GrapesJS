@@ -598,7 +598,7 @@ class Session {
             /* Current Password error checking */
             $field = "curpass";  //Use field name for current password
             if (!$subcurpass) {
-                $form->setError($field, "* La contraseña actual no entrodujo");
+                $form->setError($field, "* La contraseña actual no introdujo");
             } else {
                 /* Check if password too short or is not alphanumeric */
                 $subcurpass = stripslashes($subcurpass);
