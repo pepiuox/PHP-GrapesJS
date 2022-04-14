@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.4.21-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
--- HeidiSQL Version:             11.3.0.6372
+-- Versión del servidor:         10.4.14-MariaDB - mariadb.org binary distribution
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             11.3.0.6375
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,34 +14,37 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table newcms.active_guests
+-- Volcando estructura para tabla newcms.active_guests
 DROP TABLE IF EXISTS `active_guests`;
 CREATE TABLE IF NOT EXISTS `active_guests` (
   `ip` varchar(15) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.active_guests: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.active_guests: ~0 rows (aproximadamente)
+DELETE FROM `active_guests`;
 
--- Dumping structure for table newcms.active_sessions
+-- Volcando estructura para tabla newcms.active_sessions
 DROP TABLE IF EXISTS `active_sessions`;
 CREATE TABLE IF NOT EXISTS `active_sessions` (
   `session` char(64) COLLATE utf8_bin DEFAULT NULL,
   `date_session` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newcms.active_sessions: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.active_sessions: ~0 rows (aproximadamente)
+DELETE FROM `active_sessions`;
 
--- Dumping structure for table newcms.active_users
+-- Volcando estructura para tabla newcms.active_users
 DROP TABLE IF EXISTS `active_users`;
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(30) NOT NULL,
   `timestamp` int(11) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.active_users: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.active_users: ~0 rows (aproximadamente)
+DELETE FROM `active_users`;
 
--- Dumping structure for table newcms.admins
+-- Volcando estructura para tabla newcms.admins
 DROP TABLE IF EXISTS `admins`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `adminid` char(23) NOT NULL DEFAULT 'uuid_short();',
@@ -50,9 +53,10 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `superadmin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.admins: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.admins: ~0 rows (aproximadamente)
+DELETE FROM `admins`;
 
--- Dumping structure for table newcms.announcement
+-- Volcando estructura para tabla newcms.announcement
 DROP TABLE IF EXISTS `announcement`;
 CREATE TABLE IF NOT EXISTS `announcement` (
   `Announcement_ID` int(11) unsigned NOT NULL,
@@ -69,9 +73,10 @@ CREATE TABLE IF NOT EXISTS `announcement` (
   `Translated_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.announcement: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.announcement: ~0 rows (aproximadamente)
+DELETE FROM `announcement`;
 
--- Dumping structure for table newcms.app_config
+-- Volcando estructura para tabla newcms.app_config
 DROP TABLE IF EXISTS `app_config`;
 CREATE TABLE IF NOT EXISTS `app_config` (
   `setting` char(26) NOT NULL,
@@ -83,9 +88,10 @@ CREATE TABLE IF NOT EXISTS `app_config` (
   `required` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.app_config: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.app_config: ~0 rows (aproximadamente)
+DELETE FROM `app_config`;
 
--- Dumping structure for table newcms.balance
+-- Volcando estructura para tabla newcms.balance
 DROP TABLE IF EXISTS `balance`;
 CREATE TABLE IF NOT EXISTS `balance` (
   `id` int(11) NOT NULL,
@@ -100,9 +106,10 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `history` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.balance: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.balance: ~0 rows (aproximadamente)
+DELETE FROM `balance`;
 
--- Dumping structure for table newcms.banned_users
+-- Volcando estructura para tabla newcms.banned_users
 DROP TABLE IF EXISTS `banned_users`;
 CREATE TABLE IF NOT EXISTS `banned_users` (
   `user_id` char(128) NOT NULL,
@@ -111,9 +118,10 @@ CREATE TABLE IF NOT EXISTS `banned_users` (
   `hours_remaining` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.banned_users: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.banned_users: ~0 rows (aproximadamente)
+DELETE FROM `banned_users`;
 
--- Dumping structure for table newcms.blocks
+-- Volcando estructura para tabla newcms.blocks
 DROP TABLE IF EXISTS `blocks`;
 CREATE TABLE IF NOT EXISTS `blocks` (
   `idB` int(11) NOT NULL AUTO_INCREMENT,
@@ -123,9 +131,10 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   PRIMARY KEY (`idB`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.blocks: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.blocks: ~0 rows (aproximadamente)
+DELETE FROM `blocks`;
 
--- Dumping structure for table newcms.blocks_content
+-- Volcando estructura para tabla newcms.blocks_content
 DROP TABLE IF EXISTS `blocks_content`;
 CREATE TABLE IF NOT EXISTS `blocks_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -134,9 +143,10 @@ CREATE TABLE IF NOT EXISTS `blocks_content` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.blocks_content: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.blocks_content: ~0 rows (aproximadamente)
+DELETE FROM `blocks_content`;
 
--- Dumping structure for table newcms.breadcrumblinks
+-- Volcando estructura para tabla newcms.breadcrumblinks
 DROP TABLE IF EXISTS `breadcrumblinks`;
 CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `page_title` varchar(100) NOT NULL,
@@ -145,18 +155,20 @@ CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `rgt` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.breadcrumblinks: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.breadcrumblinks: ~0 rows (aproximadamente)
+DELETE FROM `breadcrumblinks`;
 
--- Dumping structure for table newcms.category
+-- Volcando estructura para tabla newcms.category
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.category: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.category: ~0 rows (aproximadamente)
+DELETE FROM `category`;
 
--- Dumping structure for table newcms.cols_set
+-- Volcando estructura para tabla newcms.cols_set
 DROP TABLE IF EXISTS `cols_set`;
 CREATE TABLE IF NOT EXISTS `cols_set` (
   `id` int(11) NOT NULL,
@@ -172,18 +184,20 @@ CREATE TABLE IF NOT EXISTS `cols_set` (
   `col_set` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.cols_set: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.cols_set: ~0 rows (aproximadamente)
+DELETE FROM `cols_set`;
 
--- Dumping structure for table newcms.comment
+-- Volcando estructura para tabla newcms.comment
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL,
   `message` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.comment: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.comment: ~0 rows (aproximadamente)
+DELETE FROM `comment`;
 
--- Dumping structure for table newcms.configuration
+-- Volcando estructura para tabla newcms.configuration
 DROP TABLE IF EXISTS `configuration`;
 CREATE TABLE IF NOT EXISTS `configuration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -193,7 +207,8 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   UNIQUE KEY `config_name` (`config_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.configuration: ~30 rows (approximately)
+-- Volcando datos para la tabla newcms.configuration: ~31 rows (aproximadamente)
+DELETE FROM `configuration`;
 INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
 	(1, 'DOMAIN_SITE', 'http://www.yourdomain.com'),
 	(2, 'SITE_NAME', 'PHP GrapesJS'),
@@ -227,7 +242,7 @@ INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
 	(30, 'ADMIN_LEVEL', '5'),
 	(31, 'SITE_BRAND_IMG', 'http://yourdomain.com/images/logo.jpg');
 
--- Dumping structure for table newcms.cookies
+-- Volcando estructura para tabla newcms.cookies
 DROP TABLE IF EXISTS `cookies`;
 CREATE TABLE IF NOT EXISTS `cookies` (
   `cookieid` char(23) NOT NULL,
@@ -237,9 +252,10 @@ CREATE TABLE IF NOT EXISTS `cookies` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.cookies: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.cookies: ~0 rows (aproximadamente)
+DELETE FROM `cookies`;
 
--- Dumping structure for table newcms.countries
+-- Volcando estructura para tabla newcms.countries
 DROP TABLE IF EXISTS `countries`;
 CREATE TABLE IF NOT EXISTS `countries` (
   `id` smallint(5) unsigned NOT NULL,
@@ -247,9 +263,10 @@ CREATE TABLE IF NOT EXISTS `countries` (
   `code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.countries: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.countries: ~0 rows (aproximadamente)
+DELETE FROM `countries`;
 
--- Dumping structure for table newcms.currency
+-- Volcando estructura para tabla newcms.currency
 DROP TABLE IF EXISTS `currency`;
 CREATE TABLE IF NOT EXISTS `currency` (
   `id` int(11) NOT NULL,
@@ -261,9 +278,10 @@ CREATE TABLE IF NOT EXISTS `currency` (
   `max_supply` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.currency: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.currency: ~0 rows (aproximadamente)
+DELETE FROM `currency`;
 
--- Dumping structure for table newcms.customers
+-- Volcando estructura para tabla newcms.customers
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
   `Customer_ID` int(11) NOT NULL,
@@ -284,9 +302,10 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `Updated_By` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.customers: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.customers: ~0 rows (aproximadamente)
+DELETE FROM `customers`;
 
--- Dumping structure for table newcms.deleted_users
+-- Volcando estructura para tabla newcms.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
 CREATE TABLE IF NOT EXISTS `deleted_users` (
   `user_id` char(128) NOT NULL,
@@ -298,9 +317,10 @@ CREATE TABLE IF NOT EXISTS `deleted_users` (
   `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.deleted_users: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.deleted_users: ~0 rows (aproximadamente)
+DELETE FROM `deleted_users`;
 
--- Dumping structure for table newcms.deposit
+-- Volcando estructura para tabla newcms.deposit
 DROP TABLE IF EXISTS `deposit`;
 CREATE TABLE IF NOT EXISTS `deposit` (
   `id` int(11) NOT NULL,
@@ -308,9 +328,10 @@ CREATE TABLE IF NOT EXISTS `deposit` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.deposit: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.deposit: ~0 rows (aproximadamente)
+DELETE FROM `deposit`;
 
--- Dumping structure for table newcms.employee
+-- Volcando estructura para tabla newcms.employee
 DROP TABLE IF EXISTS `employee`;
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) NOT NULL COMMENT 'primary key',
@@ -322,9 +343,10 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `employee_comments` varchar(255) NOT NULL COMMENT 'employee comments'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.employee: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.employee: ~0 rows (aproximadamente)
+DELETE FROM `employee`;
 
--- Dumping structure for table newcms.eventlog
+-- Volcando estructura para tabla newcms.eventlog
 DROP TABLE IF EXISTS `eventlog`;
 CREATE TABLE IF NOT EXISTS `eventlog` (
   `id` bigint(20) unsigned NOT NULL,
@@ -336,9 +358,10 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.eventlog: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.eventlog: ~0 rows (aproximadamente)
+DELETE FROM `eventlog`;
 
--- Dumping structure for table newcms.exchange
+-- Volcando estructura para tabla newcms.exchange
 DROP TABLE IF EXISTS `exchange`;
 CREATE TABLE IF NOT EXISTS `exchange` (
   `id` int(11) NOT NULL,
@@ -346,9 +369,10 @@ CREATE TABLE IF NOT EXISTS `exchange` (
   `trading_pairs` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.exchange: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.exchange: ~0 rows (aproximadamente)
+DELETE FROM `exchange`;
 
--- Dumping structure for table newcms.exchanges
+-- Volcando estructura para tabla newcms.exchanges
 DROP TABLE IF EXISTS `exchanges`;
 CREATE TABLE IF NOT EXISTS `exchanges` (
   `id` int(11) NOT NULL,
@@ -383,9 +407,10 @@ CREATE TABLE IF NOT EXISTS `exchanges` (
   `referral_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.exchanges: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.exchanges: ~0 rows (aproximadamente)
+DELETE FROM `exchanges`;
 
--- Dumping structure for table newcms.faq
+-- Volcando estructura para tabla newcms.faq
 DROP TABLE IF EXISTS `faq`;
 CREATE TABLE IF NOT EXISTS `faq` (
   `id` int(11) NOT NULL,
@@ -395,9 +420,10 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.faq: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.faq: ~0 rows (aproximadamente)
+DELETE FROM `faq`;
 
--- Dumping structure for table newcms.finance
+-- Volcando estructura para tabla newcms.finance
 DROP TABLE IF EXISTS `finance`;
 CREATE TABLE IF NOT EXISTS `finance` (
   `id` int(11) NOT NULL,
@@ -405,9 +431,10 @@ CREATE TABLE IF NOT EXISTS `finance` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.finance: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.finance: ~0 rows (aproximadamente)
+DELETE FROM `finance`;
 
--- Dumping structure for table newcms.financial_institution
+-- Volcando estructura para tabla newcms.financial_institution
 DROP TABLE IF EXISTS `financial_institution`;
 CREATE TABLE IF NOT EXISTS `financial_institution` (
   `id` int(11) NOT NULL,
@@ -415,9 +442,10 @@ CREATE TABLE IF NOT EXISTS `financial_institution` (
   `link` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.financial_institution: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.financial_institution: ~0 rows (aproximadamente)
+DELETE FROM `financial_institution`;
 
--- Dumping structure for table newcms.follow
+-- Volcando estructura para tabla newcms.follow
 DROP TABLE IF EXISTS `follow`;
 CREATE TABLE IF NOT EXISTS `follow` (
   `follow_id` int(11) NOT NULL,
@@ -426,9 +454,10 @@ CREATE TABLE IF NOT EXISTS `follow` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.follow: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.follow: ~0 rows (aproximadamente)
+DELETE FROM `follow`;
 
--- Dumping structure for table newcms.forgot_pass
+-- Volcando estructura para tabla newcms.forgot_pass
 DROP TABLE IF EXISTS `forgot_pass`;
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `idFgp` int(11) NOT NULL,
@@ -439,9 +468,10 @@ CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.forgot_pass: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.forgot_pass: ~0 rows (aproximadamente)
+DELETE FROM `forgot_pass`;
 
--- Dumping structure for table newcms.forgot_pin
+-- Volcando estructura para tabla newcms.forgot_pin
 DROP TABLE IF EXISTS `forgot_pin`;
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `idFgp` int(11) NOT NULL,
@@ -452,9 +482,10 @@ CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.forgot_pin: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.forgot_pin: ~0 rows (aproximadamente)
+DELETE FROM `forgot_pin`;
 
--- Dumping structure for table newcms.galleries
+-- Volcando estructura para tabla newcms.galleries
 DROP TABLE IF EXISTS `galleries`;
 CREATE TABLE IF NOT EXISTS `galleries` (
   `idGal` int(11) NOT NULL AUTO_INCREMENT,
@@ -467,9 +498,10 @@ CREATE TABLE IF NOT EXISTS `galleries` (
   PRIMARY KEY (`idGal`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.galleries: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.galleries: ~0 rows (aproximadamente)
+DELETE FROM `galleries`;
 
--- Dumping structure for table newcms.gallery
+-- Volcando estructura para tabla newcms.gallery
 DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE IF NOT EXISTS `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -478,9 +510,10 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.gallery: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.gallery: ~0 rows (aproximadamente)
+DELETE FROM `gallery`;
 
--- Dumping structure for table newcms.gateways
+-- Volcando estructura para tabla newcms.gateways
 DROP TABLE IF EXISTS `gateways`;
 CREATE TABLE IF NOT EXISTS `gateways` (
   `id` int(11) NOT NULL,
@@ -513,9 +546,10 @@ CREATE TABLE IF NOT EXISTS `gateways` (
   `external_icon` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.gateways: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.gateways: ~0 rows (aproximadamente)
+DELETE FROM `gateways`;
 
--- Dumping structure for table newcms.gateways_fields
+-- Volcando estructura para tabla newcms.gateways_fields
 DROP TABLE IF EXISTS `gateways_fields`;
 CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `id` int(11) NOT NULL,
@@ -524,9 +558,10 @@ CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `field_number` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.gateways_fields: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.gateways_fields: ~0 rows (aproximadamente)
+DELETE FROM `gateways_fields`;
 
--- Dumping structure for table newcms.help
+-- Volcando estructura para tabla newcms.help
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE IF NOT EXISTS `help` (
   `Help_ID` int(11) NOT NULL,
@@ -540,9 +575,10 @@ CREATE TABLE IF NOT EXISTS `help` (
   `Last_Updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.help: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.help: ~0 rows (aproximadamente)
+DELETE FROM `help`;
 
--- Dumping structure for table newcms.help_categories
+-- Volcando estructura para tabla newcms.help_categories
 DROP TABLE IF EXISTS `help_categories`;
 CREATE TABLE IF NOT EXISTS `help_categories` (
   `category_id` int(11) NOT NULL,
@@ -550,9 +586,10 @@ CREATE TABLE IF NOT EXISTS `help_categories` (
   `category_description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.help_categories: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.help_categories: ~0 rows (aproximadamente)
+DELETE FROM `help_categories`;
 
--- Dumping structure for table newcms.history
+-- Volcando estructura para tabla newcms.history
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL,
@@ -560,9 +597,10 @@ CREATE TABLE IF NOT EXISTS `history` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.history: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.history: ~0 rows (aproximadamente)
+DELETE FROM `history`;
 
--- Dumping structure for table newcms.image_gal
+-- Volcando estructura para tabla newcms.image_gal
 DROP TABLE IF EXISTS `image_gal`;
 CREATE TABLE IF NOT EXISTS `image_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -576,9 +614,10 @@ CREATE TABLE IF NOT EXISTS `image_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.image_gal: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.image_gal: ~0 rows (aproximadamente)
+DELETE FROM `image_gal`;
 
--- Dumping structure for table newcms.ip
+-- Volcando estructura para tabla newcms.ip
 DROP TABLE IF EXISTS `ip`;
 CREATE TABLE IF NOT EXISTS `ip` (
   `id_session` char(128) DEFAULT NULL,
@@ -587,14 +626,15 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.ip: ~4 rows (approximately)
+-- Volcando datos para la tabla newcms.ip: ~4 rows (aproximadamente)
+DELETE FROM `ip`;
 INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
 	('0592ad6e0a352cd36b91970f6a7a9dc98d45485d', 'pepiuox@contact.net', '127.0.0.1', '2021-09-14 05:29:43'),
 	('22a0fbc2d9a8667bea2a38d69a6e0f41cff9a798', 'contatct@pepiuox.net', '127.0.0.1', '2021-09-16 04:21:49'),
 	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'contact@ppiuox.net', '127.0.0.1', '2021-10-22 05:10:53'),
 	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'pepiuox@pepiuox.net', '127.0.0.1', '2021-10-22 05:11:27');
 
--- Dumping structure for table newcms.items
+-- Volcando estructura para tabla newcms.items
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(11) unsigned NOT NULL,
@@ -604,9 +644,10 @@ CREATE TABLE IF NOT EXISTS `items` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.items: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.items: ~0 rows (aproximadamente)
+DELETE FROM `items`;
 
--- Dumping structure for table newcms.languages
+-- Volcando estructura para tabla newcms.languages
 DROP TABLE IF EXISTS `languages`;
 CREATE TABLE IF NOT EXISTS `languages` (
   `Language_Code` char(2) NOT NULL,
@@ -624,9 +665,10 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `About_Text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.languages: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.languages: ~0 rows (aproximadamente)
+DELETE FROM `languages`;
 
--- Dumping structure for table newcms.last_transaction
+-- Volcando estructura para tabla newcms.last_transaction
 DROP TABLE IF EXISTS `last_transaction`;
 CREATE TABLE IF NOT EXISTS `last_transaction` (
   `id` int(11) NOT NULL,
@@ -642,9 +684,10 @@ CREATE TABLE IF NOT EXISTS `last_transaction` (
   `acctions` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.last_transaction: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.last_transaction: ~0 rows (aproximadamente)
+DELETE FROM `last_transaction`;
 
--- Dumping structure for table newcms.lk_sess
+-- Volcando estructura para tabla newcms.lk_sess
 DROP TABLE IF EXISTS `lk_sess`;
 CREATE TABLE IF NOT EXISTS `lk_sess` (
   `id` varchar(40) NOT NULL,
@@ -653,9 +696,10 @@ CREATE TABLE IF NOT EXISTS `lk_sess` (
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.lk_sess: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.lk_sess: ~0 rows (aproximadamente)
+DELETE FROM `lk_sess`;
 
--- Dumping structure for table newcms.login_attempts
+-- Volcando estructura para tabla newcms.login_attempts
 DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id_session` varchar(128) DEFAULT NULL,
@@ -665,9 +709,10 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.login_attempts: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.login_attempts: ~0 rows (aproximadamente)
+DELETE FROM `login_attempts`;
 
--- Dumping structure for table newcms.mail
+-- Volcando estructura para tabla newcms.mail
 DROP TABLE IF EXISTS `mail`;
 CREATE TABLE IF NOT EXISTS `mail` (
   `mail_id` int(80) NOT NULL,
@@ -680,9 +725,10 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `SentDate` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.mail: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.mail: ~0 rows (aproximadamente)
+DELETE FROM `mail`;
 
--- Dumping structure for table newcms.mail_log
+-- Volcando estructura para tabla newcms.mail_log
 DROP TABLE IF EXISTS `mail_log`;
 CREATE TABLE IF NOT EXISTS `mail_log` (
   `id` int(11) NOT NULL,
@@ -694,9 +740,10 @@ CREATE TABLE IF NOT EXISTS `mail_log` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.mail_log: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.mail_log: ~0 rows (aproximadamente)
+DELETE FROM `mail_log`;
 
--- Dumping structure for table newcms.members
+-- Volcando estructura para tabla newcms.members
 DROP TABLE IF EXISTS `members`;
 CREATE TABLE IF NOT EXISTS `members` (
   `id` char(128) NOT NULL,
@@ -719,9 +766,10 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.members: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.members: ~0 rows (aproximadamente)
+DELETE FROM `members`;
 
--- Dumping structure for table newcms.member_info
+-- Volcando estructura para tabla newcms.member_info
 DROP TABLE IF EXISTS `member_info`;
 CREATE TABLE IF NOT EXISTS `member_info` (
   `userid` char(128) NOT NULL,
@@ -740,9 +788,10 @@ CREATE TABLE IF NOT EXISTS `member_info` (
   CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.member_info: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.member_info: ~0 rows (aproximadamente)
+DELETE FROM `member_info`;
 
--- Dumping structure for table newcms.member_roles
+-- Volcando estructura para tabla newcms.member_roles
 DROP TABLE IF EXISTS `member_roles`;
 CREATE TABLE IF NOT EXISTS `member_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -756,9 +805,10 @@ CREATE TABLE IF NOT EXISTS `member_roles` (
   CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.member_roles: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.member_roles: ~0 rows (aproximadamente)
+DELETE FROM `member_roles`;
 
--- Dumping structure for table newcms.menu
+-- Volcando estructura para tabla newcms.menu
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
@@ -770,12 +820,13 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.menu: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.menu: ~2 rows (aproximadamente)
+DELETE FROM `menu`;
 INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
 	(1, NULL, 1, 'Home', 'home', 0),
 	(2, NULL, 2, 'Test', 'test', 0);
 
--- Dumping structure for table newcms.menu_options
+-- Volcando estructura para tabla newcms.menu_options
 DROP TABLE IF EXISTS `menu_options`;
 CREATE TABLE IF NOT EXISTS `menu_options` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -789,12 +840,13 @@ CREATE TABLE IF NOT EXISTS `menu_options` (
   UNIQUE KEY `id_menu` (`id_menu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table newcms.menu_options: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.menu_options: ~2 rows (aproximadamente)
+DELETE FROM `menu_options`;
 INSERT INTO `menu_options` (`id`, `id_menu`, `fluid`, `placement`, `aligment`, `background`, `color`) VALUES
 	(1, 'main_navbar', 'Yes', 'top', 'start', 'secondary', 'dark'),
 	(2, 'main_menu', 'Yes', 'top', 'end', 'dark', 'dark');
 
--- Dumping structure for table newcms.multimedia_gal
+-- Volcando estructura para tabla newcms.multimedia_gal
 DROP TABLE IF EXISTS `multimedia_gal`;
 CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -809,9 +861,10 @@ CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.multimedia_gal: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.multimedia_gal: ~0 rows (aproximadamente)
+DELETE FROM `multimedia_gal`;
 
--- Dumping structure for table newcms.orders
+-- Volcando estructura para tabla newcms.orders
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -824,9 +877,10 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `order_date` (`order_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.orders: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.orders: ~0 rows (aproximadamente)
+DELETE FROM `orders`;
 
--- Dumping structure for table newcms.orders_items
+-- Volcando estructura para tabla newcms.orders_items
 DROP TABLE IF EXISTS `orders_items`;
 CREATE TABLE IF NOT EXISTS `orders_items` (
   `order_id` int(11) NOT NULL,
@@ -835,9 +889,10 @@ CREATE TABLE IF NOT EXISTS `orders_items` (
   PRIMARY KEY (`order_id`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.orders_items: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.orders_items: ~0 rows (aproximadamente)
+DELETE FROM `orders_items`;
 
--- Dumping structure for table newcms.page
+-- Volcando estructura para tabla newcms.page
 DROP TABLE IF EXISTS `page`;
 CREATE TABLE IF NOT EXISTS `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -868,12 +923,13 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.page: ~2 rows (approximately)
+-- Volcando datos para la tabla newcms.page: ~2 rows (aproximadamente)
+DELETE FROM `page`;
 INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
 	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', NULL, 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;div id=&amp;quot;iofz&amp;quot; class=&amp;quot;py-5 text-center text-white h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-3 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;A thousand unknown plants&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;One&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle-o fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Two&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Three&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle-o fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Four&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;Oh, would I could describe these conceptions, could impress upon paper all that is living so full.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}@media (max-width: [object Object]){#iofz{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}.py-5.text-center.text-white.h-100.align-items-center.d-flex{background-repeat:no-repeat;background-position:left top;background-attachment:fixed;background-size:cover;background-image:url(&amp;#039;../uploads/29853.jpg&amp;#039;);}}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-12-05 01:44:26'),
 	(2, 1, 0, 'Test', 'test', NULL, 'test', 'test', 'test', 'logopao2.jpg', NULL, 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;table class=&amp;quot;table text-center&amp;quot;&amp;gt;&amp;lt;thead&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;&amp;nbsp;&amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Standard &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;15$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Pro &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;49$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Ultimate &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;99$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Contact us&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;nbsp;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Small business and startups&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Growing activities&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Big firms and companies&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/thead&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;One&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Two&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Three&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Four&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Five&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Six&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 0, 1, 0, 0, 1, '2021-10-24 02:57:17');
 
--- Dumping structure for table newcms.payment_transactions
+-- Volcando estructura para tabla newcms.payment_transactions
 DROP TABLE IF EXISTS `payment_transactions`;
 CREATE TABLE IF NOT EXISTS `payment_transactions` (
   `Payment_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -893,9 +949,10 @@ CREATE TABLE IF NOT EXISTS `payment_transactions` (
   PRIMARY KEY (`Payment_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.payment_transactions: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.payment_transactions: ~0 rows (aproximadamente)
+DELETE FROM `payment_transactions`;
 
--- Dumping structure for table newcms.personal_config
+-- Volcando estructura para tabla newcms.personal_config
 DROP TABLE IF EXISTS `personal_config`;
 CREATE TABLE IF NOT EXISTS `personal_config` (
   `idPconf` int(11) DEFAULT NULL,
@@ -915,9 +972,10 @@ CREATE TABLE IF NOT EXISTS `personal_config` (
   `skills` varchar(50) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newcms.personal_config: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.personal_config: ~0 rows (aproximadamente)
+DELETE FROM `personal_config`;
 
--- Dumping structure for table newcms.plugins_app
+-- Volcando estructura para tabla newcms.plugins_app
 DROP TABLE IF EXISTS `plugins_app`;
 CREATE TABLE IF NOT EXISTS `plugins_app` (
   `id` int(11) NOT NULL,
@@ -932,7 +990,8 @@ CREATE TABLE IF NOT EXISTS `plugins_app` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newcms.plugins_app: ~35 rows (approximately)
+-- Volcando datos para la tabla newcms.plugins_app: ~34 rows (aproximadamente)
+DELETE FROM `plugins_app`;
 INSERT INTO `plugins_app` (`id`, `plugins`, `plugins_opts`, `script`, `css`, `buttons`, `plugins_script`, `plugins_css`, `active`) VALUES
 	(1, 'gjs-component-countdown', '', '', '', '', 'gjs-component-countdown.js', '', 'Yes'),
 	(2, 'gjs-navbar', '', '', '', '', 'gjs-navbar.js', '', 'Yes'),
@@ -969,7 +1028,7 @@ INSERT INTO `plugins_app` (`id`, `plugins`, `plugins_opts`, `script`, `css`, `bu
 	(33, 'grapesjs-typed', '', '', '', '', '', '', NULL),
 	(34, 'grapesjs-uikit', '', '', '', '', '', '', NULL);
 
--- Dumping structure for table newcms.preset
+-- Volcando estructura para tabla newcms.preset
 DROP TABLE IF EXISTS `preset`;
 CREATE TABLE IF NOT EXISTS `preset` (
   `id` int(11) NOT NULL,
@@ -979,9 +1038,10 @@ CREATE TABLE IF NOT EXISTS `preset` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.preset: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.preset: ~0 rows (aproximadamente)
+DELETE FROM `preset`;
 
--- Dumping structure for table newcms.press_gal
+-- Volcando estructura para tabla newcms.press_gal
 DROP TABLE IF EXISTS `press_gal`;
 CREATE TABLE IF NOT EXISTS `press_gal` (
   `idPr` int(11) NOT NULL AUTO_INCREMENT,
@@ -996,9 +1056,10 @@ CREATE TABLE IF NOT EXISTS `press_gal` (
   PRIMARY KEY (`idPr`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.press_gal: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.press_gal: ~0 rows (aproximadamente)
+DELETE FROM `press_gal`;
 
--- Dumping structure for table newcms.profiles
+-- Volcando estructura para tabla newcms.profiles
 DROP TABLE IF EXISTS `profiles`;
 CREATE TABLE IF NOT EXISTS `profiles` (
   `idp` char(128) NOT NULL,
@@ -1031,11 +1092,10 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.profiles: ~1 rows (approximately)
-INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('1095616718612d749c68bc3', 'f34e34985564b1c01d919cc5fc2f085e01db956b', 'Jose', 'Mantilla', 'Male', 46, '', '0000-00-00', '', '', '', '', '', '', '', 0, '', '', '', '', 0, 0, '2021-08-31 00:15:24', '2022-01-09 06:01:45');
+-- Volcando datos para la tabla newcms.profiles: ~2 rows (aproximadamente)
+DELETE FROM `profiles`;
 
--- Dumping structure for table newcms.purchases
+-- Volcando estructura para tabla newcms.purchases
 DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE IF NOT EXISTS `purchases` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1054,9 +1114,10 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   KEY `TSupplierTBeli` (`Supplier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.purchases: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.purchases: ~0 rows (aproximadamente)
+DELETE FROM `purchases`;
 
--- Dumping structure for table newcms.purchases_detail
+-- Volcando estructura para tabla newcms.purchases_detail
 DROP TABLE IF EXISTS `purchases_detail`;
 CREATE TABLE IF NOT EXISTS `purchases_detail` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1072,9 +1133,10 @@ CREATE TABLE IF NOT EXISTS `purchases_detail` (
   KEY `TBeliTDBeli` (`Purchase_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.purchases_detail: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.purchases_detail: ~0 rows (aproximadamente)
+DELETE FROM `purchases_detail`;
 
--- Dumping structure for table newcms.role_permissions
+-- Volcando estructura para tabla newcms.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE IF NOT EXISTS `role_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1087,7 +1149,8 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.role_permissions: ~24 rows (approximately)
+-- Volcando datos para la tabla newcms.role_permissions: ~24 rows (aproximadamente)
+DELETE FROM `role_permissions`;
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -1114,7 +1177,7 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(23, 2, 14),
 	(24, 2, 15);
 
--- Dumping structure for table newcms.sales
+-- Volcando estructura para tabla newcms.sales
 DROP TABLE IF EXISTS `sales`;
 CREATE TABLE IF NOT EXISTS `sales` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1141,9 +1204,10 @@ CREATE TABLE IF NOT EXISTS `sales` (
   KEY `TCustomerTJual` (`Customer_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.sales: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.sales: ~0 rows (aproximadamente)
+DELETE FROM `sales`;
 
--- Dumping structure for table newcms.sales_detail
+-- Volcando estructura para tabla newcms.sales_detail
 DROP TABLE IF EXISTS `sales_detail`;
 CREATE TABLE IF NOT EXISTS `sales_detail` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1159,9 +1223,10 @@ CREATE TABLE IF NOT EXISTS `sales_detail` (
   KEY `TJualTDJual` (`Sales_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.sales_detail: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.sales_detail: ~0 rows (aproximadamente)
+DELETE FROM `sales_detail`;
 
--- Dumping structure for table newcms.secrets
+-- Volcando estructura para tabla newcms.secrets
 DROP TABLE IF EXISTS `secrets`;
 CREATE TABLE IF NOT EXISTS `secrets` (
   `secretid` char(128) NOT NULL DEFAULT '',
@@ -1176,9 +1241,10 @@ CREATE TABLE IF NOT EXISTS `secrets` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.secrets: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.secrets: ~0 rows (aproximadamente)
+DELETE FROM `secrets`;
 
--- Dumping structure for table newcms.sessions
+-- Volcando estructura para tabla newcms.sessions
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -1188,9 +1254,10 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.sessions: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.sessions: ~0 rows (aproximadamente)
+DELETE FROM `sessions`;
 
--- Dumping structure for table newcms.settings
+-- Volcando estructura para tabla newcms.settings
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `Option_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -1297,9 +1364,10 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`Option_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.settings: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.settings: ~0 rows (aproximadamente)
+DELETE FROM `settings`;
 
--- Dumping structure for table newcms.site_configuration
+-- Volcando estructura para tabla newcms.site_configuration
 DROP TABLE IF EXISTS `site_configuration`;
 CREATE TABLE IF NOT EXISTS `site_configuration` (
   `ID_Site` int(11) NOT NULL,
@@ -1342,11 +1410,12 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.site_configuration: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.site_configuration: ~1 rows (aproximadamente)
+DELETE FROM `site_configuration`;
 INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
-	(1, 'http://www.phpgrapesjs.com', 'PHP GrapesJS', NULL, 'http://localhost:130/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox', 'pepiuox', 'pepiuox', '+51 999063645', 'Super Admin', 9, 'Admin', 5, '25cce270791d66425793131d4a7f8199c53ef5c80f3377bf424ee92794e2b0c9eda604eafd869312', '4d52e51f527b46645dfab9eda604eafd869312131d4a7f8199c53ef5c80f3baf3bda2c3616024f1f', '2022-01-08 13:42:41', '2022-01-09 05:55:50');
+	(1, 'http://www.ecotruly.org', 'Eco Truly', NULL, 'http://localhost:200/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox', 'pepiuox', 'pepiuox', '+51 999063645', 'Super Admin', 9, 'Admin', 5, '4f266ed6f649dbe3bc76999566dc084782a797005821ec871660b7cf9a5edd49', 'Tg9[rzF@VLwR8Px)TyhRN7jksf0xkps)ERoUSbAxDx}az7u(H7Bav}nFC@OHNHJSrhydtn#7xpa7b1@JF(Xo8#lI7iZViaLNa@EG8G%R8(07J#Owvg{[riZ7qjqe71vs', '2022-01-08 13:42:41', '2022-01-30 18:37:24');
 
--- Dumping structure for table newcms.slideshow
+-- Volcando estructura para tabla newcms.slideshow
 DROP TABLE IF EXISTS `slideshow`;
 CREATE TABLE IF NOT EXISTS `slideshow` (
   `idSld` int(11) NOT NULL AUTO_INCREMENT,
@@ -1359,9 +1428,10 @@ CREATE TABLE IF NOT EXISTS `slideshow` (
   PRIMARY KEY (`idSld`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newcms.slideshow: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.slideshow: ~0 rows (aproximadamente)
+DELETE FROM `slideshow`;
 
--- Dumping structure for table newcms.slideshow_image
+-- Volcando estructura para tabla newcms.slideshow_image
 DROP TABLE IF EXISTS `slideshow_image`;
 CREATE TABLE IF NOT EXISTS `slideshow_image` (
   `idImg` int(11) NOT NULL AUTO_INCREMENT,
@@ -1377,9 +1447,10 @@ CREATE TABLE IF NOT EXISTS `slideshow_image` (
   CONSTRAINT `SLD1` FOREIGN KEY (`slideshow_id`) REFERENCES `slideshow` (`idSld`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table newcms.slideshow_image: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.slideshow_image: ~0 rows (aproximadamente)
+DELETE FROM `slideshow_image`;
 
--- Dumping structure for table newcms.social_link
+-- Volcando estructura para tabla newcms.social_link
 DROP TABLE IF EXISTS `social_link`;
 CREATE TABLE IF NOT EXISTS `social_link` (
   `social_name` varchar(20) DEFAULT NULL,
@@ -1387,9 +1458,10 @@ CREATE TABLE IF NOT EXISTS `social_link` (
   KEY `social_name` (`social_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.social_link: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.social_link: ~0 rows (aproximadamente)
+DELETE FROM `social_link`;
 
--- Dumping structure for table newcms.stats_counter
+-- Volcando estructura para tabla newcms.stats_counter
 DROP TABLE IF EXISTS `stats_counter`;
 CREATE TABLE IF NOT EXISTS `stats_counter` (
   `Type` varchar(50) NOT NULL DEFAULT '',
@@ -1398,9 +1470,10 @@ CREATE TABLE IF NOT EXISTS `stats_counter` (
   PRIMARY KEY (`Type`,`Variable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stats_counter: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stats_counter: ~0 rows (aproximadamente)
+DELETE FROM `stats_counter`;
 
--- Dumping structure for table newcms.stats_counterlog
+-- Volcando estructura para tabla newcms.stats_counterlog
 DROP TABLE IF EXISTS `stats_counterlog`;
 CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   `IP_Address` varchar(50) NOT NULL DEFAULT '',
@@ -1411,9 +1484,10 @@ CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   PRIMARY KEY (`IP_Address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stats_counterlog: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stats_counterlog: ~0 rows (aproximadamente)
+DELETE FROM `stats_counterlog`;
 
--- Dumping structure for table newcms.stats_date
+-- Volcando estructura para tabla newcms.stats_date
 DROP TABLE IF EXISTS `stats_date`;
 CREATE TABLE IF NOT EXISTS `stats_date` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1423,9 +1497,10 @@ CREATE TABLE IF NOT EXISTS `stats_date` (
   PRIMARY KEY (`Date`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stats_date: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stats_date: ~0 rows (aproximadamente)
+DELETE FROM `stats_date`;
 
--- Dumping structure for table newcms.stats_hour
+-- Volcando estructura para tabla newcms.stats_hour
 DROP TABLE IF EXISTS `stats_hour`;
 CREATE TABLE IF NOT EXISTS `stats_hour` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1436,9 +1511,10 @@ CREATE TABLE IF NOT EXISTS `stats_hour` (
   PRIMARY KEY (`Date`,`Hour`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stats_hour: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stats_hour: ~0 rows (aproximadamente)
+DELETE FROM `stats_hour`;
 
--- Dumping structure for table newcms.stats_month
+-- Volcando estructura para tabla newcms.stats_month
 DROP TABLE IF EXISTS `stats_month`;
 CREATE TABLE IF NOT EXISTS `stats_month` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1447,9 +1523,10 @@ CREATE TABLE IF NOT EXISTS `stats_month` (
   PRIMARY KEY (`Year`,`Month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stats_month: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stats_month: ~0 rows (aproximadamente)
+DELETE FROM `stats_month`;
 
--- Dumping structure for table newcms.stats_year
+-- Volcando estructura para tabla newcms.stats_year
 DROP TABLE IF EXISTS `stats_year`;
 CREATE TABLE IF NOT EXISTS `stats_year` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
@@ -1457,9 +1534,10 @@ CREATE TABLE IF NOT EXISTS `stats_year` (
   PRIMARY KEY (`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stats_year: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stats_year: ~0 rows (aproximadamente)
+DELETE FROM `stats_year`;
 
--- Dumping structure for table newcms.stock_categories
+-- Volcando estructura para tabla newcms.stock_categories
 DROP TABLE IF EXISTS `stock_categories`;
 CREATE TABLE IF NOT EXISTS `stock_categories` (
   `Category_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1467,9 +1545,10 @@ CREATE TABLE IF NOT EXISTS `stock_categories` (
   PRIMARY KEY (`Category_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stock_categories: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stock_categories: ~0 rows (aproximadamente)
+DELETE FROM `stock_categories`;
 
--- Dumping structure for table newcms.stock_items
+-- Volcando estructura para tabla newcms.stock_items
 DROP TABLE IF EXISTS `stock_items`;
 CREATE TABLE IF NOT EXISTS `stock_items` (
   `Stock_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1489,9 +1568,10 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   PRIMARY KEY (`Stock_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.stock_items: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.stock_items: ~0 rows (aproximadamente)
+DELETE FROM `stock_items`;
 
--- Dumping structure for table newcms.suppliers
+-- Volcando estructura para tabla newcms.suppliers
 DROP TABLE IF EXISTS `suppliers`;
 CREATE TABLE IF NOT EXISTS `suppliers` (
   `Supplier_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1515,9 +1595,10 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   UNIQUE KEY `KodeCust` (`Supplier_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.suppliers: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.suppliers: ~0 rows (aproximadamente)
+DELETE FROM `suppliers`;
 
--- Dumping structure for table newcms.table_config
+-- Volcando estructura para tabla newcms.table_config
 DROP TABLE IF EXISTS `table_config`;
 CREATE TABLE IF NOT EXISTS `table_config` (
   `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1525,11 +1606,12 @@ CREATE TABLE IF NOT EXISTS `table_config` (
   PRIMARY KEY (`tcon_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.table_config: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.table_config: ~1 rows (aproximadamente)
+DELETE FROM `table_config`;
 INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
 	(4, 'configuration,menu,menu_options,page,plugins_app,preset,profiles,site_configuration,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
 
--- Dumping structure for table newcms.table_queries
+-- Volcando estructura para tabla newcms.table_queries
 DROP TABLE IF EXISTS `table_queries`;
 CREATE TABLE IF NOT EXISTS `table_queries` (
   `tque_Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1547,7 +1629,8 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   PRIMARY KEY (`tque_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.table_queries: ~6 rows (approximately)
+-- Volcando datos para la tabla newcms.table_queries: ~6 rows (aproximadamente)
+DELETE FROM `table_queries`;
 INSERT INTO `table_queries` (`tque_Id`, `name_table`, `col_name`, `col_type`, `input_type`, `joins`, `j_table`, `j_id`, `j_value`, `j_as`, `query`, `jvpos`) VALUES
 	(1, 'menu_options', 'id_menu', 'char', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 'menu_options', 'fluid', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -1556,7 +1639,7 @@ INSERT INTO `table_queries` (`tque_Id`, `name_table`, `col_name`, `col_type`, `i
 	(5, 'menu_options', 'background', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(6, 'menu_options', 'color', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Dumping structure for table newcms.table_settings
+-- Volcando estructura para tabla newcms.table_settings
 DROP TABLE IF EXISTS `table_settings`;
 CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
@@ -1570,9 +1653,10 @@ CREATE TABLE IF NOT EXISTS `table_settings` (
   UNIQUE KEY `table_name` (`table_name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.table_settings: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.table_settings: ~0 rows (aproximadamente)
+DELETE FROM `table_settings`;
 
--- Dumping structure for table newcms.templates
+-- Volcando estructura para tabla newcms.templates
 DROP TABLE IF EXISTS `templates`;
 CREATE TABLE IF NOT EXISTS `templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1580,9 +1664,10 @@ CREATE TABLE IF NOT EXISTS `templates` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.templates: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.templates: ~0 rows (aproximadamente)
+DELETE FROM `templates`;
 
--- Dumping structure for table newcms.themes
+-- Volcando estructura para tabla newcms.themes
 DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
   `theme_id` varchar(25) NOT NULL,
@@ -1591,9 +1676,10 @@ CREATE TABLE IF NOT EXISTS `themes` (
   PRIMARY KEY (`theme_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.themes: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.themes: ~0 rows (aproximadamente)
+DELETE FROM `themes`;
 
--- Dumping structure for table newcms.theme_base_colors
+-- Volcando estructura para tabla newcms.theme_base_colors
 DROP TABLE IF EXISTS `theme_base_colors`;
 CREATE TABLE IF NOT EXISTS `theme_base_colors` (
   `theme_id` char(25) NOT NULL,
@@ -1605,9 +1691,10 @@ CREATE TABLE IF NOT EXISTS `theme_base_colors` (
   CONSTRAINT `FK_tbase_color` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.theme_base_colors: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.theme_base_colors: ~0 rows (aproximadamente)
+DELETE FROM `theme_base_colors`;
 
--- Dumping structure for table newcms.theme_base_font
+-- Volcando estructura para tabla newcms.theme_base_font
 DROP TABLE IF EXISTS `theme_base_font`;
 CREATE TABLE IF NOT EXISTS `theme_base_font` (
   `theme_id` char(25) NOT NULL,
@@ -1620,9 +1707,10 @@ CREATE TABLE IF NOT EXISTS `theme_base_font` (
   CONSTRAINT `FK_tbase_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.theme_base_font: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.theme_base_font: ~0 rows (aproximadamente)
+DELETE FROM `theme_base_font`;
 
--- Dumping structure for table newcms.theme_headings_font
+-- Volcando estructura para tabla newcms.theme_headings_font
 DROP TABLE IF EXISTS `theme_headings_font`;
 CREATE TABLE IF NOT EXISTS `theme_headings_font` (
   `theme_id` char(25) NOT NULL,
@@ -1634,9 +1722,10 @@ CREATE TABLE IF NOT EXISTS `theme_headings_font` (
   CONSTRAINT `FK_headings_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.theme_headings_font: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.theme_headings_font: ~0 rows (aproximadamente)
+DELETE FROM `theme_headings_font`;
 
--- Dumping structure for table newcms.theme_lead_font
+-- Volcando estructura para tabla newcms.theme_lead_font
 DROP TABLE IF EXISTS `theme_lead_font`;
 CREATE TABLE IF NOT EXISTS `theme_lead_font` (
   `theme_id` char(25) NOT NULL,
@@ -1647,9 +1736,10 @@ CREATE TABLE IF NOT EXISTS `theme_lead_font` (
   CONSTRAINT `FK_tlead_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.theme_lead_font: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.theme_lead_font: ~0 rows (aproximadamente)
+DELETE FROM `theme_lead_font`;
 
--- Dumping structure for table newcms.theme_palette
+-- Volcando estructura para tabla newcms.theme_palette
 DROP TABLE IF EXISTS `theme_palette`;
 CREATE TABLE IF NOT EXISTS `theme_palette` (
   `theme_id` char(25) NOT NULL,
@@ -1669,9 +1759,10 @@ CREATE TABLE IF NOT EXISTS `theme_palette` (
   CONSTRAINT `FK_tpalette` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.theme_palette: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.theme_palette: ~0 rows (aproximadamente)
+DELETE FROM `theme_palette`;
 
--- Dumping structure for table newcms.theme_settings
+-- Volcando estructura para tabla newcms.theme_settings
 DROP TABLE IF EXISTS `theme_settings`;
 CREATE TABLE IF NOT EXISTS `theme_settings` (
   `theme_id` char(25) NOT NULL,
@@ -1686,9 +1777,10 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   CONSTRAINT `FK_tsettings` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.theme_settings: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.theme_settings: ~0 rows (aproximadamente)
+DELETE FROM `theme_settings`;
 
--- Dumping structure for table newcms.timezone
+-- Volcando estructura para tabla newcms.timezone
 DROP TABLE IF EXISTS `timezone`;
 CREATE TABLE IF NOT EXISTS `timezone` (
   `Timezone` varchar(50) NOT NULL,
@@ -1696,9 +1788,10 @@ CREATE TABLE IF NOT EXISTS `timezone` (
   PRIMARY KEY (`Timezone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.timezone: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.timezone: ~0 rows (aproximadamente)
+DELETE FROM `timezone`;
 
--- Dumping structure for table newcms.tokens
+-- Volcando estructura para tabla newcms.tokens
 DROP TABLE IF EXISTS `tokens`;
 CREATE TABLE IF NOT EXISTS `tokens` (
   `tokenid` char(25) NOT NULL,
@@ -1711,9 +1804,10 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.tokens: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.tokens: ~0 rows (aproximadamente)
+DELETE FROM `tokens`;
 
--- Dumping structure for table newcms.type_blocks
+-- Volcando estructura para tabla newcms.type_blocks
 DROP TABLE IF EXISTS `type_blocks`;
 CREATE TABLE IF NOT EXISTS `type_blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1721,9 +1815,10 @@ CREATE TABLE IF NOT EXISTS `type_blocks` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.type_blocks: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.type_blocks: ~0 rows (aproximadamente)
+DELETE FROM `type_blocks`;
 
--- Dumping structure for table newcms.type_gallery
+-- Volcando estructura para tabla newcms.type_gallery
 DROP TABLE IF EXISTS `type_gallery`;
 CREATE TABLE IF NOT EXISTS `type_gallery` (
   `idTG` int(11) NOT NULL AUTO_INCREMENT,
@@ -1731,9 +1826,10 @@ CREATE TABLE IF NOT EXISTS `type_gallery` (
   PRIMARY KEY (`idTG`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.type_gallery: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.type_gallery: ~0 rows (aproximadamente)
+DELETE FROM `type_gallery`;
 
--- Dumping structure for table newcms.type_page
+-- Volcando estructura para tabla newcms.type_page
 DROP TABLE IF EXISTS `type_page`;
 CREATE TABLE IF NOT EXISTS `type_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1741,9 +1837,10 @@ CREATE TABLE IF NOT EXISTS `type_page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.type_page: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.type_page: ~0 rows (aproximadamente)
+DELETE FROM `type_page`;
 
--- Dumping structure for table newcms.unit_of_measurement
+-- Volcando estructura para tabla newcms.unit_of_measurement
 DROP TABLE IF EXISTS `unit_of_measurement`;
 CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
   `UOM_ID` varchar(10) NOT NULL,
@@ -1751,9 +1848,10 @@ CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
   PRIMARY KEY (`UOM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.unit_of_measurement: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.unit_of_measurement: ~0 rows (aproximadamente)
+DELETE FROM `unit_of_measurement`;
 
--- Dumping structure for table newcms.users
+-- Volcando estructura para tabla newcms.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` char(128) NOT NULL,
@@ -1777,11 +1875,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.users: ~1 rows (approximately)
-INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`) VALUES
-	('1095616718612d749c68bc3', 'Qnc5RllYMi9QendaSEQraGIweHlXdz09', 'TGRSOUdDM3o1N2hhaUJGRFJoaEltdmFXTExKTlkrK1VxaHVQUGVoSkJ4dz0=', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', 1, 0, '127.0.0.1', '2021-08-31 00:15:24', '', 0, 0, '550044', '2021-08-31 00:15:24', '2021-08-31 00:15:24');
+-- Volcando datos para la tabla newcms.users: ~2 rows (aproximadamente)
+DELETE FROM `users`;
 
--- Dumping structure for table newcms.users_mk
+-- Volcando estructura para tabla newcms.users_mk
 DROP TABLE IF EXISTS `users_mk`;
 CREATE TABLE IF NOT EXISTS `users_mk` (
   `id` char(128) NOT NULL,
@@ -1810,9 +1907,10 @@ CREATE TABLE IF NOT EXISTS `users_mk` (
   UNIQUE KEY `password` (`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.users_mk: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.users_mk: ~0 rows (aproximadamente)
+DELETE FROM `users_mk`;
 
--- Dumping structure for table newcms.users_permissions
+-- Volcando estructura para tabla newcms.users_permissions
 DROP TABLE IF EXISTS `users_permissions`;
 CREATE TABLE IF NOT EXISTS `users_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1825,7 +1923,8 @@ CREATE TABLE IF NOT EXISTS `users_permissions` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.users_permissions: ~15 rows (approximately)
+-- Volcando datos para la tabla newcms.users_permissions: ~15 rows (aproximadamente)
+DELETE FROM `users_permissions`;
 INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
 	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
@@ -1843,7 +1942,7 @@ INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `requi
 	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 
--- Dumping structure for table newcms.users_roles
+-- Volcando estructura para tabla newcms.users_roles
 DROP TABLE IF EXISTS `users_roles`;
 CREATE TABLE IF NOT EXISTS `users_roles` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
@@ -1856,7 +1955,8 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.users_roles: ~5 rows (approximately)
+-- Volcando datos para la tabla newcms.users_roles: ~5 rows (aproximadamente)
+DELETE FROM `users_roles`;
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Super Admin', 'Master administrator of site', 1, 9),
 	(2, 'Admin', 'Site administrator', 1, 5),
@@ -1864,7 +1964,7 @@ INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_
 	(4, 'Stantard User', 'Default site role for standard users', 1, 1),
 	(5, 'Guest', 'Guest visit', 0, 0);
 
--- Dumping structure for table newcms.users_shop
+-- Volcando estructura para tabla newcms.users_shop
 DROP TABLE IF EXISTS `users_shop`;
 CREATE TABLE IF NOT EXISTS `users_shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1878,9 +1978,10 @@ CREATE TABLE IF NOT EXISTS `users_shop` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.users_shop: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.users_shop: ~0 rows (aproximadamente)
+DELETE FROM `users_shop`;
 
--- Dumping structure for table newcms.users_sys
+-- Volcando estructura para tabla newcms.users_sys
 DROP TABLE IF EXISTS `users_sys`;
 CREATE TABLE IF NOT EXISTS `users_sys` (
   `username` varchar(65) NOT NULL,
@@ -1907,9 +2008,10 @@ CREATE TABLE IF NOT EXISTS `users_sys` (
   PRIMARY KEY (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.users_sys: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.users_sys: ~0 rows (aproximadamente)
+DELETE FROM `users_sys`;
 
--- Dumping structure for table newcms.user_groups
+-- Volcando estructura para tabla newcms.user_groups
 DROP TABLE IF EXISTS `user_groups`;
 CREATE TABLE IF NOT EXISTS `user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1920,9 +2022,10 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
   UNIQUE KEY `group_level` (`group_level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.user_groups: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.user_groups: ~0 rows (aproximadamente)
+DELETE FROM `user_groups`;
 
--- Dumping structure for table newcms.user_info
+-- Volcando estructura para tabla newcms.user_info
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE IF NOT EXISTS `user_info` (
   `userid` char(128) NOT NULL,
@@ -1941,9 +2044,10 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   CONSTRAINT `fk_userids` FOREIGN KEY (`userid`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.user_info: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.user_info: ~0 rows (aproximadamente)
+DELETE FROM `user_info`;
 
--- Dumping structure for table newcms.user_jail
+-- Volcando estructura para tabla newcms.user_jail
 DROP TABLE IF EXISTS `user_jail`;
 CREATE TABLE IF NOT EXISTS `user_jail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1957,9 +2061,10 @@ CREATE TABLE IF NOT EXISTS `user_jail` (
   CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.user_jail: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.user_jail: ~0 rows (aproximadamente)
+DELETE FROM `user_jail`;
 
--- Dumping structure for table newcms.uverify
+-- Volcando estructura para tabla newcms.uverify
 DROP TABLE IF EXISTS `uverify`;
 CREATE TABLE IF NOT EXISTS `uverify` (
   `iduv` char(128) NOT NULL,
@@ -1986,11 +2091,10 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.uverify: ~1 rows (approximately)
-INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1095616718612d749c68bc3', 'pepiuox', 'contact@pepiuox.net', 'cVR2T2YrY2JVQnExdnpLYlcvOTV4dz09', '25cce270791d66425793377bf424ee92794e2b0c', '9eda604eafd869312131d4a7f8199c53ef5c80f3', 'f34e34985564b1c01d919cc5fc2f085e01db956b', '550044', 'Super Admin', '', '', '', '', 0, 1, 1, 0, '2022-01-09 06:01:45');
+-- Volcando datos para la tabla newcms.uverify: ~2 rows (aproximadamente)
+DELETE FROM `uverify`;
 
--- Dumping structure for table newcms.videos
+-- Volcando estructura para tabla newcms.videos
 DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
   `idVd` int(11) NOT NULL AUTO_INCREMENT,
@@ -2005,9 +2109,10 @@ CREATE TABLE IF NOT EXISTS `videos` (
   PRIMARY KEY (`idVd`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.videos: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.videos: ~0 rows (aproximadamente)
+DELETE FROM `videos`;
 
--- Dumping structure for table newcms.video_gal
+-- Volcando estructura para tabla newcms.video_gal
 DROP TABLE IF EXISTS `video_gal`;
 CREATE TABLE IF NOT EXISTS `video_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2020,11 +2125,12 @@ CREATE TABLE IF NOT EXISTS `video_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.video_gal: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.video_gal: ~0 rows (aproximadamente)
+DELETE FROM `video_gal`;
 
--- Dumping structure for view newcms.view_purchases_details
+-- Volcando estructura para vista newcms.view_purchases_details
 DROP VIEW IF EXISTS `view_purchases_details`;
--- Creating temporary table to overcome VIEW dependency errors
+-- Creando tabla temporal para superar errores de dependencia de VIEW
 CREATE TABLE `view_purchases_details` (
 	`Purchase_ID` INT(11) NOT NULL,
 	`Purchase_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2036,9 +2142,9 @@ CREATE TABLE `view_purchases_details` (
 	`Purchasing_Total_Amount` DOUBLE(20,0) NOT NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view newcms.view_purchases_outstandings
+-- Volcando estructura para vista newcms.view_purchases_outstandings
 DROP VIEW IF EXISTS `view_purchases_outstandings`;
--- Creating temporary table to overcome VIEW dependency errors
+-- Creando tabla temporal para superar errores de dependencia de VIEW
 CREATE TABLE `view_purchases_outstandings` (
 	`Purchase_ID` INT(11) NOT NULL,
 	`Purchase_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2050,9 +2156,9 @@ CREATE TABLE `view_purchases_outstandings` (
 	`Total_Balance` DOUBLE(20,0) NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view newcms.view_sales_details
+-- Volcando estructura para vista newcms.view_sales_details
 DROP VIEW IF EXISTS `view_sales_details`;
--- Creating temporary table to overcome VIEW dependency errors
+-- Creando tabla temporal para superar errores de dependencia de VIEW
 CREATE TABLE `view_sales_details` (
 	`Sales_ID` INT(11) NOT NULL,
 	`Sales_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2064,9 +2170,9 @@ CREATE TABLE `view_sales_details` (
 	`Sales_Total_Amount` DOUBLE NOT NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for view newcms.view_sales_outstandings
+-- Volcando estructura para vista newcms.view_sales_outstandings
 DROP VIEW IF EXISTS `view_sales_outstandings`;
--- Creating temporary table to overcome VIEW dependency errors
+-- Creando tabla temporal para superar errores de dependencia de VIEW
 CREATE TABLE `view_sales_outstandings` (
 	`Sales_ID` INT(11) NOT NULL,
 	`Sales_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2084,19 +2190,20 @@ CREATE TABLE `view_sales_outstandings` (
 	`Final_Total_Amount` DOUBLE NULL
 ) ENGINE=MyISAM;
 
--- Dumping structure for table newcms.visitor
+-- Volcando estructura para tabla newcms.visitor
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE IF NOT EXISTS `visitor` (
   `ip` varchar(15) NOT NULL,
   `timestamp` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.visitor: ~2 rows (approximately)
+-- Volcando datos para la tabla newcms.visitor: ~2 rows (aproximadamente)
+DELETE FROM `visitor`;
 INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
 	('127.0.0.1', '1629510472'),
 	('::1', '1630197317');
 
--- Dumping structure for table newcms.volunteer
+-- Volcando estructura para tabla newcms.volunteer
 DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE IF NOT EXISTS `volunteer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2129,11 +2236,12 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table newcms.volunteer: ~0 rows (approximately)
+-- Volcando datos para la tabla newcms.volunteer: ~0 rows (aproximadamente)
+DELETE FROM `volunteer`;
 
--- Dumping structure for view newcms.view_purchases_details
+-- Volcando estructura para vista newcms.view_purchases_details
 DROP VIEW IF EXISTS `view_purchases_details`;
--- Removing temporary table and create final VIEW structure
+-- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `view_purchases_details`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_details` AS SELECT
 purchases_detail.Purchase_ID,
@@ -2147,9 +2255,9 @@ purchases_detail.Purchasing_Total_Amount
 FROM
 purchases_detail ;
 
--- Dumping structure for view newcms.view_purchases_outstandings
+-- Volcando estructura para vista newcms.view_purchases_outstandings
 DROP VIEW IF EXISTS `view_purchases_outstandings`;
--- Removing temporary table and create final VIEW structure
+-- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `view_purchases_outstandings`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_outstandings` AS SELECT
 purchases.Purchase_ID,
@@ -2164,9 +2272,9 @@ FROM
 purchases 
 WHERE purchases.Total_Balance <> 0 ;
 
--- Dumping structure for view newcms.view_sales_details
+-- Volcando estructura para vista newcms.view_sales_details
 DROP VIEW IF EXISTS `view_sales_details`;
--- Removing temporary table and create final VIEW structure
+-- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `view_sales_details`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_details` AS SELECT
 sales_detail.Sales_ID,
@@ -2180,9 +2288,9 @@ sales_detail.Sales_Total_Amount
 FROM
 sales_detail ;
 
--- Dumping structure for view newcms.view_sales_outstandings
+-- Volcando estructura para vista newcms.view_sales_outstandings
 DROP VIEW IF EXISTS `view_sales_outstandings`;
--- Removing temporary table and create final VIEW structure
+-- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `view_sales_outstandings`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_outstandings` AS SELECT
 sales.Sales_ID,

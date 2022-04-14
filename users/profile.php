@@ -208,7 +208,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                 <div class="col-md-9">
                                     <div class="card">
                                         <div class="card-header p-2">
-                                            <ul class="nav nav-pills">
+                                           <ul class="nav nav-tabs" id="users" role="tablist">
                                                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
                                                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                                                 <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>

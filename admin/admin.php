@@ -77,111 +77,114 @@ function displayBannedUsers() {
 ?>
 <div class="container-fluid"> 
     <div class="row my-2 py-2">                           
-        <div class="col-md-12">           
-            <h4>Registered users:</h4>
-            <?php
-            displayUsers();
-            ?>
-        </div>  
-        <div class="col-md-12">
-            <div><br /></div>
-            <hr>
-            <br />
-        </div>
+        <div class="col-md-12">    
+            <div class="card">
+                <div class="card-body">
+                    <h4>Registered users:</h4>
+                    <?php
+                    displayUsers();
+                    ?>
+                </div>
+            </div>
+        </div>         
     </div>
 </div>
 
 <div class="container-fluid"> 
     <div class="row my-2 py-2">    
         <div class="col-md-12">
-
-            <?php
-            /**
-             * The user is already logged in, not allowed to register.
-             */
-            if (isset($_SESSION['regsuccess'])) {
-                /* Registration was successful */
-                if ($_SESSION['regsuccess']) {
-                    echo "<h4>Registrado!</h4>";
-                    if (EMAIL_WELCOME) {
-                        echo "<p>Agrega el usuario: <b>" . $_SESSION['reguname'] . "</b>, Se le ha enviado un correo electr�nico de confirmación que debe llegar en breve. Por favor, confirme su registro antes de continuar.<br />Volver a <a href='../'>Principal</a>"
-                        . "<a href='admin.php'>Agregar nuevo usuario</a>";
-                    } else {
-                        echo "<p>Agrega el usuario: <b>" . $_SESSION['reguname'] . "</b>, su información se ha añadido a la base de datos, "
-                        . "usted puede ahora <a href=\"../index.php\">acceder</a>.</p>";
+            <hr>
+            <div class="card">
+                <div class="card-body">
+                    <?php
+                    /**
+                     * The user is already logged in, not allowed to register.
+                     */
+                    if (isset($_SESSION['regsuccess'])) {
+                        /* Registration was successful */
+                        if ($_SESSION['regsuccess']) {
+                            echo "<h4>Registrado!</h4>";
+                            if (EMAIL_WELCOME) {
+                                echo "<p>Agrega el usuario: <b>" . $_SESSION['reguname'] . "</b>, Se le ha enviado un correo electr�nico de confirmación que debe llegar en breve. Por favor, confirme su registro antes de continuar.<br />Volver a <a href='../'>Principal</a>"
+                                . "<a href='admin.php'>Agregar nuevo usuario</a>";
+                            } else {
+                                echo "<p>Agrega el usuario: <b>" . $_SESSION['reguname'] . "</b>, su información se ha añadido a la base de datos, "
+                                . "usted puede ahora <a href=\"../index.php\">acceder</a>.</p>";
+                            }
+                        }
+                        /* Registration failed */ else {
+                            echo "<h4>Registracion Fallida</h4>";
+                            echo "<p>Lo sentimos, pero ha habido un error y el registro para el Usuario <b>" . $_SESSION['reguname'] . "</b>, "
+                            . "No se pudo completar. <br /> Por favor, inténtelo de nuevo en un momento posterior.</p>";
+                        }
+                        unset($_SESSION['regsuccess']);
+                        unset($_SESSION['reguname']);
                     }
-                }
-                /* Registration failed */ else {
-                    echo "<h4>Registracion Fallida</h4>";
-                    echo "<p>Lo sentimos, pero ha habido un error y el registro para el Usuario <b>" . $_SESSION['reguname'] . "</b>, "
-                    . "No se pudo completar. <br /> Por favor, inténtelo de nuevo en un momento posterior.</p>";
-                }
-                unset($_SESSION['regsuccess']);
-                unset($_SESSION['reguname']);
-            }
-            /**
-             * The user has not filled out the registration form yet.
-             * Below is the page with the sign-up form, the names
-             * of the input fields are important and should not
-             * be changed.
-             */ else {
-                ?>                                      
+                    /**
+                     * The user has not filled out the registration form yet.
+                     * Below is the page with the sign-up form, the names
+                     * of the input fields are important and should not
+                     * be changed.
+                     */ else {
+                        ?>                                      
 
-                <h4>Add New User </h4>                                
+                        <h4>Add New User </h4>                                
+                        <?php
+                        if ($form->num_errors > 0) {
+                            echo "<div><font size=\"2\" color=\"#ff0000\">" . $form->num_errors . " error(es) encontrados</font></div>";
+                        }
+                        ?>
+                        <form action="../process.php" method="POST">
+                            <div class="row mb-3">
+
+                                <label class="col-sm-3 col-form-label">Name:</label> 
+                                <div class="col-sm-9">
+                                    <input class="form-control form-control-sm" type="text" name="name" maxlength="30" value="<?php echo $form->value("name"); ?>"><?php echo $form->error("name"); ?>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+
+                                <label class="col-sm-3 col-form-label">Username:</label> 
+                                <div class="col-sm-9">
+                                    <input class="form-control form-control-sm" type="text" name="user" maxlength="30" value="<?php echo $form->value("user"); ?>"><?php echo $form->error("user"); ?>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+
+                                <label class="col-sm-3 col-form-label">Password:</label> 
+                                <div class="col-sm-9">
+                                    <input class="form-control form-control-sm" type="password" name="pass" maxlength="30" value="<?php echo $form->value("pass"); ?>"><?php echo $form->error("pass"); ?>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+
+                                <label class="col-sm-3 col-form-label">Email:</label> 
+                                <div class="col-sm-9">
+                                    <input class="form-control form-control-sm" type="text" name="email" maxlength="50" value="<?php echo $form->value("email"); ?>"><?php echo $form->error("email"); ?>
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-12">
+                                    <input type="hidden" name="subjoin" value="1"><input class="button" type="submit" value="Add user!">
+                                </div>
+                            </div>
+                        </form>
+                        <?php
+                    }
+                    ?>
+
+                </div>
                 <?php
-                if ($form->num_errors > 0) {
-                    echo "<div><font size=\"2\" color=\"#ff0000\">" . $form->num_errors . " error(es) encontrados</font></div>";
-                }
-                ?>
-                <form action="../process.php" method="POST">
-                    <div class="row mb-3">
-
-                        <label class="col-sm-3 col-form-label">Name:</label> 
-                        <div class="col-sm-9">
-                            <input class="form-control form-control-sm" type="text" name="name" maxlength="30" value="<?php echo $form->value("name"); ?>"><?php echo $form->error("name"); ?>
-                        </div>
-
-                    </div>
-                    <div class="row mb-3">
-
-                        <label class="col-sm-3 col-form-label">Username:</label> 
-                        <div class="col-sm-9">
-                            <input class="form-control form-control-sm" type="text" name="user" maxlength="30" value="<?php echo $form->value("user"); ?>"><?php echo $form->error("user"); ?>
-                        </div>
-
-                    </div>
-                    <div class="row mb-3">
-
-                        <label class="col-sm-3 col-form-label">Password:</label> 
-                        <div class="col-sm-9">
-                            <input class="form-control form-control-sm" type="password" name="pass" maxlength="30" value="<?php echo $form->value("pass"); ?>"><?php echo $form->error("pass"); ?>
-                        </div>
-
-                    </div>
-                    <div class="row mb-3">
-
-                        <label class="col-sm-3 col-form-label">Email:</label> 
-                        <div class="col-sm-9">
-                            <input class="form-control form-control-sm" type="text" name="email" maxlength="50" value="<?php echo $form->value("email"); ?>"><?php echo $form->error("email"); ?>
-                        </div>
-
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-12">
-                            <input type="hidden" name="subjoin" value="1"><input class="button" type="submit" value="Add user!">
-                        </div>
-                    </div>
-                </form>
-                <?php
-            }
-            ?>
-
+                /**
+                 * Update User Valid
+                 */
+                ?>   
+            </div>
         </div>
-        <?php
-        /**
-         * Update User Valid
-         */
-        ?>     
     </div>
 </div>
 <div class="container-fluid"> 
@@ -190,7 +193,7 @@ function displayBannedUsers() {
             <hr>
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-tabs" id="users" role="tablist">
                         <li class="nav-item"><a class="nav-link active" href="#invuser" data-toggle="tab">Validate and Invalidate User</a></li>
                         <li class="nav-item"><a class="nav-link" href="#upduser" data-toggle="tab">Update User Level</a></li>
                         <li class="nav-item"><a class="nav-link" href="#deluser" data-toggle="tab">Delete User</a></li>
@@ -254,7 +257,7 @@ function displayBannedUsers() {
             <hr>
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-tabs" id="banned" role="tablist">
                         <li class="nav-item"><a class="nav-link active" href="#deiuser" data-toggle="tab">Delete Inactive Users</a></li>
                         <li class="nav-item"><a class="nav-link" href="#banuser" data-toggle="tab">Banned User</a></li>
                         <li class="nav-item"><a class="nav-link" href="#rebuser" data-toggle="tab">Remove Banned Users</a></li>
