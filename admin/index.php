@@ -15,7 +15,9 @@ if (file_exists($connfile)) {
         header('Location: dashboard.php');
         exit();
     } else {
-        header('Location: ' . $base . 'signin/login.php');
+
+        $redirect = '../signin/login.php';
+        header('Location: ' . $redirect);
         exit();
     }
 } else {

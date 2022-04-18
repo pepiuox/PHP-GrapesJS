@@ -263,14 +263,9 @@ if (!file_exists($file)) {
         $filecontent .= '$link = new Database();';
         $filecontent .= '$conn = $link-> MysqliConnection();';
 
-        $filecontent .= "\$definefiles = 'define.php';
+        $filecontent .= "
 require 'function.php';
-
-if (!file_exists(\$definefiles)) {
-    include 'make_define.php';
-} else {
-    require 'define.php';
-}". "\n";
+include 'define.php';". "\n";
         
 
         $filecontent .= "
