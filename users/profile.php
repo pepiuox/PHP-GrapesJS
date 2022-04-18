@@ -37,7 +37,8 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                 <!-- Brand Logo -->
                 <a href="index.php" class="brand-link">
                     <?php
-                    $logo = IMG_PAGE;
+                    
+                    $logo = SITE_BRAND_IMG;
                     if (file_exists($logo)) {
                         ?>
                         <img src="<?php echo $logo; ?>" alt="<?php echo SITE_NAME; ?>" class="brand-image img-circle elevation-3" style="opacity: .8">

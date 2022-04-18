@@ -94,7 +94,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <div class="navbar-brand">
                                 <a href="index.php" class="brand-link">
                                     <?php
-                                    $logo = IMG_PAGE;
+                                    $logo = SITE_BRAND_IMG;
                                     if (file_exists($logo)) {
                                         ?>
                                         <img src="<?php echo $logo; ?>" alt="<?php echo SITE_NAME; ?>" height="36" style="opacity: .8">
