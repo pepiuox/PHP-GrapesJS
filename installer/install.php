@@ -263,8 +263,15 @@ if (!file_exists($file)) {
         $filecontent .= '$link = new Database();';
         $filecontent .= '$conn = $link-> MysqliConnection();';
 
-        $filecontent .= "require 'function.php';" . "\n";
-        $filecontent .= "require 'define.php';";
+        $filecontent .= "\$definefiles = 'define.php';
+require 'function.php';
+
+if (!file_exists(\$definefiles)) {
+    include 'make_define.php';
+} else {
+    require 'define.php';
+}". "\n";
+        
 
         $filecontent .= "
         if (!empty(SITE_PATH)) {

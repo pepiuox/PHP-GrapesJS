@@ -1,21 +1,16 @@
-<?php
+ <?php
+// Turn off error reporting
+error_reporting(0);
 
-// Display errors on screen
-ini_set("display_errors", 1);
+// Report runtime errors
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 // Report all errors
 error_reporting(E_ALL);
 
-// Report critical errors only
-error_reporting(E_ERROR);
+// Same as error_reporting(E_ALL);
+ini_set("error_reporting", E_ALL);
 
-// Report critical errors and warnings
-error_reporting(E_ERROR | E_WARNING);
-
-// Report all errors, except notices
+// Report all errors except E_NOTICE
 error_reporting(E_ALL & ~E_NOTICE);
-
-/* (B) TO TURN OFF ALL ERROR REPORTING */
-
-error_reporting(0);
-?>
+?> 

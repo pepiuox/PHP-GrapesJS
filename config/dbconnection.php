@@ -4,11 +4,16 @@ include 'error_report.php';
 include 'Database.php';
 
 $link = new Database();
-$conn = $link-> MysqliConnection();
+$conn = $link->MysqliConnection();
 
+$definefiles = 'define.php';
 require 'function.php';
-require 'define.php';
 
+if (!file_exists($definefiles)) {
+    include 'make_define.php';
+} else {
+    require 'define.php';
+}
 if (!empty(SITE_PATH)) {
     $base = SITE_PATH;
 } else {
