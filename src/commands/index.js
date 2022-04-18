@@ -8,12 +8,27 @@
  * })
  * ```
  *
- * Once the editor is instantiated you can use its API. Before using these methods you should get the module from the instance
+ * Once the editor is instantiated you can use its API and listen to its events. Before using these methods, you should get the module from the instance.
  *
  * ```js
+ * // Listen to events
+ * editor.on('run', () => { ... });
+ *
+ * // Use the API
  * const commands = editor.Commands;
+ * commands.add(...);
  * ```
  *
+ ** ## Available Events
+ * * `run:{commandName}` - Triggered when some command is called to run (eg. editor.runCommand('preview'))
+ * * `stop:{commandName}` - Triggered when some command is called to stop (eg. editor.stopCommand('preview'))
+ * * `run:{commandName}:before` - Triggered before the command is called
+ * * `stop:{commandName}:before` - Triggered before the command is called to stop
+ * * `abort:{commandName}` - Triggered when the command execution is aborted (`editor.on(`run:preview:before`, opts => opts.abort = 1);`)
+ * * `run` - Triggered on run of any command. The id and the result are passed as arguments to the callback
+ * * `stop` - Triggered on stop of any command. The id and the result are passed as arguments to the callback
+ *
+ * ## Methods
  * * [add](#add)
  * * [get](#get)
  * * [getAll](#getall)
@@ -56,7 +71,7 @@ const commandsDef = [
   ['component-exit', 'ComponentExit', 'select-parent'],
   ['component-delete', 'ComponentDelete'],
   ['component-style-clear', 'ComponentStyleClear'],
-  ['component-drag', 'ComponentDrag']
+  ['component-drag', 'ComponentDrag'],
 ];
 
 export default () => {
@@ -67,7 +82,7 @@ export default () => {
   const active = {};
 
   // Need it here as it would be used below
-  const add = function(id, obj) {
+  const add = function (id, obj) {
     if (isFunction(obj)) obj = { run: obj };
     if (!obj.stop) obj.noStop = 1;
     delete obj.initialize;
@@ -94,14 +109,14 @@ export default () => {
     init(config = {}) {
       c = {
         ...defaults,
-        ...config
+        ...config,
       };
       em = c.em;
       const ppfx = c.pStylePrefix;
       if (ppfx) c.stylePrefix = ppfx + c.stylePrefix;
 
       // Load commands passed via configuration
-      Object.keys(c.defaults).forEach(k => {
+      Object.keys(c.defaults).forEach((k) => {
         const obj = c.defaults[k];
         if (obj.id) this.add(obj.id, obj);
       });
@@ -109,14 +124,14 @@ export default () => {
       defaultCommands['tlb-delete'] = {
         run(ed) {
           return ed.runCommand('core:component-delete');
-        }
+        },
       };
 
       defaultCommands['tlb-clone'] = {
         run(ed) {
           ed.runCommand('core:copy');
-          ed.runCommand('core:paste');
-        }
+          ed.runCommand('core:paste', { action: 'clone-component' });
+        },
       };
 
       defaultCommands['tlb-move'] = {
@@ -138,19 +153,19 @@ export default () => {
           const mode = sel.get('dmode') || em.get('dmode');
           const hideTlb = () => em.stopDefault(defComOptions);
           const altMode = includes(modes, mode);
-          selAll.forEach(sel => sel.trigger('disable'));
+          selAll.forEach((sel) => sel.trigger('disable'));
 
           // Without setTimeout the ghost image disappears
           nativeDrag ? setTimeout(hideTlb, 0) : hideTlb();
 
-          const onStart = data => {
+          const onStart = (data) => {
             em.trigger(`${eventDrag}:start`, data);
           };
-          const onDrag = data => {
+          const onDrag = (data) => {
             em.trigger(eventDrag, data);
           };
           const onEnd = (e, opts, data) => {
-            selAll.forEach(sel => sel.set('status', 'selected'));
+            selAll.forEach((sel) => sel.set('status', 'selected'));
             ed.select(selAll);
             sel.emitUpdate();
             em.trigger(`${eventDrag}:end`, data);
@@ -171,7 +186,7 @@ export default () => {
               onStart,
               onDrag,
               onEnd,
-              event
+              event,
             });
           } else {
             if (nativeDrag) {
@@ -186,14 +201,14 @@ export default () => {
             cmdMove.initSorterFromModels(selAll);
           }
 
-          selAll.forEach(sel => sel.set('status', 'freezed-selected'));
-        }
+          selAll.forEach((sel) => sel.set('status', 'freezed-selected'));
+        },
       };
 
       // Core commands
-      defaultCommands['core:undo'] = e => e.UndoManager.undo();
-      defaultCommands['core:redo'] = e => e.UndoManager.redo();
-      commandsDef.forEach(item => {
+      defaultCommands['core:undo'] = (e) => e.UndoManager.undo();
+      defaultCommands['core:redo'] = (e) => e.UndoManager.redo();
+      commandsDef.forEach((item) => {
         const oldCmd = item[2];
         const cmd = require(`./view/${item[1]}`).default;
         const cmdName = `core:${item[0]}`;
@@ -201,7 +216,7 @@ export default () => {
         if (oldCmd) {
           defaultCommands[oldCmd] = cmd;
           // Propogate old commands (can be removed once we stop to call old commands)
-          ['run', 'stop'].forEach(name => {
+          ['run', 'stop'].forEach((name) => {
             em.on(`${name}:${oldCmd}`, (...args) =>
               em.trigger(`${name}:${cmdName}`, ...args)
             );
@@ -274,12 +289,12 @@ export default () => {
       if (command) {
         const cmdObj = {
           ...command.constructor.prototype,
-          ...cmd
+          ...cmd,
         };
         this.add(id, cmdObj);
         // Extend also old name commands if exist
         const oldCmd = commandsDef.filter(
-          cmd => `core:${cmd[0]}` === id && cmd[2]
+          (cmd) => `core:${cmd[0]}` === id && cmd[2]
         )[0];
         oldCmd && this.add(oldCmd[2], cmdObj);
       }
@@ -385,7 +400,7 @@ export default () => {
         const editor = em.get('Editor');
 
         if (!this.isActive(id) || options.force || !c.strict) {
-          result = command.callRun(editor, options);
+          result = editor && command.callRun(editor, options);
           if (id && command.stop && !command.noStop && !options.abort) {
             active[id] = result;
           }
@@ -431,7 +446,7 @@ export default () => {
     },
 
     destroy() {
-      [em, c, commands, defaultCommands, active].forEach(i => (i = {}));
-    }
+      [em, c, commands, defaultCommands, active].forEach((i) => (i = {}));
+    },
   };
 };

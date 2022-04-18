@@ -1,17 +1,10 @@
 import { isEmpty, isArray, isString, debounce } from 'underscore';
 import Backbone from 'backbone';
 import ClassTagView from './ClassTagView';
+import html from 'utils/html';
 
 export default Backbone.View.extend({
-  template({
-    labelInfo,
-    labelStates,
-    labelHead,
-    iconSync,
-    iconAdd,
-    pfx,
-    ppfx
-  }) {
+  template({ labelInfo, labelHead, iconSync, iconAdd, pfx, ppfx }) {
     return `
     <div id="${pfx}up" class="${pfx}header">
       <div id="${pfx}label" class="${pfx}header-label">${labelHead}</div>
@@ -19,9 +12,7 @@ export default Backbone.View.extend({
         <span id="${pfx}input-c" data-states-c>
           <div class="${ppfx}field ${ppfx}select">
             <span id="${ppfx}input-holder">
-              <select id="${pfx}states" data-states>
-                <option value="">${labelStates}</option>
-              </select>
+              <select id="${pfx}states" data-states></select>
             </span>
             <div class="${ppfx}sel-arrow">
               <div class="${ppfx}d-s-arrow"></div>
@@ -43,7 +34,6 @@ export default Backbone.View.extend({
     <div class="${pfx}sels-info">
       <div class="${pfx}label-sel">${labelInfo}:</div>
       <div class="${pfx}sels" data-selected></div>
-      <div style="clear:both"></div>
     </div>`;
   },
 
@@ -52,7 +42,7 @@ export default Backbone.View.extend({
     'click [data-add]': 'startNewTag',
     'focusout [data-input]': 'endNewTag',
     'keyup [data-input]': 'onInputKeyUp',
-    'click [data-sync-style]': 'syncStyle'
+    'click [data-sync-style]': 'syncStyle',
   },
 
   initialize(o = {}) {
@@ -66,6 +56,8 @@ export default Backbone.View.extend({
     const { em } = this.config;
     const coll = this.collection;
     this.target = this.config.em;
+    const md = o.module;
+    this.module = md;
     this.em = em;
     const toList = 'component:toggled component:update:classes';
     const toListCls = 'component:update:classes change:state';
@@ -76,6 +68,11 @@ export default Backbone.View.extend({
     this.listenTo(coll, 'add', this.addNew);
     this.listenTo(coll, 'reset', this.renderClasses);
     this.listenTo(coll, 'remove', this.tagRemoved);
+    this.listenTo(
+      md.getAll(),
+      md.events.state,
+      debounce(() => this.renderStates())
+    );
     this.delegateEvents();
   },
 
@@ -93,10 +90,10 @@ export default Backbone.View.extend({
       cssC.add(selectors, state, mediaText);
     let style;
 
-    this.getTargets().forEach(target => {
+    this.getTargets().forEach((target) => {
       const ruleComponent = cssC.getIdRule(target.getId(), {
         state,
-        mediaText
+        mediaText,
       });
       style = ruleComponent.getStyle();
       ruleComponent.setStyle({});
@@ -111,7 +108,7 @@ export default Backbone.View.extend({
       mediaText,
       rule,
       ruleComponents,
-      state
+      state,
     });
   },
 
@@ -122,28 +119,6 @@ export default Backbone.View.extend({
    */
   tagRemoved(model) {
     this.updateStateVis();
-  },
-
-  /**
-   * Create select input with states
-   * @return {string} String of options
-   * @private
-   */
-  getStateOptions() {
-    const { states, em } = this;
-    let result = [];
-
-    states.forEach(state =>
-      result.push(
-        `<option value="${state.name}">${em.t(
-          `selectorManager.states.${state.name}`
-        ) ||
-          state.label ||
-          state.name}</option>`
-      )
-    );
-
-    return result.join('');
   },
 
   /**
@@ -181,8 +156,12 @@ export default Backbone.View.extend({
    * @private
    */
   onInputKeyUp(e) {
-    if (e.keyCode === 13) this.addNewTag(this.$input.val());
-    else if (e.keyCode === 27) this.endNewTag();
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.addNewTag(this.$input.val());
+    } else if (e.keyCode === 27) {
+      this.endNewTag();
+    }
   },
 
   checkStates() {
@@ -196,7 +175,7 @@ export default Backbone.View.extend({
    * @param  {Object} e
    * @private
    */
-  componentChanged: debounce(function({ targets } = {}) {
+  componentChanged: debounce(function ({ targets } = {}) {
     this.updateSelection(targets);
   }),
 
@@ -212,30 +191,20 @@ export default Backbone.View.extend({
 
     this.collection.reset(selectors);
     this.updateStateVis(trgs);
-
+    this.module.__trgCustom();
     return selectors;
   },
 
   getCommonSelectors({ targets, opts = {} } = {}) {
     const trgs = targets || this.getTargets();
-    const selectors = trgs
-      .map(tr => tr.getSelectors && tr.getSelectors().getValid(opts))
-      .filter(i => i);
-    return this._commonSelectors(...selectors);
+    return this.module.__getCommonSelectors(trgs, opts);
   },
 
   _commonSelectors(...args) {
-    if (!args.length) return [];
-    if (args.length === 1) return args[0];
-    if (args.length === 2)
-      return args[0].filter(item => args[1].indexOf(item) >= 0);
-
-    return args
-      .slice(1)
-      .reduce((acc, item) => this._commonSelectors(acc, item), args[0]);
+    return this.module.__common(...args);
   },
 
-  checkSync: debounce(function() {
+  checkSync: debounce(function () {
     const { $btnSyncEl, config, collection } = this;
     const target = this.getTarget();
     let hasStyle;
@@ -284,7 +253,7 @@ export default Backbone.View.extend({
     let trgs = targets || this.getTargets();
     trgs = isArray(trgs) ? trgs : [trgs];
 
-    trgs.forEach(target => result.push(this.__getName(target)));
+    trgs.forEach((target) => result.push(this.__getName(target)));
     elSel && (elSel.innerHTML = result.join(', '));
     this.checkStates();
   },
@@ -295,21 +264,24 @@ export default Backbone.View.extend({
     let result;
 
     if (isString(target)) {
-      result = `<span class="${pfx}sel-gen">${target}</span>`;
+      result = html`<span class="${pfx}sel-gen">${target}</span>`;
     } else {
       const sel = target && target.get && target.getSelectors();
       if (!sel) return;
       const selectors = sel.getStyleable();
       const state = em.get('state');
       const idRes = target.getId
-        ? `<span class="${pfx}sel-cmp">${target.getName()}</span><span class="${pfx}sel-id">#${target.getId()}</span>`
+        ? html`<span class="${pfx}sel-cmp">${target.getName()}</span>
+            <span class="${pfx}sel-id">#${target.getId()}</span>`
         : '';
       result = this.collection.getFullString(selectors);
       result = result
-        ? `<span class="${pfx}sel-rule">${result}</span>`
+        ? html`<span class="${pfx}sel-rule">${result}</span>`
         : target.get('selectorsAdd') || idRes;
       result = componentFirst && idRes ? idRes : result;
-      result += state ? `<span class="${pfx}sel-state">:${state}</span>` : '';
+      result += state
+        ? html`<span class="${pfx}sel-state">:${state}</span>`
+        : '';
       result = selectedName ? selectedName({ result, state, target }) : result;
     }
 
@@ -332,23 +304,12 @@ export default Backbone.View.extend({
    * @param  {Object} e
    * @private
    */
-  addNewTag(label) {
-    const { em } = this;
-
-    if (!label.trim()) return;
-
-    if (em) {
-      const sm = em.get('SelectorManager');
-      const model = sm.add({ label });
-
-      this.getTargets().forEach(target => {
-        target.getSelectors().add(model);
-        this.collection.add(model);
-        this.updateStateVis();
-      });
-    }
-
+  addNewTag(value) {
+    const label = value.trim();
+    if (!label) return;
+    this.module.addSelected({ label });
     this.endNewTag();
+    // this.updateStateVis(); // Check if required
   },
 
   /**
@@ -364,7 +325,8 @@ export default Backbone.View.extend({
     const rendered = new ClassTagView({
       model,
       config: this.config,
-      coll: this.collection
+      coll: this.collection,
+      module: this.module,
     }).render().el;
 
     fragment ? fragment.appendChild(rendered) : classes.append(rendered);
@@ -380,7 +342,7 @@ export default Backbone.View.extend({
     const frag = document.createDocumentFragment();
     const classes = this.getClasses();
     classes.empty();
-    this.collection.each(model => this.addToClasses(model, frag));
+    this.collection.each((model) => this.addToClasses(model, frag));
     classes.append(frag);
   },
 
@@ -416,6 +378,26 @@ export default Backbone.View.extend({
     return this.$statesC;
   },
 
+  renderStates() {
+    const { module, em } = this;
+    const labelStates = em.t('selectorManager.emptyState');
+    const options = module
+      .getStates()
+      .map((state) => {
+        const label =
+          em.t(`selectorManager.states.${state.id}`) ||
+          state.getLabel() ||
+          state.id;
+        return `<option value="${state.id}">${label}</option>`;
+      })
+      .join('');
+
+    const statesEl = this.getStates();
+    statesEl &&
+      statesEl.html(`<option value="">${labelStates}</option>${options}`);
+    this.checkStates();
+  },
+
   render() {
     const { em, pfx, ppfx, config, $el, el } = this;
     const { render, iconSync, iconAdd } = config;
@@ -423,11 +405,10 @@ export default Backbone.View.extend({
       iconSync,
       iconAdd,
       labelHead: em.t('selectorManager.label'),
-      labelStates: em.t('selectorManager.emptyState'),
       labelInfo: em.t('selectorManager.selected'),
       ppfx,
       pfx,
-      el
+      el,
     };
     $el.html(this.template(tmpOpts));
     const renderRes = render && render(tmpOpts);
@@ -437,10 +418,9 @@ export default Backbone.View.extend({
     this.$classes = $el.find('#' + pfx + 'tags-c');
     this.$btnSyncEl = $el.find('[data-sync-style]');
     this.$input.hide();
-    const statesEl = this.getStates();
-    statesEl && statesEl.append(this.getStateOptions());
+    this.renderStates();
     this.renderClasses();
     $el.attr('class', `${this.className} ${ppfx}one-bg ${ppfx}two-color`);
     return this;
-  }
+  },
 });

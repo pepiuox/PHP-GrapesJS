@@ -1,7 +1,7 @@
-import { each, isString, isFunction } from 'underscore';
+import { each, isString, isFunction, isUndefined } from 'underscore';
 import BrowserParserHtml from './BrowserParserHtml';
 
-export default config => {
+export default (config) => {
   let c = config;
   const modelAttrStart = 'data-gjs-';
   const event = 'parse:html';
@@ -49,7 +49,7 @@ export default config => {
 
       return {
         props,
-        attrs
+        attrs,
       };
     },
 
@@ -69,10 +69,7 @@ export default config => {
         var decl = decls[i].trim();
         if (!decl) continue;
         var prop = decl.split(':');
-        result[prop[0].trim()] = prop
-          .slice(1)
-          .join(':')
-          .trim();
+        result[prop[0].trim()] = prop.slice(1).join(':').trim();
       }
       return result;
     },
@@ -145,7 +142,12 @@ export default config => {
 
         // Set tag name if not yet done
         if (!model.tagName) {
-          model.tagName = node.tagName ? node.tagName.toLowerCase() : '';
+          const tag = node.tagName || '';
+          const ns = node.namespaceURI || '';
+          model.tagName =
+            tag && ns === 'http://www.w3.org/1999/xhtml'
+              ? tag.toLowerCase()
+              : tag;
         }
 
         if (attrsLen) {
@@ -205,12 +207,12 @@ export default config => {
             !model.type && (model.type = 'text');
             model.components = {
               type: 'textnode',
-              content: firstChild.nodeValue
+              content: firstChild.nodeValue,
             };
           } else {
             model.components = this.parseNode(node, {
-              inSvg: model.type === 'svg',
-              ...opts
+              ...opts,
+              inSvg: opts.inSvg || model.type === 'svg',
             });
           }
         }
@@ -287,15 +289,31 @@ export default config => {
       const conf = (em && em.get('Config')) || {};
       const res = { html: null, css: null };
       const cf = { ...config, ...opts };
+      const options = {
+        ...config.optionsHtml,
+        // Support previous `configParser.htmlType` option
+        htmlType: config.optionsHtml?.htmlType || config.htmlType,
+        ...opts,
+      };
       const el = isFunction(cf.parserHtml)
-        ? cf.parserHtml(str, cf)
-        : BrowserParserHtml(str, cf);
+        ? cf.parserHtml(str, options)
+        : BrowserParserHtml(str, options);
       const scripts = el.querySelectorAll('script');
       let i = scripts.length;
 
-      // Remove all scripts
-      if (!conf.allowScripts) {
+      // Support previous `configMain.allowScripts` option
+      const allowScripts = !isUndefined(conf.allowScripts)
+        ? conf.allowScripts
+        : options.allowScripts;
+
+      // Remove script tags
+      if (!allowScripts) {
         while (i--) scripts[i].parentNode.removeChild(scripts[i]);
+      }
+
+      // Remove unsafe attributes
+      if (!options.allowUnsafeAttr) {
+        this.__clearUnsafeAttr(el);
       }
 
       // Detach style tags and parse them
@@ -313,7 +331,7 @@ export default config => {
       }
 
       em && em.trigger(`${event}:root`, { input: str, root: el });
-      const result = this.parseNode(el);
+      const result = this.parseNode(el, cf);
       // I have to keep it otherwise it breaks the DomComponents.addComponent (returns always array)
       const resHtml =
         result.length === 1 && !c.returnArray ? result[0] : result;
@@ -321,6 +339,18 @@ export default config => {
       em && em.trigger(event, { input: str, output: res });
 
       return res;
-    }
+    },
+
+    __clearUnsafeAttr(node) {
+      const attrs = node.attributes || [];
+      const nodes = node.childNodes || [];
+      const toRemove = [];
+      each(attrs, (attr) => {
+        const name = attr.nodeName || '';
+        name.indexOf('on') === 0 && toRemove.push(name);
+      });
+      toRemove.map((name) => node.removeAttribute(name));
+      each(nodes, (node) => this.__clearUnsafeAttr(node));
+    },
   };
 };

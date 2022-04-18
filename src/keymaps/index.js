@@ -15,12 +15,24 @@
  * })
  * ```
  *
- * Once the editor is instantiated you can use its API. Before using these methods you should get the module from the instance
+ * Once the editor is instantiated you can use its API and listen to its events. Before using these methods, you should get the module from the instance.
  *
  * ```js
+ * // Listen to events
+ * editor.on('keymap:add', () => { ... });
+ *
+ * // Use the API
  * const keymaps = editor.Keymaps;
+ * keymaps.add(...);
  * ```
  *
+ * ## Available Events
+ * * `keymap:add` - New keymap added. The new keyamp object is passed as an argument
+ * * `keymap:remove` - Keymap removed. The removed keyamp object is passed as an argument
+ * * `keymap:emit` - Some keymap emitted, in arguments you get keymapId, shortcutUsed, Event
+ * * `keymap:emit:{keymapId}` - `keymapId` emitted, in arguments you get keymapId, shortcutUsed, Event
+ *
+ * ## Methods
  * * [getConfig](#getconfig)
  * * [add](#add)
  * * [get](#get)
@@ -38,49 +50,46 @@ import keymaster from 'utils/keymaster';
 hasWin() && keymaster.init(window);
 
 export default () => {
-  let em;
-  let config;
-  const keymaps = {};
   const configDef = {
     defaults: {
       'core:undo': {
         keys: '⌘+z, ctrl+z',
-        handler: 'core:undo'
+        handler: 'core:undo',
       },
       'core:redo': {
         keys: '⌘+shift+z, ctrl+shift+z',
-        handler: 'core:redo'
+        handler: 'core:redo',
       },
       'core:copy': {
         keys: '⌘+c, ctrl+c',
-        handler: 'core:copy'
+        handler: 'core:copy',
       },
       'core:paste': {
         keys: '⌘+v, ctrl+v',
-        handler: 'core:paste'
+        handler: 'core:paste',
       },
       'core:component-next': {
         keys: 's',
-        handler: 'core:component-next'
+        handler: 'core:component-next',
       },
       'core:component-prev': {
         keys: 'w',
-        handler: 'core:component-prev'
+        handler: 'core:component-prev',
       },
       'core:component-enter': {
         keys: 'd',
-        handler: 'core:component-enter'
+        handler: 'core:component-enter',
       },
       'core:component-exit': {
         keys: 'a',
-        handler: 'core:component-exit'
+        handler: 'core:component-exit',
       },
       'core:component-delete': {
         keys: 'backspace, delete',
         handler: 'core:component-delete',
-        opts: { prevent: 1 }
-      }
-    }
+        opts: { prevent: 1 },
+      },
+    },
   };
 
   return {
@@ -93,7 +102,7 @@ export default () => {
      * @return {Object} Configuration object
      */
     getConfig() {
-      return config;
+      return this.config;
     },
 
     /**
@@ -102,14 +111,14 @@ export default () => {
      * @private
      */
     init(opts = {}) {
-      config = { ...configDef, ...opts };
-      em = config.em;
-      this.em = em;
+      this.config = { ...configDef, ...opts };
+      this.em = this.config.em;
+      this.keymaps = {};
       return this;
     },
 
     onLoad() {
-      const defKeys = config.defaults;
+      const defKeys = this.config.defaults;
 
       for (let id in defKeys) {
         const value = defKeys[id];
@@ -144,9 +153,9 @@ export default () => {
       const editor = em.getEditor();
       const canvas = em.get('Canvas');
       const keymap = { id, keys, handler };
-      const pk = keymaps[id];
+      const pk = this.keymaps[id];
       pk && this.remove(id);
-      keymaps[id] = keymap;
+      this.keymaps[id] = keymap;
       keymaster(keys, (e, h) => {
         // It's safer putting handlers resolution inside the callback
         const opt = { event: e, h };
@@ -175,7 +184,7 @@ export default () => {
      * // -> {keys, handler};
      */
     get(id) {
-      return keymaps[id];
+      return this.keymaps[id];
     },
 
     /**
@@ -186,7 +195,7 @@ export default () => {
      * // -> {id1: {}, id2: {}};
      */
     getAll() {
-      return keymaps;
+      return this.keymaps;
     },
 
     /**
@@ -202,8 +211,8 @@ export default () => {
       const keymap = this.get(id);
 
       if (keymap) {
-        delete keymaps[id];
-        keymap.keys.split(', ').forEach(k => keymaster.unbind(k.trim()));
+        delete this.keymaps[id];
+        keymap.keys.split(', ').forEach((k) => keymaster.unbind(k.trim()));
         em && em.trigger('keymap:remove', keymap);
         return keymap;
       }
@@ -214,14 +223,15 @@ export default () => {
      * @return {this}
      */
     removeAll() {
-      Object.keys(keymaps).forEach(keymap => this.remove(keymap));
+      Object.keys(this.keymaps).forEach((keymap) => this.remove(keymap));
+      keymaster.handlers = {};
       return this;
     },
 
     destroy() {
       this.removeAll();
-      [em, config, keymaps].forEach(i => (i = {}));
+      this.keymaps = {};
       this.em = {};
-    }
+    },
   };
 };

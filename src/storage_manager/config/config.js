@@ -3,10 +3,10 @@ export default {
   id: 'gjs-',
 
   // Enable/Disable autosaving
-  autosave: 1,
+  autosave: true,
 
   // Indicates if load data inside editor after init
-  autoload: 1,
+  autoload: true,
 
   // Indicates which storage to use. Available: local | remote
   type: 'local',
@@ -16,20 +16,20 @@ export default {
   stepsBeforeSave: 1,
 
   //Enable/Disable components model (JSON format)
-  storeComponents: 1,
+  storeComponents: true,
 
   //Enable/Disable styles model (JSON format)
-  storeStyles: 1,
+  storeStyles: true,
 
   //Enable/Disable saving HTML template
-  storeHtml: 1,
+  storeHtml: true,
 
   //Enable/Disable saving CSS template
-  storeCss: 1,
+  storeCss: true,
 
   // ONLY FOR LOCAL STORAGE
   // If enabled, checks if browser supports Local Storage
-  checkLocal: 1,
+  checkLocal: true,
 
   // ONLY FOR REMOTE STORAGE
   // Custom parameters to pass with the remote storage request, eg. csrf token
@@ -59,9 +59,9 @@ export default {
 
   // Pass custom options to fetch API (remote storage)
   // You can pass a simple object: { someOption: 'someValue' }
-  // or a function wich returns and object to add:
+  // or a function which returns and object to add:
   // currentOpts => {
   //  return currentOpts.method === 'post' ?  { method: 'patch' } : {};
   // }
-  fetchOptions: ''
+  fetchOptions: '',
 };

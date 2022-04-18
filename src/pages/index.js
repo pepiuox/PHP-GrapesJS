@@ -80,7 +80,7 @@ export default () => {
       add: evPageAdd,
       addBefore: evPageAddBefore,
       remove: evPageRemove,
-      removeBefore: evPageRemoveBefore
+      removeBefore: evPageRemoveBefore,
     },
 
     /**
@@ -103,7 +103,7 @@ export default () => {
       pages.on('change', (p, c) => {
         em.trigger(evPageUpdate, p, p.changedAttributes(), c);
       });
-      pages.on('reset', coll => coll.at(0) && this.select(coll.at(0)));
+      pages.on('reset', (coll) => coll.at(0) && this.select(coll.at(0)));
       pages.on('all', this.__onChange, this);
       model.on(chnSel, this._onPageChange);
 
@@ -168,7 +168,7 @@ export default () => {
     /**
      * Remove page
      * @param {String|[Page]} page Page or page id
-     * @returns {[Page]}
+     * @returns {[Page]} Removed Page
      * @example
      * const removedPage = pageManager.remove('page-id');
      * // or by passing the page
@@ -194,7 +194,7 @@ export default () => {
      * const somePage = pageManager.get('page-id');
      */
     get(id) {
-      return this.pages.filter(p => p.get('id') === id)[0];
+      return this.pages.filter((p) => p.get('id') === id)[0];
     },
 
     /**
@@ -205,7 +205,7 @@ export default () => {
      */
     getMain() {
       const { pages } = this;
-      return pages.filter(p => p.get('type') === typeMain)[0] || pages.at(0);
+      return pages.filter((p) => p.get('type') === typeMain)[0] || pages.at(0);
     },
 
     /**
@@ -215,23 +215,23 @@ export default () => {
      * const arrayOfPages = pageManager.getAll();
      */
     getAll() {
-      return this.pages.models;
+      return [...this.pages.models];
     },
 
     /**
      * Get wrapper components (aka body) from all pages and frames.
      * @returns {Array<[Component]>}
      * @example
-     * // Get all the `image` components from the project
      * const wrappers = pageManager.getAllWrappers();
+     * // Get all `image` components from the project
      * const allImages = wrappers.map(wrp => wrp.findType('image')).flat();
      */
     getAllWrappers() {
       const pages = this.getAll();
       return unique(
         flatten(
-          pages.map(page =>
-            page.getAllFrames().map(frame => frame.getComponent())
+          pages.map((page) =>
+            page.getAllFrames().map((frame) => frame.getComponent())
           )
         )
       );
@@ -277,7 +277,7 @@ export default () => {
       this.pages.off().reset();
       this.model.stopListening();
       this.model.clear({ silent: true });
-      ['selected', 'config', 'em', 'pages', 'model'].map(i => (this[i] = 0));
+      ['selected', 'config', 'em', 'pages', 'model'].map((i) => (this[i] = 0));
     },
 
     store(noStore) {
@@ -315,6 +315,6 @@ export default () => {
       } while (pagesMap[id]);
 
       return id;
-    }
+    },
   };
 };

@@ -83,7 +83,8 @@ export default {
   showToolbar: 1,
 
   // Allow script tag importing
-  allowScripts: 0,
+  // @deprecated in favor of `config.parser.optionsHtml.allowScripts`
+  // allowScripts: 0,
 
   // If true render a select of available devices
   showDevices: 1,
@@ -112,12 +113,6 @@ export default {
 
   // Enable multiple selection
   multipleSelection: 1,
-
-  // Show the wrapper component in the final code, eg. in editor.getHtml()
-  exportWrapper: 0,
-
-  // The wrapper, if visible, will be shown as a `<body>`
-  wrapperIsBody: 1,
 
   // Pass default available options wherever `editor.getHtml()` is called
   optsHtml: {},
@@ -165,6 +160,21 @@ export default {
   // Import asynchronously CSS to use as icons
   cssIcons:
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+
+  // Experimental: don't use.
+  icons: {
+    close:
+      '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>',
+    move: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M13,6V11H18V7.75L22.25,12L18,16.25V13H13V18H16.25L12,22.25L7.75,18H11V13H6V16.25L1.75,12L6,7.75V11H11V6H7.75L12,1.75L16.25,6H13Z"/></svg>',
+    plus: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>',
+    caret:
+      '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M7,10L12,15L17,10H7Z" /></svg>',
+    delete:
+      '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>',
+    copy: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>',
+    arrowUp:
+      '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
+  },
 
   // Dom element
   el: '',
@@ -215,93 +225,7 @@ export default {
   deviceManager: {},
 
   //Configurations for Style Manager
-  styleManager: {
-    sectors: [
-      {
-        name: 'General',
-        open: false,
-        buildProps: [
-          'float',
-          'display',
-          'position',
-          'top',
-          'right',
-          'left',
-          'bottom'
-        ]
-      },
-      {
-        name: 'Flex',
-        open: false,
-        buildProps: [
-          'flex-direction',
-          'flex-wrap',
-          'justify-content',
-          'align-items',
-          'align-content',
-          'order',
-          'flex-basis',
-          'flex-grow',
-          'flex-shrink',
-          'align-self'
-        ]
-      },
-      {
-        name: 'Dimension',
-        open: false,
-        buildProps: [
-          'width',
-          'height',
-          'max-width',
-          'min-height',
-          'margin',
-          'padding'
-        ]
-      },
-      {
-        name: 'Typography',
-        open: false,
-        buildProps: [
-          'font-family',
-          'font-size',
-          'font-weight',
-          'letter-spacing',
-          'color',
-          'line-height',
-          'text-align',
-          'text-shadow'
-        ],
-        properties: [
-          {
-            property: 'text-align',
-            list: [
-              { value: 'left', className: 'fa fa-align-left' },
-              { value: 'center', className: 'fa fa-align-center' },
-              { value: 'right', className: 'fa fa-align-right' },
-              { value: 'justify', className: 'fa fa-align-justify' }
-            ]
-          }
-        ]
-      },
-      {
-        name: 'Decorations',
-        open: false,
-        buildProps: [
-          'border-radius-c',
-          'background-color',
-          'border-radius',
-          'border',
-          'box-shadow',
-          'background'
-        ]
-      },
-      {
-        name: 'Extra',
-        open: false,
-        buildProps: ['transition', 'perspective', 'transform']
-      }
-    ]
-  },
+  styleManager: {},
 
   // Configurations for Block Manager
   blockManager: {},
@@ -320,5 +244,5 @@ export default {
 
   // Experimental: don't use.
   // Avoid default UI styles
-  customUI: false
+  customUI: false,
 };

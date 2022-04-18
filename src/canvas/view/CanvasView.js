@@ -7,7 +7,7 @@ import {
   getKeyChar,
   isTextNode,
   getElRect,
-  getUiClass
+  getUiClass,
 } from 'utils/mixins';
 import FramesView from './FramesView';
 
@@ -16,7 +16,7 @@ let timerZoom;
 
 export default Backbone.View.extend({
   events: {
-    wheel: 'onWheel'
+    wheel: 'onWheel',
   },
 
   template() {
@@ -59,8 +59,8 @@ export default Backbone.View.extend({
       collection,
       config: {
         ...config,
-        canvasView: this
-      }
+        canvasView: this,
+      },
     });
   },
 
@@ -69,8 +69,8 @@ export default Backbone.View.extend({
     const currFrame = this.em.get('currentFrame');
 
     scroll &&
-      component.views.forEach(view => {
-        view._getFrame() !== currFrame && view.scrollIntoView(scroll);
+      component.views.forEach((view) => {
+        view._getFrame() === currFrame && view.scrollIntoView(scroll);
       });
   },
 
@@ -133,8 +133,9 @@ export default Backbone.View.extend({
     const zoom = this.getZoom();
     const defOpts = { preserveSelected: 1 };
     const mpl = zoom ? 1 / zoom : 1;
-    this.framesArea.style.transform = `scale(${zoom}) translate(${x *
-      mpl}px, ${y * mpl}px)`;
+    this.framesArea.style.transform = `scale(${zoom}) translate(${x * mpl}px, ${
+      y * mpl
+    }px)`;
     this.clearOff();
     em.stopDefault(defOpts);
     em.trigger('canvas:update', ev);
@@ -179,7 +180,7 @@ export default Backbone.View.extend({
       top: rect.top + (noScroll ? 0 : docBody.scrollTop),
       left: rect.left + (noScroll ? 0 : docBody.scrollLeft),
       width: rect.width,
-      height: rect.height
+      height: rect.height,
     };
   },
 
@@ -259,8 +260,8 @@ export default Backbone.View.extend({
       'paddingTop',
       'paddingRight',
       'paddingBottom',
-      'paddingLeft'
-    ].forEach(offset => {
+      'paddingLeft',
+    ].forEach((offset) => {
       result[offset] = parseFloat(styles[offset]) * this.getZoom();
     });
 
@@ -285,7 +286,7 @@ export default Backbone.View.extend({
       top: fo.top + (noScroll ? 0 : bEl.scrollTop) * zoom - co.top,
       left: fo.left + (noScroll ? 0 : bEl.scrollLeft) * zoom - co.left,
       width: co.width,
-      height: co.height
+      height: co.height,
     };
   },
 
@@ -393,5 +394,5 @@ export default Backbone.View.extend({
     this._renderFrames();
 
     return this;
-  }
+  },
 });

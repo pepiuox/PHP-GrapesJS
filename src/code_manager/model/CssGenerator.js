@@ -1,7 +1,13 @@
 import Backbone from 'backbone';
 import { bindAll, isUndefined, each } from 'underscore';
+import { hasWin } from 'utils/mixins';
 
 const maxValue = Number.MAX_VALUE;
+
+export const getMediaLength = (mediaQuery) => {
+  const length = /(-?\d*\.?\d+)\w{0,}/.exec(mediaQuery);
+  return !length ? '' : length[0];
+};
 
 export default Backbone.Model.extend({
   initialize() {
@@ -21,21 +27,17 @@ export default Backbone.Model.extend({
     const avoidInline = em && em.getConfig('avoidInlineStyle');
     const style = model.styleToString();
     const classes = model.get('classes');
-    const wrapperIsBody = opts.wrapperIsBody;
-    const isWrapper = model.get('wrapper');
     this.ids.push(`#${model.getId()}`);
 
     // Let's know what classes I've found
-    classes.each(model => this.compCls.push(model.getFullName()));
+    classes.each((model) => this.compCls.push(model.getFullName()));
 
     if (!avoidInline && style) {
-      let selector = `#${model.getId()}`;
-      selector = wrapperIsBody && isWrapper ? 'body' : selector;
-      code = `${selector}{${style}}`;
+      code = `#${model.getId()}{${style}}`;
     }
 
     const components = model.components();
-    components.each(model => (code += this.buildFromModel(model, opts)));
+    components.each((model) => (code += this.buildFromModel(model, opts)));
     return code;
   },
 
@@ -55,11 +57,15 @@ export default Backbone.Model.extend({
         : opts.clearStyles;
 
     if (cssc) {
-      const rules = opts.rules || cssc.getAll();
+      let rules = opts.rules || cssc.getAll();
       const atRules = {};
       const dump = [];
 
-      rules.forEach(rule => {
+      if (opts.onlyMatched && model && hasWin()) {
+        rules = this.matchedRules(model, rules);
+      }
+
+      rules.forEach((rule) => {
         const atRule = rule.getAtRule();
 
         if (atRule) {
@@ -81,12 +87,12 @@ export default Backbone.Model.extend({
         }
       });
 
-      this.sortMediaObject(atRules).forEach(item => {
+      this.sortMediaObject(atRules).forEach((item) => {
         let rulesStr = '';
         const atRule = item.key;
         const mRules = item.value;
 
-        mRules.forEach(rule => {
+        mRules.forEach((rule) => {
           const ruleStr = this.buildFromRule(rule, dump, opts);
 
           if (rule.get('singleAtRule')) {
@@ -106,7 +112,7 @@ export default Backbone.Model.extend({
       em && clearStyles && rules.remove && rules.remove(dump);
     }
 
-    return json ? codeJson.filter(r => r) : code;
+    return json ? codeJson.filter((r) => r) : code;
   },
 
   /**
@@ -123,7 +129,7 @@ export default Backbone.Model.extend({
     let found;
 
     // This will not render a rule if there is no its component
-    rule.get('selectors').each(selector => {
+    rule.get('selectors').each((selector) => {
       const name = selector.getFullName();
       if (
         this.compCls.indexOf(name) >= 0 ||
@@ -140,6 +146,39 @@ export default Backbone.Model.extend({
     } else {
       dump.push(rule);
     }
+
+    return result;
+  },
+
+  /**
+   * Get matched rules of a component
+   * @param {Component} component
+   * @param {Array<CSSRule>} rules
+   * @returns {Array<CSSRule>}
+   */
+  matchedRules(component, rules) {
+    const el = component.getEl();
+    let result = [];
+
+    rules.forEach((rule) => {
+      try {
+        if (
+          rule
+            .selectorsToString()
+            .split(',')
+            .some((selector) => el.matches(this.__cleanSelector(selector)))
+        ) {
+          result.push(rule);
+        }
+      } catch (err) {}
+    });
+
+    component.components().forEach((component) => {
+      result = result.concat(this.matchedRules(component, rules));
+    });
+
+    // Remove duplicates
+    result = result.filter((rule, i) => result.indexOf(rule) === i);
 
     return result;
   },
@@ -166,7 +205,7 @@ export default Backbone.Model.extend({
     each(items, (value, key) => itemsArr.push({ key, value }));
     return itemsArr.sort((a, b) => {
       const isMobFirst = [a.key, b.key].every(
-        mquery => mquery.indexOf('min-width') !== -1
+        (mquery) => mquery.indexOf('min-width') !== -1
       );
       const left = isMobFirst ? a.key : b.key;
       const right = isMobFirst ? b.key : a.key;
@@ -175,12 +214,25 @@ export default Backbone.Model.extend({
   },
 
   sortRules(a, b) {
-    const getKey = rule => rule.get('mediaText');
+    const getKey = (rule) => rule.get('mediaText');
     const isMobFirst = [getKey(a), getKey(b)].every(
-      q => q.indexOf('min-width') !== -1
+      (q) => q.indexOf('min-width') !== -1
     );
     const left = isMobFirst ? getKey(a) : getKey(b);
     const right = isMobFirst ? getKey(b) : getKey(a);
     return this.getQueryLength(left) - this.getQueryLength(right);
-  }
+  },
+
+  /**
+   * Return passed selector without states
+   * @param {String} selector
+   * @returns {String}
+   * @private
+   */
+  __cleanSelector(selector) {
+    return selector
+      .split(' ')
+      .map((item) => item.split(':')[0])
+      .join(' ');
+  },
 });

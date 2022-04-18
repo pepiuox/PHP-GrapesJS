@@ -8,12 +8,38 @@
  * })
  * ```
  *
- * Once the editor is instantiated you can use its API. Before using these methods you should get the module from the instance
+ * Once the editor is instantiated you can use its API and listen to its events. Before using these methods, you should get the module from the instance.
  *
  * ```js
- * const domComponents = editor.DomComponents;
+ * // Listen to events
+ * editor.on('component:create', () => { ... });
+ *
+ * // Use the API
+ * const cmp = editor.Components;
+ * cmp.addType(...);
  * ```
  *
+ * ## Available Events
+ * * `component:create` - Component is created (only the model, is not yet mounted in the canvas), called after the init() method
+ * * `component:mount` - Component is mounted to an element and rendered in canvas
+ * * `component:add` - Triggered when a new component is added to the editor, the model is passed as an argument to the callback
+ * * `component:remove` - Triggered when a component is removed, the model is passed as an argument to the callback
+ * * `component:remove:before` - Triggered before the remove of the component, the model, remove function (if aborted via options, with this function you can complete the remove) and options (use options.abort = true to prevent remove), are passed as arguments to the callback
+ * * `component:clone` - Triggered when a component is cloned, the new model is passed as an argument to the callback
+ * * `component:update` - Triggered when a component is updated (moved, styled, etc.), the model is passed as an argument to the callback
+ * * `component:update:{propertyName}` - Listen any property change, the model is passed as an argument to the callback
+ * * `component:styleUpdate` - Triggered when the style of the component is updated, the model is passed as an argument to the callback
+ * * `component:styleUpdate:{propertyName}` - Listen for a specific style property change, the model is passed as an argument to the callback
+ * * `component:selected` - New component selected, the selected model is passed as an argument to the callback
+ * * `component:deselected` - Component deselected, the deselected model is passed as an argument to the callback
+ * * `component:toggled` - Component selection changed, toggled model is passed as an argument to the callback
+ * * `component:type:add` - New component type added, the new type is passed as an argument to the callback
+ * * `component:type:update` - Component type updated, the updated type is passed as an argument to the callback
+ * * `component:drag:start` - Component drag started. Passed an object, to the callback, containing the `target` (component to drag), `parent` (parent of the component) and `index` (component index in the parent)
+ * * `component:drag` - During component drag. Passed the same object as in `component:drag:start` event, but in this case, `parent` and `index` are updated by the current pointer
+ * * `component:drag:end` - Component drag ended. Passed the same object as in `component:drag:start` event, but in this case, `parent` and `index` are updated by the final pointer
+ *
+ * ## Methods
  * * [getWrapper](#getwrapper)
  * * [getComponents](#getcomponents)
  * * [addComponent](#addcomponent)
@@ -25,14 +51,22 @@
  * * [getTypes](#gettypes)
  * * [render](#render)
  *
- * @module DomComponents
+ * @module Components
  */
-import Backbone from 'backbone';
-import { isEmpty, isObject, isArray, result } from 'underscore';
+import {
+  isEmpty,
+  isObject,
+  isArray,
+  isFunction,
+  isString,
+  result,
+  debounce,
+} from 'underscore';
 import defaults from './config/config';
-import Component from './model/Component';
+import Component, { keyUpdate, keyUpdateInside } from './model/Component';
 import Components from './model/Components';
 import ComponentView from './view/ComponentView';
+import ComponentWrapperView from './view/ComponentWrapperView';
 import ComponentsView from './view/ComponentsView';
 import ComponentTableCell from './model/ComponentTableCell';
 import ComponentTableCellView from './view/ComponentTableCellView';
@@ -81,103 +115,103 @@ export default () => {
     {
       id: 'cell',
       model: ComponentTableCell,
-      view: ComponentTableCellView
+      view: ComponentTableCellView,
     },
     {
       id: 'row',
       model: ComponentTableRow,
-      view: ComponentTableRowView
+      view: ComponentTableRowView,
     },
     {
       id: 'table',
       model: ComponentTable,
-      view: ComponentTableView
+      view: ComponentTableView,
     },
     {
       id: 'thead',
       model: ComponentTableHead,
-      view: ComponentTableHeadView
+      view: ComponentTableHeadView,
     },
     {
       id: 'tbody',
       model: ComponentTableBody,
-      view: ComponentTableBodyView
+      view: ComponentTableBodyView,
     },
     {
       id: 'tfoot',
       model: ComponentTableFoot,
-      view: ComponentTableFootView
+      view: ComponentTableFootView,
     },
     {
       id: 'map',
       model: ComponentMap,
-      view: ComponentMapView
+      view: ComponentMapView,
     },
     {
       id: 'link',
       model: ComponentLink,
-      view: ComponentLinkView
+      view: ComponentLinkView,
     },
     {
       id: 'label',
       model: ComponentLabel,
-      view: ComponentLabelView
+      view: ComponentLabelView,
     },
     {
       id: 'video',
       model: ComponentVideo,
-      view: ComponentVideoView
+      view: ComponentVideoView,
     },
     {
       id: 'image',
       model: ComponentImage,
-      view: ComponentImageView
+      view: ComponentImageView,
     },
     {
       id: 'script',
       model: ComponentScript,
-      view: ComponentScriptView
+      view: ComponentScriptView,
     },
     {
       id: 'svg-in',
       model: ComponentSvgIn,
-      view: ComponentSvgView
+      view: ComponentSvgView,
     },
     {
       id: 'svg',
       model: ComponentSvg,
-      view: ComponentSvgView
+      view: ComponentSvgView,
     },
     {
       id: 'iframe',
       model: ComponentFrame,
-      view: ComponentFrameView
+      view: ComponentFrameView,
     },
     {
       id: 'comment',
       model: ComponentComment,
-      view: ComponentCommentView
+      view: ComponentCommentView,
     },
     {
       id: 'textnode',
       model: ComponentTextNode,
-      view: ComponentTextNodeView
+      view: ComponentTextNodeView,
     },
     {
       id: 'text',
       model: ComponentText,
-      view: ComponentTextView
+      view: ComponentTextView,
     },
     {
       id: 'wrapper',
       model: ComponentWrapper,
-      view: ComponentView
+      view: ComponentWrapperView,
     },
     {
       id: 'default',
       model: Component,
-      view: ComponentView
-    }
+      view: ComponentView,
+    },
   ];
 
   return {
@@ -368,7 +402,7 @@ export default () => {
      * @return {Component} Root Component
      * @example
      * // Change background of the wrapper and set some attribute
-     * var wrapper = domComponents.getWrapper();
+     * var wrapper = cmp.getWrapper();
      * wrapper.set('style', {'background-color': 'red'});
      * wrapper.set('attributes', {'title': 'Hello!'});
      */
@@ -383,7 +417,7 @@ export default () => {
      * @return {Components} Collection of components
      * @example
      * // Let's add some component
-     * var wrapperChildren = domComponents.getComponents();
+     * var wrapperChildren = cmp.getComponents();
      * var comp1 = wrapperChildren.add({
      *   style: { 'background-color': 'red'}
      * });
@@ -410,7 +444,7 @@ export default () => {
 
     /**
      * Add new components to the wrapper's children. It's the same
-     * as 'domComponents.getComponents().add(...)'
+     * as 'cmp.getComponents().add(...)'
      * @param {Object|Component|Array<Object>} component Component/s to add
      * @param {string} [component.tagName='div'] Tag name
      * @param {string} [component.type=''] Type of the component. Available: ''(default), 'text', 'image'
@@ -427,7 +461,7 @@ export default () => {
      * @return {Component|Array<Component>} Component/s added
      * @example
      * // Example of a new component with some extra property
-     * var comp1 = domComponents.addComponent({
+     * var comp1 = cmp.addComponent({
      *   tagName: 'div',
      *   removable: true, // Can't remove it
      *   draggable: true, // Can't move it
@@ -458,8 +492,8 @@ export default () => {
      */
     clear(opts = {}) {
       this.getComponents()
-        .map(i => i)
-        .forEach(i => i.remove(opts));
+        .map((i) => i)
+        .forEach((i) => i.remove(opts));
       return this;
     },
 
@@ -490,7 +524,7 @@ export default () => {
         extend,
         extendView,
         extendFn = [],
-        extendFnView = []
+        extendFnView = [],
       } = methods;
       const compType = this.getType(type);
       const extendType = this.getType(extend);
@@ -511,7 +545,7 @@ export default () => {
           const fn = target[next];
           const parentFn = srcToExt.prototype[next];
           if (fn && parentFn) {
-            res[next] = function(...args) {
+            res[next] = function (...args) {
               parentFn.bind(this)(...args);
               fn.bind(this)(...args);
             };
@@ -527,14 +561,14 @@ export default () => {
             ...getExtendedObj(extendFn, model, modelToExt),
             defaults: {
               ...(result(modelToExt.prototype, 'defaults') || {}),
-              ...(result(model, 'defaults') || {})
-            }
+              ...(result(model, 'defaults') || {}),
+            },
           },
           {
             isComponent:
               compType && !extendType && !isComponent
                 ? modelToExt.isComponent
-                : isComponent || (() => 0)
+                : isComponent || (() => 0),
           }
         );
       }
@@ -542,7 +576,7 @@ export default () => {
       if (typeof view === 'object') {
         methods.view = viewToExt.extend({
           ...view,
-          ...getExtendedObj(extendFnView, view, viewToExt)
+          ...getExtendedObj(extendFnView, view, viewToExt),
         });
       }
 
@@ -564,7 +598,7 @@ export default () => {
      * Get component type.
      * Read more about this in [Define New Component](https://grapesjs.com/docs/modules/Components.html#define-new-component)
      * @param {string} type Component ID
-     * @return {Object} Component type defintion, eg. `{ model: ..., view: ... }`
+     * @return {Object} Component type definition, eg. `{ model: ..., view: ... }`
      */
     getType(type) {
       var df = componentTypes;
@@ -603,9 +637,9 @@ export default () => {
     selectAdd(component, opts = {}) {
       if (component) {
         component.set({
-          status: 'selected'
+          status: 'selected',
         });
-        ['component:selected', 'component:toggled'].forEach(event =>
+        ['component:selected', 'component:toggled'].forEach((event) =>
           this.em.trigger(event, component, opts)
         );
       }
@@ -616,9 +650,9 @@ export default () => {
         const { em } = this;
         component.set({
           status: '',
-          state: ''
+          state: '',
         });
-        ['component:deselected', 'component:toggled'].forEach(event =>
+        ['component:deselected', 'component:toggled'].forEach((event) =>
           this.em.trigger(event, component, opts)
         );
       }
@@ -639,22 +673,120 @@ export default () => {
         previous.get('status') == state &&
         previous.set({
           status: '',
-          state: ''
+          state: '',
         });
 
       model && isEmpty(model.get('status')) && model.set('status', state);
+    },
+
+    getShallowWrapper() {
+      let { shallow, em } = this;
+
+      if (!shallow && em) {
+        const shallowEm = em.get('shallow');
+        if (!shallowEm) return;
+        const domc = shallowEm.get('DomComponents');
+        domc.componentTypes = this.componentTypes;
+        shallow = domc.getWrapper();
+        if (shallow) {
+          const events = [keyUpdate, keyUpdateInside].join(' ');
+          shallow.on(
+            events,
+            debounce(() => shallow.components(''), 100)
+          );
+        }
+        this.shallow = shallow;
+      }
+
+      return shallow;
+    },
+
+    /**
+     * Check if the component can be moved inside another.
+     * @param {[Component]} target The target Component is the one that is supposed to receive the source one.
+     * @param {[Component]|String} source The source can be another Component or an HTML string.
+     * @param {Number} [index] Index position. If not specified, the check will perform against appending the source to target.
+     * @returns {Object} Object containing the `result` (Boolean), `source`, `target` (as Components), and a `reason` (Number) with these meanings:
+     * * `0` - Invalid source. This is a default value and should be ignored in case the `result` is true.
+     * * `1` - Source doesn't accept target as destination.
+     * * `2` - Target doesn't accept source.
+     * @private
+     */
+    canMove(target, source, index) {
+      const at = index || index === 0 ? index : null;
+      const result = {
+        result: false,
+        reason: 0,
+        target,
+        source: null,
+      };
+
+      if (!source) return result;
+
+      let srcModel = source?.toHTML ? source : null;
+
+      if (!srcModel) {
+        const wrapper = this.getShallowWrapper();
+        srcModel = wrapper?.append(source)[0];
+      }
+
+      result.source = srcModel;
+
+      if (!srcModel) return result;
+
+      // Check if the source is draggable in the target
+      let draggable = srcModel.get('draggable');
+
+      if (isFunction(draggable)) {
+        draggable = !!draggable(srcModel, target, at);
+      } else {
+        const el = target.getEl();
+        draggable = isArray(draggable) ? draggable.join(',') : draggable;
+        draggable = isString(draggable) ? el?.matches(draggable) : draggable;
+      }
+
+      if (!draggable) return { ...result, reason: 1 };
+
+      // Check if the target accepts the source
+      let droppable = target.get('droppable');
+
+      if (isFunction(droppable)) {
+        droppable = !!droppable(srcModel, target, at);
+      } else {
+        if (
+          droppable === false &&
+          target.isInstanceOf('text') &&
+          srcModel.get('textable')
+        ) {
+          droppable = true;
+        } else {
+          const el = srcModel.getEl();
+          droppable = isArray(droppable) ? droppable.join(',') : droppable;
+          droppable = isString(droppable) ? el?.matches(droppable) : droppable;
+        }
+      }
+
+      if (!droppable) return { ...result, reason: 2 };
+
+      return { ...result, result: true };
     },
 
     allById() {
       return componentsById;
     },
 
+    getById(id) {
+      return componentsById[id] || null;
+    },
+
     destroy() {
       const all = this.allById();
-      Object.keys(all).forEach(id => all[id] && all[id].remove());
+      Object.keys(all).forEach((id) => all[id] && all[id].remove());
       componentView && componentView.remove();
-      [c, em, componentsById, component, componentView].forEach(i => (i = {}));
+      [c, em, componentsById, component, componentView].forEach(
+        (i) => (i = {})
+      );
       this.em = {};
-    }
+    },
   };
 };

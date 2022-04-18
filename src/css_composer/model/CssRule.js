@@ -2,46 +2,43 @@ import { Model } from 'backbone';
 import Styleable from 'domain_abstract/model/Styleable';
 import { isEmpty, forEach, isString, isArray } from 'underscore';
 import Selectors from 'selector_manager/model/Selectors';
+import { getMediaLength } from 'code_manager/model/CssGenerator';
 import { isEmptyObj, hasWin } from 'utils/mixins';
 
 const { CSS } = hasWin() ? window : {};
 
+/**
+ * @typedef CssRule
+ * @property {Array<Selector>} selectors Array of selectors
+ * @property {Object} style Object containing style definitions
+ * @property {String} [selectorsAdd=''] Additional string css selectors
+ * @property {String} [atRuleType=''] Type of at-rule, eg. `media`, 'font-face'
+ * @property {String} [mediaText=''] At-rule value, eg. `(max-width: 1000px)`
+ * @property {Boolean} [singleAtRule=false] This property is used only on at-rules, like 'page' or 'font-face', where the block containes only style declarations
+ * @property {String} [state=''] State of the rule, eg: `hover`, `focused`
+ * @property {Boolean|Array<String>} [important=false] If true, sets `!important` on all properties. You can also pass an array to specify properties on which use important
+ * @property {Boolean} [stylable=true] Indicates if the rule is stylable from the editor
+ *
+ * [Device]: device.html
+ * [State]: state.html
+ * [Component]: component.html
+ */
 export default class CssRule extends Model.extend(Styleable) {
   defaults() {
     return {
-      // Css selectors
       selectors: [],
-
-      // Additional string css selectors
       selectorsAdd: '',
-
-      // Css properties style
       style: {},
-
-      // On which device width this rule should be rendered, eg. `(max-width: 1000px)`
       mediaText: '',
-
-      // State of the rule, eg: hover | pressed | focused
       state: '',
-
-      // Indicates if the rule is stylable
       stylable: true,
-
-      // Type of at-rule, eg. 'media', 'font-face', etc.
       atRuleType: '',
-
-      // This particolar property is used only on at-rules, like 'page' or
-      // 'font-face', where the block containes only style declarations
       singleAtRule: false,
-
-      // If true, sets '!important' on all properties
-      // You can use an array to specify properties to set important
-      // Used in view
       important: false,
-
       group: '',
-
-      _undo: true
+      // If true, won't be stored in JSON or showed in CSS
+      shallow: false,
+      _undo: true,
     };
   }
 
@@ -62,7 +59,7 @@ export default class CssRule extends Model.extend(Styleable) {
   clone() {
     const opts = { ...this.opt };
     const attr = { ...this.attributes };
-    attr.selectors = this.get('selectors').map(s => s.clone());
+    attr.selectors = this.get('selectors').map((s) => s.clone());
     return new this.constructor(attr, opts);
   }
 
@@ -80,7 +77,7 @@ export default class CssRule extends Model.extend(Styleable) {
     sels = isString(sels) ? [sels] : sels;
 
     if (Array.isArray(sels)) {
-      const res = sels.filter(i => i).map(i => (sm ? sm.add(i) : i));
+      const res = sels.filter((i) => i).map((i) => (sm ? sm.add(i) : i));
       sels = new Selectors(res);
     }
 
@@ -89,7 +86,7 @@ export default class CssRule extends Model.extend(Styleable) {
   }
 
   /**
-   * Return the at-rule statement when exists, eg. '@media (...)', '@keyframes'
+   * Returns the at-rule statement when exists, eg. `@media (...)`, `@keyframes`
    * @returns {String}
    * @example
    * const cssRule = editor.Css.setRule('.class1', { color: 'red' }, {
@@ -120,15 +117,11 @@ export default class CssRule extends Model.extend(Styleable) {
   selectorsToString(opts = {}) {
     const result = [];
     const state = this.get('state');
-    const wrapper = this.get('wrapper');
     const addSelector = this.get('selectorsAdd');
-    const isBody = wrapper && opts.body;
     const selOpts = {
-      escape: str => (CSS && CSS.escape ? CSS.escape(str) : str)
+      escape: (str) => (CSS && CSS.escape ? CSS.escape(str) : str),
     };
-    const selectors = isBody
-      ? 'body'
-      : this.get('selectors').getFullString(0, selOpts);
+    const selectors = this.get('selectors').getFullString(0, selOpts);
     const stateStr = state && !opts.skipState ? `:${state}` : '';
     selectors && result.push(`${selectors}${stateStr}`);
     addSelector && !opts.skipAdd && result.push(addSelector);
@@ -152,11 +145,61 @@ export default class CssRule extends Model.extend(Styleable) {
     const style = this.styleToString(opts);
     const singleAtRule = this.get('singleAtRule');
 
-    if ((selectors || singleAtRule) && style) {
+    if ((selectors || singleAtRule) && (style || opts.allowEmpty)) {
       result = singleAtRule ? style : `${selectors}{${style}}`;
     }
 
     return result;
+  }
+
+  /**
+   * Get the Device the rule is related to.
+   * @returns {[Device]|null}
+   * @example
+   * const device = rule.getDevice();
+   * console.log(device?.getName());
+   */
+  getDevice() {
+    const { em } = this;
+    const { atRuleType, mediaText } = this.attributes;
+    const devices = em?.get('DeviceManager').getDevices() || [];
+    const deviceDefault = devices.filter((d) => d.getWidthMedia() === '')[0];
+    if (atRuleType !== 'media' || !mediaText) {
+      return deviceDefault || null;
+    }
+    return (
+      devices.filter(
+        (d) => d.getWidthMedia() === getMediaLength(mediaText)
+      )[0] || null
+    );
+  }
+
+  /**
+   * Get the State the rule is related to.
+   * @returns {[State]|null}
+   * @example
+   * const state = rule.getState();
+   * console.log(state?.getLabel());
+   */
+  getState() {
+    const { em } = this;
+    const stateValue = this.get('state');
+    const states = em.get('SelectorManager').getStates() || [];
+    return states.filter((s) => s.getName() === stateValue)[0] || null;
+  }
+
+  /**
+   * Returns the related Component (valid only for component-specific rules).
+   * @returns {[Component]|null}
+   * @example
+   * const cmp = rule.getComponent();
+   * console.log(cmp?.toHTML());
+   */
+  getComponent() {
+    const sel = this.getSelectors();
+    const sngl = sel.length == 1 && sel.at(0);
+    const cmpId = sngl && sngl.isId() && sngl.get('name');
+    return (cmpId && this.em?.get('DomComponents').getById(cmpId)) || null;
   }
 
   /**
@@ -174,7 +217,9 @@ export default class CssRule extends Model.extend(Styleable) {
     let result = '';
     const atRule = this.getAtRule();
     const block = this.getDeclaration(opts);
-    block && (result = block);
+    if (block || opts.allowEmpty) {
+      result = block;
+    }
 
     if (atRule && result) {
       result = `${atRule}{${result}}`;
@@ -224,8 +269,8 @@ export default class CssRule extends Model.extend(Styleable) {
     // Fix atRuleType in case is not specified with width
     if (wd && !atRule) atRule = 'media';
 
-    const a1 = sel.map(model => model.getFullName());
-    const a2 = this.get('selectors').map(model => model.getFullName());
+    const a1 = sel.map((model) => model.getFullName());
+    const a2 = this.get('selectors').map((model) => model.getFullName());
 
     // Check selectors
     const a1S = a1.slice().sort();

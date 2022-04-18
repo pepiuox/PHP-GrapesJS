@@ -8,7 +8,7 @@ export default Backbone.View.extend({
     mousedown: 'startDrag',
     dragstart: 'handleDragStart',
     drag: 'handleDrag',
-    dragend: 'handleDragEnd'
+    dragend: 'handleDragEnd',
   },
 
   initialize(o, config = {}) {
@@ -128,10 +128,10 @@ export default Backbone.View.extend({
       ${media ? `<div class="${className}__media">${media}</div>` : ''}
       <div class="${className}-label">${label}</div>
     `;
-    el.title = el.textContent.trim();
+    el.title = attr.title || el.textContent.trim();
     el.setAttribute('draggable', hasDnd(em) && !disable ? true : false);
     const result = render && render({ el, model, className, prefix: ppfx });
     if (result) el.innerHTML = result;
     return this;
-  }
+  },
 });

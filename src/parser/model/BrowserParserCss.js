@@ -11,7 +11,7 @@ const atRules = {
   12: 'supports',
   13: 'document',
   14: 'font-feature-values',
-  15: 'viewport'
+  15: 'viewport',
 };
 const atRuleKeys = keys(atRules);
 const singleAtRules = ['5', '6', '11', '15'];
@@ -57,7 +57,7 @@ export const parseSelector = (str = '') => {
 
   return {
     result,
-    add
+    add,
   };
 };
 
@@ -66,7 +66,7 @@ export const parseSelector = (str = '') => {
  * @param {CSSRule} node
  * @return {Object}
  */
-export const parseStyle = node => {
+export const parseStyle = (node) => {
   const stl = node.style;
   const style = {};
 
@@ -85,7 +85,7 @@ export const parseStyle = node => {
  * @param  {CSSRule} node
  * @return {string}
  */
-export const parseCondition = node => {
+export const parseCondition = (node) => {
   const condition =
     node.conditionText ||
     (node.media && node.media.mediaText) ||
@@ -132,7 +132,7 @@ export const createNode = (selectors, style = {}, opts = {}) => {
  * @param  {StyleSheet|CSSRule} el
  * @return {Array<Object>}
  */
-export const parseNode = el => {
+export const parseNode = (el) => {
   var result = [];
   var nodes = el.cssRules || [];
 
@@ -173,7 +173,7 @@ export const parseNode = el => {
     // For each group of selectors
     for (var k = 0, len3 = sels.length; k < len3; k++) {
       const model = createNode(sels[k], style, {
-        atRule: atRules[type]
+        atRule: atRules[type],
       });
       result.push(model);
       lastRule = model;
@@ -189,7 +189,7 @@ export const parseNode = el => {
         const model = {
           selectors: [],
           selectorsAdd: selsAddStr,
-          style
+          style,
         };
         singleAtRule && (model.singleAtRule = singleAtRule);
         atRuleType && (model.atRuleType = atRuleType);
@@ -197,7 +197,6 @@ export const parseNode = el => {
         result.push(model);
       }
     }
-    // console.log('LAST PUSH', result[result.length - 1]);
   }
 
   return result;
@@ -208,7 +207,7 @@ export const parseNode = el => {
  * @param  {String} str CSS string
  * @return {Array<Object>} Array of objects for the definition of CSSRules
  */
-export default str => {
+export default (str) => {
   const el = document.createElement('style');
   el.innerHTML = str;
 

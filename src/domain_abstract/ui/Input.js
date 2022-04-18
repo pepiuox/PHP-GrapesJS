@@ -4,7 +4,7 @@ const $ = Backbone.$;
 
 export default Backbone.View.extend({
   events: {
-    change: 'handleChange'
+    change: 'handleChange',
   },
 
   template() {
@@ -24,7 +24,8 @@ export default Backbone.View.extend({
     this.opts = opts;
     this.ppfx = ppfx;
     this.em = opts.target || {};
-    this.listenTo(this.model, 'change:value', this.handleModelChange);
+    !opts.onChange &&
+      this.listenTo(this.model, 'change:value', this.handleModelChange);
   },
 
   /**
@@ -58,8 +59,12 @@ export default Backbone.View.extend({
   handleChange(e) {
     e.stopPropagation();
     const value = this.getInputEl().value;
-    this.model.set({ value }, { fromInput: 1 });
+    this.__onInputChange(value);
     this.elementUpdated();
+  },
+
+  __onInputChange(value) {
+    this.model.set({ value }, { fromInput: 1 });
   },
 
   /**
@@ -88,5 +93,5 @@ export default Backbone.View.extend({
     el.html(this.template());
     el.find(`.${this.holderClass()}`).append(this.getInputEl());
     return this;
-  }
+  },
 });

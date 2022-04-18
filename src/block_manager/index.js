@@ -91,7 +91,7 @@ export default () => {
       drag: evDrag,
       dragStart: evDragStart,
       dragEnd: evDragStop,
-      custom: evCustom
+      custom: evCustom,
     },
 
     init(config = {}) {
@@ -100,16 +100,16 @@ export default () => {
       this.em = em;
 
       // Global blocks collection
-      blocks = new Blocks([]);
-      blocksVisible = new Blocks([]);
+      blocks = new Blocks(c.blocks);
+      blocksVisible = new Blocks(blocks.models);
       categories = new Categories();
       this.all = blocks;
       this.__initListen();
 
       // Setup the sync between the global and public collections
-      blocks.on('add', model => blocksVisible.add(model));
-      blocks.on('remove', model => blocksVisible.remove(model));
-      blocks.on('reset', coll => blocksVisible.reset(coll.models));
+      blocks.on('add', (model) => blocksVisible.add(model));
+      blocks.on('remove', (model) => blocksVisible.remove(model));
+      blocks.on('reset', (coll) => blocksVisible.reset(coll.models));
 
       return this;
     },
@@ -125,8 +125,8 @@ export default () => {
         blocks: this.getAll().models,
         container: bhv.container,
         dragStart: (block, ev) => this.startDrag(block, ev),
-        drag: ev => this.__drag(ev),
-        dragStop: cancel => this.endDrag(cancel)
+        drag: (ev) => this.__drag(ev),
+        dragStop: (cancel) => this.endDrag(cancel),
       };
     },
 
@@ -135,13 +135,13 @@ export default () => {
       const content = block.getContent ? block.getContent() : block;
       this._dragBlock = block;
       em.set({ dragResult: null, dragContent: content });
-      [em, blocks].map(i => i.trigger(events.dragStart, block, ev));
+      [em, blocks].map((i) => i.trigger(events.dragStart, block, ev));
     },
 
     __drag(ev) {
       const { em, events } = this;
       const block = this._dragBlock;
-      [em, blocks].map(i => i.trigger(events.drag, block, ev));
+      [em, blocks].map((i) => i.trigger(events.drag, block, ev));
     },
 
     __endDrag() {
@@ -167,25 +167,25 @@ export default () => {
         }
 
         if (block.get('resetId')) {
-          first.onAll(block => block.resetId());
+          first.onAll((block) => block.resetId());
         }
       }
 
       em.set({ dragResult: null, dragContent: null });
-      [em, blocks].map(i => i.trigger(events.dragEnd, cmp, block));
+      [em, blocks].map((i) => i.trigger(events.dragEnd, cmp, block));
     },
 
     __getFrameViews() {
       return this.em
         .get('Canvas')
         .getFrames()
-        .map(frame => frame.view);
+        .map((frame) => frame.view);
     },
 
     __behaviour(opts = {}) {
       return (this._bhv = {
         ...(this._bhv || {}),
-        ...opts
+        ...opts,
       });
     },
 
@@ -195,11 +195,11 @@ export default () => {
 
     startDrag(block, ev) {
       this.__startDrag(block, ev);
-      this.__getFrameViews().forEach(fv => fv.droppable.startCustom());
+      this.__getFrameViews().forEach((fv) => fv.droppable.startCustom());
     },
 
     endDrag(cancel) {
-      this.__getFrameViews().forEach(fv => fv.droppable.endCustom(cancel));
+      this.__getFrameViews().forEach((fv) => fv.droppable.endCustom(cancel));
       this.__endDrag();
     },
 
@@ -209,11 +209,6 @@ export default () => {
      */
     getConfig() {
       return c;
-    },
-
-    onLoad() {
-      const blocks = this.getAll();
-      !blocks.length && blocks.reset(c.blocks);
     },
 
     postRender() {
@@ -369,10 +364,15 @@ export default () => {
 
     destroy() {
       const colls = [blocks, blocksVisible, categories];
-      colls.map(c => c.stopListening());
-      colls.map(c => c.reset());
+      colls.map((c) => c.stopListening());
+      colls.map((c) => c.reset());
       blocksView && blocksView.remove();
       c = {};
-    }
+      blocks = {};
+      blocksVisible = {};
+      blocksView = {};
+      categories = [];
+      this.all = {};
+    },
   };
 };

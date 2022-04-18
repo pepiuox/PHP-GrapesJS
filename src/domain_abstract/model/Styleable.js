@@ -1,4 +1,4 @@
-import { isString, isArray, keys } from 'underscore';
+import { isString, isArray, keys, isUndefined } from 'underscore';
 import { shallowDiff } from 'utils/mixins';
 import ParserHtml from 'parser/model/ParserHtml';
 
@@ -21,9 +21,10 @@ export default {
    * Get style object
    * @return {Object}
    */
-  getStyle() {
+  getStyle(prop) {
     const style = this.get('style') || {};
-    return { ...style };
+    const result = { ...style };
+    return prop && isString(prop) ? result[prop] : result;
   },
 
   /**
@@ -41,12 +42,13 @@ export default {
     const propNew = { ...prop };
     this.set('style', propNew, opts);
     const diff = shallowDiff(propOrig, propNew);
-    keys(diff).forEach(pr => {
+    keys(diff).forEach((pr) => {
       const em = this.em;
+      if (opts.noEvent) return;
       this.trigger(`change:style:${pr}`);
       if (em) {
-        em.trigger(`styleable:change`, this, pr);
-        em.trigger(`styleable:change:${pr}`, this, pr);
+        em.trigger(`styleable:change`, this, pr, opts);
+        em.trigger(`styleable:change:${pr}`, this, pr, opts);
       }
     });
 
@@ -64,7 +66,7 @@ export default {
   addStyle(prop, value = '', opts = {}) {
     if (typeof prop == 'string') {
       prop = {
-        prop: value
+        prop: value,
       };
     } else {
       opts = value || {};
@@ -108,9 +110,29 @@ export default {
     return this.get('selectors') || this.get('classes');
   },
 
-  getSelectorsString() {
+  getSelectorsString(opts) {
     return this.selectorsToString
-      ? this.selectorsToString()
+      ? this.selectorsToString(opts)
       : this.getSelectors().getFullString();
-  }
+  },
+
+  _validate(attr, opts) {
+    const { style } = attr;
+    const em = this.em || opts.em;
+    const onBeforeStyle = em?.get('CssComposer')?.getConfig().onBeforeStyle;
+
+    if (style && onBeforeStyle) {
+      const newStyle = onBeforeStyle({ ...style });
+      newStyle &&
+        keys(style).map((prop) => {
+          if (isUndefined(newStyle[prop])) delete attr.style[prop];
+        });
+      newStyle &&
+        keys(newStyle).map((prop) => {
+          attr.style[prop] = newStyle[prop];
+        });
+    }
+
+    return true;
+  },
 };

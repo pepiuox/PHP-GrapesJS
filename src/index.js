@@ -1,7 +1,8 @@
-import $ from 'cash-dom';
-import Editor from './editor';
 import { isElement, isFunction } from 'underscore';
+import $ from 'utils/cash-dom';
+import Editor from './editor';
 import polyfills from 'utils/polyfills';
+import { getGlobal } from 'utils/mixins';
 import PluginManager from './plugin_manager';
 
 polyfills();
@@ -16,7 +17,7 @@ const defaultConfig = {
   plugins: [],
 
   // Custom options for plugins
-  pluginsOpts: {}
+  pluginsOpts: {},
 };
 
 export default {
@@ -27,7 +28,7 @@ export default {
   plugins,
 
   // Will be replaced on build
-  version: '<# VERSION #>',
+  version: __GJS_VERSION__,
 
   /**
    * Initialize the editor with passed options
@@ -52,18 +53,18 @@ export default {
     config = { ...defaultConfig, ...config, grapesjs: this };
     config.el =
       !headless && (isElement(els) ? els : document.querySelector(els));
-    const editor = new Editor(config).init();
+    const editor = new Editor(config, { $ }).init();
     const em = editor.getModel();
 
     // Load plugins
-    config.plugins.forEach(pluginId => {
-      let plugin = plugins.get(pluginId);
+    config.plugins.forEach((pluginId) => {
+      let plugin = isFunction(pluginId) ? pluginId : plugins.get(pluginId);
       const plgOptions = config.pluginsOpts[pluginId] || {};
 
       // Try to search in global context
       if (!plugin) {
-        const wplg = window[pluginId];
-        plugin = wplg && wplg.default ? wplg.default : wplg;
+        const wplg = getGlobal()[pluginId];
+        plugin = wplg?.default || wplg;
       }
 
       if (plugin) {
@@ -73,7 +74,7 @@ export default {
       } else {
         em.logWarning(`Plugin ${pluginId} not found`, {
           context: 'plugins',
-          plugin: pluginId
+          plugin: pluginId,
         });
       }
     });
@@ -86,5 +87,5 @@ export default {
     editors.push(editor);
 
     return editor;
-  }
+  },
 };

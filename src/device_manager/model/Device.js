@@ -15,7 +15,7 @@ export default class Device extends Model {
       width: null,
       height: '',
       widthMedia: null,
-      priority: null
+      priority: null,
     };
   }
 
@@ -26,12 +26,20 @@ export default class Device extends Model {
     !this.get('priority') &&
       this.set('priority', parseFloat(this.get('widthMedia')) || 0);
     const toCheck = ['width', 'height', 'widthMedia'];
-    toCheck.forEach(prop => this.checkUnit(prop));
+    toCheck.forEach((prop) => this.checkUnit(prop));
   }
 
   checkUnit(prop) {
     const pr = this.get(prop) || '';
     const noUnit = (parseFloat(pr) || 0).toString() === pr.toString();
     noUnit && this.set(prop, `${pr}px`);
+  }
+
+  getName() {
+    return this.get('name') || this.get('id');
+  }
+
+  getWidthMedia() {
+    return this.get('widthMedia') || '';
   }
 }

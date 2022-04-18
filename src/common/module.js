@@ -1,14 +1,18 @@
-import { isString } from 'underscore';
+import { isString, isElement } from 'underscore';
 import { createId } from 'utils/mixins';
 
 export default {
   getConfig(name) {
+    return this.__getConfig(name);
+  },
+
+  __getConfig(name) {
     const res = this.config || {};
     return name ? res[name] : res;
   },
 
-  getAll() {
-    return this.all || [];
+  getAll(opts = {}) {
+    return this.all ? (opts.array ? [...this.all.models] : this.all) : [];
   },
 
   getAllMap() {
@@ -18,7 +22,16 @@ export default {
     }, {});
   },
 
-  __initListen() {
+  __initConfig(def = {}, conf = {}) {
+    this.config = {
+      ...def,
+      ...conf,
+    };
+    this.em = this.config.em;
+    this.cls = [];
+  },
+
+  __initListen(opts = {}) {
     const { all, em, events } = this;
     all &&
       em &&
@@ -29,6 +42,16 @@ export default {
           em.trigger(events.update, p, p.changedAttributes(), c)
         )
         .on('all', this.__catchAllEvent, this);
+    // Register collections
+    this.cls = [all].concat(opts.collections || []);
+    // Propagate events
+    (opts.propagate || []).forEach(({ entity, event }) => {
+      entity.on('all', (ev, model, coll, opts) => {
+        const options = opts || coll;
+        const opt = { event: ev, ...options };
+        [em, all].map((md) => md.trigger(event, model, opt));
+      });
+    });
   },
 
   __remove(model, opts = {}) {
@@ -49,6 +72,16 @@ export default {
     this.__onAllEvent();
   },
 
+  __appendTo() {
+    const elTo = this.getConfig().appendTo;
+
+    if (elTo) {
+      const el = isElement(elTo) ? elTo : document.querySelector(elTo);
+      if (!el) return this.__logWarn('"appendTo" element not found');
+      el.appendChild(this.render());
+    }
+  },
+
   __onAllEvent() {},
 
   __logWarn(str) {
@@ -66,5 +99,30 @@ export default {
     } while (allMap[id]);
 
     return id;
-  }
+  },
+
+  __listenAdd(model, event) {
+    model.on('add', (m, c, o) => this.em.trigger(event, m, o));
+  },
+
+  __listenRemove(model, event) {
+    model.on('remove', (m, c, o) => this.em.trigger(event, m, o));
+  },
+
+  __listenUpdate(model, event) {
+    model.on('change', (p, c) =>
+      this.em.trigger(event, p, p.changedAttributes(), c)
+    );
+  },
+
+  __destroy() {
+    this.cls.forEach((coll) => {
+      coll.stopListening();
+      coll.reset();
+    });
+    this.em = 0;
+    this.config = 0;
+    this.view?.remove();
+    this.view = 0;
+  },
 };

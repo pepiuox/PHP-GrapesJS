@@ -20,12 +20,13 @@ export default Backbone.View.extend({
     'click [data-tag-remove]': 'removeTag',
     'click [data-tag-status]': 'changeStatus',
     'dblclick [data-tag-name]': 'startEditTag',
-    'focusout [data-tag-name]': 'endEditTag'
+    'focusout [data-tag-name]': 'endEditTag',
   },
 
-  initialize(o) {
+  initialize(o = {}) {
     const config = o.config || {};
     this.config = config;
+    this.module = o.module;
     this.coll = o.coll || null;
     this.pfx = config.stylePrefix || '';
     this.ppfx = config.pStylePrefix || '';
@@ -97,11 +98,7 @@ export default Backbone.View.extend({
    * @private
    */
   removeTag() {
-    const { em, model } = this;
-    const targets = em && em.getSelectedAll();
-    targets.forEach(sel => {
-      !model.get('protected') && sel && sel.getSelectors().remove(model);
-    });
+    this.module.removeSelected(this.model);
   },
 
   /**
@@ -129,5 +126,5 @@ export default Backbone.View.extend({
     this.$el.attr('class', `${pfx}tag ${ppfx}three-bg`);
     this.updateStatus();
     return this;
-  }
+  },
 });

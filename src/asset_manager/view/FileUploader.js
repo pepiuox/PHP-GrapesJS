@@ -26,7 +26,7 @@ export default Backbone.View.extend(
     initialize(opts = {}) {
       this.options = opts;
       const c = opts.config || {};
-      this.module = c.module;
+      this.module = opts.module;
       this.config = c;
       this.em = this.config.em;
       this.pfx = c.stylePrefix || '';
@@ -151,18 +151,18 @@ export default Backbone.View.extend(
           method: 'post',
           credentials: config.credentials || 'include',
           headers,
-          body
+          body,
         };
         const fetchResult = customFetch
           ? customFetch(url, fetchOpts)
-          : fetch(url, fetchOpts).then(res =>
+          : fetch(url, fetchOpts).then((res) =>
               ((res.status / 200) | 0) == 1
                 ? res.text()
-                : res.text().then(text => Promise.reject(text))
+                : res.text().then((text) => Promise.reject(text))
             );
         return fetchResult
-          .then(text => this.onUploadResponse(text, clb))
-          .catch(err => this.onUploadError(err));
+          .then((text) => this.onUploadResponse(text, clb))
+          .catch((err) => this.onUploadError(err));
       }
     },
 
@@ -176,15 +176,15 @@ export default Backbone.View.extend(
         this.uploadForm = this.$el.find('form').get(0);
         if ('draggable' in this.uploadForm) {
           var uploadFile = this.uploadFile;
-          this.uploadForm.ondragover = function() {
+          this.uploadForm.ondragover = function () {
             this.className = that.pfx + 'hover';
             return false;
           };
-          this.uploadForm.ondragleave = function() {
+          this.uploadForm.ondragleave = function () {
             this.className = '';
             return false;
           };
-          this.uploadForm.ondrop = function(e) {
+          this.uploadForm.ondrop = function (e) {
             this.className = '';
             e.preventDefault();
             that.uploadFile(e);
@@ -220,7 +220,7 @@ export default Backbone.View.extend(
         cleanEditorElCls();
         return false;
       };
-      const onDrop = e => {
+      const onDrop = (e) => {
         cleanEditorElCls();
         e.preventDefault();
         e.stopPropagation();
@@ -233,7 +233,7 @@ export default Backbone.View.extend(
             onSelect() {
               editor.Modal.close();
               editor.AssetManager.setTarget(null);
-            }
+            },
           });
         }
 
@@ -244,7 +244,7 @@ export default Backbone.View.extend(
       cleanEditorElCls();
 
       if ('draggable' in edEl) {
-        [edEl, frameEl].forEach(item => {
+        [edEl, frameEl].forEach((item) => {
           item.ondragover = onDragOver;
           item.ondragleave = onDragLeave;
           item.ondrop = onDrop;
@@ -260,16 +260,16 @@ export default Backbone.View.extend(
           uploadId: this.uploadId,
           disabled: this.disabled,
           multiUpload: this.multiUpload,
-          pfx
+          pfx,
         })
       );
       this.initDrop();
       $el.attr('class', pfx + 'file-uploader');
       return this;
-    }
+    },
   },
   {
-    embedAsBase64: function(e, clb) {
+    embedAsBase64: function (e, clb) {
       // List files dropped
       const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
       const response = { data: [] };
@@ -290,7 +290,7 @@ export default Backbone.View.extend(
         // and a promise (to track and merge results and errors)
         const promise = new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.addEventListener('load', event => {
+          reader.addEventListener('load', (event) => {
             let type;
             const name = file.name;
 
@@ -329,11 +329,11 @@ export default Backbone.View.extend(
                 name,
                 type,
                 height: 0,
-                width: 0
+                width: 0,
               };
 
               const image = new Image();
-              image.addEventListener('error', error => {
+              image.addEventListener('error', (error) => {
                 reject(error);
               });
               image.addEventListener('load', () => {
@@ -347,17 +347,17 @@ export default Backbone.View.extend(
               resolve({
                 src: reader.result,
                 name,
-                type
+                type,
               });
             } else {
               // No type found, resolve with the URL only
               resolve(reader.result);
             }
           });
-          reader.addEventListener('error', error => {
+          reader.addEventListener('error', (error) => {
             reject(error);
           });
-          reader.addEventListener('abort', error => {
+          reader.addEventListener('abort', (error) => {
             reject('Aborted');
           });
 
@@ -368,14 +368,14 @@ export default Backbone.View.extend(
       }
 
       Promise.all(promises).then(
-        data => {
+        (data) => {
           response.data = data;
           this.onUploadResponse(response, clb);
         },
-        error => {
+        (error) => {
           this.onUploadError(error);
         }
       );
-    }
+    },
   }
 );

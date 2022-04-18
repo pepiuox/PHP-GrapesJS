@@ -2,7 +2,6 @@ import { Model } from 'backbone';
 
 export default class HTMLGenerator extends Model {
   build(model, opts = {}) {
-    const models = model.components();
     const htmlOpts = {};
     const { em } = opts;
 
@@ -11,12 +10,12 @@ export default class HTMLGenerator extends Model {
       const rules = em.get('CssComposer').getAll();
       const idRules = rules
         .toJSON()
-        .map(rule => {
+        .map((rule) => {
           const sels = rule.selectors;
           const sel = sels && sels.length === 1 && sels.models[0];
           return sel && sel.isId() && sel.get('name');
         })
-        .filter(i => i);
+        .filter((i) => i);
 
       htmlOpts.attributes = (mod, attrs) => {
         const { id } = attrs;
@@ -33,19 +32,6 @@ export default class HTMLGenerator extends Model {
       };
     }
 
-    if (opts.exportWrapper) {
-      return model.toHTML({
-        ...htmlOpts,
-        ...(opts.wrapperIsBody && model.is('wrapper') && { tag: 'body' })
-      });
-    }
-
-    return this.buildModels(models, htmlOpts);
-  }
-
-  buildModels(models, opts = {}) {
-    let code = '';
-    models.forEach(mod => (code += mod.toHTML(opts)));
-    return code;
+    return model.toHTML(htmlOpts);
   }
 }

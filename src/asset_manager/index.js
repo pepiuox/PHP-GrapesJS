@@ -63,6 +63,11 @@ export const evRemoveBefore = `${evRemove}:before`;
 export const evCustom = `${evPfx}custom`;
 export const evOpen = `${evPfx}open`;
 export const evClose = `${evPfx}close`;
+export const evUpload = `${evPfx}upload`;
+export const evUploadStart = `${evUpload}:start`;
+export const evUploadEnd = `${evUpload}:end`;
+export const evUploadError = `${evUpload}:error`;
+export const evUploadRes = `${evUpload}:response`;
 
 export default () => {
   let c = {};
@@ -89,7 +94,11 @@ export default () => {
       removeBefore: evRemoveBefore,
       custom: evCustom,
       open: evOpen,
-      close: evClose
+      close: evClose,
+      uploadStart: evUploadStart,
+      uploadEnd: evUploadEnd,
+      uploadError: evUploadError,
+      uploadResponse: evUploadRes,
     },
 
     init(config = {}) {
@@ -110,8 +119,8 @@ export default () => {
       this.__initListen();
 
       // Setup the sync between the global and public collections
-      assets.on('add', model => this.getAllVisible().add(model));
-      assets.on('remove', model => this.getAllVisible().remove(model));
+      assets.on('add', (model) => this.getAllVisible().add(model));
+      assets.on('remove', (model) => this.getAllVisible().remove(model));
 
       return this;
     },
@@ -121,7 +130,7 @@ export default () => {
       this.getAll().trigger(ev, ...data);
     },
 
-    __onAllEvent: debounce(function() {
+    __onAllEvent: debounce(function () {
       this.__trgCustom();
     }),
 
@@ -148,7 +157,7 @@ export default () => {
           isFunction(bhv.select) && bhv.select(res, complete);
         },
         // extra
-        options: bhv.options || {}
+        options: bhv.options || {},
       };
     },
 
@@ -177,7 +186,7 @@ export default () => {
       cmd.run(assetCmd, {
         types: ['image'],
         select: () => {},
-        ...options
+        ...options,
       });
     },
 
@@ -351,24 +360,27 @@ export default () => {
       const toRender = assts || this.getAll().models;
 
       if (!am) {
-        const obj = {
-          collection: assetsVis, // Collection visible in asset manager
-          globalCollection: assets,
-          config: c,
-          module: this
-        };
-        fu = new FileUpload(obj);
-        obj.fu = fu;
+        const obj = this.__viewParams();
+        obj.fu = this.FileUploader();
         const el = am && am.el;
         am = new AssetsView({
           el,
-          ...obj
+          ...obj,
         });
         am.render();
       }
 
       assetsVis.reset(toRender);
       return this.getContainer();
+    },
+
+    __viewParams() {
+      return {
+        collection: assetsVis, // Collection visible in asset manager
+        globalCollection: assets,
+        config: c,
+        module: this,
+      };
     },
 
     /**
@@ -416,6 +428,9 @@ export default () => {
     },
 
     FileUploader() {
+      if (!fu) {
+        fu = new FileUpload(this.__viewParams());
+      }
       return fu;
     },
 
@@ -469,7 +484,7 @@ export default () => {
     __behaviour(opts = {}) {
       return (this._bhv = {
         ...(this._bhv || {}),
-        ...opts
+        ...opts,
       });
     },
 
@@ -484,9 +499,10 @@ export default () => {
       assetsVis.reset();
       fu && fu.remove();
       am && am.remove();
-      [assets, am, fu].forEach(i => (i = null));
+      [assets, assetsVis, am, fu].forEach((i) => (i = null));
       this._bhv = {};
+      this.all = {};
       c = {};
-    }
+    },
   };
 };

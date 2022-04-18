@@ -30,7 +30,8 @@ import { isUndefined, isString } from 'underscore';
 import { hasWin } from 'utils/mixins';
 import config from './config';
 
-const isObj = el => !Array.isArray(el) && el !== null && typeof el === 'object';
+const isObj = (el) =>
+  !Array.isArray(el) && el !== null && typeof el === 'object';
 
 const deepAssign = (...args) => {
   const target = { ...args[0] };
@@ -70,9 +71,11 @@ export default () => {
         ...opts,
         messages: {
           ...config.messages,
-          ...(opts.messages || {})
-        }
+          ...(opts.messages || {}),
+        },
       };
+      const add = this.config.messagesAdd;
+      add && this.addMessages(add);
 
       if (this.config.detectLocale) {
         this.config.locale = this._localLang();
@@ -248,6 +251,6 @@ export default () => {
     destroy() {
       this.config = config;
       this.em = {};
-    }
+    },
   };
 };

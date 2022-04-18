@@ -3,7 +3,6 @@
 $definefiles = 'define.php';
 if (!file_exists($definefiles)) {
 
-
     $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
     if ($result = $conn->query($sql)) {
         $fname = $result->fetch_fields();

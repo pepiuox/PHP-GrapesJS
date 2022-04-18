@@ -7,7 +7,10 @@ const View = Backbone.View;
 export default {
   types: [],
 
-  initialize(models, opts) {
+  initialize(models, opts = {}) {
+    const { em } = opts;
+    this.em = em;
+    this.opts = opts;
     this.model = (attrs = {}, options = {}) => {
       let Model, View, type;
 
@@ -24,7 +27,7 @@ export default {
         attrs = typeFound.attributes;
       }
 
-      const model = new Model(attrs, options);
+      const model = new Model(attrs, { ...options, em });
       model.typeView = View;
       return model;
     };
@@ -51,7 +54,7 @@ export default {
       if (typeFound) {
         return {
           type,
-          attributes: typeFound
+          attributes: typeFound,
         };
       }
     }
@@ -59,7 +62,7 @@ export default {
     // If, for any reason, the type is not found it'll return the base one
     return {
       type: this.getBaseType(),
-      attributes: value
+      attributes: value,
     };
   },
 
@@ -139,12 +142,12 @@ export default {
       definition.view = view;
       definition.isType =
         isType ||
-        function(value) {
+        function (value) {
           if (value && value.type == id) {
             return true;
           }
         };
       this.getTypes().unshift(definition);
     }
-  }
+  },
 };

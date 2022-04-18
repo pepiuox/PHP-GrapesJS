@@ -1,8 +1,17 @@
 import { keys, isUndefined, isElement, isArray } from 'underscore';
 
+export const isDef = (value) => typeof value !== 'undefined';
+
 export const hasWin = () => typeof window !== 'undefined';
 
-export const toLowerCase = str => (str || '').toLowerCase();
+export const getGlobal = () =>
+  typeof globalThis !== 'undefined'
+    ? globalThis
+    : typeof window !== 'undefined'
+    ? window
+    : global;
+
+export const toLowerCase = (str) => (str || '').toLowerCase();
 
 const elProt = hasWin() ? window.Element.prototype : {};
 const matches =
@@ -13,7 +22,7 @@ const matches =
 
 export const getUiClass = (em, defCls) => {
   const { stylePrefix, customUI } = em.getConfig();
-  return [customUI && `${stylePrefix}cui`, defCls].filter(i => i).join(' ');
+  return [customUI && `${stylePrefix}cui`, defCls].filter((i) => i).join(' ');
 };
 
 /**
@@ -92,7 +101,7 @@ const on = (el, ev, fn, opts) => {
   el = el instanceof Array ? el : [el];
 
   for (let i = 0; i < ev.length; ++i) {
-    el.forEach(elem => elem && elem.addEventListener(ev[i], fn, opts));
+    el.forEach((elem) => elem && elem.addEventListener(ev[i], fn, opts));
   }
 };
 
@@ -101,19 +110,19 @@ const off = (el, ev, fn, opts) => {
   el = el instanceof Array ? el : [el];
 
   for (let i = 0; i < ev.length; ++i) {
-    el.forEach(elem => elem && elem.removeEventListener(ev[i], fn, opts));
+    el.forEach((elem) => elem && elem.removeEventListener(ev[i], fn, opts));
   }
 };
 
-const getUnitFromValue = value => {
+const getUnitFromValue = (value) => {
   return value.replace(parseFloat(value), '');
 };
 
-const upFirst = value => value[0].toUpperCase() + value.toLowerCase().slice(1);
+const upFirst = (value) =>
+  value[0].toUpperCase() + value.toLowerCase().slice(1);
 
-const camelCase = value => {
-  const values = value.split('-').filter(String);
-  return values[0].toLowerCase() + values.slice(1).map(upFirst);
+const camelCase = (value) => {
+  return value.replace(/-./g, (x) => x[1].toUpperCase());
 };
 
 const normalizeFloat = (value, step = 1, valueDef = 0) => {
@@ -129,7 +138,7 @@ const normalizeFloat = (value, step = 1, valueDef = 0) => {
   return stepDecimals ? parseFloat(value.toFixed(stepDecimals)) : value;
 };
 
-const hasDnd = em => {
+const hasDnd = (em) => {
   return (
     'draggable' in document.createElement('i') &&
     (em ? em.get('Config').nativeDnD : 1)
@@ -141,7 +150,7 @@ const hasDnd = em => {
  * @param  {HTMLElement|Component} el Component or HTML element
  * @return {HTMLElement}
  */
-const getElement = el => {
+const getElement = (el) => {
   if (isElement(el) || isTextNode(el)) {
     return el;
   } else if (el && el.getEl) {
@@ -154,21 +163,22 @@ const getElement = el => {
  * @param  {HTMLElement} el
  * @return {Boolean}
  */
-const isTextNode = el => el && el.nodeType === 3;
+const isTextNode = (el) => el && el.nodeType === 3;
 
 /**
  * Check if element is a comment node
  * @param  {HTMLElement} el
  * @return {Boolean}
  */
-export const isCommentNode = el => el && el.nodeType === 8;
+export const isCommentNode = (el) => el && el.nodeType === 8;
 
 /**
  * Check if element is a comment node
  * @param  {HTMLElement} el
  * @return {Boolean}
  */
-export const isTaggableNode = el => el && !isTextNode(el) && !isCommentNode(el);
+export const isTaggableNode = (el) =>
+  el && !isTextNode(el) && !isCommentNode(el);
 
 export const find = (arr, test) => {
   let result = null;
@@ -193,16 +203,20 @@ export const escape = (str = '') => {
  */
 const getModel = (el, $) => {
   let model = el;
-  isElement(el) && (model = $(el).data('model'));
+  if (!$ && el && el.__cashData) {
+    model = el.__cashData.model;
+  } else if (isElement(el)) {
+    model = $(el).data('model');
+  }
   return model;
 };
 
-const getElRect = el => {
+const getElRect = (el) => {
   const def = {
     top: 0,
     left: 0,
     width: 0,
-    height: 0
+    height: 0,
   };
   if (!el) return def;
   let rectText;
@@ -224,7 +238,7 @@ const getElRect = el => {
  * @param  {Event} ev
  * @return {Event}
  */
-const getPointerEvent = ev =>
+const getPointerEvent = (ev) =>
   ev.touches && ev.touches[0] ? ev.touches[0] : ev;
 
 /**
@@ -232,19 +246,20 @@ const getPointerEvent = ev =>
  * @param  {Event} ev
  * @return {Number}
  */
-const getKeyCode = ev => ev.which || ev.keyCode;
-const getKeyChar = ev => String.fromCharCode(getKeyCode(ev));
-const isEscKey = ev => getKeyCode(ev) === 27;
-const isEnterKey = ev => getKeyCode(ev) === 13;
-const isObject = val =>
+const getKeyCode = (ev) => ev.which || ev.keyCode;
+const getKeyChar = (ev) => String.fromCharCode(getKeyCode(ev));
+const isEscKey = (ev) => getKeyCode(ev) === 27;
+const isEnterKey = (ev) => getKeyCode(ev) === 13;
+const isObject = (val) =>
   val !== null && !Array.isArray(val) && typeof val === 'object';
-const isEmptyObj = val => Object.keys(val).length <= 0;
+const isEmptyObj = (val) => Object.keys(val).length <= 0;
 
-const capitalize = str => str && str.charAt(0).toUpperCase() + str.substring(1);
-const isComponent = obj => obj && obj.toHTML;
-const isRule = obj => obj && obj.toCSS;
+const capitalize = (str) =>
+  str && str.charAt(0).toUpperCase() + str.substring(1);
+const isComponent = (obj) => obj && obj.toHTML;
+const isRule = (obj) => obj && obj.toCSS;
 
-const getViewEl = el => el.__gjsv;
+const getViewEl = (el) => el.__gjsv;
 const setViewEl = (el, view) => {
   el.__gjsv = view;
 };
@@ -287,5 +302,5 @@ export {
   isEmptyObj,
   isComponent,
   createId,
-  isRule
+  isRule,
 };

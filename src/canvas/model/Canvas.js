@@ -1,5 +1,6 @@
-import { Model } from 'backbone';
+import { Model } from 'common';
 import { evPageSelect } from 'pages';
+import Frames from './Frames';
 
 export default class Canvas extends Model {
   defaults() {
@@ -13,7 +14,7 @@ export default class Canvas extends Model {
       // Scripts to apply on all frames
       scripts: [],
       // Styles to apply on all frames
-      styles: []
+      styles: [],
     };
   }
 
@@ -21,6 +22,7 @@ export default class Canvas extends Model {
     const { em } = config;
     this.config = config;
     this.em = em;
+    this.set('frames', new Frames());
     this.listenTo(this, 'change:zoom', this.onZoomChange);
     this.listenTo(em, 'change:device', this.updateDevice);
     this.listenTo(em, evPageSelect, this._pageUpdated);
@@ -38,7 +40,7 @@ export default class Canvas extends Model {
     const { em } = this;
     em.setSelected();
     em.get('readyCanvas') && em.stopDefault(); // We have to stop before changing current frames
-    prev && prev.getFrames().map(frame => frame.disable());
+    prev && prev.getFrames().map((frame) => frame.disable());
     this.set('frames', page.getFrames());
   }
 

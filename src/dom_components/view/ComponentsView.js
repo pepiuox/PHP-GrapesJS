@@ -13,7 +13,7 @@ export default Backbone.View.extend({
   },
 
   removeChildren(removed, coll, opts = {}) {
-    removed.views.forEach(view => {
+    removed.views.forEach((view) => {
       if (!view) return;
       const { childrenView, scriptContainer } = view;
       childrenView && childrenView.stopListening();
@@ -22,7 +22,7 @@ export default Backbone.View.extend({
     });
 
     const inner = removed.components();
-    inner.forEach(it => this.removeChildren(it, coll, opts));
+    inner.forEach((it) => this.removeChildren(it, coll, opts));
   },
 
   /**
@@ -38,9 +38,9 @@ export default Backbone.View.extend({
     this.addToCollection(model, null, i);
 
     if (em && !opts.temporary) {
-      const triggerAdd = model => {
+      const triggerAdd = (model) => {
         em.trigger('component:add', model);
-        model.components().forEach(comp => triggerAdd(comp));
+        model.components().forEach((comp) => triggerAdd(comp));
       };
       triggerAdd(model);
     }
@@ -77,7 +77,7 @@ export default Backbone.View.extend({
       new viewObject({
         model,
         config,
-        componentTypes: dt
+        componentTypes: dt,
       });
     let rendered;
 
@@ -115,22 +115,26 @@ export default Backbone.View.extend({
       }
     }
 
+    if (!model.opt.temporary) {
+      em?.trigger('component:mount', model);
+    }
+
     return rendered;
   },
 
   resetChildren(models, { previousModels = [] } = {}) {
     this.parentEl.innerHTML = '';
-    previousModels.forEach(md => this.removeChildren(md, this.collection));
-    models.each(model => this.addToCollection(model));
+    previousModels.forEach((md) => this.removeChildren(md, this.collection));
+    models.each((model) => this.addToCollection(model));
   },
 
   render(parent) {
     const el = this.el;
     const frag = document.createDocumentFragment();
     this.parentEl = parent || this.el;
-    this.collection.each(model => this.addToCollection(model, frag));
+    this.collection.each((model) => this.addToCollection(model, frag));
     el.innerHTML = '';
     el.appendChild(frag);
     return this;
-  }
+  },
 });

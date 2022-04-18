@@ -1,32 +1,138 @@
-import Backbone from 'backbone';
-import { extend } from 'underscore';
+import { Model } from 'common';
+import { extend, isString, isArray } from 'underscore';
 import Properties from './Properties';
-import PropertyFactory from './PropertyFactory';
 
-export default Backbone.Model.extend({
-  defaults: {
-    id: '',
-    name: '',
-    open: true,
-    buildProps: '',
-    extendBuilded: 1,
-    properties: []
-  },
+/**
+ *
+ * [Property]: property.html
+ *
+ * @typedef Sector
+ * @property {String} id Sector id, eg. `typography`
+ * @property {String} name Sector name, eg. `Typography`
+ * @property {Boolean} [open=true] Indicates the open state.
+ * @property {Array<Object>} [properties=[]] Indicate an array of Property defintions.
+ */
+export default class Sector extends Model {
+  defaults() {
+    return {
+      id: '',
+      name: '',
+      open: true,
+      visible: true,
+      buildProps: '',
+      extendBuilded: 1,
+      properties: [],
+    };
+  }
 
-  initialize(opts) {
-    const o = opts || {};
+  initialize(prp, opts = {}) {
+    const { em } = opts;
+    this.em = em;
+    const o = prp || {};
     const builded = this.buildProperties(o.buildProps);
     const name = this.get('name') || '';
     let props = [];
     !this.get('id') && this.set('id', name.replace(/ /g, '_').toLowerCase());
 
-    if (!builded) props = this.get('properties');
-    else props = this.extendProperties(builded);
+    if (!builded) {
+      props = this.get('properties')
+        .map((prop) => (isString(prop) ? this.buildProperties(prop)[0] : prop))
+        .filter(Boolean);
+    } else {
+      props = this.extendProperties(builded);
+    }
 
-    const propsModel = new Properties(props);
+    props = props.map((prop) => this.checkExtend(prop));
+
+    const propsModel = new Properties(props, { em });
     propsModel.sector = this;
     this.set('properties', propsModel);
-  },
+  }
+
+  /**
+   * Get sector id.
+   * @returns {String}
+   */
+  getId() {
+    return this.get('id');
+  }
+
+  /**
+   * Get sector name.
+   * @returns {String}
+   */
+  getName() {
+    const id = this.getId();
+    return this.em?.t(`styleManager.sectors.${id}`) || this.get('name');
+  }
+
+  /**
+   * Update sector name.
+   * @param {String} value New sector name
+   */
+  setName(value) {
+    return this.set('name', value);
+  }
+
+  /**
+   * Check if the sector is open
+   * @returns {Boolean}
+   */
+  isOpen() {
+    return !!this.get('open');
+  }
+
+  /**
+   * Update Sector open state
+   * @param {Boolean} value
+   */
+  setOpen(value) {
+    return this.set('open', value);
+  }
+
+  /**
+   * Check if the sector is visible
+   * @returns {Boolean}
+   */
+  isVisible() {
+    return !!this.get('visible');
+  }
+
+  /**
+   * Get sector properties.
+   * @param {Object} [opts={}] Options
+   * @param {Boolean} [opts.withValue=false] Get only properties with value
+   * @param {Boolean} [opts.withParentValue=false] Get only properties with parent value
+   * @returns {Array<[Property]>}
+   */
+  getProperties(opts = {}) {
+    const props = this.get('properties');
+    const res = props.models ? [...props.models] : props;
+    return res.filter((prop) => {
+      let result = true;
+
+      if (opts.withValue) {
+        result = prop.hasValue({ noParent: true });
+      }
+
+      if (opts.withParentValue) {
+        const hasVal = prop.hasValue({ noParent: true });
+        result = !hasVal && prop.hasValue();
+      }
+
+      return result;
+    });
+  }
+
+  getProperty(id) {
+    return (
+      this.getProperties().filter((prop) => prop.get('id') === id)[0] || null
+    );
+  }
+
+  addProperty(property, opts) {
+    return this.get('properties').add(this.checkExtend(property), opts);
+  }
 
   /**
    * Extend properties
@@ -71,8 +177,21 @@ export default Backbone.Model.extend({
       }
     }
 
-    return ex ? isolated.filter(i => i) : props;
-  },
+    return ex ? isolated.filter((i) => i) : props;
+  }
+
+  checkExtend(prop) {
+    const { extend, ...rest } =
+      (isString(prop) ? { extend: prop } : prop) || {};
+    if (extend) {
+      return {
+        ...(this.buildProperties([extend])[0] || {}),
+        ...rest,
+      };
+    } else {
+      return prop;
+    }
+  }
 
   /**
    * Build properties
@@ -81,15 +200,12 @@ export default Backbone.Model.extend({
    * @private
    */
   buildProperties(props) {
-    var r;
-    var buildP = props || [];
+    const buildP = props || [];
 
-    if (!buildP.length) return;
+    if (!buildP.length) return [];
 
-    if (!this.propFactory) this.propFactory = new PropertyFactory();
+    const builtIn = this.em?.get('StyleManager').builtIn;
 
-    r = this.propFactory.build(buildP);
-
-    return r;
+    return builtIn?.build(buildP);
   }
-});
+}

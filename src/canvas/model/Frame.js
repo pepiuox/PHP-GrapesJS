@@ -1,10 +1,18 @@
-import { Model } from 'backbone';
-import { result, forEach, isEmpty, debounce, isString } from 'underscore';
+import { Model } from 'common';
+import { result, forEach, isEmpty, isString } from 'underscore';
 import { isComponent, isObject } from 'utils/mixins';
 
 const keyAutoW = '__aw';
 const keyAutoH = '__ah';
 
+/**
+ * @property {Object|String} component Wrapper component definition. You can also pass an HTML string as components of the default wrapper component.
+ * @property {String} [width=''] Width of the frame. By default, the canvas width will be taken.
+ * @property {String} [height=''] Height of the frame. By default, the canvas height will be taken.
+ * @property {Number} [x=0] Horizontal position of the frame in the canvas.
+ * @property {Number} [y=0] Vertical position of the frame in the canvas.
+ *
+ */
 export default class Frame extends Model {
   defaults() {
     return {
@@ -18,7 +26,7 @@ export default class Frame extends Model {
       component: '',
       styles: '',
       _undo: true,
-      _undoexc: ['changesCount']
+      _undoexc: ['changesCount'],
     };
   }
 
@@ -46,7 +54,7 @@ export default class Frame extends Model {
       // Avoid losing styles on remapped components
       const idMapKeys = Object.keys(idMap);
       if (idMapKeys.length && Array.isArray(styles)) {
-        styles.forEach(style => {
+        styles.forEach((style) => {
           const sel = style.selectors;
           if (sel && sel.length == 1) {
             const sSel = sel[0];
@@ -118,7 +126,7 @@ export default class Frame extends Model {
   getHeadByAttr(attr, value, tag) {
     const head = this.getHead();
     return head.filter(
-      item =>
+      (item) =>
         item.attributes &&
         item.attributes[attr] == value &&
         (!tag || tag === item.tag)
@@ -143,8 +151,8 @@ export default class Frame extends Model {
         tag,
         attributes: {
           href,
-          rel: 'stylesheet'
-        }
+          rel: 'stylesheet',
+        },
       });
   }
 
@@ -157,7 +165,7 @@ export default class Frame extends Model {
     !this.getHeadByAttr('src', src, tag) &&
       this.addHeadItem({
         tag,
-        attributes: { src }
+        attributes: { src },
       });
   }
 
@@ -202,7 +210,7 @@ export default class Frame extends Model {
       if (obj[key] === value) delete obj[key];
     });
 
-    forEach(['attributes', 'head'], prop => {
+    forEach(['attributes', 'head'], (prop) => {
       if (isEmpty(obj[prop])) delete obj[prop];
     });
 

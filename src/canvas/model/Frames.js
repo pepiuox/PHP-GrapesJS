@@ -1,5 +1,5 @@
 import { bindAll } from 'underscore';
-import { Collection } from 'backbone';
+import { Collection } from 'common';
 import model from './Frame';
 
 export default class Frames extends Collection {
@@ -12,7 +12,7 @@ export default class Frames extends Collection {
 
   onReset(m, opts = {}) {
     const prev = opts.previousModels || [];
-    prev.map(p => this.onRemove(p));
+    prev.map((p) => this.onRemove(p));
   }
 
   onRemove(removed) {
@@ -35,7 +35,7 @@ export default class Frames extends Collection {
   }
 
   listenToLoadItems(on) {
-    this.forEach(item => item[on ? 'on' : 'off']('loaded', this.itemLoaded));
+    this.forEach((item) => item[on ? 'on' : 'off']('loaded', this.itemLoaded));
   }
 
   add(m, o = {}) {

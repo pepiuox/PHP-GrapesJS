@@ -267,7 +267,6 @@ if (!file_exists($file)) {
 require 'function.php';
 include 'define.php';". "\n";
         
-
         $filecontent .= "
         if (!empty(SITE_PATH)) {
             \$siteinstall = SITE_PATH;

@@ -1,15 +1,13 @@
 import Backbone from 'backbone';
 import { bindAll, isString, debounce, isUndefined } from 'underscore';
 import CssRulesView from 'css_composer/view/CssRulesView';
-import ComponentView from 'dom_components/view/ComponentView';
 import Droppable from 'utils/Droppable';
 import {
   appendVNodes,
-  empty,
   append,
   createEl,
   createCustomEvent,
-  motionsEv
+  motionsEv,
 } from 'utils/dom';
 import { on, off, setViewEl, hasDnd, getPointerEvent } from 'utils/mixins';
 
@@ -18,7 +16,7 @@ export default Backbone.View.extend({
 
   attributes: {
     allowfullscreen: 'allowfullscreen',
-    'data-frame-el': true
+    'data-frame-el': true,
   },
 
   initialize(o) {
@@ -33,7 +31,7 @@ export default Backbone.View.extend({
     this.tools = {};
     this.config = {
       ...(o.config || {}),
-      frameView: this
+      frameView: this,
     };
     this.ppfx = this.config.pStylePrefix || '';
     this.em = this.config.em;
@@ -57,20 +55,20 @@ export default Backbone.View.extend({
     const attrStr = (attr = {}) =>
       Object.keys(attr)
         .sort()
-        .map(i => `[${i}="${attr[i]}"]`)
+        .map((i) => `[${i}="${attr[i]}"]`)
         .join('');
     const find = (items, stack, res) => {
-      items.forEach(item => {
+      items.forEach((item) => {
         const { tag, attributes } = item;
         const has = stack.some(
-          s => s.tag === tag && attrStr(s.attributes) === attrStr(attributes)
+          (s) => s.tag === tag && attrStr(s.attributes) === attrStr(attributes)
         );
         !has && res.push(item);
       });
     };
     find(current, prev, toAdd);
     find(prev, current, toRemove);
-    toRemove.forEach(stl => {
+    toRemove.forEach((stl) => {
       const el = headEl.querySelector(`${stl.tag}${attrStr(stl.attributes)}`);
       el && el.parentNode.removeChild(el);
     });
@@ -159,7 +157,7 @@ export default Backbone.View.extend({
       scrollTop,
       scrollLeft,
       scrollBottom: scrollTop + height,
-      scrollRight: scrollLeft + width
+      scrollRight: scrollLeft + width,
     };
   },
 
@@ -234,7 +232,7 @@ export default Backbone.View.extend({
     this.lastClientY = getPointerEvent(ev).clientY * this.em.getZoomDecimal();
   },
 
-  showGlobalTools: debounce(function() {
+  showGlobalTools: debounce(function () {
     this.getGlobalToolsEl().style.opacity = '';
   }, 50),
 
@@ -263,12 +261,12 @@ export default Backbone.View.extend({
     const evLoad = 'frame:load';
     const evOpts = { el, model, view: this };
     const canvas = this.getCanvasModel();
-    const appendScript = scripts => {
+    const appendScript = (scripts) => {
       if (scripts.length > 0) {
         const src = scripts.shift();
         const scriptEl = createEl('script', {
           type: 'text/javascript',
-          ...(isString(src) ? { src } : src)
+          ...(isString(src) ? { src } : src),
         });
         scriptEl.onerror = scriptEl.onload = appendScript.bind(null, scripts);
         el.contentDocument.head.appendChild(scriptEl);
@@ -287,28 +285,28 @@ export default Backbone.View.extend({
   renderStyles(opts = {}) {
     const head = this.getHead();
     const canvas = this.getCanvasModel();
-    const normalize = stls =>
-      stls.map(href => ({
+    const normalize = (stls) =>
+      stls.map((href) => ({
         tag: 'link',
         attributes: {
           rel: 'stylesheet',
-          ...(isString(href) ? { href } : href)
-        }
+          ...(isString(href) ? { href } : href),
+        },
       }));
     const prevStyles = normalize(opts.prev || canvas.previous('styles'));
     const styles = normalize(canvas.get('styles'));
     const toRemove = [];
     const toAdd = [];
     const find = (items, stack, res) => {
-      items.forEach(item => {
+      items.forEach((item) => {
         const { href } = item.attributes;
-        const has = stack.some(s => s.attributes.href === href);
+        const has = stack.some((s) => s.attributes.href === href);
         !has && res.push(item);
       });
     };
     find(styles, prevStyles, toAdd);
     find(prevStyles, styles, toRemove);
-    toRemove.forEach(stl => {
+    toRemove.forEach((stl) => {
       const el = head.querySelector(`link[href="${stl.attributes.href}"]`);
       el && el.parentNode.removeChild(el);
     });
@@ -340,14 +338,14 @@ export default Backbone.View.extend({
       `<style>
       ${conf.baseCss || ''}
 
-      .${ppfx}dashed *[data-highlightable] {
+      .${ppfx}dashed *[data-gjs-highlightable] {
         outline: 1px dashed rgba(170,170,170,0.7);
         outline-offset: -2px;
       }
 
       .${ppfx}selected {
-        outline: 3px solid #3b97e3 !important;
-        outline-offset: -3px;
+        outline: 2px solid #3b97e3 !important;
+        outline-offset: -2px;
       }
 
       .${ppfx}selected-parent {
@@ -399,12 +397,13 @@ export default Backbone.View.extend({
     </style>`
     );
     const component = model.getComponent();
-    this.wrapper = new ComponentView({
+    const { view } = em.get('DomComponents').getType('wrapper');
+    this.wrapper = new view({
       model: component,
       config: {
         ...component.config,
-        frameView: this
-      }
+        frameView: this,
+      },
     }).render();
     append(body, this.wrapper.el);
     append(
@@ -413,8 +412,8 @@ export default Backbone.View.extend({
         collection: model.getStyles(),
         config: {
           ...em.get('CssComposer').getConfig(),
-          frameView: this
-        }
+          frameView: this,
+        },
       }).render().el
     );
     append(body, this.getJsContainer());
@@ -425,9 +424,9 @@ export default Backbone.View.extend({
     on(
       body,
       'click',
-      ev => ev && ev.target.tagName == 'A' && ev.preventDefault()
+      (ev) => ev && ev.target.tagName == 'A' && ev.preventDefault()
     );
-    on(body, 'submit', ev => ev && ev.preventDefault());
+    on(body, 'submit', (ev) => ev && ev.preventDefault());
 
     // When the iframe is focused the event dispatcher is not the same so
     // I need to delegate all events to the parent document
@@ -435,10 +434,10 @@ export default Backbone.View.extend({
       { event: 'keydown keyup keypress', class: 'KeyboardEvent' },
       { event: 'mousedown mousemove mouseup', class: 'MouseEvent' },
       { event: 'pointerdown pointermove pointerup', class: 'PointerEvent' },
-      { event: 'wheel', class: 'WheelEvent' }
-    ].forEach(obj =>
-      obj.event.split(' ').forEach(event => {
-        doc.addEventListener(event, ev =>
+      { event: 'wheel', class: 'WheelEvent' },
+    ].forEach((obj) =>
+      obj.event.split(' ').forEach((event) => {
+        doc.addEventListener(event, (ev) =>
           this.el.dispatchEvent(createCustomEvent(ev, obj.class))
         );
       })
@@ -457,5 +456,5 @@ export default Backbone.View.extend({
 
   _emitUpdate() {
     this.model._emitUpdated();
-  }
+  },
 });

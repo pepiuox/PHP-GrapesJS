@@ -27,7 +27,7 @@ export default {
       setPosition: this.setPosition,
       guidesStatic: () => this.guidesStatic,
       guidesTarget: () => this.guidesTarget,
-      ...dragger
+      ...dragger,
     };
     this.setupGuides();
     this.opts = opts;
@@ -59,7 +59,7 @@ export default {
       mode: this.opts.mode,
       target: this.target,
       guidesTarget: this.guidesTarget,
-      guidesStatic: this.guidesStatic
+      guidesStatic: this.guidesStatic,
     };
   },
 
@@ -68,7 +68,7 @@ export default {
   },
 
   setupGuides() {
-    (this.guides || []).forEach(item => {
+    (this.guides || []).forEach((item) => {
       const { guide } = item;
       guide && guide.parentNode.removeChild(guide);
     });
@@ -109,7 +109,7 @@ export default {
         'canvas:update frame:scroll',
         debounce(() => {
           this.updateGuides();
-          opts.debug && this.guides.forEach(item => this.renderGuide(item));
+          opts.debug && this.guides.forEach((item) => this.renderGuide(item));
         }, 200)
       );
     }
@@ -123,7 +123,7 @@ export default {
     const { parentNode = {} } = el;
     each(
       parentNode.children,
-      item =>
+      (item) =>
         (result = result.concat(el !== item ? this.getElementGuides(item) : []))
     );
 
@@ -136,7 +136,7 @@ export default {
 
   updateGuides(guides) {
     let lastEl, lastPos;
-    (guides || this.guides).forEach(item => {
+    (guides || this.guides).forEach((item) => {
       const { origin } = item;
       const pos = lastEl === origin ? lastPos : this.getElementPos(origin);
       lastEl = origin;
@@ -220,21 +220,21 @@ export default {
       { type: 'l', x: left }, // Left
       { type: 'r', x: left + width }, // Right
       { type: 'x', x: left + width / 2 }, // Mid x
-      { type: 'y', y: top + height / 2 } // Mid y
-    ].map(item => ({
+      { type: 'y', y: top + height / 2 }, // Mid y
+    ].map((item) => ({
       ...item,
       origin: el,
       originRect,
-      guide: opts.debug && this.renderGuide(item)
+      guide: opts.debug && this.renderGuide(item),
     }));
-    guides.forEach(item => this.guides.push(item));
+    guides.forEach((item) => this.guides.push(item));
 
     return guides;
   },
 
   getTranslate(transform, axis = 'x') {
     let result = 0;
-    (transform || '').split(' ').forEach(item => {
+    (transform || '').split(' ').forEach((item) => {
       const itemStr = item.trim();
       const fn = `translate${axis.toUpperCase()}(`;
       if (itemStr.indexOf(fn) === 0)
@@ -248,7 +248,7 @@ export default {
     const val = `${fn}${value})`;
     let result = (transform || '')
       .split(' ')
-      .map(item => {
+      .map((item) => {
         const itemStr = item.trim();
         if (itemStr.indexOf(fn) === 0) item = val;
         return item;
@@ -293,7 +293,7 @@ export default {
     } else {
       const adds = { position, width, height };
       const style = { left, top, en };
-      keys(adds).forEach(add => {
+      keys(adds).forEach((add) => {
         const prop = adds[add];
         if (prop) style[add] = prop;
       });
@@ -303,7 +303,7 @@ export default {
 
     // Update StyleManager properties
     em.getSelected() &&
-      keys(styleUp).forEach(i => em.trigger(`update:component:style:${i}`));
+      keys(styleUp).forEach((i) => em.trigger(`update:component:style:${i}`));
   },
 
   _getDragData() {
@@ -311,7 +311,7 @@ export default {
     return {
       target,
       parent: target.parent(),
-      index: target.index()
+      index: target.index(),
     };
   },
 
@@ -321,17 +321,31 @@ export default {
     const { Canvas } = editor;
     const style = target.getStyle();
     const position = 'absolute';
+    const relPos = [position, 'relative'];
     onStart && onStart(this._getDragData());
     if (isTran) return;
 
     if (style.position !== position) {
       let { left, top, width, height } = Canvas.offset(target.getEl());
+      let parent = target.parent();
+      let parentRel;
 
-      // Check if to center the target to the pointer position
+      // Check for the relative parent
+      do {
+        const pStyle = parent.getStyle();
+        parentRel = relPos.indexOf(pStyle.position) >= 0 ? parent : null;
+        parent = parent.parent();
+      } while (parent && !parentRel);
+
+      // Center the target to the pointer position (used in Droppable for Blocks)
       if (center) {
         const { x, y } = Canvas.getMouseRelativeCanvas(event);
         left = x;
         top = y;
+      } else if (parentRel) {
+        const offsetP = Canvas.offset(parentRel.getEl());
+        left = left - offsetP.left;
+        top = top - offsetP.top;
       }
 
       this.setPosition({
@@ -339,7 +353,7 @@ export default {
         y: top,
         width: `${width}px`,
         height: `${height}px`,
-        position
+        position,
       });
     }
   },
@@ -348,9 +362,9 @@ export default {
     const { guidesTarget, opts } = this;
     const { onDrag } = opts;
     this.updateGuides(guidesTarget);
-    opts.debug && guidesTarget.forEach(item => this.renderGuide(item));
+    opts.debug && guidesTarget.forEach((item) => this.renderGuide(item));
     opts.guidesInfo &&
-      this.renderGuideInfo(guidesTarget.filter(item => item.active));
+      this.renderGuideInfo(guidesTarget.filter((item) => item.active));
     onDrag && onDrag(this._getDragData());
   },
 
@@ -364,7 +378,7 @@ export default {
   },
 
   hideGuidesInfo() {
-    ['X', 'Y'].forEach(item => {
+    ['X', 'Y'].forEach((item) => {
       const guide = this[`elGuideInfo${item}`];
       if (guide) guide.style.display = 'none';
     });
@@ -376,7 +390,7 @@ export default {
   renderGuideInfo(guides = []) {
     const { guidesStatic } = this;
     this.hideGuidesInfo();
-    guides.forEach(item => {
+    guides.forEach((item) => {
       const { origin, x } = item;
       const rectOrigin = this.getElementPos(origin);
       const axis = isUndefined(x) ? 'y' : 'x';
@@ -395,8 +409,8 @@ export default {
 
       // Find the nearest element
       const res = guidesStatic
-        .filter(stat => stat.type === item.type)
-        .map(stat => {
+        .filter((stat) => stat.type === item.type)
+        .map((stat) => {
           const { left, width, top, height } = stat.originRect;
           const statEdge1 = isY ? left : top;
           const statEdge2 = isY ? left + width : top + height;
@@ -405,12 +419,12 @@ export default {
               statEdge2 < origEdge1
                 ? origEdge1 - statEdge2
                 : statEdge1 - origEdge2,
-            guide: stat
+            guide: stat,
           };
         })
-        .filter(item => item.gap > 0)
+        .filter((item) => item.gap > 0)
         .sort((a, b) => a.gap - b.gap)
-        .map(item => item.guide)[0];
+        .map((item) => item.guide)[0];
 
       if (res) {
         const { left, width, top, height, rect } = res.originRect;
@@ -443,7 +457,7 @@ export default {
           size,
           sizeRaw,
           elGuideInfo,
-          elGuideInfoCnt
+          elGuideInfoCnt,
         });
       }
     });
@@ -455,7 +469,7 @@ export default {
     const classes = [`${ppfx}is__grabbing`];
     const { Canvas } = editor;
     const body = Canvas.getBody();
-    classes.forEach(cls => body.classList[methodCls](cls));
+    classes.forEach((cls) => body.classList[methodCls](cls));
     Canvas[enable ? 'startAutoscroll' : 'stopAutoscroll']();
-  }
+  },
 };
