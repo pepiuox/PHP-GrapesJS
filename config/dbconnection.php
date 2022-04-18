@@ -6,7 +6,7 @@ include 'Database.php';
 $link = new Database();
 $conn = $link->MysqliConnection();
 
-$definefiles = 'define.php';
+$definefiles = 'config/define.php';
 require 'function.php';
 
 if (!file_exists($definefiles)) {

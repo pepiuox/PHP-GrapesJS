@@ -13,7 +13,7 @@ if ($result = $conn->query($sql)) {
         } elseif ($val->name === 'UPDATED') {
             continue;
         }
-        $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+        $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');";
     }
 
     if (!file_exists($definefiles)) {
