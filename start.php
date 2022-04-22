@@ -90,9 +90,14 @@ if ($nm > 0) {
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/plugins/font-awesome/css/font-awesome.min.css" />
             <style>
-    <?php
-    echo decodeContent($style);
-    ?>
+                #wrapper{
+                    margin:0;
+                    padding:0;
+                }
+
+                <?php
+                echo decodeContent($style);
+                ?>
             </style>
         </head>
         <body>

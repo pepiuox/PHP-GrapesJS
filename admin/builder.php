@@ -9,6 +9,7 @@ if (file_exists($connfile)) {
     $login = new UserClass();
     $check = new CheckValidUser();
     $level = new AccessLevel();
+   
 } else {
     header('Location: ../installer/install.php');
     exit();
@@ -122,7 +123,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
 
             </head>
-            <body>
+            <body id="builder">
                 <div class="app-wrap">
                     <!-- Side-Nav -->
                     <div class="panel-wrp">
@@ -258,14 +259,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 </div>
                 <script type="text/javascript">
 
-                                  let images = <?php echo $storeImage; ?>;
-                                  let editor = grapesjs.init({
+                    let images = <?php echo $storeImage; ?>;
+                    let editor = grapesjs.init({
                       avoidInlineStyle: 1,
                       height: '100%',
                       container: '#gjs',
-                      fromElement: 1, // fromElement: true,
+                      showOffsets: true,
+                      fromElement: true,
+                      noticeOnUnload: false,
+                      selectorManager: {
+                          componentFirst: true
+                      },
                       //pageManager: true,
-                      showOffsets: 1,
                       storageType: '',
                       storeOnChange: true,
                       storeAfterUpload: true,
@@ -306,7 +311,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       components: '<div class="txt-red">Hello world!</div>',
                       style: '.txt-red{color: red}',
                       // Default configurations
-                      storageManager: {
+                      storageManager:false /*{
                       id: 'gjs-', // Prefix identifier that will be used on parameters
                       type: 'remote', //type: 'local', type: 'remote',Type of the storage
                       autosave: false, // Store data automatically
@@ -320,7 +325,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       storeCss: true
 
                       //stepsBeforeSave: 1 // If autosave enabled, indicates how many changes are necessary before store method is triggered
-                      },
+                      }*/,
                       commands: {
                       defaults: [
                           window['@truenorthtechnology/grapesjs-code-editor'].codeCommandFactory()
@@ -359,6 +364,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                       'grapesjs-tui-image-editor',
                       'gjs-navbar',
                       'grapesjs-component-code-editor',
+                      'grapesjs-parser-postcss',
                       'grapesjs-script-editor',
                       'grapesjs-uikit',
                       'grapesjs-page-break',
@@ -1018,6 +1024,21 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               });
 
               // Add info command
+              
+              const panelViews = pn.addPanel({
+  id: "views"
+});
+panelViews.get("buttons").add([
+  {
+    attributes: {
+      title: "Open Code"
+    },
+    className: "fa fa-file-code-o",
+    command: "open-code",
+    togglable: false, //do not close when button is clicked again
+    id: "open-code"
+  }
+]);
 
               pn.addButton('views', {
                   id: 'open-pages',

@@ -161,7 +161,7 @@
                     <p class="mb-4">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
                         I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p>
                     <div class="row">
-                        <div class="col-md-3 order-3 order-md-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-1.svg"> </div>
+                        <div class="col-md-3 order-3 order-md-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
                         <div class="col-md-6 col-8 d-flex flex-column justify-content-center p-3 order-1 order-md-2">
                             <h3>Mere tranquil existence</h3>
                             <p>I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p>
@@ -185,7 +185,7 @@
                             <h3>Main feature here </h3>
                             <p class="mb-3">I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless
                                 indescribable forms of the insects and flies</p> <a class="btn btn-primary mb-3" href="#">Call to action</a> </div>
-                        <div class="col-md-4 col-lg-3 offset-lg-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-2.svg"> </div>
+                        <div class="col-md-4 col-lg-3 offset-lg-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
                     </div>
                 </div>
             </div>
@@ -198,7 +198,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-4 col-lg-3 order-2 order-md-1 p-0"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-3.svg"> </div>
+                        <div class="col-md-4 col-lg-3 order-2 order-md-1 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
                         <div class="d-flex flex-column justify-content-center p-3 col-md-8 offset-lg-1 align-items-start order-1 order-md-2">
                             <h3>A wonderful serenity</h3>
                             <p class="mb-3">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface
@@ -291,7 +291,7 @@
                     <h3> <b>The trickling stream</b> </h3>
                     <p class="mb-3">I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless
                         indescribable forms of the insects and flies</p> <a class="btn btn-primary mb-3" href="#">Download</a> </div>
-                <div class="col-md-4"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-mobile.svg"> </div>
+                <div class="col-md-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-mobile.svg"> </div>
             </div>
         </div>
     </div>
@@ -300,7 +300,7 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 order-2 order-md-1"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/img-placeholder-tablet.svg"> </div>
+                <div class="col-md-6 order-2 order-md-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"> </div>
                 <div class="px-md-5 col-md-6 d-flex flex-column align-items-start justify-content-center order-1 order-md-2">
                     <h1>I feel the charm</h1>
                     <p class="mb-3">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the
@@ -324,7 +324,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center text-white" style="background-image: url('<?php echo $base; ?>assets/images/cover-moon.svg');background-size:cover;background-position:center top;">
+    <div class="py-5 text-center text-white" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-moon.svg');background-size:cover;background-position:center top;">
         <div class="container">
             <div class="row">
                 <div class="mx-auto p-4 col-md-7">
@@ -334,7 +334,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;	background-size: cover, cover; background-repeat: repeat, repeat;">
+    <div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;	background-size: cover, cover; background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="mx-auto p-4 col-md-5"> <i class="d-block fa fa-stop-circle fa-4x mb-3"></i>
@@ -345,7 +345,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url('<?php echo $base; ?>assets/images/cover-stripes.svg'); background-position:left center; background-size: cover;">
+    <div class="py-5" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-stripes.svg'); background-position:left center; background-size: cover;">
         <div class="container">
             <div class="row">
                 <div class="p-5 col-md-8">
@@ -357,7 +357,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center" style="background-image: url('<?php echo $base; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
+    <div class="py-5 text-center" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
         <div class="container">
             <div class="row">
                 <div class="mx-auto col-md-6 col-10 bg-white p-5">
@@ -368,7 +368,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pt-5" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;  background-size: 100%, 100%;  background-repeat: repeat, repeat;">
+    <div class="pt-5" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;  background-size: 100%, 100%;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-10 bg-white p-5 mx-auto mx-md-0 text-dark">
@@ -389,13 +389,13 @@
                 <div class="d-flex col-md-4 align-items-center justify-content-center" style=""> <a class="btn btn-primary btn-lg my-4" href="#">Do something</a> </div>
             </div>
             <div class="row">
-                <div class="col-md-12 p-0"> <img class="img-fluid d-block" src="<?php echo $base; ?>assets/images/cover-bubble-light.svg" width="1500"> </div>
+                <div class="col-md-12 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-light.svg" width="1500"> </div>
             </div>
         </div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url('<?php echo $base; ?>assets/images/cover-stripes.svg');  background-size: cover;background-position:center bottom;">
+    <div class="py-5" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-stripes.svg');  background-size: cover;background-position:center bottom;">
         <div class="container">
             <div class="row">
                 <div class="p-5 col-lg-8 col-md-10">
@@ -406,7 +406,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pt-5 pb-5 pb-md-0 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;  background-size: 100%, 100%;  background-repeat: repeat, repeat;">
+    <div class="pt-5 pb-5 pb-md-0 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;  background-size: 100%, 100%;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="ml-auto bg-white text-dark p-5 col-lg-6 col-md-8">
@@ -418,7 +418,7 @@
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
 
-    <div class="py-5 text-center" style="background-image: url('<?php echo $base; ?>assets/images/cover-bubble-light.svg');background-size:cover;">
+    <div class="py-5 text-center" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-light.svg');background-size:cover;">
         <div class="container">
             <div class="row">
                 <div class="col-10 bg-white p-5 mx-auto mx-md-0 col-lg-6 col-md-8">
@@ -429,7 +429,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url(&quot;<?php echo $base; ?>assets/images/cover-stripes.svg&quot;); background-position: right bottom; background-size: cover;">
+    <div class="py-5" style="background-image: url(&quot;<?php echo $_SESSION['base']; ?>assets/images/cover-stripes.svg&quot;); background-position: right bottom; background-size: cover;">
         <div class="container">
             <div class="row">
                 <div class="p-5 bg-white ml-auto border col-lg-5 col-md-8">

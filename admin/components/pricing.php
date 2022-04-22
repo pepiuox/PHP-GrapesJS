@@ -118,7 +118,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;  background-size: 100%, 100%;  background-repeat: repeat, repeat;">
+    <div class="py-5" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg); background-position: center center, center center;  background-size: 100%, 100%;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="text-center mx-auto col-md-12">
@@ -201,7 +201,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center" style="background-image: url('<?php echo $base; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
+    <div class="py-5 text-center" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 p-0 py-2">
@@ -297,7 +297,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url(<?php echo $base; ?>assets/images/cover-bubble-dark.svg); background-position: right bottom;  background-size: cover; background-repeat: repeat; background-attachment: fixed;">
+    <div class="py-5" style="background-image: url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg); background-position: right bottom;  background-size: cover; background-repeat: repeat; background-attachment: fixed;">
         <div class="container">
             <div class="row">
                 <div class="text-center mx-auto col-md-12">

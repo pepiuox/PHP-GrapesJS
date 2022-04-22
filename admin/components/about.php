@@ -79,7 +79,7 @@
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-11">
                     <div class="single-features-one-items text-center">
                         <div class="features-image">
-                            <img src="<?php echo $base; ?>assets/images/about/about-02/viral.svg" alt="image" />
+                            <img src="<?php echo $_SESSION['base']; ?>assets/images/about/about-02/viral.svg" alt="image" />
                         </div>
                         <div class="features-content">
                             <h3 class="features-title">Social Media Marketin</h3>
@@ -94,7 +94,7 @@
                 <div class="col-xl-5 col-lg-6 col-md-8 col-sm-11">
                     <div class="single-features-one-items text-center">
                         <div class="features-image">
-                            <img src="<?php echo $base; ?>assets/images/about/about-02/remote-team.svg" alt="image" />
+                            <img src="<?php echo  $_SESSION['base']; ?>assets/images/about/about-02/remote-team.svg" alt="image" />
                         </div>
                         <div class="features-content">
                             <h3 class="features-title">Dedicated Team</h3>
