@@ -1,34 +1,46 @@
 <li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
     <div class="row">
-        <div class="col-md-6"></div>
-        <div class="col-md-6"></div>
+        <div class="col-md-6"><p>col-md-6</p></div>
+        <div class="col-md-6"><p>col-md-6</p></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4"><p>col-md-4</p></div>
+        <div class="col-md-4"><p>col-md-4</p></div>
+        <div class="col-md-4"><p>col-md-4</p></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-3"></div>
-        <div class="col-md-3"></div>
-        <div class="col-md-3"></div>
+        <div class="col-md-3"><p>col-md-3</p></div>
+        <div class="col-md-3"><p>col-md-3</p></div>
+        <div class="col-md-3"><p>col-md-3</p></div>
+        <div class="col-md-3"><p>col-md-3</p></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-8"></div>
+        <div class="col-md-4"><p>col-md-4</p></div>
+        <div class="col-md-8"><p>col-md-8</p></div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-8"><p>col-md-8</p></div>
+        <div class="col-md-4"><p>col-md-4</p></div>
+    </div> 
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="row">
+        <div class="col-md-3"><p>col-md-3</p></div>
+        <div class="col-md-9"><p>col-md-9</p></div>
+    </div>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <div class="row">
+        <div class="col-md-9"><p>col-md-9</p></div>
+        <div class="col-md-3"><p>col-md-3</p></div>
     </div> 
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">

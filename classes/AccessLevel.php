@@ -14,8 +14,13 @@ class AccessLevel {
     public function __construct() {
         global $conn;
         $this->connection = $conn;
-        $this->user_id = $_SESSION['user_id'];
-        $this->level = $_SESSION['levels'];
+        if(isset($_SESSION['user_id'])){
+            $this->user_id = $_SESSION['user_id'];
+        }
+        if(isset($_SESSION['levels'])){
+           $this->level = $_SESSION['levels'];  
+        }
+       
     }
 
     /* This functions verify if exits user level in the users_roles table 

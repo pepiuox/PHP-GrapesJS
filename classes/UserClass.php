@@ -499,7 +499,7 @@ class UserClass {
      */
 
     public function isLoggedIn() {
-        if (!empty($_SESSION['user_id'])) {
+        if (!empty($_SESSION['user_id']) || isset($_SESSION['user_id'])) {
             return true;
         } else {
             return false;
