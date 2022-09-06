@@ -89,6 +89,46 @@ if ($nm > 0) {
             <title><?php echo $title; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/plugins/font-awesome/css/font-awesome.min.css" />
+            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
+           
+<style type="text/css">
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+
+	.dropdown-menu li{
+		position: relative;
+	}
+	.dropdown-menu .submenu{ 
+		display: none;
+		position: absolute;
+		left:100%; top:-7px;
+	}
+	.dropdown-menu .submenu-left{ 
+		right:100%; left:auto;
+	}
+
+	.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+	.dropdown-menu > li:hover > .submenu{
+		display: block;
+	}
+}	
+/* ============ desktop view .end// ============ */
+
+/* ============ small devices ============ */
+@media (max-width: 991px) {
+
+.dropdown-menu .dropdown-menu{
+		margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+}
+
+}	
+/* ============ small devices .end// ============ */
+
+</style>
+ <script src="<?php echo $base; ?>assets/js/menu.js" type="text/javascript"></script>
             <style>
                 #wrapper{
                     margin:0;
@@ -111,9 +151,7 @@ if ($nm > 0) {
                     ?>
                 </div>
             </div>
-            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-            <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
+            
         </body>
     </html>
     <?php
@@ -132,6 +170,9 @@ if ($nm > 0) {
             <title><?php echo SITE_NAME; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/font-awesome/css/font-awesome.min.css" />
+            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
         </head>
         <body>
             <div class="wrapper"> 
@@ -148,9 +189,7 @@ if ($nm > 0) {
                     </div>
                 </div>
             </div>
-            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-            <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
+           
         </body>
     </html>
     <?php

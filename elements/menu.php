@@ -56,15 +56,21 @@ if ($rmopt['color'] === 'light') {
 }
 ?>
 <nav class="navbar navbar-expand-lg <?php echo $background; ?> <?php echo $color; ?>" id="<?php echo $id_menu; ?>">
-    <div class="<?php echo $fluid; ?>">
-        <a class="navbar-brand" href="<?php echo $base; ?>"><?php echo SITE_NAME; ?></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse <?php echo $aligment; ?>" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-
+ <div class="<?php echo $fluid; ?>">
+<a class="navbar-brand" href="<?php echo $base; ?>">
+<?php 
+if (file_exists(SITE_BRAND_IMG)) {
+?>
+<img src="<?php echo SITE_BRAND_IMG; ?>" alt="" width="30" height="24">
+<?php } else{ ?>
+ 	 <?php echo SITE_NAME; ?>
+<?php } ?>
+</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  <div class="collapse navbar-collapse <?php echo $aligment; ?>" id="main_nav">
+	<ul class="navbar-nav">
                 <?php
 
                 function getLink($mid) {
@@ -97,8 +103,7 @@ if ($rmopt['color'] === 'light') {
 
                         if (in_array($row['id'], $parents)) {
                             echo '<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="' . $row['link'] . '" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="' . $row['link'] . '" id="navbarDropdown">
                         ' . $row['title'] . '
                     </a>' . "\n";
                             echo second($mid, $plink);

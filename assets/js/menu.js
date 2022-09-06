@@ -1,20 +1,53 @@
-/* ------------------------------------------------------- */
-/* Menu Multi Level dropdowns */
-/* ------------------------------------------------------ */
-$(function () {
-    $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        $(this).siblings().toggleClass("show");
+//	window.addEventListener("resize", function() {
+//		"use strict"; window.location.reload(); 
+//	});
 
 
-        if (!$(this).next().hasClass('show')) {
-            $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-        }
-        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
-            $('.dropdown-submenu .show').removeClass("show");
-        });
+	document.addEventListener("DOMContentLoaded", function(){
+        
 
-    });
-});
+    	/////// Prevent closing from click inside dropdown
+		document.querySelectorAll('.dropdown-menu').forEach(function(element){
+			element.addEventListener('click', function (e) {
+			  e.stopPropagation();
+			});
+		})
+
+
+
+		// make it as accordion for smaller screens
+		if (window.innerWidth < 992) {
+
+			// close all inner dropdowns when parent is closed
+			document.querySelectorAll('.navbar .dropdown').forEach(function(everydropdown){
+				everydropdown.addEventListener('hidden.bs.dropdown', function () {
+					// after dropdown is hidden, then find all submenus
+					  this.querySelectorAll('.submenu').forEach(function(everysubmenu){
+					  	// hide every submenu as well
+					  	everysubmenu.style.display = 'none';
+					  });
+				})
+			});
+			
+			document.querySelectorAll('.dropdown-menu a').forEach(function(element){
+				element.addEventListener('click', function (e) {
+		
+				  	let nextEl = this.nextElementSibling;
+				  	if(nextEl && nextEl.classList.contains('submenu')) {	
+				  		// prevent opening link if link needs to open dropdown
+				  		e.preventDefault();
+				  		console.log(nextEl);
+				  		if(nextEl.style.display == 'block'){
+				  			nextEl.style.display = 'none';
+				  		} else {
+				  			nextEl.style.display = 'block';
+				  		}
+
+				  	}
+				});
+			})
+		}
+		// end if innerWidth
+
+	}); 
+	// DOMContentLoaded  end
