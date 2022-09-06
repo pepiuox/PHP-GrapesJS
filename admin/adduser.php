@@ -1,3 +1,4 @@
+<?php $form = new Form(); ?>
 <div class="container-fluid">
     <div class="row">
         <?php
