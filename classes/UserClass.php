@@ -147,6 +147,10 @@ class UserClass {
                         if ($remember === 'Yes') {
                             define("COOKIE_EXPIRE", 60 * 60 * 24 * 7);  //7 days by default
                             define("COOKIE_PATH", "/");  //Avaible in whole domain
+                        } else{
+                            $expiry = time()+3600;
+                            define("COOKIE_EXPIRE", $expiry);  //7 days by default
+                            define("COOKIE_PATH", "/");  //Avaible in whole domain
                         }
 
                         $stmt = $this->connection->prepare("SELECT * FROM uverify WHERE email = ? AND mkpin = ?");
@@ -232,6 +236,8 @@ class UserClass {
                                         $inst2 = $pro->affected_rows;
                                         $pro->close();
                                         if ($inst2 === 1) {
+                                            setcookie("cookname", $_SESSION['username'], time() + COOKIE_EXPIRE, COOKIE_PATH);
+                                            setcookie("cookid", $_SESSION['user_id'], time() + COOKIE_EXPIRE, COOKIE_PATH);
                                             $_SESSION['SuccessMessage'] = 'Congratulations you now have access!';
                                             unset($_SESSION['attempt']);
                                             unset($_SESSION['attempt_again']);
