@@ -43,6 +43,11 @@ class Database {
         $this->pass = $data['password'];
         $this->port = $data['port'];
         $this->charset = $data['charset'];
+        
+        define('DBHOST', $this->host);
+        define('DBUSER', $this->user);
+        define('DBPASS', $this->pass);
+        define('DBNAME', $this->dbnm);
 
         if (is_array($this->config['connections'])) {
             $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
@@ -72,6 +77,11 @@ class Database {
         $this->pass = $data['password'];
         $this->port = $data['port'];
         $this->charset = $data['charset'];
+        
+        define('DBHOST', $this->host);
+        define('DBUSER', $this->user);
+        define('DBPASS', $this->pass);
+        define('DBNAME', $this->dbnm);
 
         $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->dbnm, $this->port, $this->socket);
 

@@ -1,18 +1,12 @@
 <div class="container-fluid">
     <div class="row">
         <?php
+        $form = new Form();
+        $process = new AdminProcess();
         /**
          * The user is already logged in, not allowed to register.
          */
-        if ($session->logged_in) {
-            echo "<h1>Registered</h1>";
-            echo "<p>We're sorry <b>$session->username</b>, but you've already registered. "
-            . "<a href=\"index.php\">Principal</a>.</p>";
-        }
-        /**
-         * The user has submitted the registration form and the
-         * results have been processed.
-         */ else if (isset($_SESSION['regsuccess'])) {
+        if (isset($_SESSION['regsuccess'])) {
             /* Registration was successful */
             if ($_SESSION['regsuccess']) {
                 echo "<h1>Registered!</h1>";
@@ -47,12 +41,12 @@
             ?>
             <div id="register">
                 <form action="process.php" method="POST">
-                    <p class="textinput">Nombre: </p><p><input type="text" name="name" maxlength="30" value="<?php echo $form->value("name"); ?>"><?php echo $form->error("name"); ?></p>
-                    <p class="textinput">Usuario: </p><p><input type="text" name="user" maxlength="30" value="<?php echo $form->value("user"); ?>"><?php echo $form->error("user"); ?></p>
-                    <p class="textinput">Contraseña: </p><p><input type="password" name="pass" maxlength="30" value="<?php echo $form->value("pass"); ?>"><?php echo $form->error("pass"); ?></p>
-                    <p class="textinput">Email: </p><p><input type="text" name="email" maxlength="50" value="<?php echo $form->value("email"); ?>"><?php echo $form->error("email"); ?></p>
-                    <p class="textinput"><input type="hidden" name="subjoin" value="1"><input type="submit" value="Join!"></p>
-                    <p><a href="index.php">[Volver a Main]</a></p>
+                    <label class="col-form-label">Name: </label><p><input class="form-control" type="text" name="name" maxlength="30" value="<?php echo $form->value("name"); ?>"><?php echo $form->error("name"); ?></p>
+                    <label class="col-form-label">Username: </label><p><input class="form-control" type="text" name="user" maxlength="30" value="<?php echo $form->value("user"); ?>"><?php echo $form->error("user"); ?></p>
+                    <label class="col-form-label">Password: </label><p><input class="form-control" type="password" name="pass" maxlength="30" value="<?php echo $form->value("pass"); ?>"><?php echo $form->error("pass"); ?></p>
+                    <label class="col-form-label">Email: </label><p><input class="form-control" type="text" name="email" maxlength="50" value="<?php echo $form->value("email"); ?>"><?php echo $form->error("email"); ?></p>
+                    <p><input type="hidden" name="subjoin" value="1"><input class="form-control" type="submit" value="Join!"></p>
+                    <p><a href="index.php">[Back to Main]</a></p>
                 </form>
             </div>
             <?php
