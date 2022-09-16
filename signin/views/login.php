@@ -1,4 +1,4 @@
-<?php
+        <?php
 include '../elements/alerts.php';
 ?>
 <div class="login-box">

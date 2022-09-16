@@ -1,12 +1,9 @@
 <div class="container-fluid">
     <div class="row">
-        <?php
-        $form = new Form();
-        $process = new AdminProcess();
-        /**
-         * The user is already logged in, not allowed to register.
-         */
-        if (isset($_SESSION['regsuccess'])) {
+<?php 
+$form = new Form();
+$newuser = new newUser();
+if (isset($_SESSION['regsuccess'])) {
             /* Registration was successful */
             if ($_SESSION['regsuccess']) {
                 echo "<h1>Registered!</h1>";
@@ -33,24 +30,61 @@
          */ else {
             ?>
 
-            <h1>Register</h1>
+            <h1>Add new user</h1>
             <?php
             if ($form->num_errors > 0) {
                 echo "<td><font size=\"2\" color=\"#ff0000\">" . $form->num_errors . " error(es) econtrados</font></td>";
             }
-            ?>
-            <div id="register">
-                <form action="process.php" method="POST">
-                    <label class="col-form-label">Name: </label><p><input class="form-control" type="text" name="name" maxlength="30" value="<?php echo $form->value("name"); ?>"><?php echo $form->error("name"); ?></p>
-                    <label class="col-form-label">Username: </label><p><input class="form-control" type="text" name="user" maxlength="30" value="<?php echo $form->value("user"); ?>"><?php echo $form->error("user"); ?></p>
-                    <label class="col-form-label">Password: </label><p><input class="form-control" type="password" name="pass" maxlength="30" value="<?php echo $form->value("pass"); ?>"><?php echo $form->error("pass"); ?></p>
-                    <label class="col-form-label">Email: </label><p><input class="form-control" type="text" name="email" maxlength="50" value="<?php echo $form->value("email"); ?>"><?php echo $form->error("email"); ?></p>
-                    <p><input type="hidden" name="subjoin" value="1"><input class="form-control" type="submit" value="Join!"></p>
-                    <p><a href="index.php">[Back to Main]</a></p>
-                </form>
-            </div>
-            <?php
-        }
-        ?>
+           
+?>
+       <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Add a new user</p>
+            <form method="post" class="form-inline d-flex justify-content-center">
+                <div class="input-group mb-3">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="<?php echo $form->value("username"); ?>"><?php echo $form->error("username"); ?>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>                    
+                <div class="input-group mb-3">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="<?php echo $form->value("email"); ?>"><?php echo $form->error("email"); ?>>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" value="<?php echo $form->value("password"); ?>"><?php echo $form->error("password"); ?>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Retype password" value="<?php echo $form->value("password2"); ?>"><?php echo $form->error("password2"); ?>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="mb-3">
+                        <button type="submit" name="register" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+        </div>        
     </div>
+<?php
+        }
+        ?>    
+</div>
 </div> 
