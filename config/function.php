@@ -15,7 +15,9 @@ function protect($str) {
 }
 
 function decodeContent($str) {
-    return htmlspecialchars_decode(html_entity_decode($str));
+    if(!empty($str)){
+        return htmlspecialchars_decode(html_entity_decode($str, ENT_QUOTES));
+    }
 }
 
 /* get number of pages

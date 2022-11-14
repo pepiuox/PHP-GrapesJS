@@ -66,7 +66,7 @@ if (file_exists(SITE_BRAND_IMG)) {
  	 <?php echo SITE_NAME; ?>
 <?php } ?>
 </a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
+   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   <div class="collapse navbar-collapse <?php echo $aligment; ?>" id="main_nav">
@@ -82,14 +82,54 @@ if (file_exists(SITE_BRAND_IMG)) {
 
                 function second($mid, $plink) {
                     global $conn;
-                    $mresult = $conn->query("SELECT * FROM page WHERE parent='$mid'");
-                    echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">' . "\n";
-                    while ($mrow = $mresult->fetch_array()) {
-                        echo '<li><a class="dropdown-item" href="' . $plink . '/' . $mrow['link'] . '">' . $mrow['title'] . '</a></li>' . "\n";
+                     $result = $conn->query("SELECT * FROM page");
+                    while ($mrow = $result->fetch_array()) {
+                        $parents[] = $mrow['parent'];
                     }
+                    $mresult = $conn->query("SELECT * FROM page WHERE parent='$mid'");
+                    echo '<ul class="dropdown-menu">' . "\n";
+                    while ($row = $mresult->fetch_array()) {
+                        $sid = $row['id'];
+                        $slink = $plink.'/'.$row['link'];
+                    if (in_array($row['id'], $parents)) {
+                            echo '<li class="nav-item dropdown">
+                    <a class="dropdown-item" href="' . $slink . '">
+                        ' . $row['title'] . '
+                    </a>' . "\n";
+                            echo third($sid, $slink);
+                            echo '</li>' . "\n";
+                        }else{
+   
+                        echo '<li><a class="dropdown-item" href="' . $slink . '">' . $row['title'] . '</a></li>' . "\n";
+                        }                     
+                        }
                     echo '</ul>' . "\n";
                 }
 
+                function third($sid, $plink) {
+                   global $conn;
+                     $result = $conn->query("SELECT * FROM page");
+                    while ($mrow = $result->fetch_array()) {
+                        $parents[] = $mrow['parent'];
+                    }
+                    $mresult = $conn->query("SELECT * FROM page WHERE parent='$sid'");
+                    echo '<ul class="submenu dropdown-menu">' . "\n";
+                    while ($row = $mresult->fetch_array()) {
+                        $sbid = $row['id'];
+                        $slink = $plink.'/'.$row['link'];
+                    
+                    if (in_array($row['id'], $parents)) {
+                            echo '<li><a class="dropdown-item" href="' . $slink . '">' . $row['title'] . '</a>' . "\n";
+                            echo third($sbid, $slink);
+                            echo '</li>' . "\n";
+                    }else{
+   
+                        echo '<li><a class="dropdown-item" href="' . $slink . '">' . $row['title'] . '</a></li>' . "\n";
+                        }                     
+                   }
+                    echo '</ul>' . "\n";
+                }
+                
                 function dropdown() {
                     global $conn;
                     $mresult = $conn->query("SELECT * FROM page");
@@ -103,9 +143,7 @@ if (file_exists(SITE_BRAND_IMG)) {
 
                         if (in_array($row['id'], $parents)) {
                             echo '<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="' . $row['link'] . '" id="navbarDropdown">
-                        ' . $row['title'] . '
-                    </a>' . "\n";
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="' . $plink . '" id="navbarDropdown">' . $row['title'] . '</a>' . "\n";
                             echo second($mid, $plink);
                             echo '</li>' . "\n";
                         } else {

@@ -8,19 +8,18 @@ if (isset($_SESSION['regsuccess'])) {
             if ($_SESSION['regsuccess']) {
                 echo "<h1>Registered!</h1>";
                 if (EMAIL_WELCOME) {
-                    echo "<p>Gracias <b>" . $_SESSION['reguname'] . "</b>, you have been sent a confirmation email which should be arriving shortly.  Please confirm your registration before you continue.<br />Volver a <a href='index.php'>Principal</a></p>";
+                    echo "<p>Gracias <b>" . $_SESSION['username'] . "</b>, you have been sent a confirmation email which should be arriving shortly.  Please confirm your registration before you continue.<br />Volver a <a href='index.php'>Principal</a></p>";
                 } else {
-                    echo "<p>Thank you <b>" . $_SESSION['reguname'] . "</b>, your information has been added to the database, "
+                    echo "<p>Thank you <b>" . $_SESSION['username'] . "</b>, your information has been added to the database, "
                     . "you may now <a href=\"index.php\">log in</a>.</p>";
                 }
             }
             /* Registration failed */ else {
                 echo "<h1>Registration Failed</h1>";
-                echo "<p>We're sorry, but an error has occurred and your registration for the username <b>" . $_SESSION['reguname'] . "</b>, "
+                echo "<p>We're sorry, but an error has occurred and your registration for the username <b>" . $_SESSION['username'] . "</b>, "
                 . "could not be completed.<br />Please try again at a later time.</p>";
             }
-            unset($_SESSION['regsuccess']);
-            unset($_SESSION['reguname']);
+
         }
         /**
          * The user has not filled out the registration form yet.

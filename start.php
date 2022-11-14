@@ -66,7 +66,7 @@ if ($nm > 0) {
         <head>
             <meta charset="utf-8"/>
             <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
             <?php if (!empty($description)) { ?>
                 <meta name="description" content="<?php echo $description; ?>" />
             <?php } else { ?>
@@ -89,11 +89,13 @@ if ($nm > 0) {
             <title><?php echo $title; ?></title>
             <link href="<?php echo $base; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="<?php echo $base; ?>assets/plugins/font-awesome/css/font-awesome.min.css" />
-            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
             <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
-           
+           <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
 <style type="text/css">
+.dropdown-hover-all .dropdown-menu, .dropdown-hover>.dropdown-menu.dropend {
+        margin-left: -1px !important
+}
 
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
