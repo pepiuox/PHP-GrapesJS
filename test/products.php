@@ -1,14 +1,9 @@
 <?php
-defined('C5_EXECUTE') or die("Access Denied.");
-
-use Concrete\Core\Database\Connection\Connection;
-
-$this->inc('elements/header_basic.php');
 
 $dbprd = \Database::connection('store');
-$this->inc('actions/Addcart.php');
-$this->inc('actions/Rating.php');
-$this->inc('actions/CheckSession.php');
+include 'actions/Addcart.php';
+include 'actions/Rating.php';
+include 'actions/CheckSession.php';
 $product = new AddCart($dbprd);
 $rating = New Rating($dbprd);
 $check = New CheckSession($dbprd);
