@@ -93,27 +93,84 @@ if ($nm > 0) {
             <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script> 
            <script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
 <style type="text/css">
+.dropdown:hover >.dropdown-menu{
+  display: block !important;
+}
+
+.dropdown-submenu:hover > .dropdown-menu{
+  display: block !important;
+    left: 100%;
+    margin-top: -37px;
+}
+
+.dropdown-item{
+  font-size: small; /* 13px */
+}
+
+.dropdown-toggle::after{
+  font-size: var(--font-md);
+  margin-bottom: -2px;
+}
+
+.dropdown-menu li a.active{
+  color:#fff;
+}
+
+.custom-toggle-arrow{
+      font-size: 18px;
+      margin-top: 1px;
+      line-height: 12px;
+}
+
 .dropdown-hover-all .dropdown-menu, .dropdown-hover>.dropdown-menu.dropend {
         margin-left: -1px !important
 }
 
+.dropdown-menu li {
+position: relative;
+}
+
+.dropdown-menu .dropdown-submenu {
+display: none;
+position: absolute;
+left: 100%;
+top: -7px;
+}
+
+.dropdown-menu .dropdown-submenu-left {
+right: 100%;
+left: auto;
+}
+
+.dropdown-menu > li:hover > .dropdown-submenu {
+display: block;
+}
+
+.dropdown-hover:hover>.dropdown-menu {
+display: inline-block;
+}
+
+.dropdown-hover>.dropdown-toggle:active {
+/*Without this, clicking will make it sticky*/
+pointer-events: none;
+}
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
 
 	.dropdown-menu li{
 		position: relative;
 	}
-	.dropdown-menu .submenu{ 
+	.dropdown-menu .dropdown-submenu{ 
 		display: none;
 		position: absolute;
 		left:100%; top:-7px;
 	}
-	.dropdown-menu .submenu-left{ 
+	.dropdown-menu .dropdown-submenu-left{ 
 		right:100%; left:auto;
 	}
 
 	.dropdown-menu > li:hover{ background-color: #f1f1f1 }
-	.dropdown-menu > li:hover > .submenu{
+	.dropdown-menu > li:hover > .dropdown-submenu{
 		display: block;
 	}
 }	
@@ -122,7 +179,7 @@ if ($nm > 0) {
 /* ============ small devices ============ */
 @media (max-width: 991px) {
 
-.dropdown-menu .dropdown-menu{
+.dropdown-menu .dropdown-submenu{
 		margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
 }
 
