@@ -3,7 +3,12 @@ $(document).ready(function() {
         $(".nav-link.dropdown-toggle").removeAttr("data-bs-hover");
         $(".nav-link.dropdown-toggle").attr("data-bs-toggle", "dropdown");
     }
+    $('.nav-link').click(function () {
+        var href = $(this).attr('href');
+        window.location.href = href;
 });
+});
+
 
 document.addEventListener("DOMContentLoaded", function(){
 // make it as accordion for smaller screens

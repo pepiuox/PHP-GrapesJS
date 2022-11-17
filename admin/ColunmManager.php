@@ -34,7 +34,6 @@ if ($w == "set") {
         <div class="row pt-3">
             <div class="col-md-6">
                 <h3 id="fttl">List of application tables</h3>
-
             </div>
             <div class="col-md-6">
                 <div class="form-group">
