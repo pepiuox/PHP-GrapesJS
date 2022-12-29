@@ -164,6 +164,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="<?php echo $base; ?>users/profile.php?user=pdetail" class="nav-link <?php
+                    if ($user === 'pdetail') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-id-card nav-icon"></i>
+                        <p>Personal details</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="<?php echo $base; ?>users/profile.php?user=sphra" class="nav-link <?php
                     if ($user === 'sphra') {
                         echo 'active';

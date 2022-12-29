@@ -15,6 +15,7 @@ class UserClass {
     private $connection;
     private $ip;
     public $timestamp;
+    private $expiry;
 
     /*
      * __constructor()
@@ -25,6 +26,7 @@ class UserClass {
         global $conn, $base;
         $this->system = $base;
         $this->connection = $conn;
+        $this->expiry = time()+3600;
         $this->ip = $this->getUserIP();
         $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
         $date = new DateTime();
@@ -145,11 +147,10 @@ class UserClass {
                         $userpin = trim($_POST['PIN']);
                         $remember = trim($_POST['remember']);
                         if ($remember === 'Yes') {
-                            define("COOKIE_EXPIRE", 60 * 60 * 24 * 7);  //7 days by default
+                            define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
                             define("COOKIE_PATH", "/");  //Avaible in whole domain
-                        } else{
-                            $expiry = time()+3600;
-                            define("COOKIE_EXPIRE", $expiry);  //7 days by default
+                        } else{                          
+                            define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
                             define("COOKIE_PATH", "/");  //Avaible in whole domain
                         }
 

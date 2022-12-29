@@ -29,7 +29,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
         ?>
         <div class="wrapper">
             <!-- Navbar -->
-            <?php include '../elements/navbar.php'; ?>
+            <?php include '../elements/navmbr.php'; ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
@@ -68,9 +68,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                 <?php
                                 if ($user == 'pinfo') {
                                     $vpages = 'Personal user information';
-                                } elseif ($user == 'pdetail') {
-                                    $vpages = 'Personal details';
-                                }elseif ($user == 'sphra') {
+                                } elseif ($user == 'sphra') {
                                     $vpages = 'Security phrase';
                                 } elseif ($user == 'chpass') {
                                     $vpages = 'Change of password';
@@ -100,8 +98,6 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                     <?php
                     if ($user == 'pinfo') {
                         include 'personalInfo.php';
-                    } elseif ($user == 'pdetail') {
-                        include 'infodetails.php';
                     } elseif ($user == 'chpass') {
                         include 'changePassword.php';
                     } elseif ($user == 'chpin') {
@@ -126,13 +122,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                                 <hr class="colorgraph">
                                                 <p>
                                                     You are connected as <strong><?php echo $_SESSION['levels']; ?></strong>                                                    
-                                                </p> 
-<form method="post" enctype="multipart/form-data">
-        <input type="file" name="files[]" multiple>
-        <input type="submit" value="Upload File" name="submit">
-    </form>
-
-	<script src="upload.js"></script>                                            
+                                                </p>                                             
                                             </div>
                                         </div>
                                     </div>

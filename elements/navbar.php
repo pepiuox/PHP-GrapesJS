@@ -23,60 +23,57 @@
             </div>
         </div>
     </form>
+ <div class="dropdown dropstart ml-auto">
+                                    <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <?php
+                                        if (!empty(USERS_AVATARS)) {
+                                            echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                        }
+                                        ?>
+                                        <i class="fa fa-user"></i>
+                                        <span class="d-none d-md-inline"><?php echo USERS_FULLNAMES; ?></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">                                    
+                                        <!-- User image -->
+                                        <li class="dropdown-item user-header">
+                                            <?php
+                                            if (!empty(USERS_AVATARS)) {
+                                                echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                            }
+                                            ?>
+                                            <p>
+                                                <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
+                                                <small>Member since Nov. 2012</small>
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        <li class="dropdown-item user-body">
+                                            <div class="row">
+                                                <div class="col-4 text-center">
+                                                    <a href="#">Followers</a>
+                                                </div>
+                                                <div class="col-4 text-center">
+                                                    <a href="#">Sales</a>
+                                                </div>
+                                                <div class="col-4 text-center">
+                                                    <a href="#">Friends</a>
+                                                </div>
+                                            </div>
+                                            <!-- /.row -->
+                                        </li>
+                                        <!-- Menu Footer-->
+                                        <li class="dropdown-item user-footer">
+                                            <form method="post">
+                                                <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
+                                                <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
+                                                    Sign out
+                                                </button>
+                                            </form>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-               
-        <li class="nav-item dropdown user-menu">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                <?php
-                if (!empty(USERS_AVATARS)) {
-                    echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
-                }
-                ?>
-                <i class="far fa-user"></i>
-                <span class="d-none d-md-inline"><?php echo USERS_FULLNAMES; ?></span>
+                                        </li>
+                                    </ul>
+                                    </ul>
+                                </div>
 
-            </a>
-            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <!-- User image -->
-                <li class="user-header bg-primary">
-                    <?php
-                    if (!empty(USERS_AVATARS)) {
-                        echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
-                    }
-                    ?>
-                    <p>
-                        <?php echo USERS_NAMES . ' - ' . USERS_SKILLS; ?>
-                        <small>Member since Nov. 2012</small>
-                    </p>
-                </li>
-                <!-- Menu Body -->
-                <li class="user-body">
-                    <div class="row">
-                        <div class="col-4 text-center">
-                            <a href="#">Followers</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Sales</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Friends</a>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-                </li>
-                <!-- Menu Footer-->
-                <li class="user-footer">
-                    <form method="post">
-                        <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
-                        <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
-                            Sign out
-                        </button>
-                    </form>
-
-                </li>
-            </ul>
-        </li>        
-    </ul>
+ 
 </nav>

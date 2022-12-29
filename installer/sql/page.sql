@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.4.14-MariaDB - mariadb.org binary distribution
--- SO del servidor:              Win64
--- HeidiSQL Versión:             11.3.0.6375
+-- Server version:               10.4.24-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win64
+-- HeidiSQL Version:             12.0.0.6525
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,38 +14,48 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Volcando estructura para tabla newcms.active_guests
-DROP TABLE IF EXISTS `active_guests`;
+-- Dumping structure for table newcms.actions_logs
+CREATE TABLE IF NOT EXISTS `actions_logs` (
+  `actions_logs_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email_login` varchar(255) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(100) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `actions` varchar(255) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  PRIMARY KEY (`actions_logs_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.actions_logs: 0 rows
+/*!40000 ALTER TABLE `actions_logs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `actions_logs` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.active_guests
 CREATE TABLE IF NOT EXISTS `active_guests` (
   `ip` varchar(15) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.active_guests: ~0 rows (aproximadamente)
-DELETE FROM `active_guests`;
+-- Dumping data for table newcms.active_guests: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.active_sessions
-DROP TABLE IF EXISTS `active_sessions`;
+-- Dumping structure for table newcms.active_sessions
 CREATE TABLE IF NOT EXISTS `active_sessions` (
   `session` char(64) COLLATE utf8_bin DEFAULT NULL,
   `date_session` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Volcando datos para la tabla newcms.active_sessions: ~0 rows (aproximadamente)
-DELETE FROM `active_sessions`;
+-- Dumping data for table newcms.active_sessions: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.active_users
-DROP TABLE IF EXISTS `active_users`;
+-- Dumping structure for table newcms.active_users
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(30) NOT NULL,
   `timestamp` int(11) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.active_users: ~0 rows (aproximadamente)
-DELETE FROM `active_users`;
+-- Dumping data for table newcms.active_users: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.admins
-DROP TABLE IF EXISTS `admins`;
+-- Dumping structure for table newcms.admins
 CREATE TABLE IF NOT EXISTS `admins` (
   `adminid` char(23) NOT NULL DEFAULT 'uuid_short();',
   `userid` char(128) NOT NULL,
@@ -53,11 +63,9 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `superadmin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.admins: ~0 rows (aproximadamente)
-DELETE FROM `admins`;
+-- Dumping data for table newcms.admins: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.announcement
-DROP TABLE IF EXISTS `announcement`;
+-- Dumping structure for table newcms.announcement
 CREATE TABLE IF NOT EXISTS `announcement` (
   `Announcement_ID` int(11) unsigned NOT NULL,
   `Is_Active` enum('N','Y') NOT NULL DEFAULT 'N',
@@ -73,11 +81,9 @@ CREATE TABLE IF NOT EXISTS `announcement` (
   `Translated_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.announcement: ~0 rows (aproximadamente)
-DELETE FROM `announcement`;
+-- Dumping data for table newcms.announcement: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.app_config
-DROP TABLE IF EXISTS `app_config`;
+-- Dumping structure for table newcms.app_config
 CREATE TABLE IF NOT EXISTS `app_config` (
   `setting` char(26) NOT NULL,
   `value` varchar(12000) NOT NULL,
@@ -88,11 +94,73 @@ CREATE TABLE IF NOT EXISTS `app_config` (
   `required` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.app_config: ~0 rows (aproximadamente)
-DELETE FROM `app_config`;
+-- Dumping data for table newcms.app_config: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.balance
-DROP TABLE IF EXISTS `balance`;
+-- Dumping structure for table newcms.article_db
+CREATE TABLE IF NOT EXISTS `article_db` (
+  `article_db_id` int(11) NOT NULL AUTO_INCREMENT,
+  `url_rewrite` varchar(255) DEFAULT NULL,
+  `is_category` int(11) DEFAULT NULL,
+  `category_name` varchar(255) DEFAULT NULL,
+  `main_cat_id` int(11) DEFAULT NULL,
+  `main_picture` varchar(255) DEFAULT NULL,
+  `file_upload` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `keyword` varchar(255) DEFAULT NULL,
+  `short_desc` varchar(255) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `user_admin_id` int(11) DEFAULT NULL,
+  `cat_id` int(11) DEFAULT NULL,
+  `lang_iso` varchar(10) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `fb_comment_active` int(11) DEFAULT NULL,
+  `fb_comment_limit` int(11) DEFAULT NULL,
+  `fb_comment_sort` varchar(20) DEFAULT NULL,
+  `arrange` int(11) DEFAULT NULL,
+  `user_groups_idS` text DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`article_db_id`) USING BTREE,
+  KEY `url_rewrite` (`url_rewrite`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.article_db: 0 rows
+/*!40000 ALTER TABLE `article_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `article_db` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.article_db_downloadstat
+CREATE TABLE IF NOT EXISTS `article_db_downloadstat` (
+  `article_db_downloadstat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `article_db_id` int(11) DEFAULT NULL,
+  `file_upload` varchar(255) DEFAULT NULL,
+  `user_admin_id` int(11) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(100) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  PRIMARY KEY (`article_db_downloadstat_id`) USING BTREE,
+  KEY `article_db_id` (`article_db_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.article_db_downloadstat: 0 rows
+/*!40000 ALTER TABLE `article_db_downloadstat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `article_db_downloadstat` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.auth_tokens
+CREATE TABLE IF NOT EXISTS `auth_tokens` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_email` varchar(255) NOT NULL,
+  `auth_type` varchar(255) NOT NULL,
+  `selector` text NOT NULL,
+  `token` longtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `expires_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table newcms.auth_tokens: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.balance
 CREATE TABLE IF NOT EXISTS `balance` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL,
@@ -106,11 +174,9 @@ CREATE TABLE IF NOT EXISTS `balance` (
   `history` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.balance: ~0 rows (aproximadamente)
-DELETE FROM `balance`;
+-- Dumping data for table newcms.balance: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.banned_users
-DROP TABLE IF EXISTS `banned_users`;
+-- Dumping structure for table newcms.banned_users
 CREATE TABLE IF NOT EXISTS `banned_users` (
   `user_id` char(128) NOT NULL,
   `banned_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -118,11 +184,22 @@ CREATE TABLE IF NOT EXISTS `banned_users` (
   `hours_remaining` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.banned_users: ~0 rows (aproximadamente)
-DELETE FROM `banned_users`;
+-- Dumping data for table newcms.banned_users: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.blocks
-DROP TABLE IF EXISTS `blocks`;
+-- Dumping structure for table newcms.blacklist_ip
+CREATE TABLE IF NOT EXISTS `blacklist_ip` (
+  `blacklist_ip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  PRIMARY KEY (`blacklist_ip_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.blacklist_ip: 0 rows
+/*!40000 ALTER TABLE `blacklist_ip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blacklist_ip` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.blocks
 CREATE TABLE IF NOT EXISTS `blocks` (
   `idB` int(11) NOT NULL AUTO_INCREMENT,
   `blockId` int(11) DEFAULT NULL,
@@ -131,11 +208,9 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   PRIMARY KEY (`idB`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.blocks: ~0 rows (aproximadamente)
-DELETE FROM `blocks`;
+-- Dumping data for table newcms.blocks: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.blocks_content
-DROP TABLE IF EXISTS `blocks_content`;
+-- Dumping structure for table newcms.blocks_content
 CREATE TABLE IF NOT EXISTS `blocks_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `blockId` int(11) DEFAULT NULL,
@@ -143,11 +218,9 @@ CREATE TABLE IF NOT EXISTS `blocks_content` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.blocks_content: ~0 rows (aproximadamente)
-DELETE FROM `blocks_content`;
+-- Dumping data for table newcms.blocks_content: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.breadcrumblinks
-DROP TABLE IF EXISTS `breadcrumblinks`;
+-- Dumping structure for table newcms.breadcrumblinks
 CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `page_title` varchar(100) NOT NULL,
   `page_url` varchar(100) NOT NULL,
@@ -155,21 +228,54 @@ CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
   `rgt` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.breadcrumblinks: ~0 rows (aproximadamente)
-DELETE FROM `breadcrumblinks`;
+-- Dumping data for table newcms.breadcrumblinks: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.category
-DROP TABLE IF EXISTS `category`;
+-- Dumping structure for table newcms.carousel_picture
+CREATE TABLE IF NOT EXISTS `carousel_picture` (
+  `carousel_picture_id` int(11) NOT NULL AUTO_INCREMENT,
+  `carousel_widget_id` int(11) DEFAULT NULL,
+  `file_upload` varchar(255) DEFAULT NULL,
+  `photo_url` varchar(512) DEFAULT NULL,
+  `caption` varchar(255) DEFAULT NULL,
+  `arrange` int(11) DEFAULT NULL,
+  `carousel_type` varchar(255) DEFAULT NULL,
+  `youtube_url` varchar(255) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`carousel_picture_id`) USING BTREE,
+  KEY `carousel_widget_id` (`carousel_widget_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.carousel_picture: 0 rows
+/*!40000 ALTER TABLE `carousel_picture` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carousel_picture` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.carousel_widget
+CREATE TABLE IF NOT EXISTS `carousel_widget` (
+  `carousel_widget_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `custom_temp_active` int(11) DEFAULT NULL,
+  `custom_template` text DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`carousel_widget_id`) USING BTREE,
+  KEY `carousel_widget_id` (`carousel_widget_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.carousel_widget: 0 rows
+/*!40000 ALTER TABLE `carousel_widget` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carousel_widget` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.category
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.category: ~0 rows (aproximadamente)
-DELETE FROM `category`;
+-- Dumping data for table newcms.category: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.cols_set
-DROP TABLE IF EXISTS `cols_set`;
+-- Dumping structure for table newcms.cols_set
 CREATE TABLE IF NOT EXISTS `cols_set` (
   `id` int(11) NOT NULL,
   `table_name` varchar(50) DEFAULT NULL,
@@ -184,21 +290,17 @@ CREATE TABLE IF NOT EXISTS `cols_set` (
   `col_set` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.cols_set: ~0 rows (aproximadamente)
-DELETE FROM `cols_set`;
+-- Dumping data for table newcms.cols_set: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.comment
-DROP TABLE IF EXISTS `comment`;
+-- Dumping structure for table newcms.comment
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL,
   `message` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.comment: ~0 rows (aproximadamente)
-DELETE FROM `comment`;
+-- Dumping data for table newcms.comment: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.configuration
-DROP TABLE IF EXISTS `configuration`;
+-- Dumping structure for table newcms.configuration
 CREATE TABLE IF NOT EXISTS `configuration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `config_name` varchar(20) DEFAULT NULL,
@@ -207,8 +309,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   UNIQUE KEY `config_name` (`config_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.configuration: ~31 rows (aproximadamente)
-DELETE FROM `configuration`;
+-- Dumping data for table newcms.configuration: ~30 rows (approximately)
 INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
 	(1, 'DOMAIN_SITE', 'http://www.yourdomain.com'),
 	(2, 'SITE_NAME', 'PHP GrapesJS'),
@@ -222,7 +323,7 @@ INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
 	(10, 'SITE_EDITOR', 'editor'),
 	(11, 'SITE_BUILDER', 'builder'),
 	(12, 'SITE_LANGUAGE_1', 'English'),
-	(13, 'SITE_LANGUAGE_2', 'EspaÃ±ol'),
+	(13, 'SITE_LANGUAGE_2', 'Español'),
 	(14, 'SITE_EMAIL', 'info@yourdomain.com'),
 	(15, 'IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
 	(16, 'NAME_CONTACT', 'Your contact Name'),
@@ -242,8 +343,7 @@ INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
 	(30, 'ADMIN_LEVEL', '5'),
 	(31, 'SITE_BRAND_IMG', 'http://yourdomain.com/images/logo.jpg');
 
--- Volcando estructura para tabla newcms.cookies
-DROP TABLE IF EXISTS `cookies`;
+-- Dumping structure for table newcms.cookies
 CREATE TABLE IF NOT EXISTS `cookies` (
   `cookieid` char(23) NOT NULL,
   `userid` char(128) NOT NULL,
@@ -252,22 +352,18 @@ CREATE TABLE IF NOT EXISTS `cookies` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.cookies: ~0 rows (aproximadamente)
-DELETE FROM `cookies`;
+-- Dumping data for table newcms.cookies: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.countries
-DROP TABLE IF EXISTS `countries`;
+-- Dumping structure for table newcms.countries
 CREATE TABLE IF NOT EXISTS `countries` (
   `id` smallint(5) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.countries: ~0 rows (aproximadamente)
-DELETE FROM `countries`;
+-- Dumping data for table newcms.countries: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.currency
-DROP TABLE IF EXISTS `currency`;
+-- Dumping structure for table newcms.currency
 CREATE TABLE IF NOT EXISTS `currency` (
   `id` int(11) NOT NULL,
   `coin` varchar(50) DEFAULT NULL,
@@ -278,11 +374,9 @@ CREATE TABLE IF NOT EXISTS `currency` (
   `max_supply` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.currency: ~0 rows (aproximadamente)
-DELETE FROM `currency`;
+-- Dumping data for table newcms.currency: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.customers
-DROP TABLE IF EXISTS `customers`;
+-- Dumping structure for table newcms.customers
 CREATE TABLE IF NOT EXISTS `customers` (
   `Customer_ID` int(11) NOT NULL,
   `Customer_Number` varchar(20) NOT NULL,
@@ -302,11 +396,38 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `Updated_By` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.customers: ~0 rows (aproximadamente)
-DELETE FROM `customers`;
+-- Dumping data for table newcms.customers: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.deleted_users
-DROP TABLE IF EXISTS `deleted_users`;
+-- Dumping structure for table newcms.datos_personales
+CREATE TABLE IF NOT EXISTS `datos_personales` (
+  `idd` char(128) CHARACTER SET utf8 NOT NULL,
+  `mkhash` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `edad` tinyint(2) DEFAULT NULL,
+  `tipo_figura` enum('Delgada','Delgada pechugona','Delgada potoncita','Esbelta','Esbelta pechugona','Esbelta potoncita','Curvilineo','Llenita') DEFAULT NULL,
+  `estatura` varchar(50) DEFAULT NULL,
+  `busto` varchar(50) DEFAULT NULL,
+  `cintura` varchar(50) DEFAULT NULL,
+  `caderas` varchar(50) DEFAULT NULL,
+  `detalles_fisicos` varchar(250) DEFAULT NULL,
+  `zonas` varchar(250) DEFAULT NULL,
+  `citas` varchar(250) DEFAULT NULL,
+  `salidas` varchar(250) DEFAULT NULL,
+  `dias` varchar(250) DEFAULT NULL,
+  `horarios` varchar(250) DEFAULT NULL,
+  `descripcion_servicio` varchar(250) DEFAULT NULL,
+  `servicios` varchar(250) DEFAULT NULL,
+  `adicionales` varchar(250) DEFAULT NULL,
+  `pack_videos` varchar(250) DEFAULT NULL,
+  `otras_atenciones` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`idd`),
+  UNIQUE KEY `idd` (`idd`),
+  CONSTRAINT `FK1_idd` FOREIGN KEY (`idd`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table newcms.datos_personales: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.deleted_users
 CREATE TABLE IF NOT EXISTS `deleted_users` (
   `user_id` char(128) NOT NULL,
   `username` varchar(65) NOT NULL,
@@ -317,22 +438,30 @@ CREATE TABLE IF NOT EXISTS `deleted_users` (
   `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.deleted_users: ~0 rows (aproximadamente)
-DELETE FROM `deleted_users`;
+-- Dumping data for table newcms.deleted_users: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.deposit
-DROP TABLE IF EXISTS `deposit`;
+-- Dumping structure for table newcms.deposit
 CREATE TABLE IF NOT EXISTS `deposit` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.deposit: ~0 rows (aproximadamente)
-DELETE FROM `deposit`;
+-- Dumping data for table newcms.deposit: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.employee
-DROP TABLE IF EXISTS `employee`;
+-- Dumping structure for table newcms.domains
+CREATE TABLE IF NOT EXISTS `domains` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `domain_name` char(50) DEFAULT NULL,
+  `short_url` char(50) DEFAULT NULL,
+  `fully_url` char(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `domain_name` (`domain_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table newcms.domains: ~0 rows (approximately)
+
+-- Dumping structure for table newcms.employee
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) NOT NULL COMMENT 'primary key',
   `employee_name` varchar(255) NOT NULL COMMENT 'employee name',
@@ -343,11 +472,9 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `employee_comments` varchar(255) NOT NULL COMMENT 'employee comments'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.employee: ~0 rows (aproximadamente)
-DELETE FROM `employee`;
+-- Dumping data for table newcms.employee: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.eventlog
-DROP TABLE IF EXISTS `eventlog`;
+-- Dumping structure for table newcms.eventlog
 CREATE TABLE IF NOT EXISTS `eventlog` (
   `id` bigint(20) unsigned NOT NULL,
   `event` varchar(200) NOT NULL,
@@ -358,22 +485,18 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.eventlog: ~0 rows (aproximadamente)
-DELETE FROM `eventlog`;
+-- Dumping data for table newcms.eventlog: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.exchange
-DROP TABLE IF EXISTS `exchange`;
+-- Dumping structure for table newcms.exchange
 CREATE TABLE IF NOT EXISTS `exchange` (
   `id` int(11) NOT NULL,
   `exchange_name` varchar(100) DEFAULT NULL,
   `trading_pairs` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.exchange: ~0 rows (aproximadamente)
-DELETE FROM `exchange`;
+-- Dumping data for table newcms.exchange: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.exchanges
-DROP TABLE IF EXISTS `exchanges`;
+-- Dumping structure for table newcms.exchanges
 CREATE TABLE IF NOT EXISTS `exchanges` (
   `id` int(11) NOT NULL,
   `uid` varchar(128) DEFAULT NULL,
@@ -407,11 +530,9 @@ CREATE TABLE IF NOT EXISTS `exchanges` (
   `referral_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.exchanges: ~0 rows (aproximadamente)
-DELETE FROM `exchanges`;
+-- Dumping data for table newcms.exchanges: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.faq
-DROP TABLE IF EXISTS `faq`;
+-- Dumping structure for table newcms.faq
 CREATE TABLE IF NOT EXISTS `faq` (
   `id` int(11) NOT NULL,
   `question` varchar(255) DEFAULT NULL,
@@ -420,33 +541,27 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.faq: ~0 rows (aproximadamente)
-DELETE FROM `faq`;
+-- Dumping data for table newcms.faq: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.finance
-DROP TABLE IF EXISTS `finance`;
+-- Dumping structure for table newcms.finance
 CREATE TABLE IF NOT EXISTS `finance` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.finance: ~0 rows (aproximadamente)
-DELETE FROM `finance`;
+-- Dumping data for table newcms.finance: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.financial_institution
-DROP TABLE IF EXISTS `financial_institution`;
+-- Dumping structure for table newcms.financial_institution
 CREATE TABLE IF NOT EXISTS `financial_institution` (
   `id` int(11) NOT NULL,
   `financial_institution` varchar(50) DEFAULT NULL,
   `link` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.financial_institution: ~0 rows (aproximadamente)
-DELETE FROM `financial_institution`;
+-- Dumping data for table newcms.financial_institution: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.follow
-DROP TABLE IF EXISTS `follow`;
+-- Dumping structure for table newcms.follow
 CREATE TABLE IF NOT EXISTS `follow` (
   `follow_id` int(11) NOT NULL,
   `sender` int(11) NOT NULL,
@@ -454,11 +569,9 @@ CREATE TABLE IF NOT EXISTS `follow` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.follow: ~0 rows (aproximadamente)
-DELETE FROM `follow`;
+-- Dumping data for table newcms.follow: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.forgot_pass
-DROP TABLE IF EXISTS `forgot_pass`;
+-- Dumping structure for table newcms.forgot_pass
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `idFgp` int(11) NOT NULL,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -468,11 +581,9 @@ CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.forgot_pass: ~0 rows (aproximadamente)
-DELETE FROM `forgot_pass`;
+-- Dumping data for table newcms.forgot_pass: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.forgot_pin
-DROP TABLE IF EXISTS `forgot_pin`;
+-- Dumping structure for table newcms.forgot_pin
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `idFgp` int(11) NOT NULL,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -482,11 +593,40 @@ CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `expire` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.forgot_pin: ~0 rows (aproximadamente)
-DELETE FROM `forgot_pin`;
+-- Dumping data for table newcms.forgot_pin: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.galleries
-DROP TABLE IF EXISTS `galleries`;
+-- Dumping structure for table newcms.form_main
+CREATE TABLE IF NOT EXISTS `form_main` (
+  `form_main_id` int(11) NOT NULL AUTO_INCREMENT,
+  `form_name` varchar(255) DEFAULT NULL,
+  `form_enctype` varchar(255) DEFAULT NULL,
+  `form_method` varchar(255) DEFAULT NULL,
+  `success_txt` varchar(255) DEFAULT NULL,
+  `captchaerror_txt` varchar(255) DEFAULT NULL,
+  `error_txt` varchar(255) DEFAULT NULL,
+  `sendmail` int(11) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `send_to_visitor` int(11) DEFAULT NULL,
+  `email_field_id` int(11) DEFAULT NULL,
+  `visitor_subject` varchar(255) DEFAULT NULL,
+  `visitor_body` text DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `captcha` int(11) DEFAULT NULL,
+  `save_to_db` int(11) DEFAULT NULL,
+  `dont_repeat_field` varchar(255) DEFAULT NULL,
+  `repeat_txt` varchar(255) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`form_main_id`) USING BTREE,
+  KEY `form_name` (`form_name`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.form_main: 0 rows
+/*!40000 ALTER TABLE `form_main` DISABLE KEYS */;
+/*!40000 ALTER TABLE `form_main` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.galleries
 CREATE TABLE IF NOT EXISTS `galleries` (
   `idGal` int(11) NOT NULL AUTO_INCREMENT,
   `gallery` varchar(50) DEFAULT NULL,
@@ -498,11 +638,9 @@ CREATE TABLE IF NOT EXISTS `galleries` (
   PRIMARY KEY (`idGal`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.galleries: ~0 rows (aproximadamente)
-DELETE FROM `galleries`;
+-- Dumping data for table newcms.galleries: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.gallery
-DROP TABLE IF EXISTS `gallery`;
+-- Dumping structure for table newcms.gallery
 CREATE TABLE IF NOT EXISTS `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -510,11 +648,43 @@ CREATE TABLE IF NOT EXISTS `gallery` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.gallery: ~0 rows (aproximadamente)
-DELETE FROM `gallery`;
+-- Dumping data for table newcms.gallery: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.gateways
-DROP TABLE IF EXISTS `gateways`;
+-- Dumping structure for table newcms.gallery_config
+CREATE TABLE IF NOT EXISTS `gallery_config` (
+  `gallery_config_id` int(11) NOT NULL AUTO_INCREMENT,
+  `gallery_sort` varchar(255) DEFAULT NULL,
+  `user_admin_id` int(11) DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`gallery_config_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.gallery_config: 0 rows
+/*!40000 ALTER TABLE `gallery_config` DISABLE KEYS */;
+/*!40000 ALTER TABLE `gallery_config` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.gallery_db
+CREATE TABLE IF NOT EXISTS `gallery_db` (
+  `gallery_db_id` int(11) NOT NULL AUTO_INCREMENT,
+  `album_name` varchar(255) DEFAULT NULL,
+  `url_rewrite` varchar(255) DEFAULT NULL,
+  `keyword` varchar(255) DEFAULT NULL,
+  `short_desc` text DEFAULT NULL,
+  `lang_iso` varchar(10) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `arrange` int(11) DEFAULT NULL,
+  `user_groups_idS` text DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`gallery_db_id`) USING BTREE,
+  KEY `url_rewrite` (`url_rewrite`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.gallery_db: 0 rows
+/*!40000 ALTER TABLE `gallery_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `gallery_db` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.gateways
 CREATE TABLE IF NOT EXISTS `gateways` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -546,11 +716,9 @@ CREATE TABLE IF NOT EXISTS `gateways` (
   `external_icon` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.gateways: ~0 rows (aproximadamente)
-DELETE FROM `gateways`;
+-- Dumping data for table newcms.gateways: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.gateways_fields
-DROP TABLE IF EXISTS `gateways_fields`;
+-- Dumping structure for table newcms.gateways_fields
 CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `id` int(11) NOT NULL,
   `gateway_id` int(11) DEFAULT NULL,
@@ -558,11 +726,9 @@ CREATE TABLE IF NOT EXISTS `gateways_fields` (
   `field_number` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.gateways_fields: ~0 rows (aproximadamente)
-DELETE FROM `gateways_fields`;
+-- Dumping data for table newcms.gateways_fields: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.help
-DROP TABLE IF EXISTS `help`;
+-- Dumping structure for table newcms.help
 CREATE TABLE IF NOT EXISTS `help` (
   `Help_ID` int(11) NOT NULL,
   `Language` char(2) NOT NULL,
@@ -575,33 +741,27 @@ CREATE TABLE IF NOT EXISTS `help` (
   `Last_Updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.help: ~0 rows (aproximadamente)
-DELETE FROM `help`;
+-- Dumping data for table newcms.help: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.help_categories
-DROP TABLE IF EXISTS `help_categories`;
+-- Dumping structure for table newcms.help_categories
 CREATE TABLE IF NOT EXISTS `help_categories` (
   `category_id` int(11) NOT NULL,
   `language` char(2) NOT NULL,
   `category_description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.help_categories: ~0 rows (aproximadamente)
-DELETE FROM `help_categories`;
+-- Dumping data for table newcms.help_categories: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.history
-DROP TABLE IF EXISTS `history`;
+-- Dumping structure for table newcms.history
 CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.history: ~0 rows (aproximadamente)
-DELETE FROM `history`;
+-- Dumping data for table newcms.history: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.image_gal
-DROP TABLE IF EXISTS `image_gal`;
+-- Dumping structure for table newcms.image_gal
 CREATE TABLE IF NOT EXISTS `image_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT 0,
@@ -614,11 +774,9 @@ CREATE TABLE IF NOT EXISTS `image_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.image_gal: ~0 rows (aproximadamente)
-DELETE FROM `image_gal`;
+-- Dumping data for table newcms.image_gal: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.ip
-DROP TABLE IF EXISTS `ip`;
+-- Dumping structure for table newcms.ip
 CREATE TABLE IF NOT EXISTS `ip` (
   `id_session` char(128) DEFAULT NULL,
   `user_data` char(64) NOT NULL,
@@ -626,16 +784,18 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.ip: ~4 rows (aproximadamente)
-DELETE FROM `ip`;
+-- Dumping data for table newcms.ip: ~8 rows (approximately)
 INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
 	('0592ad6e0a352cd36b91970f6a7a9dc98d45485d', 'pepiuox@contact.net', '127.0.0.1', '2021-09-14 05:29:43'),
 	('22a0fbc2d9a8667bea2a38d69a6e0f41cff9a798', 'contatct@pepiuox.net', '127.0.0.1', '2021-09-16 04:21:49'),
 	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'contact@ppiuox.net', '127.0.0.1', '2021-10-22 05:10:53'),
-	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'pepiuox@pepiuox.net', '127.0.0.1', '2021-10-22 05:11:27');
+	('b1ed8551a80fa6c03457119e068b536f4d92b271', 'pepiuox@pepiuox.net', '127.0.0.1', '2021-10-22 05:11:27'),
+	('424e04c9623c18a4de597bd01327b604a0b96491', 'contact@pepiuox.net', '127.0.0.1', '2022-06-19 04:49:21'),
+	('3ab3627de5edd26396fee60a9f5ffc3d14e987c2', 'contact@labemotion.net', '127.0.0.1', '2022-09-02 22:24:16'),
+	('3ab3627de5edd26396fee60a9f5ffc3d14e987c2', 'contact@labemotion.net', '127.0.0.1', '2022-09-02 23:53:41'),
+	('3ab3627de5edd26396fee60a9f5ffc3d14e987c2', 'contact@pepiuox.net', '127.0.0.1', '2022-09-02 23:54:13');
 
--- Volcando estructura para tabla newcms.items
-DROP TABLE IF EXISTS `items`;
+-- Dumping structure for table newcms.items
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(11) unsigned NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -644,11 +804,9 @@ CREATE TABLE IF NOT EXISTS `items` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.items: ~0 rows (aproximadamente)
-DELETE FROM `items`;
+-- Dumping data for table newcms.items: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.languages
-DROP TABLE IF EXISTS `languages`;
+-- Dumping structure for table newcms.languages
 CREATE TABLE IF NOT EXISTS `languages` (
   `Language_Code` char(2) NOT NULL,
   `Language_Name` varchar(20) NOT NULL,
@@ -665,11 +823,9 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `About_Text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.languages: ~0 rows (aproximadamente)
-DELETE FROM `languages`;
+-- Dumping data for table newcms.languages: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.last_transaction
-DROP TABLE IF EXISTS `last_transaction`;
+-- Dumping structure for table newcms.last_transaction
 CREATE TABLE IF NOT EXISTS `last_transaction` (
   `id` int(11) NOT NULL,
   `user_id` char(128) NOT NULL,
@@ -684,11 +840,36 @@ CREATE TABLE IF NOT EXISTS `last_transaction` (
   `acctions` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.last_transaction: ~0 rows (aproximadamente)
-DELETE FROM `last_transaction`;
+-- Dumping data for table newcms.last_transaction: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.lk_sess
-DROP TABLE IF EXISTS `lk_sess`;
+-- Dumping structure for table newcms.link_statistic
+CREATE TABLE IF NOT EXISTS `link_statistic` (
+  `link_statistic_id` int(11) NOT NULL AUTO_INCREMENT,
+  `link` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(255) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  PRIMARY KEY (`link_statistic_id`) USING BTREE,
+  KEY `link` (`link`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.link_statistic: 0 rows
+/*!40000 ALTER TABLE `link_statistic` DISABLE KEYS */;
+/*!40000 ALTER TABLE `link_statistic` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.link_stat_mgt
+CREATE TABLE IF NOT EXISTS `link_stat_mgt` (
+  `link_stat_mgt_id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  PRIMARY KEY (`link_stat_mgt_id`) USING BTREE,
+  KEY `url` (`url`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.link_stat_mgt: 0 rows
+/*!40000 ALTER TABLE `link_stat_mgt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `link_stat_mgt` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.lk_sess
 CREATE TABLE IF NOT EXISTS `lk_sess` (
   `id` varchar(40) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
@@ -696,11 +877,9 @@ CREATE TABLE IF NOT EXISTS `lk_sess` (
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.lk_sess: ~0 rows (aproximadamente)
-DELETE FROM `lk_sess`;
+-- Dumping data for table newcms.lk_sess: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.login_attempts
-DROP TABLE IF EXISTS `login_attempts`;
+-- Dumping structure for table newcms.login_attempts
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id_session` varchar(128) DEFAULT NULL,
   `user_data` varchar(65) DEFAULT NULL,
@@ -709,11 +888,11 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.login_attempts: ~0 rows (aproximadamente)
-DELETE FROM `login_attempts`;
+-- Dumping data for table newcms.login_attempts: ~0 rows (approximately)
+INSERT INTO `login_attempts` (`id_session`, `user_data`, `ip_address`, `attempts`, `lastlogin`) VALUES
+	('3ab3627de5edd26396fee60a9f5ffc3d14e987c2', 'contact@pepiuox.net', '127.0.0.1', 1, '2022-09-02 23:54:13');
 
--- Volcando estructura para tabla newcms.mail
-DROP TABLE IF EXISTS `mail`;
+-- Dumping structure for table newcms.mail
 CREATE TABLE IF NOT EXISTS `mail` (
   `mail_id` int(80) NOT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT 0,
@@ -725,11 +904,9 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `SentDate` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.mail: ~0 rows (aproximadamente)
-DELETE FROM `mail`;
+-- Dumping data for table newcms.mail: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.mail_log
-DROP TABLE IF EXISTS `mail_log`;
+-- Dumping structure for table newcms.mail_log
 CREATE TABLE IF NOT EXISTS `mail_log` (
   `id` int(11) NOT NULL,
   `type` varchar(45) NOT NULL DEFAULT 'generic',
@@ -740,11 +917,9 @@ CREATE TABLE IF NOT EXISTS `mail_log` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.mail_log: ~0 rows (aproximadamente)
-DELETE FROM `mail_log`;
+-- Dumping data for table newcms.mail_log: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.members
-DROP TABLE IF EXISTS `members`;
+-- Dumping structure for table newcms.members
 CREATE TABLE IF NOT EXISTS `members` (
   `id` char(128) NOT NULL,
   `username` varchar(65) NOT NULL DEFAULT '',
@@ -766,11 +941,9 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.members: ~0 rows (aproximadamente)
-DELETE FROM `members`;
+-- Dumping data for table newcms.members: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.member_info
-DROP TABLE IF EXISTS `member_info`;
+-- Dumping structure for table newcms.member_info
 CREATE TABLE IF NOT EXISTS `member_info` (
   `userid` char(128) NOT NULL,
   `firstname` varchar(60) NOT NULL,
@@ -788,11 +961,9 @@ CREATE TABLE IF NOT EXISTS `member_info` (
   CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.member_info: ~0 rows (aproximadamente)
-DELETE FROM `member_info`;
+-- Dumping data for table newcms.member_info: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.member_roles
-DROP TABLE IF EXISTS `member_roles`;
+-- Dumping structure for table newcms.member_roles
 CREATE TABLE IF NOT EXISTS `member_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` char(128) NOT NULL,
@@ -805,11 +976,9 @@ CREATE TABLE IF NOT EXISTS `member_roles` (
   CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.member_roles: ~0 rows (aproximadamente)
-DELETE FROM `member_roles`;
+-- Dumping data for table newcms.member_roles: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.menu
-DROP TABLE IF EXISTS `menu`;
+-- Dumping structure for table newcms.menu
 CREATE TABLE IF NOT EXISTS `menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
   `sort` int(11) DEFAULT NULL,
@@ -820,14 +989,16 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`idMenu`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.menu: ~2 rows (aproximadamente)
-DELETE FROM `menu`;
+-- Dumping data for table newcms.menu: ~6 rows (approximately)
 INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
 	(1, NULL, 1, 'Home', 'home', 0),
-	(2, NULL, 2, 'Test', 'test', 0);
+	(2, NULL, 2, 'Abous Us', 'abous-us', 0),
+	(3, NULL, 3, 'Shaman', 'shaman', 2),
+	(4, NULL, 4, 'Retreats', 'retreats', 0),
+	(5, NULL, 5, 'Diets', 'diets', 0),
+	(6, NULL, 6, 'Ayahuasca', 'ayahuasca', 0);
 
--- Volcando estructura para tabla newcms.menu_options
-DROP TABLE IF EXISTS `menu_options`;
+-- Dumping structure for table newcms.menu_options
 CREATE TABLE IF NOT EXISTS `menu_options` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_menu` char(50) NOT NULL,
@@ -840,14 +1011,12 @@ CREATE TABLE IF NOT EXISTS `menu_options` (
   UNIQUE KEY `id_menu` (`id_menu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla newcms.menu_options: ~2 rows (aproximadamente)
-DELETE FROM `menu_options`;
+-- Dumping data for table newcms.menu_options: ~0 rows (approximately)
 INSERT INTO `menu_options` (`id`, `id_menu`, `fluid`, `placement`, `aligment`, `background`, `color`) VALUES
 	(1, 'main_navbar', 'Yes', 'top', 'start', 'secondary', 'dark'),
 	(2, 'main_menu', 'Yes', 'top', 'end', 'dark', 'dark');
 
--- Volcando estructura para tabla newcms.multimedia_gal
-DROP TABLE IF EXISTS `multimedia_gal`;
+-- Dumping structure for table newcms.multimedia_gal
 CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT 0,
@@ -861,11 +1030,9 @@ CREATE TABLE IF NOT EXISTS `multimedia_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.multimedia_gal: ~0 rows (aproximadamente)
-DELETE FROM `multimedia_gal`;
+-- Dumping data for table newcms.multimedia_gal: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.orders
-DROP TABLE IF EXISTS `orders`;
+-- Dumping structure for table newcms.orders
 CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_date` datetime NOT NULL DEFAULT current_timestamp(),
@@ -877,11 +1044,9 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `order_date` (`order_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.orders: ~0 rows (aproximadamente)
-DELETE FROM `orders`;
+-- Dumping data for table newcms.orders: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.orders_items
-DROP TABLE IF EXISTS `orders_items`;
+-- Dumping structure for table newcms.orders_items
 CREATE TABLE IF NOT EXISTS `orders_items` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -889,11 +1054,9 @@ CREATE TABLE IF NOT EXISTS `orders_items` (
   PRIMARY KEY (`order_id`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.orders_items: ~0 rows (aproximadamente)
-DELETE FROM `orders_items`;
+-- Dumping data for table newcms.orders_items: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.page
-DROP TABLE IF EXISTS `page`;
+-- Dumping structure for table newcms.page
 CREATE TABLE IF NOT EXISTS `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `language` int(11) NOT NULL DEFAULT 1,
@@ -905,7 +1068,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   `classification` varchar(150) DEFAULT NULL,
   `description` varchar(160) DEFAULT NULL,
   `image` varchar(150) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
+  `type` enum('Design','File','Link') NOT NULL,
   `menu` int(11) DEFAULT 1,
   `hidden_page` tinyint(1) DEFAULT 0,
   `path_file` varchar(250) DEFAULT NULL,
@@ -923,14 +1086,39 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.page: ~2 rows (aproximadamente)
-DELETE FROM `page`;
+-- Dumping data for table newcms.page: ~6 rows (approximately)
 INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
-	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', NULL, 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;div id=&amp;quot;iofz&amp;quot; class=&amp;quot;py-5 text-center text-white h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-3 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;A thousand unknown plants&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;One&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle-o fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Two&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Three&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-4&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle-o fa-3x mb-2 text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;Four&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p&amp;gt;Oh, would I could describe these conceptions, could impress upon paper all that is living so full.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}@media (max-width: [object Object]){#iofz{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}.py-5.text-center.text-white.h-100.align-items-center.d-flex{background-repeat:no-repeat;background-position:left top;background-attachment:fixed;background-size:cover;background-image:url(&amp;#039;../uploads/29853.jpg&amp;#039;);}}@media (max-width: 768px){.row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2021-12-05 01:44:26'),
-	(2, 1, 0, 'Test', 'test', NULL, 'test', 'test', 'test', 'logopao2.jpg', NULL, 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;table class=&amp;quot;table text-center&amp;quot;&amp;gt;&amp;lt;thead&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;&amp;nbsp;&amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Standard &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;15$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Pro &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;49$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Ultimate &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;99$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Contact us&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;nbsp;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Small business and startups&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Growing activities&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Big firms and companies&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/thead&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;One&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Two&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Three&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Four&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Five&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Six&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 0, 1, 0, 0, 1, '2021-10-24 02:57:17');
+	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;i5zn&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/ecotruly.png&amp;quot; id=&amp;quot;irjt&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-5 col-md-7 col-10&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;Our Key Features\n            &amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do\n              eiusmod tempor incididunt ut labore et dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Social Media Marketin\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Dedicated Team\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 1, 1, 0, 0, 1, '2022-11-15 05:42:50'),
+	(2, 1, 0, 'Abous Us', 'abous-us', NULL, 'Abous Us', 'Abous Us', 'Abous Us', 'logopao2.jpg', 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iyz5&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/ecotruly.png&amp;quot; id=&amp;quot;i8g8gj&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;istm&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-white&amp;quot; id=&amp;quot;io80iv&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-md-12&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;mb-3&amp;quot;&amp;gt;Our team&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 col-md-6 p-4&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-1.svg&amp;quot; alt=&amp;quot;Card image cap&amp;quot; width=&amp;quot;200&amp;quot; class=&amp;quot;img-fluid d-block mb-3 mx-auto rounded-circle&amp;quot;/&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;J. W. Goethe&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt;CEO and founder&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 col-md-6 p-4&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-2.svg&amp;quot; alt=&amp;quot;Card image cap&amp;quot; width=&amp;quot;200&amp;quot; class=&amp;quot;img-fluid d-block mb-3 mx-auto rounded-circle&amp;quot;/&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;G. W. John&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt;Co-founder&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 p-4&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-3.svg&amp;quot; width=&amp;quot;200&amp;quot; class=&amp;quot;img-fluid d-block mb-3 mx-auto rounded-circle&amp;quot;/&amp;gt;&amp;lt;h4&amp;gt; &amp;lt;b&amp;gt;J. G. Wolf&amp;lt;/b&amp;gt; &amp;lt;/h4&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt;Evangelist&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot; id=&amp;quot;iwr4x&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;table class=&amp;quot;table text-center&amp;quot;&amp;gt;&amp;lt;thead&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;&amp;nbsp;&amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Standard &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;15$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Pro &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;49$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Start now&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;th class=&amp;quot;text-center&amp;quot;&amp;gt;&amp;lt;h3&amp;gt; Ultimate &amp;lt;/h3&amp;gt;&amp;lt;h2&amp;gt; &amp;lt;b&amp;gt;99$&amp;lt;/b&amp;gt; &amp;lt;/h2&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Contact us&amp;lt;/a&amp;gt; &amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;nbsp;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Small business and startups&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Growing activities&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Big firms and companies&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/thead&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;One&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Two&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Three&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Four&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Five&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Six&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt; &amp;lt;i class=&amp;quot;fa fa-check fa-lg text-muted&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}@media (max-width: [object Object]){#io80iv{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}}', 0, 1, 0, 0, 1, '2022-09-16 09:31:11'),
+	(3, 1, 0, 'Shaman', 'shaman', NULL, 'Shaman', 'Shaman', 'Shaman', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 2, 0, 1, '2022-09-16 09:35:48'),
+	(4, 1, 0, 'Retreats', 'retreats', NULL, 'Retreats', 'Retreats', 'Retreats', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2022-11-15 02:46:52'),
+	(5, 1, 0, 'Diets', 'diets', NULL, 'Diets', 'Diets', 'Diets', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2022-11-15 02:47:09'),
+	(6, 1, 0, 'Ayahuasca', 'ayahuasca', NULL, 'Ayahuasca', 'Ayahuasca', 'Ayahuasca', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2022-09-16 09:48:35');
 
--- Volcando estructura para tabla newcms.payment_transactions
-DROP TABLE IF EXISTS `payment_transactions`;
+-- Dumping structure for table newcms.page_menu
+CREATE TABLE IF NOT EXISTS `page_menu` (
+  `page_menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_name` varchar(255) DEFAULT NULL,
+  `lang_iso` varchar(10) DEFAULT NULL,
+  `pages_id` int(11) DEFAULT NULL,
+  `other_link` varchar(512) DEFAULT NULL,
+  `plugin_menu` varchar(255) DEFAULT NULL,
+  `drop_menu` int(11) DEFAULT NULL,
+  `drop_page_menu_id` int(11) DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
+  `new_windows` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `arrange` int(11) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`page_menu_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.page_menu: 0 rows
+/*!40000 ALTER TABLE `page_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `page_menu` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.payment_transactions
 CREATE TABLE IF NOT EXISTS `payment_transactions` (
   `Payment_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Ref_ID` varchar(20) DEFAULT NULL,
@@ -949,11 +1137,9 @@ CREATE TABLE IF NOT EXISTS `payment_transactions` (
   PRIMARY KEY (`Payment_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.payment_transactions: ~0 rows (aproximadamente)
-DELETE FROM `payment_transactions`;
+-- Dumping data for table newcms.payment_transactions: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.personal_config
-DROP TABLE IF EXISTS `personal_config`;
+-- Dumping structure for table newcms.personal_config
 CREATE TABLE IF NOT EXISTS `personal_config` (
   `idPconf` int(11) DEFAULT NULL,
   `looking_for` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -972,11 +1158,9 @@ CREATE TABLE IF NOT EXISTS `personal_config` (
   `skills` varchar(50) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Volcando datos para la tabla newcms.personal_config: ~0 rows (aproximadamente)
-DELETE FROM `personal_config`;
+-- Dumping data for table newcms.personal_config: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.plugins_app
-DROP TABLE IF EXISTS `plugins_app`;
+-- Dumping structure for table newcms.plugins_app
 CREATE TABLE IF NOT EXISTS `plugins_app` (
   `id` int(11) NOT NULL,
   `plugins` char(50) COLLATE utf8_bin DEFAULT NULL,
@@ -990,8 +1174,7 @@ CREATE TABLE IF NOT EXISTS `plugins_app` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Volcando datos para la tabla newcms.plugins_app: ~34 rows (aproximadamente)
-DELETE FROM `plugins_app`;
+-- Dumping data for table newcms.plugins_app: ~35 rows (approximately)
 INSERT INTO `plugins_app` (`id`, `plugins`, `plugins_opts`, `script`, `css`, `buttons`, `plugins_script`, `plugins_css`, `active`) VALUES
 	(1, 'gjs-component-countdown', '', '', '', '', 'gjs-component-countdown.js', '', 'Yes'),
 	(2, 'gjs-navbar', '', '', '', '', 'gjs-navbar.js', '', 'Yes'),
@@ -1028,8 +1211,7 @@ INSERT INTO `plugins_app` (`id`, `plugins`, `plugins_opts`, `script`, `css`, `bu
 	(33, 'grapesjs-typed', '', '', '', '', '', '', NULL),
 	(34, 'grapesjs-uikit', '', '', '', '', '', '', NULL);
 
--- Volcando estructura para tabla newcms.preset
-DROP TABLE IF EXISTS `preset`;
+-- Dumping structure for table newcms.preset
 CREATE TABLE IF NOT EXISTS `preset` (
   `id` int(11) NOT NULL,
   `preset` char(50) DEFAULT NULL,
@@ -1038,11 +1220,9 @@ CREATE TABLE IF NOT EXISTS `preset` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.preset: ~0 rows (aproximadamente)
-DELETE FROM `preset`;
+-- Dumping data for table newcms.preset: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.press_gal
-DROP TABLE IF EXISTS `press_gal`;
+-- Dumping structure for table newcms.press_gal
 CREATE TABLE IF NOT EXISTS `press_gal` (
   `idPr` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT NULL,
@@ -1056,11 +1236,9 @@ CREATE TABLE IF NOT EXISTS `press_gal` (
   PRIMARY KEY (`idPr`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.press_gal: ~0 rows (aproximadamente)
-DELETE FROM `press_gal`;
+-- Dumping data for table newcms.press_gal: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.profiles
-DROP TABLE IF EXISTS `profiles`;
+-- Dumping structure for table newcms.profiles
 CREATE TABLE IF NOT EXISTS `profiles` (
   `idp` char(128) NOT NULL,
   `mkhash` varchar(256) NOT NULL DEFAULT '',
@@ -1092,11 +1270,11 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.profiles: ~2 rows (aproximadamente)
-DELETE FROM `profiles`;
+-- Dumping data for table newcms.profiles: ~1 rows (approximately)
+INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
+	('58170864062281d66b9bdc', 'fd48a341c66176802fa82f4c7611d67332e22056', 'Jose Ricardo', 'Mantilla Mantilla', 'Male', 47, '', '0000-00-00', '', '', '', '', 'Artist', '', '', 0, '', '', '', '', 0, 1, '2022-03-09 03:22:14', '2022-12-26 06:39:21');
 
--- Volcando estructura para tabla newcms.purchases
-DROP TABLE IF EXISTS `purchases`;
+-- Dumping structure for table newcms.purchases
 CREATE TABLE IF NOT EXISTS `purchases` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Purchase_Number` varchar(20) NOT NULL,
@@ -1114,11 +1292,9 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   KEY `TSupplierTBeli` (`Supplier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.purchases: ~0 rows (aproximadamente)
-DELETE FROM `purchases`;
+-- Dumping data for table newcms.purchases: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.purchases_detail
-DROP TABLE IF EXISTS `purchases_detail`;
+-- Dumping structure for table newcms.purchases_detail
 CREATE TABLE IF NOT EXISTS `purchases_detail` (
   `Purchase_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Purchase_Number` varchar(20) NOT NULL,
@@ -1133,11 +1309,9 @@ CREATE TABLE IF NOT EXISTS `purchases_detail` (
   KEY `TBeliTDBeli` (`Purchase_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.purchases_detail: ~0 rows (aproximadamente)
-DELETE FROM `purchases_detail`;
+-- Dumping data for table newcms.purchases_detail: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.role_permissions
-DROP TABLE IF EXISTS `role_permissions`;
+-- Dumping structure for table newcms.role_permissions
 CREATE TABLE IF NOT EXISTS `role_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
@@ -1149,8 +1323,7 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.role_permissions: ~24 rows (aproximadamente)
-DELETE FROM `role_permissions`;
+-- Dumping data for table newcms.role_permissions: ~24 rows (approximately)
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -1177,8 +1350,7 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(23, 2, 14),
 	(24, 2, 15);
 
--- Volcando estructura para tabla newcms.sales
-DROP TABLE IF EXISTS `sales`;
+-- Dumping structure for table newcms.sales
 CREATE TABLE IF NOT EXISTS `sales` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Sales_Number` varchar(20) NOT NULL,
@@ -1204,11 +1376,9 @@ CREATE TABLE IF NOT EXISTS `sales` (
   KEY `TCustomerTJual` (`Customer_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.sales: ~0 rows (aproximadamente)
-DELETE FROM `sales`;
+-- Dumping data for table newcms.sales: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.sales_detail
-DROP TABLE IF EXISTS `sales_detail`;
+-- Dumping structure for table newcms.sales_detail
 CREATE TABLE IF NOT EXISTS `sales_detail` (
   `Sales_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Sales_Number` varchar(20) NOT NULL,
@@ -1223,11 +1393,9 @@ CREATE TABLE IF NOT EXISTS `sales_detail` (
   KEY `TJualTDJual` (`Sales_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.sales_detail: ~0 rows (aproximadamente)
-DELETE FROM `sales_detail`;
+-- Dumping data for table newcms.sales_detail: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.secrets
-DROP TABLE IF EXISTS `secrets`;
+-- Dumping structure for table newcms.secrets
 CREATE TABLE IF NOT EXISTS `secrets` (
   `secretid` char(128) NOT NULL DEFAULT '',
   `userid` char(128) NOT NULL,
@@ -1241,11 +1409,9 @@ CREATE TABLE IF NOT EXISTS `secrets` (
   UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.secrets: ~0 rows (aproximadamente)
-DELETE FROM `secrets`;
+-- Dumping data for table newcms.secrets: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.sessions
-DROP TABLE IF EXISTS `sessions`;
+-- Dumping structure for table newcms.sessions
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `set_time` int(11) NOT NULL,
@@ -1254,11 +1420,9 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.sessions: ~0 rows (aproximadamente)
-DELETE FROM `sessions`;
+-- Dumping data for table newcms.sessions: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.settings
-DROP TABLE IF EXISTS `settings`;
+-- Dumping structure for table newcms.settings
 CREATE TABLE IF NOT EXISTS `settings` (
   `Option_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `Option_Default` enum('Y','N') DEFAULT 'N',
@@ -1364,11 +1528,9 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`Option_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.settings: ~0 rows (aproximadamente)
-DELETE FROM `settings`;
+-- Dumping data for table newcms.settings: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.site_configuration
-DROP TABLE IF EXISTS `site_configuration`;
+-- Dumping structure for table newcms.site_configuration
 CREATE TABLE IF NOT EXISTS `site_configuration` (
   `ID_Site` int(11) NOT NULL,
   `DOMAIN_SITE` varchar(60) NOT NULL,
@@ -1410,13 +1572,11 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.site_configuration: ~1 rows (aproximadamente)
-DELETE FROM `site_configuration`;
+-- Dumping data for table newcms.site_configuration: ~0 rows (approximately)
 INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
-	(1, 'http://www.ecotruly.org', 'Eco Truly', NULL, 'http://localhost:200/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox', 'pepiuox', 'pepiuox', '+51 999063645', 'Super Admin', 9, 'Admin', 5, '4f266ed6f649dbe3bc76999566dc084782a797005821ec871660b7cf9a5edd49', 'Tg9[rzF@VLwR8Px)TyhRN7jksf0xkps)ERoUSbAxDx}az7u(H7Bav}nFC@OHNHJSrhydtn#7xpa7b1@JF(Xo8#lI7iZViaLNa@EG8G%R8(07J#Owvg{[riZ7qjqe71vs', '2022-01-08 13:42:41', '2022-01-30 18:37:24');
+	(1, 'http://www.phpgrapesjs.com', 'PHP GrapesJS', NULL, 'http://localhost:130/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox', 'pepiuox', 'pepiuox', '+51 999063645', 'Super Admin', 9, 'Admin', 5, '25cce270791d66425793131d4a7f8199c53ef5c80f3377bf424ee92794e2b0c9eda604eafd869312', '4d52e51f527b46645dfab9eda604eafd869312131d4a7f8199c53ef5c80f3baf3bda2c3616024f1f', '2022-01-08 13:42:41', '2022-01-09 05:55:50');
 
--- Volcando estructura para tabla newcms.slideshow
-DROP TABLE IF EXISTS `slideshow`;
+-- Dumping structure for table newcms.slideshow
 CREATE TABLE IF NOT EXISTS `slideshow` (
   `idSld` int(11) NOT NULL AUTO_INCREMENT,
   `title` char(50) COLLATE utf8_bin NOT NULL,
@@ -1428,11 +1588,9 @@ CREATE TABLE IF NOT EXISTS `slideshow` (
   PRIMARY KEY (`idSld`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Volcando datos para la tabla newcms.slideshow: ~0 rows (aproximadamente)
-DELETE FROM `slideshow`;
+-- Dumping data for table newcms.slideshow: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.slideshow_image
-DROP TABLE IF EXISTS `slideshow_image`;
+-- Dumping structure for table newcms.slideshow_image
 CREATE TABLE IF NOT EXISTS `slideshow_image` (
   `idImg` int(11) NOT NULL AUTO_INCREMENT,
   `slideshow_id` int(11) DEFAULT NULL,
@@ -1447,22 +1605,18 @@ CREATE TABLE IF NOT EXISTS `slideshow_image` (
   CONSTRAINT `SLD1` FOREIGN KEY (`slideshow_id`) REFERENCES `slideshow` (`idSld`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Volcando datos para la tabla newcms.slideshow_image: ~0 rows (aproximadamente)
-DELETE FROM `slideshow_image`;
+-- Dumping data for table newcms.slideshow_image: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.social_link
-DROP TABLE IF EXISTS `social_link`;
+-- Dumping structure for table newcms.social_link
 CREATE TABLE IF NOT EXISTS `social_link` (
   `social_name` varchar(20) DEFAULT NULL,
   `social_url` varchar(150) DEFAULT NULL,
   KEY `social_name` (`social_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.social_link: ~0 rows (aproximadamente)
-DELETE FROM `social_link`;
+-- Dumping data for table newcms.social_link: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stats_counter
-DROP TABLE IF EXISTS `stats_counter`;
+-- Dumping structure for table newcms.stats_counter
 CREATE TABLE IF NOT EXISTS `stats_counter` (
   `Type` varchar(50) NOT NULL DEFAULT '',
   `Variable` varchar(50) NOT NULL DEFAULT '',
@@ -1470,11 +1624,9 @@ CREATE TABLE IF NOT EXISTS `stats_counter` (
   PRIMARY KEY (`Type`,`Variable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stats_counter: ~0 rows (aproximadamente)
-DELETE FROM `stats_counter`;
+-- Dumping data for table newcms.stats_counter: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stats_counterlog
-DROP TABLE IF EXISTS `stats_counterlog`;
+-- Dumping structure for table newcms.stats_counterlog
 CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   `IP_Address` varchar(50) NOT NULL DEFAULT '',
   `Hostname` varchar(50) DEFAULT NULL,
@@ -1484,11 +1636,9 @@ CREATE TABLE IF NOT EXISTS `stats_counterlog` (
   PRIMARY KEY (`IP_Address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stats_counterlog: ~0 rows (aproximadamente)
-DELETE FROM `stats_counterlog`;
+-- Dumping data for table newcms.stats_counterlog: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stats_date
-DROP TABLE IF EXISTS `stats_date`;
+-- Dumping structure for table newcms.stats_date
 CREATE TABLE IF NOT EXISTS `stats_date` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Month` tinyint(4) NOT NULL DEFAULT 0,
@@ -1497,11 +1647,9 @@ CREATE TABLE IF NOT EXISTS `stats_date` (
   PRIMARY KEY (`Date`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stats_date: ~0 rows (aproximadamente)
-DELETE FROM `stats_date`;
+-- Dumping data for table newcms.stats_date: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stats_hour
-DROP TABLE IF EXISTS `stats_hour`;
+-- Dumping structure for table newcms.stats_hour
 CREATE TABLE IF NOT EXISTS `stats_hour` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Month` tinyint(4) NOT NULL DEFAULT 0,
@@ -1511,11 +1659,9 @@ CREATE TABLE IF NOT EXISTS `stats_hour` (
   PRIMARY KEY (`Date`,`Hour`,`Month`,`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stats_hour: ~0 rows (aproximadamente)
-DELETE FROM `stats_hour`;
+-- Dumping data for table newcms.stats_hour: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stats_month
-DROP TABLE IF EXISTS `stats_month`;
+-- Dumping structure for table newcms.stats_month
 CREATE TABLE IF NOT EXISTS `stats_month` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Month` tinyint(4) NOT NULL DEFAULT 0,
@@ -1523,33 +1669,27 @@ CREATE TABLE IF NOT EXISTS `stats_month` (
   PRIMARY KEY (`Year`,`Month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stats_month: ~0 rows (aproximadamente)
-DELETE FROM `stats_month`;
+-- Dumping data for table newcms.stats_month: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stats_year
-DROP TABLE IF EXISTS `stats_year`;
+-- Dumping structure for table newcms.stats_year
 CREATE TABLE IF NOT EXISTS `stats_year` (
   `Year` smallint(6) NOT NULL DEFAULT 0,
   `Hits` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stats_year: ~0 rows (aproximadamente)
-DELETE FROM `stats_year`;
+-- Dumping data for table newcms.stats_year: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stock_categories
-DROP TABLE IF EXISTS `stock_categories`;
+-- Dumping structure for table newcms.stock_categories
 CREATE TABLE IF NOT EXISTS `stock_categories` (
   `Category_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Category_Name` varchar(20) NOT NULL,
   PRIMARY KEY (`Category_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stock_categories: ~0 rows (aproximadamente)
-DELETE FROM `stock_categories`;
+-- Dumping data for table newcms.stock_categories: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.stock_items
-DROP TABLE IF EXISTS `stock_items`;
+-- Dumping structure for table newcms.stock_items
 CREATE TABLE IF NOT EXISTS `stock_items` (
   `Stock_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Supplier_Number` varchar(20) NOT NULL,
@@ -1568,11 +1708,9 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   PRIMARY KEY (`Stock_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.stock_items: ~0 rows (aproximadamente)
-DELETE FROM `stock_items`;
+-- Dumping data for table newcms.stock_items: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.suppliers
-DROP TABLE IF EXISTS `suppliers`;
+-- Dumping structure for table newcms.suppliers
 CREATE TABLE IF NOT EXISTS `suppliers` (
   `Supplier_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Supplier_Number` varchar(20) NOT NULL,
@@ -1595,24 +1733,20 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   UNIQUE KEY `KodeCust` (`Supplier_Number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.suppliers: ~0 rows (aproximadamente)
-DELETE FROM `suppliers`;
+-- Dumping data for table newcms.suppliers: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.table_config
-DROP TABLE IF EXISTS `table_config`;
+-- Dumping structure for table newcms.table_config
 CREATE TABLE IF NOT EXISTS `table_config` (
   `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` text DEFAULT NULL,
   PRIMARY KEY (`tcon_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.table_config: ~1 rows (aproximadamente)
-DELETE FROM `table_config`;
+-- Dumping data for table newcms.table_config: ~0 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
-	(4, 'configuration,menu,menu_options,page,plugins_app,preset,profiles,site_configuration,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
+	(4, 'configuration,datos_personales,galleries,gallery,members,menu,menu_options,page,plugins_app,preset,press_gal,profiles,site_configuration,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
 
--- Volcando estructura para tabla newcms.table_queries
-DROP TABLE IF EXISTS `table_queries`;
+-- Dumping structure for table newcms.table_queries
 CREATE TABLE IF NOT EXISTS `table_queries` (
   `tque_Id` int(11) NOT NULL AUTO_INCREMENT,
   `name_table` varchar(50) DEFAULT NULL,
@@ -1629,18 +1763,21 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   PRIMARY KEY (`tque_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.table_queries: ~6 rows (aproximadamente)
-DELETE FROM `table_queries`;
+-- Dumping data for table newcms.table_queries: ~11 rows (approximately)
 INSERT INTO `table_queries` (`tque_Id`, `name_table`, `col_name`, `col_type`, `input_type`, `joins`, `j_table`, `j_id`, `j_value`, `j_as`, `query`, `jvpos`) VALUES
 	(1, 'menu_options', 'id_menu', 'char', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 'menu_options', 'fluid', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 'menu_options', 'placement', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 'menu_options', 'aligment', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 'menu_options', 'background', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(6, 'menu_options', 'color', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	(6, 'menu_options', 'color', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(7, 'menu', 'sort', 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(8, 'menu', 'page_id', 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 'menu', 'title_page', 'varchar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(10, 'menu', 'link_page', 'varchar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(11, 'menu', 'parent_id', 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Volcando estructura para tabla newcms.table_settings
-DROP TABLE IF EXISTS `table_settings`;
+-- Dumping structure for table newcms.table_settings
 CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` text NOT NULL,
@@ -1653,22 +1790,18 @@ CREATE TABLE IF NOT EXISTS `table_settings` (
   UNIQUE KEY `table_name` (`table_name`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.table_settings: ~0 rows (aproximadamente)
-DELETE FROM `table_settings`;
+-- Dumping data for table newcms.table_settings: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.templates
-DROP TABLE IF EXISTS `templates`;
+-- Dumping structure for table newcms.templates
 CREATE TABLE IF NOT EXISTS `templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `templates` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.templates: ~0 rows (aproximadamente)
-DELETE FROM `templates`;
+-- Dumping data for table newcms.templates: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.themes
-DROP TABLE IF EXISTS `themes`;
+-- Dumping structure for table newcms.themes
 CREATE TABLE IF NOT EXISTS `themes` (
   `theme_id` varchar(25) NOT NULL,
   `theme_name` varchar(25) NOT NULL,
@@ -1676,11 +1809,9 @@ CREATE TABLE IF NOT EXISTS `themes` (
   PRIMARY KEY (`theme_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.themes: ~0 rows (aproximadamente)
-DELETE FROM `themes`;
+-- Dumping data for table newcms.themes: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.theme_base_colors
-DROP TABLE IF EXISTS `theme_base_colors`;
+-- Dumping structure for table newcms.theme_base_colors
 CREATE TABLE IF NOT EXISTS `theme_base_colors` (
   `theme_id` char(25) NOT NULL,
   `body` char(50) DEFAULT NULL,
@@ -1691,11 +1822,9 @@ CREATE TABLE IF NOT EXISTS `theme_base_colors` (
   CONSTRAINT `FK_tbase_color` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.theme_base_colors: ~0 rows (aproximadamente)
-DELETE FROM `theme_base_colors`;
+-- Dumping data for table newcms.theme_base_colors: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.theme_base_font
-DROP TABLE IF EXISTS `theme_base_font`;
+-- Dumping structure for table newcms.theme_base_font
 CREATE TABLE IF NOT EXISTS `theme_base_font` (
   `theme_id` char(25) NOT NULL,
   `family` char(50) DEFAULT NULL,
@@ -1707,11 +1836,9 @@ CREATE TABLE IF NOT EXISTS `theme_base_font` (
   CONSTRAINT `FK_tbase_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.theme_base_font: ~0 rows (aproximadamente)
-DELETE FROM `theme_base_font`;
+-- Dumping data for table newcms.theme_base_font: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.theme_headings_font
-DROP TABLE IF EXISTS `theme_headings_font`;
+-- Dumping structure for table newcms.theme_headings_font
 CREATE TABLE IF NOT EXISTS `theme_headings_font` (
   `theme_id` char(25) NOT NULL,
   `family` char(50) DEFAULT NULL,
@@ -1722,11 +1849,9 @@ CREATE TABLE IF NOT EXISTS `theme_headings_font` (
   CONSTRAINT `FK_headings_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.theme_headings_font: ~0 rows (aproximadamente)
-DELETE FROM `theme_headings_font`;
+-- Dumping data for table newcms.theme_headings_font: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.theme_lead_font
-DROP TABLE IF EXISTS `theme_lead_font`;
+-- Dumping structure for table newcms.theme_lead_font
 CREATE TABLE IF NOT EXISTS `theme_lead_font` (
   `theme_id` char(25) NOT NULL,
   `size` char(50) DEFAULT NULL,
@@ -1736,11 +1861,9 @@ CREATE TABLE IF NOT EXISTS `theme_lead_font` (
   CONSTRAINT `FK_tlead_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.theme_lead_font: ~0 rows (aproximadamente)
-DELETE FROM `theme_lead_font`;
+-- Dumping data for table newcms.theme_lead_font: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.theme_palette
-DROP TABLE IF EXISTS `theme_palette`;
+-- Dumping structure for table newcms.theme_palette
 CREATE TABLE IF NOT EXISTS `theme_palette` (
   `theme_id` char(25) NOT NULL,
   `primary` char(7) DEFAULT NULL,
@@ -1759,11 +1882,9 @@ CREATE TABLE IF NOT EXISTS `theme_palette` (
   CONSTRAINT `FK_tpalette` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.theme_palette: ~0 rows (aproximadamente)
-DELETE FROM `theme_palette`;
+-- Dumping data for table newcms.theme_palette: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.theme_settings
-DROP TABLE IF EXISTS `theme_settings`;
+-- Dumping structure for table newcms.theme_settings
 CREATE TABLE IF NOT EXISTS `theme_settings` (
   `theme_id` char(25) NOT NULL,
   `container` enum('default','narrow') NOT NULL DEFAULT 'default',
@@ -1777,22 +1898,18 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   CONSTRAINT `FK_tsettings` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.theme_settings: ~0 rows (aproximadamente)
-DELETE FROM `theme_settings`;
+-- Dumping data for table newcms.theme_settings: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.timezone
-DROP TABLE IF EXISTS `timezone`;
+-- Dumping structure for table newcms.timezone
 CREATE TABLE IF NOT EXISTS `timezone` (
   `Timezone` varchar(50) NOT NULL,
   `Default` enum('Y','N') NOT NULL DEFAULT 'N',
   PRIMARY KEY (`Timezone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.timezone: ~0 rows (aproximadamente)
-DELETE FROM `timezone`;
+-- Dumping data for table newcms.timezone: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.tokens
-DROP TABLE IF EXISTS `tokens`;
+-- Dumping structure for table newcms.tokens
 CREATE TABLE IF NOT EXISTS `tokens` (
   `tokenid` char(25) NOT NULL,
   `userid` char(128) NOT NULL,
@@ -1804,55 +1921,4260 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.tokens: ~0 rows (aproximadamente)
-DELETE FROM `tokens`;
+-- Dumping data for table newcms.tokens: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.type_blocks
-DROP TABLE IF EXISTS `type_blocks`;
+-- Dumping structure for table newcms.type_blocks
 CREATE TABLE IF NOT EXISTS `type_blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_block` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.type_blocks: ~0 rows (aproximadamente)
-DELETE FROM `type_blocks`;
+-- Dumping data for table newcms.type_blocks: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.type_gallery
-DROP TABLE IF EXISTS `type_gallery`;
+-- Dumping structure for table newcms.type_gallery
 CREATE TABLE IF NOT EXISTS `type_gallery` (
   `idTG` int(11) NOT NULL AUTO_INCREMENT,
   `type_gallery` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idTG`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.type_gallery: ~0 rows (aproximadamente)
-DELETE FROM `type_gallery`;
+-- Dumping data for table newcms.type_gallery: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.type_page
-DROP TABLE IF EXISTS `type_page`;
+-- Dumping structure for table newcms.type_page
 CREATE TABLE IF NOT EXISTS `type_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_page` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.type_page: ~0 rows (aproximadamente)
-DELETE FROM `type_page`;
+-- Dumping data for table newcms.type_page: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.unit_of_measurement
-DROP TABLE IF EXISTS `unit_of_measurement`;
+-- Dumping structure for table newcms.ubdepartamento
+CREATE TABLE IF NOT EXISTS `ubdepartamento` (
+  `idDepa` int(5) NOT NULL DEFAULT 0,
+  `departamento` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`idDepa`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.ubdepartamento: 25 rows
+/*!40000 ALTER TABLE `ubdepartamento` DISABLE KEYS */;
+INSERT INTO `ubdepartamento` (`idDepa`, `departamento`) VALUES
+	(1, 'AMAZONAS'),
+	(2, 'ANCASH'),
+	(3, 'APURIMAC'),
+	(4, 'AREQUIPA'),
+	(5, 'AYACUCHO'),
+	(6, 'CAJAMARCA'),
+	(7, 'CALLAO'),
+	(8, 'CUSCO'),
+	(9, 'HUANCAVELICA'),
+	(10, 'HUANUCO'),
+	(11, 'ICA'),
+	(12, 'JUNIN'),
+	(13, 'LA LIBERTAD'),
+	(14, 'LAMBAYEQUE'),
+	(15, 'LIMA'),
+	(16, 'LORETO'),
+	(17, 'MADRE DE DIOS'),
+	(18, 'MOQUEGUA'),
+	(19, 'PASCO'),
+	(20, 'PIURA'),
+	(21, 'PUNO'),
+	(22, 'SAN MARTIN'),
+	(23, 'TACNA'),
+	(24, 'TUMBES'),
+	(25, 'UCAYALI');
+/*!40000 ALTER TABLE `ubdepartamento` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.ubdistrito
+CREATE TABLE IF NOT EXISTS `ubdistrito` (
+  `idDist` int(5) NOT NULL DEFAULT 0,
+  `distrito` varchar(50) DEFAULT NULL,
+  `idProv` int(5) DEFAULT NULL,
+  PRIMARY KEY (`idDist`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.ubdistrito: 1,831 rows
+/*!40000 ALTER TABLE `ubdistrito` DISABLE KEYS */;
+INSERT INTO `ubdistrito` (`idDist`, `distrito`, `idProv`) VALUES
+	(1, 'CHACHAPOYAS', 1),
+	(2, 'ASUNCION', 1),
+	(3, 'BALSAS', 1),
+	(4, 'CHETO', 1),
+	(5, 'CHILIQUIN', 1),
+	(6, 'CHUQUIBAMBA', 1),
+	(7, 'GRANADA', 1),
+	(8, 'HUANCAS', 1),
+	(9, 'LA JALCA', 1),
+	(10, 'LEIMEBAMBA', 1),
+	(11, 'LEVANTO', 1),
+	(12, 'MAGDALENA', 1),
+	(13, 'MARISCAL CASTILLA', 1),
+	(14, 'MOLINOPAMPA', 1),
+	(15, 'MONTEVIDEO', 1),
+	(16, 'OLLEROS', 1),
+	(17, 'QUINJALCA', 1),
+	(18, 'SAN FRANCISCO DE DAGUAS', 1),
+	(19, 'SAN ISIDRO DE MAINO', 1),
+	(20, 'SOLOCO', 1),
+	(21, 'SONCHE', 1),
+	(22, 'LA PECA', 2),
+	(23, 'ARAMANGO', 2),
+	(24, 'COPALLIN', 2),
+	(25, 'EL PARCO', 2),
+	(26, 'IMAZA', 2),
+	(27, 'JUMBILLA', 3),
+	(28, 'CHISQUILLA', 3),
+	(29, 'CHURUJA', 3),
+	(30, 'COROSHA', 3),
+	(31, 'CUISPES', 3),
+	(32, 'FLORIDA', 3),
+	(33, 'JAZAN', 3),
+	(34, 'RECTA', 3),
+	(35, 'SAN CARLOS', 3),
+	(36, 'SHIPASBAMBA', 3),
+	(37, 'VALERA', 3),
+	(38, 'YAMBRASBAMBA', 3),
+	(39, 'NIEVA', 4),
+	(40, 'EL CENEPA', 4),
+	(41, 'RIO SANTIAGO', 4),
+	(42, 'LAMUD', 5),
+	(43, 'CAMPORREDONDO', 5),
+	(44, 'COCABAMBA', 5),
+	(45, 'COLCAMAR', 5),
+	(46, 'CONILA', 5),
+	(47, 'INGUILPATA', 5),
+	(48, 'LONGUITA', 5),
+	(49, 'LONYA CHICO', 5),
+	(50, 'LUYA', 5),
+	(51, 'LUYA VIEJO', 5),
+	(52, 'MARIA', 5),
+	(53, 'OCALLI', 5),
+	(54, 'OCUMAL', 5),
+	(55, 'PISUQUIA', 5),
+	(56, 'PROVIDENCIA', 5),
+	(57, 'SAN CRISTOBAL', 5),
+	(58, 'SAN FRANCISCO DEL YESO', 5),
+	(59, 'SAN JERONIMO', 5),
+	(60, 'SAN JUAN DE LOPECANCHA', 5),
+	(61, 'SANTA CATALINA', 5),
+	(62, 'SANTO TOMAS', 5),
+	(63, 'TINGO', 5),
+	(64, 'TRITA', 5),
+	(65, 'SAN NICOLAS', 6),
+	(66, 'CHIRIMOTO', 6),
+	(67, 'COCHAMAL', 6),
+	(68, 'HUAMBO', 6),
+	(69, 'LIMABAMBA', 6),
+	(70, 'LONGAR', 6),
+	(71, 'MARISCAL BENAVIDES', 6),
+	(72, 'MILPUC', 6),
+	(73, 'OMIA', 6),
+	(74, 'SANTA ROSA', 6),
+	(75, 'TOTORA', 6),
+	(76, 'VISTA ALEGRE', 6),
+	(77, 'BAGUA GRANDE', 7),
+	(78, 'CAJARURO', 7),
+	(79, 'CUMBA', 7),
+	(80, 'EL MILAGRO', 7),
+	(81, 'JAMALCA', 7),
+	(82, 'LONYA GRANDE', 7),
+	(83, 'YAMON', 7),
+	(84, 'HUARAZ', 8),
+	(85, 'COCHABAMBA', 8),
+	(86, 'COLCABAMBA', 8),
+	(87, 'HUANCHAY', 8),
+	(88, 'INDEPENDENCIA', 8),
+	(89, 'JANGAS', 8),
+	(90, 'LA LIBERTAD', 8),
+	(91, 'OLLEROS', 8),
+	(92, 'PAMPAS', 8),
+	(93, 'PARIACOTO', 8),
+	(94, 'PIRA', 8),
+	(95, 'TARICA', 8),
+	(96, 'AIJA', 9),
+	(97, 'CORIS', 9),
+	(98, 'HUACLLAN', 9),
+	(99, 'LA MERCED', 9),
+	(100, 'SUCCHA', 9),
+	(101, 'LLAMELLIN', 10),
+	(102, 'ACZO', 10),
+	(103, 'CHACCHO', 10),
+	(104, 'CHINGAS', 10),
+	(105, 'MIRGAS', 10),
+	(106, 'SAN JUAN DE RONTOY', 10),
+	(107, 'CHACAS', 11),
+	(108, 'ACOCHACA', 11),
+	(109, 'CHIQUIAN', 12),
+	(110, 'ABELARDO PARDO LEZAMETA', 12),
+	(111, 'ANTONIO RAYMONDI', 12),
+	(112, 'AQUIA', 12),
+	(113, 'CAJACAY', 12),
+	(114, 'CANIS', 12),
+	(115, 'COLQUIOC', 12),
+	(116, 'HUALLANCA', 12),
+	(117, 'HUASTA', 12),
+	(118, 'HUAYLLACAYAN', 12),
+	(119, 'LA PRIMAVERA', 12),
+	(120, 'MANGAS', 12),
+	(121, 'PACLLON', 12),
+	(122, 'SAN MIGUEL DE CORPANQUI', 12),
+	(123, 'TICLLOS', 12),
+	(124, 'CARHUAZ', 13),
+	(125, 'ACOPAMPA', 13),
+	(126, 'AMASHCA', 13),
+	(127, 'ANTA', 13),
+	(128, 'ATAQUERO', 13),
+	(129, 'MARCARA', 13),
+	(130, 'PARIAHUANCA', 13),
+	(131, 'SAN MIGUEL DE ACO', 13),
+	(132, 'SHILLA', 13),
+	(133, 'TINCO', 13),
+	(134, 'YUNGAR', 13),
+	(135, 'SAN LUIS', 14),
+	(136, 'SAN NICOLAS', 14),
+	(137, 'YAUYA', 14),
+	(138, 'CASMA', 15),
+	(139, 'BUENA VISTA ALTA', 15),
+	(140, 'COMANDANTE NOEL', 15),
+	(141, 'YAUTAN', 15),
+	(142, 'CORONGO', 16),
+	(143, 'ACO', 16),
+	(144, 'BAMBAS', 16),
+	(145, 'CUSCA', 16),
+	(146, 'LA PAMPA', 16),
+	(147, 'YANAC', 16),
+	(148, 'YUPAN', 16),
+	(149, 'HUARI', 17),
+	(150, 'ANRA', 17),
+	(151, 'CAJAY', 17),
+	(152, 'CHAVIN DE HUANTAR', 17),
+	(153, 'HUACACHI', 17),
+	(154, 'HUACCHIS', 17),
+	(155, 'HUACHIS', 17),
+	(156, 'HUANTAR', 17),
+	(157, 'MASIN', 17),
+	(158, 'PAUCAS', 17),
+	(159, 'PONTO', 17),
+	(160, 'RAHUAPAMPA', 17),
+	(161, 'RAPAYAN', 17),
+	(162, 'SAN MARCOS', 17),
+	(163, 'SAN PEDRO DE CHANA', 17),
+	(164, 'UCO', 17),
+	(165, 'HUARMEY', 18),
+	(166, 'COCHAPETI', 18),
+	(167, 'CULEBRAS', 18),
+	(168, 'HUAYAN', 18),
+	(169, 'MALVAS', 18),
+	(170, 'CARAZ', 26),
+	(171, 'HUALLANCA', 26),
+	(172, 'HUATA', 26),
+	(173, 'HUAYLAS', 26),
+	(174, 'MATO', 26),
+	(175, 'PAMPAROMAS', 26),
+	(176, 'PUEBLO LIBRE', 26),
+	(177, 'SANTA CRUZ', 26),
+	(178, 'SANTO TORIBIO', 26),
+	(179, 'YURACMARCA', 26),
+	(180, 'PISCOBAMBA', 27),
+	(181, 'CASCA', 27),
+	(182, 'ELEAZAR GUZMAN BARRON', 27),
+	(183, 'FIDEL OLIVAS ESCUDERO', 27),
+	(184, 'LLAMA', 27),
+	(185, 'LLUMPA', 27),
+	(186, 'LUCMA', 27),
+	(187, 'MUSGA', 27),
+	(188, 'OCROS', 21),
+	(189, 'ACAS', 21),
+	(190, 'CAJAMARQUILLA', 21),
+	(191, 'CARHUAPAMPA', 21),
+	(192, 'COCHAS', 21),
+	(193, 'CONGAS', 21),
+	(194, 'LLIPA', 21),
+	(195, 'SAN CRISTOBAL DE RAJAN', 21),
+	(196, 'SAN PEDRO', 21),
+	(197, 'SANTIAGO DE CHILCAS', 21),
+	(198, 'CABANA', 22),
+	(199, 'BOLOGNESI', 22),
+	(200, 'CONCHUCOS', 22),
+	(201, 'HUACASCHUQUE', 22),
+	(202, 'HUANDOVAL', 22),
+	(203, 'LACABAMBA', 22),
+	(204, 'LLAPO', 22),
+	(205, 'PALLASCA', 22),
+	(206, 'PAMPAS', 22),
+	(207, 'SANTA ROSA', 22),
+	(208, 'TAUCA', 22),
+	(209, 'POMABAMBA', 23),
+	(210, 'HUAYLLAN', 23),
+	(211, 'PAROBAMBA', 23),
+	(212, 'QUINUABAMBA', 23),
+	(213, 'RECUAY', 24),
+	(214, 'CATAC', 24),
+	(215, 'COTAPARACO', 24),
+	(216, 'HUAYLLAPAMPA', 24),
+	(217, 'LLACLLIN', 24),
+	(218, 'MARCA', 24),
+	(219, 'PAMPAS CHICO', 24),
+	(220, 'PARARIN', 24),
+	(221, 'TAPACOCHA', 24),
+	(222, 'TICAPAMPA', 24),
+	(223, 'CHIMBOTE', 25),
+	(224, 'CACERES DEL PERU', 25),
+	(225, 'COISHCO', 25),
+	(226, 'MACATE', 25),
+	(227, 'MORO', 25),
+	(228, 'NEPE&Ntilde;A', 25),
+	(229, 'SAMANCO', 25),
+	(230, 'SANTA', 25),
+	(231, 'NUEVO CHIMBOTE', 25),
+	(232, 'SIHUAS', 26),
+	(233, 'ACOBAMBA', 26),
+	(234, 'ALFONSO UGARTE', 26),
+	(235, 'CASHAPAMPA', 26),
+	(236, 'CHINGALPO', 26),
+	(237, 'HUAYLLABAMBA', 26),
+	(238, 'QUICHES', 26),
+	(239, 'RAGASH', 26),
+	(240, 'SAN JUAN', 26),
+	(241, 'SICSIBAMBA', 26),
+	(242, 'YUNGAY', 27),
+	(243, 'CASCAPARA', 27),
+	(244, 'MANCOS', 27),
+	(245, 'MATACOTO', 27),
+	(246, 'QUILLO', 27),
+	(247, 'RANRAHIRCA', 27),
+	(248, 'SHUPLUY', 27),
+	(249, 'YANAMA', 27),
+	(250, 'ABANCAY', 28),
+	(251, 'CHACOCHE', 28),
+	(252, 'CIRCA', 28),
+	(253, 'CURAHUASI', 28),
+	(254, 'HUANIPACA', 28),
+	(255, 'LAMBRAMA', 28),
+	(256, 'PICHIRHUA', 28),
+	(257, 'SAN PEDRO DE CACHORA', 28),
+	(258, 'TAMBURCO', 28),
+	(259, 'ANDAHUAYLAS', 29),
+	(260, 'ANDARAPA', 29),
+	(261, 'CHIARA', 29),
+	(262, 'HUANCARAMA', 29),
+	(263, 'HUANCARAY', 29),
+	(264, 'HUAYANA', 29),
+	(265, 'KISHUARA', 29),
+	(266, 'PACOBAMBA', 29),
+	(267, 'PACUCHA', 29),
+	(268, 'PAMPACHIRI', 29),
+	(269, 'POMACOCHA', 29),
+	(270, 'SAN ANTONIO DE CACHI', 29),
+	(271, 'SAN JERONIMO', 29),
+	(272, 'SAN MIGUEL DE CHACCRAMPA', 29),
+	(273, 'SANTA MARIA DE CHICMO', 29),
+	(274, 'TALAVERA', 29),
+	(275, 'TUMAY HUARACA', 29),
+	(276, 'TURPO', 29),
+	(277, 'KAQUIABAMBA', 29),
+	(278, 'ANTABAMBA', 30),
+	(279, 'EL ORO', 30),
+	(280, 'HUAQUIRCA', 30),
+	(281, 'JUAN ESPINOZA MEDRANO', 30),
+	(282, 'OROPESA', 30),
+	(283, 'PACHACONAS', 30),
+	(284, 'SABAINO', 30),
+	(285, 'CHALHUANCA', 31),
+	(286, 'CAPAYA', 31),
+	(287, 'CARAYBAMBA', 31),
+	(288, 'CHAPIMARCA', 31),
+	(289, 'COLCABAMBA', 31),
+	(290, 'COTARUSE', 31),
+	(291, 'HUAYLLO', 31),
+	(292, 'JUSTO APU SAHUARAURA', 31),
+	(293, 'LUCRE', 31),
+	(294, 'POCOHUANCA', 31),
+	(295, 'SAN JUAN DE CHAC&Ntilde;A', 31),
+	(296, 'SA&Ntilde;AYCA', 31),
+	(297, 'SORAYA', 31),
+	(298, 'TAPAIRIHUA', 31),
+	(299, 'TINTAY', 31),
+	(300, 'TORAYA', 31),
+	(301, 'YANACA', 31),
+	(302, 'TAMBOBAMBA', 32),
+	(303, 'COTABAMBAS', 32),
+	(304, 'COYLLURQUI', 32),
+	(305, 'HAQUIRA', 32),
+	(306, 'MARA', 32),
+	(307, 'CHALLHUAHUACHO', 32),
+	(308, 'CHINCHEROS', 33),
+	(309, 'ANCO-HUALLO', 33),
+	(310, 'COCHARCAS', 33),
+	(311, 'HUACCANA', 33),
+	(312, 'OCOBAMBA', 33),
+	(313, 'ONGOY', 33),
+	(314, 'URANMARCA', 33),
+	(315, 'RANRACANCHA', 33),
+	(316, 'CHUQUIBAMBILLA', 34),
+	(317, 'CURPAHUASI', 34),
+	(318, 'GAMARRA', 34),
+	(319, 'HUAYLLATI', 34),
+	(320, 'MAMARA', 34),
+	(321, 'MICAELA BASTIDAS', 34),
+	(322, 'PATAYPAMPA', 34),
+	(323, 'PROGRESO', 34),
+	(324, 'SAN ANTONIO', 34),
+	(325, 'SANTA ROSA', 34),
+	(326, 'TURPAY', 34),
+	(327, 'VILCABAMBA', 34),
+	(328, 'VIRUNDO', 34),
+	(329, 'CURASCO', 34),
+	(330, 'AREQUIPA', 35),
+	(331, 'ALTO SELVA ALEGRE', 35),
+	(332, 'CAYMA', 35),
+	(333, 'CERRO COLORADO', 35),
+	(334, 'CHARACATO', 35),
+	(335, 'CHIGUATA', 35),
+	(336, 'JACOBO HUNTER', 35),
+	(337, 'LA JOYA', 35),
+	(338, 'MARIANO MELGAR', 35),
+	(339, 'MIRAFLORES', 35),
+	(340, 'MOLLEBAYA', 35),
+	(341, 'PAUCARPATA', 35),
+	(342, 'POCSI', 35),
+	(343, 'POLOBAYA', 35),
+	(344, 'QUEQUE&Ntilde;A', 35),
+	(345, 'SABANDIA', 35),
+	(346, 'SACHACA', 35),
+	(347, 'SAN JUAN DE SIGUAS', 35),
+	(348, 'SAN JUAN DE TARUCANI', 35),
+	(349, 'SANTA ISABEL DE SIGUAS', 35),
+	(350, 'SANTA RITA DE SIGUAS', 35),
+	(351, 'SOCABAYA', 35),
+	(352, 'TIABAYA', 35),
+	(353, 'UCHUMAYO', 35),
+	(354, 'VITOR', 35),
+	(355, 'YANAHUARA', 35),
+	(356, 'YARABAMBA', 35),
+	(357, 'YURA', 35),
+	(358, 'JOSE LUIS BUSTAMANTE Y RIVERO', 35),
+	(359, 'CAMANA', 36),
+	(360, 'JOSE MARIA QUIMPER', 36),
+	(361, 'MARIANO NICOLAS VALCARCEL', 36),
+	(362, 'MARISCAL CACERES', 36),
+	(363, 'NICOLAS DE PIEROLA', 36),
+	(364, 'OCO&Ntilde;A', 36),
+	(365, 'QUILCA', 36),
+	(366, 'SAMUEL PASTOR', 36),
+	(367, 'CARAVELI', 37),
+	(368, 'ACARI', 37),
+	(369, 'ATICO', 37),
+	(370, 'ATIQUIPA', 37),
+	(371, 'BELLA UNION', 37),
+	(372, 'CAHUACHO', 37),
+	(373, 'CHALA', 37),
+	(374, 'CHAPARRA', 37),
+	(375, 'HUANUHUANU', 37),
+	(376, 'JAQUI', 37),
+	(377, 'LOMAS', 37),
+	(378, 'QUICACHA', 37),
+	(379, 'YAUCA', 37),
+	(380, 'APLAO', 38),
+	(381, 'ANDAGUA', 38),
+	(382, 'AYO', 38),
+	(383, 'CHACHAS', 38),
+	(384, 'CHILCAYMARCA', 38),
+	(385, 'CHOCO', 38),
+	(386, 'HUANCARQUI', 38),
+	(387, 'MACHAGUAY', 38),
+	(388, 'ORCOPAMPA', 38),
+	(389, 'PAMPACOLCA', 38),
+	(390, 'TIPAN', 38),
+	(391, 'U&Ntilde;ON', 38),
+	(392, 'URACA', 38),
+	(393, 'VIRACO', 38),
+	(394, 'CHIVAY', 39),
+	(395, 'ACHOMA', 39),
+	(396, 'CABANACONDE', 39),
+	(397, 'CALLALLI', 39),
+	(398, 'CAYLLOMA', 39),
+	(399, 'COPORAQUE', 39),
+	(400, 'HUAMBO', 39),
+	(401, 'HUANCA', 39),
+	(402, 'ICHUPAMPA', 39),
+	(403, 'LARI', 39),
+	(404, 'LLUTA', 39),
+	(405, 'MACA', 39),
+	(406, 'MADRIGAL', 39),
+	(407, 'SAN ANTONIO DE CHUCA', 39),
+	(408, 'SIBAYO', 39),
+	(409, 'TAPAY', 39),
+	(410, 'TISCO', 39),
+	(411, 'TUTI', 39),
+	(412, 'YANQUE', 39),
+	(413, 'MAJES', 39),
+	(414, 'CHUQUIBAMBA', 40),
+	(415, 'ANDARAY', 40),
+	(416, 'CAYARANI', 40),
+	(417, 'CHICHAS', 40),
+	(418, 'IRAY', 40),
+	(419, 'RIO GRANDE', 40),
+	(420, 'SALAMANCA', 40),
+	(421, 'YANAQUIHUA', 40),
+	(422, 'MOLLENDO', 41),
+	(423, 'COCACHACRA', 41),
+	(424, 'DEAN VALDIVIA', 41),
+	(425, 'ISLAY', 41),
+	(426, 'MEJIA', 41),
+	(427, 'PUNTA DE BOMBON', 41),
+	(428, 'COTAHUASI', 42),
+	(429, 'ALCA', 42),
+	(430, 'CHARCANA', 42),
+	(431, 'HUAYNACOTAS', 42),
+	(432, 'PAMPAMARCA', 42),
+	(433, 'PUYCA', 42),
+	(434, 'QUECHUALLA', 42),
+	(435, 'SAYLA', 42),
+	(436, 'TAURIA', 42),
+	(437, 'TOMEPAMPA', 42),
+	(438, 'TORO', 42),
+	(439, 'AYACUCHO', 43),
+	(440, 'ACOCRO', 43),
+	(441, 'ACOS VINCHOS', 43),
+	(442, 'CARMEN ALTO', 43),
+	(443, 'CHIARA', 43),
+	(444, 'OCROS', 43),
+	(445, 'PACAYCASA', 43),
+	(446, 'QUINUA', 43),
+	(447, 'SAN JOSE DE TICLLAS', 43),
+	(448, 'SAN JUAN BAUTISTA', 43),
+	(449, 'SANTIAGO DE PISCHA', 43),
+	(450, 'SOCOS', 43),
+	(451, 'TAMBILLO', 43),
+	(452, 'VINCHOS', 43),
+	(453, 'JESUS NAZARENO', 43),
+	(454, 'CANGALLO', 44),
+	(455, 'CHUSCHI', 44),
+	(456, 'LOS MOROCHUCOS', 44),
+	(457, 'MARIA PARADO DE BELLIDO', 44),
+	(458, 'PARAS', 44),
+	(459, 'TOTOS', 44),
+	(460, 'SANCOS', 45),
+	(461, 'CARAPO', 45),
+	(462, 'SACSAMARCA', 45),
+	(463, 'SANTIAGO DE LUCANAMARCA', 45),
+	(464, 'HUANTA', 46),
+	(465, 'AYAHUANCO', 46),
+	(466, 'HUAMANGUILLA', 46),
+	(467, 'IGUAIN', 46),
+	(468, 'LURICOCHA', 46),
+	(469, 'SANTILLANA', 46),
+	(470, 'SIVIA', 46),
+	(471, 'LLOCHEGUA', 46),
+	(472, 'SAN MIGUEL', 47),
+	(473, 'ANCO', 47),
+	(474, 'AYNA', 47),
+	(475, 'CHILCAS', 47),
+	(476, 'CHUNGUI', 47),
+	(477, 'LUIS CARRANZA', 47),
+	(478, 'SANTA ROSA', 47),
+	(479, 'TAMBO', 47),
+	(480, 'PUQUIO', 48),
+	(481, 'AUCARA', 48),
+	(482, 'CABANA', 48),
+	(483, 'CARMEN SALCEDO', 48),
+	(484, 'CHAVI&Ntilde;A', 48),
+	(485, 'CHIPAO', 48),
+	(486, 'HUAC-HUAS', 48),
+	(487, 'LARAMATE', 48),
+	(488, 'LEONCIO PRADO', 48),
+	(489, 'LLAUTA', 48),
+	(490, 'LUCANAS', 48),
+	(491, 'OCA&Ntilde;A', 48),
+	(492, 'OTOCA', 48),
+	(493, 'SAISA', 48),
+	(494, 'SAN CRISTOBAL', 48),
+	(495, 'SAN JUAN', 48),
+	(496, 'SAN PEDRO', 48),
+	(497, 'SAN PEDRO DE PALCO', 48),
+	(498, 'SANCOS', 48),
+	(499, 'SANTA ANA DE HUAYCAHUACHO', 48),
+	(500, 'SANTA LUCIA', 48),
+	(501, 'CORACORA', 49),
+	(502, 'CHUMPI', 49),
+	(503, 'CORONEL CASTA&Ntilde;EDA', 49),
+	(504, 'PACAPAUSA', 49),
+	(505, 'PULLO', 49),
+	(506, 'PUYUSCA', 49),
+	(507, 'SAN FRANCISCO DE RAVACAYCO', 49),
+	(508, 'UPAHUACHO', 49),
+	(509, 'PAUSA', 50),
+	(510, 'COLTA', 50),
+	(511, 'CORCULLA', 50),
+	(512, 'LAMPA', 50),
+	(513, 'MARCABAMBA', 50),
+	(514, 'OYOLO', 50),
+	(515, 'PARARCA', 50),
+	(516, 'SAN JAVIER DE ALPABAMBA', 50),
+	(517, 'SAN JOSE DE USHUA', 50),
+	(518, 'SARA SARA', 50),
+	(519, 'QUEROBAMBA', 51),
+	(520, 'BELEN', 51),
+	(521, 'CHALCOS', 51),
+	(522, 'CHILCAYOC', 51),
+	(523, 'HUACA&Ntilde;A', 51),
+	(524, 'MORCOLLA', 51),
+	(525, 'PAICO', 51),
+	(526, 'SAN PEDRO DE LARCAY', 51),
+	(527, 'SAN SALVADOR DE QUIJE', 51),
+	(528, 'SANTIAGO DE PAUCARAY', 51),
+	(529, 'SORAS', 51),
+	(530, 'HUANCAPI', 52),
+	(531, 'ALCAMENCA', 52),
+	(532, 'APONGO', 52),
+	(533, 'ASQUIPATA', 52),
+	(534, 'CANARIA', 52),
+	(535, 'CAYARA', 52),
+	(536, 'COLCA', 52),
+	(537, 'HUAMANQUIQUIA', 52),
+	(538, 'HUANCARAYLLA', 52),
+	(539, 'HUAYA', 52),
+	(540, 'SARHUA', 52),
+	(541, 'VILCANCHOS', 52),
+	(542, 'VILCAS HUAMAN', 53),
+	(543, 'ACCOMARCA', 53),
+	(544, 'CARHUANCA', 53),
+	(545, 'CONCEPCION', 53),
+	(546, 'HUAMBALPA', 53),
+	(547, 'INDEPENDENCIA', 53),
+	(548, 'SAURAMA', 53),
+	(549, 'VISCHONGO', 53),
+	(550, 'CAJAMARCA', 54),
+	(551, 'CAJAMARCA', 54),
+	(552, 'ASUNCION', 54),
+	(553, 'CHETILLA', 54),
+	(554, 'COSPAN', 54),
+	(555, 'ENCA&Ntilde;ADA', 54),
+	(556, 'JESUS', 54),
+	(557, 'LLACANORA', 54),
+	(558, 'LOS BA&Ntilde;OS DEL INCA', 54),
+	(559, 'MAGDALENA', 54),
+	(560, 'MATARA', 54),
+	(561, 'NAMORA', 54),
+	(562, 'SAN JUAN', 54),
+	(563, 'CAJABAMBA', 55),
+	(564, 'CACHACHI', 55),
+	(565, 'CONDEBAMBA', 55),
+	(566, 'SITACOCHA', 55),
+	(567, 'CELENDIN', 56),
+	(568, 'CHUMUCH', 56),
+	(569, 'CORTEGANA', 56),
+	(570, 'HUASMIN', 56),
+	(571, 'JORGE CHAVEZ', 56),
+	(572, 'JOSE GALVEZ', 56),
+	(573, 'MIGUEL IGLESIAS', 56),
+	(574, 'OXAMARCA', 56),
+	(575, 'SOROCHUCO', 56),
+	(576, 'SUCRE', 56),
+	(577, 'UTCO', 56),
+	(578, 'LA LIBERTAD DE PALLAN', 56),
+	(579, 'CHOTA', 57),
+	(580, 'ANGUIA', 57),
+	(581, 'CHADIN', 57),
+	(582, 'CHIGUIRIP', 57),
+	(583, 'CHIMBAN', 57),
+	(584, 'CHOROPAMPA', 57),
+	(585, 'COCHABAMBA', 57),
+	(586, 'CONCHAN', 57),
+	(587, 'HUAMBOS', 57),
+	(588, 'LAJAS', 57),
+	(589, 'LLAMA', 57),
+	(590, 'MIRACOSTA', 57),
+	(591, 'PACCHA', 57),
+	(592, 'PION', 57),
+	(593, 'QUEROCOTO', 57),
+	(594, 'SAN JUAN DE LICUPIS', 57),
+	(595, 'TACABAMBA', 57),
+	(596, 'TOCMOCHE', 57),
+	(597, 'CHALAMARCA', 57),
+	(598, 'CONTUMAZA', 58),
+	(599, 'CHILETE', 58),
+	(600, 'CUPISNIQUE', 58),
+	(601, 'GUZMANGO', 58),
+	(602, 'SAN BENITO', 58),
+	(603, 'SANTA CRUZ DE TOLED', 58),
+	(604, 'TANTARICA', 58),
+	(605, 'YONAN', 58),
+	(606, 'CUTERVO', 59),
+	(607, 'CALLAYUC', 59),
+	(608, 'CHOROS', 59),
+	(609, 'CUJILLO', 59),
+	(610, 'LA RAMADA', 59),
+	(611, 'PIMPINGOS', 59),
+	(612, 'QUEROCOTILLO', 59),
+	(613, 'SAN ANDRES DE CUTERVO', 59),
+	(614, 'SAN JUAN DE CUTERVO', 59),
+	(615, 'SAN LUIS DE LUCMA', 59),
+	(616, 'SANTA CRUZ', 59),
+	(617, 'SANTO DOMINGO DE LA CAPILLA', 59),
+	(618, 'SANTO TOMAS', 59),
+	(619, 'SOCOTA', 59),
+	(620, 'TORIBIO CASANOVA', 59),
+	(621, 'BAMBAMARCA', 60),
+	(622, 'CHUGUR', 60),
+	(623, 'HUALGAYOC', 60),
+	(624, 'JAEN', 61),
+	(625, 'BELLAVISTA', 61),
+	(626, 'CHONTALI', 61),
+	(627, 'COLASAY', 61),
+	(628, 'HUABAL', 61),
+	(629, 'LAS PIRIAS', 61),
+	(630, 'POMAHUACA', 61),
+	(631, 'PUCARA', 61),
+	(632, 'SALLIQUE', 61),
+	(633, 'SAN FELIPE', 61),
+	(634, 'SAN JOSE DEL ALTO', 61),
+	(635, 'SANTA ROSA', 61),
+	(636, 'SAN IGNACIO', 62),
+	(637, 'CHIRINOS', 62),
+	(638, 'HUARANGO', 62),
+	(639, 'LA COIPA', 62),
+	(640, 'NAMBALLE', 62),
+	(641, 'SAN JOSE DE LOURDES', 62),
+	(642, 'TABACONAS', 62),
+	(643, 'PEDRO GALVEZ', 63),
+	(644, 'CHANCAY', 63),
+	(645, 'EDUARDO VILLANUEVA', 63),
+	(646, 'GREGORIO PITA', 63),
+	(647, 'ICHOCAN', 63),
+	(648, 'JOSE MANUEL QUIROZ', 63),
+	(649, 'JOSE SABOGAL', 63),
+	(650, 'SAN MIGUEL', 64),
+	(651, 'SAN MIGUEL', 64),
+	(652, 'BOLIVAR', 64),
+	(653, 'CALQUIS', 64),
+	(654, 'CATILLUC', 64),
+	(655, 'EL PRADO', 64),
+	(656, 'LA FLORIDA', 64),
+	(657, 'LLAPA', 64),
+	(658, 'NANCHOC', 64),
+	(659, 'NIEPOS', 64),
+	(660, 'SAN GREGORIO', 64),
+	(661, 'SAN SILVESTRE DE COCHAN', 64),
+	(662, 'TONGOD', 64),
+	(663, 'UNION AGUA BLANCA', 64),
+	(664, 'SAN PABLO', 65),
+	(665, 'SAN BERNARDINO', 65),
+	(666, 'SAN LUIS', 65),
+	(667, 'TUMBADEN', 65),
+	(668, 'SANTA CRUZ', 66),
+	(669, 'ANDABAMBA', 66),
+	(670, 'CATACHE', 66),
+	(671, 'CHANCAYBA&Ntilde;OS', 66),
+	(672, 'LA ESPERANZA', 66),
+	(673, 'NINABAMBA', 66),
+	(674, 'PULAN', 66),
+	(675, 'SAUCEPAMPA', 66),
+	(676, 'SEXI', 66),
+	(677, 'UTICYACU', 66),
+	(678, 'YAUYUCAN', 66),
+	(679, 'CALLAO', 67),
+	(680, 'BELLAVISTA', 67),
+	(681, 'CARMEN DE LA LEGUA REYNOSO', 67),
+	(682, 'LA PERLA', 67),
+	(683, 'LA PUNTA', 67),
+	(684, 'VENTANILLA', 67),
+	(685, 'CUSCO', 67),
+	(686, 'CCORCA', 67),
+	(687, 'POROY', 67),
+	(688, 'SAN JERONIMO', 67),
+	(689, 'SAN SEBASTIAN', 67),
+	(690, 'SANTIAGO', 67),
+	(691, 'SAYLLA', 67),
+	(692, 'WANCHAQ', 67),
+	(693, 'ACOMAYO', 68),
+	(694, 'ACOPIA', 68),
+	(695, 'ACOS', 68),
+	(696, 'MOSOC LLACTA', 68),
+	(697, 'POMACANCHI', 68),
+	(698, 'RONDOCAN', 68),
+	(699, 'SANGARARA', 68),
+	(700, 'ANTA', 69),
+	(701, 'ANCAHUASI', 69),
+	(702, 'CACHIMAYO', 69),
+	(703, 'CHINCHAYPUJIO', 69),
+	(704, 'HUAROCONDO', 69),
+	(705, 'LIMATAMBO', 69),
+	(706, 'MOLLEPATA', 69),
+	(707, 'PUCYURA', 69),
+	(708, 'ZURITE', 69),
+	(709, 'CALCA', 70),
+	(710, 'COYA', 70),
+	(711, 'LAMAY', 70),
+	(712, 'LARES', 70),
+	(713, 'PISAC', 70),
+	(714, 'SAN SALVADOR', 70),
+	(715, 'TARAY', 70),
+	(716, 'YANATILE', 70),
+	(717, 'YANAOCA', 71),
+	(718, 'CHECCA', 71),
+	(719, 'KUNTURKANKI', 71),
+	(720, 'LANGUI', 71),
+	(721, 'LAYO', 71),
+	(722, 'PAMPAMARCA', 71),
+	(723, 'QUEHUE', 71),
+	(724, 'TUPAC AMARU', 71),
+	(725, 'SICUANI', 72),
+	(726, 'CHECACUPE', 72),
+	(727, 'COMBAPATA', 72),
+	(728, 'MARANGANI', 72),
+	(729, 'PITUMARCA', 72),
+	(730, 'SAN PABLO', 72),
+	(731, 'SAN PEDRO', 72),
+	(732, 'TINTA', 72),
+	(733, 'SANTO TOMAS', 73),
+	(734, 'CAPACMARCA', 73),
+	(735, 'CHAMACA', 73),
+	(736, 'COLQUEMARCA', 73),
+	(737, 'LIVITACA', 73),
+	(738, 'LLUSCO', 73),
+	(739, 'QUI&Ntilde;OTA', 73),
+	(740, 'VELILLE', 73),
+	(741, 'ESPINAR', 74),
+	(742, 'CONDOROMA', 74),
+	(743, 'COPORAQUE', 74),
+	(744, 'OCORURO', 74),
+	(745, 'PALLPATA', 74),
+	(746, 'PICHIGUA', 74),
+	(747, 'SUYCKUTAMBO', 74),
+	(748, 'ALTO PICHIGUA', 74),
+	(749, 'SANTA ANA', 75),
+	(750, 'ECHARATE', 75),
+	(751, 'HUAYOPATA', 75),
+	(752, 'MARANURA', 75),
+	(753, 'OCOBAMBA', 75),
+	(754, 'QUELLOUNO', 75),
+	(755, 'KIMBIRI', 75),
+	(756, 'SANTA TERESA', 75),
+	(757, 'VILCABAMBA', 75),
+	(758, 'PICHARI', 75),
+	(759, 'PARURO', 76),
+	(760, 'ACCHA', 76),
+	(761, 'CCAPI', 76),
+	(762, 'COLCHA', 76),
+	(763, 'HUANOQUITE', 76),
+	(764, 'OMACHA', 76),
+	(765, 'PACCARITAMBO', 76),
+	(766, 'PILLPINTO', 76),
+	(767, 'YAURISQUE', 76),
+	(768, 'PAUCARTAMBO', 77),
+	(769, 'CAICAY', 77),
+	(770, 'CHALLABAMBA', 77),
+	(771, 'COLQUEPATA', 77),
+	(772, 'HUANCARANI', 77),
+	(773, 'KOS&Ntilde;IPATA', 77),
+	(774, 'URCOS', 78),
+	(775, 'ANDAHUAYLILLAS', 78),
+	(776, 'CAMANTI', 78),
+	(777, 'CCARHUAYO', 78),
+	(778, 'CCATCA', 78),
+	(779, 'CUSIPATA', 78),
+	(780, 'HUARO', 78),
+	(781, 'LUCRE', 78),
+	(782, 'MARCAPATA', 78),
+	(783, 'OCONGATE', 78),
+	(784, 'OROPESA', 78),
+	(785, 'QUIQUIJANA', 78),
+	(786, 'URUBAMBA', 79),
+	(787, 'CHINCHERO', 79),
+	(788, 'HUAYLLABAMBA', 79),
+	(789, 'MACHUPICCHU', 79),
+	(790, 'MARAS', 79),
+	(791, 'OLLANTAYTAMBO', 79),
+	(792, 'YUCAY', 79),
+	(793, 'HUANCAVELICA', 80),
+	(794, 'ACOBAMBILLA', 80),
+	(795, 'ACORIA', 80),
+	(796, 'CONAYCA', 80),
+	(797, 'CUENCA', 80),
+	(798, 'HUACHOCOLPA', 80),
+	(799, 'HUAYLLAHUARA', 80),
+	(800, 'IZCUCHACA', 80),
+	(801, 'LARIA', 80),
+	(802, 'MANTA', 80),
+	(803, 'MARISCAL CACERES', 80),
+	(804, 'MOYA', 80),
+	(805, 'NUEVO OCCORO', 80),
+	(806, 'PALCA', 80),
+	(807, 'PILCHACA', 80),
+	(808, 'VILCA', 80),
+	(809, 'YAULI', 80),
+	(810, 'ASCENSION', 80),
+	(811, 'HUANDO', 80),
+	(812, 'ACOBAMBA', 81),
+	(813, 'ANDABAMBA', 81),
+	(814, 'ANTA', 81),
+	(815, 'CAJA', 81),
+	(816, 'MARCAS', 81),
+	(817, 'PAUCARA', 81),
+	(818, 'POMACOCHA', 81),
+	(819, 'ROSARIO', 81),
+	(820, 'LIRCAY', 82),
+	(821, 'ANCHONGA', 82),
+	(822, 'CALLANMARCA', 82),
+	(823, 'CCOCHACCASA', 82),
+	(824, 'CHINCHO', 82),
+	(825, 'CONGALLA', 82),
+	(826, 'HUANCA-HUANCA', 82),
+	(827, 'HUAYLLAY GRANDE', 82),
+	(828, 'JULCAMARCA', 82),
+	(829, 'SAN ANTONIO DE ANTAPARCO', 82),
+	(830, 'SANTO TOMAS DE PATA', 82),
+	(831, 'SECCLLA', 82),
+	(832, 'CASTROVIRREYNA', 83),
+	(833, 'ARMA', 83),
+	(834, 'AURAHUA', 83),
+	(835, 'CAPILLAS', 83),
+	(836, 'CHUPAMARCA', 83),
+	(837, 'COCAS', 83),
+	(838, 'HUACHOS', 83),
+	(839, 'HUAMATAMBO', 83),
+	(840, 'MOLLEPAMPA', 83),
+	(841, 'SAN JUAN', 83),
+	(842, 'SANTA ANA', 83),
+	(843, 'TANTARA', 83),
+	(844, 'TICRAPO', 83),
+	(845, 'CHURCAMPA', 84),
+	(846, 'ANCO', 84),
+	(847, 'CHINCHIHUASI', 84),
+	(848, 'EL CARMEN', 84),
+	(849, 'LA MERCED', 84),
+	(850, 'LOCROJA', 84),
+	(851, 'PAUCARBAMBA', 84),
+	(852, 'SAN MIGUEL DE MAYOCC', 84),
+	(853, 'SAN PEDRO DE CORIS', 84),
+	(854, 'PACHAMARCA', 84),
+	(855, 'HUAYTARA', 85),
+	(856, 'AYAVI', 85),
+	(857, 'CORDOVA', 85),
+	(858, 'HUAYACUNDO ARMA', 85),
+	(859, 'LARAMARCA', 85),
+	(860, 'OCOYO', 85),
+	(861, 'PILPICHACA', 85),
+	(862, 'QUERCO', 85),
+	(863, 'QUITO-ARMA', 85),
+	(864, 'SAN ANTONIO DE CUSICANCHA', 85),
+	(865, 'SAN FRANCISCO DE SANGAYAICO', 85),
+	(866, 'SAN ISIDRO', 85),
+	(867, 'SANTIAGO DE CHOCORVOS', 85),
+	(868, 'SANTIAGO DE QUIRAHUARA', 85),
+	(869, 'SANTO DOMINGO DE CAPILLAS', 85),
+	(870, 'TAMBO', 85),
+	(871, 'PAMPAS', 86),
+	(872, 'ACOSTAMBO', 86),
+	(873, 'ACRAQUIA', 86),
+	(874, 'AHUAYCHA', 86),
+	(875, 'COLCABAMBA', 86),
+	(876, 'DANIEL HERNANDEZ', 86),
+	(877, 'HUACHOCOLPA', 86),
+	(878, 'HUARIBAMBA', 86),
+	(879, '&Ntilde;AHUIMPUQUIO', 86),
+	(880, 'PAZOS', 86),
+	(881, 'QUISHUAR', 86),
+	(882, 'SALCABAMBA', 86),
+	(883, 'SALCAHUASI', 86),
+	(884, 'SAN MARCOS DE ROCCHAC', 86),
+	(885, 'SURCUBAMBA', 86),
+	(886, 'TINTAY PUNCU', 86),
+	(887, 'HUANUCO', 87),
+	(888, 'AMARILIS', 87),
+	(889, 'CHINCHAO', 87),
+	(890, 'CHURUBAMBA', 87),
+	(891, 'MARGOS', 87),
+	(892, 'QUISQUI', 87),
+	(893, 'SAN FRANCISCO DE CAYRAN', 87),
+	(894, 'SAN PEDRO DE CHAULAN', 87),
+	(895, 'SANTA MARIA DEL VALLE', 87),
+	(896, 'YARUMAYO', 87),
+	(897, 'PILLCO MARCA', 87),
+	(898, 'AMBO', 88),
+	(899, 'CAYNA', 88),
+	(900, 'COLPAS', 88),
+	(901, 'CONCHAMARCA', 88),
+	(902, 'HUACAR', 88),
+	(903, 'SAN FRANCISCO', 88),
+	(904, 'SAN RAFAEL', 88),
+	(905, 'TOMAY KICHWA', 88),
+	(906, 'LA UNION', 89),
+	(907, 'CHUQUIS', 89),
+	(908, 'MARIAS', 89),
+	(909, 'PACHAS', 89),
+	(910, 'QUIVILLA', 89),
+	(911, 'RIPAN', 89),
+	(912, 'SHUNQUI', 89),
+	(913, 'SILLAPATA', 89),
+	(914, 'YANAS', 89),
+	(915, 'HUACAYBAMBA', 90),
+	(916, 'CANCHABAMBA', 90),
+	(917, 'COCHABAMBA', 90),
+	(918, 'PINRA', 90),
+	(919, 'LLATA', 91),
+	(920, 'ARANCAY', 91),
+	(921, 'CHAVIN DE PARIARCA', 91),
+	(922, 'JACAS GRANDE', 91),
+	(923, 'JIRCAN', 91),
+	(924, 'MIRAFLORES', 91),
+	(925, 'MONZON', 91),
+	(926, 'PUNCHAO', 91),
+	(927, 'PU&Ntilde;OS', 91),
+	(928, 'SINGA', 91),
+	(929, 'TANTAMAYO', 91),
+	(930, 'RUPA-RUPA', 92),
+	(931, 'DANIEL ALOMIA ROBLES', 92),
+	(932, 'HERMILIO VALDIZAN', 92),
+	(933, 'JOSE CRESPO Y CASTILLO', 92),
+	(934, 'LUYANDO', 92),
+	(935, 'MARIANO DAMASO BERAUN', 92),
+	(936, 'HUACRACHUCO', 93),
+	(937, 'CHOLON', 93),
+	(938, 'SAN BUENAVENTURA', 93),
+	(939, 'PANAO', 94),
+	(940, 'CHAGLLA', 94),
+	(941, 'MOLINO', 94),
+	(942, 'UMARI', 94),
+	(943, 'PUERTO INCA', 95),
+	(944, 'CODO DEL POZUZO', 95),
+	(945, 'HONORIA', 95),
+	(946, 'TOURNAVISTA', 95),
+	(947, 'YUYAPICHIS', 95),
+	(948, 'JESUS', 96),
+	(949, 'BA&Ntilde;OS', 96),
+	(950, 'JIVIA', 96),
+	(951, 'QUEROPALCA', 96),
+	(952, 'RONDOS', 96),
+	(953, 'SAN FRANCISCO DE ASIS', 96),
+	(954, 'SAN MIGUEL DE CAURI', 96),
+	(955, 'CHAVINILLO', 97),
+	(956, 'CAHUAC', 97),
+	(957, 'CHACABAMBA', 97),
+	(958, 'APARICIO POMARES', 97),
+	(959, 'JACAS CHICO', 97),
+	(960, 'OBAS', 97),
+	(961, 'PAMPAMARCA', 97),
+	(962, 'CHORAS', 97),
+	(963, 'ICA', 98),
+	(964, 'LA TINGUI&Ntilde;A', 98),
+	(965, 'LOS AQUIJES', 98),
+	(966, 'OCUCAJE', 98),
+	(967, 'PACHACUTEC', 98),
+	(968, 'PARCONA', 98),
+	(969, 'PUEBLO NUEVO', 98),
+	(970, 'SALAS', 98),
+	(971, 'SAN JOSE DE LOS MOLINOS', 98),
+	(972, 'SAN JUAN BAUTISTA', 98),
+	(973, 'SANTIAGO', 98),
+	(974, 'SUBTANJALLA', 98),
+	(975, 'TATE', 98),
+	(976, 'YAUCA DEL ROSARIO', 98),
+	(977, 'CHINCHA ALTA', 99),
+	(978, 'ALTO LARAN', 99),
+	(979, 'CHAVIN', 99),
+	(980, 'CHINCHA BAJA', 99),
+	(981, 'EL CARMEN', 99),
+	(982, 'GROCIO PRADO', 99),
+	(983, 'PUEBLO NUEVO', 99),
+	(984, 'SAN JUAN DE YANAC', 99),
+	(985, 'SAN PEDRO DE HUACARPANA', 99),
+	(986, 'SUNAMPE', 99),
+	(987, 'TAMBO DE MORA', 99),
+	(988, 'NAZCA', 100),
+	(989, 'CHANGUILLO', 100),
+	(990, 'EL INGENIO', 100),
+	(991, 'MARCONA', 100),
+	(992, 'VISTA ALEGRE', 100),
+	(993, 'PALPA', 101),
+	(994, 'LLIPATA', 101),
+	(995, 'RIO GRANDE', 101),
+	(996, 'SANTA CRUZ', 101),
+	(997, 'TIBILLO', 101),
+	(998, 'PISCO', 102),
+	(999, 'HUANCANO', 102),
+	(1000, 'HUMAY', 102),
+	(1001, 'INDEPENDENCIA', 102),
+	(1002, 'PARACAS', 102),
+	(1003, 'SAN ANDRES', 102),
+	(1004, 'SAN CLEMENTE', 102),
+	(1005, 'TUPAC AMARU INCA', 102),
+	(1006, 'HUANCAYO', 103),
+	(1007, 'CARHUACALLANGA', 103),
+	(1008, 'CHACAPAMPA', 103),
+	(1009, 'CHICCHE', 103),
+	(1010, 'CHILCA', 103),
+	(1011, 'CHONGOS ALTO', 103),
+	(1012, 'CHUPURO', 103),
+	(1013, 'COLCA', 103),
+	(1014, 'CULLHUAS', 103),
+	(1015, 'EL TAMBO', 103),
+	(1016, 'HUACRAPUQUIO', 103),
+	(1017, 'HUALHUAS', 103),
+	(1018, 'HUANCAN', 103),
+	(1019, 'HUASICANCHA', 103),
+	(1020, 'HUAYUCACHI', 103),
+	(1021, 'INGENIO', 103),
+	(1022, 'PARIAHUANCA', 103),
+	(1023, 'PILCOMAYO', 103),
+	(1024, 'PUCARA', 103),
+	(1025, 'QUICHUAY', 103),
+	(1026, 'QUILCAS', 103),
+	(1027, 'SAN AGUSTIN', 103),
+	(1028, 'SAN JERONIMO DE TUNAN', 103),
+	(1029, 'SA&Ntilde;O', 103),
+	(1030, 'SAPALLANGA', 103),
+	(1031, 'SICAYA', 103),
+	(1032, 'SANTO DOMINGO DE ACOBAMBA', 103),
+	(1033, 'VIQUES', 103),
+	(1034, 'CONCEPCION', 104),
+	(1035, 'ACO', 104),
+	(1036, 'ANDAMARCA', 104),
+	(1037, 'CHAMBARA', 104),
+	(1038, 'COCHAS', 104),
+	(1039, 'COMAS', 104),
+	(1040, 'HEROINAS TOLEDO', 104),
+	(1041, 'MANZANARES', 104),
+	(1042, 'MARISCAL CASTILLA', 104),
+	(1043, 'MATAHUASI', 104),
+	(1044, 'MITO', 104),
+	(1045, 'NUEVE DE JULIO', 104),
+	(1046, 'ORCOTUNA', 104),
+	(1047, 'SAN JOSE DE QUERO', 104),
+	(1048, 'SANTA ROSA DE OCOPA', 104),
+	(1049, 'CHANCHAMAYO', 105),
+	(1050, 'PERENE', 105),
+	(1051, 'PICHANAQUI', 105),
+	(1052, 'SAN LUIS DE SHUARO', 105),
+	(1053, 'SAN RAMON', 105),
+	(1054, 'VITOC', 105),
+	(1055, 'JAUJA', 106),
+	(1056, 'ACOLLA', 106),
+	(1057, 'APATA', 106),
+	(1058, 'ATAURA', 106),
+	(1059, 'CANCHAYLLO', 106),
+	(1060, 'CURICACA', 106),
+	(1061, 'EL MANTARO', 106),
+	(1062, 'HUAMALI', 106),
+	(1063, 'HUARIPAMPA', 106),
+	(1064, 'HUERTAS', 106),
+	(1065, 'JANJAILLO', 106),
+	(1066, 'JULCAN', 106),
+	(1067, 'LEONOR ORDO&Ntilde;EZ', 106),
+	(1068, 'LLOCLLAPAMPA', 106),
+	(1069, 'MARCO', 106),
+	(1070, 'MASMA', 106),
+	(1071, 'MASMA CHICCHE', 106),
+	(1072, 'MOLINOS', 106),
+	(1073, 'MONOBAMBA', 106),
+	(1074, 'MUQUI', 106),
+	(1075, 'MUQUIYAUYO', 106),
+	(1076, 'PACA', 106),
+	(1077, 'PACCHA', 106),
+	(1078, 'PANCAN', 106),
+	(1079, 'PARCO', 106),
+	(1080, 'POMACANCHA', 106),
+	(1081, 'RICRAN', 106),
+	(1082, 'SAN LORENZO', 106),
+	(1083, 'SAN PEDRO DE CHUNAN', 106),
+	(1084, 'SAUSA', 106),
+	(1085, 'SINCOS', 106),
+	(1086, 'TUNAN MARCA', 106),
+	(1087, 'YAULI', 106),
+	(1088, 'YAUYOS', 106),
+	(1089, 'JUNIN', 107),
+	(1090, 'CARHUAMAYO', 107),
+	(1091, 'ONDORES', 107),
+	(1092, 'ULCUMAYO', 107),
+	(1093, 'SATIPO', 108),
+	(1094, 'COVIRIALI', 108),
+	(1095, 'LLAYLLA', 108),
+	(1096, 'MAZAMARI', 108),
+	(1097, 'PAMPA HERMOSA', 108),
+	(1098, 'PANGOA', 108),
+	(1099, 'RIO NEGRO', 108),
+	(1100, 'RIO TAMBO', 108),
+	(1101, 'TARMA', 109),
+	(1102, 'ACOBAMBA', 109),
+	(1103, 'HUARICOLCA', 109),
+	(1104, 'HUASAHUASI', 109),
+	(1105, 'LA UNION', 109),
+	(1106, 'PALCA', 109),
+	(1107, 'PALCAMAYO', 109),
+	(1108, 'SAN PEDRO DE CAJAS', 109),
+	(1109, 'TAPO', 109),
+	(1110, 'LA OROYA', 110),
+	(1111, 'CHACAPALPA', 110),
+	(1112, 'HUAY-HUAY', 110),
+	(1113, 'MARCAPOMACOCHA', 110),
+	(1114, 'MOROCOCHA', 110),
+	(1115, 'PACCHA', 110),
+	(1116, 'SANTA BARBARA DE CARHUACAYAN', 110),
+	(1117, 'SANTA ROSA DE SACCO', 110),
+	(1118, 'SUITUCANCHA', 110),
+	(1119, 'YAULI', 110),
+	(1120, 'CHUPACA', 111),
+	(1121, 'AHUAC', 111),
+	(1122, 'CHONGOS BAJO', 111),
+	(1123, 'HUACHAC', 111),
+	(1124, 'HUAMANCACA CHICO', 111),
+	(1125, 'SAN JUAN DE ISCOS', 111),
+	(1126, 'SAN JUAN DE JARPA', 111),
+	(1127, 'TRES DE DICIEMBRE', 111),
+	(1128, 'YANACANCHA', 111),
+	(1129, 'TRUJILLO', 112),
+	(1130, 'EL PORVENIR', 112),
+	(1131, 'FLORENCIA DE MORA', 112),
+	(1132, 'HUANCHACO', 112),
+	(1133, 'LA ESPERANZA', 112),
+	(1134, 'LAREDO', 112),
+	(1135, 'MOCHE', 112),
+	(1136, 'POROTO', 112),
+	(1137, 'SALAVERRY', 112),
+	(1138, 'SIMBAL', 112),
+	(1139, 'VICTOR LARCO HERRERA', 112),
+	(1140, 'ASCOPE', 113),
+	(1141, 'CHICAMA', 113),
+	(1142, 'CHOCOPE', 113),
+	(1143, 'MAGDALENA DE CAO', 113),
+	(1144, 'PAIJAN', 113),
+	(1145, 'RAZURI', 113),
+	(1146, 'SANTIAGO DE CAO', 113),
+	(1147, 'CASA GRANDE', 113),
+	(1148, 'BOLIVAR', 114),
+	(1149, 'BAMBAMARCA', 114),
+	(1150, 'CONDORMARCA', 114),
+	(1151, 'LONGOTEA', 114),
+	(1152, 'UCHUMARCA', 114),
+	(1153, 'UCUNCHA', 114),
+	(1154, 'CHEPEN', 115),
+	(1155, 'PACANGA', 115),
+	(1156, 'PUEBLO NUEVO', 115),
+	(1157, 'JULCAN', 116),
+	(1158, 'CALAMARCA', 116),
+	(1159, 'CARABAMBA', 116),
+	(1160, 'HUASO', 116),
+	(1161, 'OTUZCO', 117),
+	(1162, 'AGALLPAMPA', 117),
+	(1163, 'CHARAT', 117),
+	(1164, 'HUARANCHAL', 117),
+	(1165, 'LA CUESTA', 117),
+	(1166, 'MACHE', 117),
+	(1167, 'PARANDAY', 117),
+	(1168, 'SALPO', 117),
+	(1169, 'SINSICAP', 117),
+	(1170, 'USQUIL', 117),
+	(1171, 'SAN PEDRO DE LLOC', 118),
+	(1172, 'GUADALUPE', 118),
+	(1173, 'JEQUETEPEQUE', 118),
+	(1174, 'PACASMAYO', 118),
+	(1175, 'SAN JOSE', 118),
+	(1176, 'TAYABAMBA', 119),
+	(1177, 'BULDIBUYO', 119),
+	(1178, 'CHILLIA', 119),
+	(1179, 'HUANCASPATA', 119),
+	(1180, 'HUAYLILLAS', 119),
+	(1181, 'HUAYO', 119),
+	(1182, 'ONGON', 119),
+	(1183, 'PARCOY', 119),
+	(1184, 'PATAZ', 119),
+	(1185, 'PIAS', 119),
+	(1186, 'SANTIAGO DE CHALLAS', 119),
+	(1187, 'TAURIJA', 119),
+	(1188, 'URPAY', 119),
+	(1189, 'HUAMACHUCO', 120),
+	(1190, 'CHUGAY', 120),
+	(1191, 'COCHORCO', 120),
+	(1192, 'CURGOS', 120),
+	(1193, 'MARCABAL', 120),
+	(1194, 'SANAGORAN', 120),
+	(1195, 'SARIN', 120),
+	(1196, 'SARTIMBAMBA', 120),
+	(1197, 'SANTIAGO DE CHUCO', 121),
+	(1198, 'ANGASMARCA', 121),
+	(1199, 'CACHICADAN', 121),
+	(1200, 'MOLLEBAMBA', 121),
+	(1201, 'MOLLEPATA', 121),
+	(1202, 'QUIRUVILCA', 121),
+	(1203, 'SANTA CRUZ DE CHUCA', 121),
+	(1204, 'SITABAMBA', 121),
+	(1205, 'GRAN CHIMU', 122),
+	(1206, 'CASCAS', 122),
+	(1207, 'LUCMA', 122),
+	(1208, 'MARMOT', 122),
+	(1209, 'SAYAPULLO', 122),
+	(1210, 'VIRU', 123),
+	(1211, 'CHAO', 123),
+	(1212, 'GUADALUPITO', 123),
+	(1213, 'CHICLAYO', 124),
+	(1214, 'CHONGOYAPE', 124),
+	(1215, 'ETEN', 124),
+	(1216, 'ETEN PUERTO', 124),
+	(1217, 'JOSE LEONARDO ORTIZ', 124),
+	(1218, 'LA VICTORIA', 124),
+	(1219, 'LAGUNAS', 124),
+	(1220, 'MONSEFU', 124),
+	(1221, 'NUEVA ARICA', 124),
+	(1222, 'OYOTUN', 124),
+	(1223, 'PICSI', 124),
+	(1224, 'PIMENTEL', 124),
+	(1225, 'REQUE', 124),
+	(1226, 'SANTA ROSA', 124),
+	(1227, 'SA&Ntilde;A', 124),
+	(1228, 'CAYALTI', 124),
+	(1229, 'PATAPO', 124),
+	(1230, 'POMALCA', 124),
+	(1231, 'PUCALA', 124),
+	(1232, 'TUMAN', 124),
+	(1233, 'FERRE&Ntilde;AFE', 125),
+	(1234, 'CA&Ntilde;ARIS', 125),
+	(1235, 'INCAHUASI', 125),
+	(1236, 'MANUEL ANTONIO MESONES MURO', 125),
+	(1237, 'PITIPO', 125),
+	(1238, 'PUEBLO NUEVO', 125),
+	(1239, 'LAMBAYEQUE', 126),
+	(1240, 'CHOCHOPE', 126),
+	(1241, 'ILLIMO', 126),
+	(1242, 'JAYANCA', 126),
+	(1243, 'MOCHUMI', 126),
+	(1244, 'MORROPE', 126),
+	(1245, 'MOTUPE', 126),
+	(1246, 'OLMOS', 126),
+	(1247, 'PACORA', 126),
+	(1248, 'SALAS', 126),
+	(1249, 'SAN JOSE', 126),
+	(1250, 'TUCUME', 126),
+	(1251, 'LIMA', 127),
+	(1252, 'ANCON', 127),
+	(1253, 'ATE', 127),
+	(1254, 'BARRANCO', 127),
+	(1255, 'BRE&Ntilde;A', 127),
+	(1256, 'CARABAYLLO', 127),
+	(1257, 'CHACLACAYO', 127),
+	(1258, 'CHORRILLOS', 127),
+	(1259, 'CIENEGUILLA', 127),
+	(1260, 'COMAS', 127),
+	(1261, 'EL AGUSTINO', 127),
+	(1262, 'INDEPENDENCIA', 127),
+	(1263, 'JESUS MARIA', 127),
+	(1264, 'LA MOLINA', 127),
+	(1265, 'LA VICTORIA', 127),
+	(1266, 'LINCE', 127),
+	(1267, 'LOS OLIVOS', 127),
+	(1268, 'LURIGANCHO', 127),
+	(1269, 'LURIN', 127),
+	(1270, 'MAGDALENA DEL MAR', 127),
+	(1271, 'MAGDALENA VIEJA', 127),
+	(1272, 'MIRAFLORES', 127),
+	(1273, 'PACHACAMAC', 127),
+	(1274, 'PUCUSANA', 127),
+	(1275, 'PUENTE PIEDRA', 127),
+	(1276, 'PUNTA HERMOSA', 127),
+	(1277, 'PUNTA NEGRA', 127),
+	(1278, 'RIMAC', 127),
+	(1279, 'SAN BARTOLO', 127),
+	(1280, 'SAN BORJA', 127),
+	(1281, 'SAN ISIDRO', 127),
+	(1282, 'SAN JUAN DE LURIGANCHO', 127),
+	(1283, 'SAN JUAN DE MIRAFLORES', 127),
+	(1284, 'SAN LUIS', 127),
+	(1285, 'SAN MARTIN DE PORRES', 127),
+	(1286, 'SAN MIGUEL', 127),
+	(1287, 'SANTA ANITA', 127),
+	(1288, 'SANTA MARIA DEL MAR', 127),
+	(1289, 'SANTA ROSA', 127),
+	(1290, 'SANTIAGO DE SURCO', 127),
+	(1291, 'SURQUILLO', 127),
+	(1292, 'VILLA EL SALVADOR', 127),
+	(1293, 'VILLA MARIA DEL TRIUNFO', 127),
+	(1294, 'BARRANCA', 128),
+	(1295, 'PARAMONGA', 128),
+	(1296, 'PATIVILCA', 128),
+	(1297, 'SUPE', 128),
+	(1298, 'SUPE PUERTO', 128),
+	(1299, 'CAJATAMBO', 129),
+	(1300, 'COPA', 129),
+	(1301, 'GORGOR', 129),
+	(1302, 'HUANCAPON', 129),
+	(1303, 'MANAS', 129),
+	(1304, 'CANTA', 130),
+	(1305, 'ARAHUAY', 130),
+	(1306, 'HUAMANTANGA', 130),
+	(1307, 'HUAROS', 130),
+	(1308, 'LACHAQUI', 130),
+	(1309, 'SAN BUENAVENTURA', 130),
+	(1310, 'SANTA ROSA DE QUIVES', 130),
+	(1311, 'SAN VICENTE DE CA&Ntilde;ETE', 131),
+	(1312, 'ASIA', 131),
+	(1313, 'CALANGO', 131),
+	(1314, 'CERRO AZUL', 131),
+	(1315, 'CHILCA', 131),
+	(1316, 'COAYLLO', 131),
+	(1317, 'IMPERIAL', 131),
+	(1318, 'LUNAHUANA', 131),
+	(1319, 'MALA', 131),
+	(1320, 'NUEVO IMPERIAL', 131),
+	(1321, 'PACARAN', 131),
+	(1322, 'QUILMANA', 131),
+	(1323, 'SAN ANTONIO', 131),
+	(1324, 'SAN LUIS', 131),
+	(1325, 'SANTA CRUZ DE FLORES', 131),
+	(1326, 'ZU&Ntilde;IGA', 131),
+	(1327, 'HUARAL', 132),
+	(1328, 'ATAVILLOS ALTO', 132),
+	(1329, 'ATAVILLOS BAJO', 132),
+	(1330, 'AUCALLAMA', 132),
+	(1331, 'CHANCAY', 132),
+	(1332, 'IHUARI', 132),
+	(1333, 'LAMPIAN', 132),
+	(1334, 'PACARAOS', 132),
+	(1335, 'SAN MIGUEL DE ACOS', 132),
+	(1336, 'SANTA CRUZ DE ANDAMARCA', 132),
+	(1337, 'SUMBILCA', 132),
+	(1338, 'VEINTISIETE DE NOVIEMBRE', 132),
+	(1339, 'MATUCANA', 133),
+	(1340, 'ANTIOQUIA', 133),
+	(1341, 'CALLAHUANCA', 133),
+	(1342, 'CARAMPOMA', 133),
+	(1343, 'CHICLA', 133),
+	(1344, 'CUENCA', 133),
+	(1345, 'HUACHUPAMPA', 133),
+	(1346, 'HUANZA', 133),
+	(1347, 'HUAROCHIRI', 133),
+	(1348, 'LAHUAYTAMBO', 133),
+	(1349, 'LANGA', 133),
+	(1350, 'LARAOS', 133),
+	(1351, 'MARIATANA', 133),
+	(1352, 'RICARDO PALMA', 133),
+	(1353, 'SAN ANDRES DE TUPICOCHA', 133),
+	(1354, 'SAN ANTONIO', 133),
+	(1355, 'SAN BARTOLOME', 133),
+	(1356, 'SAN DAMIAN', 133),
+	(1357, 'SAN JUAN DE IRIS', 133),
+	(1358, 'SAN JUAN DE TANTARANCHE', 133),
+	(1359, 'SAN LORENZO DE QUINTI', 133),
+	(1360, 'SAN MATEO', 133),
+	(1361, 'SAN MATEO DE OTAO', 133),
+	(1362, 'SAN PEDRO DE CASTA', 133),
+	(1363, 'SAN PEDRO DE HUANCAYRE', 133),
+	(1364, 'SANGALLAYA', 133),
+	(1365, 'SANTA CRUZ DE COCACHACRA', 133),
+	(1366, 'SANTA EULALIA', 133),
+	(1367, 'SANTIAGO DE ANCHUCAYA', 133),
+	(1368, 'SANTIAGO DE TUNA', 133),
+	(1369, 'SANTO DOMINGO DE LOS OLLEROS', 133),
+	(1370, 'SURCO', 133),
+	(1371, 'HUACHO', 134),
+	(1372, 'AMBAR', 134),
+	(1373, 'CALETA DE CARQUIN', 134),
+	(1374, 'CHECRAS', 134),
+	(1375, 'HUALMAY', 134),
+	(1376, 'HUAURA', 134),
+	(1377, 'LEONCIO PRADO', 134),
+	(1378, 'PACCHO', 134),
+	(1379, 'SANTA LEONOR', 134),
+	(1380, 'SANTA MARIA', 134),
+	(1381, 'SAYAN', 134),
+	(1382, 'VEGUETA', 134),
+	(1383, 'OYON', 135),
+	(1384, 'ANDAJES', 135),
+	(1385, 'CAUJUL', 135),
+	(1386, 'COCHAMARCA', 135),
+	(1387, 'NAVAN', 135),
+	(1388, 'PACHANGARA', 135),
+	(1389, 'YAUYOS', 136),
+	(1390, 'ALIS', 136),
+	(1391, 'AYAUCA', 136),
+	(1392, 'AYAVIRI', 136),
+	(1393, 'AZANGARO', 136),
+	(1394, 'CACRA', 136),
+	(1395, 'CARANIA', 136),
+	(1396, 'CATAHUASI', 136),
+	(1397, 'CHOCOS', 136),
+	(1398, 'COCHAS', 136),
+	(1399, 'COLONIA', 136),
+	(1400, 'HONGOS', 136),
+	(1401, 'HUAMPARA', 136),
+	(1402, 'HUANCAYA', 136),
+	(1403, 'HUANGASCAR', 136),
+	(1404, 'HUANTAN', 136),
+	(1405, 'HUA&Ntilde;EC', 136),
+	(1406, 'LARAOS', 136),
+	(1407, 'LINCHA', 136),
+	(1408, 'MADEAN', 136),
+	(1409, 'MIRAFLORES', 136),
+	(1410, 'OMAS', 136),
+	(1411, 'PUTINZA', 136),
+	(1412, 'QUINCHES', 136),
+	(1413, 'QUINOCAY', 136),
+	(1414, 'SAN JOAQUIN', 136),
+	(1415, 'SAN PEDRO DE PILAS', 136),
+	(1416, 'TANTA', 136),
+	(1417, 'TAURIPAMPA', 136),
+	(1418, 'TOMAS', 136),
+	(1419, 'TUPE', 136),
+	(1420, 'VI&Ntilde;AC', 136),
+	(1421, 'VITIS', 136),
+	(1422, 'IQUITOS', 137),
+	(1423, 'ALTO NANAY', 137),
+	(1424, 'FERNANDO LORES', 137),
+	(1425, 'INDIANA', 137),
+	(1426, 'LAS AMAZONAS', 137),
+	(1427, 'MAZAN', 137),
+	(1428, 'NAPO', 137),
+	(1429, 'PUNCHANA', 137),
+	(1430, 'PUTUMAYO', 137),
+	(1431, 'TORRES CAUSANA', 137),
+	(1432, 'BELEN', 137),
+	(1433, 'SAN JUAN BAUTISTA', 137),
+	(1434, 'YURIMAGUAS', 138),
+	(1435, 'BALSAPUERTO', 138),
+	(1436, 'BARRANCA', 138),
+	(1437, 'CAHUAPANAS', 138),
+	(1438, 'JEBEROS', 138),
+	(1439, 'LAGUNAS', 138),
+	(1440, 'MANSERICHE', 138),
+	(1441, 'MORONA', 138),
+	(1442, 'PASTAZA', 138),
+	(1443, 'SANTA CRUZ', 138),
+	(1444, 'TENIENTE CESAR LOPEZ ROJAS', 138),
+	(1445, 'NAUTA', 139),
+	(1446, 'PARINARI', 139),
+	(1447, 'TIGRE', 139),
+	(1448, 'TROMPETEROS', 139),
+	(1449, 'URARINAS', 139),
+	(1450, 'RAMON CASTILLA', 140),
+	(1451, 'PEBAS', 140),
+	(1452, 'YAVARI', 140),
+	(1453, 'SAN PABLO', 140),
+	(1454, 'REQUENA', 141),
+	(1455, 'ALTO TAPICHE', 141),
+	(1456, 'CAPELO', 141),
+	(1457, 'EMILIO SAN MARTIN', 141),
+	(1458, 'MAQUIA', 141),
+	(1459, 'PUINAHUA', 141),
+	(1460, 'SAQUENA', 141),
+	(1461, 'SOPLIN', 141),
+	(1462, 'TAPICHE', 141),
+	(1463, 'JENARO HERRERA', 141),
+	(1464, 'YAQUERANA', 141),
+	(1465, 'CONTAMANA', 142),
+	(1466, 'INAHUAYA', 142),
+	(1467, 'PADRE MARQUEZ', 142),
+	(1468, 'PAMPA HERMOSA', 142),
+	(1469, 'SARAYACU', 142),
+	(1470, 'VARGAS GUERRA', 142),
+	(1471, 'TAMBOPATA', 143),
+	(1472, 'INAMBARI', 143),
+	(1473, 'LAS PIEDRAS', 143),
+	(1474, 'LABERINTO', 143),
+	(1475, 'MANU', 144),
+	(1476, 'FITZCARRALD', 144),
+	(1477, 'MADRE DE DIOS', 144),
+	(1478, 'HUEPETUHE', 144),
+	(1479, 'I&Ntilde;APARI', 145),
+	(1480, 'IBERIA', 145),
+	(1481, 'TAHUAMANU', 145),
+	(1482, 'MOQUEGUA', 146),
+	(1483, 'CARUMAS', 146),
+	(1484, 'CUCHUMBAYA', 146),
+	(1485, 'SAMEGUA', 146),
+	(1486, 'SAN CRISTOBAL', 146),
+	(1487, 'TORATA', 146),
+	(1488, 'OMATE', 147),
+	(1489, 'CHOJATA', 147),
+	(1490, 'COALAQUE', 147),
+	(1491, 'ICHU&Ntilde;A', 147),
+	(1492, 'LA CAPILLA', 147),
+	(1493, 'LLOQUE', 147),
+	(1494, 'MATALAQUE', 147),
+	(1495, 'PUQUINA', 147),
+	(1496, 'QUINISTAQUILLAS', 147),
+	(1497, 'UBINAS', 147),
+	(1498, 'YUNGA', 147),
+	(1499, 'ILO', 148),
+	(1500, 'EL ALGARROBAL', 148),
+	(1501, 'PACOCHA', 148),
+	(1502, 'CHAUPIMARCA', 149),
+	(1503, 'HUACHON', 149),
+	(1504, 'HUARIACA', 149),
+	(1505, 'HUAYLLAY', 149),
+	(1506, 'NINACACA', 149),
+	(1507, 'PALLANCHACRA', 149),
+	(1508, 'PAUCARTAMBO', 149),
+	(1509, 'SAN FCO.DE ASIS DE YARUSYACAN', 149),
+	(1510, 'SIMON BOLIVAR', 149),
+	(1511, 'TICLACAYAN', 149),
+	(1512, 'TINYAHUARCO', 149),
+	(1513, 'VICCO', 149),
+	(1514, 'YANACANCHA', 149),
+	(1515, 'YANAHUANCA', 150),
+	(1516, 'CHACAYAN', 150),
+	(1517, 'GOYLLARISQUIZGA', 150),
+	(1518, 'PAUCAR', 150),
+	(1519, 'SAN PEDRO DE PILLAO', 150),
+	(1520, 'SANTA ANA DE TUSI', 150),
+	(1521, 'TAPUC', 150),
+	(1522, 'VILCABAMBA', 150),
+	(1523, 'OXAPAMPA', 151),
+	(1524, 'CHONTABAMBA', 151),
+	(1525, 'HUANCABAMBA', 151),
+	(1526, 'PALCAZU', 151),
+	(1527, 'POZUZO', 151),
+	(1528, 'PUERTO BERMUDEZ', 151),
+	(1529, 'VILLA RICA', 151),
+	(1530, 'PIURA', 152),
+	(1531, 'CASTILLA', 152),
+	(1532, 'CATACAOS', 152),
+	(1533, 'CURA MORI', 152),
+	(1534, 'EL TALLAN', 152),
+	(1535, 'LA ARENA', 152),
+	(1536, 'LA UNION', 152),
+	(1537, 'LAS LOMAS', 152),
+	(1538, 'TAMBO GRANDE', 152),
+	(1539, 'AYABACA', 153),
+	(1540, 'FRIAS', 153),
+	(1541, 'JILILI', 153),
+	(1542, 'LAGUNAS', 153),
+	(1543, 'MONTERO', 153),
+	(1544, 'PACAIPAMPA', 153),
+	(1545, 'PAIMAS', 153),
+	(1546, 'SAPILLICA', 153),
+	(1547, 'SICCHEZ', 153),
+	(1548, 'SUYO', 153),
+	(1549, 'HUANCABAMBA', 154),
+	(1550, 'CANCHAQUE', 154),
+	(1551, 'EL CARMEN DE LA FRONTERA', 154),
+	(1552, 'HUARMACA', 154),
+	(1553, 'LALAQUIZ', 154),
+	(1554, 'SAN MIGUEL DE EL FAIQUE', 154),
+	(1555, 'SONDOR', 154),
+	(1556, 'SONDORILLO', 154),
+	(1557, 'CHULUCANAS', 155),
+	(1558, 'BUENOS AIRES', 155),
+	(1559, 'CHALACO', 155),
+	(1560, 'LA MATANZA', 155),
+	(1561, 'MORROPON', 155),
+	(1562, 'SALITRAL', 155),
+	(1563, 'SAN JUAN DE BIGOTE', 155),
+	(1564, 'SANTA CATALINA DE MOSSA', 155),
+	(1565, 'SANTO DOMINGO', 155),
+	(1566, 'YAMANGO', 155),
+	(1567, 'PAITA', 156),
+	(1568, 'AMOTAPE', 156),
+	(1569, 'ARENAL', 156),
+	(1570, 'COLAN', 156),
+	(1571, 'LA HUACA', 156),
+	(1572, 'TAMARINDO', 156),
+	(1573, 'VICHAYAL', 156),
+	(1574, 'SULLANA', 157),
+	(1575, 'BELLAVISTA', 157),
+	(1576, 'IGNACIO ESCUDERO', 157),
+	(1577, 'LANCONES', 157),
+	(1578, 'MARCAVELICA', 157),
+	(1579, 'MIGUEL CHECA', 157),
+	(1580, 'QUERECOTILLO', 157),
+	(1581, 'SALITRAL', 157),
+	(1582, 'PARI&Ntilde;AS', 158),
+	(1583, 'EL ALTO', 158),
+	(1584, 'LA BREA', 158),
+	(1585, 'LOBITOS', 158),
+	(1586, 'LOS ORGANOS', 158),
+	(1587, 'MANCORA', 158),
+	(1588, 'SECHURA', 159),
+	(1589, 'BELLAVISTA DE LA UNION', 159),
+	(1590, 'BERNAL', 159),
+	(1591, 'CRISTO NOS VALGA', 159),
+	(1592, 'VICE', 159),
+	(1593, 'RINCONADA LLICUAR', 159),
+	(1594, 'PUNO', 160),
+	(1595, 'ACORA', 160),
+	(1596, 'AMANTANI', 160),
+	(1597, 'ATUNCOLLA', 160),
+	(1598, 'CAPACHICA', 160),
+	(1599, 'CHUCUITO', 160),
+	(1600, 'COATA', 160),
+	(1601, 'HUATA', 160),
+	(1602, 'MA&Ntilde;AZO', 160),
+	(1603, 'PAUCARCOLLA', 160),
+	(1604, 'PICHACANI', 160),
+	(1605, 'PLATERIA', 160),
+	(1606, 'SAN ANTONIO', 160),
+	(1607, 'TIQUILLACA', 160),
+	(1608, 'VILQUE', 160),
+	(1609, 'AZANGARO', 161),
+	(1610, 'ACHAYA', 161),
+	(1611, 'ARAPA', 161),
+	(1612, 'ASILLO', 161),
+	(1613, 'CAMINACA', 161),
+	(1614, 'CHUPA', 161),
+	(1615, 'JOSE DOMINGO CHOQUEHUANCA', 161),
+	(1616, 'MU&Ntilde;ANI', 161),
+	(1617, 'POTONI', 161),
+	(1618, 'SAMAN', 161),
+	(1619, 'SAN ANTON', 161),
+	(1620, 'SAN JOSE', 161),
+	(1621, 'SAN JUAN DE SALINAS', 161),
+	(1622, 'SANTIAGO DE PUPUJA', 161),
+	(1623, 'TIRAPATA', 161),
+	(1624, 'MACUSANI', 162),
+	(1625, 'AJOYANI', 162),
+	(1626, 'AYAPATA', 162),
+	(1627, 'COASA', 162),
+	(1628, 'CORANI', 162),
+	(1629, 'CRUCERO', 162),
+	(1630, 'ITUATA', 162),
+	(1631, 'OLLACHEA', 162),
+	(1632, 'SAN GABAN', 162),
+	(1633, 'USICAYOS', 162),
+	(1634, 'JULI', 163),
+	(1635, 'DESAGUADERO', 163),
+	(1636, 'HUACULLANI', 163),
+	(1637, 'KELLUYO', 163),
+	(1638, 'PISACOMA', 163),
+	(1639, 'POMATA', 163),
+	(1640, 'ZEPITA', 163),
+	(1641, 'ILAVE', 164),
+	(1642, 'CAPAZO', 164),
+	(1643, 'PILCUYO', 164),
+	(1644, 'SANTA ROSA', 164),
+	(1645, 'CONDURIRI', 164),
+	(1646, 'HUANCANE', 165),
+	(1647, 'COJATA', 165),
+	(1648, 'HUATASANI', 165),
+	(1649, 'INCHUPALLA', 165),
+	(1650, 'PUSI', 165),
+	(1651, 'ROSASPATA', 165),
+	(1652, 'TARACO', 165),
+	(1653, 'VILQUE CHICO', 165),
+	(1654, 'LAMPA', 166),
+	(1655, 'CABANILLA', 166),
+	(1656, 'CALAPUJA', 166),
+	(1657, 'NICASIO', 166),
+	(1658, 'OCUVIRI', 166),
+	(1659, 'PALCA', 166),
+	(1660, 'PARATIA', 166),
+	(1661, 'PUCARA', 166),
+	(1662, 'SANTA LUCIA', 166),
+	(1663, 'VILAVILA', 166),
+	(1664, 'AYAVIRI', 167),
+	(1665, 'ANTAUTA', 167),
+	(1666, 'CUPI', 167),
+	(1667, 'LLALLI', 167),
+	(1668, 'MACARI', 167),
+	(1669, 'NU&Ntilde;OA', 167),
+	(1670, 'ORURILLO', 167),
+	(1671, 'SANTA ROSA', 167),
+	(1672, 'UMACHIRI', 167),
+	(1673, 'MOHO', 168),
+	(1674, 'CONIMA', 168),
+	(1675, 'HUAYRAPATA', 168),
+	(1676, 'TILALI', 168),
+	(1677, 'PUTINA', 169),
+	(1678, 'ANANEA', 169),
+	(1679, 'PEDRO VILCA APAZA', 169),
+	(1680, 'QUILCAPUNCU', 169),
+	(1681, 'SINA', 169),
+	(1682, 'JULIACA', 170),
+	(1683, 'CABANA', 170),
+	(1684, 'CABANILLAS', 170),
+	(1685, 'CARACOTO', 170),
+	(1686, 'SANDIA', 171),
+	(1687, 'CUYOCUYO', 171),
+	(1688, 'LIMBANI', 171),
+	(1689, 'PATAMBUCO', 171),
+	(1690, 'PHARA', 171),
+	(1691, 'QUIACA', 171),
+	(1692, 'SAN JUAN DEL ORO', 171),
+	(1693, 'YANAHUAYA', 171),
+	(1694, 'ALTO INAMBARI', 171),
+	(1695, 'YUNGUYO', 172),
+	(1696, 'ANAPIA', 172),
+	(1697, 'COPANI', 172),
+	(1698, 'CUTURAPI', 172),
+	(1699, 'OLLARAYA', 172),
+	(1700, 'TINICACHI', 172),
+	(1701, 'UNICACHI', 172),
+	(1702, 'MOYOBAMBA', 173),
+	(1703, 'CALZADA', 173),
+	(1704, 'HABANA', 173),
+	(1705, 'JEPELACIO', 173),
+	(1706, 'SORITOR', 173),
+	(1707, 'YANTALO', 173),
+	(1708, 'BELLAVISTA', 174),
+	(1709, 'ALTO BIAVO', 174),
+	(1710, 'BAJO BIAVO', 174),
+	(1711, 'HUALLAGA', 174),
+	(1712, 'SAN PABLO', 174),
+	(1713, 'SAN RAFAEL', 174),
+	(1714, 'SAN JOSE DE SISA', 175),
+	(1715, 'AGUA BLANCA', 175),
+	(1716, 'SAN MARTIN', 175),
+	(1717, 'SANTA ROSA', 175),
+	(1718, 'SHATOJA', 175),
+	(1719, 'SAPOSOA', 176),
+	(1720, 'ALTO SAPOSOA', 176),
+	(1721, 'EL ESLABON', 176),
+	(1722, 'PISCOYACU', 176),
+	(1723, 'SACANCHE', 176),
+	(1724, 'TINGO DE SAPOSOA', 176),
+	(1725, 'LAMAS', 177),
+	(1726, 'ALONSO DE ALVARADO', 177),
+	(1727, 'BARRANQUITA', 177),
+	(1728, 'CAYNARACHI', 177),
+	(1729, 'CU&Ntilde;UMBUQUI', 177),
+	(1730, 'PINTO RECODO', 177),
+	(1731, 'RUMISAPA', 177),
+	(1732, 'SAN ROQUE DE CUMBAZA', 177),
+	(1733, 'SHANAO', 177),
+	(1734, 'TABALOSOS', 177),
+	(1735, 'ZAPATERO', 177),
+	(1736, 'JUANJUI', 178),
+	(1737, 'CAMPANILLA', 178),
+	(1738, 'HUICUNGO', 178),
+	(1739, 'PACHIZA', 178),
+	(1740, 'PAJARILLO', 178),
+	(1741, 'PICOTA', 179),
+	(1742, 'BUENOS AIRES', 179),
+	(1743, 'CASPISAPA', 179),
+	(1744, 'PILLUANA', 179),
+	(1745, 'PUCACACA', 179),
+	(1746, 'SAN CRISTOBAL', 179),
+	(1747, 'SAN HILARION', 179),
+	(1748, 'SHAMBOYACU', 179),
+	(1749, 'TINGO DE PONASA', 179),
+	(1750, 'TRES UNIDOS', 179),
+	(1751, 'RIOJA', 180),
+	(1752, 'AWAJUN', 180),
+	(1753, 'ELIAS SOPLIN VARGAS', 180),
+	(1754, 'NUEVA CAJAMARCA', 180),
+	(1755, 'PARDO MIGUEL', 180),
+	(1756, 'POSIC', 180),
+	(1757, 'SAN FERNANDO', 180),
+	(1758, 'YORONGOS', 180),
+	(1759, 'YURACYACU', 180),
+	(1760, 'TARAPOTO', 181),
+	(1761, 'ALBERTO LEVEAU', 181),
+	(1762, 'CACATACHI', 181),
+	(1763, 'CHAZUTA', 181),
+	(1764, 'CHIPURANA', 181),
+	(1765, 'EL PORVENIR', 181),
+	(1766, 'HUIMBAYOC', 181),
+	(1767, 'JUAN GUERRA', 181),
+	(1768, 'LA BANDA DE SHILCAYO', 181),
+	(1769, 'MORALES', 181),
+	(1770, 'PAPAPLAYA', 181),
+	(1771, 'SAN ANTONIO', 181),
+	(1772, 'SAUCE', 181),
+	(1773, 'SHAPAJA', 181),
+	(1774, 'TOCACHE', 182),
+	(1775, 'NUEVO PROGRESO', 182),
+	(1776, 'POLVORA', 182),
+	(1777, 'SHUNTE', 182),
+	(1778, 'UCHIZA', 182),
+	(1779, 'TACNA', 183),
+	(1780, 'ALTO DE LA ALIANZA', 183),
+	(1781, 'CALANA', 183),
+	(1782, 'CIUDAD NUEVA', 183),
+	(1783, 'INCLAN', 183),
+	(1784, 'PACHIA', 183),
+	(1785, 'PALCA', 183),
+	(1786, 'POCOLLAY', 183),
+	(1787, 'SAMA', 183),
+	(1788, 'CORONEL GREGORIO ALBARRACIN LANCHIPA', 183),
+	(1789, 'CANDARAVE', 184),
+	(1790, 'CAIRANI', 184),
+	(1791, 'CAMILACA', 184),
+	(1792, 'CURIBAYA', 184),
+	(1793, 'HUANUARA', 184),
+	(1794, 'QUILAHUANI', 184),
+	(1795, 'LOCUMBA', 185),
+	(1796, 'ILABAYA', 185),
+	(1797, 'ITE', 185),
+	(1798, 'TARATA', 186),
+	(1799, 'CHUCATAMANI', 186),
+	(1800, 'ESTIQUE', 186),
+	(1801, 'ESTIQUE-PAMPA', 186),
+	(1802, 'SITAJARA', 186),
+	(1803, 'SUSAPAYA', 186),
+	(1804, 'TARUCACHI', 186),
+	(1805, 'TICACO', 186),
+	(1806, 'TUMBES', 187),
+	(1807, 'CORRALES', 187),
+	(1808, 'LA CRUZ', 187),
+	(1809, 'PAMPAS DE HOSPITAL', 187),
+	(1810, 'SAN JACINTO', 187),
+	(1811, 'SAN JUAN DE LA VIRGEN', 187),
+	(1812, 'ZORRITOS', 188),
+	(1813, 'CASITAS', 188),
+	(1814, 'ZARUMILLA', 189),
+	(1815, 'AGUAS VERDES', 189),
+	(1816, 'MATAPALO', 189),
+	(1817, 'PAPAYAL', 189),
+	(1818, 'CALLERIA', 190),
+	(1819, 'CAMPOVERDE', 190),
+	(1820, 'IPARIA', 190),
+	(1821, 'MASISEA', 190),
+	(1822, 'YARINACOCHA', 190),
+	(1823, 'NUEVA REQUENA', 190),
+	(1824, 'RAYMONDI', 191),
+	(1825, 'SEPAHUA', 191),
+	(1826, 'TAHUANIA', 191),
+	(1827, 'YURUA', 191),
+	(1828, 'PADRE ABAD', 192),
+	(1829, 'IRAZOLA', 192),
+	(1830, 'CURIMANA', 192),
+	(1831, 'PURUS', 193);
+/*!40000 ALTER TABLE `ubdistrito` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.ubigeo_peru_departments
+CREATE TABLE IF NOT EXISTS `ubigeo_peru_departments` (
+  `id` varchar(2) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.ubigeo_peru_departments: ~25 rows (approximately)
+INSERT INTO `ubigeo_peru_departments` (`id`, `name`) VALUES
+	('01', 'Amazonas'),
+	('02', 'Áncash'),
+	('03', 'Apurímac'),
+	('04', 'Arequipa'),
+	('05', 'Ayacucho'),
+	('06', 'Cajamarca'),
+	('07', 'Callao'),
+	('08', 'Cusco'),
+	('09', 'Huancavelica'),
+	('10', 'Huánuco'),
+	('11', 'Ica'),
+	('12', 'Junín'),
+	('13', 'La Libertad'),
+	('14', 'Lambayeque'),
+	('15', 'Lima'),
+	('16', 'Loreto'),
+	('17', 'Madre de Dios'),
+	('18', 'Moquegua'),
+	('19', 'Pasco'),
+	('20', 'Piura'),
+	('21', 'Puno'),
+	('22', 'San Martín'),
+	('23', 'Tacna'),
+	('24', 'Tumbes'),
+	('25', 'Ucayali');
+
+-- Dumping structure for table newcms.ubigeo_peru_districts
+CREATE TABLE IF NOT EXISTS `ubigeo_peru_districts` (
+  `id` varchar(6) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `province_id` varchar(4) DEFAULT NULL,
+  `department_id` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.ubigeo_peru_districts: ~1,874 rows (approximately)
+INSERT INTO `ubigeo_peru_districts` (`id`, `name`, `province_id`, `department_id`) VALUES
+	('010101', 'Chachapoyas', '0101', '01'),
+	('010102', 'Asunción', '0101', '01'),
+	('010103', 'Balsas', '0101', '01'),
+	('010104', 'Cheto', '0101', '01'),
+	('010105', 'Chiliquin', '0101', '01'),
+	('010106', 'Chuquibamba', '0101', '01'),
+	('010107', 'Granada', '0101', '01'),
+	('010108', 'Huancas', '0101', '01'),
+	('010109', 'La Jalca', '0101', '01'),
+	('010110', 'Leimebamba', '0101', '01'),
+	('010111', 'Levanto', '0101', '01'),
+	('010112', 'Magdalena', '0101', '01'),
+	('010113', 'Mariscal Castilla', '0101', '01'),
+	('010114', 'Molinopampa', '0101', '01'),
+	('010115', 'Montevideo', '0101', '01'),
+	('010116', 'Olleros', '0101', '01'),
+	('010117', 'Quinjalca', '0101', '01'),
+	('010118', 'San Francisco de Daguas', '0101', '01'),
+	('010119', 'San Isidro de Maino', '0101', '01'),
+	('010120', 'Soloco', '0101', '01'),
+	('010121', 'Sonche', '0101', '01'),
+	('010201', 'Bagua', '0102', '01'),
+	('010202', 'Aramango', '0102', '01'),
+	('010203', 'Copallin', '0102', '01'),
+	('010204', 'El Parco', '0102', '01'),
+	('010205', 'Imaza', '0102', '01'),
+	('010206', 'La Peca', '0102', '01'),
+	('010301', 'Jumbilla', '0103', '01'),
+	('010302', 'Chisquilla', '0103', '01'),
+	('010303', 'Churuja', '0103', '01'),
+	('010304', 'Corosha', '0103', '01'),
+	('010305', 'Cuispes', '0103', '01'),
+	('010306', 'Florida', '0103', '01'),
+	('010307', 'Jazan', '0103', '01'),
+	('010308', 'Recta', '0103', '01'),
+	('010309', 'San Carlos', '0103', '01'),
+	('010310', 'Shipasbamba', '0103', '01'),
+	('010311', 'Valera', '0103', '01'),
+	('010312', 'Yambrasbamba', '0103', '01'),
+	('010401', 'Nieva', '0104', '01'),
+	('010402', 'El Cenepa', '0104', '01'),
+	('010403', 'Río Santiago', '0104', '01'),
+	('010501', 'Lamud', '0105', '01'),
+	('010502', 'Camporredondo', '0105', '01'),
+	('010503', 'Cocabamba', '0105', '01'),
+	('010504', 'Colcamar', '0105', '01'),
+	('010505', 'Conila', '0105', '01'),
+	('010506', 'Inguilpata', '0105', '01'),
+	('010507', 'Longuita', '0105', '01'),
+	('010508', 'Lonya Chico', '0105', '01'),
+	('010509', 'Luya', '0105', '01'),
+	('010510', 'Luya Viejo', '0105', '01'),
+	('010511', 'María', '0105', '01'),
+	('010512', 'Ocalli', '0105', '01'),
+	('010513', 'Ocumal', '0105', '01'),
+	('010514', 'Pisuquia', '0105', '01'),
+	('010515', 'Providencia', '0105', '01'),
+	('010516', 'San Cristóbal', '0105', '01'),
+	('010517', 'San Francisco de Yeso', '0105', '01'),
+	('010518', 'San Jerónimo', '0105', '01'),
+	('010519', 'San Juan de Lopecancha', '0105', '01'),
+	('010520', 'Santa Catalina', '0105', '01'),
+	('010521', 'Santo Tomas', '0105', '01'),
+	('010522', 'Tingo', '0105', '01'),
+	('010523', 'Trita', '0105', '01'),
+	('010601', 'San Nicolás', '0106', '01'),
+	('010602', 'Chirimoto', '0106', '01'),
+	('010603', 'Cochamal', '0106', '01'),
+	('010604', 'Huambo', '0106', '01'),
+	('010605', 'Limabamba', '0106', '01'),
+	('010606', 'Longar', '0106', '01'),
+	('010607', 'Mariscal Benavides', '0106', '01'),
+	('010608', 'Milpuc', '0106', '01'),
+	('010609', 'Omia', '0106', '01'),
+	('010610', 'Santa Rosa', '0106', '01'),
+	('010611', 'Totora', '0106', '01'),
+	('010612', 'Vista Alegre', '0106', '01'),
+	('010701', 'Bagua Grande', '0107', '01'),
+	('010702', 'Cajaruro', '0107', '01'),
+	('010703', 'Cumba', '0107', '01'),
+	('010704', 'El Milagro', '0107', '01'),
+	('010705', 'Jamalca', '0107', '01'),
+	('010706', 'Lonya Grande', '0107', '01'),
+	('010707', 'Yamon', '0107', '01'),
+	('020101', 'Huaraz', '0201', '02'),
+	('020102', 'Cochabamba', '0201', '02'),
+	('020103', 'Colcabamba', '0201', '02'),
+	('020104', 'Huanchay', '0201', '02'),
+	('020105', 'Independencia', '0201', '02'),
+	('020106', 'Jangas', '0201', '02'),
+	('020107', 'La Libertad', '0201', '02'),
+	('020108', 'Olleros', '0201', '02'),
+	('020109', 'Pampas Grande', '0201', '02'),
+	('020110', 'Pariacoto', '0201', '02'),
+	('020111', 'Pira', '0201', '02'),
+	('020112', 'Tarica', '0201', '02'),
+	('020201', 'Aija', '0202', '02'),
+	('020202', 'Coris', '0202', '02'),
+	('020203', 'Huacllan', '0202', '02'),
+	('020204', 'La Merced', '0202', '02'),
+	('020205', 'Succha', '0202', '02'),
+	('020301', 'Llamellin', '0203', '02'),
+	('020302', 'Aczo', '0203', '02'),
+	('020303', 'Chaccho', '0203', '02'),
+	('020304', 'Chingas', '0203', '02'),
+	('020305', 'Mirgas', '0203', '02'),
+	('020306', 'San Juan de Rontoy', '0203', '02'),
+	('020401', 'Chacas', '0204', '02'),
+	('020402', 'Acochaca', '0204', '02'),
+	('020501', 'Chiquian', '0205', '02'),
+	('020502', 'Abelardo Pardo Lezameta', '0205', '02'),
+	('020503', 'Antonio Raymondi', '0205', '02'),
+	('020504', 'Aquia', '0205', '02'),
+	('020505', 'Cajacay', '0205', '02'),
+	('020506', 'Canis', '0205', '02'),
+	('020507', 'Colquioc', '0205', '02'),
+	('020508', 'Huallanca', '0205', '02'),
+	('020509', 'Huasta', '0205', '02'),
+	('020510', 'Huayllacayan', '0205', '02'),
+	('020511', 'La Primavera', '0205', '02'),
+	('020512', 'Mangas', '0205', '02'),
+	('020513', 'Pacllon', '0205', '02'),
+	('020514', 'San Miguel de Corpanqui', '0205', '02'),
+	('020515', 'Ticllos', '0205', '02'),
+	('020601', 'Carhuaz', '0206', '02'),
+	('020602', 'Acopampa', '0206', '02'),
+	('020603', 'Amashca', '0206', '02'),
+	('020604', 'Anta', '0206', '02'),
+	('020605', 'Ataquero', '0206', '02'),
+	('020606', 'Marcara', '0206', '02'),
+	('020607', 'Pariahuanca', '0206', '02'),
+	('020608', 'San Miguel de Aco', '0206', '02'),
+	('020609', 'Shilla', '0206', '02'),
+	('020610', 'Tinco', '0206', '02'),
+	('020611', 'Yungar', '0206', '02'),
+	('020701', 'San Luis', '0207', '02'),
+	('020702', 'San Nicolás', '0207', '02'),
+	('020703', 'Yauya', '0207', '02'),
+	('020801', 'Casma', '0208', '02'),
+	('020802', 'Buena Vista Alta', '0208', '02'),
+	('020803', 'Comandante Noel', '0208', '02'),
+	('020804', 'Yautan', '0208', '02'),
+	('020901', 'Corongo', '0209', '02'),
+	('020902', 'Aco', '0209', '02'),
+	('020903', 'Bambas', '0209', '02'),
+	('020904', 'Cusca', '0209', '02'),
+	('020905', 'La Pampa', '0209', '02'),
+	('020906', 'Yanac', '0209', '02'),
+	('020907', 'Yupan', '0209', '02'),
+	('021001', 'Huari', '0210', '02'),
+	('021002', 'Anra', '0210', '02'),
+	('021003', 'Cajay', '0210', '02'),
+	('021004', 'Chavin de Huantar', '0210', '02'),
+	('021005', 'Huacachi', '0210', '02'),
+	('021006', 'Huacchis', '0210', '02'),
+	('021007', 'Huachis', '0210', '02'),
+	('021008', 'Huantar', '0210', '02'),
+	('021009', 'Masin', '0210', '02'),
+	('021010', 'Paucas', '0210', '02'),
+	('021011', 'Ponto', '0210', '02'),
+	('021012', 'Rahuapampa', '0210', '02'),
+	('021013', 'Rapayan', '0210', '02'),
+	('021014', 'San Marcos', '0210', '02'),
+	('021015', 'San Pedro de Chana', '0210', '02'),
+	('021016', 'Uco', '0210', '02'),
+	('021101', 'Huarmey', '0211', '02'),
+	('021102', 'Cochapeti', '0211', '02'),
+	('021103', 'Culebras', '0211', '02'),
+	('021104', 'Huayan', '0211', '02'),
+	('021105', 'Malvas', '0211', '02'),
+	('021201', 'Caraz', '0212', '02'),
+	('021202', 'Huallanca', '0212', '02'),
+	('021203', 'Huata', '0212', '02'),
+	('021204', 'Huaylas', '0212', '02'),
+	('021205', 'Mato', '0212', '02'),
+	('021206', 'Pamparomas', '0212', '02'),
+	('021207', 'Pueblo Libre', '0212', '02'),
+	('021208', 'Santa Cruz', '0212', '02'),
+	('021209', 'Santo Toribio', '0212', '02'),
+	('021210', 'Yuracmarca', '0212', '02'),
+	('021301', 'Piscobamba', '0213', '02'),
+	('021302', 'Casca', '0213', '02'),
+	('021303', 'Eleazar Guzmán Barron', '0213', '02'),
+	('021304', 'Fidel Olivas Escudero', '0213', '02'),
+	('021305', 'Llama', '0213', '02'),
+	('021306', 'Llumpa', '0213', '02'),
+	('021307', 'Lucma', '0213', '02'),
+	('021308', 'Musga', '0213', '02'),
+	('021401', 'Ocros', '0214', '02'),
+	('021402', 'Acas', '0214', '02'),
+	('021403', 'Cajamarquilla', '0214', '02'),
+	('021404', 'Carhuapampa', '0214', '02'),
+	('021405', 'Cochas', '0214', '02'),
+	('021406', 'Congas', '0214', '02'),
+	('021407', 'Llipa', '0214', '02'),
+	('021408', 'San Cristóbal de Rajan', '0214', '02'),
+	('021409', 'San Pedro', '0214', '02'),
+	('021410', 'Santiago de Chilcas', '0214', '02'),
+	('021501', 'Cabana', '0215', '02'),
+	('021502', 'Bolognesi', '0215', '02'),
+	('021503', 'Conchucos', '0215', '02'),
+	('021504', 'Huacaschuque', '0215', '02'),
+	('021505', 'Huandoval', '0215', '02'),
+	('021506', 'Lacabamba', '0215', '02'),
+	('021507', 'Llapo', '0215', '02'),
+	('021508', 'Pallasca', '0215', '02'),
+	('021509', 'Pampas', '0215', '02'),
+	('021510', 'Santa Rosa', '0215', '02'),
+	('021511', 'Tauca', '0215', '02'),
+	('021601', 'Pomabamba', '0216', '02'),
+	('021602', 'Huayllan', '0216', '02'),
+	('021603', 'Parobamba', '0216', '02'),
+	('021604', 'Quinuabamba', '0216', '02'),
+	('021701', 'Recuay', '0217', '02'),
+	('021702', 'Catac', '0217', '02'),
+	('021703', 'Cotaparaco', '0217', '02'),
+	('021704', 'Huayllapampa', '0217', '02'),
+	('021705', 'Llacllin', '0217', '02'),
+	('021706', 'Marca', '0217', '02'),
+	('021707', 'Pampas Chico', '0217', '02'),
+	('021708', 'Pararin', '0217', '02'),
+	('021709', 'Tapacocha', '0217', '02'),
+	('021710', 'Ticapampa', '0217', '02'),
+	('021801', 'Chimbote', '0218', '02'),
+	('021802', 'Cáceres del Perú', '0218', '02'),
+	('021803', 'Coishco', '0218', '02'),
+	('021804', 'Macate', '0218', '02'),
+	('021805', 'Moro', '0218', '02'),
+	('021806', 'Nepeña', '0218', '02'),
+	('021807', 'Samanco', '0218', '02'),
+	('021808', 'Santa', '0218', '02'),
+	('021809', 'Nuevo Chimbote', '0218', '02'),
+	('021901', 'Sihuas', '0219', '02'),
+	('021902', 'Acobamba', '0219', '02'),
+	('021903', 'Alfonso Ugarte', '0219', '02'),
+	('021904', 'Cashapampa', '0219', '02'),
+	('021905', 'Chingalpo', '0219', '02'),
+	('021906', 'Huayllabamba', '0219', '02'),
+	('021907', 'Quiches', '0219', '02'),
+	('021908', 'Ragash', '0219', '02'),
+	('021909', 'San Juan', '0219', '02'),
+	('021910', 'Sicsibamba', '0219', '02'),
+	('022001', 'Yungay', '0220', '02'),
+	('022002', 'Cascapara', '0220', '02'),
+	('022003', 'Mancos', '0220', '02'),
+	('022004', 'Matacoto', '0220', '02'),
+	('022005', 'Quillo', '0220', '02'),
+	('022006', 'Ranrahirca', '0220', '02'),
+	('022007', 'Shupluy', '0220', '02'),
+	('022008', 'Yanama', '0220', '02'),
+	('030101', 'Abancay', '0301', '03'),
+	('030102', 'Chacoche', '0301', '03'),
+	('030103', 'Circa', '0301', '03'),
+	('030104', 'Curahuasi', '0301', '03'),
+	('030105', 'Huanipaca', '0301', '03'),
+	('030106', 'Lambrama', '0301', '03'),
+	('030107', 'Pichirhua', '0301', '03'),
+	('030108', 'San Pedro de Cachora', '0301', '03'),
+	('030109', 'Tamburco', '0301', '03'),
+	('030201', 'Andahuaylas', '0302', '03'),
+	('030202', 'Andarapa', '0302', '03'),
+	('030203', 'Chiara', '0302', '03'),
+	('030204', 'Huancarama', '0302', '03'),
+	('030205', 'Huancaray', '0302', '03'),
+	('030206', 'Huayana', '0302', '03'),
+	('030207', 'Kishuara', '0302', '03'),
+	('030208', 'Pacobamba', '0302', '03'),
+	('030209', 'Pacucha', '0302', '03'),
+	('030210', 'Pampachiri', '0302', '03'),
+	('030211', 'Pomacocha', '0302', '03'),
+	('030212', 'San Antonio de Cachi', '0302', '03'),
+	('030213', 'San Jerónimo', '0302', '03'),
+	('030214', 'San Miguel de Chaccrampa', '0302', '03'),
+	('030215', 'Santa María de Chicmo', '0302', '03'),
+	('030216', 'Talavera', '0302', '03'),
+	('030217', 'Tumay Huaraca', '0302', '03'),
+	('030218', 'Turpo', '0302', '03'),
+	('030219', 'Kaquiabamba', '0302', '03'),
+	('030220', 'José María Arguedas', '0302', '03'),
+	('030301', 'Antabamba', '0303', '03'),
+	('030302', 'El Oro', '0303', '03'),
+	('030303', 'Huaquirca', '0303', '03'),
+	('030304', 'Juan Espinoza Medrano', '0303', '03'),
+	('030305', 'Oropesa', '0303', '03'),
+	('030306', 'Pachaconas', '0303', '03'),
+	('030307', 'Sabaino', '0303', '03'),
+	('030401', 'Chalhuanca', '0304', '03'),
+	('030402', 'Capaya', '0304', '03'),
+	('030403', 'Caraybamba', '0304', '03'),
+	('030404', 'Chapimarca', '0304', '03'),
+	('030405', 'Colcabamba', '0304', '03'),
+	('030406', 'Cotaruse', '0304', '03'),
+	('030407', 'Ihuayllo', '0304', '03'),
+	('030408', 'Justo Apu Sahuaraura', '0304', '03'),
+	('030409', 'Lucre', '0304', '03'),
+	('030410', 'Pocohuanca', '0304', '03'),
+	('030411', 'San Juan de Chacña', '0304', '03'),
+	('030412', 'Sañayca', '0304', '03'),
+	('030413', 'Soraya', '0304', '03'),
+	('030414', 'Tapairihua', '0304', '03'),
+	('030415', 'Tintay', '0304', '03'),
+	('030416', 'Toraya', '0304', '03'),
+	('030417', 'Yanaca', '0304', '03'),
+	('030501', 'Tambobamba', '0305', '03'),
+	('030502', 'Cotabambas', '0305', '03'),
+	('030503', 'Coyllurqui', '0305', '03'),
+	('030504', 'Haquira', '0305', '03'),
+	('030505', 'Mara', '0305', '03'),
+	('030506', 'Challhuahuacho', '0305', '03'),
+	('030601', 'Chincheros', '0306', '03'),
+	('030602', 'Anco_Huallo', '0306', '03'),
+	('030603', 'Cocharcas', '0306', '03'),
+	('030604', 'Huaccana', '0306', '03'),
+	('030605', 'Ocobamba', '0306', '03'),
+	('030606', 'Ongoy', '0306', '03'),
+	('030607', 'Uranmarca', '0306', '03'),
+	('030608', 'Ranracancha', '0306', '03'),
+	('030609', 'Rocchacc', '0306', '03'),
+	('030610', 'El Porvenir', '0306', '03'),
+	('030611', 'Los Chankas', '0306', '03'),
+	('030701', 'Chuquibambilla', '0307', '03'),
+	('030702', 'Curpahuasi', '0307', '03'),
+	('030703', 'Gamarra', '0307', '03'),
+	('030704', 'Huayllati', '0307', '03'),
+	('030705', 'Mamara', '0307', '03'),
+	('030706', 'Micaela Bastidas', '0307', '03'),
+	('030707', 'Pataypampa', '0307', '03'),
+	('030708', 'Progreso', '0307', '03'),
+	('030709', 'San Antonio', '0307', '03'),
+	('030710', 'Santa Rosa', '0307', '03'),
+	('030711', 'Turpay', '0307', '03'),
+	('030712', 'Vilcabamba', '0307', '03'),
+	('030713', 'Virundo', '0307', '03'),
+	('030714', 'Curasco', '0307', '03'),
+	('040101', 'Arequipa', '0401', '04'),
+	('040102', 'Alto Selva Alegre', '0401', '04'),
+	('040103', 'Cayma', '0401', '04'),
+	('040104', 'Cerro Colorado', '0401', '04'),
+	('040105', 'Characato', '0401', '04'),
+	('040106', 'Chiguata', '0401', '04'),
+	('040107', 'Jacobo Hunter', '0401', '04'),
+	('040108', 'La Joya', '0401', '04'),
+	('040109', 'Mariano Melgar', '0401', '04'),
+	('040110', 'Miraflores', '0401', '04'),
+	('040111', 'Mollebaya', '0401', '04'),
+	('040112', 'Paucarpata', '0401', '04'),
+	('040113', 'Pocsi', '0401', '04'),
+	('040114', 'Polobaya', '0401', '04'),
+	('040115', 'Quequeña', '0401', '04'),
+	('040116', 'Sabandia', '0401', '04'),
+	('040117', 'Sachaca', '0401', '04'),
+	('040118', 'San Juan de Siguas', '0401', '04'),
+	('040119', 'San Juan de Tarucani', '0401', '04'),
+	('040120', 'Santa Isabel de Siguas', '0401', '04'),
+	('040121', 'Santa Rita de Siguas', '0401', '04'),
+	('040122', 'Socabaya', '0401', '04'),
+	('040123', 'Tiabaya', '0401', '04'),
+	('040124', 'Uchumayo', '0401', '04'),
+	('040125', 'Vitor', '0401', '04'),
+	('040126', 'Yanahuara', '0401', '04'),
+	('040127', 'Yarabamba', '0401', '04'),
+	('040128', 'Yura', '0401', '04'),
+	('040129', 'José Luis Bustamante Y Rivero', '0401', '04'),
+	('040201', 'Camaná', '0402', '04'),
+	('040202', 'José María Quimper', '0402', '04'),
+	('040203', 'Mariano Nicolás Valcárcel', '0402', '04'),
+	('040204', 'Mariscal Cáceres', '0402', '04'),
+	('040205', 'Nicolás de Pierola', '0402', '04'),
+	('040206', 'Ocoña', '0402', '04'),
+	('040207', 'Quilca', '0402', '04'),
+	('040208', 'Samuel Pastor', '0402', '04'),
+	('040301', 'Caravelí', '0403', '04'),
+	('040302', 'Acarí', '0403', '04'),
+	('040303', 'Atico', '0403', '04'),
+	('040304', 'Atiquipa', '0403', '04'),
+	('040305', 'Bella Unión', '0403', '04'),
+	('040306', 'Cahuacho', '0403', '04'),
+	('040307', 'Chala', '0403', '04'),
+	('040308', 'Chaparra', '0403', '04'),
+	('040309', 'Huanuhuanu', '0403', '04'),
+	('040310', 'Jaqui', '0403', '04'),
+	('040311', 'Lomas', '0403', '04'),
+	('040312', 'Quicacha', '0403', '04'),
+	('040313', 'Yauca', '0403', '04'),
+	('040401', 'Aplao', '0404', '04'),
+	('040402', 'Andagua', '0404', '04'),
+	('040403', 'Ayo', '0404', '04'),
+	('040404', 'Chachas', '0404', '04'),
+	('040405', 'Chilcaymarca', '0404', '04'),
+	('040406', 'Choco', '0404', '04'),
+	('040407', 'Huancarqui', '0404', '04'),
+	('040408', 'Machaguay', '0404', '04'),
+	('040409', 'Orcopampa', '0404', '04'),
+	('040410', 'Pampacolca', '0404', '04'),
+	('040411', 'Tipan', '0404', '04'),
+	('040412', 'Uñon', '0404', '04'),
+	('040413', 'Uraca', '0404', '04'),
+	('040414', 'Viraco', '0404', '04'),
+	('040501', 'Chivay', '0405', '04'),
+	('040502', 'Achoma', '0405', '04'),
+	('040503', 'Cabanaconde', '0405', '04'),
+	('040504', 'Callalli', '0405', '04'),
+	('040505', 'Caylloma', '0405', '04'),
+	('040506', 'Coporaque', '0405', '04'),
+	('040507', 'Huambo', '0405', '04'),
+	('040508', 'Huanca', '0405', '04'),
+	('040509', 'Ichupampa', '0405', '04'),
+	('040510', 'Lari', '0405', '04'),
+	('040511', 'Lluta', '0405', '04'),
+	('040512', 'Maca', '0405', '04'),
+	('040513', 'Madrigal', '0405', '04'),
+	('040514', 'San Antonio de Chuca', '0405', '04'),
+	('040515', 'Sibayo', '0405', '04'),
+	('040516', 'Tapay', '0405', '04'),
+	('040517', 'Tisco', '0405', '04'),
+	('040518', 'Tuti', '0405', '04'),
+	('040519', 'Yanque', '0405', '04'),
+	('040520', 'Majes', '0405', '04'),
+	('040601', 'Chuquibamba', '0406', '04'),
+	('040602', 'Andaray', '0406', '04'),
+	('040603', 'Cayarani', '0406', '04'),
+	('040604', 'Chichas', '0406', '04'),
+	('040605', 'Iray', '0406', '04'),
+	('040606', 'Río Grande', '0406', '04'),
+	('040607', 'Salamanca', '0406', '04'),
+	('040608', 'Yanaquihua', '0406', '04'),
+	('040701', 'Mollendo', '0407', '04'),
+	('040702', 'Cocachacra', '0407', '04'),
+	('040703', 'Dean Valdivia', '0407', '04'),
+	('040704', 'Islay', '0407', '04'),
+	('040705', 'Mejia', '0407', '04'),
+	('040706', 'Punta de Bombón', '0407', '04'),
+	('040801', 'Cotahuasi', '0408', '04'),
+	('040802', 'Alca', '0408', '04'),
+	('040803', 'Charcana', '0408', '04'),
+	('040804', 'Huaynacotas', '0408', '04'),
+	('040805', 'Pampamarca', '0408', '04'),
+	('040806', 'Puyca', '0408', '04'),
+	('040807', 'Quechualla', '0408', '04'),
+	('040808', 'Sayla', '0408', '04'),
+	('040809', 'Tauria', '0408', '04'),
+	('040810', 'Tomepampa', '0408', '04'),
+	('040811', 'Toro', '0408', '04'),
+	('050101', 'Ayacucho', '0501', '05'),
+	('050102', 'Acocro', '0501', '05'),
+	('050103', 'Acos Vinchos', '0501', '05'),
+	('050104', 'Carmen Alto', '0501', '05'),
+	('050105', 'Chiara', '0501', '05'),
+	('050106', 'Ocros', '0501', '05'),
+	('050107', 'Pacaycasa', '0501', '05'),
+	('050108', 'Quinua', '0501', '05'),
+	('050109', 'San José de Ticllas', '0501', '05'),
+	('050110', 'San Juan Bautista', '0501', '05'),
+	('050111', 'Santiago de Pischa', '0501', '05'),
+	('050112', 'Socos', '0501', '05'),
+	('050113', 'Tambillo', '0501', '05'),
+	('050114', 'Vinchos', '0501', '05'),
+	('050115', 'Jesús Nazareno', '0501', '05'),
+	('050116', 'Andrés Avelino Cáceres Dorregaray', '0501', '05'),
+	('050201', 'Cangallo', '0502', '05'),
+	('050202', 'Chuschi', '0502', '05'),
+	('050203', 'Los Morochucos', '0502', '05'),
+	('050204', 'María Parado de Bellido', '0502', '05'),
+	('050205', 'Paras', '0502', '05'),
+	('050206', 'Totos', '0502', '05'),
+	('050301', 'Sancos', '0503', '05'),
+	('050302', 'Carapo', '0503', '05'),
+	('050303', 'Sacsamarca', '0503', '05'),
+	('050304', 'Santiago de Lucanamarca', '0503', '05'),
+	('050401', 'Huanta', '0504', '05'),
+	('050402', 'Ayahuanco', '0504', '05'),
+	('050403', 'Huamanguilla', '0504', '05'),
+	('050404', 'Iguain', '0504', '05'),
+	('050405', 'Luricocha', '0504', '05'),
+	('050406', 'Santillana', '0504', '05'),
+	('050407', 'Sivia', '0504', '05'),
+	('050408', 'Llochegua', '0504', '05'),
+	('050409', 'Canayre', '0504', '05'),
+	('050410', 'Uchuraccay', '0504', '05'),
+	('050411', 'Pucacolpa', '0504', '05'),
+	('050412', 'Chaca', '0504', '05'),
+	('050501', 'San Miguel', '0505', '05'),
+	('050502', 'Anco', '0505', '05'),
+	('050503', 'Ayna', '0505', '05'),
+	('050504', 'Chilcas', '0505', '05'),
+	('050505', 'Chungui', '0505', '05'),
+	('050506', 'Luis Carranza', '0505', '05'),
+	('050507', 'Santa Rosa', '0505', '05'),
+	('050508', 'Tambo', '0505', '05'),
+	('050509', 'Samugari', '0505', '05'),
+	('050510', 'Anchihuay', '0505', '05'),
+	('050511', 'Oronccoy', '0505', '05'),
+	('050601', 'Puquio', '0506', '05'),
+	('050602', 'Aucara', '0506', '05'),
+	('050603', 'Cabana', '0506', '05'),
+	('050604', 'Carmen Salcedo', '0506', '05'),
+	('050605', 'Chaviña', '0506', '05'),
+	('050606', 'Chipao', '0506', '05'),
+	('050607', 'Huac-Huas', '0506', '05'),
+	('050608', 'Laramate', '0506', '05'),
+	('050609', 'Leoncio Prado', '0506', '05'),
+	('050610', 'Llauta', '0506', '05'),
+	('050611', 'Lucanas', '0506', '05'),
+	('050612', 'Ocaña', '0506', '05'),
+	('050613', 'Otoca', '0506', '05'),
+	('050614', 'Saisa', '0506', '05'),
+	('050615', 'San Cristóbal', '0506', '05'),
+	('050616', 'San Juan', '0506', '05'),
+	('050617', 'San Pedro', '0506', '05'),
+	('050618', 'San Pedro de Palco', '0506', '05'),
+	('050619', 'Sancos', '0506', '05'),
+	('050620', 'Santa Ana de Huaycahuacho', '0506', '05'),
+	('050621', 'Santa Lucia', '0506', '05'),
+	('050701', 'Coracora', '0507', '05'),
+	('050702', 'Chumpi', '0507', '05'),
+	('050703', 'Coronel Castañeda', '0507', '05'),
+	('050704', 'Pacapausa', '0507', '05'),
+	('050705', 'Pullo', '0507', '05'),
+	('050706', 'Puyusca', '0507', '05'),
+	('050707', 'San Francisco de Ravacayco', '0507', '05'),
+	('050708', 'Upahuacho', '0507', '05'),
+	('050801', 'Pausa', '0508', '05'),
+	('050802', 'Colta', '0508', '05'),
+	('050803', 'Corculla', '0508', '05'),
+	('050804', 'Lampa', '0508', '05'),
+	('050805', 'Marcabamba', '0508', '05'),
+	('050806', 'Oyolo', '0508', '05'),
+	('050807', 'Pararca', '0508', '05'),
+	('050808', 'San Javier de Alpabamba', '0508', '05'),
+	('050809', 'San José de Ushua', '0508', '05'),
+	('050810', 'Sara Sara', '0508', '05'),
+	('050901', 'Querobamba', '0509', '05'),
+	('050902', 'Belén', '0509', '05'),
+	('050903', 'Chalcos', '0509', '05'),
+	('050904', 'Chilcayoc', '0509', '05'),
+	('050905', 'Huacaña', '0509', '05'),
+	('050906', 'Morcolla', '0509', '05'),
+	('050907', 'Paico', '0509', '05'),
+	('050908', 'San Pedro de Larcay', '0509', '05'),
+	('050909', 'San Salvador de Quije', '0509', '05'),
+	('050910', 'Santiago de Paucaray', '0509', '05'),
+	('050911', 'Soras', '0509', '05'),
+	('051001', 'Huancapi', '0510', '05'),
+	('051002', 'Alcamenca', '0510', '05'),
+	('051003', 'Apongo', '0510', '05'),
+	('051004', 'Asquipata', '0510', '05'),
+	('051005', 'Canaria', '0510', '05'),
+	('051006', 'Cayara', '0510', '05'),
+	('051007', 'Colca', '0510', '05'),
+	('051008', 'Huamanquiquia', '0510', '05'),
+	('051009', 'Huancaraylla', '0510', '05'),
+	('051010', 'Hualla', '0510', '05'),
+	('051011', 'Sarhua', '0510', '05'),
+	('051012', 'Vilcanchos', '0510', '05'),
+	('051101', 'Vilcas Huaman', '0511', '05'),
+	('051102', 'Accomarca', '0511', '05'),
+	('051103', 'Carhuanca', '0511', '05'),
+	('051104', 'Concepción', '0511', '05'),
+	('051105', 'Huambalpa', '0511', '05'),
+	('051106', 'Independencia', '0511', '05'),
+	('051107', 'Saurama', '0511', '05'),
+	('051108', 'Vischongo', '0511', '05'),
+	('060101', 'Cajamarca', '0601', '06'),
+	('060102', 'Asunción', '0601', '06'),
+	('060103', 'Chetilla', '0601', '06'),
+	('060104', 'Cospan', '0601', '06'),
+	('060105', 'Encañada', '0601', '06'),
+	('060106', 'Jesús', '0601', '06'),
+	('060107', 'Llacanora', '0601', '06'),
+	('060108', 'Los Baños del Inca', '0601', '06'),
+	('060109', 'Magdalena', '0601', '06'),
+	('060110', 'Matara', '0601', '06'),
+	('060111', 'Namora', '0601', '06'),
+	('060112', 'San Juan', '0601', '06'),
+	('060201', 'Cajabamba', '0602', '06'),
+	('060202', 'Cachachi', '0602', '06'),
+	('060203', 'Condebamba', '0602', '06'),
+	('060204', 'Sitacocha', '0602', '06'),
+	('060301', 'Celendín', '0603', '06'),
+	('060302', 'Chumuch', '0603', '06'),
+	('060303', 'Cortegana', '0603', '06'),
+	('060304', 'Huasmin', '0603', '06'),
+	('060305', 'Jorge Chávez', '0603', '06'),
+	('060306', 'José Gálvez', '0603', '06'),
+	('060307', 'Miguel Iglesias', '0603', '06'),
+	('060308', 'Oxamarca', '0603', '06'),
+	('060309', 'Sorochuco', '0603', '06'),
+	('060310', 'Sucre', '0603', '06'),
+	('060311', 'Utco', '0603', '06'),
+	('060312', 'La Libertad de Pallan', '0603', '06'),
+	('060401', 'Chota', '0604', '06'),
+	('060402', 'Anguia', '0604', '06'),
+	('060403', 'Chadin', '0604', '06'),
+	('060404', 'Chiguirip', '0604', '06'),
+	('060405', 'Chimban', '0604', '06'),
+	('060406', 'Choropampa', '0604', '06'),
+	('060407', 'Cochabamba', '0604', '06'),
+	('060408', 'Conchan', '0604', '06'),
+	('060409', 'Huambos', '0604', '06'),
+	('060410', 'Lajas', '0604', '06'),
+	('060411', 'Llama', '0604', '06'),
+	('060412', 'Miracosta', '0604', '06'),
+	('060413', 'Paccha', '0604', '06'),
+	('060414', 'Pion', '0604', '06'),
+	('060415', 'Querocoto', '0604', '06'),
+	('060416', 'San Juan de Licupis', '0604', '06'),
+	('060417', 'Tacabamba', '0604', '06'),
+	('060418', 'Tocmoche', '0604', '06'),
+	('060419', 'Chalamarca', '0604', '06'),
+	('060501', 'Contumaza', '0605', '06'),
+	('060502', 'Chilete', '0605', '06'),
+	('060503', 'Cupisnique', '0605', '06'),
+	('060504', 'Guzmango', '0605', '06'),
+	('060505', 'San Benito', '0605', '06'),
+	('060506', 'Santa Cruz de Toledo', '0605', '06'),
+	('060507', 'Tantarica', '0605', '06'),
+	('060508', 'Yonan', '0605', '06'),
+	('060601', 'Cutervo', '0606', '06'),
+	('060602', 'Callayuc', '0606', '06'),
+	('060603', 'Choros', '0606', '06'),
+	('060604', 'Cujillo', '0606', '06'),
+	('060605', 'La Ramada', '0606', '06'),
+	('060606', 'Pimpingos', '0606', '06'),
+	('060607', 'Querocotillo', '0606', '06'),
+	('060608', 'San Andrés de Cutervo', '0606', '06'),
+	('060609', 'San Juan de Cutervo', '0606', '06'),
+	('060610', 'San Luis de Lucma', '0606', '06'),
+	('060611', 'Santa Cruz', '0606', '06'),
+	('060612', 'Santo Domingo de la Capilla', '0606', '06'),
+	('060613', 'Santo Tomas', '0606', '06'),
+	('060614', 'Socota', '0606', '06'),
+	('060615', 'Toribio Casanova', '0606', '06'),
+	('060701', 'Bambamarca', '0607', '06'),
+	('060702', 'Chugur', '0607', '06'),
+	('060703', 'Hualgayoc', '0607', '06'),
+	('060801', 'Jaén', '0608', '06'),
+	('060802', 'Bellavista', '0608', '06'),
+	('060803', 'Chontali', '0608', '06'),
+	('060804', 'Colasay', '0608', '06'),
+	('060805', 'Huabal', '0608', '06'),
+	('060806', 'Las Pirias', '0608', '06'),
+	('060807', 'Pomahuaca', '0608', '06'),
+	('060808', 'Pucara', '0608', '06'),
+	('060809', 'Sallique', '0608', '06'),
+	('060810', 'San Felipe', '0608', '06'),
+	('060811', 'San José del Alto', '0608', '06'),
+	('060812', 'Santa Rosa', '0608', '06'),
+	('060901', 'San Ignacio', '0609', '06'),
+	('060902', 'Chirinos', '0609', '06'),
+	('060903', 'Huarango', '0609', '06'),
+	('060904', 'La Coipa', '0609', '06'),
+	('060905', 'Namballe', '0609', '06'),
+	('060906', 'San José de Lourdes', '0609', '06'),
+	('060907', 'Tabaconas', '0609', '06'),
+	('061001', 'Pedro Gálvez', '0610', '06'),
+	('061002', 'Chancay', '0610', '06'),
+	('061003', 'Eduardo Villanueva', '0610', '06'),
+	('061004', 'Gregorio Pita', '0610', '06'),
+	('061005', 'Ichocan', '0610', '06'),
+	('061006', 'José Manuel Quiroz', '0610', '06'),
+	('061007', 'José Sabogal', '0610', '06'),
+	('061101', 'San Miguel', '0611', '06'),
+	('061102', 'Bolívar', '0611', '06'),
+	('061103', 'Calquis', '0611', '06'),
+	('061104', 'Catilluc', '0611', '06'),
+	('061105', 'El Prado', '0611', '06'),
+	('061106', 'La Florida', '0611', '06'),
+	('061107', 'Llapa', '0611', '06'),
+	('061108', 'Nanchoc', '0611', '06'),
+	('061109', 'Niepos', '0611', '06'),
+	('061110', 'San Gregorio', '0611', '06'),
+	('061111', 'San Silvestre de Cochan', '0611', '06'),
+	('061112', 'Tongod', '0611', '06'),
+	('061113', 'Unión Agua Blanca', '0611', '06'),
+	('061201', 'San Pablo', '0612', '06'),
+	('061202', 'San Bernardino', '0612', '06'),
+	('061203', 'San Luis', '0612', '06'),
+	('061204', 'Tumbaden', '0612', '06'),
+	('061301', 'Santa Cruz', '0613', '06'),
+	('061302', 'Andabamba', '0613', '06'),
+	('061303', 'Catache', '0613', '06'),
+	('061304', 'Chancaybaños', '0613', '06'),
+	('061305', 'La Esperanza', '0613', '06'),
+	('061306', 'Ninabamba', '0613', '06'),
+	('061307', 'Pulan', '0613', '06'),
+	('061308', 'Saucepampa', '0613', '06'),
+	('061309', 'Sexi', '0613', '06'),
+	('061310', 'Uticyacu', '0613', '06'),
+	('061311', 'Yauyucan', '0613', '06'),
+	('070101', 'Callao', '0701', '07'),
+	('070102', 'Bellavista', '0701', '07'),
+	('070103', 'Carmen de la Legua Reynoso', '0701', '07'),
+	('070104', 'La Perla', '0701', '07'),
+	('070105', 'La Punta', '0701', '07'),
+	('070106', 'Ventanilla', '0701', '07'),
+	('070107', 'Mi Perú', '0701', '07'),
+	('080101', 'Cusco', '0801', '08'),
+	('080102', 'Ccorca', '0801', '08'),
+	('080103', 'Poroy', '0801', '08'),
+	('080104', 'San Jerónimo', '0801', '08'),
+	('080105', 'San Sebastian', '0801', '08'),
+	('080106', 'Santiago', '0801', '08'),
+	('080107', 'Saylla', '0801', '08'),
+	('080108', 'Wanchaq', '0801', '08'),
+	('080201', 'Acomayo', '0802', '08'),
+	('080202', 'Acopia', '0802', '08'),
+	('080203', 'Acos', '0802', '08'),
+	('080204', 'Mosoc Llacta', '0802', '08'),
+	('080205', 'Pomacanchi', '0802', '08'),
+	('080206', 'Rondocan', '0802', '08'),
+	('080207', 'Sangarara', '0802', '08'),
+	('080301', 'Anta', '0803', '08'),
+	('080302', 'Ancahuasi', '0803', '08'),
+	('080303', 'Cachimayo', '0803', '08'),
+	('080304', 'Chinchaypujio', '0803', '08'),
+	('080305', 'Huarocondo', '0803', '08'),
+	('080306', 'Limatambo', '0803', '08'),
+	('080307', 'Mollepata', '0803', '08'),
+	('080308', 'Pucyura', '0803', '08'),
+	('080309', 'Zurite', '0803', '08'),
+	('080401', 'Calca', '0804', '08'),
+	('080402', 'Coya', '0804', '08'),
+	('080403', 'Lamay', '0804', '08'),
+	('080404', 'Lares', '0804', '08'),
+	('080405', 'Pisac', '0804', '08'),
+	('080406', 'San Salvador', '0804', '08'),
+	('080407', 'Taray', '0804', '08'),
+	('080408', 'Yanatile', '0804', '08'),
+	('080501', 'Yanaoca', '0805', '08'),
+	('080502', 'Checca', '0805', '08'),
+	('080503', 'Kunturkanki', '0805', '08'),
+	('080504', 'Langui', '0805', '08'),
+	('080505', 'Layo', '0805', '08'),
+	('080506', 'Pampamarca', '0805', '08'),
+	('080507', 'Quehue', '0805', '08'),
+	('080508', 'Tupac Amaru', '0805', '08'),
+	('080601', 'Sicuani', '0806', '08'),
+	('080602', 'Checacupe', '0806', '08'),
+	('080603', 'Combapata', '0806', '08'),
+	('080604', 'Marangani', '0806', '08'),
+	('080605', 'Pitumarca', '0806', '08'),
+	('080606', 'San Pablo', '0806', '08'),
+	('080607', 'San Pedro', '0806', '08'),
+	('080608', 'Tinta', '0806', '08'),
+	('080701', 'Santo Tomas', '0807', '08'),
+	('080702', 'Capacmarca', '0807', '08'),
+	('080703', 'Chamaca', '0807', '08'),
+	('080704', 'Colquemarca', '0807', '08'),
+	('080705', 'Livitaca', '0807', '08'),
+	('080706', 'Llusco', '0807', '08'),
+	('080707', 'Quiñota', '0807', '08'),
+	('080708', 'Velille', '0807', '08'),
+	('080801', 'Espinar', '0808', '08'),
+	('080802', 'Condoroma', '0808', '08'),
+	('080803', 'Coporaque', '0808', '08'),
+	('080804', 'Ocoruro', '0808', '08'),
+	('080805', 'Pallpata', '0808', '08'),
+	('080806', 'Pichigua', '0808', '08'),
+	('080807', 'Suyckutambo', '0808', '08'),
+	('080808', 'Alto Pichigua', '0808', '08'),
+	('080901', 'Santa Ana', '0809', '08'),
+	('080902', 'Echarate', '0809', '08'),
+	('080903', 'Huayopata', '0809', '08'),
+	('080904', 'Maranura', '0809', '08'),
+	('080905', 'Ocobamba', '0809', '08'),
+	('080906', 'Quellouno', '0809', '08'),
+	('080907', 'Kimbiri', '0809', '08'),
+	('080908', 'Santa Teresa', '0809', '08'),
+	('080909', 'Vilcabamba', '0809', '08'),
+	('080910', 'Pichari', '0809', '08'),
+	('080911', 'Inkawasi', '0809', '08'),
+	('080912', 'Villa Virgen', '0809', '08'),
+	('080913', 'Villa Kintiarina', '0809', '08'),
+	('080914', 'Megantoni', '0809', '08'),
+	('081001', 'Paruro', '0810', '08'),
+	('081002', 'Accha', '0810', '08'),
+	('081003', 'Ccapi', '0810', '08'),
+	('081004', 'Colcha', '0810', '08'),
+	('081005', 'Huanoquite', '0810', '08'),
+	('081006', 'Omachaç', '0810', '08'),
+	('081007', 'Paccaritambo', '0810', '08'),
+	('081008', 'Pillpinto', '0810', '08'),
+	('081009', 'Yaurisque', '0810', '08'),
+	('081101', 'Paucartambo', '0811', '08'),
+	('081102', 'Caicay', '0811', '08'),
+	('081103', 'Challabamba', '0811', '08'),
+	('081104', 'Colquepata', '0811', '08'),
+	('081105', 'Huancarani', '0811', '08'),
+	('081106', 'Kosñipata', '0811', '08'),
+	('081201', 'Urcos', '0812', '08'),
+	('081202', 'Andahuaylillas', '0812', '08'),
+	('081203', 'Camanti', '0812', '08'),
+	('081204', 'Ccarhuayo', '0812', '08'),
+	('081205', 'Ccatca', '0812', '08'),
+	('081206', 'Cusipata', '0812', '08'),
+	('081207', 'Huaro', '0812', '08'),
+	('081208', 'Lucre', '0812', '08'),
+	('081209', 'Marcapata', '0812', '08'),
+	('081210', 'Ocongate', '0812', '08'),
+	('081211', 'Oropesa', '0812', '08'),
+	('081212', 'Quiquijana', '0812', '08'),
+	('081301', 'Urubamba', '0813', '08'),
+	('081302', 'Chinchero', '0813', '08'),
+	('081303', 'Huayllabamba', '0813', '08'),
+	('081304', 'Machupicchu', '0813', '08'),
+	('081305', 'Maras', '0813', '08'),
+	('081306', 'Ollantaytambo', '0813', '08'),
+	('081307', 'Yucay', '0813', '08'),
+	('090101', 'Huancavelica', '0901', '09'),
+	('090102', 'Acobambilla', '0901', '09'),
+	('090103', 'Acoria', '0901', '09'),
+	('090104', 'Conayca', '0901', '09'),
+	('090105', 'Cuenca', '0901', '09'),
+	('090106', 'Huachocolpa', '0901', '09'),
+	('090107', 'Huayllahuara', '0901', '09'),
+	('090108', 'Izcuchaca', '0901', '09'),
+	('090109', 'Laria', '0901', '09'),
+	('090110', 'Manta', '0901', '09'),
+	('090111', 'Mariscal Cáceres', '0901', '09'),
+	('090112', 'Moya', '0901', '09'),
+	('090113', 'Nuevo Occoro', '0901', '09'),
+	('090114', 'Palca', '0901', '09'),
+	('090115', 'Pilchaca', '0901', '09'),
+	('090116', 'Vilca', '0901', '09'),
+	('090117', 'Yauli', '0901', '09'),
+	('090118', 'Ascensión', '0901', '09'),
+	('090119', 'Huando', '0901', '09'),
+	('090201', 'Acobamba', '0902', '09'),
+	('090202', 'Andabamba', '0902', '09'),
+	('090203', 'Anta', '0902', '09'),
+	('090204', 'Caja', '0902', '09'),
+	('090205', 'Marcas', '0902', '09'),
+	('090206', 'Paucara', '0902', '09'),
+	('090207', 'Pomacocha', '0902', '09'),
+	('090208', 'Rosario', '0902', '09'),
+	('090301', 'Lircay', '0903', '09'),
+	('090302', 'Anchonga', '0903', '09'),
+	('090303', 'Callanmarca', '0903', '09'),
+	('090304', 'Ccochaccasa', '0903', '09'),
+	('090305', 'Chincho', '0903', '09'),
+	('090306', 'Congalla', '0903', '09'),
+	('090307', 'Huanca-Huanca', '0903', '09'),
+	('090308', 'Huayllay Grande', '0903', '09'),
+	('090309', 'Julcamarca', '0903', '09'),
+	('090310', 'San Antonio de Antaparco', '0903', '09'),
+	('090311', 'Santo Tomas de Pata', '0903', '09'),
+	('090312', 'Secclla', '0903', '09'),
+	('090401', 'Castrovirreyna', '0904', '09'),
+	('090402', 'Arma', '0904', '09'),
+	('090403', 'Aurahua', '0904', '09'),
+	('090404', 'Capillas', '0904', '09'),
+	('090405', 'Chupamarca', '0904', '09'),
+	('090406', 'Cocas', '0904', '09'),
+	('090407', 'Huachos', '0904', '09'),
+	('090408', 'Huamatambo', '0904', '09'),
+	('090409', 'Mollepampa', '0904', '09'),
+	('090410', 'San Juan', '0904', '09'),
+	('090411', 'Santa Ana', '0904', '09'),
+	('090412', 'Tantara', '0904', '09'),
+	('090413', 'Ticrapo', '0904', '09'),
+	('090501', 'Churcampa', '0905', '09'),
+	('090502', 'Anco', '0905', '09'),
+	('090503', 'Chinchihuasi', '0905', '09'),
+	('090504', 'El Carmen', '0905', '09'),
+	('090505', 'La Merced', '0905', '09'),
+	('090506', 'Locroja', '0905', '09'),
+	('090507', 'Paucarbamba', '0905', '09'),
+	('090508', 'San Miguel de Mayocc', '0905', '09'),
+	('090509', 'San Pedro de Coris', '0905', '09'),
+	('090510', 'Pachamarca', '0905', '09'),
+	('090511', 'Cosme', '0905', '09'),
+	('090601', 'Huaytara', '0906', '09'),
+	('090602', 'Ayavi', '0906', '09'),
+	('090603', 'Córdova', '0906', '09'),
+	('090604', 'Huayacundo Arma', '0906', '09'),
+	('090605', 'Laramarca', '0906', '09'),
+	('090606', 'Ocoyo', '0906', '09'),
+	('090607', 'Pilpichaca', '0906', '09'),
+	('090608', 'Querco', '0906', '09'),
+	('090609', 'Quito-Arma', '0906', '09'),
+	('090610', 'San Antonio de Cusicancha', '0906', '09'),
+	('090611', 'San Francisco de Sangayaico', '0906', '09'),
+	('090612', 'San Isidro', '0906', '09'),
+	('090613', 'Santiago de Chocorvos', '0906', '09'),
+	('090614', 'Santiago de Quirahuara', '0906', '09'),
+	('090615', 'Santo Domingo de Capillas', '0906', '09'),
+	('090616', 'Tambo', '0906', '09'),
+	('090701', 'Pampas', '0907', '09'),
+	('090702', 'Acostambo', '0907', '09'),
+	('090703', 'Acraquia', '0907', '09'),
+	('090704', 'Ahuaycha', '0907', '09'),
+	('090705', 'Colcabamba', '0907', '09'),
+	('090706', 'Daniel Hernández', '0907', '09'),
+	('090707', 'Huachocolpa', '0907', '09'),
+	('090709', 'Huaribamba', '0907', '09'),
+	('090710', 'Ñahuimpuquio', '0907', '09'),
+	('090711', 'Pazos', '0907', '09'),
+	('090713', 'Quishuar', '0907', '09'),
+	('090714', 'Salcabamba', '0907', '09'),
+	('090715', 'Salcahuasi', '0907', '09'),
+	('090716', 'San Marcos de Rocchac', '0907', '09'),
+	('090717', 'Surcubamba', '0907', '09'),
+	('090718', 'Tintay Puncu', '0907', '09'),
+	('090719', 'Quichuas', '0907', '09'),
+	('090720', 'Andaymarca', '0907', '09'),
+	('090721', 'Roble', '0907', '09'),
+	('090722', 'Pichos', '0907', '09'),
+	('090723', 'Santiago de Tucuma', '0907', '09'),
+	('100101', 'Huanuco', '1001', '10'),
+	('100102', 'Amarilis', '1001', '10'),
+	('100103', 'Chinchao', '1001', '10'),
+	('100104', 'Churubamba', '1001', '10'),
+	('100105', 'Margos', '1001', '10'),
+	('100106', 'Quisqui (Kichki)', '1001', '10'),
+	('100107', 'San Francisco de Cayran', '1001', '10'),
+	('100108', 'San Pedro de Chaulan', '1001', '10'),
+	('100109', 'Santa María del Valle', '1001', '10'),
+	('100110', 'Yarumayo', '1001', '10'),
+	('100111', 'Pillco Marca', '1001', '10'),
+	('100112', 'Yacus', '1001', '10'),
+	('100113', 'San Pablo de Pillao', '1001', '10'),
+	('100201', 'Ambo', '1002', '10'),
+	('100202', 'Cayna', '1002', '10'),
+	('100203', 'Colpas', '1002', '10'),
+	('100204', 'Conchamarca', '1002', '10'),
+	('100205', 'Huacar', '1002', '10'),
+	('100206', 'San Francisco', '1002', '10'),
+	('100207', 'San Rafael', '1002', '10'),
+	('100208', 'Tomay Kichwa', '1002', '10'),
+	('100301', 'La Unión', '1003', '10'),
+	('100307', 'Chuquis', '1003', '10'),
+	('100311', 'Marías', '1003', '10'),
+	('100313', 'Pachas', '1003', '10'),
+	('100316', 'Quivilla', '1003', '10'),
+	('100317', 'Ripan', '1003', '10'),
+	('100321', 'Shunqui', '1003', '10'),
+	('100322', 'Sillapata', '1003', '10'),
+	('100323', 'Yanas', '1003', '10'),
+	('100401', 'Huacaybamba', '1004', '10'),
+	('100402', 'Canchabamba', '1004', '10'),
+	('100403', 'Cochabamba', '1004', '10'),
+	('100404', 'Pinra', '1004', '10'),
+	('100501', 'Llata', '1005', '10'),
+	('100502', 'Arancay', '1005', '10'),
+	('100503', 'Chavín de Pariarca', '1005', '10'),
+	('100504', 'Jacas Grande', '1005', '10'),
+	('100505', 'Jircan', '1005', '10'),
+	('100506', 'Miraflores', '1005', '10'),
+	('100507', 'Monzón', '1005', '10'),
+	('100508', 'Punchao', '1005', '10'),
+	('100509', 'Puños', '1005', '10'),
+	('100510', 'Singa', '1005', '10'),
+	('100511', 'Tantamayo', '1005', '10'),
+	('100601', 'Rupa-Rupa', '1006', '10'),
+	('100602', 'Daniel Alomía Robles', '1006', '10'),
+	('100603', 'Hermílio Valdizan', '1006', '10'),
+	('100604', 'José Crespo y Castillo', '1006', '10'),
+	('100605', 'Luyando', '1006', '10'),
+	('100606', 'Mariano Damaso Beraun', '1006', '10'),
+	('100607', 'Pucayacu', '1006', '10'),
+	('100608', 'Castillo Grande', '1006', '10'),
+	('100609', 'Pueblo Nuevo', '1006', '10'),
+	('100610', 'Santo Domingo de Anda', '1006', '10'),
+	('100701', 'Huacrachuco', '1007', '10'),
+	('100702', 'Cholon', '1007', '10'),
+	('100703', 'San Buenaventura', '1007', '10'),
+	('100704', 'La Morada', '1007', '10'),
+	('100705', 'Santa Rosa de Alto Yanajanca', '1007', '10'),
+	('100801', 'Panao', '1008', '10'),
+	('100802', 'Chaglla', '1008', '10'),
+	('100803', 'Molino', '1008', '10'),
+	('100804', 'Umari', '1008', '10'),
+	('100901', 'Puerto Inca', '1009', '10'),
+	('100902', 'Codo del Pozuzo', '1009', '10'),
+	('100903', 'Honoria', '1009', '10'),
+	('100904', 'Tournavista', '1009', '10'),
+	('100905', 'Yuyapichis', '1009', '10'),
+	('101001', 'Jesús', '1010', '10'),
+	('101002', 'Baños', '1010', '10'),
+	('101003', 'Jivia', '1010', '10'),
+	('101004', 'Queropalca', '1010', '10'),
+	('101005', 'Rondos', '1010', '10'),
+	('101006', 'San Francisco de Asís', '1010', '10'),
+	('101007', 'San Miguel de Cauri', '1010', '10'),
+	('101101', 'Chavinillo', '1011', '10'),
+	('101102', 'Cahuac', '1011', '10'),
+	('101103', 'Chacabamba', '1011', '10'),
+	('101104', 'Aparicio Pomares', '1011', '10'),
+	('101105', 'Jacas Chico', '1011', '10'),
+	('101106', 'Obas', '1011', '10'),
+	('101107', 'Pampamarca', '1011', '10'),
+	('101108', 'Choras', '1011', '10'),
+	('110101', 'Ica', '1101', '11'),
+	('110102', 'La Tinguiña', '1101', '11'),
+	('110103', 'Los Aquijes', '1101', '11'),
+	('110104', 'Ocucaje', '1101', '11'),
+	('110105', 'Pachacutec', '1101', '11'),
+	('110106', 'Parcona', '1101', '11'),
+	('110107', 'Pueblo Nuevo', '1101', '11'),
+	('110108', 'Salas', '1101', '11'),
+	('110109', 'San José de Los Molinos', '1101', '11'),
+	('110110', 'San Juan Bautista', '1101', '11'),
+	('110111', 'Santiago', '1101', '11'),
+	('110112', 'Subtanjalla', '1101', '11'),
+	('110113', 'Tate', '1101', '11'),
+	('110114', 'Yauca del Rosario', '1101', '11'),
+	('110201', 'Chincha Alta', '1102', '11'),
+	('110202', 'Alto Laran', '1102', '11'),
+	('110203', 'Chavin', '1102', '11'),
+	('110204', 'Chincha Baja', '1102', '11'),
+	('110205', 'El Carmen', '1102', '11'),
+	('110206', 'Grocio Prado', '1102', '11'),
+	('110207', 'Pueblo Nuevo', '1102', '11'),
+	('110208', 'San Juan de Yanac', '1102', '11'),
+	('110209', 'San Pedro de Huacarpana', '1102', '11'),
+	('110210', 'Sunampe', '1102', '11'),
+	('110211', 'Tambo de Mora', '1102', '11'),
+	('110301', 'Nasca', '1103', '11'),
+	('110302', 'Changuillo', '1103', '11'),
+	('110303', 'El Ingenio', '1103', '11'),
+	('110304', 'Marcona', '1103', '11'),
+	('110305', 'Vista Alegre', '1103', '11'),
+	('110401', 'Palpa', '1104', '11'),
+	('110402', 'Llipata', '1104', '11'),
+	('110403', 'Río Grande', '1104', '11'),
+	('110404', 'Santa Cruz', '1104', '11'),
+	('110405', 'Tibillo', '1104', '11'),
+	('110501', 'Pisco', '1105', '11'),
+	('110502', 'Huancano', '1105', '11'),
+	('110503', 'Humay', '1105', '11'),
+	('110504', 'Independencia', '1105', '11'),
+	('110505', 'Paracas', '1105', '11'),
+	('110506', 'San Andrés', '1105', '11'),
+	('110507', 'San Clemente', '1105', '11'),
+	('110508', 'Tupac Amaru Inca', '1105', '11'),
+	('120101', 'Huancayo', '1201', '12'),
+	('120104', 'Carhuacallanga', '1201', '12'),
+	('120105', 'Chacapampa', '1201', '12'),
+	('120106', 'Chicche', '1201', '12'),
+	('120107', 'Chilca', '1201', '12'),
+	('120108', 'Chongos Alto', '1201', '12'),
+	('120111', 'Chupuro', '1201', '12'),
+	('120112', 'Colca', '1201', '12'),
+	('120113', 'Cullhuas', '1201', '12'),
+	('120114', 'El Tambo', '1201', '12'),
+	('120116', 'Huacrapuquio', '1201', '12'),
+	('120117', 'Hualhuas', '1201', '12'),
+	('120119', 'Huancan', '1201', '12'),
+	('120120', 'Huasicancha', '1201', '12'),
+	('120121', 'Huayucachi', '1201', '12'),
+	('120122', 'Ingenio', '1201', '12'),
+	('120124', 'Pariahuanca', '1201', '12'),
+	('120125', 'Pilcomayo', '1201', '12'),
+	('120126', 'Pucara', '1201', '12'),
+	('120127', 'Quichuay', '1201', '12'),
+	('120128', 'Quilcas', '1201', '12'),
+	('120129', 'San Agustín', '1201', '12'),
+	('120130', 'San Jerónimo de Tunan', '1201', '12'),
+	('120132', 'Saño', '1201', '12'),
+	('120133', 'Sapallanga', '1201', '12'),
+	('120134', 'Sicaya', '1201', '12'),
+	('120135', 'Santo Domingo de Acobamba', '1201', '12'),
+	('120136', 'Viques', '1201', '12'),
+	('120201', 'Concepción', '1202', '12'),
+	('120202', 'Aco', '1202', '12'),
+	('120203', 'Andamarca', '1202', '12'),
+	('120204', 'Chambara', '1202', '12'),
+	('120205', 'Cochas', '1202', '12'),
+	('120206', 'Comas', '1202', '12'),
+	('120207', 'Heroínas Toledo', '1202', '12'),
+	('120208', 'Manzanares', '1202', '12'),
+	('120209', 'Mariscal Castilla', '1202', '12'),
+	('120210', 'Matahuasi', '1202', '12'),
+	('120211', 'Mito', '1202', '12'),
+	('120212', 'Nueve de Julio', '1202', '12'),
+	('120213', 'Orcotuna', '1202', '12'),
+	('120214', 'San José de Quero', '1202', '12'),
+	('120215', 'Santa Rosa de Ocopa', '1202', '12'),
+	('120301', 'Chanchamayo', '1203', '12'),
+	('120302', 'Perene', '1203', '12'),
+	('120303', 'Pichanaqui', '1203', '12'),
+	('120304', 'San Luis de Shuaro', '1203', '12'),
+	('120305', 'San Ramón', '1203', '12'),
+	('120306', 'Vitoc', '1203', '12'),
+	('120401', 'Jauja', '1204', '12'),
+	('120402', 'Acolla', '1204', '12'),
+	('120403', 'Apata', '1204', '12'),
+	('120404', 'Ataura', '1204', '12'),
+	('120405', 'Canchayllo', '1204', '12'),
+	('120406', 'Curicaca', '1204', '12'),
+	('120407', 'El Mantaro', '1204', '12'),
+	('120408', 'Huamali', '1204', '12'),
+	('120409', 'Huaripampa', '1204', '12'),
+	('120410', 'Huertas', '1204', '12'),
+	('120411', 'Janjaillo', '1204', '12'),
+	('120412', 'Julcán', '1204', '12'),
+	('120413', 'Leonor Ordóñez', '1204', '12'),
+	('120414', 'Llocllapampa', '1204', '12'),
+	('120415', 'Marco', '1204', '12'),
+	('120416', 'Masma', '1204', '12'),
+	('120417', 'Masma Chicche', '1204', '12'),
+	('120418', 'Molinos', '1204', '12'),
+	('120419', 'Monobamba', '1204', '12'),
+	('120420', 'Muqui', '1204', '12'),
+	('120421', 'Muquiyauyo', '1204', '12'),
+	('120422', 'Paca', '1204', '12'),
+	('120423', 'Paccha', '1204', '12'),
+	('120424', 'Pancan', '1204', '12'),
+	('120425', 'Parco', '1204', '12'),
+	('120426', 'Pomacancha', '1204', '12'),
+	('120427', 'Ricran', '1204', '12'),
+	('120428', 'San Lorenzo', '1204', '12'),
+	('120429', 'San Pedro de Chunan', '1204', '12'),
+	('120430', 'Sausa', '1204', '12'),
+	('120431', 'Sincos', '1204', '12'),
+	('120432', 'Tunan Marca', '1204', '12'),
+	('120433', 'Yauli', '1204', '12'),
+	('120434', 'Yauyos', '1204', '12'),
+	('120501', 'Junin', '1205', '12'),
+	('120502', 'Carhuamayo', '1205', '12'),
+	('120503', 'Ondores', '1205', '12'),
+	('120504', 'Ulcumayo', '1205', '12'),
+	('120601', 'Satipo', '1206', '12'),
+	('120602', 'Coviriali', '1206', '12'),
+	('120603', 'Llaylla', '1206', '12'),
+	('120604', 'Mazamari', '1206', '12'),
+	('120605', 'Pampa Hermosa', '1206', '12'),
+	('120606', 'Pangoa', '1206', '12'),
+	('120607', 'Río Negro', '1206', '12'),
+	('120608', 'Río Tambo', '1206', '12'),
+	('120609', 'Vizcatan del Ene', '1206', '12'),
+	('120701', 'Tarma', '1207', '12'),
+	('120702', 'Acobamba', '1207', '12'),
+	('120703', 'Huaricolca', '1207', '12'),
+	('120704', 'Huasahuasi', '1207', '12'),
+	('120705', 'La Unión', '1207', '12'),
+	('120706', 'Palca', '1207', '12'),
+	('120707', 'Palcamayo', '1207', '12'),
+	('120708', 'San Pedro de Cajas', '1207', '12'),
+	('120709', 'Tapo', '1207', '12'),
+	('120801', 'La Oroya', '1208', '12'),
+	('120802', 'Chacapalpa', '1208', '12'),
+	('120803', 'Huay-Huay', '1208', '12'),
+	('120804', 'Marcapomacocha', '1208', '12'),
+	('120805', 'Morococha', '1208', '12'),
+	('120806', 'Paccha', '1208', '12'),
+	('120807', 'Santa Bárbara de Carhuacayan', '1208', '12'),
+	('120808', 'Santa Rosa de Sacco', '1208', '12'),
+	('120809', 'Suitucancha', '1208', '12'),
+	('120810', 'Yauli', '1208', '12'),
+	('120901', 'Chupaca', '1209', '12'),
+	('120902', 'Ahuac', '1209', '12'),
+	('120903', 'Chongos Bajo', '1209', '12'),
+	('120904', 'Huachac', '1209', '12'),
+	('120905', 'Huamancaca Chico', '1209', '12'),
+	('120906', 'San Juan de Iscos', '1209', '12'),
+	('120907', 'San Juan de Jarpa', '1209', '12'),
+	('120908', 'Tres de Diciembre', '1209', '12'),
+	('120909', 'Yanacancha', '1209', '12'),
+	('130101', 'Trujillo', '1301', '13'),
+	('130102', 'El Porvenir', '1301', '13'),
+	('130103', 'Florencia de Mora', '1301', '13'),
+	('130104', 'Huanchaco', '1301', '13'),
+	('130105', 'La Esperanza', '1301', '13'),
+	('130106', 'Laredo', '1301', '13'),
+	('130107', 'Moche', '1301', '13'),
+	('130108', 'Poroto', '1301', '13'),
+	('130109', 'Salaverry', '1301', '13'),
+	('130110', 'Simbal', '1301', '13'),
+	('130111', 'Victor Larco Herrera', '1301', '13'),
+	('130201', 'Ascope', '1302', '13'),
+	('130202', 'Chicama', '1302', '13'),
+	('130203', 'Chocope', '1302', '13'),
+	('130204', 'Magdalena de Cao', '1302', '13'),
+	('130205', 'Paijan', '1302', '13'),
+	('130206', 'Rázuri', '1302', '13'),
+	('130207', 'Santiago de Cao', '1302', '13'),
+	('130208', 'Casa Grande', '1302', '13'),
+	('130301', 'Bolívar', '1303', '13'),
+	('130302', 'Bambamarca', '1303', '13'),
+	('130303', 'Condormarca', '1303', '13'),
+	('130304', 'Longotea', '1303', '13'),
+	('130305', 'Uchumarca', '1303', '13'),
+	('130306', 'Ucuncha', '1303', '13'),
+	('130401', 'Chepen', '1304', '13'),
+	('130402', 'Pacanga', '1304', '13'),
+	('130403', 'Pueblo Nuevo', '1304', '13'),
+	('130501', 'Julcan', '1305', '13'),
+	('130502', 'Calamarca', '1305', '13'),
+	('130503', 'Carabamba', '1305', '13'),
+	('130504', 'Huaso', '1305', '13'),
+	('130601', 'Otuzco', '1306', '13'),
+	('130602', 'Agallpampa', '1306', '13'),
+	('130604', 'Charat', '1306', '13'),
+	('130605', 'Huaranchal', '1306', '13'),
+	('130606', 'La Cuesta', '1306', '13'),
+	('130608', 'Mache', '1306', '13'),
+	('130610', 'Paranday', '1306', '13'),
+	('130611', 'Salpo', '1306', '13'),
+	('130613', 'Sinsicap', '1306', '13'),
+	('130614', 'Usquil', '1306', '13'),
+	('130701', 'San Pedro de Lloc', '1307', '13'),
+	('130702', 'Guadalupe', '1307', '13'),
+	('130703', 'Jequetepeque', '1307', '13'),
+	('130704', 'Pacasmayo', '1307', '13'),
+	('130705', 'San José', '1307', '13'),
+	('130801', 'Tayabamba', '1308', '13'),
+	('130802', 'Buldibuyo', '1308', '13'),
+	('130803', 'Chillia', '1308', '13'),
+	('130804', 'Huancaspata', '1308', '13'),
+	('130805', 'Huaylillas', '1308', '13'),
+	('130806', 'Huayo', '1308', '13'),
+	('130807', 'Ongon', '1308', '13'),
+	('130808', 'Parcoy', '1308', '13'),
+	('130809', 'Pataz', '1308', '13'),
+	('130810', 'Pias', '1308', '13'),
+	('130811', 'Santiago de Challas', '1308', '13'),
+	('130812', 'Taurija', '1308', '13'),
+	('130813', 'Urpay', '1308', '13'),
+	('130901', 'Huamachuco', '1309', '13'),
+	('130902', 'Chugay', '1309', '13'),
+	('130903', 'Cochorco', '1309', '13'),
+	('130904', 'Curgos', '1309', '13'),
+	('130905', 'Marcabal', '1309', '13'),
+	('130906', 'Sanagoran', '1309', '13'),
+	('130907', 'Sarin', '1309', '13'),
+	('130908', 'Sartimbamba', '1309', '13'),
+	('131001', 'Santiago de Chuco', '1310', '13'),
+	('131002', 'Angasmarca', '1310', '13'),
+	('131003', 'Cachicadan', '1310', '13'),
+	('131004', 'Mollebamba', '1310', '13'),
+	('131005', 'Mollepata', '1310', '13'),
+	('131006', 'Quiruvilca', '1310', '13'),
+	('131007', 'Santa Cruz de Chuca', '1310', '13'),
+	('131008', 'Sitabamba', '1310', '13'),
+	('131101', 'Cascas', '1311', '13'),
+	('131102', 'Lucma', '1311', '13'),
+	('131103', 'Marmot', '1311', '13'),
+	('131104', 'Sayapullo', '1311', '13'),
+	('131201', 'Viru', '1312', '13'),
+	('131202', 'Chao', '1312', '13'),
+	('131203', 'Guadalupito', '1312', '13'),
+	('140101', 'Chiclayo', '1401', '14'),
+	('140102', 'Chongoyape', '1401', '14'),
+	('140103', 'Eten', '1401', '14'),
+	('140104', 'Eten Puerto', '1401', '14'),
+	('140105', 'José Leonardo Ortiz', '1401', '14'),
+	('140106', 'La Victoria', '1401', '14'),
+	('140107', 'Lagunas', '1401', '14'),
+	('140108', 'Monsefu', '1401', '14'),
+	('140109', 'Nueva Arica', '1401', '14'),
+	('140110', 'Oyotun', '1401', '14'),
+	('140111', 'Picsi', '1401', '14'),
+	('140112', 'Pimentel', '1401', '14'),
+	('140113', 'Reque', '1401', '14'),
+	('140114', 'Santa Rosa', '1401', '14'),
+	('140115', 'Saña', '1401', '14'),
+	('140116', 'Cayalti', '1401', '14'),
+	('140117', 'Patapo', '1401', '14'),
+	('140118', 'Pomalca', '1401', '14'),
+	('140119', 'Pucala', '1401', '14'),
+	('140120', 'Tuman', '1401', '14'),
+	('140201', 'Ferreñafe', '1402', '14'),
+	('140202', 'Cañaris', '1402', '14'),
+	('140203', 'Incahuasi', '1402', '14'),
+	('140204', 'Manuel Antonio Mesones Muro', '1402', '14'),
+	('140205', 'Pitipo', '1402', '14'),
+	('140206', 'Pueblo Nuevo', '1402', '14'),
+	('140301', 'Lambayeque', '1403', '14'),
+	('140302', 'Chochope', '1403', '14'),
+	('140303', 'Illimo', '1403', '14'),
+	('140304', 'Jayanca', '1403', '14'),
+	('140305', 'Mochumi', '1403', '14'),
+	('140306', 'Morrope', '1403', '14'),
+	('140307', 'Motupe', '1403', '14'),
+	('140308', 'Olmos', '1403', '14'),
+	('140309', 'Pacora', '1403', '14'),
+	('140310', 'Salas', '1403', '14'),
+	('140311', 'San José', '1403', '14'),
+	('140312', 'Tucume', '1403', '14'),
+	('150101', 'Lima', '1501', '15'),
+	('150102', 'Ancón', '1501', '15'),
+	('150103', 'Ate', '1501', '15'),
+	('150104', 'Barranco', '1501', '15'),
+	('150105', 'Breña', '1501', '15'),
+	('150106', 'Carabayllo', '1501', '15'),
+	('150107', 'Chaclacayo', '1501', '15'),
+	('150108', 'Chorrillos', '1501', '15'),
+	('150109', 'Cieneguilla', '1501', '15'),
+	('150110', 'Comas', '1501', '15'),
+	('150111', 'El Agustino', '1501', '15'),
+	('150112', 'Independencia', '1501', '15'),
+	('150113', 'Jesús María', '1501', '15'),
+	('150114', 'La Molina', '1501', '15'),
+	('150115', 'La Victoria', '1501', '15'),
+	('150116', 'Lince', '1501', '15'),
+	('150117', 'Los Olivos', '1501', '15'),
+	('150118', 'Lurigancho', '1501', '15'),
+	('150119', 'Lurin', '1501', '15'),
+	('150120', 'Magdalena del Mar', '1501', '15'),
+	('150121', 'Pueblo Libre', '1501', '15'),
+	('150122', 'Miraflores', '1501', '15'),
+	('150123', 'Pachacamac', '1501', '15'),
+	('150124', 'Pucusana', '1501', '15'),
+	('150125', 'Puente Piedra', '1501', '15'),
+	('150126', 'Punta Hermosa', '1501', '15'),
+	('150127', 'Punta Negra', '1501', '15'),
+	('150128', 'Rímac', '1501', '15'),
+	('150129', 'San Bartolo', '1501', '15'),
+	('150130', 'San Borja', '1501', '15'),
+	('150131', 'San Isidro', '1501', '15'),
+	('150132', 'San Juan de Lurigancho', '1501', '15'),
+	('150133', 'San Juan de Miraflores', '1501', '15'),
+	('150134', 'San Luis', '1501', '15'),
+	('150135', 'San Martín de Porres', '1501', '15'),
+	('150136', 'San Miguel', '1501', '15'),
+	('150137', 'Santa Anita', '1501', '15'),
+	('150138', 'Santa María del Mar', '1501', '15'),
+	('150139', 'Santa Rosa', '1501', '15'),
+	('150140', 'Santiago de Surco', '1501', '15'),
+	('150141', 'Surquillo', '1501', '15'),
+	('150142', 'Villa El Salvador', '1501', '15'),
+	('150143', 'Villa María del Triunfo', '1501', '15'),
+	('150201', 'Barranca', '1502', '15'),
+	('150202', 'Paramonga', '1502', '15'),
+	('150203', 'Pativilca', '1502', '15'),
+	('150204', 'Supe', '1502', '15'),
+	('150205', 'Supe Puerto', '1502', '15'),
+	('150301', 'Cajatambo', '1503', '15'),
+	('150302', 'Copa', '1503', '15'),
+	('150303', 'Gorgor', '1503', '15'),
+	('150304', 'Huancapon', '1503', '15'),
+	('150305', 'Manas', '1503', '15'),
+	('150401', 'Canta', '1504', '15'),
+	('150402', 'Arahuay', '1504', '15'),
+	('150403', 'Huamantanga', '1504', '15'),
+	('150404', 'Huaros', '1504', '15'),
+	('150405', 'Lachaqui', '1504', '15'),
+	('150406', 'San Buenaventura', '1504', '15'),
+	('150407', 'Santa Rosa de Quives', '1504', '15'),
+	('150501', 'San Vicente de Cañete', '1505', '15'),
+	('150502', 'Asia', '1505', '15'),
+	('150503', 'Calango', '1505', '15'),
+	('150504', 'Cerro Azul', '1505', '15'),
+	('150505', 'Chilca', '1505', '15'),
+	('150506', 'Coayllo', '1505', '15'),
+	('150507', 'Imperial', '1505', '15'),
+	('150508', 'Lunahuana', '1505', '15'),
+	('150509', 'Mala', '1505', '15'),
+	('150510', 'Nuevo Imperial', '1505', '15'),
+	('150511', 'Pacaran', '1505', '15'),
+	('150512', 'Quilmana', '1505', '15'),
+	('150513', 'San Antonio', '1505', '15'),
+	('150514', 'San Luis', '1505', '15'),
+	('150515', 'Santa Cruz de Flores', '1505', '15'),
+	('150516', 'Zúñiga', '1505', '15'),
+	('150601', 'Huaral', '1506', '15'),
+	('150602', 'Atavillos Alto', '1506', '15'),
+	('150603', 'Atavillos Bajo', '1506', '15'),
+	('150604', 'Aucallama', '1506', '15'),
+	('150605', 'Chancay', '1506', '15'),
+	('150606', 'Ihuari', '1506', '15'),
+	('150607', 'Lampian', '1506', '15'),
+	('150608', 'Pacaraos', '1506', '15'),
+	('150609', 'San Miguel de Acos', '1506', '15'),
+	('150610', 'Santa Cruz de Andamarca', '1506', '15'),
+	('150611', 'Sumbilca', '1506', '15'),
+	('150612', 'Veintisiete de Noviembre', '1506', '15'),
+	('150701', 'Matucana', '1507', '15'),
+	('150702', 'Antioquia', '1507', '15'),
+	('150703', 'Callahuanca', '1507', '15'),
+	('150704', 'Carampoma', '1507', '15'),
+	('150705', 'Chicla', '1507', '15'),
+	('150706', 'Cuenca', '1507', '15'),
+	('150707', 'Huachupampa', '1507', '15'),
+	('150708', 'Huanza', '1507', '15'),
+	('150709', 'Huarochiri', '1507', '15'),
+	('150710', 'Lahuaytambo', '1507', '15'),
+	('150711', 'Langa', '1507', '15'),
+	('150712', 'Laraos', '1507', '15'),
+	('150713', 'Mariatana', '1507', '15'),
+	('150714', 'Ricardo Palma', '1507', '15'),
+	('150715', 'San Andrés de Tupicocha', '1507', '15'),
+	('150716', 'San Antonio', '1507', '15'),
+	('150717', 'San Bartolomé', '1507', '15'),
+	('150718', 'San Damian', '1507', '15'),
+	('150719', 'San Juan de Iris', '1507', '15'),
+	('150720', 'San Juan de Tantaranche', '1507', '15'),
+	('150721', 'San Lorenzo de Quinti', '1507', '15'),
+	('150722', 'San Mateo', '1507', '15'),
+	('150723', 'San Mateo de Otao', '1507', '15'),
+	('150724', 'San Pedro de Casta', '1507', '15'),
+	('150725', 'San Pedro de Huancayre', '1507', '15'),
+	('150726', 'Sangallaya', '1507', '15'),
+	('150727', 'Santa Cruz de Cocachacra', '1507', '15'),
+	('150728', 'Santa Eulalia', '1507', '15'),
+	('150729', 'Santiago de Anchucaya', '1507', '15'),
+	('150730', 'Santiago de Tuna', '1507', '15'),
+	('150731', 'Santo Domingo de Los Olleros', '1507', '15'),
+	('150732', 'Surco', '1507', '15'),
+	('150801', 'Huacho', '1508', '15'),
+	('150802', 'Ambar', '1508', '15'),
+	('150803', 'Caleta de Carquin', '1508', '15'),
+	('150804', 'Checras', '1508', '15'),
+	('150805', 'Hualmay', '1508', '15'),
+	('150806', 'Huaura', '1508', '15'),
+	('150807', 'Leoncio Prado', '1508', '15'),
+	('150808', 'Paccho', '1508', '15'),
+	('150809', 'Santa Leonor', '1508', '15'),
+	('150810', 'Santa María', '1508', '15'),
+	('150811', 'Sayan', '1508', '15'),
+	('150812', 'Vegueta', '1508', '15'),
+	('150901', 'Oyon', '1509', '15'),
+	('150902', 'Andajes', '1509', '15'),
+	('150903', 'Caujul', '1509', '15'),
+	('150904', 'Cochamarca', '1509', '15'),
+	('150905', 'Navan', '1509', '15'),
+	('150906', 'Pachangara', '1509', '15'),
+	('151001', 'Yauyos', '1510', '15'),
+	('151002', 'Alis', '1510', '15'),
+	('151003', 'Allauca', '1510', '15'),
+	('151004', 'Ayaviri', '1510', '15'),
+	('151005', 'Azángaro', '1510', '15'),
+	('151006', 'Cacra', '1510', '15'),
+	('151007', 'Carania', '1510', '15'),
+	('151008', 'Catahuasi', '1510', '15'),
+	('151009', 'Chocos', '1510', '15'),
+	('151010', 'Cochas', '1510', '15'),
+	('151011', 'Colonia', '1510', '15'),
+	('151012', 'Hongos', '1510', '15'),
+	('151013', 'Huampara', '1510', '15'),
+	('151014', 'Huancaya', '1510', '15'),
+	('151015', 'Huangascar', '1510', '15'),
+	('151016', 'Huantan', '1510', '15'),
+	('151017', 'Huañec', '1510', '15'),
+	('151018', 'Laraos', '1510', '15'),
+	('151019', 'Lincha', '1510', '15'),
+	('151020', 'Madean', '1510', '15'),
+	('151021', 'Miraflores', '1510', '15'),
+	('151022', 'Omas', '1510', '15'),
+	('151023', 'Putinza', '1510', '15'),
+	('151024', 'Quinches', '1510', '15'),
+	('151025', 'Quinocay', '1510', '15'),
+	('151026', 'San Joaquín', '1510', '15'),
+	('151027', 'San Pedro de Pilas', '1510', '15'),
+	('151028', 'Tanta', '1510', '15'),
+	('151029', 'Tauripampa', '1510', '15'),
+	('151030', 'Tomas', '1510', '15'),
+	('151031', 'Tupe', '1510', '15'),
+	('151032', 'Viñac', '1510', '15'),
+	('151033', 'Vitis', '1510', '15'),
+	('160101', 'Iquitos', '1601', '16'),
+	('160102', 'Alto Nanay', '1601', '16'),
+	('160103', 'Fernando Lores', '1601', '16'),
+	('160104', 'Indiana', '1601', '16'),
+	('160105', 'Las Amazonas', '1601', '16'),
+	('160106', 'Mazan', '1601', '16'),
+	('160107', 'Napo', '1601', '16'),
+	('160108', 'Punchana', '1601', '16'),
+	('160110', 'Torres Causana', '1601', '16'),
+	('160112', 'Belén', '1601', '16'),
+	('160113', 'San Juan Bautista', '1601', '16'),
+	('160201', 'Yurimaguas', '1602', '16'),
+	('160202', 'Balsapuerto', '1602', '16'),
+	('160205', 'Jeberos', '1602', '16'),
+	('160206', 'Lagunas', '1602', '16'),
+	('160210', 'Santa Cruz', '1602', '16'),
+	('160211', 'Teniente Cesar López Rojas', '1602', '16'),
+	('160301', 'Nauta', '1603', '16'),
+	('160302', 'Parinari', '1603', '16'),
+	('160303', 'Tigre', '1603', '16'),
+	('160304', 'Trompeteros', '1603', '16'),
+	('160305', 'Urarinas', '1603', '16'),
+	('160401', 'Ramón Castilla', '1604', '16'),
+	('160402', 'Pebas', '1604', '16'),
+	('160403', 'Yavari', '1604', '16'),
+	('160404', 'San Pablo', '1604', '16'),
+	('160501', 'Requena', '1605', '16'),
+	('160502', 'Alto Tapiche', '1605', '16'),
+	('160503', 'Capelo', '1605', '16'),
+	('160504', 'Emilio San Martín', '1605', '16'),
+	('160505', 'Maquia', '1605', '16'),
+	('160506', 'Puinahua', '1605', '16'),
+	('160507', 'Saquena', '1605', '16'),
+	('160508', 'Soplin', '1605', '16'),
+	('160509', 'Tapiche', '1605', '16'),
+	('160510', 'Jenaro Herrera', '1605', '16'),
+	('160511', 'Yaquerana', '1605', '16'),
+	('160601', 'Contamana', '1606', '16'),
+	('160602', 'Inahuaya', '1606', '16'),
+	('160603', 'Padre Márquez', '1606', '16'),
+	('160604', 'Pampa Hermosa', '1606', '16'),
+	('160605', 'Sarayacu', '1606', '16'),
+	('160606', 'Vargas Guerra', '1606', '16'),
+	('160701', 'Barranca', '1607', '16'),
+	('160702', 'Cahuapanas', '1607', '16'),
+	('160703', 'Manseriche', '1607', '16'),
+	('160704', 'Morona', '1607', '16'),
+	('160705', 'Pastaza', '1607', '16'),
+	('160706', 'Andoas', '1607', '16'),
+	('160801', 'Putumayo', '1608', '16'),
+	('160802', 'Rosa Panduro', '1608', '16'),
+	('160803', 'Teniente Manuel Clavero', '1608', '16'),
+	('160804', 'Yaguas', '1608', '16'),
+	('170101', 'Tambopata', '1701', '17'),
+	('170102', 'Inambari', '1701', '17'),
+	('170103', 'Las Piedras', '1701', '17'),
+	('170104', 'Laberinto', '1701', '17'),
+	('170201', 'Manu', '1702', '17'),
+	('170202', 'Fitzcarrald', '1702', '17'),
+	('170203', 'Madre de Dios', '1702', '17'),
+	('170204', 'Huepetuhe', '1702', '17'),
+	('170301', 'Iñapari', '1703', '17'),
+	('170302', 'Iberia', '1703', '17'),
+	('170303', 'Tahuamanu', '1703', '17'),
+	('180101', 'Moquegua', '1801', '18'),
+	('180102', 'Carumas', '1801', '18'),
+	('180103', 'Cuchumbaya', '1801', '18'),
+	('180104', 'Samegua', '1801', '18'),
+	('180105', 'San Cristóbal', '1801', '18'),
+	('180106', 'Torata', '1801', '18'),
+	('180201', 'Omate', '1802', '18'),
+	('180202', 'Chojata', '1802', '18'),
+	('180203', 'Coalaque', '1802', '18'),
+	('180204', 'Ichuña', '1802', '18'),
+	('180205', 'La Capilla', '1802', '18'),
+	('180206', 'Lloque', '1802', '18'),
+	('180207', 'Matalaque', '1802', '18'),
+	('180208', 'Puquina', '1802', '18'),
+	('180209', 'Quinistaquillas', '1802', '18'),
+	('180210', 'Ubinas', '1802', '18'),
+	('180211', 'Yunga', '1802', '18'),
+	('180301', 'Ilo', '1803', '18'),
+	('180302', 'El Algarrobal', '1803', '18'),
+	('180303', 'Pacocha', '1803', '18'),
+	('190101', 'Chaupimarca', '1901', '19'),
+	('190102', 'Huachon', '1901', '19'),
+	('190103', 'Huariaca', '1901', '19'),
+	('190104', 'Huayllay', '1901', '19'),
+	('190105', 'Ninacaca', '1901', '19'),
+	('190106', 'Pallanchacra', '1901', '19'),
+	('190107', 'Paucartambo', '1901', '19'),
+	('190108', 'San Francisco de Asís de Yarusyacan', '1901', '19'),
+	('190109', 'Simon Bolívar', '1901', '19'),
+	('190110', 'Ticlacayan', '1901', '19'),
+	('190111', 'Tinyahuarco', '1901', '19'),
+	('190112', 'Vicco', '1901', '19'),
+	('190113', 'Yanacancha', '1901', '19'),
+	('190201', 'Yanahuanca', '1902', '19'),
+	('190202', 'Chacayan', '1902', '19'),
+	('190203', 'Goyllarisquizga', '1902', '19'),
+	('190204', 'Paucar', '1902', '19'),
+	('190205', 'San Pedro de Pillao', '1902', '19'),
+	('190206', 'Santa Ana de Tusi', '1902', '19'),
+	('190207', 'Tapuc', '1902', '19'),
+	('190208', 'Vilcabamba', '1902', '19'),
+	('190301', 'Oxapampa', '1903', '19'),
+	('190302', 'Chontabamba', '1903', '19'),
+	('190303', 'Huancabamba', '1903', '19'),
+	('190304', 'Palcazu', '1903', '19'),
+	('190305', 'Pozuzo', '1903', '19'),
+	('190306', 'Puerto Bermúdez', '1903', '19'),
+	('190307', 'Villa Rica', '1903', '19'),
+	('190308', 'Constitución', '1903', '19'),
+	('200101', 'Piura', '2001', '20'),
+	('200104', 'Castilla', '2001', '20'),
+	('200105', 'Catacaos', '2001', '20'),
+	('200107', 'Cura Mori', '2001', '20'),
+	('200108', 'El Tallan', '2001', '20'),
+	('200109', 'La Arena', '2001', '20'),
+	('200110', 'La Unión', '2001', '20'),
+	('200111', 'Las Lomas', '2001', '20'),
+	('200114', 'Tambo Grande', '2001', '20'),
+	('200115', 'Veintiseis de Octubre', '2001', '20'),
+	('200201', 'Ayabaca', '2002', '20'),
+	('200202', 'Frias', '2002', '20'),
+	('200203', 'Jilili', '2002', '20'),
+	('200204', 'Lagunas', '2002', '20'),
+	('200205', 'Montero', '2002', '20'),
+	('200206', 'Pacaipampa', '2002', '20'),
+	('200207', 'Paimas', '2002', '20'),
+	('200208', 'Sapillica', '2002', '20'),
+	('200209', 'Sicchez', '2002', '20'),
+	('200210', 'Suyo', '2002', '20'),
+	('200301', 'Huancabamba', '2003', '20'),
+	('200302', 'Canchaque', '2003', '20'),
+	('200303', 'El Carmen de la Frontera', '2003', '20'),
+	('200304', 'Huarmaca', '2003', '20'),
+	('200305', 'Lalaquiz', '2003', '20'),
+	('200306', 'San Miguel de El Faique', '2003', '20'),
+	('200307', 'Sondor', '2003', '20'),
+	('200308', 'Sondorillo', '2003', '20'),
+	('200401', 'Chulucanas', '2004', '20'),
+	('200402', 'Buenos Aires', '2004', '20'),
+	('200403', 'Chalaco', '2004', '20'),
+	('200404', 'La Matanza', '2004', '20'),
+	('200405', 'Morropon', '2004', '20'),
+	('200406', 'Salitral', '2004', '20'),
+	('200407', 'San Juan de Bigote', '2004', '20'),
+	('200408', 'Santa Catalina de Mossa', '2004', '20'),
+	('200409', 'Santo Domingo', '2004', '20'),
+	('200410', 'Yamango', '2004', '20'),
+	('200501', 'Paita', '2005', '20'),
+	('200502', 'Amotape', '2005', '20'),
+	('200503', 'Arenal', '2005', '20'),
+	('200504', 'Colan', '2005', '20'),
+	('200505', 'La Huaca', '2005', '20'),
+	('200506', 'Tamarindo', '2005', '20'),
+	('200507', 'Vichayal', '2005', '20'),
+	('200601', 'Sullana', '2006', '20'),
+	('200602', 'Bellavista', '2006', '20'),
+	('200603', 'Ignacio Escudero', '2006', '20'),
+	('200604', 'Lancones', '2006', '20'),
+	('200605', 'Marcavelica', '2006', '20'),
+	('200606', 'Miguel Checa', '2006', '20'),
+	('200607', 'Querecotillo', '2006', '20'),
+	('200608', 'Salitral', '2006', '20'),
+	('200701', 'Pariñas', '2007', '20'),
+	('200702', 'El Alto', '2007', '20'),
+	('200703', 'La Brea', '2007', '20'),
+	('200704', 'Lobitos', '2007', '20'),
+	('200705', 'Los Organos', '2007', '20'),
+	('200706', 'Mancora', '2007', '20'),
+	('200801', 'Sechura', '2008', '20'),
+	('200802', 'Bellavista de la Unión', '2008', '20'),
+	('200803', 'Bernal', '2008', '20'),
+	('200804', 'Cristo Nos Valga', '2008', '20'),
+	('200805', 'Vice', '2008', '20'),
+	('200806', 'Rinconada Llicuar', '2008', '20'),
+	('210101', 'Puno', '2101', '21'),
+	('210102', 'Acora', '2101', '21'),
+	('210103', 'Amantani', '2101', '21'),
+	('210104', 'Atuncolla', '2101', '21'),
+	('210105', 'Capachica', '2101', '21'),
+	('210106', 'Chucuito', '2101', '21'),
+	('210107', 'Coata', '2101', '21'),
+	('210108', 'Huata', '2101', '21'),
+	('210109', 'Mañazo', '2101', '21'),
+	('210110', 'Paucarcolla', '2101', '21'),
+	('210111', 'Pichacani', '2101', '21'),
+	('210112', 'Plateria', '2101', '21'),
+	('210113', 'San Antonio', '2101', '21'),
+	('210114', 'Tiquillaca', '2101', '21'),
+	('210115', 'Vilque', '2101', '21'),
+	('210201', 'Azángaro', '2102', '21'),
+	('210202', 'Achaya', '2102', '21'),
+	('210203', 'Arapa', '2102', '21'),
+	('210204', 'Asillo', '2102', '21'),
+	('210205', 'Caminaca', '2102', '21'),
+	('210206', 'Chupa', '2102', '21'),
+	('210207', 'José Domingo Choquehuanca', '2102', '21'),
+	('210208', 'Muñani', '2102', '21'),
+	('210209', 'Potoni', '2102', '21'),
+	('210210', 'Saman', '2102', '21'),
+	('210211', 'San Anton', '2102', '21'),
+	('210212', 'San José', '2102', '21'),
+	('210213', 'San Juan de Salinas', '2102', '21'),
+	('210214', 'Santiago de Pupuja', '2102', '21'),
+	('210215', 'Tirapata', '2102', '21'),
+	('210301', 'Macusani', '2103', '21'),
+	('210302', 'Ajoyani', '2103', '21'),
+	('210303', 'Ayapata', '2103', '21'),
+	('210304', 'Coasa', '2103', '21'),
+	('210305', 'Corani', '2103', '21'),
+	('210306', 'Crucero', '2103', '21'),
+	('210307', 'Ituata', '2103', '21'),
+	('210308', 'Ollachea', '2103', '21'),
+	('210309', 'San Gaban', '2103', '21'),
+	('210310', 'Usicayos', '2103', '21'),
+	('210401', 'Juli', '2104', '21'),
+	('210402', 'Desaguadero', '2104', '21'),
+	('210403', 'Huacullani', '2104', '21'),
+	('210404', 'Kelluyo', '2104', '21'),
+	('210405', 'Pisacoma', '2104', '21'),
+	('210406', 'Pomata', '2104', '21'),
+	('210407', 'Zepita', '2104', '21'),
+	('210501', 'Ilave', '2105', '21'),
+	('210502', 'Capazo', '2105', '21'),
+	('210503', 'Pilcuyo', '2105', '21'),
+	('210504', 'Santa Rosa', '2105', '21'),
+	('210505', 'Conduriri', '2105', '21'),
+	('210601', 'Huancane', '2106', '21'),
+	('210602', 'Cojata', '2106', '21'),
+	('210603', 'Huatasani', '2106', '21'),
+	('210604', 'Inchupalla', '2106', '21'),
+	('210605', 'Pusi', '2106', '21'),
+	('210606', 'Rosaspata', '2106', '21'),
+	('210607', 'Taraco', '2106', '21'),
+	('210608', 'Vilque Chico', '2106', '21'),
+	('210701', 'Lampa', '2107', '21'),
+	('210702', 'Cabanilla', '2107', '21'),
+	('210703', 'Calapuja', '2107', '21'),
+	('210704', 'Nicasio', '2107', '21'),
+	('210705', 'Ocuviri', '2107', '21'),
+	('210706', 'Palca', '2107', '21'),
+	('210707', 'Paratia', '2107', '21'),
+	('210708', 'Pucara', '2107', '21'),
+	('210709', 'Santa Lucia', '2107', '21'),
+	('210710', 'Vilavila', '2107', '21'),
+	('210801', 'Ayaviri', '2108', '21'),
+	('210802', 'Antauta', '2108', '21'),
+	('210803', 'Cupi', '2108', '21'),
+	('210804', 'Llalli', '2108', '21'),
+	('210805', 'Macari', '2108', '21'),
+	('210806', 'Nuñoa', '2108', '21'),
+	('210807', 'Orurillo', '2108', '21'),
+	('210808', 'Santa Rosa', '2108', '21'),
+	('210809', 'Umachiri', '2108', '21'),
+	('210901', 'Moho', '2109', '21'),
+	('210902', 'Conima', '2109', '21'),
+	('210903', 'Huayrapata', '2109', '21'),
+	('210904', 'Tilali', '2109', '21'),
+	('211001', 'Putina', '2110', '21'),
+	('211002', 'Ananea', '2110', '21'),
+	('211003', 'Pedro Vilca Apaza', '2110', '21'),
+	('211004', 'Quilcapuncu', '2110', '21'),
+	('211005', 'Sina', '2110', '21'),
+	('211101', 'Juliaca', '2111', '21'),
+	('211102', 'Cabana', '2111', '21'),
+	('211103', 'Cabanillas', '2111', '21'),
+	('211104', 'Caracoto', '2111', '21'),
+	('211105', 'San Miguel', '2111', '21'),
+	('211201', 'Sandia', '2112', '21'),
+	('211202', 'Cuyocuyo', '2112', '21'),
+	('211203', 'Limbani', '2112', '21'),
+	('211204', 'Patambuco', '2112', '21'),
+	('211205', 'Phara', '2112', '21'),
+	('211206', 'Quiaca', '2112', '21'),
+	('211207', 'San Juan del Oro', '2112', '21'),
+	('211208', 'Yanahuaya', '2112', '21'),
+	('211209', 'Alto Inambari', '2112', '21'),
+	('211210', 'San Pedro de Putina Punco', '2112', '21'),
+	('211301', 'Yunguyo', '2113', '21'),
+	('211302', 'Anapia', '2113', '21'),
+	('211303', 'Copani', '2113', '21'),
+	('211304', 'Cuturapi', '2113', '21'),
+	('211305', 'Ollaraya', '2113', '21'),
+	('211306', 'Tinicachi', '2113', '21'),
+	('211307', 'Unicachi', '2113', '21'),
+	('220101', 'Moyobamba', '2201', '22'),
+	('220102', 'Calzada', '2201', '22'),
+	('220103', 'Habana', '2201', '22'),
+	('220104', 'Jepelacio', '2201', '22'),
+	('220105', 'Soritor', '2201', '22'),
+	('220106', 'Yantalo', '2201', '22'),
+	('220201', 'Bellavista', '2202', '22'),
+	('220202', 'Alto Biavo', '2202', '22'),
+	('220203', 'Bajo Biavo', '2202', '22'),
+	('220204', 'Huallaga', '2202', '22'),
+	('220205', 'San Pablo', '2202', '22'),
+	('220206', 'San Rafael', '2202', '22'),
+	('220301', 'San José de Sisa', '2203', '22'),
+	('220302', 'Agua Blanca', '2203', '22'),
+	('220303', 'San Martín', '2203', '22'),
+	('220304', 'Santa Rosa', '2203', '22'),
+	('220305', 'Shatoja', '2203', '22'),
+	('220401', 'Saposoa', '2204', '22'),
+	('220402', 'Alto Saposoa', '2204', '22'),
+	('220403', 'El Eslabón', '2204', '22'),
+	('220404', 'Piscoyacu', '2204', '22'),
+	('220405', 'Sacanche', '2204', '22'),
+	('220406', 'Tingo de Saposoa', '2204', '22'),
+	('220501', 'Lamas', '2205', '22'),
+	('220502', 'Alonso de Alvarado', '2205', '22'),
+	('220503', 'Barranquita', '2205', '22'),
+	('220504', 'Caynarachi', '2205', '22'),
+	('220505', 'Cuñumbuqui', '2205', '22'),
+	('220506', 'Pinto Recodo', '2205', '22'),
+	('220507', 'Rumisapa', '2205', '22'),
+	('220508', 'San Roque de Cumbaza', '2205', '22'),
+	('220509', 'Shanao', '2205', '22'),
+	('220510', 'Tabalosos', '2205', '22'),
+	('220511', 'Zapatero', '2205', '22'),
+	('220601', 'Juanjuí', '2206', '22'),
+	('220602', 'Campanilla', '2206', '22'),
+	('220603', 'Huicungo', '2206', '22'),
+	('220604', 'Pachiza', '2206', '22'),
+	('220605', 'Pajarillo', '2206', '22'),
+	('220701', 'Picota', '2207', '22'),
+	('220702', 'Buenos Aires', '2207', '22'),
+	('220703', 'Caspisapa', '2207', '22'),
+	('220704', 'Pilluana', '2207', '22'),
+	('220705', 'Pucacaca', '2207', '22'),
+	('220706', 'San Cristóbal', '2207', '22'),
+	('220707', 'San Hilarión', '2207', '22'),
+	('220708', 'Shamboyacu', '2207', '22'),
+	('220709', 'Tingo de Ponasa', '2207', '22'),
+	('220710', 'Tres Unidos', '2207', '22'),
+	('220801', 'Rioja', '2208', '22'),
+	('220802', 'Awajun', '2208', '22'),
+	('220803', 'Elías Soplin Vargas', '2208', '22'),
+	('220804', 'Nueva Cajamarca', '2208', '22'),
+	('220805', 'Pardo Miguel', '2208', '22'),
+	('220806', 'Posic', '2208', '22'),
+	('220807', 'San Fernando', '2208', '22'),
+	('220808', 'Yorongos', '2208', '22'),
+	('220809', 'Yuracyacu', '2208', '22'),
+	('220901', 'Tarapoto', '2209', '22'),
+	('220902', 'Alberto Leveau', '2209', '22'),
+	('220903', 'Cacatachi', '2209', '22'),
+	('220904', 'Chazuta', '2209', '22'),
+	('220905', 'Chipurana', '2209', '22'),
+	('220906', 'El Porvenir', '2209', '22'),
+	('220907', 'Huimbayoc', '2209', '22'),
+	('220908', 'Juan Guerra', '2209', '22'),
+	('220909', 'La Banda de Shilcayo', '2209', '22'),
+	('220910', 'Morales', '2209', '22'),
+	('220911', 'Papaplaya', '2209', '22'),
+	('220912', 'San Antonio', '2209', '22'),
+	('220913', 'Sauce', '2209', '22'),
+	('220914', 'Shapaja', '2209', '22'),
+	('221001', 'Tocache', '2210', '22'),
+	('221002', 'Nuevo Progreso', '2210', '22'),
+	('221003', 'Polvora', '2210', '22'),
+	('221004', 'Shunte', '2210', '22'),
+	('221005', 'Uchiza', '2210', '22'),
+	('230101', 'Tacna', '2301', '23'),
+	('230102', 'Alto de la Alianza', '2301', '23'),
+	('230103', 'Calana', '2301', '23'),
+	('230104', 'Ciudad Nueva', '2301', '23'),
+	('230105', 'Inclan', '2301', '23'),
+	('230106', 'Pachia', '2301', '23'),
+	('230107', 'Palca', '2301', '23'),
+	('230108', 'Pocollay', '2301', '23'),
+	('230109', 'Sama', '2301', '23'),
+	('230110', 'Coronel Gregorio Albarracín Lanchipa', '2301', '23'),
+	('230111', 'La Yarada los Palos', '2301', '23'),
+	('230201', 'Candarave', '2302', '23'),
+	('230202', 'Cairani', '2302', '23'),
+	('230203', 'Camilaca', '2302', '23'),
+	('230204', 'Curibaya', '2302', '23'),
+	('230205', 'Huanuara', '2302', '23'),
+	('230206', 'Quilahuani', '2302', '23'),
+	('230301', 'Locumba', '2303', '23'),
+	('230302', 'Ilabaya', '2303', '23'),
+	('230303', 'Ite', '2303', '23'),
+	('230401', 'Tarata', '2304', '23'),
+	('230402', 'Héroes Albarracín', '2304', '23'),
+	('230403', 'Estique', '2304', '23'),
+	('230404', 'Estique-Pampa', '2304', '23'),
+	('230405', 'Sitajara', '2304', '23'),
+	('230406', 'Susapaya', '2304', '23'),
+	('230407', 'Tarucachi', '2304', '23'),
+	('230408', 'Ticaco', '2304', '23'),
+	('240101', 'Tumbes', '2401', '24'),
+	('240102', 'Corrales', '2401', '24'),
+	('240103', 'La Cruz', '2401', '24'),
+	('240104', 'Pampas de Hospital', '2401', '24'),
+	('240105', 'San Jacinto', '2401', '24'),
+	('240106', 'San Juan de la Virgen', '2401', '24'),
+	('240201', 'Zorritos', '2402', '24'),
+	('240202', 'Casitas', '2402', '24'),
+	('240203', 'Canoas de Punta Sal', '2402', '24'),
+	('240301', 'Zarumilla', '2403', '24'),
+	('240302', 'Aguas Verdes', '2403', '24'),
+	('240303', 'Matapalo', '2403', '24'),
+	('240304', 'Papayal', '2403', '24'),
+	('250101', 'Calleria', '2501', '25'),
+	('250102', 'Campoverde', '2501', '25'),
+	('250103', 'Iparia', '2501', '25'),
+	('250104', 'Masisea', '2501', '25'),
+	('250105', 'Yarinacocha', '2501', '25'),
+	('250106', 'Nueva Requena', '2501', '25'),
+	('250107', 'Manantay', '2501', '25'),
+	('250201', 'Raymondi', '2502', '25'),
+	('250202', 'Sepahua', '2502', '25'),
+	('250203', 'Tahuania', '2502', '25'),
+	('250204', 'Yurua', '2502', '25'),
+	('250301', 'Padre Abad', '2503', '25'),
+	('250302', 'Irazola', '2503', '25'),
+	('250303', 'Curimana', '2503', '25'),
+	('250304', 'Neshuya', '2503', '25'),
+	('250305', 'Alexander Von Humboldt', '2503', '25'),
+	('250401', 'Purus', '2504', '25');
+
+-- Dumping structure for table newcms.ubigeo_peru_provinces
+CREATE TABLE IF NOT EXISTS `ubigeo_peru_provinces` (
+  `id` varchar(4) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `department_id` varchar(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.ubigeo_peru_provinces: ~196 rows (approximately)
+INSERT INTO `ubigeo_peru_provinces` (`id`, `name`, `department_id`) VALUES
+	('0101', 'Chachapoyas', '01'),
+	('0102', 'Bagua', '01'),
+	('0103', 'Bongará', '01'),
+	('0104', 'Condorcanqui', '01'),
+	('0105', 'Luya', '01'),
+	('0106', 'Rodríguez de Mendoza', '01'),
+	('0107', 'Utcubamba', '01'),
+	('0201', 'Huaraz', '02'),
+	('0202', 'Aija', '02'),
+	('0203', 'Antonio Raymondi', '02'),
+	('0204', 'Asunción', '02'),
+	('0205', 'Bolognesi', '02'),
+	('0206', 'Carhuaz', '02'),
+	('0207', 'Carlos Fermín Fitzcarrald', '02'),
+	('0208', 'Casma', '02'),
+	('0209', 'Corongo', '02'),
+	('0210', 'Huari', '02'),
+	('0211', 'Huarmey', '02'),
+	('0212', 'Huaylas', '02'),
+	('0213', 'Mariscal Luzuriaga', '02'),
+	('0214', 'Ocros', '02'),
+	('0215', 'Pallasca', '02'),
+	('0216', 'Pomabamba', '02'),
+	('0217', 'Recuay', '02'),
+	('0218', 'Santa', '02'),
+	('0219', 'Sihuas', '02'),
+	('0220', 'Yungay', '02'),
+	('0301', 'Abancay', '03'),
+	('0302', 'Andahuaylas', '03'),
+	('0303', 'Antabamba', '03'),
+	('0304', 'Aymaraes', '03'),
+	('0305', 'Cotabambas', '03'),
+	('0306', 'Chincheros', '03'),
+	('0307', 'Grau', '03'),
+	('0401', 'Arequipa', '04'),
+	('0402', 'Camaná', '04'),
+	('0403', 'Caravelí', '04'),
+	('0404', 'Castilla', '04'),
+	('0405', 'Caylloma', '04'),
+	('0406', 'Condesuyos', '04'),
+	('0407', 'Islay', '04'),
+	('0408', 'La Uniòn', '04'),
+	('0501', 'Huamanga', '05'),
+	('0502', 'Cangallo', '05'),
+	('0503', 'Huanca Sancos', '05'),
+	('0504', 'Huanta', '05'),
+	('0505', 'La Mar', '05'),
+	('0506', 'Lucanas', '05'),
+	('0507', 'Parinacochas', '05'),
+	('0508', 'Pàucar del Sara Sara', '05'),
+	('0509', 'Sucre', '05'),
+	('0510', 'Víctor Fajardo', '05'),
+	('0511', 'Vilcas Huamán', '05'),
+	('0601', 'Cajamarca', '06'),
+	('0602', 'Cajabamba', '06'),
+	('0603', 'Celendín', '06'),
+	('0604', 'Chota', '06'),
+	('0605', 'Contumazá', '06'),
+	('0606', 'Cutervo', '06'),
+	('0607', 'Hualgayoc', '06'),
+	('0608', 'Jaén', '06'),
+	('0609', 'San Ignacio', '06'),
+	('0610', 'San Marcos', '06'),
+	('0611', 'San Miguel', '06'),
+	('0612', 'San Pablo', '06'),
+	('0613', 'Santa Cruz', '06'),
+	('0701', 'Prov. Const. del Callao', '07'),
+	('0801', 'Cusco', '08'),
+	('0802', 'Acomayo', '08'),
+	('0803', 'Anta', '08'),
+	('0804', 'Calca', '08'),
+	('0805', 'Canas', '08'),
+	('0806', 'Canchis', '08'),
+	('0807', 'Chumbivilcas', '08'),
+	('0808', 'Espinar', '08'),
+	('0809', 'La Convención', '08'),
+	('0810', 'Paruro', '08'),
+	('0811', 'Paucartambo', '08'),
+	('0812', 'Quispicanchi', '08'),
+	('0813', 'Urubamba', '08'),
+	('0901', 'Huancavelica', '09'),
+	('0902', 'Acobamba', '09'),
+	('0903', 'Angaraes', '09'),
+	('0904', 'Castrovirreyna', '09'),
+	('0905', 'Churcampa', '09'),
+	('0906', 'Huaytará', '09'),
+	('0907', 'Tayacaja', '09'),
+	('1001', 'Huánuco', '10'),
+	('1002', 'Ambo', '10'),
+	('1003', 'Dos de Mayo', '10'),
+	('1004', 'Huacaybamba', '10'),
+	('1005', 'Huamalíes', '10'),
+	('1006', 'Leoncio Prado', '10'),
+	('1007', 'Marañón', '10'),
+	('1008', 'Pachitea', '10'),
+	('1009', 'Puerto Inca', '10'),
+	('1010', 'Lauricocha ', '10'),
+	('1011', 'Yarowilca ', '10'),
+	('1101', 'Ica ', '11'),
+	('1102', 'Chincha ', '11'),
+	('1103', 'Nasca ', '11'),
+	('1104', 'Palpa ', '11'),
+	('1105', 'Pisco ', '11'),
+	('1201', 'Huancayo ', '12'),
+	('1202', 'Concepción ', '12'),
+	('1203', 'Chanchamayo ', '12'),
+	('1204', 'Jauja ', '12'),
+	('1205', 'Junín ', '12'),
+	('1206', 'Satipo ', '12'),
+	('1207', 'Tarma ', '12'),
+	('1208', 'Yauli ', '12'),
+	('1209', 'Chupaca ', '12'),
+	('1301', 'Trujillo ', '13'),
+	('1302', 'Ascope ', '13'),
+	('1303', 'Bolívar ', '13'),
+	('1304', 'Chepén ', '13'),
+	('1305', 'Julcán ', '13'),
+	('1306', 'Otuzco ', '13'),
+	('1307', 'Pacasmayo ', '13'),
+	('1308', 'Pataz ', '13'),
+	('1309', 'Sánchez Carrión ', '13'),
+	('1310', 'Santiago de Chuco ', '13'),
+	('1311', 'Gran Chimú ', '13'),
+	('1312', 'Virú ', '13'),
+	('1401', 'Chiclayo ', '14'),
+	('1402', 'Ferreñafe ', '14'),
+	('1403', 'Lambayeque ', '14'),
+	('1501', 'Lima ', '15'),
+	('1502', 'Barranca ', '15'),
+	('1503', 'Cajatambo ', '15'),
+	('1504', 'Canta ', '15'),
+	('1505', 'Cañete ', '15'),
+	('1506', 'Huaral ', '15'),
+	('1507', 'Huarochirí ', '15'),
+	('1508', 'Huaura ', '15'),
+	('1509', 'Oyón ', '15'),
+	('1510', 'Yauyos ', '15'),
+	('1601', 'Maynas ', '16'),
+	('1602', 'Alto Amazonas ', '16'),
+	('1603', 'Loreto ', '16'),
+	('1604', 'Mariscal Ramón Castilla ', '16'),
+	('1605', 'Requena ', '16'),
+	('1606', 'Ucayali ', '16'),
+	('1607', 'Datem del Marañón ', '16'),
+	('1608', 'Putumayo', '16'),
+	('1701', 'Tambopata ', '17'),
+	('1702', 'Manu ', '17'),
+	('1703', 'Tahuamanu ', '17'),
+	('1801', 'Mariscal Nieto ', '18'),
+	('1802', 'General Sánchez Cerro ', '18'),
+	('1803', 'Ilo ', '18'),
+	('1901', 'Pasco ', '19'),
+	('1902', 'Daniel Alcides Carrión ', '19'),
+	('1903', 'Oxapampa ', '19'),
+	('2001', 'Piura ', '20'),
+	('2002', 'Ayabaca ', '20'),
+	('2003', 'Huancabamba ', '20'),
+	('2004', 'Morropón ', '20'),
+	('2005', 'Paita ', '20'),
+	('2006', 'Sullana ', '20'),
+	('2007', 'Talara ', '20'),
+	('2008', 'Sechura ', '20'),
+	('2101', 'Puno ', '21'),
+	('2102', 'Azángaro ', '21'),
+	('2103', 'Carabaya ', '21'),
+	('2104', 'Chucuito ', '21'),
+	('2105', 'El Collao ', '21'),
+	('2106', 'Huancané ', '21'),
+	('2107', 'Lampa ', '21'),
+	('2108', 'Melgar ', '21'),
+	('2109', 'Moho ', '21'),
+	('2110', 'San Antonio de Putina ', '21'),
+	('2111', 'San Román ', '21'),
+	('2112', 'Sandia ', '21'),
+	('2113', 'Yunguyo ', '21'),
+	('2201', 'Moyobamba ', '22'),
+	('2202', 'Bellavista ', '22'),
+	('2203', 'El Dorado ', '22'),
+	('2204', 'Huallaga ', '22'),
+	('2205', 'Lamas ', '22'),
+	('2206', 'Mariscal Cáceres ', '22'),
+	('2207', 'Picota ', '22'),
+	('2208', 'Rioja ', '22'),
+	('2209', 'San Martín ', '22'),
+	('2210', 'Tocache ', '22'),
+	('2301', 'Tacna ', '23'),
+	('2302', 'Candarave ', '23'),
+	('2303', 'Jorge Basadre ', '23'),
+	('2304', 'Tarata ', '23'),
+	('2401', 'Tumbes ', '24'),
+	('2402', 'Contralmirante Villar ', '24'),
+	('2403', 'Zarumilla ', '24'),
+	('2501', 'Coronel Portillo ', '25'),
+	('2502', 'Atalaya ', '25'),
+	('2503', 'Padre Abad ', '25'),
+	('2504', 'Purús', '25');
+
+-- Dumping structure for table newcms.ubprovincia
+CREATE TABLE IF NOT EXISTS `ubprovincia` (
+  `idProv` int(5) NOT NULL DEFAULT 0,
+  `provincia` varchar(50) DEFAULT NULL,
+  `idDepa` int(5) DEFAULT NULL,
+  PRIMARY KEY (`idProv`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.ubprovincia: 193 rows
+/*!40000 ALTER TABLE `ubprovincia` DISABLE KEYS */;
+INSERT INTO `ubprovincia` (`idProv`, `provincia`, `idDepa`) VALUES
+	(1, 'CHACHAPOYAS ', 1),
+	(2, 'BAGUA', 1),
+	(3, 'BONGARA', 1),
+	(4, 'CONDORCANQUI', 1),
+	(5, 'LUYA', 1),
+	(6, 'RODRIGUEZ DE MENDOZA', 1),
+	(7, 'UTCUBAMBA', 1),
+	(8, 'HUARAZ', 2),
+	(9, 'AIJA', 2),
+	(10, 'ANTONIO RAYMONDI', 2),
+	(11, 'ASUNCION', 2),
+	(12, 'BOLOGNESI', 2),
+	(13, 'CARHUAZ', 2),
+	(14, 'CARLOS FERMIN FITZCARRALD', 2),
+	(15, 'CASMA', 2),
+	(16, 'CORONGO', 2),
+	(17, 'HUARI', 2),
+	(18, 'HUARMEY', 2),
+	(19, 'HUAYLAS', 2),
+	(20, 'MARISCAL LUZURIAGA', 2),
+	(21, 'OCROS', 2),
+	(22, 'PALLASCA', 2),
+	(23, 'POMABAMBA', 2),
+	(24, 'RECUAY', 2),
+	(25, 'SANTA', 2),
+	(26, 'SIHUAS', 2),
+	(27, 'YUNGAY', 2),
+	(28, 'ABANCAY', 3),
+	(29, 'ANDAHUAYLAS', 3),
+	(30, 'ANTABAMBA', 3),
+	(31, 'AYMARAES', 3),
+	(32, 'COTABAMBAS', 3),
+	(33, 'CHINCHEROS', 3),
+	(34, 'GRAU', 3),
+	(35, 'AREQUIPA', 4),
+	(36, 'CAMANA', 4),
+	(37, 'CARAVELI', 4),
+	(38, 'CASTILLA', 4),
+	(39, 'CAYLLOMA', 4),
+	(40, 'CONDESUYOS', 4),
+	(41, 'ISLAY', 4),
+	(42, 'LA UNION', 4),
+	(43, 'HUAMANGA', 5),
+	(44, 'CANGALLO', 5),
+	(45, 'HUANCA SANCOS', 5),
+	(46, 'HUANTA', 5),
+	(47, 'LA MAR', 5),
+	(48, 'LUCANAS', 5),
+	(49, 'PARINACOCHAS', 5),
+	(50, 'PAUCAR DEL SARA SARA', 5),
+	(51, 'SUCRE', 5),
+	(52, 'VICTOR FAJARDO', 5),
+	(53, 'VILCAS HUAMAN', 5),
+	(54, 'CAJAMARCA', 6),
+	(55, 'CAJABAMBA', 6),
+	(56, 'CELENDIN', 6),
+	(57, 'CHOTA ', 6),
+	(58, 'CONTUMAZA', 6),
+	(59, 'CUTERVO', 6),
+	(60, 'HUALGAYOC', 6),
+	(61, 'JAEN', 6),
+	(62, 'SAN IGNACIO', 6),
+	(63, 'SAN MARCOS', 6),
+	(64, 'SAN PABLO', 6),
+	(65, 'SANTA CRUZ', 6),
+	(66, 'CALLAO', 7),
+	(67, 'CUSCO', 8),
+	(68, 'ACOMAYO', 8),
+	(69, 'ANTA', 8),
+	(70, 'CALCA', 8),
+	(71, 'CANAS', 8),
+	(72, 'CANCHIS', 8),
+	(73, 'CHUMBIVILCAS', 8),
+	(74, 'ESPINAR', 8),
+	(75, 'LA CONVENCION', 8),
+	(76, 'PARURO', 8),
+	(77, 'PAUCARTAMBO', 8),
+	(78, 'QUISPICANCHI', 8),
+	(79, 'URUBAMBA', 8),
+	(80, 'HUANCAVELICA', 9),
+	(81, 'ACOBAMBA', 9),
+	(82, 'ANGARAES', 9),
+	(83, 'CASTROVIRREYNA', 9),
+	(84, 'CHURCAMPA', 9),
+	(85, 'HUAYTARA', 9),
+	(86, 'TAYACAJA', 9),
+	(87, 'HUANUCO', 10),
+	(88, 'AMBO', 10),
+	(89, 'DOS DE MAYO', 10),
+	(90, 'HUACAYBAMBA', 10),
+	(91, 'HUAMALIES', 10),
+	(92, 'LEONCIO PRADO', 10),
+	(93, 'MARA&Ntilde;ON', 10),
+	(94, 'PACHITEA', 10),
+	(95, 'PUERTO INCA', 10),
+	(96, 'LAURICOCHA', 10),
+	(97, 'YAROWILCA', 10),
+	(98, 'ICA', 11),
+	(99, 'CHINCHA', 11),
+	(100, 'NAZCA', 11),
+	(101, 'PALPA', 11),
+	(102, 'PISCO', 11),
+	(103, 'HUANCAYO', 12),
+	(104, 'CONCEPCION', 12),
+	(105, 'CHANCHAMAYO', 12),
+	(106, 'JAUJA', 12),
+	(107, 'JUNIN', 12),
+	(108, 'SATIPO', 12),
+	(109, 'TARMA', 12),
+	(110, 'YAULI', 12),
+	(111, 'CHUPACA', 12),
+	(112, 'TRUJILLO', 13),
+	(113, 'ASCOPE', 13),
+	(114, 'BOLIVAR', 13),
+	(115, 'CHEPEN', 13),
+	(116, 'JULCAN', 13),
+	(117, 'OTUZCO', 13),
+	(118, 'PACASMAYO', 13),
+	(119, 'PATAZ', 13),
+	(120, 'SANCHEZ CARRION', 13),
+	(121, 'SANTIAGO DE CHUCO', 13),
+	(122, 'GRAN CHIMU', 13),
+	(123, 'VIRU', 13),
+	(124, 'CHICLAYO', 14),
+	(125, 'FERRE&Ntilde;AFE', 14),
+	(126, 'LAMBAYEQUE', 14),
+	(127, 'LIMA', 15),
+	(128, 'BARRANCA', 15),
+	(129, 'CAJATAMBO', 15),
+	(130, 'CANTA', 15),
+	(131, 'CA&Ntilde;ETE', 15),
+	(132, 'HUARAL', 15),
+	(133, 'HUAROCHIRI', 15),
+	(134, 'HUAURA', 15),
+	(135, 'OYON', 15),
+	(136, 'YAUYOS', 15),
+	(137, 'MAYNAS', 16),
+	(138, 'ALTO AMAZONAS', 16),
+	(139, 'LORETO', 16),
+	(140, 'MARISCAL RAMON CASTILLA', 16),
+	(141, 'REQUENA', 16),
+	(142, 'UCAYALI', 16),
+	(143, 'TAMBOPATA', 17),
+	(144, 'MANU', 17),
+	(145, 'TAHUAMANU', 17),
+	(146, 'MARISCAL NIETO', 18),
+	(147, 'GENERAL SANCHEZ CERRO', 18),
+	(148, 'ILO', 18),
+	(149, 'PASCO', 19),
+	(150, 'DANIEL ALCIDES CARRION', 19),
+	(151, 'OXAPAMPA', 19),
+	(152, 'PIURA', 20),
+	(153, 'AYABACA', 20),
+	(154, 'HUANCABAMBA', 20),
+	(155, 'MORROPON', 20),
+	(156, 'PAITA', 20),
+	(157, 'SULLANA', 20),
+	(158, 'TALARA', 20),
+	(159, 'SECHURA', 20),
+	(160, 'PUNO', 21),
+	(161, 'AZANGARO', 21),
+	(162, 'CARABAYA', 21),
+	(163, 'CHUCUITO', 21),
+	(164, 'EL COLLAO', 21),
+	(165, 'HUANCANE', 21),
+	(166, 'LAMPA', 21),
+	(167, 'MELGAR', 21),
+	(168, 'MOHO', 21),
+	(169, 'SAN ANTONIO DE PUTINA', 21),
+	(170, 'SAN ROMAN', 21),
+	(171, 'SANDIA', 21),
+	(172, 'YUNGUYO', 21),
+	(173, 'MOYOBAMBA', 22),
+	(174, 'BELLAVISTA', 22),
+	(175, 'EL DORADO', 22),
+	(176, 'HUALLAGA', 22),
+	(177, 'LAMAS', 22),
+	(178, 'MARISCAL CACERES', 22),
+	(179, 'PICOTA', 22),
+	(180, 'RIOJA', 22),
+	(181, 'SAN MARTIN', 22),
+	(182, 'TOCACHE', 22),
+	(183, 'TACNA', 23),
+	(184, 'CANDARAVE', 23),
+	(185, 'JORGE BASADRE', 23),
+	(186, 'TARATA', 23),
+	(187, 'TUMBES', 24),
+	(188, 'CONTRALMIRANTE VILLAR', 24),
+	(189, 'ZARUMILLA', 24),
+	(190, 'CORONEL PORTILLO', 25),
+	(191, 'ATALAYA', 25),
+	(192, 'PADRE ABAD', 25),
+	(193, 'PURUS', 25);
+/*!40000 ALTER TABLE `ubprovincia` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.unit_of_measurement
 CREATE TABLE IF NOT EXISTS `unit_of_measurement` (
   `UOM_ID` varchar(10) NOT NULL,
   `UOM_Description` varchar(20) NOT NULL,
   PRIMARY KEY (`UOM_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.unit_of_measurement: ~0 rows (aproximadamente)
-DELETE FROM `unit_of_measurement`;
+-- Dumping data for table newcms.unit_of_measurement: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.users
-DROP TABLE IF EXISTS `users`;
+-- Dumping structure for table newcms.users
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` char(128) NOT NULL,
   `username` varchar(128) NOT NULL,
@@ -1868,6 +6190,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `mkpin` char(6) NOT NULL,
   `create_user` timestamp NOT NULL DEFAULT current_timestamp(),
   `update_user` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_user` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`idUser`),
   UNIQUE KEY `ID_user` (`idUser`),
   UNIQUE KEY `username` (`username`),
@@ -1875,11 +6199,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.users: ~2 rows (aproximadamente)
-DELETE FROM `users`;
+-- Dumping data for table newcms.users: ~1 rows (approximately)
+INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`, `deleted_user`, `last_login`) VALUES
+	('58170864062281d66b9bdc', 'RzB5UEZxbVEyTC82bkphajhSaXpVUT09', 'NXRORnQ4M2hSSVJxeStNYjRickN5Q0RLMTFzMWVMNCtQNzlWcXJscC96WT0=', 'NzlIems0T3pMem96c0krZ3ZHbG1Kdz09', 1, 0, '127.0.0.1', '2022-03-09 03:28:31', 'null', 0, 0, '755883', '2022-03-09 03:22:14', '2022-03-09 03:28:31', '2022-12-20 23:04:20', '2022-12-20 23:04:20');
 
--- Volcando estructura para tabla newcms.users_mk
-DROP TABLE IF EXISTS `users_mk`;
+-- Dumping structure for table newcms.users_mk
 CREATE TABLE IF NOT EXISTS `users_mk` (
   `id` char(128) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
@@ -1907,11 +6231,9 @@ CREATE TABLE IF NOT EXISTS `users_mk` (
   UNIQUE KEY `password` (`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.users_mk: ~0 rows (aproximadamente)
-DELETE FROM `users_mk`;
+-- Dumping data for table newcms.users_mk: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.users_permissions
-DROP TABLE IF EXISTS `users_permissions`;
+-- Dumping structure for table newcms.users_permissions
 CREATE TABLE IF NOT EXISTS `users_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -1923,8 +6245,7 @@ CREATE TABLE IF NOT EXISTS `users_permissions` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.users_permissions: ~15 rows (aproximadamente)
-DELETE FROM `users_permissions`;
+-- Dumping data for table newcms.users_permissions: ~15 rows (approximately)
 INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
 	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
@@ -1942,8 +6263,7 @@ INSERT INTO `users_permissions` (`id`, `name`, `description`, `category`, `requi
 	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 
--- Volcando estructura para tabla newcms.users_roles
-DROP TABLE IF EXISTS `users_roles`;
+-- Dumping structure for table newcms.users_roles
 CREATE TABLE IF NOT EXISTS `users_roles` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -1955,8 +6275,7 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.users_roles: ~5 rows (aproximadamente)
-DELETE FROM `users_roles`;
+-- Dumping data for table newcms.users_roles: ~5 rows (approximately)
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Super Admin', 'Master administrator of site', 1, 9),
 	(2, 'Admin', 'Site administrator', 1, 5),
@@ -1964,8 +6283,7 @@ INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_
 	(4, 'Stantard User', 'Default site role for standard users', 1, 1),
 	(5, 'Guest', 'Guest visit', 0, 0);
 
--- Volcando estructura para tabla newcms.users_shop
-DROP TABLE IF EXISTS `users_shop`;
+-- Dumping structure for table newcms.users_shop
 CREATE TABLE IF NOT EXISTS `users_shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(65) NOT NULL,
@@ -1978,11 +6296,9 @@ CREATE TABLE IF NOT EXISTS `users_shop` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.users_shop: ~0 rows (aproximadamente)
-DELETE FROM `users_shop`;
+-- Dumping data for table newcms.users_shop: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.users_sys
-DROP TABLE IF EXISTS `users_sys`;
+-- Dumping structure for table newcms.users_sys
 CREATE TABLE IF NOT EXISTS `users_sys` (
   `username` varchar(65) NOT NULL,
   `password` varchar(64) NOT NULL,
@@ -2008,11 +6324,40 @@ CREATE TABLE IF NOT EXISTS `users_sys` (
   PRIMARY KEY (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.users_sys: ~0 rows (aproximadamente)
-DELETE FROM `users_sys`;
+-- Dumping data for table newcms.users_sys: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.user_groups
-DROP TABLE IF EXISTS `user_groups`;
+-- Dumping structure for table newcms.user_admin
+CREATE TABLE IF NOT EXISTS `user_admin` (
+  `user_admin_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `user_type` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `picture` varchar(255) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `session_id` varchar(255) DEFAULT NULL,
+  `md5_hash` varchar(255) DEFAULT NULL,
+  `md5_lasttime` datetime DEFAULT NULL,
+  `pm_sendmail` int(11) DEFAULT NULL,
+  `timestamp_login` datetime DEFAULT NULL,
+  `pass_change` int(11) DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  `timestamp_update` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_admin_id`) USING BTREE,
+  KEY `email` (`email`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.user_admin: 0 rows
+/*!40000 ALTER TABLE `user_admin` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_admin` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.user_groups
 CREATE TABLE IF NOT EXISTS `user_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(150) NOT NULL,
@@ -2022,11 +6367,9 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
   UNIQUE KEY `group_level` (`group_level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.user_groups: ~0 rows (aproximadamente)
-DELETE FROM `user_groups`;
+-- Dumping data for table newcms.user_groups: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.user_info
-DROP TABLE IF EXISTS `user_info`;
+-- Dumping structure for table newcms.user_info
 CREATE TABLE IF NOT EXISTS `user_info` (
   `userid` char(128) NOT NULL,
   `firstname` varchar(60) NOT NULL,
@@ -2044,11 +6387,9 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   CONSTRAINT `fk_userids` FOREIGN KEY (`userid`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.user_info: ~0 rows (aproximadamente)
-DELETE FROM `user_info`;
+-- Dumping data for table newcms.user_info: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.user_jail
-DROP TABLE IF EXISTS `user_jail`;
+-- Dumping structure for table newcms.user_jail
 CREATE TABLE IF NOT EXISTS `user_jail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` char(128) NOT NULL,
@@ -2061,11 +6402,20 @@ CREATE TABLE IF NOT EXISTS `user_jail` (
   CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.user_jail: ~0 rows (aproximadamente)
-DELETE FROM `user_jail`;
+-- Dumping data for table newcms.user_jail: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.uverify
-DROP TABLE IF EXISTS `uverify`;
+-- Dumping structure for table newcms.user_to_group
+CREATE TABLE IF NOT EXISTS `user_to_group` (
+  `user_admin_id` int(11) NOT NULL,
+  `user_groups_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_admin_id`,`user_groups_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Dumping data for table newcms.user_to_group: 0 rows
+/*!40000 ALTER TABLE `user_to_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_to_group` ENABLE KEYS */;
+
+-- Dumping structure for table newcms.uverify
 CREATE TABLE IF NOT EXISTS `uverify` (
   `iduv` char(128) NOT NULL,
   `username` varchar(65) NOT NULL,
@@ -2091,11 +6441,11 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.uverify: ~2 rows (aproximadamente)
-DELETE FROM `uverify`;
+-- Dumping data for table newcms.uverify: ~1 rows (approximately)
+INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
+	('58170864062281d66b9bdc', 'pepiuox', 'contact@pepiuox.net', 'NzlIems0T3pMem96c0krZ3ZHbG1Kdz09', '67886bb039c5cda47ddbb60b481619ef2f635b37', 'b547da6046b66e07a0facda843a199e86fc64b1b', 'fd48a341c66176802fa82f4c7611d67332e22056', '755883', 'Super Admin', NULL, '', NULL, NULL, 0, 1, 1, 0, '2022-12-26 06:07:36');
 
--- Volcando estructura para tabla newcms.videos
-DROP TABLE IF EXISTS `videos`;
+-- Dumping structure for table newcms.videos
 CREATE TABLE IF NOT EXISTS `videos` (
   `idVd` int(11) NOT NULL AUTO_INCREMENT,
   `pageId` int(11) DEFAULT 0,
@@ -2109,11 +6459,9 @@ CREATE TABLE IF NOT EXISTS `videos` (
   PRIMARY KEY (`idVd`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.videos: ~0 rows (aproximadamente)
-DELETE FROM `videos`;
+-- Dumping data for table newcms.videos: ~0 rows (approximately)
 
--- Volcando estructura para tabla newcms.video_gal
-DROP TABLE IF EXISTS `video_gal`;
+-- Dumping structure for table newcms.video_gal
 CREATE TABLE IF NOT EXISTS `video_gal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `galId` int(11) DEFAULT 0,
@@ -2125,12 +6473,10 @@ CREATE TABLE IF NOT EXISTS `video_gal` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.video_gal: ~0 rows (aproximadamente)
-DELETE FROM `video_gal`;
+-- Dumping data for table newcms.video_gal: ~0 rows (approximately)
 
--- Volcando estructura para vista newcms.view_purchases_details
-DROP VIEW IF EXISTS `view_purchases_details`;
--- Creando tabla temporal para superar errores de dependencia de VIEW
+-- Dumping structure for view newcms.view_purchases_details
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_purchases_details` (
 	`Purchase_ID` INT(11) NOT NULL,
 	`Purchase_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2142,9 +6488,8 @@ CREATE TABLE `view_purchases_details` (
 	`Purchasing_Total_Amount` DOUBLE(20,0) NOT NULL
 ) ENGINE=MyISAM;
 
--- Volcando estructura para vista newcms.view_purchases_outstandings
-DROP VIEW IF EXISTS `view_purchases_outstandings`;
--- Creando tabla temporal para superar errores de dependencia de VIEW
+-- Dumping structure for view newcms.view_purchases_outstandings
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_purchases_outstandings` (
 	`Purchase_ID` INT(11) NOT NULL,
 	`Purchase_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2156,9 +6501,8 @@ CREATE TABLE `view_purchases_outstandings` (
 	`Total_Balance` DOUBLE(20,0) NULL
 ) ENGINE=MyISAM;
 
--- Volcando estructura para vista newcms.view_sales_details
-DROP VIEW IF EXISTS `view_sales_details`;
--- Creando tabla temporal para superar errores de dependencia de VIEW
+-- Dumping structure for view newcms.view_sales_details
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_sales_details` (
 	`Sales_ID` INT(11) NOT NULL,
 	`Sales_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2170,9 +6514,8 @@ CREATE TABLE `view_sales_details` (
 	`Sales_Total_Amount` DOUBLE NOT NULL
 ) ENGINE=MyISAM;
 
--- Volcando estructura para vista newcms.view_sales_outstandings
-DROP VIEW IF EXISTS `view_sales_outstandings`;
--- Creando tabla temporal para superar errores de dependencia de VIEW
+-- Dumping structure for view newcms.view_sales_outstandings
+-- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_sales_outstandings` (
 	`Sales_ID` INT(11) NOT NULL,
 	`Sales_Number` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
@@ -2190,21 +6533,18 @@ CREATE TABLE `view_sales_outstandings` (
 	`Final_Total_Amount` DOUBLE NULL
 ) ENGINE=MyISAM;
 
--- Volcando estructura para tabla newcms.visitor
-DROP TABLE IF EXISTS `visitor`;
+-- Dumping structure for table newcms.visitor
 CREATE TABLE IF NOT EXISTS `visitor` (
   `ip` varchar(15) NOT NULL,
   `timestamp` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.visitor: ~2 rows (aproximadamente)
-DELETE FROM `visitor`;
+-- Dumping data for table newcms.visitor: ~2 rows (approximately)
 INSERT INTO `visitor` (`ip`, `timestamp`) VALUES
 	('127.0.0.1', '1629510472'),
 	('::1', '1630197317');
 
--- Volcando estructura para tabla newcms.volunteer
-DROP TABLE IF EXISTS `volunteer`;
+-- Dumping structure for table newcms.volunteer
 CREATE TABLE IF NOT EXISTS `volunteer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(50) DEFAULT NULL,
@@ -2236,12 +6576,10 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla newcms.volunteer: ~0 rows (aproximadamente)
-DELETE FROM `volunteer`;
+-- Dumping data for table newcms.volunteer: ~0 rows (approximately)
 
--- Volcando estructura para vista newcms.view_purchases_details
-DROP VIEW IF EXISTS `view_purchases_details`;
--- Eliminando tabla temporal y crear estructura final de VIEW
+-- Dumping structure for view newcms.view_purchases_details
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_purchases_details`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_details` AS SELECT
 purchases_detail.Purchase_ID,
@@ -2255,9 +6593,8 @@ purchases_detail.Purchasing_Total_Amount
 FROM
 purchases_detail ;
 
--- Volcando estructura para vista newcms.view_purchases_outstandings
-DROP VIEW IF EXISTS `view_purchases_outstandings`;
--- Eliminando tabla temporal y crear estructura final de VIEW
+-- Dumping structure for view newcms.view_purchases_outstandings
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_purchases_outstandings`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_purchases_outstandings` AS SELECT
 purchases.Purchase_ID,
@@ -2272,9 +6609,8 @@ FROM
 purchases 
 WHERE purchases.Total_Balance <> 0 ;
 
--- Volcando estructura para vista newcms.view_sales_details
-DROP VIEW IF EXISTS `view_sales_details`;
--- Eliminando tabla temporal y crear estructura final de VIEW
+-- Dumping structure for view newcms.view_sales_details
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_sales_details`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_details` AS SELECT
 sales_detail.Sales_ID,
@@ -2288,9 +6624,8 @@ sales_detail.Sales_Total_Amount
 FROM
 sales_detail ;
 
--- Volcando estructura para vista newcms.view_sales_outstandings
-DROP VIEW IF EXISTS `view_sales_outstandings`;
--- Eliminando tabla temporal y crear estructura final de VIEW
+-- Dumping structure for view newcms.view_sales_outstandings
+-- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_sales_outstandings`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_sales_outstandings` AS SELECT
 sales.Sales_ID,

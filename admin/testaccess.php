@@ -17,7 +17,8 @@ if (file_exists($connfile)) {
 <html lang="en">
     <head>
         <title>test</title>
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="<?php echo $base; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+        
     </head>
     <body>
         <link href="<?php echo $base; ?>assets/css/sortablemenu.css" rel="stylesheet" type="text/css"/>
