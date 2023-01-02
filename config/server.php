@@ -21,7 +21,7 @@ $settings = array(
         ),
         'login' => array(
             'server' => 'localhost',
-            'database' => 'projectloginsytem',
+            'database' => 'newcms',
             'username' => 'root',
             'password' => 'truelove',
             'charset' => 'utf8',

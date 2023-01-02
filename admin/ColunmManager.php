@@ -24,7 +24,7 @@ if ($w == "set") {
             var value = selecttb;
             //var path=$(location).attr('href');     
             value = value.replace("_", " ");
-            var url = 'ColunmManager.php?w=set&tbl=' + selecttb;
+            var url = 'colunmManager.php?w=set&tbl=' + selecttb;
             $('#fttl').text('Form ' + value);
             window.location.replace(url);
         });

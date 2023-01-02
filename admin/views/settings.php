@@ -117,8 +117,8 @@ if (isset($_POST['Update'])) {
                                     <input type="FILE" class="form-control" id="SITE_BRAND_IMG" name="SITE_BRAND_IMG" value="<?php echo $confs["SITE_BRAND_IMG"]; ?>">
                                 </div>
                                 <div class="form-group">
-                                    <label for="SITE_PATH">SITE PATH:</label>
-                                    <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $confs["SITE_PATH"]; ?>">
+                                    <label for="SITE_PATH;">SITE PATH:</label>
+                                    <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH;" value="<?php echo $confs["SITE_PATH"]; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE_DESCRIPTION">SITE DESCRIPTION:</label>

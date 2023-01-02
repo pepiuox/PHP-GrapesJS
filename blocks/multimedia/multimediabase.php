@@ -70,7 +70,7 @@
         </div>       
     </div>
 </div>    
-<script src="<?php echo $base; ?>assets/js/plyr.js" type="text/javascript"></script>
+<script src="<?php echo SITE_PATH; ?>assets/js/plyr.js" type="text/javascript"></script>
 <script>
                     plyr.setup();
 </script>

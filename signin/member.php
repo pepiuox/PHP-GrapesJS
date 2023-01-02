@@ -26,7 +26,7 @@ if (file_exists($connfile)) {
         ?>
         <div class="login-box">
             <div class="login-logo">
-                <a href="<?php echo $base; ?>index2.php"><?php echo SITE_NAME; ?></a>
+                <a href="<?php echo SITE_PATH; ?>index2.php"><?php echo SITE_NAME; ?></a>
             </div>
             <!-- /.login-logo -->
             <div class="card">
@@ -79,10 +79,10 @@ if (file_exists($connfile)) {
                     <!-- /.social-auth-links -->
 
                     <p class="mb-1">
-                        <a href="<?php echo $base; ?>signin/forgot-password.php">I forgot my password</a>
+                        <a href="<?php echo SITE_PATH; ?>signin/forgot-password.php">I forgot my password</a>
                     </p>
                     <p class="mb-0">
-                        <a href="<?php echo $base; ?>signin/register.php" class="text-center">Register a new membership</a>
+                        <a href="<?php echo SITE_PATH; ?>signin/register.php" class="text-center">Register a new membership</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->
@@ -90,9 +90,9 @@ if (file_exists($connfile)) {
         </div>
         <!-- /.login-box -->
     <?php } ?>
-    <script src="<?php echo $base; ?>assets/js/jquery.min.js" type="text/javascript"></script>
-    <script src="<?php echo $base; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>        
-    <script src="<?php echo $base; ?>assets/js/popper.min.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>        
+    <script src="<?php echo SITE_PATH; ?>assets/js/popper.min.js" type="text/javascript"></script>
 
 </body>
 </html>

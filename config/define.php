@@ -1,12 +1,12 @@
 <?php
-define('DOMAIN_SITE','http://www.phpgrapesjs.com');
- define('SITE_NAME','PHP GrapesJS');
+define('DOMAIN_SITE','http://localhost:130');
+ define('SITE_NAME','Circulo de Piccha');
  define('SITE_BRAND_IMG','');
  define('SITE_PATH','http://localhost:130/');
  define('SITE_DESCRIPTION','Your description for your domains');
  define('SITE_KEYWORDS','Your keywords for your domains');
  define('SITE_CLASSIFICATION','Your classification for your domains');
- define('SITE_EMAIL','info@phpgrapesjs.com');
+ define('SITE_EMAIL','info@circulodepiccha.com');
  define('SITE_IMAGE','dashboard');
  define('SITE_ADMIN','dashboard');
  define('SITE_CONTROL','users');
@@ -20,7 +20,7 @@ define('DOMAIN_SITE','http://www.phpgrapesjs.com');
  define('SITE_LIST','list');
  define('NAME_CONTACT','Jose Mantilla');
  define('PHONE_CONTACT','0051999063645');
- define('EMAIL_CONTACT','contact@pepiuox.net');
+ define('EMAIL_CONTACT','info@circulodepiccha.com');
  define('ADDRESS','Lima - Peru');
  define('TWITTER','@pepiuox');
  define('FACEBOOKID','pepiuox');

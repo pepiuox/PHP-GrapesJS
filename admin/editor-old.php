@@ -26,47 +26,47 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <head>
                 <meta charset="utf-8">
                 <title><?php echo SITE_NAME; ?> | Builder</title>
-                <link href="<?php echo $base; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
+                <link href="<?php echo SITE_PATH; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>                
                 <!-- Font Awesome -->
-                <link href="<?php echo $base; ?>assets/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/font-awesome.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/plugins/fontawesome-free/css/all.min.css">  
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/toastr.min.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/grapes.min.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/grapesjs-preset-webpage.min.css">
-                <link href="<?php echo $base; ?>assets/css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/tooltip.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/grapesjs-plugin-filestack.css">
-                <link rel="stylesheet" href="<?php echo $base; ?>assets/css/demos.css">
-                <link href="<?php echo $base; ?>assets/css/grapesjs-project-manager.min.css" rel="stylesheet">
-                <script src="<?php echo $base; ?>assets/js/jquery.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>            
-                <!--  <script src="<?php echo $base; ?>assets/js/backbone-min.js"></script> -->
-                <script src="<?php echo $base; ?>assets/js/toastr.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapes.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-bootstrap-elements.js"></script>
-                <script src="<?php echo $base; ?>assets/ckeditor/ckeditor.js"></script>                
-                <script src="<?php echo $base; ?>assets/js/grapesjs-preset-webpage.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-lory-slider.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-tabs.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-custom-code.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-touch.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-tooltip.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-tui-image-editor.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-navbar.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-blocks-bootstrap4.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-code-editor.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-plugin-ckeditor.min.js"></script>                            
-                <script src="<?php echo $base; ?>assets/js/grapesjs-script-editor.min.js" type="text/javascript"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-typed.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-uikit"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-page-break.min.js"></script>                
-                <script src="<?php echo $base; ?>assets/js/grapesjs-project-manager"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-ga"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
-                <script src="<?php echo $base; ?>assets/js/grapesjs-swiper-slider.min.js"></script>
+                <link href="<?php echo SITE_PATH; ?>assets/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/font-awesome.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome-free/css/all.min.css">  
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/toastr.min.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/grapes.min.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/grapesjs-preset-webpage.min.css">
+                <link href="<?php echo SITE_PATH; ?>assets/css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/tooltip.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/grapesjs-plugin-filestack.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/demos.css">
+                <link href="<?php echo SITE_PATH; ?>assets/css/grapesjs-project-manager.min.css" rel="stylesheet">
+                <script src="<?php echo SITE_PATH; ?>assets/js/jquery.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>            
+                <!--  <script src="<?php echo SITE_PATH; ?>assets/js/backbone-min.js"></script> -->
+                <script src="<?php echo SITE_PATH; ?>assets/js/toastr.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapes.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-bootstrap-elements.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/ckeditor/ckeditor.js"></script>                
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-preset-webpage.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-lory-slider.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-tabs.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-component-code-editor.min.js" type="text/javascript"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-custom-code.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-touch.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-tooltip.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-tui-image-editor.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-navbar.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-blocks-bootstrap4.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-code-editor.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-plugin-ckeditor.min.js"></script>                            
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-script-editor.min.js" type="text/javascript"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-typed.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-uikit"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-page-break.min.js"></script>                
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-project-manager"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-ga"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-swiper-slider.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
                         let imp = $("span").find("[data-tooltip='Import']");
@@ -129,7 +129,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                     <?php
                                     if (!empty(USERS_AVATARS)) {
-                                        echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                        echo '<img src="<?php echo SITE_PATH; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
                                     }
                                     ?>
                                     <i class="far fa-user"></i>
@@ -140,7 +140,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <li class="user-header bg-primary">
                                         <?php
                                         if (!empty(USERS_AVATARS)) {
-                                            echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                            echo '<img src="<?php echo SITE_PATH; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
                                         }
                                         ?>
                                         <p>
@@ -181,7 +181,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <!<!-- end menu -->
                 <div style="display: none">
                     <div class="gjs-logo-cont">
-                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo $base; ?>assets/images/grapesjs-logo-cl.png"></a>
+                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo SITE_PATH; ?>assets/images/grapesjs-logo-cl.png"></a>
                         <div class="gjs-logo-version"></div>
                     </div>
                 </div>

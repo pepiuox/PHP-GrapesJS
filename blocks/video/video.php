@@ -82,9 +82,9 @@ if ($num_cnt > 0) {
             </div>
         </div>    
     </div>
-    <script src="<?php echo $base; ?>assets/js/jquery.ui.widget.js" type="text/javascript"></script>
-    <script src="<?php echo $base; ?>assets/js/froogaloop.js" type="text/javascript"></script>
-    <script src="<?php echo $base; ?>assets/js/jquery.dcd.video.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/froogaloop.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/jquery.dcd.video.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
             $('.video').video();

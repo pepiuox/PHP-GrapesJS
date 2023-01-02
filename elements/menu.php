@@ -57,7 +57,7 @@ if ($rmopt['color'] === 'light') {
 ?>
 <nav class="navbar navbar-expand-lg <?php echo $background; ?> <?php echo $color; ?>" id="<?php echo $id_menu; ?>">
  <div class="<?php echo $fluid; ?>">
-<a class="navbar-brand" href="<?php echo $base; ?>">
+<a class="navbar-brand" href="<?php echo SITE_PATH; ?>">
 <?php 
 if (file_exists(SITE_BRAND_IMG)) {
 ?>
@@ -149,8 +149,7 @@ if (file_exists(SITE_BRAND_IMG)) {
                     echo '</ul>' . "\n";
                 }
                 
-                
-
+               
                 echo dropdown();
                 ?>
             </ul>	

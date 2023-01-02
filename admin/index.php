@@ -11,9 +11,13 @@ if (file_exists($connfile)) {
     $login = new UserClass();
 
     if ($login->isLoggedIn() === true) {
-
-        header('Location: dashboard.php');
+        if($level->levels() === 5 || $level->levels() === 9){
+        header('Location: ../admin/dashboard.php');
         exit();
+        }else{
+          header('Location: ../users/profile.php');
+        exit();  
+        }
     } else {
 
         $redirect = '../signin/login.php';

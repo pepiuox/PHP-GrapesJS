@@ -19,8 +19,13 @@ if (file_exists($connfile)) {
 <body class="hold-transition login-page">
     <?php
     if ($login->isLoggedIn() === true) {
-        header('Location: ../users/profile.php');
+        if($level->levels() === 5 || $level->levels() === 9){
+        header('Location: ../admin/dashboard.php');
         exit();
+        }else{
+          header('Location: ../users/profile.php');
+        exit();  
+        }
     } else {
         /* login-box */
         if (isset($_SESSION['attempt']) || isset($_SESSION['attempt_again'])) {

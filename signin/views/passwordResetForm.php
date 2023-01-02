@@ -6,7 +6,7 @@ if (!empty($_GET['email']) && !empty($_GET['key']) && !empty($_GET['hash'])) {
     ?>
     <div class="login-box">
         <div class="login-logo">
-            <a href="<?php echo $base; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>
+            <a href="<?php echo SITE_PATH; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -47,7 +47,7 @@ if (!empty($_GET['email']) && !empty($_GET['key']) && !empty($_GET['hash'])) {
                 </form>
 
                 <p class="mt-3 mb-1">
-                    <a href="<?php echo $base; ?>signin/login.php">Login</a>
+                    <a href="<?php echo SITE_PATH; ?>signin/login.php">Login</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

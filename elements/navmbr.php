@@ -5,10 +5,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo $base; ?>index.php" class="nav-link">Home</a>
+            <a href="<?php echo SITE_PATH; ?>index.php" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo $base; ?>members/profile.php?user=contacts" class="nav-link">Contact</a>
+            <a href="<?php echo SITE_PATH; ?>members/profile.php?user=contacts" class="nav-link">Contact</a>
         </li>         
     </ul>
 
@@ -31,7 +31,7 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <?php
                 if (!empty(USERS_AVATARS)) {
-                    echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                    echo '<img src="<?php echo SITE_PATH; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
                 }
                 ?>
                 <i class="far fa-user"></i>
@@ -43,7 +43,7 @@
                 <li class="user-header bg-primary">
                     <?php
                     if (!empty(USERS_AVATARS)) {
-                        echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                        echo '<img src="<?php echo SITE_PATH; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
                     }
                     ?>
                     <p>

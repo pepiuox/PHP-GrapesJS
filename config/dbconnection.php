@@ -10,9 +10,9 @@ require 'function.php';
 include 'define.php';
 
 if (!empty(SITE_PATH)) {
-    $_SESSION['base'] = $base = SITE_PATH;
+    $_SESSION['base'] =  SITE_PATH;
 } else {
-    $_SESSION['base'] = $base = 'http://localhost:130/';
+    $_SESSION['base'] =  'http://localhost:130/';
 }
 
 $fname = basename($_SERVER['SCRIPT_FILENAME'], '.php');

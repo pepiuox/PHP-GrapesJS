@@ -3,7 +3,7 @@ include '../elements/alerts.php';
 ?>
 <div class="register-box">
     <div class="register-logo">
-        <a href="<?php echo $base; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>
+        <a href="<?php echo SITE_PATH; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>
     </div>
 
     <div class="card">

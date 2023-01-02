@@ -12,7 +12,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/index.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/index.php" class="nav-link <?php
                     if ($fname === 'dashboard') {
                         echo 'active';
                     }
@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=siteconf" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=siteconf" class="nav-link <?php
                     if ($cms === 'siteconf') {
                         echo 'active';
                     }
@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=menu" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=menu" class="nav-link <?php
                     if ($cms === 'menu') {
                         echo 'active';
                     }
@@ -46,7 +46,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=plugins" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=plugins" class="nav-link <?php
                     if ($cms === 'plugins') {
                         echo 'active';
                     }
@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=volunteer" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=volunteer" class="nav-link <?php
                     if ($cms === 'volunteer') {
                         echo 'active';
                     }
@@ -68,7 +68,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=users" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=users" class="nav-link <?php
                     if ($cms === 'users') {
                         echo 'active';
                     }
@@ -78,7 +78,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
                     if ($cms === 'adduser') {
                         echo 'active';
                     }
@@ -121,7 +121,7 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
+            <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
             if ($cms === 'pagelist') {
                 echo 'active';
             }
@@ -133,7 +133,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>admin/dashboard.php?cms=addpage" class="nav-link <?php
+            <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=addpage" class="nav-link <?php
             if ($cms === 'addpage') {
                 echo 'active';
             }
@@ -154,7 +154,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>users/profile.php?user=pinfo" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=pinfo" class="nav-link <?php
                     if ($user === 'pinfo') {
                         echo 'active';
                     }
@@ -164,7 +164,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>users/profile.php?user=pdetail" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=pdetail" class="nav-link <?php
                     if ($user === 'pdetail') {
                         echo 'active';
                     }
@@ -174,7 +174,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>users/profile.php?user=sphra" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=sphra" class="nav-link <?php
                     if ($user === 'sphra') {
                         echo 'active';
                     }
@@ -184,7 +184,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>users/profile.php?user=chpass" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=chpass" class="nav-link <?php
                     if ($user === 'chpass') {
                         echo 'active';
                     }
@@ -194,7 +194,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>users/profile.php?user=chpin" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=chpin" class="nav-link <?php
                     if ($user === 'chpin') {
                         echo 'active';
                     }
@@ -217,7 +217,7 @@
             </a>
             <ul class="nav nav-treeview">                
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
                     if ($cms === 'table_config') {
                         echo 'active';
                     }
@@ -227,7 +227,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
                     if ($cms === 'querybuilder') {
                         echo 'active';
                     }
@@ -237,7 +237,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
                     if ($cms === 'crud') {
                         echo 'active';
                     }
@@ -258,7 +258,7 @@
             </a>
             <ul class="nav nav-treeview">                
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/recover-password.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/recover-password.php" class="nav-link <?php
                     if ($fname === 'recover-password') {
                         echo 'active';
                     }
@@ -268,7 +268,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/lockscreen.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/lockscreen.php" class="nav-link <?php
                     if ($fname === 'lockscreen') {
                         echo 'active';
                     }
@@ -278,7 +278,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/legacy-user-menu.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/legacy-user-menu.php" class="nav-link <?php
                     if ($fname === 'legacy-user-menu') {
                         echo 'active';
                     }
@@ -288,7 +288,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/language-menu.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/language-menu.php" class="nav-link <?php
                     if ($fname === 'language-menu') {
                         echo 'active';
                     }
@@ -298,7 +298,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/404.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/404.php" class="nav-link <?php
                     if ($fname === '404') {
                         echo 'active';
                     }
@@ -308,7 +308,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/500.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/500.php" class="nav-link <?php
                     if ($fname === '500') {
                         echo 'active';
                     }
@@ -318,7 +318,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/pace.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/pace.php" class="nav-link <?php
                     if ($fname === 'pace') {
                         echo 'active';
                     }
@@ -328,7 +328,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>admin/blank.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>admin/blank.php" class="nav-link <?php
                     if ($fname === 'blank') {
                         echo 'active';
                     }
@@ -338,7 +338,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>starter.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>starter.php" class="nav-link <?php
                     if ($fname === 'starter') {
                         echo 'active';
                     }

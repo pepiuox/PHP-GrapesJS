@@ -9,10 +9,10 @@ class GetVisitor {
 
     public function __construct() {
 
-        global $conn, $base;
+        global $conn;
         $date = new DateTime();
         $this->timestamp = $date->getTimestamp();
-        $this->system = $base;
+        $this->system = SITE_PATH;
         $this->connection = $conn;
 
         $this->getip = $this->getUserIP();

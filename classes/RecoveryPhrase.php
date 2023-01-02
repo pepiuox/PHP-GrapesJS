@@ -14,9 +14,9 @@ class RecoveryPhrase {
 
     //put your code here
     public function __construct() {
-        global $conn, $base;
+        global $conn;
         $this->connection = $conn;
-        $this->baseurl = $base;
+        $this->baseurl = SITE_PATH;
 
         $this->iduv = $_SESSION['user_id'];
         $this->level = $_SESSION['levels'];

@@ -5,10 +5,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo $base; ?>index.php" class="nav-link">Home</a>
+            <a href="<?php echo SITE_PATH; ?>index.php" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo $base; ?>users/profile.php?user=contacts" class="nav-link">Contact</a>
+            <a href="<?php echo SITE_PATH; ?>users/profile.php?user=contacts" class="nav-link">Contact</a>
         </li>         
     </ul>
 
@@ -27,7 +27,7 @@
                                     <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         <?php
                                         if (!empty(USERS_AVATARS)) {
-                                            echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                            echo '<img src="<?php echo SITE_PATH; ?>uploads/' . USERS_AVATARS . '" class="user-image img-circle elevation-2" alt="' . USERS_NAMES . '">';
                                         }
                                         ?>
                                         <i class="fa fa-user"></i>
@@ -38,7 +38,7 @@
                                         <li class="dropdown-item user-header">
                                             <?php
                                             if (!empty(USERS_AVATARS)) {
-                                                echo '<img src="<?php echo $base; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
+                                                echo '<img src="<?php echo SITE_PATH; ?>uploads/' . USERS_AVATARS . '" class="img-circle elevation-2" alt="' . USERS_NAMES . '">';
                                             }
                                             ?>
                                             <p>

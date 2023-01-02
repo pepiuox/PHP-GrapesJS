@@ -3,7 +3,7 @@ include '../elements/alerts.php';
 ?>
 <div class="login-box">
     <div class="login-logo">
-        <a href="<?php echo $base; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>
+        <a href="<?php echo SITE_PATH; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -56,13 +56,13 @@ include '../elements/alerts.php';
             </form>
 
             <p class="mb-1">
-                <a href="<?php echo $base; ?>signin/forgot-password.php">I forgot my password</a>
+                <a href="<?php echo SITE_PATH; ?>signin/forgot-password.php">I forgot my password</a>
             </p>
             <p class="mb-1">
-                <a href="<?php echo $base; ?>signin/forgot-password.php">I forgot my PIN</a>
+                <a href="<?php echo SITE_PATH; ?>signin/forgot-password.php">I forgot my PIN</a>
             </p>
             <p class="mb-0">
-                <a href="<?php echo $base; ?>signin/register.php" class="text-center">Register a new membership</a>
+                <a href="<?php echo SITE_PATH; ?>signin/register.php" class="text-center">Register a new membership</a>
             </p>
         </div>
         <!-- /.login-card-body -->

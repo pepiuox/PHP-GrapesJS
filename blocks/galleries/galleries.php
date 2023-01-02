@@ -21,7 +21,7 @@ if ($num_ct > 0) {
                 </div>
                 <div class="col-md-1">
                     <div class="controls">                    
-                        <a onclick="$(document).toggleFullScreen()"><img src="<?php echo $base; ?>assets/images/e-arrows.png" /></a>                                                 
+                        <a onclick="$(document).toggleFullScreen()"><img src="<?php echo SITE_PATH; ?>assets/images/e-arrows.png" /></a>                                                 
                     </div>
                 </div>
             </div>

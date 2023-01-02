@@ -12,7 +12,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>index.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>index.php" class="nav-link <?php
                     if ($fname === 'index') {
                         echo 'active';
                     }
@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>index2.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>index2.php" class="nav-link <?php
                     if ($fname === 'index2') {
                         echo 'active';
                     }
@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>index3.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>index3.php" class="nav-link <?php
                     if ($fname === 'index3') {
                         echo 'active';
                     }
@@ -44,7 +44,7 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>pages/widgets.php" class="nav-link <?php
+            <a href="<?php echo SITE_PATH; ?>pages/widgets.php" class="nav-link <?php
             if ($fname === 'widgets') {
                 echo 'active';
             }
@@ -67,7 +67,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/top-nav.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/top-nav.php" class="nav-link <?php
                     if ($fname === 'top-nav') {
                         echo 'active';
                     }
@@ -77,7 +77,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/top-nav-sidebar.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/top-nav-sidebar.php" class="nav-link <?php
                     if ($fname === 'top-nav-sidebar') {
                         echo 'active';
                     }
@@ -87,7 +87,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/boxed.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/boxed.php" class="nav-link <?php
                     if ($fname === 'boxed') {
                         echo 'active';
                     }
@@ -97,7 +97,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/fixed-sidebar.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/fixed-sidebar.php" class="nav-link <?php
                     if ($fname === 'fixed-sidebar') {
                         echo 'active';
                     }
@@ -107,7 +107,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/fixed-topnav.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/fixed-topnav.php" class="nav-link <?php
                     if ($fname === 'fixed-topnav') {
                         echo 'active';
                     }
@@ -117,7 +117,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/fixed-footer.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/fixed-footer.php" class="nav-link <?php
                     if ($fname === 'fixed-footer') {
                         echo 'active';
                     }
@@ -127,7 +127,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/layout/collapsed-sidebar.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/layout/collapsed-sidebar.php" class="nav-link <?php
                     if ($fname === 'collapsed-sidebar') {
                         echo 'active';
                     }
@@ -148,7 +148,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/charts/chartjs.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/charts/chartjs.php" class="nav-link <?php
                     if ($fname === 'chartjs') {
                         echo 'active';
                     }
@@ -158,7 +158,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/charts/flot.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/charts/flot.php" class="nav-link <?php
                     if ($fname === 'flot') {
                         echo 'active';
                     }
@@ -168,7 +168,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/charts/inline.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/charts/inline.php" class="nav-link <?php
                     if ($fname === 'inline') {
                         echo 'active';
                     }
@@ -189,7 +189,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/general.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/general.php" class="nav-link <?php
                     if ($fname === 'general') {
                         echo 'active';
                     }
@@ -199,7 +199,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/icons.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/icons.php" class="nav-link <?php
                     if ($fname === 'icons') {
                         echo 'active';
                     }
@@ -209,7 +209,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/buttons.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/buttons.php" class="nav-link <?php
                     if ($fname === 'buttons') {
                         echo 'active';
                     }
@@ -219,7 +219,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/sliders.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/sliders.php" class="nav-link <?php
                     if ($fname === 'sliders') {
                         echo 'active';
                     }
@@ -229,7 +229,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/modals.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/modals.php" class="nav-link <?php
                     if ($fname === 'modals') {
                         echo 'active';
                     }
@@ -239,7 +239,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/navbar.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/navbar.php" class="nav-link <?php
                     if ($fname === 'navbar') {
                         echo 'active';
                     }
@@ -249,7 +249,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/timeline.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/timeline.php" class="nav-link <?php
                     if ($fname === 'timeline') {
                         echo 'active';
                     }
@@ -259,7 +259,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/UI/ribbons.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/UI/ribbons.php" class="nav-link <?php
                     if ($fname === 'ribbons') {
                         echo 'active';
                     }
@@ -280,7 +280,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/forms/general.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/forms/general.php" class="nav-link <?php
                     if ($fname === 'general') {
                         echo 'active';
                     }
@@ -290,7 +290,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/forms/advanced.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/forms/advanced.php" class="nav-link <?php
                     if ($fname === 'advanced') {
                         echo 'active';
                     }
@@ -300,7 +300,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/forms/editors.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/forms/editors.php" class="nav-link <?php
                     if ($fname === 'editors') {
                         echo 'active';
                     }
@@ -310,7 +310,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/forms/validation.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/forms/validation.php" class="nav-link <?php
                     if ($fname === 'validation') {
                         echo 'active';
                     }
@@ -331,7 +331,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/tables/simple.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/tables/simple.php" class="nav-link <?php
                     if ($fname === 'simple') {
                         echo 'active';
                     }
@@ -341,7 +341,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/tables/data.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/tables/data.php" class="nav-link <?php
                     if ($fname === 'data') {
                         echo 'active';
                     }
@@ -351,7 +351,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/tables/jsgrid.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/tables/jsgrid.php" class="nav-link <?php
                     if ($fname === 'jsgrid') {
                         echo 'active';
                     }
@@ -364,7 +364,7 @@
         </li>
         <li class="nav-header">EXAMPLES</li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>pages/calendar.php" class="nav-link <?php
+            <a href="<?php echo SITE_PATH; ?>pages/calendar.php" class="nav-link <?php
             if ($fname === 'calendar') {
                 echo 'active';
             }
@@ -377,7 +377,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="<?php echo $base; ?>pages/gallery.php" class="nav-link <?php
+            <a href="<?php echo SITE_PATH; ?>pages/gallery.php" class="nav-link <?php
             if ($fname === 'gallery') {
                 echo 'active';
             }
@@ -398,7 +398,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/mailbox/mailbox.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/mailbox/mailbox.php" class="nav-link <?php
                     if ($fname === 'mailbox') {
                         echo 'active';
                     }
@@ -408,7 +408,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/mailbox/compose.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/mailbox/compose.php" class="nav-link <?php
                     if ($fname === 'compose') {
                         echo 'active';
                     }
@@ -418,7 +418,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/mailbox/read-mail.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/mailbox/read-mail.php" class="nav-link <?php
                     if ($fname === 'read-mail') {
                         echo 'active';
                     }
@@ -469,7 +469,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/login.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/login.php" class="nav-link <?php
                     if ($fname === 'login') {
                         echo 'active';
                     }
@@ -479,7 +479,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/register.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/register.php" class="nav-link <?php
                     if ($fname === 'register') {
                         echo 'active';
                     }
@@ -489,7 +489,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/forgot-password.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/forgot-password.php" class="nav-link <?php
                     if ($fname === 'forgot-password') {
                         echo 'active';
                     }
@@ -499,7 +499,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/recover-password.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/recover-password.php" class="nav-link <?php
                     if ($fname === 'recover-password') {
                         echo 'active';
                     }
@@ -509,7 +509,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/lockscreen.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/lockscreen.php" class="nav-link <?php
                     if ($fname === 'lockscreen') {
                         echo 'active';
                     }
@@ -519,7 +519,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/legacy-user-menu.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/legacy-user-menu.php" class="nav-link <?php
                     if ($fname === 'legacy-user-menu') {
                         echo 'active';
                     }
@@ -529,7 +529,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/language-menu.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/language-menu.php" class="nav-link <?php
                     if ($fname === 'language-menu') {
                         echo 'active';
                     }
@@ -539,7 +539,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/404.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/404.php" class="nav-link <?php
                     if ($fname === '404') {
                         echo 'active';
                     }
@@ -549,7 +549,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/500.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/500.php" class="nav-link <?php
                     if ($fname === '500') {
                         echo 'active';
                     }
@@ -559,7 +559,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/pace.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/pace.php" class="nav-link <?php
                     if ($fname === 'pace') {
                         echo 'active';
                     }
@@ -569,7 +569,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>pages/examples/blank.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>pages/examples/blank.php" class="nav-link <?php
                     if ($fname === 'blank') {
                         echo 'active';
                     }
@@ -579,7 +579,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo $base; ?>starter.php" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>starter.php" class="nav-link <?php
                     if ($fname === 'starter') {
                         echo 'active';
                     }

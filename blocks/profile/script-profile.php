@@ -53,8 +53,8 @@
     }
     
 </style>
-<script src="<?php echo $base; ?>assets/js/image-scale.min.js" type="text/javascript"></script>
-<script src="<?php echo $base; ?>assets/js/jquery.jscrollpane.min.js" type="text/javascript"></script>
+<script src="<?php echo SITE_PATH; ?>assets/js/image-scale.min.js" type="text/javascript"></script>
+<script src="<?php echo SITE_PATH; ?>assets/js/jquery.jscrollpane.min.js" type="text/javascript"></script>
 <script>
     $(function () {
         $("img.scale").imageScale({

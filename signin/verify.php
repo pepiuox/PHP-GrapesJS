@@ -37,7 +37,7 @@ require '../PHPMailer/src/SMTP.php';
             <div class="row">
                 <div class="login-box">
                     <div class="login-logo">
-                        <a href="<?php echo $base; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>
+                        <a href="<?php echo SITE_PATH; ?>index.php"><b><?php echo SITE_NAME; ?></b></a>
                     </div>
                     <div class="col-md-12 p-3">   
                         <?php

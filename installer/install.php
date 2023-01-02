@@ -268,8 +268,8 @@ require 'function.php';
 include 'define.php';". "\n";
         
         $filecontent .= "
-        if (!empty(SITE_PATH)) {
-            \$siteinstall = SITE_PATH;
+        if (!empty(SITE_PATH;)) {
+            \$siteinstall = SITE_PATH;;
         } else {" . "\n";
         if (!empty($siteinstall)) {
             $filecontent .= "\$base = '" . $siteinstall . "';" . "\n";
@@ -514,17 +514,17 @@ session_destroy();
                                                 <input type="text" class="form-control" id="SITE_NAME" name="SITE_NAME" value="<?php echo $confs["SITE_NAME"]; ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="SITE_PATH">SITE PATH:</label>
-                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $siteinstall; ?>">
+                                                <label for="SITE_PATH;">SITE PATH:</label>
+                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH;" value="<?php echo $siteinstall; ?>">
                                             </div>
                                             <hr>
                                             <h5>Secure installs strings</h5>
                                             <div class="form-group">
-                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                <label for="SITE_PATH;">SITE PATH:</label>
                                                 <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo RandHash(); ?>" readonly="yes">
                                             </div>
                                             <div class="form-group">
-                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                <label for="SITE_PATH;">SITE PATH:</label>
                                                 <textarea class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" readonly="yes"><?php echo RandKey(); ?></textarea>
                                             </div>              
                                             <div class="col-12">

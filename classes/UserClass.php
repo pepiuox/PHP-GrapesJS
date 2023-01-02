@@ -23,8 +23,8 @@ class UserClass {
      */
 
     public function __construct() {
-        global $conn, $base;
-        $this->system = $base;
+        global $conn;
+        $this->system = SITE_PATH;
         $this->connection = $conn;
         $this->expiry = time()+3600;
         $this->ip = $this->getUserIP();

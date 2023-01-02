@@ -19,7 +19,7 @@ if ($num_ct > 0) {
             </div>
             <div class="col-md-3">
                 <div class="controls">                    
-                    <a onclick="$(document).toggleFullScreen()"><img src="<?php echo $base; ?>assets/images/e-arrows.png" /></a>                                                 
+                    <a onclick="$(document).toggleFullScreen()"><img src="<?php echo SITE_PATH; ?>assets/images/e-arrows.png" /></a>                                                 
                 </div>
             </div>
             <div class="col-md-12">
@@ -80,9 +80,9 @@ if ($num_ct > 0) {
 
         </div>
     </div>
-    <script src="<?php echo $base; ?>assets/js/jquery.ui.widget.js" type="text/javascript"></script>
-    <script src="<?php echo $base; ?>assets/js/froogaloop.js" type="text/javascript"></script>
-    <script src="<?php echo $base; ?>assets/js/jquery.dcd.video.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/froogaloop.js" type="text/javascript"></script>
+    <script src="<?php echo SITE_PATH; ?>assets/js/jquery.dcd.video.js" type="text/javascript"></script>
     <script type="text/javascript">
                         $(function () {
                             $('.video').video();

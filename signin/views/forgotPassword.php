@@ -3,7 +3,7 @@ include '../elements/alerts.php';
 ?>
 <div class="login-box">
     <div class="login-logo">
-        <a href="<?php echo $base; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>
+        <a href="<?php echo SITE_PATH; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -28,10 +28,10 @@ include '../elements/alerts.php';
             </form>
 
             <p class="mt-3 mb-1">
-                <a href="<?php echo $base; ?>signin/login.php">Login</a>
+                <a href="<?php echo SITE_PATH; ?>signin/login.php">Login</a>
             </p>
             <p class="mb-0">
-                <a href="<?php echo $base; ?>signin/register.php" class="text-center">Register a new membership</a>
+                <a href="<?php echo SITE_PATH; ?>signin/register.php" class="text-center">Register a new membership</a>
             </p>
         </div>
         <!-- /.login-card-body -->
