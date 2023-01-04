@@ -44,7 +44,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             }
         }
         if (isset($_POST['buynow'])) {
-            header('Location: ' . $base . 'cart');
+            header('Location: ' . SITE_PATH . 'cart');
             exit;
         }
         if (isset($_POST['heartlike'])) {
@@ -556,11 +556,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             <?php
         } else {
-            header('Location: ' . $base . 'products');
+            header('Location: ' . SITE_PATH . 'products');
             exit;
         }
     } else {
-        header('Location: ' . $base . 'products');
+        header('Location: ' . SITE_PATH . 'products');
         exit;
     }
     ?>

@@ -33,8 +33,8 @@ if ($num_ct > 0) {
                                 echo '<div class="captionImag">' . "\n";
                                 echo '<span>' . $rowt['caption_en'] . '</span>' . "\n";
                                 echo '<div class="controls">' . "\n";
-                                echo '<a class="play"><img src="' . $base . 'img/play.png" /></a>' . "\n";
-                                echo '<a class="pause"><img src="' . $base . 'img/pause.png" /></a>' . "\n";
+                                echo '<a class="play"><img src="' . SITE_PATH . 'img/play.png" /></a>' . "\n";
+                                echo '<a class="pause"><img src="' . SITE_PATH . 'img/pause.png" /></a>' . "\n";
                                 echo '</div>' . "\n";
                                 echo '</div>' . "\n";
 

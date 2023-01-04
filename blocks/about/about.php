@@ -22,8 +22,8 @@ if ($num_ct > 0) {
                         echo 'Actualmente en ';
                     }
                     echo new_location . '</span></li>' . "\n";
-                    echo '<li><img src="' . $base . 'img/whatsapp.png" />:<span> ' . whatsapp . '</span></li>' . "\n";
-                    echo '<li><img src="' . $base . 'img/message.png" />:<span> <a href="mailto:' . ADDRESS_CONTACT . '">' . ADDRESS_CONTACT . '</a></span></li>' . "\n";
+                    echo '<li><img src="' . SITE_PATH . 'img/whatsapp.png" />:<span> ' . whatsapp . '</span></li>' . "\n";
+                    echo '<li><img src="' . SITE_PATH . 'img/message.png" />:<span> <a href="mailto:' . ADDRESS_CONTACT . '">' . ADDRESS_CONTACT . '</a></span></li>' . "\n";
 
                     echo '</ul>' . "\n";
                     ?>           

@@ -9,13 +9,18 @@ if (file_exists($connfile)) {
     require 'Autoload.php';
 
     $login = new UserClass();
+    $level = new AccessLevel();
 
     if ($login->isLoggedIn() === true) {
-
-        header('Location: profile.php');
+if($level->levels() === 9){
+        header('Location: ../admin/dashboard.php');
         exit();
+        }else{
+          header('Location: ../users/profile.php');
+        exit();  
+        }
     } else {
-        header('Location: ' . $base . 'signin/login.php');
+        header('Location: ' . SITE_PATH . 'signin/login.php');
         exit();
     }
 } else {

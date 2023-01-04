@@ -15,7 +15,7 @@ if (file_exists($connfile)) {
         header('Location: profile.php');
         exit();
     } else {
-        header('Location: ' . $base . 'signin/login.php');
+        header('Location: ' . SITE_PATH . 'signin/login.php');
         exit();
     }
 } else {

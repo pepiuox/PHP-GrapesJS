@@ -138,7 +138,7 @@ if (isset($_POST['Update'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE IMAGE">SITE IMAGE:</label>
-                                    <input type="file" class="form-control" id="SITE IMAGE" name="SITE IMAGE" value="<?php echo $confs["SITE IMAGE"]; ?>">
+                                    <input type="file" class="form-control" id="SITE_IMAGE" name="SITE_IMAGE" value="<?php echo $confs["SITE_IMAGE"]; ?>">
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" name="Update" class="btn btn-primary">Save</button>

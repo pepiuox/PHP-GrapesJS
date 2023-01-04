@@ -145,15 +145,18 @@ class UserClass {
                     if (is_numeric($_POST['PIN']) && strlen($_POST['PIN']) === 6) {
                         $userpsw = trim($_POST['password']);
                         $userpin = trim($_POST['PIN']);
-                        $remember = trim($_POST['remember']);
-                        if ($remember === 'Yes') {
+                        if(!empty($_POST['remember'])){
+                        
+                            $remember = trim($_POST['remember']);
+                        
+                           if ($remember === 'Yes') {
                             define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
                             define("COOKIE_PATH", "/");  //Avaible in whole domain
                         } else{                          
                             define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
                             define("COOKIE_PATH", "/");  //Avaible in whole domain
                         }
-
+}
                         $stmt = $this->connection->prepare("SELECT * FROM uverify WHERE email = ? AND mkpin = ?");
                         $stmt->bind_param("ss", $useremail, $userpin);
                         $stmt->execute();
@@ -227,7 +230,7 @@ class UserClass {
                                     if ($inst1 === 1) {
                                         $_SESSION['username'] = $user;
                                         $_SESSION['user_id'] = $iduv;
-                                        $_SESSION['language'] = $row['language'];
+                                        //$_SESSION['language'] = $row['language'];
                                         $_SESSION['levels'] = $level;
                                         $_SESSION['hash'] = $enck;
 
@@ -237,8 +240,8 @@ class UserClass {
                                         $inst2 = $pro->affected_rows;
                                         $pro->close();
                                         if ($inst2 === 1) {
-                                            setcookie("cookname", $_SESSION['username'], time() + COOKIE_EXPIRE, COOKIE_PATH);
-                                            setcookie("cookid", $_SESSION['user_id'], time() + COOKIE_EXPIRE, COOKIE_PATH);
+                                            setcookie("cookname", $_SESSION['username'], time() + $this->expiry, '/');
+                                            setcookie("cookid", $_SESSION['user_id'], time() + + $this->expiry, '/');
                                             $_SESSION['SuccessMessage'] = 'Congratulations you now have access!';
                                             unset($_SESSION['attempt']);
                                             unset($_SESSION['attempt_again']);
@@ -478,8 +481,8 @@ class UserClass {
         if (isset($_POST['logout'])) {
             if (!empty($_SESSION['user_id'])) {
                 if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
-                    setcookie("cookname", "", time() - COOKIE_EXPIRE, COOKIE_PATH);
-                    setcookie("cookid", "", time() - COOKIE_EXPIRE, COOKIE_PATH);
+                    setcookie("cookname", "", time() - $this->expiry, '/');
+                    setcookie("cookid", "", time() - $this->expiry, '/');
                 }
                 $_SESSION = array();
                 /* Unset PHP session variables */
@@ -489,7 +492,7 @@ class UserClass {
                 unset($_SESSION['hash']);
                 unset($_SESSION);
                 session_destroy(); // Destroy all session data.
-                header('Location: ' . $this->system . 'login.php');
+                header('Location: ' . $this->system . 'signin/login.php');
                 exit();
             }
         } else {

@@ -2,6 +2,8 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
+    <?php if($level->levels() === 5 || $level->levels() === 9){
+    ?>
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -89,12 +91,23 @@
                 </li>
             </ul>
         </li>
-
+<li class="nav-item">
+            <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
+            if ($cms === 'pagelist') {
+                echo 'active';
+            }
+            ?>">
+                <i class="nav-icon fas fa-list-alt"></i>
+                <p>
+                    Page list                    
+                </p>
+            </a>
+        </li>
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
-                    Pages
+                   View Pages
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
@@ -104,8 +117,16 @@
                 while ($page = $pages->fetch_array()) {
                     $plink = $page['link'];
                     $ptitle = $page['title'];
-                    echo'<li class="nav-item">                   
-                        <a href="' . $base . $plink . '" target="_blank" class="nav-link ';
+                    $pparent =$page['parent'];
+                     echo'<li class="nav-item">';
+                    if($pparent > 0){
+                        $parent = $conn->query("SELECT * FROM page where id=$pparent");
+                        $pagep = $parent->fetch_assoc();
+                         echo '<a href="' . SITE_PATH .$pagep['link'].'/'. $plink . '" target="_blank" class="nav-link ';
+                    }else{
+                         echo '<a href="' . SITE_PATH . $plink . '" target="_blank" class="nav-link ';
+                    }
+                                                          
                     if ($fname === $plink) {
                         echo 'active';
                     }
@@ -120,18 +141,7 @@
 
             </ul>
         </li>
-        <li class="nav-item">
-            <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
-            if ($cms === 'pagelist') {
-                echo 'active';
-            }
-            ?>">
-                <i class="nav-icon fas fa-list-alt"></i>
-                <p>
-                    Page list                    
-                </p>
-            </a>
-        </li>
+        
         <li class="nav-item">
             <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=addpage" class="nav-link <?php
             if ($cms === 'addpage') {
@@ -143,8 +153,50 @@
                     Add page                   
                 </p>
             </a>
-        </li>
+        </li>        
         <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-database"></i>
+                <p>
+                    CRUD System       
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">                
+                <li class="nav-item">
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
+                    if ($cms === 'table_config') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-server nav-icon"></i>
+                        <p>Table Config</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
+                    if ($cms === 'querybuilder') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-calendar-check nav-icon"></i>
+                        <p>Query Builder</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
+                    if ($cms === 'crud') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="fas fa-table nav-icon"></i>
+                        <p>CRUD</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+<?php } ?>
+<li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user-shield"></i>
                 <p>
@@ -207,148 +259,7 @@
                 </li>
             </ul>
         </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-database"></i>
-                <p>
-                    CRUD System       
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">                
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
-                    if ($cms === 'table_config') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-server nav-icon"></i>
-                        <p>Table Config</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=querybuilder&w=select" class="nav-link <?php
-                    if ($cms === 'querybuilder') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-calendar-check nav-icon"></i>
-                        <p>Query Builder</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
-                    if ($cms === 'crud') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="fas fa-table nav-icon"></i>
-                        <p>CRUD</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon far fa-plus-square"></i>
-                <p>
-                    Extras
-                    <i class="fas fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">                
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/recover-password.php" class="nav-link <?php
-                    if ($fname === 'recover-password') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Recover Password</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/lockscreen.php" class="nav-link <?php
-                    if ($fname === 'lockscreen') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Lockscreen</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/legacy-user-menu.php" class="nav-link <?php
-                    if ($fname === 'legacy-user-menu') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Legacy User Menu</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/language-menu.php" class="nav-link <?php
-                    if ($fname === 'language-menu') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Language Menu</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/404.php" class="nav-link <?php
-                    if ($fname === '404') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Error 404</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/500.php" class="nav-link <?php
-                    if ($fname === '500') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Error 500</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/pace.php" class="nav-link <?php
-                    if ($fname === 'pace') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pace</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>admin/blank.php" class="nav-link <?php
-                    if ($fname === 'blank') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Blank Page</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>starter.php" class="nav-link <?php
-                    if ($fname === 'starter') {
-                        echo 'active';
-                    }
-                    ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Starter Page</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        
 
     </ul>
 </nav>

@@ -21,7 +21,7 @@
                     if ($pnumr > 0) {
                         while ($prow = $presult->fetch_array()) {
                             echo '<tr><td>';
-                            echo '<a href="' . $base . $prow['link'] . '" target="_blank"><i class="fas fa-eye" aria-hidden="true"></i></a>';
+                            echo '<a href="' . SITE_PATH . $prow['link'] . '" target="_blank"><i class="fas fa-eye" aria-hidden="true"></i></a>';
                             echo '</td><td>' . "\n";
                             echo $prow['title'];
                             echo '</td><td>' . "\n";

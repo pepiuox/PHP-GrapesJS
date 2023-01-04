@@ -9,9 +9,10 @@ if (file_exists($connfile)) {
     require 'Autoload.php';
 
     $login = new UserClass();
+    $level = new AccessLevel();
 
     if ($login->isLoggedIn() === true) {
-        if($level->levels() === 5 || $level->levels() === 9){
+        if($level->levels() === 9){
         header('Location: ../admin/dashboard.php');
         exit();
         }else{

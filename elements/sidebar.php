@@ -444,7 +444,7 @@
                     $plink = $page['link'];
                     $ptitle = $page['title'];
                     echo'<li class="nav-item">                   
-                        <a href="' . $base . $plink . '" class="nav-link ';
+                        <a href="' . SITE_PATH . $plink . '" class="nav-link ';
                     if ($fname === $plink) {
                         echo 'active';
                     }
