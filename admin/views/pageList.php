@@ -1,6 +1,7 @@
 <div class='container-fluid'>            
     <div class="row">                
         <div class="col-md-12 py-3">
+<a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=addpage" class="btn btn-primary" > Add new page</a>
             <table class="table">
                 <thead>
                     <tr>

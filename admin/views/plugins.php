@@ -1,10 +1,11 @@
 <?php
-if (!isset($_GET['w']) && empty($_GET['w'])) {
-    ?>
+if (isset($_GET['w']) && !empty($_GET['w'])) {
+    $w = protect($_GET['w']);
+} else {
+     ?>
     <meta http-equiv="Refresh" content="0; url='dashboard.php?cms=plugins&w=list'" />
     <?php
-} else {
-    $w = protect($_GET['w']);
+   
 }
 
 if ($w == "list") {

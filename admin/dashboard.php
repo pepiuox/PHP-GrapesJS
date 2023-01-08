@@ -69,6 +69,7 @@ $vpages = '';
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <?php
+                                $w = '';
                                 if ($cms == 'pagelist') {
                                     $vpages = 'Page List';
                                 } elseif ($cms == 'addpage') {

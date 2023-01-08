@@ -22,4 +22,5 @@
 	RewriteRule . index.php [L]
         Redirect 301 "/home" "/"
         Redirect 301 "/system" "/admin"
+        Redirect 301 "/login" "/signin"
 </IfModule>
