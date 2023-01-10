@@ -55,7 +55,7 @@ if ($rmopt['color'] === 'light') {
     $color = 'navbar-dark';
 }
 ?>
-<nav class="navbar navbar-expand-lg <?php echo $background; ?> <?php echo $color; ?>" id="<?php echo $id_menu; ?>">
+<nav id="<?php echo $id_menu; ?>" class="navbar navbar-expand-lg <?php echo $background; ?> <?php echo $color; ?>">
  <div class="<?php echo $fluid; ?>">
 <a class="navbar-brand" href="<?php echo SITE_PATH; ?>">
 <?php 

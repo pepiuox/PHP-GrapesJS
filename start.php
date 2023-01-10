@@ -89,6 +89,7 @@ if ($nm > 0) {
                 <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
             <?php } ?>
             <title><?php echo $title; ?></title>
+<link href="<?php echo SITE_PATH; ?>assets/css/theme.css" rel="stylesheet" type="text/css" />
             <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="<?php echo SITE_PATH; ?>assets/plugins/font-awesome/css/font-awesome.min.css" />
             <script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
