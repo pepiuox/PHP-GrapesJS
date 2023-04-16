@@ -8,7 +8,7 @@ if (isset($_SESSION['regsuccess'])) {
             if ($_SESSION['regsuccess']) {
                 echo "<h1>Registered!</h1>";
                 if (EMAIL_WELCOME) {
-                    echo "<p>Gracias <b>" . $_SESSION['username'] . "</b>, you have been sent a confirmation email which should be arriving shortly.  Please confirm your registration before you continue.<br />Volver a <a href='index.php'>Principal</a></p>";
+                    echo "<p>Thank you <b>" . $_SESSION['username'] . "</b>, you have been sent a confirmation email which should be arriving shortly.  Please confirm your registration before you continue.<br />Volver a <a href='index.php'>Principal</a></p>";
                 } else {
                     echo "<p>Thank you <b>" . $_SESSION['username'] . "</b>, your information has been added to the database, "
                     . "you may now <a href=\"index.php\">log in</a>.</p>";
