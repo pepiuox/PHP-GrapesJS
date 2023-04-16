@@ -43,7 +43,7 @@
         if (!empty($_SESSION['FullSuccess'])) {
             ?>            
             <div class="alert alert-success alert-container" id="alert">
-                <strong><center><?php echo $_SESSION['FullSucces']; ?></center></strong>
+                <strong><center><?php echo $_SESSION['FullSuccess']; ?></center></strong>
                 <?php unset($_SESSION['FullSuccess']); ?>               
             </div>                
         <?php } ?>

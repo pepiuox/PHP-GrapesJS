@@ -8,7 +8,7 @@ if (file_exists($laststep)) {
     unlink($laststep);
 }
 if (isset($_SESSION['PathInstall'])) {
-    //$_SESSION['PathInstall'] = "http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI];
+    //$_SESSION['PathInstall'] = "http://{$_SERVER['HTTP_HOST']}/";
     $siteinstall = $_SESSION['PathInstall'];
    
 } else {
@@ -215,6 +215,11 @@ if (!file_exists($file)) {
 
         $newuser = new installUser();
     }
+    // // clean admin if exists user in table 
+    if (isset($_POST['cleanuser'])) {
+
+        $newuser = new installUser();
+    }
 // Create user name for admin access
     if (isset($_POST['register'])) {
 
@@ -268,8 +273,8 @@ require 'function.php';
 include 'define.php';". "\n";
         
         $filecontent .= "
-        if (!empty(SITE_PATH;)) {
-            \$siteinstall = SITE_PATH;;
+        if (!empty(SITE_PATH)) {
+            \$siteinstall = SITE_PATH;
         } else {" . "\n";
         if (!empty($siteinstall)) {
             $filecontent .= "\$base = '" . $siteinstall . "';" . "\n";
@@ -514,17 +519,17 @@ session_destroy();
                                                 <input type="text" class="form-control" id="SITE_NAME" name="SITE_NAME" value="<?php echo $confs["SITE_NAME"]; ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="SITE_PATH;">SITE PATH:</label>
-                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH;" value="<?php echo $siteinstall; ?>">
+                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $siteinstall; ?>">
                                             </div>
                                             <hr>
                                             <h5>Secure installs strings</h5>
                                             <div class="form-group">
-                                                <label for="SITE_PATH;">SITE PATH:</label>
+                                                <label for="SECURE_HASH">SECURE HASH:</label>
                                                 <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo RandHash(); ?>" readonly="yes">
                                             </div>
                                             <div class="form-group">
-                                                <label for="SITE_PATH;">SITE PATH:</label>
+                                                <label for="SECURE_TOKEN">SECURE TOKEN:</label>
                                                 <textarea class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" readonly="yes"><?php echo RandKey(); ?></textarea>
                                             </div>              
                                             <div class="col-12">
@@ -547,6 +552,13 @@ session_destroy();
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: 86%;" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">86%</div>
                                             </div>
+                                        </div>
+                                        <div class="mb-3">
+                                        <h5 class="text-danger">We recommend you check if there are users with administration levels. </h5>
+                                        <p>1.- Verify that there are no high-level users in the installation</p>
+                                            <button class = "btn btn-info" type="submit" name="verifyuser" id="verifyuser">Verify user admin</button>
+                                        <p>2.- Deleted high-level users in the installation</p>
+                                            <button class = "btn btn-danger" type="submit" name="cleanuser" id="cleanuser">Clean user admin</button>
                                         </div>
                                         <div class="input-group mb-3">
                                             <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Firstname">
@@ -582,8 +594,7 @@ session_destroy();
                                         </div>
                                         <!-- /.col -->
                                         <div class="mb-3">
-                                            <h5 class="text-danger">We recommend you check if there are users with administration levels. </h5>
-                                            <button class = "btn btn-danger" type = "submit" name = "verifyuser" id = "install">Verify user admin</button>
+                                            
                                             <button type="submit" name="register" class="btn btn-primary btn-block">Register user</button>
                                         </div>
                                         <!-- /.col -->
@@ -605,7 +616,7 @@ session_destroy();
 
                                         <div class = "mb-3">
                                             <h4>This is the final step to start editing your website. </h4>
-                                            <button class = "btn btn-info" type = "submit" name = "createfile" id = "install">Create configuration</button>
+                                            <button class="btn btn-info" type="submit" name="createfile" id="createfile">Create configuration</button>
                                         </div>
                                         <?php
                                     }

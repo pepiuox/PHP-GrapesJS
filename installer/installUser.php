@@ -24,6 +24,9 @@ class installUser {
         if (isset($_POST["verifyuser"])) {
             $this->VerifyUser();
         }
+        if (isset($_POST["cleanuser"])) {
+            $this->CleanUser();
+        }
     }
 
 // This function check that they do not have html symbols 
@@ -159,7 +162,29 @@ class installUser {
             }
         }
     }
+/* Cleanuser level for first install*/
+    private function CleanUser() {
+        if (isset($_POST["cleanuser"])) {
+            $lhigh = 'Super Admin';
+            $qlv = $this->connection->prepare("SELECT iduv, level FROM uverify WHERE level=?");
+            $qlv->bind_param("s", $lhigh);
+            $qlv->execute();
+            $lresult = $qlv->get_result();
+            $qlv->close();
+            if ($lresult->num_rows > 0) {
 
+                    $idv = $lresult->fetch_assoc();
+                    $idclean = $idv['iduv'];
+                    $stmt = $this->connection->prepare("DELETE FROM uverify WHERE iduv=?");
+                    $stmt->bind_param("s", $idclean);
+                    $stmt->execute();
+                    $stmt->close();
+                    $_SESSION['StepInstall'] = 5;
+                    $_SESSION['AlertMessage'] = "A high-level user has been successfully deleted from the installation system, to continue with the installation.";
+            }
+        }
+    }
+    
     /* start Register() 
      * Function Register(){
      * Function that includes everything for new user creation.
@@ -252,7 +277,7 @@ class installUser {
                     if ($inst === 1 && $inst1 === 1 && $inst2 === 1) {
                         // message for PIN save                       
 
-                        $_SESSION['FullSuccess'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering. ' . "\n";
+                        $_SESSION['FullSuccess'] = 'Please remember! Save this, your PIN code is: <h2>' . $pin . '</h2> Thank you for registering. ' . "\n";
                         $_SESSION['SuccessMessage'] = "Admin successfully added.";
 
                         $_SESSION['StepInstall'] = 6;
