@@ -54,7 +54,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="pi-draggable py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="pi-draggable py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="p-3 col-md-8 col-lg-6 ml-auto text-right text-white">
@@ -76,16 +76,16 @@
                             <b>J. W. Goethe</b>, CEO at Werther Inc.</div>
                     </div>
                 </div>
-                <div class="col-md-2 mx-auto p-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                <div class="col-md-2 mx-auto p-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
             </div>
         </div>
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg); background-position: right bottom;  background-size: cover; background-repeat: repeat; background-attachment: fixed;">
+    <div class="py-5" style="background-image: url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg); background-position: right bottom;  background-size: cover; background-repeat: repeat; background-attachment: fixed;">
         <div class="container">
             <div class="row">
-                <div class="ml-auto p-3 col-md-2 bg-white"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                <div class="ml-auto p-3 col-md-2 bg-white"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                 <div class="p-3 col-md-7 mr-auto bg-white text-dark">
                     <div class="blockquote mb-0">
                         <p>"A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine."</p>
@@ -105,7 +105,7 @@
                         <div class="card-body p-4">
                             <p class="mb-3">I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world.</p>
                             <div class="row">
-                                <div class="col-lg-2 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                                <div class="col-lg-2 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                                 <div class="col-lg-10 col-9 d-flex align-items-center">
                                     <p class="my-2">J. W. Goethe <i>CEO</i> </p>
                                 </div>
@@ -118,7 +118,7 @@
                         <div class="card-body p-4">
                             <p class="mb-3">Then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing.</p>
                             <div class="row">
-                                <div class="col-lg-2 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                                <div class="col-lg-2 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                                 <div class="col-lg-10 col-9 d-flex align-items-center">
                                     <p class="my-2">G. W. John&nbsp; <i>Co-founder</i> </p>
                                 </div>
@@ -131,14 +131,14 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="ml-auto col-lg-5">
                     <div class="card my-2">
                         <div class="card-body p-4">
                             <div class="row">
-                                <div class="col-md-4"> <img class="img-fluid d-block rounded-circle mb-3" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                                <div class="col-md-4"> <img class="img-fluid d-block rounded-circle mb-3" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                                 <div class="d-flex flex-column col-md-8 text-dark">
                                     <p class="mb-3">I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence.</p>
                                     <p class="mb-0">J. W. Goethe <i>CEO</i> </p>
@@ -151,7 +151,7 @@
                     <div class="card my-2">
                         <div class="card-body p-4">
                             <div class="row">
-                                <div class="col-md-4"> <img class="img-fluid d-block rounded-circle mb-3" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                                <div class="col-md-4"> <img class="img-fluid d-block rounded-circle mb-3" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                                 <div class="d-flex flex-column col-md-8 text-dark">
                                     <p class="mb-3">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes. </p>
                                     <p class="mb-0">J. W. Goethe jr. <i>CFO</i> </p>
@@ -206,7 +206,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <div class="row">
-                                <div class="col-md-4 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                                <div class="col-md-4 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                                 <div class="d-flex  col-md-8 flex-column justify-content-center align-items-start col-9">
                                     <p class="mb-0 lead"> <b>J. W. Goethe</b> </p>
                                     <p class="mb-0">Co-founder</p>
@@ -220,7 +220,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <div class="row">
-                                <div class="col-md-4 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                                <div class="col-md-4 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                                 <div class="d-flex  col-md-8 flex-column justify-content-center align-items-start col-9">
                                     <p class="mb-0 lead"> <b>G. W. John</b> </p>
                                     <p class="mb-0">CEO &amp; founder</p>
@@ -234,7 +234,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <div class="row">
-                                <div class="col-md-4 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                                <div class="col-md-4 col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                                 <div class="d-flex  col-md-8 flex-column justify-content-center align-items-start col-9">
                                     <p class="mb-0 lead"> <b>J. G. Wolf</b> </p>
                                     <p class="mb-0">CFO</p>

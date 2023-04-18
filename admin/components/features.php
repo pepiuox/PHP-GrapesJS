@@ -191,7 +191,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6 p-4">
                     <div class="row">
-                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#1</b> </p>
                             <p class="mb-0">A wonderful serenity has taken possession of my entire soul.</p>
@@ -200,7 +200,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 p-4">
                     <div class="row">
-                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg"> </div>
+                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#2</b> </p>
                             <p class="mb-0">I am alone, and feel the charm of existence in this spot.</p>
@@ -209,7 +209,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 p-4">
                     <div class="row">
-                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#3</b> </p>
                             <p class="mb-0">I should be incapable of drawing a single stroke.</p>
@@ -218,7 +218,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 p-4">
                     <div class="row">
-                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#4</b> </p>
                             <p class="mb-0">I throw myself down among the tall grass by the trickling stream.</p>
@@ -227,7 +227,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 p-4">
                     <div class="row">
-                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#5</b> </p>
                             <p class="mb-0">I lie close to the earth, a thousand unknown plants.</p>
@@ -236,7 +236,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 p-4">
                     <div class="row">
-                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg"> </div>
+                        <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#6</b> </p>
                             <p class="mb-0">When I hear the buzz of the little world among the stalks.</p>
@@ -258,7 +258,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#1</b> </p>
                             <p class="mb-0">A wonderful serenity has taken possession of my entire soul.</p>
@@ -267,7 +267,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#2</b> </p>
                             <p class="mb-0">I am alone, and feel the charm of existence in this spot.</p>
@@ -276,7 +276,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#3</b> </p>
                             <p class="mb-0">I should be incapable of drawing a single stroke.</p>
@@ -285,7 +285,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#4</b> </p>
                             <p class="mb-0">I throw myself down among the tall grass by the trickling stream.</p>
@@ -294,7 +294,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#5</b> </p>
                             <p class="mb-0">I lie close to the earth, a thousand unknown plants.</p>
@@ -303,7 +303,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#6</b> </p>
                             <p class="mb-0">When I hear the buzz of the little world among the stalks.</p>
@@ -312,7 +312,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#7</b> </p>
                             <p class="mb-0">I feel the presence of the Almighty, who formed us in his own image.</p>
@@ -321,7 +321,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 p-3">
                     <div class="row">
-                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                        <div class="col-3 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                         <div class="col-9">
                             <p class="lead mb-1"> <b>#8</b> </p>
                             <p class="mb-0">Oh, would I could describe these conceptions.</p>
@@ -393,7 +393,7 @@
             <div class="row">
                 <div class="col-lg-4 p-3">
                     <div class="card">
-                        <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="150">
+                        <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="150">
                             <h1>One</h1>
                             <p class="mb-0">A wonderful serenity has taken possession of my entire soul.</p>
                         </div>
@@ -401,7 +401,7 @@
                 </div>
                 <div class="col-lg-4 p-3 col-md-6">
                     <div class="card">
-                        <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="150">
+                        <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="150">
                             <h1>Two</h1>
                             <p class="mb-0">So absorbed in the exquisite sense of mere tranquil existence.</p>
                         </div>
@@ -409,7 +409,7 @@
                 </div>
                 <div class="col-lg-4 p-3 col-md-6">
                     <div class="card">
-                        <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="150">
+                        <div class="card-body p-4"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="150">
                             <h1>Three</h1>
                             <p class="mb-0">I should be incapable of drawing a single stroke.</p>
                         </div>
@@ -423,15 +423,15 @@
     <div class="py-3">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-6 p-3"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg">
+                <div class="col-md-4 col-6 p-3"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg">
                     <h2 class="my-3"><b>One&nbsp;</b> </h2>
                     <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
                 </div>
-                <div class="col-md-4 col-6 p-3"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-moon.svg">
+                <div class="col-md-4 col-6 p-3"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-moon.svg">
                     <h2 class="my-3"> <b>Two</b> </h2>
                     <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend.</p>
                 </div>
-                <div class="col-md-4 col-6 p-3"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-light.svg">
+                <div class="col-md-4 col-6 p-3"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-bubble-light.svg">
                     <h2 class="my-3"> <b>Three</b> </h2>
                     <p>So absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke.</p>
                 </div>
@@ -465,7 +465,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -509,16 +509,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="1500">
+                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="1500">
                     <h4 class="mt-3 mb-0"> <b>One&nbsp;</b> </h4>
                 </div>
-                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg" width="1500">
+                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg" width="1500">
                     <h4 class="mt-3 mb-0"> <b>Two</b> </h4>
                 </div>
-                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="1500">
+                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="1500">
                     <h4 class="mt-3 mb-0"> <b>Three</b> </h4>
                 </div>
-                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="1500">
+                <div class="col-md-3 col-6 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="1500">
                     <h4 class="mt-3 mb-0"> <b>Four</b> </h4>
                 </div>
             </div>
@@ -537,16 +537,16 @@
                             <b>See all features</b>
                         </a> <br> </p>
                     <div class="row text-center">
-                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="150">
+                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="150">
                             <p class="mb-0 lead"> <b>One</b> </p>
                         </div>
-                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg" width="150">
+                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg" width="150">
                             <p class="mb-0 lead"> <b>Two</b> </p>
                         </div>
-                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="150">
+                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="150">
                             <p class="mb-0 lead"> <b>Three</b> </p>
                         </div>
-                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="150">
+                        <div class="col-md-3 col-6 p-3"> <img class="img-fluid d-block mb-3 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="150">
                             <p class="mb-0 lead"> <b>Four</b> </p>
                         </div>
                     </div>
@@ -564,22 +564,22 @@
                 </div>
                 <div class="col-md-6 col-6 p-3 text-center">
                     <div class="row">
-                        <div class="col-md-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="100">
+                        <div class="col-md-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="100">
                             <p class="mb-0 lead"> <a href="#">One</a> </p>
                         </div>
-                        <div class="col-md-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="100">
+                        <div class="col-md-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="100">
                             <p class="mb-0 lead"> <a href="#">Two</a> </p>
                         </div>
-                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="100">
+                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="100">
                             <p class="mb-0 lead"> <a href="#">Three</a> </p>
                         </div>
-                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="100">
+                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="100">
                             <p class="mb-0 lead"> <a href="#">Four</a> </p>
                         </div>
-                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-4.svg" width="100">
+                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-4.svg" width="100">
                             <p class="mb-0 lead"> <a href="#">Five</a> </p>
                         </div>
-                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="100">
+                        <div class="col-4 p-2"> <img class="img-fluid d-block mb-2 mx-auto rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="100">
                             <p class="mb-0 lead"> <a href="#">Six</a> </p>
                         </div>
                     </div>
@@ -599,11 +599,11 @@
                 </div>
             </div>
             <div class="row d-flex justify-content-between">
-                <div class="col-md-6 col-lg-5 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="1500">
+                <div class="col-md-6 col-lg-5 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="1500">
                     <h4 class="my-3"> <b>#1</b> </h4>
                     <p>When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary.</p>
                 </div>
-                <div class="col-md-6 col-lg-5 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="1500">
+                <div class="col-md-6 col-lg-5 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="1500">
                     <h4 class="my-3"> <b>#2</b> </h4>
                     <p>I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar.</p>
                 </div>
@@ -621,15 +621,15 @@
                 </div>
             </div>
             <div class="row d-flex justify-content-between">
-                <div class="col-md-4 col-lg-3 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="1500">
+                <div class="col-md-4 col-lg-3 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="1500">
                     <h4 class="my-3"> <b>One&nbsp;</b> </h4>
                     <p>I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.</p>
                 </div>
-                <div class="col-md-4 col-lg-3 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="1500">
+                <div class="col-md-4 col-lg-3 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="1500">
                     <h4 class="my-3"> <b>Two</b> </h4>
                     <p>I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p>
                 </div>
-                <div class="col-md-4 col-lg-3 p-4"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="1500">
+                <div class="col-md-4 col-lg-3 p-4"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="1500">
                     <h4 class="my-3"> <b>Three</b> </h4>
                     <p>I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me.</p>
                 </div>
@@ -644,7 +644,7 @@
                 <div class="col-md-12">
                     <h1 class="text-center mb-4">I lie close to the earth</h1>
                     <div class="row">
-                        <div class="col-lg-5 col-md-6 p-md-4 col-3"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="1500"> </div>
+                        <div class="col-lg-5 col-md-6 p-md-4 col-3"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="1500"> </div>
                         <div class="col-md-6 offset-lg-1 d-flex flex-column justify-content-center py-4">
                             <h2 class="my-3"> <b>One</b> </h2>
                             <p class="lead">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.</p>
@@ -655,10 +655,10 @@
                             <h2 class="my-3"> <b>Two</b> </h2>
                             <p class="lead">I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist.</p>
                         </div>
-                        <div class="col-lg-5 col-md-6 p-md-4 col-3 offset-lg-1 order-1 order-md-2"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg" width="1500"> </div>
+                        <div class="col-lg-5 col-md-6 p-md-4 col-3 offset-lg-1 order-1 order-md-2"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg" width="1500"> </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-5 col-md-6 p-md-4 col-3"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg" width="1500"> </div>
+                        <div class="col-lg-5 col-md-6 p-md-4 col-3"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg" width="1500"> </div>
                         <div class="col-md-6 offset-lg-1 d-flex flex-column justify-content-center py-4">
                             <h2 class="my-3"> <b>Three</b> </h2>
                             <p class="lead">When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary.</p>
@@ -682,7 +682,7 @@
                         <div class="col-6 py-3"> <i class="d-block fa fa-circle-o mb-2 text-muted fa-4x"></i>
                             <h4> <b>Two</b> </h4>
                         </div>
-                    </div> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-light.svg">
+                    </div> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-bubble-light.svg">
                     <p class="mt-2"> <i>A wonderful serenity has taken possession of my entire soul.</i> </p>
                 </div>
             </div>
@@ -694,7 +694,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 text-center mx-auto">
-                    <h2 class="mb-4">I enjoy with my whole heart</h2> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-moon.svg">
+                    <h2 class="mb-4">I enjoy with my whole heart</h2> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-moon.svg">
                     <div class="row justify-content-center">
                         <div class="col-4 p-4"> <i class="d-block fa fa-circle fa-3x mb-2 text-muted"></i>
                             <h4> <b>One</b> </h4>
@@ -730,7 +730,7 @@
                             <h4> <b>Three</b> </h4>
                             <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings.</p>
                         </div>
-                    </div> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-moon.svg"> </div>
+                    </div> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-moon.svg"> </div>
             </div>
         </div>
     </div>
@@ -741,7 +741,7 @@
             <div class="row">
                 <div class="mx-auto col-md-12 px-4">
                     <h2>I am so happy, my dear friend</h2>
-                    <p class="lead mb-4">So absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment.</p> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg">          </div>
+                    <p class="lead mb-4">So absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment.</p> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg">          </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-4 p-4 col-md-6">
@@ -764,11 +764,11 @@
             <div class="row">
                 <div class="mx-auto col-md-12">
                     <h2>A wonderful serenity</h2>
-                    <p class="lead mb-4">It has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</p> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-light.svg">
+                    <p class="lead mb-4">It has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</p> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-bubble-light.svg">
                     <div class="row justify-content-center">
                         <div class="col-lg-4 p-4">
                             <div class="row">
-                                <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                                <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                                 <div class="col-9 d-flex align-items-center">
                                     <p class="mb-0 lead">I am alone, and feel the charm of existence.</p>
                                 </div>
@@ -776,7 +776,7 @@
                         </div>
                         <div class="col-lg-4 p-4">
                             <div class="row">
-                                <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-3.svg"> </div>
+                                <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-3.svg"> </div>
                                 <div class="col-9 d-flex align-items-center">
                                     <p class="mb-0 lead">In this spot, which was created for the bliss.</p>
                                 </div>
@@ -784,7 +784,7 @@
                         </div>
                         <div class="col-lg-4 p-4">
                             <div class="row">
-                                <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                                <div class="col-3 p-0 d-flex align-items-center"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                                 <div class="col-9 d-flex align-items-center">
                                     <p class="mb-0 lead">Souls like mine. I am so happy, my dear friend.</p>
                                 </div>
@@ -805,7 +805,7 @@
                     <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> </div>
             </div>
             <div class="row">
-                <div class="col-md-12 p-0"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg" width="1500"> </div>
+                <div class="col-md-12 p-0"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg" width="1500"> </div>
             </div>
         </div>
     </div>
@@ -819,7 +819,7 @@
                     <p class="lead mb-4">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.
                         I am so happy, my dear friend.</p>
                 </div>
-                <div class="col-md-6 p-lg-5 p-3"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg" width="1500"> </div>
+                <div class="col-md-6 p-lg-5 p-3"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg" width="1500"> </div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-6 p-3">
@@ -846,7 +846,7 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="order-2 order-md-1 col-md-5"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"> </div>
+                <div class="order-2 order-md-1 col-md-5"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"> </div>
                 <div class="px-md-5 d-flex flex-column justify-content-center col-md-7 order-1 order-md-2">
                     <h1> O my friend</h1>
                     <p class="mb-3 lead">I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty.</p>
@@ -876,7 +876,7 @@
                     <h1>Serenity</h1>
                     <p class="mb-3">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.</p> <a href="#" class="btn btn-primary">Download</a> </div>
                 <div class="col-lg-4 d-flex flex-column align-items-start justify-content-center p-3">
-                    <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"> </div>
+                    <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"> </div>
             </div>
         </div>
     </div>
@@ -885,7 +885,7 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"> </div>
+                <div class="col-lg-6 order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"> </div>
                 <div class="px-md-5 p-3 col-lg-6 d-flex flex-column align-items-start justify-content-center order-1 order-lg-2">
                     <h1 class="mb-3">I hear the buzz</h1>
                     <div class="row">
@@ -929,7 +929,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"> </div>
+                <div class="col-lg-6"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"> </div>
             </div>
         </div>
     </div>
@@ -963,7 +963,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-6 mx-auto order-3 order-lg-2"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-mobile.svg"> </div>
+                <div class="col-lg-5 col-md-6 mx-auto order-3 order-lg-2"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-mobile.svg"> </div>
                 <div class="col-lg-3 col-md-6 py-md-4 px-4 order-2 order-lg-3 d-flex flex-column justify-content-between">
                     <div class="row">
                         <div class="col-9 col-md-12"> <i class="d-block fa fa-stop-circle-o mb-1 text-muted fa-2x"></i>
@@ -997,7 +997,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-5 col-7 mx-auto order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-mobile.svg"> </div>
+                <div class="col-lg-5 col-7 mx-auto order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-mobile.svg"> </div>
                 <div class="col-lg-5 py-md-5 px-4 order-1 order-lg-2 d-flex flex-column justify-content-between">
                     <div class="row">
                         <div class="col-9 col-md-12"> <i class="d-block fa fa-stop-circle-o mb-1 text-muted fa-3x"></i>
@@ -1030,19 +1030,19 @@
                     <h1 class="mb-4">O my friend</h1>
                     <p class="lead">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</p>
                     <div class="row my-3">
-                        <div class="col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-1.svg"> </div>
+                        <div class="col-3"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-1.svg"> </div>
                         <div class="col-8 d-flex align-items-center">
                             <p class="mb-0">I often think with longing, Oh, would I could describe these conceptions, could impress upon paper.</p>
                         </div>
                     </div>
                     <div class="row my-3">
-                        <div class="col-3 order-1 order-md-2"> <img class="img-fluid d-block rounded-circle" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-2.svg"> </div>
+                        <div class="col-3 order-1 order-md-2"> <img class="img-fluid d-block rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-2.svg"> </div>
                         <div class="col-8 d-flex align-items-center order-2 order-md-1">
                             <p class="mb-0">My friend, when darkness overspreads my eyes, and heaven and earth seem to dwell in my soul and absorb its power.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-8 mx-auto d-flex justify-content-center flex-column"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-mobile.svg"> </div>
+                <div class="col-lg-5 col-8 mx-auto d-flex justify-content-center flex-column"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-mobile.svg"> </div>
             </div>
         </div>
     </div>
@@ -1057,7 +1057,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-5 col-7 mx-auto order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-mobile.svg"> </div>
+                <div class="col-lg-5 col-7 mx-auto order-2 order-lg-1"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-mobile.svg"> </div>
                 <div class="col-lg-5 py-lg-5 px-4 order-1 order-lg-2 d-flex flex-column justify-content-between">
                     <div class="row">
                         <div class="col-9 col-md-12">

@@ -259,7 +259,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center align-self-center p-4">
@@ -294,7 +294,7 @@
                         <div class="f-about">
                             <div class="footer-logo">
                                 <a href="javascript:void(0)">
-                                    <img src="<?php echo $_SESSION['base']; ?>assets/images/footer/logo.svg" alt="Logo" />
+                                    <img src="<?php echo SITE_PATH; ?>assets/images/footer/logo.svg" alt="Logo" />
                                 </a>
                             </div>
                             <p class="text">
@@ -308,7 +308,7 @@
                                 <li>
                                     <a href="javascript:void(0)">
                                         <img
-                                            src="<?php echo $_SESSION['base']; ?>assets/images/footer/app-store.svg"
+                                            src="<?php echo SITE_PATH; ?>assets/images/footer/app-store.svg"
                                             alt="app"
                                             />
                                     </a>
@@ -316,7 +316,7 @@
                                 <li>
                                     <a href="javascript:void(0)">
                                         <img
-                                            src="<?php echo $_SESSION['base']; ?>assets/images/footer/play-store.svg"
+                                            src="<?php echo SITE_PATH; ?>assets/images/footer/play-store.svg"
                                             alt="play"
                                             />
                                     </a>
@@ -426,7 +426,7 @@
                         <div class="f-about">
                             <div class="footer-logo">
                                 <a href="javascript:void(0)">
-                                    <img src="<?php echo $_SESSION['base']; ?>assets/images/footer/logo.svg" alt="Logo" />
+                                    <img src="<?php echo SITE_PATH; ?>assets/images/footer/logo.svg" alt="Logo" />
                                 </a>
                             </div>
                             <p class="text">

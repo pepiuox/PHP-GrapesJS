@@ -1,5 +1,5 @@
 <li class="pi-draggable active" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center text-primary h-100 align-items-center d-flex" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-center text-primary h-100 align-items-center d-flex" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container py-5">
             <div class="row">
                 <div class="mx-auto col-lg-8 col-md-10">
@@ -11,7 +11,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center" style="background-image: url('<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
+    <div class="py-5 text-center" style="background-image: url('<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg');background-size:cover;">
         <div class="container">
             <div class="row">
                 <div class="bg-white p-5 mx-auto col-md-8 col-10">
@@ -35,12 +35,12 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-center text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <h1 class="mb-3">I enjoy with my whole heart</h1>
-                    <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> <img class="img-fluid d-block mx-auto" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"
+                    <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> <img class="img-fluid d-block mx-auto" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"
                                                                                                                                                                                                         width="750"> </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
     <div class="py-5 text-center text-white" style="position: relative; overflow: hidden;"> <video autoplay="" loop="" muted="" plays-inline="" style="position: absolute; right: 0; top: 0; min-width:100%; z-index: -100;">
-            <source src="<?php echo $_SESSION['base']; ?>assets/images/video-placeholder.mp4" type="video/mp4"> </video>
+            <source src="<?php echo SITE_PATH; ?>assets/images/video-placeholder.mp4" type="video/mp4"> </video>
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
@@ -60,7 +60,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5" style="background-image: url(&quot;<?php echo $_SESSION['base']; ?>assets/images/cover-stripes.svg&quot;); background-position: right bottom; background-size: cover;">
+    <div class="py-5" style="background-image: url(&quot;<?php echo SITE_PATH; ?>assets/images/cover-stripes.svg&quot;); background-position: right bottom; background-size: cover;">
         <div class="container">
             <div class="row">
                 <div class="p-5 bg-white ml-auto col-md-5 border">
@@ -71,7 +71,7 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-center text-md-right pi-draggable" style="background-image: url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);	background-position: right bottom;	background-size: cover;	background-repeat: repeat; background-attachment: fixed;">
+    <div class="py-5 text-center text-md-right pi-draggable" style="background-image: url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);	background-position: right bottom;	background-size: cover;	background-repeat: repeat; background-attachment: fixed;">
         <div class="container">
             <div class="row">
                 <div class="p-5 mx-auto mx-md-0 ml-md-auto col-10 col-md-9">
@@ -122,11 +122,11 @@
     </div>
 </li>
 <li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
-    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo $_SESSION['base']; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
+    <div class="py-5 text-white" style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(<?php echo SITE_PATH; ?>assets/images/cover-bubble-dark.svg);  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 p-0">
-                    <div class="embed-responsive embed-responsive-4by3"> <video src="<?php echo $_SESSION['base']; ?>assets/images/video-placeholder.mp4" class="embed-responsive-item" type="video/mp4" controls="controls">
+                    <div class="embed-responsive embed-responsive-4by3"> <video src="<?php echo SITE_PATH; ?>assets/images/video-placeholder.mp4" class="embed-responsive-item" type="video/mp4" controls="controls">
                             Your browser does not support HTML5 video.
                         </video> </div>
                 </div>
@@ -155,7 +155,7 @@
     <div class="pt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mr-auto order-2 order-md-1"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-mobile.svg"> </div>
+                <div class="col-md-4 mr-auto order-2 order-md-1"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-mobile.svg"> </div>
                 <div class="px-md-5 p-3 d-flex flex-column align-items-start justify-content-center col-md-7 order-1 order-md-2"> <i class="d-block fa fa-stop-circle fa-4x mb-3 text-muted"></i>
                     <h1> Indescribable forms</h1>
                     <p class="mb-3 lead">And yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface.</p>
@@ -179,7 +179,7 @@
                         <div class="col-md-12"> <i class="fa fa-stop-circle fa-3x mr-3 text-muted d-inline"></i> <i class="fa fa-circle-o fa-3x mx-3 text-muted d-inline"></i> <i class="fa fa-stop-circle-o fa-3x mx-3 text-muted d-inline"></i> <i class="fa fa-circle fa-3x ml-3 text-muted d-inline"></i>              </div>
                     </div>
                 </div>
-                <div class="col-md-6"> <img class="img-fluid d-block" src="<?php echo $_SESSION['base']; ?>assets/images/img-placeholder-tablet.svg"> </div>
+                <div class="col-md-6"> <img class="img-fluid d-block" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"> </div>
             </div>
         </div>
     </div>
