@@ -27,7 +27,7 @@ if (file_exists($connfile)) {
 
     include 'start.php';
 } else {
-    $_SESSION['PathInstall'] = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $_SESSION['PathInstall'] = "http://{$_SERVER['HTTP_HOST']}/";
     header('Location: installer/install.php');
     exit();
 }

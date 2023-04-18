@@ -1,0 +1,193 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+.gjs-pn-panels{
+    background-color: #212529;
+}
+.gjs-pn-views-container{
+    height: 100%;
+}
+#toast-container {
+  font-size: 13px;
+  font-weight: lighter;
+}
+
+#toast-container > div {
+  opacity: 0.95;
+}
+
+#toast-container > div,
+#toast-container > div:hover {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  font-family: Helvetica, sans-serif;
+}
+
+/* LOGO VERSION */
+.gjs-one-bg{
+    background: #333 !important;
+}
+
+.gjs-pn-commands .gjs-pn-buttons,
+#gjs-pn-commands .gjs-pn-buttons {
+  display: none;
+}
+
+.gjs-logo {
+  height: 25px;
+}
+
+.gjs-logo-cont {
+  position: relative;
+  display: inline-block;
+  top: 3px;
+}
+
+.gjs-logo-version {
+  position: absolute;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 15px;
+  bottom: 2px;
+  right: -43px;
+}
+
+/* INFO PANEL */
+
+.gjs-mdl-dialog-sm {
+  width: 300px;
+}
+
+#info-panel {
+  line-height: 17px;
+}
+
+.info-panel-logo {
+  display: block;
+  height: 90px;
+  margin: 0 auto;
+  width: 90px;
+}
+
+.info-panel-logo path {
+  stroke: #eee !important;
+  stroke-width: 8 !important;
+}
+
+.info-panel-label {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.info-panel-link {
+  text-decoration: none;
+}
+.gjs-pn-panels{
+    background: #333 !important;
+}
+.gjs-pn-panel#gjs-pn-views-container,
+.gjs-pn-panel.gjs-pn-views-container {
+    background: #333 !important;
+    height: calc(100% - 56px);
+}
+.gjs-pn-views, .gjs-pn-options, .gjs-pn-devices-c, .gjs-pn-commaneds{
+    background: #333 !important;
+}
+.gjs-pn-buttons, .gjs-blocks-cs, .gjs-block-categories{
+    background: #333 !important;
+}
+.icons-flex {
+          background-size: 70% 65% !important;
+          height: 15px;
+          width: 17px;
+          opacity: 0.9;
+        }
+        .icon-dir-row {
+          background: url("./img/flex-dir-row.png") no-repeat center;
+        }
+        .icon-dir-row-rev {
+          background: url("./img/flex-dir-row-rev.png") no-repeat center;
+        }
+        .icon-dir-col {
+          background: url("./img/flex-dir-col.png") no-repeat center;
+        }
+        .icon-dir-col-rev {
+          background: url("./img/flex-dir-col-rev.png") no-repeat center;
+        }
+        .icon-just-start{
+         background: url("./img/flex-just-start.png") no-repeat center;
+        }
+        .icon-just-end{
+         background: url("./img/flex-just-end.png") no-repeat center;
+        }
+        .icon-just-sp-bet{
+         background: url("./img/flex-just-sp-bet.png") no-repeat center;
+        }
+        .icon-just-sp-ar{
+         background: url("./img/flex-just-sp-ar.png") no-repeat center;
+        }
+        .icon-just-sp-cent{
+         background: url("./img/flex-just-sp-cent.png") no-repeat center;
+        }
+        .icon-al-start{
+         background: url("./img/flex-al-start.png") no-repeat center;
+        }
+        .icon-al-end{
+         background: url("./img/flex-al-end.png") no-repeat center;
+        }
+        .icon-al-str{
+         background: url("./img/flex-al-str.png") no-repeat center;
+        }
+        .icon-al-center{
+         background: url("./img/flex-al-center.png") no-repeat center;
+        }
+
+         [data-tooltip]::after {
+           background: rgba(51, 51, 51, 0.9);
+         }
+
+         .gjs-pn-commands {
+           min-height: 40px;
+         }
+
+         #gjs-sm-float {
+            display: none;
+         }
+
+         .gjs-logo-version {
+           background-color: #756467;
+         }
+
+        .gjs-pn-btn.gjs-pn-active {
+          box-shadow: none;
+        }
+
+        .CodeMirror {
+          min-height: 450px;
+          margin-bottom: 8px;
+        }
+        .grp-handler-close {
+          background-color: transparent;
+          color: #ddd;
+        }
+
+        .grp-handler-cp-wrap {
+          border-color: transparent;
+        }
+        
+.gjs-block-label svg,
+.gjs-block__media svg {
+  width: 54px;
+}
+
+/* Temporary fix #2490 */
+.gjs-clm-tag-status,
+.gjs-clm-tag-close {
+    width: 12px;
+    height: 12px;
+}
+.gjs-clm-tags-btn {
+    width: 24px;
+}
