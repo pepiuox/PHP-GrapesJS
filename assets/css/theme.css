@@ -2,29 +2,6 @@
 * Based on Bootstrap v5.2.3 (https://getbootstrap.com) 
 */
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700|Montserrat:300,400,500,600,700|Open+Sans:300,400,600,700|Oswald:300,400,500,700|Roboto+Condensed:300,400,700|Roboto:300,400,500,700|Source+Sans+Pro:300,400,600,700");
-@font-face {
-  font-family: "Bebas";
-  src: url("fonts/Bebas/BEBAS___.eot?") format("eot"), url("fonts/Bebas/BEBAS___.woff") format("woff"), url("fonts/Bebas/BEBAS___.ttf") format("truetype"), url("fonts/Bebas/BEBAS___.svg#Bebas") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
-@font-face {
-  font-family: "Bebas Kai";
-  src: url("fonts/Bebas_Kai/BebasKai-Regular.eot?") format("eot"), url("fonts/Bebas_Kai/BebasKai-Regular.woff") format("woff"), url("fonts/Bebas_Kai/BebasKai-Regular.ttf") format("truetype"), url("fonts/Bebas_Kai/BebasKai-Regular.svg#BebasKai") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
-@font-face {
-  font-family: "Bebas Neue Regular";
-  src: url("fonts/Bebas_Neue_Regular/BebasNeue-Regular.eot?") format("eot"), url("fonts/Bebas_Neue_Regular/BebasNeue-Regular.woff") format("woff"), url("fonts/Bebas_Neue_Regular/BebasNeue-Regular.ttf") format("truetype"), url("fonts/Bebas_Neue_Regular/BebasNeue-Regular.svg#BebasNeue-Regular") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
-@font-face {
-  font-family: "BebasNeue";
-  src: url("fonts/BebasNeue/BebasNeue.eot?") format("eot"), url("fonts/BebasNeue/BebasNeue.woff") format("woff"), url("fonts/BebasNeue/BebasNeue.ttf") format("truetype"), url("fonts/BebasNeue/BebasNeue.svg#BebasNeue") format("svg");
-  font-weight: normal;
-  font-style: normal; }
 
 /* Amplifier value */
 /* The mixin */
@@ -146,12 +123,7 @@ h1, h2, h3, h4, h5, h6 {
   color: white !important;
   box-shadow: 0px 5px 35px 0px rgba(0, 0, 0, 0.3); }
 
-/*!
- * Bootstrap v4.1.3 (https://getbootstrap.com/)
- * Copyright 2011-2018 The Bootstrap Authors
- * Copyright 2011-2018 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;

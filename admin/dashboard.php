@@ -80,6 +80,8 @@ $vpages = '';
                                     $vpages = 'Delete Page';
                                 } elseif ($cms == 'siteconf') {
                                     $vpages = 'Site Definitions';
+                                } elseif ($cms == 'themes') {
+                                    $vpages = 'Theme Template';
                                 } elseif ($cms == 'menu') {
                                     $vpages = 'Menu Template';
                                 } elseif ($cms == 'plugins') {
@@ -124,6 +126,8 @@ $vpages = '';
                         include 'views/deletePage.php';
                     } elseif ($cms == 'siteconf') {
                         include 'views/settings.php';
+                    } elseif ($cms == 'themes') {
+                        include 'views/themes.php';
                     } elseif ($cms == 'menu') {
                         include 'views/menu.php';
                     } elseif ($cms == 'plugins') {

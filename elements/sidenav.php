@@ -35,6 +35,18 @@
                         </p>
                     </a>
                 </li>
+<li class="nav-item">
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=themes" class="nav-link <?php
+                    if ($cms === 'themes') {
+                        echo 'active';
+                    }
+                    ?>">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Theme template                  
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=menu" class="nav-link <?php
                     if ($cms === 'menu') {

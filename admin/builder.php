@@ -94,7 +94,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="../assets/plugins/grapesjs/js/grapesjs-component-code-editor.min.js"></script>
                 <script src="../assets/plugins/ckeditor/ckeditor.js"></script>
                 <script>
-  
+                    jQuery.htmlPrefilter = function( html ) {
+                            return html;
+                    };
                     $(".gjs-pn-buttons").click(function () {
                         var imp = $("span").find("[data-tooltip='Import']");
                         alert();
@@ -250,11 +252,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                     var images = <?php echo $storeImage; ?>;
                     var editor  = grapesjs.init({
-        height: '100%',
-        container : '#gjs',
-        fromElement: true,
-        showOffsets: true,
-        assetManager: {
+                            height: '100%',
+                            container : '#gjs',
+                            fromElement: true,
+                            showOffsets: true,
+                            assetManager: {
                             storageType: '',
                             storeOnChange: true,
                             storeAfterUpload: true,
@@ -432,19 +434,19 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   },{
                     value: 'flex-end',
                     title: 'End',
-                    className: 'icons-flex icon-just-end',
+                    className: 'icons-flex icon-just-end'
                   },{
                     value: 'space-between',
                     title: 'Space between',
-                    className: 'icons-flex icon-just-sp-bet',
+                    className: 'icons-flex icon-just-sp-bet'
                   },{
                     value: 'space-around',
                     title: 'Space around',
-                    className: 'icons-flex icon-just-sp-ar',
+                    className: 'icons-flex icon-just-sp-ar'
                   },{
                     value: 'center',
                     title: 'Center',
-                    className: 'icons-flex icon-just-sp-cent',
+                    className: 'icons-flex icon-just-sp-cent'
                   }],
                 },{
                   name: 'Align',
@@ -454,19 +456,19 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   list: [{
                     value: 'flex-start',
                     title: 'Start',
-                    className: 'icons-flex icon-al-start',
+                    className: 'icons-flex icon-al-start'
                   },{
                     value: 'flex-end',
                     title: 'End',
-                    className: 'icons-flex icon-al-end',
+                    className: 'icons-flex icon-al-end'
                   },{
                     value: 'stretch',
                     title: 'Stretch',
-                    className: 'icons-flex icon-al-str',
+                    className: 'icons-flex icon-al-str'
                   },{
                     value: 'center',
                     title: 'Center',
-                    className: 'icons-flex icon-al-center',
+                    className: 'icons-flex icon-al-center'
                   }],
                 },{
                   name: 'Flex Children',
@@ -513,23 +515,23 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   },{
                     value: 'flex-start',
                     title: 'Start',
-                    className: 'icons-flex icon-al-start',
+                    className: 'icons-flex icon-al-start'
                   },{
                     value   : 'flex-end',
                     title: 'End',
-                    className: 'icons-flex icon-al-end',
+                    className: 'icons-flex icon-al-end'
                   },{
                     value   : 'stretch',
                     title: 'Stretch',
-                    className: 'icons-flex icon-al-str',
+                    className: 'icons-flex icon-al-str'
                   },{
                     value   : 'center',
                     title: 'Center',
-                    className: 'icons-flex icon-al-center',
-                  }],
+                    className: 'icons-flex icon-al-center'
+                  }]
                 }]
               }
-            ],
+            ]
         },
         plugins: [
           'gjs-blocks-basic',
@@ -559,7 +561,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             ],
             style: [
               '../assets/plugins/grapesjs/css/tui-color-picker.min.css',
-              '../assets/plugins/grapesjs/css/tui-image-editor.min.css',
+              '../assets/plugins/grapesjs/css/tui-image-editor.min.css'
             ],
           },
           'grapesjs-tabs': {
@@ -574,7 +576,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 strings: [
                   'Text row one',
                   'Text row two',
-                  'Text row three',
+                  'Text row three'
                 ],
               }
             }
@@ -638,9 +640,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
               'background-repeat': 'Repeat',
               'background-position': 'Position',
               'background-attachment': 'Attachment',
-              'background-size': 'Size',
+              'background-size': 'Size'
             }
-          },
+          }
         }
       });
 
@@ -653,7 +655,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
       cmdm.add('canvas-clear', function() {
         if(confirm('Are you sure to clean the canvas?')) {
           editor.runCommand('core:canvas-clear')
-          setTimeout(function(){ localStorage.clear()}, 0)
+          setTimeout(function(){ localStorage.clear();}, 0);
         }
       });
       cmdm.add('set-device-desktop', {

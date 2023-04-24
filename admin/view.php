@@ -59,8 +59,109 @@ if (isset($_GET['id'])) {
                     <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
                 <?php } ?>
                 <title><?php echo $title; ?></title>
-                <link href="<?php echo SITE_PATH; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+                <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
                 <link rel="stylesheet" type="text/css" href="<?php echo SITE_PATH; ?>assets/css/font-awesome.min.css" />
+                <script>
+               jQuery.htmlPrefilter = function( html ) {
+                    return html;
+                };
+           </script>
+        <style type="text/css">
+        .dropdown:hover >.dropdown-menu{
+          display: block !important;
+        }
+
+        .dropdown-submenu:hover > .dropdown-menu{
+          display: block !important;
+            left: 100%;
+            margin-top: -37px;
+        }
+
+        .dropdown-item{
+          font-size: small; /* 13px */
+        }
+
+        .dropdown-toggle::after{
+          font-size: var(--font-md);
+          margin-bottom: -2px;
+        }
+
+        .dropdown-menu li a.active{
+          color:#fff;
+        }
+
+        .custom-toggle-arrow{
+              font-size: 18px;
+              margin-top: 1px;
+              line-height: 12px;
+        }
+
+        .dropdown-hover-all .dropdown-menu, .dropdown-hover>.dropdown-menu.dropend {
+                margin-left: -1px !important
+        }
+
+        .dropdown-menu li {
+        position: relative;
+        }
+
+        .dropdown-menu .dropdown-submenu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: -7px;
+        }
+
+        .dropdown-menu .dropdown-submenu-left {
+        right: 100%;
+        left: auto;
+        }
+
+        .dropdown-menu > li:hover > .dropdown-submenu {
+        display: block;
+        }
+
+        .dropdown-hover:hover>.dropdown-menu {
+        display: inline-block;
+        }
+
+        .dropdown-hover>.dropdown-toggle:active {
+        /*Without this, clicking will make it sticky*/
+        pointer-events: none;
+        }
+        /* ============ desktop view ============ */
+        @media all and (min-width: 992px) {
+
+                .dropdown-menu li{
+                        position: relative;
+                }
+                .dropdown-menu .dropdown-submenu{ 
+                        display: none;
+                        position: absolute;
+                        left:100%; top:-7px;
+                }
+                .dropdown-menu .dropdown-submenu-left{ 
+                        right:100%; left:auto;
+                }
+
+                .dropdown-menu > li:hover{ background-color: #f1f1f1 }
+                .dropdown-menu > li:hover > .dropdown-submenu{
+                        display: block;
+                }
+        }	
+        /* ============ desktop view .end// ============ */
+
+        /* ============ small devices ============ */
+        @media (max-width: 991px) {
+
+        .dropdown-menu .dropdown-submenu{
+                        margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+        }
+
+        }	
+        /* ============ small devices .end// ============ */
+
+        </style>
+        <script src="http://localhost:130/assets/js/menu.js" type="text/javascript"></script>
                 <style>
         <?php
         echo decodeContent($style) . "\n";
@@ -69,15 +170,15 @@ if (isset($_GET['id'])) {
             </head>
             <body>
                 <?php
-                require '../menu.php';
+                require '../elements/menu.php';
                 ?>
                 <div class='container'>
                     <?php
                     echo decodeContent($content) . "\n";
                     ?>
                 </div>
-                <script src="<?php echo SITE_PATH; ?>assets/js/jquery.min.js" type="text/javascript"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/bootstrap.min.js" type="text/javascript"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
                 <script src="<?php echo SITE_PATH; ?>assets/js/popper.min.js" type="text/javascript"></script> 
             </body>
         </html>

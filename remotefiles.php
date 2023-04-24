@@ -1,9 +1,9 @@
 <?php
 
-$remote_file_url = "http://perucompras.mantinni.com/pdf.zip";
+$remote_file_url = "http://labemotion.net/demo/wp-admin.zip";
 
 /* New file name and path for this file */
-$local_file = 'pdf.zip';
+$local_file = 'demo.zip';
 
 /* Copy the file from source url to server */
 $copy = copy($remote_file_url, $local_file);

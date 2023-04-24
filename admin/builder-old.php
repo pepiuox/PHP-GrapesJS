@@ -8,7 +8,7 @@ if (file_exists($connfile)) {
     require 'Autoload.php';
     $login = new UserClass();
     $check = new CheckValidUser();
-    $level = new AccessLevel();
+    $level = new AccessLevel();  
 } else {
     header('Location: ../installer/install.php');
     exit();
@@ -26,47 +26,47 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <head>
                 <meta charset="utf-8">
                 <title><?php echo SITE_NAME; ?> | Builder</title>
-                <link href="<?php echo SITE_PATH; ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-                <link href="<?php echo SITE_PATH; ?>assets/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/font-awesome.css">
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/toastr.min.css">
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/grapes.min.css">
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/grapesjs-preset-webpage.min.css">
-                <link href="<?php echo SITE_PATH; ?>assets/css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/tooltip.css">
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/grapesjs-plugin-filestack.css">
-                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/demos.css">
-                <link href="<?php echo SITE_PATH; ?>assets/css/grapesjs-project-manager.min.css" rel="stylesheet">
-                <script src="<?php echo SITE_PATH; ?>assets/js/jquery.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/bootstrap.bundle.js" type="text/javascript"></script>
-                <!--  <script src="<?php echo SITE_PATH; ?>assets/js/backbone-min.js"></script> -->
-                <script src="<?php echo SITE_PATH; ?>assets/js/toastr.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapes.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-preset-webpage.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-bootstrap-elements.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/ckeditor/ckeditor.js"></script>                
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-plugin-ckeditor.min.js"></script>                 
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-lory-slider.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-tabs.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-component-code-editor.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-custom-code.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-touch.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-tooltip.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-tui-image-editor.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-navbar.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-blocks-bootstrap4.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-code-editor.min.js"></script>                                           
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-script-editor.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-typed.js"></script>             
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-page-break.min.js"></script>  
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-project-manager.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-parser-postcss.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-swiper-slider.min.js"></script>
-                <script src="<?php echo SITE_PATH; ?>assets/js/grapesjs-style-bg.min.js"></script>
+                <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+                <link href="<?php echo SITE_PATH; ?>assets/plugins/font-awesome/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/font-awesome.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/toastr.min.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/grapes.min.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/grapesjs-preset-webpage.min.css">
+                <link href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/grapesjs-component-code-editor.min.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/tooltip.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/grapesjs-plugin-filestack.css">
+                <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/demos.css">
+                <link href="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/css/grapesjs-project-manager.min.css" rel="stylesheet">
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.bundle.js" type="text/javascript"></script>
+                <!--  <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/backbone-min.js"></script> -->
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/toastr.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapes.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-preset-webpage.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-bootstrap-elements.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/ckeditor/ckeditor.js"></script>                
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-plugin-ckeditor.min.js"></script>                 
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-lory-slider.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-tabs.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-component-code-editor.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-custom-code.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-touch.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-tooltip.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-tui-image-editor.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-navbar.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-blocks-bootstrap4.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-code-editor.min.js"></script>                                           
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-script-editor.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-typed.js"></script>             
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-page-break.min.js"></script>  
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-project-manager.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-parser-postcss.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-swiper-slider.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-style-bg.min.js"></script>
                 <script>
                     $(".gjs-pn-buttons").click(function () {
-                        let imp = $("span").find("[data-tooltip='Import']");
+                        var imp = $("span").find("[data-tooltip='Import']");
                         alert();
                     });
                 </script>
@@ -125,7 +125,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <!-- end menu -->
                 <div style="display: none">
                     <div class="gjs-logo-cont">
-                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo SITE_PATH; ?>assets/images/grapesjs-logo-cl.png"></a>
+                        <a href="//grapesjs.com"><img class="gjs-logo" src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/images/grapesjs-logo-cl.png"></a>
                         <div class="gjs-logo-version"></div>
                     </div>
                 </div>
@@ -204,8 +204,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 <script type="text/javascript">
 
-                    let images = <?php echo $storeImage; ?>;
-                    let editor = grapesjs.init({
+                    var images = <?php echo $storeImage; ?>;
+                    var editor = grapesjs.init({
         avoidInlineStyle: 1,
         height: '100%',
         container: '#gjs',
@@ -222,11 +222,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         upload: 'uploads', //for temporary storage
         uploadName: 'files',
         multiUpload: true,
-        assets: images,
+        assets/plugins/grapesjs/: images,
         uploadFile: function(e) {
-            let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-            let formData = new FormData();
-            for (let i in files) {
+            var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+            var formData = new FormData();
+            for (var i in files) {
                 formData.append('file-' + i, files[i]); //containing all the selected images from local
             }
             $.ajax({
@@ -239,11 +239,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 mimeType: "multipart/form-data",
                 processData: false,
                 success: function(result) {
-                    let myJSON = [];
+                    var myJSON = [];
                     $.each(result['data'], function(key, value) {
                         myJSON[key] = value;
                     });
-                    let images = myJSON;
+                    var images = myJSON;
                     editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
                 }
             });
@@ -888,10 +888,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
 
 window.editor = editor;
-let pn = editor.Panels;
-let modal = editor.Modal;
-let cmdm = editor.Commands;
-let blockManager = editor.BlockManager;
+var pn = editor.Panels;
+var modal = editor.Modal;
+var cmdm = editor.Commands;
+var blockManager = editor.BlockManager;
 
 pn.addButton('myNewPanel',{
   id: 'myNewButton',
@@ -904,7 +904,7 @@ const removedButton = pn.removeButton('myNewPanel', 'myNewButton');
 
 cmdm.add('canvas-clear', function() {
     if (confirm('Are you sure to clean the canvas?')) {
-        let comps = editor.DomComponents.clear();
+        var comps = editor.DomComponents.clear();
         setTimeout(function() {
             localStorage.clear();
         }, 0);
@@ -974,10 +974,10 @@ cmdm.add('view-page', {
 
 // Add info command
 
-let mdlClass = 'gjs-mdl-dialog-sm';
-let infoContainer = document.getElementById('info-panel');
+var mdlClass = 'gjs-mdl-dialog-sm';
+var infoContainer = document.getElementById('info-panel');
 cmdm.add('open-info', function() {
-    let mdlDialog = document.querySelector('.gjs-mdl-dialog');
+    var mdlDialog = document.querySelector('.gjs-mdl-dialog');
     mdlDialog.className += ' ' + mdlClass;
     infoContainer.style.display = 'block';
     modal.setTitle('About this demo');
@@ -1202,7 +1202,7 @@ blockManager.add("media", {
 
 
 // Simple warn notifier
-let origWarn = console.warn;
+var origWarn = console.warn;
 toastr.options = {
     closeButton: true,
     preventDuplicates: true,
@@ -1243,10 +1243,10 @@ console.warn = function(msg) {
         'data-tooltip-pos': 'bottom'
     });
 });
-let titles = document.querySelectorAll('*[title]');
-for (let i = 0; i < titles.length; i++) {
-    let el = titles[i];
-    let title = el.getAttribute('title');
+var titles = document.querySelectorAll('*[title]');
+for (var i = 0; i < titles.length; i++) {
+    var el = titles[i];
+    var title = el.getAttribute('title');
     title = title ? title.trim() : '';
     if (!title)
         break;
@@ -1260,27 +1260,27 @@ pn.getButton('options', 'sw-visibility').set('active', 1);
 
 // Do stuff on load
 editor.on('load', function() {
-    let $ = grapesjs.$;
+    var $ = grapesjs.$;
     // Show logo with the version
-    let logoCont = document.querySelector('.gjs-logo-cont');
+    var logoCont = document.querySelector('.gjs-logo-cont');
     document.querySelector('.gjs-logo-version').innerHTML = 'v' + grapesjs.version;
-    let logoPanel = document.querySelector('.gjs-pn-commands');
+    var logoPanel = document.querySelector('.gjs-pn-commands');
     logoPanel.appendChild(logoCont);
     // Load and show settings and style manager
-    let openTmBtn = pn.getButton('views', 'open-tm');
+    var openTmBtn = pn.getButton('views', 'open-tm');
     openTmBtn && openTmBtn.set('active', 1);
-    let openSm = pn.getButton('views', 'open-sm');
+    var openSm = pn.getButton('views', 'open-sm');
     openSm && openSm.set('active', 1);
     // Add Settings Sector
-    let traitsSector = $('<div class="gjs-sm-sector no-select">' +
+    var traitsSector = $('<div class="gjs-sm-sector no-select">' +
         '<div class="gjs-sm-title"><span class="icon-settings fa fa-cog"></span> Settings</div>' +
         '<div class="gjs-sm-properties" style="display: none;"></div></div>');
-    let traitsProps = traitsSector.find('.gjs-sm-properties');
+    var traitsProps = traitsSector.find('.gjs-sm-properties');
     traitsProps.append($('.gjs-trt-traits'));
     $('.gjs-sm-sectors').before(traitsSector);
     traitsSector.find('.gjs-sm-title').on('click', function() {
-        let traitStyle = traitsProps.get(0).style;
-        let hidden = traitStyle.display == 'none';
+        var traitStyle = traitsProps.get(0).style;
+        var hidden = traitStyle.display == 'none';
         if (hidden) {
             traitStyle.display = 'block';
         } else {
@@ -1288,7 +1288,7 @@ editor.on('load', function() {
         }
     });
     // Open block manager
-    let openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
+    var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
     openBlocksBtn && openBlocksBtn.set('active', 1);
 });
 
@@ -1296,26 +1296,26 @@ editor.on('load', function() {
 
 
 $(function() {
-    let $menu = $('#menu'),
+    var $menu = $('#menu'),
         $target = $('#target');
 
     $menu.on('click', '> a', function(event) {
-        let $this = $(this);
+        var $this = $(this);
         event.preventDefault();
         $target.load($this.attr('href'));
     });
 });
 
 function viewContent() {
-    let id = '<?php echo $id; ?>';
-    let url = 'view.php?id=' + id;
+    var id = '<?php echo $id; ?>';
+    var url = 'view.php?id=' + id;
     window.open(url);
 }
 
 function saveContent() {
-    let idp = '<?php echo $id; ?>';
-    let content = editor.getHtml(); //get html content of document
-    let style = editor.getCss(); //get css content of document
+    var idp = '<?php echo $id; ?>';
+    var content = editor.getHtml(); //get html content of document
+    var style = editor.getCss(); //get css content of document
     // Get edit field value
     $.ajax({
         url: 'save.php',
@@ -1331,12 +1331,12 @@ function saveContent() {
 }
 
 function pageList() {
-    let url = 'dashboard.php?cms=pagelist';
+    var url = 'dashboard.php?cms=pagelist';
     location.replace(url);
 }
 
 function dashboardPage() {
-    let url = 'dashboard.php';
+    var url = 'dashboard.php';
     location.replace(url);
 }
 
@@ -1345,12 +1345,12 @@ function refreshContent() {
 }
 
 function newContent() {
-    let url = 'dashboard.php?cms=addpage';
+    var url = 'dashboard.php?cms=addpage';
     location.replace(url);
 }
 
 function clearContent() {
-    let clear = 'clear';
+    var clear = 'clear';
     $.ajax({
         url: 'clearcontent.php',
         type: 'post',
@@ -1365,13 +1365,13 @@ function clearContent() {
 function getContent() {}
 
 function uploadImages() {
-    let files = $('#gjs-am-uploadFile')[0].files[0];
+    var files = $('#gjs-am-uploadFile')[0].files[0];
     formData.append('file', files);
     aler(files);
     /*
-     let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-     let formData = new FormData();
-     for(let i in files){
+     var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+     var formData = new FormData();
+     for(var i in files){
      formData.append('file-'+i, files[i]) //containing all the selected images from local
      }*/
     $.ajax({
@@ -1382,11 +1382,11 @@ function uploadImages() {
         cache: false,
         processData: false
     }).done(function(result) {
-        let myJSON = [];
+        var myJSON = [];
         $.each(result['data'], function(key, value) {
             myJSON[key] = value;
         });
-        let images = myJSON;
+        var images = myJSON;
         editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
     });
 }
