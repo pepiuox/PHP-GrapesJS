@@ -1,4 +1,3 @@
-
 <?php
 if (!isset($_SESSION)) {
     session_start();
@@ -256,40 +255,45 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             container : '#gjs',
                             fromElement: true,
                             showOffsets: true,
-                            assetManager: {
                             storageType: '',
                             storeOnChange: true,
                             storeAfterUpload: true,
-                            upload: 'uploads', //for temporary storage
-                            uploadName: 'files',
-                            multiUpload: true,
-                            assets: images,
-                            uploadFile: function(e) {
-                                var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-                                var formData = new FormData();
-                                for (var i in files) {
-                                    formData.append('file-' + i, files[i]); //containing all the selected images from local
-                                }
-                                $.ajax({
-                                    url: 'upImage.php',
-                                    type: 'POST',
-                                    data: formData,
-                                    contentType: false,
-                                    crossDomain: true,
-                                    dataType: 'json',
-                                    mimeType: "multipart/form-data",
-                                    processData: false,
-                                    success: function(result) {
-                                        var myJSON = [];
-                                        $.each(result['data'], function(key, value) {
-                                            myJSON[key] = value;
+                            storageManager:false,
+                            assetManager: {
+                                    storageType: '',
+                                    storeOnChange: true,
+                                    storeAfterUpload: true,
+                                    upload: 'uploads', //for temporary storage
+                                    uploadName: 'files',
+                                    multiUpload: true,
+                                    assets: images,
+                                    uploadFile: function(e) {
+                                        var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+                                        var formData = new FormData();
+                                        for (var i in files) {
+                                            formData.append('file-' + i, files[i]); //containing all the selected images from local
+                                        }
+                                        $.ajax({
+                                            url: 'upImage.php',
+                                            type: 'POST',
+                                            data: formData,
+                                            contentType: false,
+                                            crossDomain: true,
+                                            dataType: 'json',
+                                            mimeType: "multipart/form-data",
+                                            processData: false,
+                                            success: function(result) {
+                                                var myJSON = [];
+                                                $.each(result['data'], function(key, value) {
+                                                    myJSON[key] = value;
+                                                });
+                                                var images = myJSON;
+                                                editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
+                                            }
                                         });
-                                        var images = myJSON;
-                                        editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
                                     }
-                                });
-                            }
-                      },
+                            },
+                            
         selectorManager: { componentFirst: true },
         styleManager: {
           sectors: [{
