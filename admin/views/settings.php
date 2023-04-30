@@ -93,6 +93,7 @@ if (isset($_POST['Update'])) {
                     <li class="nav-item"><a class="nav-link" href="#builder" data-toggle="tab">Builder</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="#social" data-toggle="tab">Social</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#emailserver" data-toggle="tab">Mail settings</a></li>
                     <li class="nav-item"><a class="nav-link" href="#security" data-toggle="tab">Security</a></li>
                 </ul>
             </div>
@@ -257,7 +258,32 @@ if (isset($_POST['Update'])) {
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" role="tabpanel" id="security">
+                       
+                    <div class="tab-pane" role="tabpanel" id="emailserver">
+                            <form method="post">
+                                <h4>Email Settings</h4>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                    <label for="MAILSERVER">SMTP Mail Server:</label>
+                                    <input type="text" class="form-control" id="MAILSERVER" name="MAILSERVER" value="<?php echo $confs["MAILSERVER"]; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="PORTSERVER">Port Server:</label>
+                                    <input type="text" class="form-control" id="PORTSERVER" name="PORTSERVER" value="<?php echo $confs["PORTSERVER"]; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="USEREMAIL">Email Account:</label>
+                                    <input type="text" class="form-control" id="USEREMAIL" name="USEREMAIL" value="<?php echo $confs["USEREMAIL"]; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="PASSMAIL">Password:</label>
+                                    <input type="text" class="form-control" id="PASSMAIL" name="PASSMAIL" value="<?php echo $confs["PASSMAIL"]; ?>">
+                                </div> 
+                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                    </div>
+                         <div class="tab-pane" role="tabpanel" id="security">
                             <form method="post">
                                 <h4>Security and Admin</h4>
                                 <hr>
