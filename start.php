@@ -220,11 +220,12 @@ if ($nm > 0) {
                        </div>
                    </div>
                    <script>
-                       //$('#wrapper').children().removeAttr('id');
+                       //Start
+                      // A simple script was added that removes the ids inside the wrapper added by Grapesjs, if you don't want this script you can remove.
                        setTimeout(function(){
-    $('#wrapper').find('*').removeAttr("id");
-}, 0);
-                      
+                                $('#wrapper').find('*').removeAttr("id");
+                        }, 0);
+                      //End
                    </script>
                </body>
            </html>
