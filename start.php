@@ -99,6 +99,7 @@ if ($nm > 0) {
                jQuery.htmlPrefilter = function( html ) {
                     return html;
                 };
+                     
            </script>
         <style type="text/css">
         .dropdown:hover >.dropdown-menu{
@@ -197,7 +198,7 @@ if ($nm > 0) {
         </style>
         <script src="<?php echo SITE_PATH; ?>assets/js/menu.js" type="text/javascript"></script>
                    <style>
-                       #wrapper{
+                       #wrapper, .container-fluid{
                            margin:0;
                            padding:0;
                        }
@@ -208,7 +209,7 @@ if ($nm > 0) {
                    </style>
                </head>
                <body>
-                   <div class="wrapper"> 
+                   <div id="wrapper"> 
                        <?php
                        require 'elements/menu.php';
                        ?>
@@ -218,7 +219,13 @@ if ($nm > 0) {
                            ?>
                        </div>
                    </div>
-
+                   <script>
+                       //$('#wrapper').children().removeAttr('id');
+                       setTimeout(function(){
+    $('#wrapper').find('*').removeAttr("id");
+}, 0);
+                      
+                   </script>
                </body>
            </html>
     <?php

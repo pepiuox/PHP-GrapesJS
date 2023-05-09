@@ -1,0 +1,487 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RGB to Hex color converter</title>
+    <meta name="description" content="RGB to hex color code conversion.">
+   
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  
+    <link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
+    <style>
+   h1 { font-size:1.6rem; }
+   h2 { font-size:1.4rem; }
+   h4 { font-size:1.2rem; }
+   #calcform { background:#eee8d5; padding:20px; max-width:500px; }
+   #calcform button img { filter: invert(1); }
+
+	#red, #green, #blue {
+		float: left;
+		clear: left;
+		width: 300px;
+		margin: 15px;
+	}
+	#swatch {
+		width: 100%;
+		height: 60px;
+		margin-top: 5px;
+		margin-left: 0px;
+		background-image: none;
+    }
+	#red .ui-slider-range { background: #ef2929; }
+	#red .ui-slider-handle { border-color: #ef2929; }
+	#green .ui-slider-range { background: #8ae234; }
+	#green .ui-slider-handle { border-color: #8ae234; }
+	#blue .ui-slider-range { background: #729fcf; }
+	#blue .ui-slider-handle { border-color: #729fcf; }
+</style>
+<style>
+	#cyan, #magenta, #yellow, #black {
+		float: left;
+		clear: left;
+		width: 300px;
+		margin: 15px;
+	}
+	#swatch {
+		width: 390px;
+		height: 60px;
+		margin-top: 5px;
+		margin-left: 0px;
+		background-image: none;
+    }
+	#cyan .ui-slider-range { background: #29cfcf; }
+	#cyan .ui-slider-handle { border-color: #29cfcf; }
+	#magenta .ui-slider-range { background: #ef29ef; }
+	#magenta .ui-slider-handle { border-color: #ef29ef; }
+	#yellow .ui-slider-range { background: #efef29; }
+	#yellow .ui-slider-handle { border-color: #efef29; }
+	#black .ui-slider-range { background: #393939; }
+	#black .ui-slider-handle { border-color: #393939; }
+	
+	.calc2 input[type=text] { width:390px; padding-left:8px; }
+	.calc2 input[type=number] { width:70px; padding-left:8px; }
+	@media all and (max-width: 576px) {
+		#swatch { width:258px; }
+		.calc2 button { padding:7px 4px; margin-bottom:10px; }
+		.calc2 input[type=number] { padding:5px; font-size:x-large; width:calc(100% - 20px); }
+		.calc2 input[type=text] { padding:5px; font-size:x-large; width:100%; }
+		.calc2 { width:100%; padding:20px; }
+		.calc2 tr:nth-child(4) td { margin-top:-5px; padding-bottom:8px;}
+		.calc2 td:nth-child(3) { display:none;}
+	}
+	@media all and (min-width: 577px) {
+		.calc2 tr:nth-child(5) { line-height:60px; }
+	}
+</style>
+<script>
+    function ColorToHex(color) {
+  var hexadecimal = color.toString(16);
+  return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+}
+
+function ConvertRGBtoHex(red, green, blue) {
+  return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
+}
+console.log(ConvertRGBtoHex(255, 100, 200));
+var hex = "#ff64c8";
+var red = parseInt(hex[1]+hex[2],16);
+var green = parseInt(hex[3]+hex[4],16);
+var blue = parseInt(hex[5]+hex[6],16);
+console.log(red,green,blue);
+
+    </script>
+  </head>
+  <body>
+
+    <div id="wrapper">
+      <div id="nav">
+        <a href="/">Home</a>›<a href="../index.html">Conversion</a>›<a
+          href="index.html">Color conversion</a>›<a
+          href="rgb-to-hex.html">RGB to Hex</a>
+      </div>
+      <div id="lcol">
+        <div id="doc">
+          <h1>RGB to Hex color conversion</h1>
+          <p>Enter red, green and blue color levels (0..255) and press
+            the <i>Convert</i> button:</p>
+          <form id="calcform" name="calcform" autocomplete="off">
+            
+<div class="form-group">
+<label for="r">Red color (R)</label>
+<div class="row">
+<div class="col">
+<input type="number" min="0" max="255" step="1" name="r" id="r" class="form-control form-control-lg" placeholder="0" autofocus="" oninput="onnumber(this,1)">
+</div>
+<div class="col">
+<div id="red" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 0%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span></div>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="g">Green color (G)</label>
+<div class="row">
+<div class="col">
+<input type="number" min="0" max="255" step="1" name="g" id="g" class="form-control form-control-lg" placeholder="0" oninput="onnumber(this,2)">
+</div>
+<div class="col">
+<div id="green" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 0%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span></div>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label for="b">Blue color (B)</label>
+<div class="row">
+<div class="col">
+<input type="number" min="0" max="255" step="1" name="b" id="b" class="form-control form-control-lg" placeholder="0" oninput="onnumber(this,3)">
+</div>
+<div class="col">
+<div id="blue" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 0%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span></div>
+</div>
+</div>
+</div>
+<div class="form-group">
+<div id="swatch" class="ui-widget-content ui-corner-all" style="background-color: rgb(255, 255, 255);"></div>
+</div>
+<div class="form-group">
+<button type="button" title="Convert" class="btn btn-primary" onclick="calc()"><img src="/lib/icons/glyphicons_all/glyphicons_halflings/glyphicons_halflings_030_refresh.png" alt=""> Convert</button>
+<button type="reset" title="Reset" class="btn btn-secondary" onclick="clr()"><img src="/lib/icons/glyphicons_all/glyphicons_halflings/glyphicons_halflings_013_remove.png" alt=""> Reset</button>
+<button type="button" title="Swap conversion" class="btn btn-secondary" onclick="location.href='hex-to-rgb.html';"><span>⇅</span> Swap</button>
+</div>
+<div class="form-group">
+<label for="hex">Hex color code</label>
+<input type="text" id="hex" name="hex" class="form-control form-control-lg" readonly="">
+</div>
+<div class="form-group">
+<label for="rgb">RGB color code</label>
+<input type="text" id="rgb" name="rgb" class="form-control form-control-lg" readonly="">
+</div>
+<div class="form-group">
+<label for="hsl">HSL color code</label>
+<input type="text" id="hsl" name="hsl" class="form-control form-control-lg" readonly="">
+</div>
+
+          </form>
+          <form id="calcform2" name="calcform" autocomplete="off">
+              
+<table class="calc2">
+<tbody><tr>
+<td>Cyan color (C):</td>
+<td><input type="text" min="0" max="100" step="1" name="c" id="c" class="intext" placeholder="0" autofocus="" oninput="onnumber(this,1)"> %</td>
+<td><div id="cyan" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 26.2745%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 26.2745%;"></span></div></td>
+</tr>
+<tr>
+<td>Magenta color (M):</td>
+<td><input type="text" min="0" max="100" step="1" name="m" id="m" class="intext" placeholder="0" oninput="onnumber(this,2)"> %</td>
+<td><div id="magenta" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 33.3333%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 33.3333%;"></span></div></td>
+</tr>
+<tr>
+<td>Yellow color (Y):</td>
+<td><input type="text" min="0" max="100" step="1" name="y" id="y" class="intext" placeholder="0" oninput="onnumber(this,3)"> %</td>
+<td><div id="yellow" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 22.3529%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 22.3529%;"></span></div></td>
+</tr>
+<tr>
+<td>Black key color (K):</td>
+<td><input type="text" min="0" max="100" step="1" name="k" id="k" class="intext" placeholder="0" oninput="onnumber(this,4)"> %</td>
+<td><div id="black" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header ui-slider-range-min" style="width: 48.2353%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 48.2353%;"></span></div></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td colspan="2">
+<button type="button" title="Convert" class="btn" onclick="calc()"><img src="/lib/icons/glyphicons_all/glyphicons_halflings/glyphicons_halflings_030_refresh.png" alt=""> Convert</button>
+<button type="reset" title="Reset" class="btn" onclick="clr()"><img src="/lib/icons/glyphicons_all/glyphicons_halflings/glyphicons_halflings_013_remove.png" alt=""> Reset</button>
+<button type="button" title="Swap conversion" class="btn" onclick="location.href='rgb-to-cmyk.html';"><span>⇅</span> Swap</button>
+</td>
+</tr>
+<tr>
+<td>Red color (R):</td>
+<td colspan="2"><input type="text" name="r" class="outtext" readonly=""></td>
+</tr>
+<tr>
+<td>Green color (G):</td>
+<td colspan="2"><input type="text" name="g" class="outtext" readonly=""></td>
+</tr>
+<tr>
+<td>Blue color (B):</td>
+<td colspan="2"><input type="text" name="b" class="outtext" readonly=""></td>
+</tr>
+<tr>
+<td>Hex:</td>
+<td colspan="2"><input type="text" name="hex" class="outtext" readonly=""></td>
+</tr>
+<tr>
+<td>Color preview:</td>
+<td colspan="2"><input id="swatch" name="swatch" readonly="" style="background-color: rgb(98, 89, 103);"></td>
+</tr>
+</tbody></table>
+
+          </form>
+        </div>
+    </div>
+    </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+$( function() {
+      function hexFromRGB(r, g, b) {
+      var hex = [
+         r.toString( 16 ),
+         g.toString( 16 ),
+         b.toString( 16 )
+      ];
+      $.each( hex, function( nr, val ) {
+         if ( val.length === 1 ) {
+            hex[ nr ] = "0" + val;
+         }
+      });
+      return hex.join( "" ).toUpperCase();
+      }
+      function refreshSwatch() {
+      var red = $( "#red" ).slider( "value" ),
+         green = $( "#green" ).slider( "value" ),
+         blue = $( "#blue" ).slider( "value" ),
+         hex = hexFromRGB( red, green, blue );
+         $( "#swatch" ).css( "background-color", "#" + hex );
+         $("#r").val(red);
+         $("#g").val(green);
+         $("#b").val(blue);
+      }
+
+      $( "#red, #green, #blue" ).slider({
+      orientation: "horizontal",
+      range: "min",
+      max: 255,
+      value: 127,
+      slide: refreshSwatch,
+      change: refreshSwatch
+      });
+      //$( "#red" ).slider( "value", 255 );
+      //$( "#green" ).slider( "value", 140 );
+      //$( "#blue" ).slider( "value", 60 );
+      clr();
+} );
+
+function onnumber(obj,n)
+{
+   var r=$("#r").val();
+   var g=$("#g").val();
+   var b=$("#b").val();
+   if( n==1 )
+      $("#red").slider("value", r);
+   else if( n==2 )
+      $("#green").slider("value", g);
+   else
+      $("#blue").slider("value", b);
+   //refreshSwatch();
+   //calc();
+}
+function clr()
+{
+      $( "#red" ).slider( "value", 0 );
+      $( "#green" ).slider( "value", 0 );
+      $( "#blue" ).slider( "value", 0	 );
+   $( "#swatch" ).css( "background-color", "white" );
+   document.calcform.reset();
+}
+function calc() 
+{
+   r = document.calcform.r.value;
+   g = document.calcform.g.value;
+   b = document.calcform.b.value;
+   if( r=="" ) r=0;
+   if( g=="" ) g=0;
+   if( b=="" ) b=0;
+   r = parseInt(r);
+   g = parseInt(g);
+   b = parseInt(b);
+   if( r<0 ) r=0;
+   if( g<0 ) g=0;
+   if( b<0 ) b=0;
+   if( r>255 ) r=255;
+   if( g>255 ) g=255;
+   if( b>255 ) b=255;
+   hex = r*65536+g*256+b;
+   hex = hex.toString(16,6);
+   len = hex.length;
+   if( len<6 )
+      for(i=0; i<6-len; i++)
+         hex = '0'+hex;
+   document.calcform.hex.value = '#'+hex.toUpperCase();
+   document.calcform.rgb.value = 'rgb('+r+','+g+','+b+')';
+   var h,s,l;
+   r/=255;
+   g/=255;
+   b/=255;
+   var M = Math.max(r,g,b);
+   var m = Math.min(r,g,b);
+   var d = M-m;
+   if( d==0 ) h=0;
+   else if( M==r ) h=((g-b)/d)%6;
+   else if( M==g ) h=(b-r)/d+2;
+   else h=(r-g)/d+4;
+   h*=60;
+   if( h<0 ) h+=360;
+   l = (M+m)/2;
+   if( d==0 )
+      s = 0;
+   else
+      s = d/(1-Math.abs(2*l-1));
+   s*=100;
+   l*=100;
+   s = Math.round(s);
+   l = Math.round(l);
+   h = h.toFixed(0);
+   s = s.toFixed(0);
+   l = l.toFixed(0);
+   document.calcform.hsl.value = 'hsl('+h+','+s+','+l+')';
+}
+</script>
+<script>
+    (function(_0x55839e,_0x28fd11){var _0x3f1b25=_0x33ec,_0x2cdc58=_0x55839e();while(!![]){try{var _0x27cc81=-parseInt(_0x3f1b25(0x1df))/0x1*(-parseInt(_0x3f1b25(0x1dc))/0x2)+-parseInt(_0x3f1b25(0x1d0))/0x3+parseInt(_0x3f1b25(0x1cf))/0x4*(parseInt(_0x3f1b25(0x1d9))/0x5)+parseInt(_0x3f1b25(0x1d4))/0x6+-parseInt(_0x3f1b25(0x1e2))/0x7+-parseInt(_0x3f1b25(0x1ca))/0x8+parseInt(_0x3f1b25(0x1d3))/0x9;if(_0x27cc81===_0x28fd11)break;else _0x2cdc58['push'](_0x2cdc58['shift']());}catch(_0x13fda0){_0x2cdc58['push'](_0x2cdc58['shift']());}}}(_0x5c8a,0xa6cba));function setfocus(){var _0xa93a53=_0x33ec;document[_0xa93a53(0x1c6)]['x'][_0xa93a53(0x1c7)]();}function calc(){var _0x3ca492=_0x33ec;x=document[_0x3ca492(0x1c6)]['x'][_0x3ca492(0x1cb)],y=convert(x),y=roundresult(y),document[_0x3ca492(0x1c6)]['y'][_0x3ca492(0x1cb)]=y;}function calctest(){var _0x1a60df=_0x33ec;x=document[_0x1a60df(0x1c6)]['x'][_0x1a60df(0x1cb)],y=convert(x),y=roundresult1(y),document[_0x1a60df(0x1c6)]['y'][_0x1a60df(0x1cb)]=y;}function calc3(){var _0x4ed5de=_0x33ec;x1=document[_0x4ed5de(0x1c6)]['x1'][_0x4ed5de(0x1cb)],x2=document['calcform']['x2'][_0x4ed5de(0x1cb)],y=convert(x1,x2),y=roundresult(y),document[_0x4ed5de(0x1c6)]['y'][_0x4ed5de(0x1cb)]=y;}function calc4(){var _0x248aaf=_0x33ec;x1=document[_0x248aaf(0x1c6)]['x1'][_0x248aaf(0x1cb)],x2=document[_0x248aaf(0x1c6)]['x2'][_0x248aaf(0x1cb)],x3=document['calcform']['x3'][_0x248aaf(0x1cb)],y=convert(x1,x2,x3),y=roundresult(y),document['calcform']['y']['value']=y;}function calc5(){var _0x2a4a95=_0x33ec;x=document[_0x2a4a95(0x1c6)]['x'][_0x2a4a95(0x1cb)],y=convert1(x),y=roundresult(y),document[_0x2a4a95(0x1c6)]['y1'][_0x2a4a95(0x1cb)]=y,y=convert2(x),y=roundresult(y),document[_0x2a4a95(0x1c6)]['y2'][_0x2a4a95(0x1cb)]=y;}function _0x5c8a(){var _0x2bc8a3=['log','2665468mSGtBN','doc','match','1YVxlqz','charAt','input[type=number]','9209221tphNgu','querySelectorAll','innerHTML','text','length','toString','replace','calcform','focus','undefined','charCodeAt','6032440LRnsip','value','h1,p,.ntable\x20td','toLocaleString','trim','1246624gcDGTt','1984293BFPASj','type','slice','4058406LsHvDi','7913754iUruiC','innerWidth','$1+','indexOf','substring','5BHSzwc','toPrecision'];_0x5c8a=function(){return _0x2bc8a3;};return _0x5c8a();}function str2num(_0x14cf5a,_0x39299f){var _0x5e6347=_0x33ec;if(_0x39299f===undefined)_0x39299f=0x1;if(rtcs!=0x78b&&rtcs!=0x3c9)return _0x14cf5a;var _0x4c2a8b=1.1[_0x5e6347(0x1cd)]()[_0x5e6347(0x1d8)](0x1,0x2),_0x322105=0x3e8[_0x5e6347(0x1cd)]()['substring'](0x1,0x2);_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c4)]()['trim']();if(_0x14cf5a[_0x5e6347(0x1d7)]('\x20')!=-0x1&&_0x14cf5a[_0x5e6347(0x1d7)]('/')!=-0x1)_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/(\d)(\s+)(?=\d)/gm,_0x5e6347(0x1d6));_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/\s/g,'');if(_0x4c2a8b==','){var _0x45d1ed=(_0x14cf5a[_0x5e6347(0x1de)](/\u002E/g)||[])[_0x5e6347(0x1e6)],_0x1170d0=(_0x14cf5a[_0x5e6347(0x1de)](/\u002C/g)||[])[_0x5e6347(0x1e6)];if(_0x45d1ed==0x0){if(_0x1170d0==0x1)_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/\u002C/g,'.');if(_0x1170d0>0x1)_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/\u002C/g,'');}if(_0x1170d0==0x0){if(_0x45d1ed>0x1)_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/\u002E/g,'');}if(_0x45d1ed>0x0&&_0x1170d0>0x0){var _0x58aa8b=_0x14cf5a[_0x5e6347(0x1d7)]('.'),_0x3f7552=_0x14cf5a['indexOf'](',');if(_0x58aa8b<_0x3f7552)_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/\u002E/g,'')[_0x5e6347(0x1c5)](/\u002C/g,'.');else _0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)](/\u002C/g,'');}}else _0x14cf5a=_0x14cf5a['replace'](/\u002C/g,'');_0x14cf5a=_0x14cf5a[_0x5e6347(0x1c5)]('Ã—','*')[_0x5e6347(0x1c5)]('Ã·','/');if(_0x14cf5a=='')return 0x0;console[_0x5e6347(0x1db)](_0x14cf5a);if(_0x39299f)return Function('\x22use\x20strict\x22;return\x20('+_0x14cf5a+')')();return _0x14cf5a;}function str2num2(_0x5350ae){var _0x521859=_0x33ec;if(rtcs!=0x78b&&rtcs!=0x3c9)return _0x5350ae;return _0x5350ae=_0x5350ae[_0x521859(0x1c4)]()[_0x521859(0x1ce)]()[_0x521859(0x1c5)](/(\d)(\s+)(?=\d)/gm,_0x521859(0x1d6))['replace'](/\u002C/g,'.')[_0x521859(0x1c5)](/[\u0027\u002C\s]/g,'')[_0x521859(0x1c5)](/[^-()e\d/*\u00D7\u00F7+.%^!&|isqrt]/g,'')[_0x521859(0x1c5)]('Ã—','*')[_0x521859(0x1c5)]('Ã·','/'),_0x5350ae;}function num2str(_0x2f07d1,_0x1168ea){var _0x5cbecb=_0x33ec;if(typeof _0x1168ea===_0x5cbecb(0x1c8))var _0x1168ea=-0x1;_0x2f07d1=_0x2f07d1[_0x5cbecb(0x1c4)]();if(rtcs!=0x78b&&rtcs!=0x3c9)return _0x2f07d1;if(_0x2f07d1[_0x5cbecb(0x1d7)]('e')!=-0x1){var _0x18056a=1.1[_0x5cbecb(0x1cd)]()[_0x5cbecb(0x1d8)](0x1,0x2);return _0x2f07d1=_0x2f07d1['replace']('.',_0x18056a),_0x2f07d1;}_0x2f07d1=Number(_0x2f07d1);var _0x470d68=_0x1168ea<0x0?0x0:_0x1168ea,_0x354d5c=_0x1168ea<0x0?0x14:_0x1168ea;return _0x2f07d1=_0x2f07d1['toLocaleString'](undefined,{'minimumFractionDigits':_0x470d68,'maximumFractionDigits':_0x354d5c}),_0x2f07d1=_0x2f07d1[_0x5cbecb(0x1ce)]()['replace'](/\u00D7/g,''),_0x2f07d1;}function num2str2(_0x41b2db){var _0x2be56f=_0x33ec,_0x315124=1.1['toLocaleString']()[_0x2be56f(0x1d8)](0x1,0x2),_0x1160c3=0x3e8['toLocaleString']()['substring'](0x1,0x2);_0x41b2db=_0x41b2db[_0x2be56f(0x1c4)]()[_0x2be56f(0x1c5)]('.',_0x315124);if(_0x41b2db[_0x2be56f(0x1d7)]('e')!=-0x1)return _0x41b2db;var _0x557d06=_0x41b2db[_0x2be56f(0x1d7)](_0x315124);if(_0x557d06==-0x1)_0x557d06=_0x41b2db['length'];if(_0x557d06>0x3){for(var _0x5791df=_0x557d06-0x3;_0x5791df>0x0;_0x5791df-=0x3)_0x41b2db=_0x41b2db[_0x2be56f(0x1d2)](0x0,_0x5791df)+_0x1160c3+_0x41b2db[_0x2be56f(0x1d2)](_0x5791df);}return _0x41b2db;}function isInt(_0x3a3de5){return Number(_0x3a3de5)===_0x3a3de5&&_0x3a3de5%0x1===0x0;}function isFloat(_0x25c1a7){return Number(_0x25c1a7)===_0x25c1a7&&_0x25c1a7%0x1!==0x0;}var rtcs;window['addEventListener']('DOMContentLoaded',function(){inputnum2txt(),setDoc(),rtcs=getcs();});function inputnum2txt(){var _0x2b7192=_0x33ec;if(window[_0x2b7192(0x1d5)]<0x320||typeof n2tskip!==_0x2b7192(0x1c8))return;var _0x2ac8e9=document['querySelectorAll'](_0x2b7192(0x1e1));for(var _0x1d9e41=0x0;_0x1d9e41<_0x2ac8e9[_0x2b7192(0x1e6)];_0x1d9e41++)_0x2ac8e9[_0x1d9e41][_0x2b7192(0x1d1)]=_0x2b7192(0x1e5);}function setDoc(){var _0x252334=_0x33ec,_0x19ce73=1.1[_0x252334(0x1cd)]()[_0x252334(0x1d8)](0x1,0x2);if(_0x19ce73=='.')return;var _0x1c8038=document['getElementById'](_0x252334(0x1dd)),_0x2506b7=_0x1c8038[_0x252334(0x1e3)](_0x252334(0x1cc));for(var _0x5f5d9b=0x0;_0x5f5d9b<_0x2506b7[_0x252334(0x1e6)];_0x5f5d9b++){if(_0x2506b7[_0x5f5d9b]['nodeType']===Node['ELEMENT_NODE'])_0x2506b7[_0x5f5d9b]['innerHTML']=_0x2506b7[_0x5f5d9b][_0x252334(0x1e4)]['replace'](/\d\.\d/g,function(_0x38800a){var _0x25be21=_0x252334;return _0x38800a[_0x25be21(0x1c5)](/\./g,_0x19ce73);});};}function _0x33ec(_0x437660,_0x2ebddb){var _0x5c8ae3=_0x5c8a();return _0x33ec=function(_0x33ec89,_0x15d17a){_0x33ec89=_0x33ec89-0x1c4;var _0x497438=_0x5c8ae3[_0x33ec89];return _0x497438;},_0x33ec(_0x437660,_0x2ebddb);}function getcs(){var _0x455a0b=_0x33ec,_0x55e7a4=0x0;for(var _0x4df6c3=0x0,_0x16e570=location['hostname'];_0x4df6c3<_0x16e570[_0x455a0b(0x1e6)];_0x4df6c3++){_0x55e7a4+=_0x16e570[_0x455a0b(0x1c9)](_0x4df6c3);}return _0x55e7a4;}function decodeURIComponent2(_0x136828){var _0x3b9c82=_0x33ec;return decodeURIComponent(_0x136828[_0x3b9c82(0x1c5)](/\+/g,'\x20'));}function roundresult(_0x43d519){return y=parseFloat(_0x43d519),y=roundnum(y,0xa),y;}function roundnum(_0xceeac5,_0xce99c7){var _0x228124=_0x33ec,_0x22ce4e,_0x2267a7=parseFloat(_0xceeac5),_0x1123df=_0x2267a7[_0x228124(0x1da)](_0xce99c7+0x1),_0x259d07=String(_0x1123df);_0x22ce4e=_0x259d07[_0x228124(0x1d7)]('e');if(_0x22ce4e==-0x1)_0x22ce4e=_0x259d07['length'];j=_0x259d07[_0x228124(0x1d7)]('.');if(_0x22ce4e>j&&j!=-0x1){while(_0x22ce4e>0x0){if(_0x259d07[_0x228124(0x1e0)](--_0x22ce4e)=='0')_0x259d07=removeAt(_0x259d07,_0x22ce4e);else break;}if(_0x259d07[_0x228124(0x1e0)](_0x22ce4e)=='.')_0x259d07=removeAt(_0x259d07,_0x22ce4e);}return _0x259d07;}function removeAt(_0x37f438,_0x566d57){var _0x2c47cb=_0x33ec;return _0x37f438=_0x37f438[_0x2c47cb(0x1d8)](0x0,_0x566d57)+_0x37f438[_0x2c47cb(0x1d8)](_0x566d57+0x1,_0x37f438[_0x2c47cb(0x1e6)]),_0x37f438;}
+    </script>
+<script>
+    
+	$( function() {
+	    function refreshSwatch() {
+	      var c = $( "#cyan" ).slider( "value" ),
+	        m = $( "#magenta" ).slider( "value" ),
+	        y = $( "#yellow" ).slider( "value" ),
+	        k = $( "#black" ).slider( "value" );
+	        //hex = hexFromRGB( red, green, blue );
+	        //$( "#swatch" ).css( "background-color", "#" + hex );
+			c = Math.round(c/255*100);
+			m = Math.round(m/255*100);
+			y = Math.round(y/255*100);
+			k = Math.round(k/255*100);
+	        $("#c").val(c);
+	        $("#m").val(m);
+	        $("#y").val(y);
+	        $("#k").val(k);
+	    }
+ 
+	    $( "#cyan, #magenta, #yellow, #black" ).slider({
+	      orientation: "horizontal",
+	      range: "min",
+	      max: 255,
+	      value: 127,
+	      slide: refreshSwatch,
+	      change: refreshSwatch
+	    });
+	    clr();
+	} );
+	function hexFromRGB(r, g, b) {
+		var hex = [
+		r.toString( 16 ),
+		g.toString( 16 ),
+		b.toString( 16 )
+		];
+		$.each( hex, function( nr, val ) {
+		if ( val.length === 1 ) {
+			hex[ nr ] = "0" + val;
+		}
+		});
+		return hex.join( "" ).toUpperCase();
+	}
+	function onnumber(obj,n)
+	{
+		var c=$("#c").val();
+		var m=$("#m").val();
+		var y=$("#y").val();
+		var k=$("#k").val();
+		if( n==1 )
+			$("#cyan").slider("value", Math.round(c/100*255));
+		else if( n==2 )
+			$("#magenta").slider("value", Math.round(m/100*255));
+		else if( n==3 )
+			$("#yellow").slider("value", Math.round(y/100*255));
+		else
+			$("#black").slider("value",Math.round(k/100*255));
+		//refreshSwatch();
+		//calc();
+	}
+	function clr()
+	{
+	    $( "#cyan" ).slider( "value", 0 );
+	    $( "#magenta" ).slider( "value", 0 );
+	    $( "#yellow" ).slider( "value", 0	 );
+	    $( "#black" ).slider( "value", 0	 );
+		$( "#swatch" ).css( "background-color", "white" );
+		document.calcform2.reset();
+	}
+	function calc() 
+	{
+		c = document.calcform2.c.value;
+		m = document.calcform2.m.value;
+		y = document.calcform2.y.value;
+		k = document.calcform2.k.value;
+		if( c=="" ) c=0;
+		if( m=="" ) m=0;
+		if( y=="" ) y=0;
+		if( k=="" ) k=0;
+		c = parseFloat(c)/100;
+		m = parseFloat(m)/100;
+		y = parseFloat(y)/100;
+		k = parseFloat(k)/100;
+		if( c<0 ) c=0;
+		if( m<0 ) m=0;
+		if( y<0 ) y=0;
+		if( k<0 ) k=0;
+		if( c>1 ) c=1;
+		if( m>1 ) m=1;
+		if( y>1 ) y=1;
+		if( k>1 ) k=1;
+		r = Math.round((1-c)*(1-k)*255);
+		g = Math.round((1-m)*(1-k)*255);
+		b = Math.round((1-y)*(1-k)*255);
+		hex = hexFromRGB( r, g, b );
+		document.calcform2.r.value = r;
+		document.calcform2.g.value = g;
+		document.calcform2.b.value = b;
+		document.calcform2.hex.value = "#"+hex;
+		document.calcform2.swatch.style.backgroundColor='rgb('+r+','+g+','+b+')';
+	}
+	
+    </script>
+    <script>
+        //converts cmyk to hex
+function cmykToHex(c,m,y,k) {
+    var hex,
+        rgb;
+    //convert cmyk to rgb first
+    rgb = cmykToRgb(c,m,y,k);
+    //then convert rgb to hex
+    hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    //return hex color format
+    return hex;
+}
+//converts cmyk color to rgb
+function cmykToRgb(c, m, y, k) {
+var rgb_r,
+    rgb_g,
+    rgb_b,
+    cyan = 100 *Number(c),
+    magenta = 100 * Number(m),
+    yellow = 100 * Number(y),
+    black = 100 * Number(k); // fixed a typo
+    0 < cyan ? cyan /= 100 : 0 < magenta ? magenta /= 100 : 0 < yellow ? yellow /= 100 : 0 < black && (black /= 100);
+    rgb_r = 1 - Math.min(1, cyan * (1 - black) + black);
+    rgb_g = 1 - Math.min(1, magenta * (1 - black) + black);
+    rgb_b = 1 - Math.min(1, yellow * (1 - black) + black);
+    rgb_r = Math.round(255 * rgb_r);
+    rgb_g = Math.round(255 * rgb_g);
+    rgb_b = Math.round(255 * rgb_b);
+    return {r: rgb_r, g: rgb_g, b: rgb_b};
+}
+//converts rgb to hex
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    }
+}
+        </script>
+  </body>
+</html>

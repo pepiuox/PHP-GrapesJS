@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="mx-auto col-lg-8 col-md-10">
                     <h1 class="display-3 mb-4">A wonderful serenity</h1>
-                    <p class="lead mb-5">Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.</p> <a href="#" class="btn btn-lg btn-primary mx-1">Take me there</a> <a class="btn btn-lg mx-1 btn-outline-primary"
-                                                                                                                                                                                                        href="#">Let's Go</a> </div>
+                    <p class="lead mb-5">Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.</p> 
+                    <a href="#" class="btn btn-lg btn-primary mx-1">Take me there</a> <a class="btn btn-lg mx-1 btn-outline-primary" href="#">Let's Go</a> </div>
             </div>
         </div>
     </div>
@@ -28,8 +28,8 @@
             <div class="row">
                 <div class="col-md-8 mx-auto"> <i class="d-block fa fa-stop-circle mb-3 text-muted fa-5x"></i>
                     <h1 class="display-3 mb-4">O my friend</h1>
-                    <p class="lead mb-5">Heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living.</p> <a class="btn btn-lg mx-1 btn-outline-dark"
-                                                                                                                                                                                                        href="#">Do</a> <a href="#" class="btn btn-lg btn-primary mx-1">Something</a> </div>
+                    <p class="lead mb-5">Heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living.</p> 
+                    <a class="btn btn-lg mx-1 btn-outline-dark" href="#">Do</a> <a href="#" class="btn btn-lg btn-primary mx-1">Something</a> </div>
             </div>
         </div>
     </div>
@@ -40,8 +40,8 @@
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <h1 class="mb-3">I enjoy with my whole heart</h1>
-                    <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> <img class="img-fluid d-block mx-auto" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg"
-                                                                                                                                                                                                        width="750"> </div>
+                    <p class="lead mb-0">I am alone, and feel the charm of existence in this spot.</p> <a class="btn btn-link m-3" href="#">Read more</a> <a class="btn btn-primary m-3" href="#">Buy now</a> 
+                    <img class="img-fluid d-block mx-auto" src="<?php echo SITE_PATH; ?>assets/images/img-placeholder-tablet.svg" width="750"> </div>
             </div>
         </div>
     </div>

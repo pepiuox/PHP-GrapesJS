@@ -236,7 +236,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                             </div>
                         </nav>
-
+                        <script>                   
+                  $("#gjs div").removeAttr("id");
+                        </script>
                         <div id="gjs" style="height:0px; overflow:hidden" class='box' ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)">
                             <?php
                             echo decodeContent($pcontent) . "\n";
@@ -260,9 +262,6 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             storeAfterUpload: true,
                             storageManager:false,
                             assetManager: {
-                                    storageType: '',
-                                    storeOnChange: true,
-                                    storeAfterUpload: true,
                                     upload: 'uploads', //for temporary storage
                                     uploadName: 'files',
                                     multiUpload: true,
