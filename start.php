@@ -204,7 +204,7 @@ if ($nm > 0) {
                        }
 
                        <?php
-                       echo decodeContent($style);
+                       echo decodeContent($style). "\n";
                        ?>
                    </style>
                </head>
@@ -220,10 +220,14 @@ if ($nm > 0) {
                        </div>
                    </div>
                    <script>
+                       $( document ).ready(function() {
+                           $( '#wrapper body' ).remove();                     
+                                });
                        //Start
                       // A simple script was added that removes the ids inside the wrapper added by Grapesjs, if you don't want this script you can remove.
                        setTimeout(function(){
                                 $('#wrapper').find('*').removeAttr("id");
+                                
                         }, 0);
                       //End
                    </script>
