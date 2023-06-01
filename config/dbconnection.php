@@ -2,7 +2,8 @@
 
 include 'error_report.php';
 include 'Database.php';
-$link = new Database();$conn = $link-> MysqliConnection();
+$link = new Database();
+$conn = $link-> MysqliConnection();
 require 'function.php';
 include 'define.php';
 

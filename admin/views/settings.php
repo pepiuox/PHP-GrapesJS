@@ -35,6 +35,11 @@ $confs = $result->fetch_assoc();
 extract($_POST);
 
 if (isset($_POST['Update'])) {
+    $definefiles = '../config/define.php';
+        if (file_exists($definefiles)) {
+            unlink($definefiles);
+        }
+    
     foreach ($_POST as $k => $v) {
         if ($_POST['Update'] === $v) {
             continue;
@@ -44,37 +49,36 @@ if (isset($_POST['Update'])) {
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
     if ($conn->query($update) === TRUE) {
-        $_SESSION['SuccessMessage'] = "Web site settings : Updated.";
+        $_SESSION['SuccessMessage'] = "Web Site Configuration : Updated.";
+        $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
+            if ($result = $conn->query($sql)) {
+                $fname = $result->fetch_fields();
+                $fdata = $result->fetch_assoc();
 
-        $fname = $result->fetch_fields();
-        $fdata = $result->fetch_assoc();
-
-        foreach ($fname as $val) {
-            if ($val->name === 'ID_Site') {
-                continue;
-            } elseif ($val->name === 'CREATE') {
-                continue;
-            } elseif ($val->name === 'UPDATED') {
-                continue;
+                foreach ($fname as $val) {
+                    if ($val->name === 'ID_Site') {
+                        continue;
+                    } elseif ($val->name === 'CREATE') {
+                        continue;
+                    } elseif ($val->name === 'UPDATED') {
+                        continue;
+                    }
+                    $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+                }
+                $definefiles = '../config/define.php';
+                if (!file_exists($definefiles)) {
+                    $ndef = '<?php' . "\n";
+                    $ndef .= implode(" ", $fldname);
+                    $ndef .= '?>' . "\n";
+                    file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+                } else {
+                    unlink($definefiles);
+                    $ndef = '<?php' . "\n";
+                    $ndef .= implode("\n ", $fldname);
+                    $ndef .= '?>' . "\n";
+                    file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+                }             
             }
-            $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
-        }
-        $definefiles = '../config/define.php';
-        if (!file_exists($definefiles)) {
-            $ndef = '<?php' . "\n";
-            $ndef .= implode(" ", $fldname);
-            $ndef .= '?>' . "\n";
-            file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-        } else {
-            unlink($definefiles);
-            $ndef = '<?php' . "\n";
-            $ndef .= implode("\n ", $fldname);
-            $ndef .= '?>' . "\n";
-            file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-        }
-
-        header("Location: dashboard.php?cms=siteconf");
-        exit();
     } else {
         $_SESSION['ErrorMessage'] = "Updated settings : Error.";
         header("Location: dashboard.php?cms=siteconf");
@@ -262,8 +266,8 @@ if (isset($_POST['Update'])) {
                     <div class="tab-pane" role="tabpanel" id="emailserver">
                             <form method="post">
                                 <h4>Email Settings</h4>
-                                <div class="col-12">
-                                    <div class="form-group">
+                                 <hr>
+                                 <div class="form-group">
                                     <label for="MAILSERVER">SMTP Mail Server:</label>
                                     <input type="text" class="form-control" id="MAILSERVER" name="MAILSERVER" value="<?php echo $confs["MAILSERVER"]; ?>">
                                 </div>
@@ -279,6 +283,7 @@ if (isset($_POST['Update'])) {
                                     <label for="PASSMAIL">Password:</label>
                                     <input type="text" class="form-control" id="PASSMAIL" name="PASSMAIL" value="<?php echo $confs["PASSMAIL"]; ?>">
                                 </div> 
+                                <div class="col-12">
                                     <button type="submit" name="Update" class="btn btn-primary">Save</button>
                                 </div>
                             </form>

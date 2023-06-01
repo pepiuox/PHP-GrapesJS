@@ -161,6 +161,7 @@ if (!file_exists($file)) {
             unlink($definefiles);
         }
         $_SESSION['AlertMessage'] = "The definitions are up to date.";
+        
         foreach ($_POST as $k => $v) {
             if ($_POST['Update'] === $v) {
                 continue;
