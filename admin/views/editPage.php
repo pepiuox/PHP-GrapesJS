@@ -163,10 +163,8 @@
         <input type="text" class="form-control" id="imagen" name="imagen" value="' . $image . '" readonly="readonly">
   </div>
   </div>' . "\n";
-                            echo '<div class="form-group">
-				<label for="type" class ="control-label col-sm-3">Type:</label> 
-                                <input type="text" class="form-control" id="type" name="type" value="'.$type.'">
-			</div>';
+                                                     
+                          enum_values('page', 'type', $type);
 
                             echo '<div class="form-group">
 				<label for="menu" class ="control-label col-sm-3">Menu:</label> 

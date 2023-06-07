@@ -132,7 +132,49 @@ function menuopt($menu) {
     }
     echo '</select>' . "\n";
 }
+function enum_values($table, $field, $enum )
+{ global $conn;
+    $type = $conn->query("SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
+    preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+    $enum = explode("','", $matches[1]);
+    $frmp = ucfirst(str_replace("_", " ", $field));
+    echo '<div class="form-group">
+                       <label for="' . $field . '">' . $frmp . ':</label>
+                       <select class="form-select" id="' . $field . '" name="' . $field . '" >' . "\n";
+    foreach ($enum as $option) {
+    $soption = '<option value="' . $option . '"';
+                        $soption .= ($enum === $option) ? ' SELECTED' : '';
+                        $soption .= '>' . $option . '</option>';
+                        echo $soption . "\n";
+    }
+    echo '</select>' . "\n";
+    echo '</div>' . "\n";
+}
 
+
+function selType($tble,$c_nm,$enum){
+    global $conn;
+    $sql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
+
+                    $iresult = $conn->query($sql);
+                    $row = $iresult->fetch_array();
+                    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
+                    
+                    $frmp = ucfirst(str_replace("_", " ", $c_nm));
+                    //
+                    echo '<div class="form-group">
+                       <label for="' . $c_nm . '">' . $frmp . ':</label>
+                       <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+$default_value = $enum;
+                    foreach ($enum_list as $option) {
+                        $soption = '<option value="' . $option . '"';
+                        $soption .= ($default_value === $option) ? ' SELECTED' : '';
+                        $soption .= '>' . $option . '</option>';
+                        echo $soption . "\n";
+                    }
+                    echo '</select>' . "\n";
+                    echo '</div>' . "\n";
+}
 function enumsel($tble, $labelc, $nrow='') {
     global $conn;
     $remp = ucfirst(str_replace("_", " ", $labelc));
