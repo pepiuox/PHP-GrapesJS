@@ -123,7 +123,7 @@ if (isset($_POST['Update'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE_PATH;">SITE PATH:</label>
-                                    <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH;" value="<?php echo $confs["SITE_PATH"]; ?>">
+                                    <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $confs["SITE_PATH"]; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE_DESCRIPTION">SITE DESCRIPTION:</label>

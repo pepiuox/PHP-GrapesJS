@@ -1,12 +1,12 @@
 <?php
-define('DOMAIN_SITE','http://localhost:130');
- define('SITE_NAME','Circulo de Piccha');
+define('DOMAIN_SITE','http://www.pepiuox.net');
+ define('SITE_NAME','PEPIUOX');
  define('SITE_BRAND_IMG','');
  define('SITE_PATH','http://localhost:130/');
  define('SITE_DESCRIPTION','Your description for your domains');
  define('SITE_KEYWORDS','Your keywords for your domains');
  define('SITE_CLASSIFICATION','Your classification for your domains');
- define('SITE_EMAIL','info@circulodepiccha.com');
+ define('SITE_EMAIL','info@phpgrapesjs.com');
  define('SITE_IMAGE','dashboard');
  define('SITE_ADMIN','dashboard');
  define('SITE_CONTROL','users');
@@ -20,17 +20,21 @@ define('DOMAIN_SITE','http://localhost:130');
  define('SITE_LIST','list');
  define('NAME_CONTACT','Jose Mantilla');
  define('PHONE_CONTACT','0051999063645');
- define('EMAIL_CONTACT','info@circulodepiccha.com');
+ define('EMAIL_CONTACT','contact@pepiuox.net');
  define('ADDRESS','Lima - Peru');
  define('TWITTER','@pepiuox');
- define('FACEBOOKID','pepiuox');
+ define('FACEBOOKID','pepiuox30675');
  define('SKYPE','pepiuox');
  define('TELEGRAM','pepiuox');
  define('WHATSAPP','+51 999063645');
+ define('MAILSERVER','smtp.hostinger.com');
+ define('PORTSERVER','461');
+ define('USEREMAIL','contact@pepiuox.net');
+ define('PASSMAIL','truelove');
  define('SUPERADMIN_NAME','Super Admin');
  define('SUPERADMIN_LEVEL','9');
  define('ADMIN_NAME','Admin');
  define('ADMIN_LEVEL','5');
- define('SECURE_HASH','25cce270791d66425793131d4a7f8199c53ef5c80f3377bf424ee92794e2b0c9eda604eafd869312');
- define('SECURE_TOKEN','4d52e51f527b46645dfab9eda604eafd869312131d4a7f8199c53ef5c80f3baf3bda2c3616024f1f');
- ?>
+ define('SECURE_HASH','123aa6a5e2b27edd4749e75c9bab4b9ea7f2381501b0e7e6e884cd5e3733e9db');
+ define('SECURE_TOKEN','$CM]J#Qt3MWP5xvAD${2s9Dr%Eod)YJff6dxC[yW7RPaXY6i7WV2ca]jQQy%NP#66gOHD{iuCQf6p]MUpvMy]ojXcRHK3eS@j#@Qp(1g@x@]wySSdVVVriWAMB%NVWx0');
+?>
