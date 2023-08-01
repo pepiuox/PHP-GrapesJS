@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of userForgot
  *
@@ -14,7 +8,7 @@
 class userChange {
 
     public $baseurl;
-   private $connection;
+    private $connection;
 
     public function __construct() {
         global $conn;
@@ -60,7 +54,7 @@ class userChange {
                     exit();
                 }
                 if (!empty($password3) && !empty($email)) {
-                // User input from Forgot password form(passwordResetForm.php).
+                    // User input from Forgot password form(passwordResetForm.php).
                     $vemail = trim($_POST['vemail']);
                     $recoveryphrase = trim($_POST['recoveryphrase']);
                     $password2 = trim($_POST['password2']);
@@ -191,7 +185,7 @@ class userChange {
                         if ($very->num_rows === 1) {
                             $dt = $very->fetch_assoc();
                             $duv = $dt['iduv'];
-
+                            $npin = '';
                             define("ENCRYPT_METHOD", "AES-256-CBC");
                             define("SECRET_KEY", $dt['mktoken']);
                             define("SECRET_IV", $dt['mkkey']);
@@ -219,7 +213,14 @@ class userChange {
                             $rt = $fnal->fetch_assoc();
                             if ($fnal->num_rows === 1) {
                                 if ($duv === $rt['idUser']) {
-                                    $npin = rand(000000, 999999);
+
+                                    $cpin = random_int(000000, 999999);
+                                    if (strlen($cpin) === 6) {
+                                        $npin = $cpin;
+                                    } else {
+                                        $npin = random_int(000000, 999999);
+                                    }
+
                                     $clenkey = '';
                                     $upd = $this->connection->query("UPDATE uverify mkpin='$npin', pin_key='$clenkey' WHERE email='$email' AND recovery_phrase='$recoveryphrase'");
                                     if ($upd === TRUE) {

@@ -1,18 +1,25 @@
 <?php
-
 /**
  * Description of Register
  *
  * @author PePiuoX
  */
+
+require '../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+
 class newUser {
 
     public $baseurl;
     private $connection;
     private $ip;
+    public $mail;
 
     public function __construct() {
         global $conn;
+        $this->mail = new PHPMailer();
+
         $this->ip = $this->getUserIP();
         $this->connection = $conn;
         $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
@@ -38,16 +45,38 @@ class newUser {
         return filter_var($str, FILTER_VALIDATE_EMAIL);
     }
 
+    private function VerifyUser() {
+        if (isset($_POST["verifyuser"])) {
+            if ($this->CountSUser() === true) {
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['AlertMessage'] = "There is a user with the highest level of administration, delete that user, to continue with the installation.";
+            } else if ($this->CountAUser() === true) {
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['AlertMessage'] = "There is a user with the medium level of administration, delete that user, to continue with the installation.";
+            } else {
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['SuccessMessage'] = "There are no users with administrator level.";
+            }
+        }
+    }
+
     public function checkUsername($username) {
 
-        $num = $this->connection->query("SELECT username FROM uverify WHERE username='$username'")->num_rows;
-        return $num;
+        $query = $this->connection->prepare("SELECT username FROM uverify WHERE username=?");
+        $query->bind_param("s", $username);
+        $query->execute();
+        $result = $query->get_result();
+        
+        return $result->num_rows;
     }
 
     public function checkEmail($email) {
-
-        $num = $this->connection->query("SELECT email FROM uverify WHERE email='$email'")->num_rows;
-        return $num;
+        $query = $this->connection->prepare("SELECT email FROM uverify WHERE email=?");
+        $query->bind_param("s", $email);
+        $query->execute();
+        $result = $query->get_result();
+        
+        return $result->num_rows;
     }
 
     public function getUserIP() {
@@ -196,8 +225,8 @@ class newUser {
                             $_SESSION['uid'] = $row['iduv'];
 
                             $this->updatePIN($upid, $upin);
-
-                            $this->sendEmail($email, $pin, $code, $enck);
+                            $this->sMailer($email, $pin, $code, $enck);
+                            //$this->sendEmail($email, $pin, $code, $enck);
                             $_SESSION['SuccessMessage'] = 'Remember! Save this, your PIN code is: ' . $pin . ' Thank you for registering';
                             $this->rverify();
                         } else {
@@ -215,6 +244,33 @@ class newUser {
 
     public function rVerify() {
         return TRUE;
+    }
+
+    private function sMailer($email, $pin, $code, $enck) {
+
+        $body = 'Your access PIN code is: <b>' . $pin . '</b>' . "\r\n" . 'We recommend saving it, you do not need to access it with your password.' . "\r\n";
+        $body .= 'To activate your account, click on the following link' . "\r\n" . ' <a href="' . $this->baseurl . '/verify.php?id=' . $email . '&code=' . $code . '&hash=' . $enck . '">Verify your email</a>' . "\r\n"; // Input the URL of your website.
+        $body .= 'Login to your account and create your recovery phrase.';
+
+        $this->mail->isSMTP();
+        $this->mail->SMTPDebug = 0;
+        $this->mail->Host = 'smtp.hostinger.com';
+        $this->mail->Port = 465;
+        $this->mail->SMTPAuth = true;
+        $this->mail->Username = 'info@cerroblanco.club';
+        $this->mail->Password = '0h5Hiv4@108';
+        $this->mail->setFrom('info@cerroblanco.club', 'Cerro Blanco');
+        $this->mail->addReplyTo('info@cerroblanco.club', 'Cerro Blanco');
+        $this->mail->addAddress('recipient@domain.tld', 'Receiver Name');
+        $this->mail->Subject = 'Checking your email for verification';
+        //$this->mail->msgHTML(file_get_contents('message.html'), __DIR__);
+        $this->mail->Body = $body;
+        //$this->mail->addAttachment('attachment.txt');
+        if (!$this->mail->send()) {
+            echo 'Mailer Error: ' . $this->mail->ErrorInfo;
+        } else {
+            echo 'The email message was sent.';
+        }
     }
 
     private function sendEmail($email, $pin, $code, $enck) {
@@ -238,7 +294,7 @@ class newUser {
 
     private function updatePIN($upid, $upin) {
 
-        $update = $this->connection->prepare("UPDATE users SET mkpin='$upin' WHERE idUser='$upid '");
+        $update = $this->connection->prepare("UPDATE users SET mkpin=? WHERE idUser=?");
         $update->bind_param("ss", $upin, $upid);
         $update->execute();
         if ($update->affected_rows === 1) {
@@ -263,5 +319,4 @@ class newUser {
         }
         return $randstr;
     }
-
 }

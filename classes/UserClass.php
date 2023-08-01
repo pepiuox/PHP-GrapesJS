@@ -6,6 +6,10 @@
  * Logout - logOut()
  * Password recovery - forgotPassword(), newPassword(), updatePassword()
  * User creation - Registration()
+ * 
+ * Description of Register
+ *
+ * @author PePiuoX
  */
 
 class UserClass {
@@ -26,7 +30,7 @@ class UserClass {
         global $conn;
         $this->system = SITE_PATH;
         $this->connection = $conn;
-        $this->expiry = time()+3600;
+        $this->expiry = time() + 3600;
         $this->ip = $this->getUserIP();
         $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
         $date = new DateTime();
@@ -145,18 +149,18 @@ class UserClass {
                     if (is_numeric($_POST['PIN']) && strlen($_POST['PIN']) === 6) {
                         $userpsw = trim($_POST['password']);
                         $userpin = trim($_POST['PIN']);
-                        if(!empty($_POST['remember'])){
-                        
+                        if (!empty($_POST['remember'])) {
+
                             $remember = trim($_POST['remember']);
-                        
-                           if ($remember === 'Yes') {
-                            define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
-                            define("COOKIE_PATH", "/");  //Avaible in whole domain
-                        } else{                          
-                            define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
-                            define("COOKIE_PATH", "/");  //Avaible in whole domain
+
+                            if ($remember === 'Yes') {
+                                define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
+                                define("COOKIE_PATH", "/");  //Avaible in whole domain
+                            } else {
+                                define("COOKIE_EXPIRE", $this->expiry);  //7 days by default
+                                define("COOKIE_PATH", "/");  //Avaible in whole domain
+                            }
                         }
-}
                         $stmt = $this->connection->prepare("SELECT * FROM uverify WHERE email = ? AND mkpin = ?");
                         $stmt->bind_param("ss", $useremail, $userpin);
                         $stmt->execute();
@@ -451,12 +455,13 @@ class UserClass {
         }
     }
 
-    public function activeAttempts(){
+    public function activeAttempts() {
         $lastlogs = '2021-08-28 21:46:41';
         $tnow = time();
         $lastlogs = strtotime($lastlogs);
         echo round(abs($tnow - $lastlogs) / 60);
     }
+
     /* Function DiffTime()
      * Find the difference between two dates. 
      */
@@ -736,7 +741,6 @@ class UserClass {
     public function isMember() {
         return ($this->userlevel == AGENT_MEMBER_LEVEL);
     }
-
 }
 
 /* End class UserClass */

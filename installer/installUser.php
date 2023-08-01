@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -56,12 +55,23 @@ class installUser {
 
 // This function check if username exists
     public function checkUsername($username) {
-        return $this->connection->query("SELECT username FROM uverify WHERE username='$username'")->num_rows;
+
+        $query = $this->connection->prepare("SELECT username FROM uverify WHERE username=?");
+        $query->bind_param("s", $username);
+        $query->execute();
+        $result = $query->get_result();
+
+        return $result->num_rows;
     }
 
 // This function check if email exists
     public function checkEmail($email) {
-        return $this->connection->query("SELECT email FROM uverify WHERE email='$email'")->num_rows;
+        $query = $this->connection->prepare("SELECT email FROM uverify WHERE email=?");
+        $query->bind_param("s", $email);
+        $query->execute();
+        $result = $query->get_result();
+
+        return $result->num_rows;
     }
 
 // This function get IP from visitor
@@ -162,7 +172,9 @@ class installUser {
             }
         }
     }
-/* Cleanuser level for first install*/
+
+    /* Cleanuser level for first install */
+
     private function CleanUser() {
         if (isset($_POST["cleanuser"])) {
             $lhigh = 'Super Admin';
@@ -173,18 +185,18 @@ class installUser {
             $qlv->close();
             if ($lresult->num_rows > 0) {
 
-                    $idv = $lresult->fetch_assoc();
-                    $idclean = $idv['iduv'];
-                    $stmt = $this->connection->prepare("DELETE FROM uverify WHERE iduv=?");
-                    $stmt->bind_param("s", $idclean);
-                    $stmt->execute();
-                    $stmt->close();
-                    $_SESSION['StepInstall'] = 5;
-                    $_SESSION['AlertMessage'] = "A high-level user has been successfully deleted from the installation system, to continue with the installation.";
+                $idv = $lresult->fetch_assoc();
+                $idclean = $idv['iduv'];
+                $stmt = $this->connection->prepare("DELETE FROM uverify WHERE iduv=?");
+                $stmt->bind_param("s", $idclean);
+                $stmt->execute();
+                $stmt->close();
+                $_SESSION['StepInstall'] = 5;
+                $_SESSION['AlertMessage'] = "A high-level user has been successfully deleted from the installation system, to continue with the installation.";
             }
         }
     }
-    
+
     /* start Register() 
      * Function Register(){
      * Function that includes everything for new user creation.
@@ -232,7 +244,7 @@ class installUser {
 
 // check first if the password are identical
                 if ($password === $repassword) {
-
+                    $pin = '';
                     $ekey = $this->randToken();
                     $eiv = $this->randkey();
                     $enck = $this->randHash();
@@ -241,7 +253,13 @@ class installUser {
                     $pass = $this->ende_crypter('encrypt', $password, $ekey, $eiv);
                     $cml = $this->ende_crypter('encrypt', $email, $ekey, $eiv);
                     $eusr = $this->ende_crypter('encrypt', $username, $ekey, $eiv);
-                    $pin = rand(000000, 999999);
+                    $cpin = random_int(000000, 999999);
+                    if (strlen($cpin) === 6) {
+                        $pin = $cpin;
+                    } else {
+                        $pin = random_int(000000, 999999);
+                    }
+
                     $lvl = 'Super Admin';
 
                     $status = 0;
@@ -309,5 +327,4 @@ class installUser {
         }
         return $randstr;
     }
-
 }

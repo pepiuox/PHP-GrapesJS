@@ -162,6 +162,22 @@
     </select>
 			</div>';
                 echo '<div class="form-group">
+                       <label for="path_file">Path file:</label>
+                       <input type="text" class="form-control" id="path_file" name="path_file">
+                  </div>';
+                echo '<div class="form-group">
+                       <label for="script_name">Script name:</label>
+                       <input type="text" class="form-control" id="script_name" name="script_name">
+                  </div>';
+                echo '<div class="form-group">
+                       <label for="template">Template:</label>
+                       <input type="text" class="form-control" id="template" name="template">
+                  </div>';
+                echo '<div class="form-group">
+                       <label for="base_template">Base template:</label>
+                       <input type="text" class="form-control" id="base_template" name="base_template">
+                  </div>';
+                echo '<div class="form-group">
     <label for="startpage" class ="control-label col-sm-3">Is home page</label>
     <select class="form-select" id="startpage" name="startpage">
     <option value="1">Yes</option>

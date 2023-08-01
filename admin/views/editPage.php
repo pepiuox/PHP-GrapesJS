@@ -64,6 +64,14 @@
                         $classification = protect($_POST['classification']);
                         $description = protect($_POST['description']);
                         $startpage = protect($_POST['startpage']);
+                        $image = protect($_POST['image']);
+                        $menu = protect($_POST['menu']);
+                        $type = protect($_POST['type']);
+                        $path_file = protect($_POST['path_file']);
+                        $script_name = protect($_POST['script_name']);
+                        $template = protect($_POST['template']);
+                        $base_template = protect($_POST['base_template']);
+                        $hidden_page = protect($_POST['hidden_page']);
                         $parent = protect($_POST['parent']);
                         $active = protect($_POST['active']);
 
@@ -120,63 +128,71 @@
                         $presult = $qlv2->get_result();
                         if ($presult->num_rows > 0) {
                             $row = $presult->fetch_assoc();
-                            $title = $row['title'];
-                            $link = $row['link'];
-                            $keyword = $row['keyword'];
-                            $classification = $row['classification'];
-                            $description = $row['description'];
-                            $image = $row['image'];
-                            $menu = $row['menu'];
-                            $type = $row['type'];
-                            $hidden_page = $row['hidden_page'];
+                            
                             echo '<h3>Edit page: ' . $title . '</h3>' . "\n";
                             echo '<form method="post" enctype="multipart/form-data">' . "\n";
                             echo '<div class="row"><div class="col-md-6">' . "\n";
                             echo '<div class="form-group">
     <label for="title">Title</label>
-    <input type="text" class="form-control" id="title" name="title" value="' . $title . '">
+    <input type="text" class="form-control" id="title" name="title" value="' . $row['title'] . '">
   </div>' . "\n";
                             echo '</div><div class="col-md-6">' . "\n";
                             echo '<div class="form-group">
     <label for="link">Link</label>
-    <input type="text" class="form-control" id="link" name="link" value="' . $link . '">
+    <input type="text" class="form-control" id="link" name="link" value="' . $row['link'] . '">
   </div>' . "\n";
                             echo '</div></div><div class="form-group">
     <label for="keyword">Keyword</label>
-    <input type="text" class="form-control" id="keyword" name="keyword" value="' . $keyword . '">
+    <input type="text" class="form-control" id="keyword" name="keyword" value="' . $row['keyword'] . '">
   </div>' . "\n";
                             echo '<div class="form-group">
     <label for="classification">Classification</label>
-    <input type="text" class="form-control" id="classification" name="classification" value="' . $classification . '">
+    <input type="text" class="form-control" id="classification" name="classification" value="' . $row['classification'] . '">
   </div>' . "\n";
                             echo '<div class="form-group">
     <label for="description">Description</label>
-    <input type="text" class="form-control" id="description" name="description" value="' . $description . '">
+    <input type="text" class="form-control" id="description" name="description" value="' . $row['description'] . '">
   </div>' . "\n";
                             echo '<div class="form-group row">
                                 <div class="col-3">
-                                <img src="../uploads/' . $image . '" class="img-rounded" width="250px" height="250px" />
+                                <img src="../uploads/' . $row['image'] . '" class="img-rounded" width="250px" height="250px" />
                                     </div>
                                     <div class="col-9">
     <label for="image">Image:</label>
     <input type="file" class="form-control" id="image" name="image">
-        <input type="text" class="form-control" id="imagen" name="imagen" value="' . $image . '" readonly="readonly">
+        <input type="text" class="form-control" id="imagen" name="imagen" value="' . $row['image'] . '" readonly="readonly">
   </div>
   </div>' . "\n";
                                                      
-                          enum_values('page', 'type', $type);
+                          enum_values('page', 'type', $row['type']);
 
                             echo '<div class="form-group">
 				<label for="menu" class ="control-label col-sm-3">Menu:</label> 
                                 ';
-                            menuopt($menu);
+                            menuopt($row['menu']);
                             echo '</div>';
-
-                            echo '<div class="form-group">
+                             echo '<div class="form-group">
 				<label for="hidden_page" class ="control-label col-sm-3">Hidden page:</label> 
                                 <select class="form-select" id="hidden_page" name="hidden_page">';
-                            action($hidden_page);
+                            action($row['hidden_page']);
 			echo '</select></div>';
+                            echo '<div class="form-group">
+                       <label for="path_file" class="control-label col-sm-3">Path file:</label>
+                       <input type="text" class="form-control" id="path_file" name="path_file" value="'.$row['path_file'].'">
+                  </div>';
+echo '<div class="form-group">
+                       <label for="script_name" class="control-label col-sm-3">Script name:</label>
+                       <input type="text" class="form-control" id="script_name" name="script_name" value="'.$row['script_name'].'">
+                  </div>';
+echo '<div class="form-group">
+                       <label for="template" class="control-label col-sm-3">Template:</label>
+                       <input type="text" class="form-control" id="template" name="template" value="'.$row['template'].'">
+                  </div>';
+echo '<div class="form-group">
+                       <label for="base_template" class="control-label col-sm-3">Base template:</label>
+                       <input type="text" class="form-control" id="base_template" name="base_template" value="'.$row['base_template'].'">
+                  </div>';
+                           
                             echo '<div class="form-group">
     <label for="startpage">Is home page</label>
     <select class="form-select" id="startpage" name="startpage">';
