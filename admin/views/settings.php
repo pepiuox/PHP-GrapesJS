@@ -1,45 +1,90 @@
 <?php
-if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
-
-    $valueCount = count($_POST["config_name"]);
-    for ($i = 0; $i < $valueCount; $i++) {
-        $conn->query("UPDATE configuration SET  `config_value` =  '{$_POST['config_value'][$i]}'   WHERE `config_name` = '{$_POST['config_name'][$i]}' ");
-    }
-
-    $define = $conn->query("SELECT * FROM configuration");
-    while ($rowt = $define->fetch_array()) {
-        $values = $rowt['config_value'];
-        $names = $rowt['config_name'];
-        $vars[] = "define('" . $names . "', '" . $values . "');" . "\n";
-    }
-
-    $definefiles = '../config/define.php';
-
-    if (!file_exists($definefiles)) {
-        $ndef = '<?php' . "\n";
-        $ndef .= implode(" ", $vars);
-        $ndef .= '?>' . "\n";
-        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-    } else {
-        unlink($definefiles);
-        $ndef = '<?php' . "\n";
-        $ndef .= implode(" ", $vars);
-        $ndef .= '?>' . "\n";
-        file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-    }
-}
-
 $result = $conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'") or trigger_error($conn->error);
 $confs = $result->fetch_assoc();
+
+/*
+ * Upload images before update table
+ */
+
+function UploadImage($image) {
+    global $conn;
+    // Check image using getimagesize function and get size
+    // if a valid number is got then uploaded file is an image
+    if (!empty($_FILES[$image]["name"])) {
+        $nimage = $_FILES[$image]["name"];
+        if (isset($_FILES[$image])) {
+
+            // directory name to store the uploaded image files
+            // this should have sufficient read/write/execute permissions
+            // if not already exists, please create it in the root of the
+            // project folder
+            $targetDir = "../uploads/";
+            $targetFile = $targetDir . basename($_FILES[$image]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+            $check = getimagesize($_FILES[$image]["tmp_name"]);
+            if ($check !== false) {
+                // $_SESSION['SuccessMessage'] = "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                // $_SESSION['ErrorMessage'] = "File is not an image.";
+                $uploadOk = 0;
+            }
+        }
+
+        // Check if the file already exists in the same path
+        if (file_exists($targetFile)) {
+            // $_SESSION['ErrorMessage'] = "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+
+        // Check file size and throw error if it is greater than
+        // the predefined value, here it is 2000000
+        if ($_FILES[$image]["size"] > 2000000) {
+            // $_SESSION['ErrorMessage'] = "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Check for uploaded file formats and allow only 
+        // jpg, png, jpeg and gif
+        // If you want to allow more formats, declare it here
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            // $_SESSION['ErrorMessage'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            $_SESSION['ErrorMessage'] = "Sorry, your file was not uploaded.";
+        } else {
+            if (move_uploaded_file($_FILES[$image]["tmp_name"], $targetFile)) {
+                $id = 1;
+                $upim = $conn->prepare("UPDATE site_configuration SET $image = ? WHERE `ID_Site` = ?");
+                $upim->bind_param("si", $nimage, $id);
+                $upim->execute();
+                $upim->close();
+
+                $_SESSION['SuccessMessage'] = "The file " . htmlspecialchars(basename($_FILES[$image]["name"])) . " has been uploaded.";
+            } else {
+                $_SESSION['ErrorMessage'] = "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+}
 
 extract($_POST);
 
 if (isset($_POST['Update'])) {
-    $definefiles = '../config/define.php';
-        if (file_exists($definefiles)) {
-            unlink($definefiles);
+    if ($_FILES) {
+        extract($_FILES);
+        foreach ($_FILES as $k => $v) {
+            $v = $k;
+            UploadImage($v);
         }
-    
+    }
+
+    /* update table */
     foreach ($_POST as $k => $v) {
         if ($_POST['Update'] === $v) {
             continue;
@@ -48,37 +93,41 @@ if (isset($_POST['Update'])) {
     }
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
+
     if ($conn->query($update) === TRUE) {
+        $definefiles = '../config/define.php';
+
         $_SESSION['SuccessMessage'] = "Web Site Configuration : Updated.";
         $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
-            if ($result = $conn->query($sql)) {
-                $fname = $result->fetch_fields();
-                $fdata = $result->fetch_assoc();
 
-                foreach ($fname as $val) {
-                    if ($val->name === 'ID_Site') {
-                        continue;
-                    } elseif ($val->name === 'CREATE') {
-                        continue;
-                    } elseif ($val->name === 'UPDATED') {
-                        continue;
-                    }
-                    $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+        if ($result = $conn->query($sql)) {
+            $fname = $result->fetch_fields();
+            $fdata = $result->fetch_assoc();
+
+            foreach ($fname as $val) {
+                if ($val->name === 'ID_Site') {
+                    continue;
+                } elseif ($val->name === 'CREATE') {
+                    continue;
+                } elseif ($val->name === 'UPDATED') {
+                    continue;
                 }
-                $definefiles = '../config/define.php';
-                if (!file_exists($definefiles)) {
-                    $ndef = '<?php' . "\n";
-                    $ndef .= implode(" ", $fldname);
-                    $ndef .= '?>' . "\n";
-                    file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-                } else {
-                    unlink($definefiles);
-                    $ndef = '<?php' . "\n";
-                    $ndef .= implode("\n ", $fldname);
-                    $ndef .= '?>' . "\n";
-                    file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
-                }             
+                $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
             }
+
+            if (!file_exists($definefiles)) {
+                $ndef = '<?php' . "\n";
+                $ndef .= implode(" ", $fldname);
+                $ndef .= '?>' . "\n";
+                file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+            } else {
+                unlink($definefiles);
+                $ndef = '<?php' . "\n";
+                $ndef .= implode("\n ", $fldname);
+                $ndef .= '?>' . "\n";
+                file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+            }
+        }
     } else {
         $_SESSION['ErrorMessage'] = "Updated settings : Error.";
         header("Location: dashboard.php?cms=siteconf");
@@ -106,7 +155,7 @@ if (isset($_POST['Update'])) {
                     <div id="resp"></div>
                     <div class="tab-content">
                         <div class="active tab-pane" role="tabpanel" id="website">
-                            <form method="post" enctype="multipart/form-data">
+                            <form action="" method="post" enctype="multipart/form-data">
                                 <h4>Web Site SEO</h4>
                                 <hr>
                                 <div class="form-group">
@@ -119,7 +168,7 @@ if (isset($_POST['Update'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE_BRAND_IMG">SITE BRAND IMG:</label>
-                                    <input type="FILE" class="form-control" id="SITE_BRAND_IMG" name="SITE_BRAND_IMG" value="<?php echo $confs["SITE_BRAND_IMG"]; ?>">
+                                    <input type="file" class="form-control" id="SITE_BRAND_IMG" name="SITE_BRAND_IMG" value="<?php echo $confs["SITE_BRAND_IMG"]; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SITE_PATH;">SITE PATH:</label>
@@ -262,12 +311,12 @@ if (isset($_POST['Update'])) {
                                 </div>
                             </form>
                         </div>
-                       
-                    <div class="tab-pane" role="tabpanel" id="emailserver">
+
+                        <div class="tab-pane" role="tabpanel" id="emailserver">
                             <form method="post">
                                 <h4>Email Settings</h4>
-                                 <hr>
-                                 <div class="form-group">
+                                <hr>
+                                <div class="form-group">
                                     <label for="MAILSERVER">SMTP Mail Server:</label>
                                     <input type="text" class="form-control" id="MAILSERVER" name="MAILSERVER" value="<?php echo $confs["MAILSERVER"]; ?>">
                                 </div>
@@ -287,8 +336,8 @@ if (isset($_POST['Update'])) {
                                     <button type="submit" name="Update" class="btn btn-primary">Save</button>
                                 </div>
                             </form>
-                    </div>
-                         <div class="tab-pane" role="tabpanel" id="security">
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="security">
                             <form method="post">
                                 <h4>Security and Admin</h4>
                                 <hr>
