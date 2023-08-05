@@ -35,7 +35,7 @@
                                 $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
                             }
 
-                            if ($file_size > 5000000) {
+                            if ($file_size > 4000000) {
                                 $errors[] = 'File size must be excately 4 MB';
                             }
 
@@ -128,7 +128,7 @@
                         $presult = $qlv2->get_result();
                         if ($presult->num_rows > 0) {
                             $row = $presult->fetch_assoc();
-                            
+                            $title = $row['title'];
                             echo '<h3>Edit page: ' . $title . '</h3>' . "\n";
                             echo '<form method="post" enctype="multipart/form-data">' . "\n";
                             echo '<div class="row"><div class="col-md-6">' . "\n";

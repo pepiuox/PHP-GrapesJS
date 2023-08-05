@@ -5,6 +5,7 @@
                 <?php
                 // Add page properties
                 if (isset($_POST['submit'])) {
+                    $file_name = '';
                     if (!empty($_FILES['image']['name'])) {
                         $errors = array();
                         $file_name = $_FILES['image']['name'];
@@ -33,7 +34,7 @@
                             $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
                         }
 
-                        if ($file_size > 5000000) {
+                        if ($file_size > 4000000) {
                             $errors[] = 'File size must be excately 4 MB';
                         }
 
@@ -208,6 +209,6 @@
         let ttl = document.getElementById("title").value;
         ttl = ttl.toLowerCase();
         ttl = ttl.replace(/ /g, "-");
-         document.getElementById("link").value = ttl;
-   }
+        document.getElementById("link").value = ttl;
+    }
 </script>

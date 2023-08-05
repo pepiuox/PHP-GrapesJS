@@ -69,7 +69,7 @@ if ($w == "select") {
     </div>
     <div class="container-fluid">		
         <?php
-        $fichero = 'frtmp.php';
+        $fichero = 'ftmp.php';
         if (file_exists($fichero)) {
             unlink($fichero);
         }
