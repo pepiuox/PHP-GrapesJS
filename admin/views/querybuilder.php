@@ -43,12 +43,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 ?>
                             </select>
                             <script>
-                                let select =  document.querySelector('#selecttb');
+                                let select = document.querySelector('#selecttb');
                                 let result = document.querySelector('#ftt');
-                                select.addEventListener('change', function () {                                        
+                                select.addEventListener('change', function () {
                                     let nvalue = this.value.replace("_", " ");
                                     let url = 'dashboard.php?cms=querybuilder&w=add&tbl=' + this.value;
-                                    result.textContent='Form ' + nvalue;
+                                    result.textContent = 'Form ' + nvalue;
                                     window.location.replace(url);
                                 });
                             </script>
@@ -183,7 +183,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 }
             </style>' . "\n";
                 echo '<script type="text/javascript">
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 $("#btsel_' . $finfo['tque_Id'] . '").hide();
                                 $("#text_' . $finfo['tque_Id'] . '").hide();
                             });
@@ -244,7 +244,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             });
                          </script>' . "\n";
                 echo '<div class="form-group">
-                          <button type="button" id="btsel_' . $finfo['tque_Id'] . '" name="btsel_' . $finfo['tque_Id'] . '" class="btn btn-secondary" data-toggle="modal" data-target="#Modal1">
+                          <button type="button" id="btsel_' . $finfo['tque_Id'] . '" name="btsel_' . $finfo['tque_Id'] . '" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#Modal1">
                           Add Colmn Id and Value 
                           </button>
                           </div>' . "\n";
@@ -319,7 +319,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $mpty = $c->ifMpty($tble);
 
             $rvfile = 'qtmp.php';
-            $mfile = fopen("$rvfile", "w") or die("Unable to open file!");
+
             $content = '<?php' . "\n";
             $content .= '//This is temporal file only for add new row' . "\n";
             $content .= 'if (isset($_POST["updatequeries"])) {' . "\n";
@@ -329,8 +329,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $content .= "} \r\n";
             $content .= "?> \n";
 
-            fwrite($mfile, $content);
-            fclose($mfile);
+            if (!file_exists($rvfile)) {
+                file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
+            } else {
+                unlink($rvfile);
+                file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
+            }
+
 
             include 'qtmp.php';
 
@@ -353,12 +358,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </div>
 
         <?php
-        echo '<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="Modal1" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+        echo '<div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="Modal1Label" aria-hidden="true">
+                <div class="modal-dialog">
                     <div class="modal-content">
+                    <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
                         <div class="modal-header">
                             <h5 class="modal-title" id="ModalLabel">Select a column to relate</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -366,61 +372,64 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         $idw = '';
         ?>
-        <script type="text/javascript">
+        <script>
             $(document).ready(function () {
-                $('#table').change(function () {
-                    var nome = this.value;
+                $('#table').on("change", function (e) {
+                    e.preventDefault();
+                    var tbname = $('#table').val();
+
+                    var params = {
+                        "tbname": tbname
+                    };
+
                     $.ajax({
                         type: 'POST',
                         url: 'tbq.php',
-                        async: true,
-                        cache: false,
-                        data: 'nome=' + nome,
-                        dataType: 'html',
-                        success: function (data) {
-                            $("#seltables").html(data);
+                        data: params,
+                        beforeSend: function () {
+                            $('#seltables').html("<b>Loading response...</b>");
+                        },
+                        success: function (response) {
+                            $('#seltables').html(response);
                         }
                     });
-                });
+                }).trigger("change");
             });
         </script>
-        <?php
-        echo ' <form class="form-horizontal" method="POST">
-                                <fieldset>' . "\n";
-        ?>
-        <input type="text" id="idtb" name="idtb" value=""
-               style="display: none;" />
-        <input type="text" id="stb" name="stb" value="" style="display: none;" />
-        <div class="form-group" id="vtble">
-            <label class="control-label" for="joins">Select type JOIN</label>
-            <div class="col-md-12">
-                <select id="joins" name="joins" class="form-control">
-                    <option value="">Select JOIN</option>
-                    <option value="INNER JOIN">INNER JOIN</option>
-                    <option value="LEFT JOIN">LEFT JOIN</option>
-                    <option value="RIGHT JOIN">RIGHT JOIN</option>
-                    <option value="STRAIGHT JOIN">STRAIGHT JOIN</option>
-                    <option value="CROSS JOIN">CROSS JOIN</option>
-                    <option value="NATURAL JOIN">NATURAL JOIN</option>
-                </select>
-            </div>
-        </div>
-        <?php
-        tnmes();
-        ?>
-        <div class="form-group">
-            <div id="seltables" name="seltables"></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <button type="submit" id="submitrv" name="submitrv"
-                        class="btn btn-warning">Save</button>
-            </div>
-        </div>
-        <?php
-        echo "</fieldset>
-	</form>" . "\n";
-        ?>
+
+        <form class="form-horizontal" method="POST">
+            <fieldset>
+                <input type="text" id="idtb" name="idtb" value=""
+                       style="display: none;" />
+                <input type="text" id="stb" name="stb" value="" style="display: none;" />
+                <div class="form-group" id="vtble">
+                    <label class="control-label" for="joins">Select type JOIN</label>
+                    <div class="col-md-12">
+                        <select id="joins" name="joins" class="form-control">
+                            <option value="">Select JOIN</option>
+                            <option value="INNER JOIN">INNER JOIN</option>
+                            <option value="LEFT JOIN">LEFT JOIN</option>
+                            <option value="RIGHT JOIN">RIGHT JOIN</option>
+                            <option value="STRAIGHT JOIN">STRAIGHT JOIN</option>
+                            <option value="CROSS JOIN">CROSS JOIN</option>
+                            <option value="NATURAL JOIN">NATURAL JOIN</option>
+                        </select>
+                    </div>
+                </div>
+                <?php
+                tnmes();
+                ?>
+                <div class="form-group">
+                    <div class="col-md-12" id="seltables" name="seltables"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button type="submit" id="submitrv" name="submitrv"
+                                class="btn btn-warning">Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
 
         </div>
         <div class="modal-footer">
