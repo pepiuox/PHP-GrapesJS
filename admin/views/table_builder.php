@@ -3,7 +3,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     extract($_POST);
 
     if (!isset($_GET['w']) || empty($_GET['w'])) {
-        header('Location: dashboard.php?cms=querybuilder&w=select');
+        header('Location: dashboard.php?cms=table_builder&w=select');
         exit();
     }
 
@@ -46,7 +46,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 let result = document.querySelector('#ftt');
                                 select.addEventListener('change', function () {
                                     let nvalue = this.value.replace("_", " ");
-                                    let url = 'dashboard.php?cms=querybuilder&w=add&tbl=' + this.value;
+                                    let url = 'dashboard.php?cms=table_builder&w=add&tbl=' + this.value;
                                     result.textContent = 'Form ' + nvalue;
                                     window.location.replace(url);
                                 });
@@ -77,7 +77,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 if ($result->num_rows > 0) {
                     echo 'This table has already been added in the query builder ';
                     echo '<script>
-                    window.location.href = "dashboard.php?cms=querybuilder&w=editor&tbl=' . $tble . '";
+                    window.location.href = "dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '";
                     </script>';
                 } else {
 
@@ -105,7 +105,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $host = $_SERVER['HTTP_HOST'];
                     $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
-                    $metad = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=querybuilder&w=editor&tbl=' . $tble . '">';
+                    $metad = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">';
                     $vfile = 'qtmp.php';
                     $myfile = fopen("$vfile", "w") or die("Unable to open file!");
                     $content = '<?php' . "\n";
@@ -446,7 +446,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         $content .= 'if (isset($_POST["updatequeries"])) {' . "\n";
                         $content .= queries($tble);
                         $content .= 'echo "Record added successfully";' . "\r\n";
-                        $content .= 'header("Location: dashboard.php?cms=querybuilder&w=editor&tbl=' . $tble . '");' . "\r\n";
+                        $content .= 'header("Location: dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '");' . "\r\n";
                         $content .= "} \r\n";
                         $content .= "?> \n";
 
