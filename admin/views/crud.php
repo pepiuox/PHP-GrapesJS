@@ -61,7 +61,7 @@ if ($w == "select") {
         <div class="row pt-3">
             <div class="col-md-3">
                 <a class="btn btn-secondary" href="dashboard.php?cms=crud&w=select">Select a Table </a>
-                <a class="btn btn-success" href="dashboard.php?cms=querybuilder&w=editor&tbl=<?php echo $tble; ?>">Edit query Table </a>
+                <a class="btn btn-success" href="dashboard.php?cms=table_builder&w=editor&tbl=<?php echo $tble; ?>">Edit query Table </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Data List of <?php echo $titl; ?></h2>

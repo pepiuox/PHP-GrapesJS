@@ -12,9 +12,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     }
 
     if (isset($_POST['queryb'])) {
-        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=querybuilder&w=select" />';
+        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_builder&w=select" />';
     }
-
+    
+ if (isset($_POST['tbmngr'])) {
+        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_manager&w=list" />';
+    }
+    
     if (isset($_POST['submit'])) {
         $all_table_value = implode(",", $_POST['tables']);
         if ($total_found > 0) {
@@ -49,10 +53,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $result->close();
                 }
                 ?>
-                <h3 class="col-md-4 control-label" for="checkboxes">Tables you want to view in the CRUD system</h3>
-                <p>Select a table to view it in the CruD system and be able to list, view, add, update and delete data</p>
+                <h3>Tables you want to view in the CRUD system</h3>
+                <p>Select a table to view it in the CRUD system and be able to list, view, add, update and delete data</p>
+                <p class="text-danger">"Remember to add parameters for its best use and security"</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="form-group">
                     <button type="submit" id="submit" name="submit"
                             class="btn btn-primary">
@@ -60,7 +65,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     </button>
                     <button type="submit" id="queryb" name="queryb"
                             class="btn btn-secondary">
-                        <span class="fas fa-plus-square"></span> Query Builder 
+                        <span class="fas fa-plus-square"></span> Table Builder 
+                    </button>
+                    <button type="submit" id="tbmngr" name="tbmngr"
+                            class="btn btn-success">
+                        <span class="fas fa-plus-square"></span> Table Manager 
                     </button>
                 </div>
                 <div class="form-group">
@@ -96,7 +105,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     </button>
                     <button type="submit" id="queryb" name="queryb"
                             class="btn btn-secondary">
-                        <span class="fas fa-plus-square"></span> Query Builder 
+                        <span class="fas fa-plus-square"></span> Table Builder 
+                    </button>
+                    <button type="submit" id="tbmngr" name="tbmngr"
+                            class="btn btn-success">
+                        <span class="fas fa-plus-square"></span> Table Manager 
                     </button>
                 </div>
             </div>

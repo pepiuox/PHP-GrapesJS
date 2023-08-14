@@ -1,7 +1,7 @@
 <?php
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     if (!isset($_GET['w']) || empty($_GET['w'])) {
-        header('Location: dashboard.php?cms=column_manager&w=list');
+        header('Location: dashboard.php?cms=table_manager&w=list');
         exit();
     }
     extract($_POST);
@@ -13,9 +13,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 <?php
                 if (isset($_POST['addtable'])) {
-                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=add">';
+                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">';
                 }
-                $linkedit = 'dashboard.php?cms=column_manager&w=editor&tbl=';
+                $linkedit = 'dashboard.php?cms=table_manager&w=editor&tbl=';
                 $result0 = $conn->query("SHOW COLUMNS FROM table_settings");
                 $bq = array();
                 echo '<form class="row form-horizontal" method="POST">';
@@ -133,7 +133,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                    let url = 'dashboard.php?cms=column_manager&w=editor&tbl=' + this.value;
+                                    let url = 'dashboard.php?cms=table_manager&w=editor&tbl=' + this.value;
                                     window.location.replace(url);
                                 });
                             </script>
@@ -154,10 +154,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     //
                     //extract($_POST);
                     if (isset($_POST['list'])) {
-                        echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=list">';
+                        echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">';
                     }
                     if (isset($_POST['add'])) {
-                        echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=add">';
+                        echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">';
                     }
                     if (isset($_POST['submit'])) {
                         $cols = array();
@@ -268,7 +268,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <?php
     } elseif ($w == "add") {
         if (isset($_POST['list'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=list">';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">';
         }
         ?>
         <div class="container">
@@ -287,7 +287,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $tble_name = $_POST['addtb'];
                     $ins_qry = "INSERT INTO table_settings(table_name) VALUES('" . $tble_name . "')";
                     $conn->query($ins_qry);
-                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=editor&tbl=' . $tble_name . '">';
+                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=' . $tble_name . '">';
                 }
                 ?>
                 <form class="row form-horizontal" method="post">
@@ -346,7 +346,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                    let url = 'dashboard.php?cms=column_manager&w=editor&tbl=' + this.value;
+                                    let url = 'dashboard.php?cms=table_manager&w=editor&tbl=' + this.value;
                                     window.location.replace(url);
                                 });
                             </script>
