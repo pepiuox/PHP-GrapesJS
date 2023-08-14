@@ -11,6 +11,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $myTable = explode(',', $my_value['table_name']);
     }
 
+    if (isset($_POST['queryb'])) {
+        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=querybuilder&w=select" />';
+    }
+
     if (isset($_POST['submit'])) {
         $all_table_value = implode(",", $_POST['tables']);
         if ($total_found > 0) {
@@ -36,18 +40,29 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     }
     ?>
     <div class="container">
-        <form class="form-horizontal" method="post">
+        <form class="row form-horizontal" method="post">
             <div class="col_md_12">
                 <?php
                 if ($result = $conn->query("SELECT DATABASE()")) {
                     $row = $result->fetch_row();
-                    printf("<h4>Default database is %s </h4>.\n", $row[0]);
+                    printf("<h5>Default database is %s </h5>.\n", $row[0]);
                     $result->close();
                 }
                 ?>
-                <h3 class="col-md-4 control-label" for="checkboxes">Tables you want to view :</h3>
+                <h3 class="col-md-4 control-label" for="checkboxes">Tables you want to view in the CRUD system</h3>
+                <p>Select a table to view it in the CruD system and be able to list, view, add, update and delete data</p>
             </div>
             <div class="col-md-4">
+                <div class="form-group">
+                    <button type="submit" id="submit" name="submit"
+                            class="btn btn-primary">
+                        <span class="fas fa-plus-square"></span> Save Config 
+                    </button>
+                    <button type="submit" id="queryb" name="queryb"
+                            class="btn btn-secondary">
+                        <span class="fas fa-plus-square"></span> Query Builder 
+                    </button>
+                </div>
                 <div class="form-group">
                     <?php
                     $i = 0;
@@ -77,7 +92,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <div class="form-group">
                     <button type="submit" id="submit" name="submit"
                             class="btn btn-primary">
-                        <span class="fas fa-plus-square"></span> View tables 
+                        <span class="fas fa-plus-square"></span> Save Config 
+                    </button>
+                    <button type="submit" id="queryb" name="queryb"
+                            class="btn btn-secondary">
+                        <span class="fas fa-plus-square"></span> Query Builder 
                     </button>
                 </div>
             </div>

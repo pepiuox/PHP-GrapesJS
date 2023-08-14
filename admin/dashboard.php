@@ -92,6 +92,8 @@ $vpages = '';
                                     $vpages = 'Query Builder';
                                 } elseif ($cms == 'table_config') {
                                     $vpages = 'Table Config';
+                                } elseif ($cms == 'table_manager') {
+                                    $vpages = 'Table Manager';
                                 } elseif ($cms == 'volunteer') {
                                     $vpages = 'Volunteer';
                                 } else {
