@@ -273,7 +273,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         ?>
         <div class="container">
             <div class="row">
-                <h2>Add table for settings</h2>
+                <h2>Add table for option settings</h2>
                 <?php
                 if ($result = $conn->query("SELECT * FROM table_config")) {
                     $total_found = $result->num_rows;

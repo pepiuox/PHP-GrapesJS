@@ -25,10 +25,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="text-primary">Select your table</h2>
-                    <h3 id="ftt">Form</h3>
-                    <form method="post">
-                        <div class="form-group col-md-4">
+                    <h2 class="text-primary">Select your table for column options</h2>
+
+                    <form class="row form-horizontal" method="post">
+                        <div class="form-group col-md-12">
                             <label class="control-label" for="selecttb">Select Table</label> 
                             <select id="selecttb" name="selecttb" class="form-control">
                                 <option value="">Select Table</option>
@@ -43,11 +43,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             </select>
                             <script>
                                 let select = document.querySelector('#selecttb');
-                                let result = document.querySelector('#ftt');
                                 select.addEventListener('change', function () {
-                                    let nvalue = this.value.replace("_", " ");
                                     let url = 'dashboard.php?cms=table_builder&w=add&tbl=' + this.value;
-                                    result.textContent = 'Form ' + nvalue;
                                     window.location.replace(url);
                                 });
                             </script>
@@ -61,7 +58,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         ?>
         <div class="container">
             <div class="row">
-                <h2 class="text-primary">Add column for CRUD</h2>
+                <h2 class="text-primary">Add table for column edit option in CRUD</h2>
                 <?php
                 $tble = protect($_GET['tbl']);
 
@@ -137,7 +134,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 <fieldset>
 
 <!-- Form Name -->
-<legend>Add table for query builder</legend>
+<legend>Table ' . $tble . ' for option builder</legend>
 
 <!-- Button -->
 <div class="form-group">
@@ -270,7 +267,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>
                 <div class="container">
                     <div class="row">
-                        <h2 class="text-primary">Add query for column</h2>
+                        <h2 class="text-primary">Add options for columns</h2>
 
                         <?php
                         $tble = protect($_GET['tbl']);
