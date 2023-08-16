@@ -195,13 +195,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_builder&w=select" class="nav-link <?php
-                        if ($cms === 'table_builder') {
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=column_manager&w=select" class="nav-link <?php
+                        if ($cms === 'column_manager') {
                             echo 'active';
                         }
                         ?>">
                             <i class="fas fa-calendar-check nav-icon"></i>
-                            <p>Table Builder</p>
+                            <p>Column Manager</p>
                         </a>
                     </li>
                     <li class="nav-item">

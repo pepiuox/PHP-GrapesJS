@@ -3,7 +3,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     extract($_POST);
 
     if (!isset($_GET['w']) || empty($_GET['w'])) {
-        header('Location: dashboard.php?cms=table_builder&w=select');
+        header('Location: dashboard.php?cms=column_manager&w=select');
         exit();
     }
 
@@ -44,7 +44,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                    let url = 'dashboard.php?cms=table_builder&w=add&tbl=' + this.value;
+                                    let url = 'dashboard.php?cms=column_manager&w=add&tbl=' + this.value;
                                     window.location.replace(url);
                                 });
                             </script>
@@ -74,7 +74,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 if ($result->num_rows > 0) {
                     echo 'This table has already been added in the query builder ';
                     echo '<script>
-                    window.location.href = "dashboard.php?cms=table_builder&w=build&tbl=' . $tble . '";
+                    window.location.href = "dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '";
                     </script>';
                 } else {
 
@@ -102,7 +102,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $host = $_SERVER['HTTP_HOST'];
                     $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
-                    $metad = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_builder&w=build&tbl=' . $tble . '">';
+                    $metad = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
 
                     $vfile = 'qtmp.php';
                     $myfile = fopen("$vfile", "w") or die("Unable to open file!");
@@ -124,8 +124,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 } else {
                                 echo "Error added record: " . $conn->error;
                                 }
-    }
-}' . "\n";
+                                }
+                            }' . "\n";
                     $content .= "?>";
                     fwrite($myfile, $content);
                     fclose($myfile);
@@ -167,10 +167,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 function insertTQO($table, $column) {
                     global $conn;
-                    $query = $conn->query("SELECT name_table,col_name FROM table_queries_options WHERE name_table='$table' AND col_name='$column'");
+                    $query = $conn->query("SELECT name_table,col_name FROM table_column_settings WHERE name_table='$table' AND col_name='$column'");
                     $num = $query->num_rows;
                     if ($num == 0) {
-                        $qry = "INSERT INTO table_queries_options (name_table,col_name) VALUES ('" . $table . "','" . $column . "')";
+                        $qry = "INSERT INTO table_column_settings (name_table,col_name) VALUES ('" . $table . "','" . $column . "')";
 
                         if ($conn->query($qry) === TRUE) {
                             return TRUE;
@@ -216,18 +216,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                   include 'opqtmp.php';
                  */
                 //$sql = "SHOW COLUMNS FROM " . $tble;
-                $lnk = "dashboard.php?cms=table_builder&w=update&tbl=" . $tble . "&id=";
+                $lnk = "dashboard.php?cms=column_manager&w=update&tbl=" . $tble . "&id=";
 
-                $sql = "SELECT * FROM table_queries_options WHERE name_table='$tble'";
+                $sql = "SELECT * FROM table_column_settings WHERE name_table='$tble'";
 
                 $result = $conn->query($sql);
                 echo '<div class="col-12">';
                 echo '<form class="row form-horizontal" method="post">';
                 echo '<div class="col-auto">';
-                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=table_builder&w=select">Select table options</a>';
+                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=column_manager&w=select">Select table options</a>';
                 echo '</div>';
                 echo '<div class="col-auto">';
-                echo '<a class="btn btn-secondary mb-3" href="dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">change input options</a>';
+                echo '<a class="btn btn-secondary mb-3" href="dashboard.php?cms=column_manager&w=editor&tbl=' . $tble . '">change input options</a>';
                 echo '</div>';
                 echo '<table class="table">';
                 echo '<thead>';
@@ -269,10 +269,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</tbody>';
                 echo '<table>';
                 echo '<div class="col-auto">';
-                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=table_builder&w=select">Select table options</a>';
+                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=column_manager&w=select">Select table options</a>';
                 echo '</div>';
                 echo '<div class="col-auto">';
-                echo '<a class="btn btn-secondary mb-3" href="dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">change input options</a>';
+                echo '<a class="btn btn-secondary mb-3" href="dashboard.php?cms=column_manager&w=editor&tbl=' . $tble . '">change input options</a>';
                 echo '</div>';
                 echo '</form>';
                 echo '</div>';
@@ -284,16 +284,16 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $tble = protect($_GET['tbl']);
         $id = protect($_GET['id']);
 
-        $ttl = $conn->query("SELECT * FROM table_queries_options WHERE tqop_Id='$id' AND name_table='$tble'");
+        $ttl = $conn->query("SELECT * FROM table_column_settings WHERE tqop_Id='$id' AND name_table='$tble'");
         $ttn = $ttl->fetch_assoc();
 
         //
         //extract($_POST);
         if (isset($_POST['build'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_builder&w=build&tbl=' . $tble . '">';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
         }
         if (isset($_POST['add'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_builder&w=build">';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build">';
         }
         if (isset($_POST['submit'])) {
             $cols = array();
@@ -315,7 +315,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
             $colset = implode(", ", $col);
 
-            $upset = "UPDATE table_queries_options SET $colset WHERE tqop_Id='$id' AND name_table='$tble'";
+            $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id='$id' AND name_table='$tble'";
             if ($conn->query($upset) === TRUE) {
                 $_SESSION['success'] = "Record updated successfully";
             } else {
@@ -336,7 +336,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <div class="col-md-12 py-4">
                     <h3>Column selected - <?php echo ucfirst(str_replace("_", " ", $ttn['col_name'])) . ' from table ' . ucfirst(str_replace("_", " ", $tble)); ?></h3>
                     <?php
-                    $result0 = $conn->query("SHOW COLUMNS FROM table_queries_options");
+                    $result0 = $conn->query("SHOW COLUMNS FROM table_column_settings");
                     $bq = array();
                     echo '<form class="row form-horizontal" method="POST">';
                     echo '<div class="mb-3">
@@ -361,7 +361,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     echo '</tr>';
                     echo '</thead>';
                     echo '<tbody>';
-                    $tbset = $conn->query("SELECT * FROM table_queries_options WHERE tqop_Id='$id' AND name_table='$tble'");
+                    $tbset = $conn->query("SELECT * FROM table_column_settings WHERE tqop_Id='$id' AND name_table='$tble'");
                     $tbnums = $tbset->num_rows;
                     if ($tbnums > 0) {
                         while ($tbs = $tbset->fetch_array()) {
@@ -588,7 +588,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $content .= 'if (isset($_POST["updatequeries"])) {' . "\n";
                 $content .= queries($tble);
                 $content .= 'echo "Record added successfully";' . "\r\n";
-                $content .= 'header("Location: dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '");' . "\r\n";
+                $content .= 'header("Location: dashboard.php?cms=column_manager&w=editor&tbl=' . $tble . '");' . "\r\n";
                 $content .= "} \r\n";
                 $content .= "?> \n";
 

@@ -12,13 +12,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     }
 
     if (isset($_POST['queryb'])) {
-        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_builder&w=select" />';
+        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=column_manager&w=select" />';
     }
-    
- if (isset($_POST['tbmngr'])) {
+
+    if (isset($_POST['tbmngr'])) {
         echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_manager&w=list" />';
     }
-    
+
     if (isset($_POST['submit'])) {
         $all_table_value = implode(",", $_POST['tables']);
         if ($total_found > 0) {
@@ -63,13 +63,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             class="btn btn-primary">
                         <span class="fas fa-plus-square"></span> Save Config 
                     </button>
-                    <button type="submit" id="queryb" name="queryb"
-                            class="btn btn-secondary">
-                        <span class="fas fa-plus-square"></span> Table Builder 
-                    </button>
                     <button type="submit" id="tbmngr" name="tbmngr"
                             class="btn btn-success">
                         <span class="fas fa-plus-square"></span> Table Manager 
+                    </button>
+                    <button type="submit" id="queryb" name="queryb"
+                            class="btn btn-secondary">
+                        <span class="fas fa-plus-square"></span> Column Manager 
                     </button>
                 </div>
                 <div class="form-group">
@@ -103,13 +103,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             class="btn btn-primary">
                         <span class="fas fa-plus-square"></span> Save Config 
                     </button>
-                    <button type="submit" id="queryb" name="queryb"
-                            class="btn btn-secondary">
-                        <span class="fas fa-plus-square"></span> Table Builder 
-                    </button>
                     <button type="submit" id="tbmngr" name="tbmngr"
                             class="btn btn-success">
                         <span class="fas fa-plus-square"></span> Table Manager 
+                    </button>
+                    <button type="submit" id="queryb" name="queryb"
+                            class="btn btn-secondary">
+                        <span class="fas fa-plus-square"></span> Column Manager 
                     </button>
                 </div>
             </div>

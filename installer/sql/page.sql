@@ -263,50 +263,6 @@ CREATE TABLE IF NOT EXISTS `comment` (
 
 -- Dumping data for table test_cms.comment: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.configuration
-DROP TABLE IF EXISTS `configuration`;
-CREATE TABLE IF NOT EXISTS `configuration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `config_name` varchar(20) DEFAULT NULL,
-  `config_value` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `config_name` (`config_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_cms.configuration: ~31 rows (approximately)
-INSERT INTO `configuration` (`id`, `config_name`, `config_value`) VALUES
-	(1, 'DOMAIN_SITE', 'http://www.yourdomain.com'),
-	(2, 'SITE_NAME', 'PHP GrapesJS'),
-	(3, 'SITE_DESCRIPTION', 'Your description for your domains'),
-	(4, 'SITE_KEYWORDS', 'Your keywords for your domains'),
-	(5, 'SITE_CLASSIFICATION', 'Your classification for your domains'),
-	(6, 'SITE_ADMIN', 'Super Admin'),
-	(7, 'SITE_CONTROL', 'dashboard'),
-	(8, 'SITE_CONFIG', 'config'),
-	(9, 'SITE_LIST', 'list'),
-	(10, 'SITE_EDITOR', 'editor'),
-	(11, 'SITE_BUILDER', 'builder'),
-	(12, 'SITE_LANGUAGE_1', 'English'),
-	(13, 'SITE_LANGUAGE_2', 'Español'),
-	(14, 'SITE_EMAIL', 'info@yourdomain.com'),
-	(15, 'IMG_PAGE', 'http://yourdomain.com/uploads/image-page.jpg'),
-	(16, 'NAME_CONTACT', 'Your contact Name'),
-	(17, 'PHONE_CONTACT', '0051 999888777'),
-	(18, 'EMAIL_CONTACT', 'info@yourdomain.com'),
-	(19, 'ADDRESS', 'Your local contact address'),
-	(20, 'FOLDER_IMAGES', 'uploads'),
-	(21, 'SITE_CREATOR', '@yourdomain'),
-	(22, 'TWITTER', '@yourdomain'),
-	(23, 'FACEBOOKID', '26245712364571234572'),
-	(24, 'SKYPE', 'yourdomain'),
-	(25, 'TELEGRAM', 'yourdomain'),
-	(26, 'WHATSAPP', '+51 999888777'),
-	(27, 'SUPERADMIN_NAME', 'Super Admin'),
-	(28, 'SUPERADMIN_LEVEL', '9'),
-	(29, 'ADMIN_NAME', 'Admin'),
-	(30, 'ADMIN_LEVEL', '5'),
-	(31, 'SITE_BRAND_IMG', 'http://yourdomain.com/images/logo.jpg');
-
 -- Dumping structure for table test_cms.cookies
 DROP TABLE IF EXISTS `cookies`;
 CREATE TABLE IF NOT EXISTS `cookies` (
@@ -757,7 +713,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.login_attempts: ~1 rows (approximately)
+-- Dumping data for table test_cms.login_attempts: ~0 rows (approximately)
 INSERT INTO `login_attempts` (`id_session`, `user_data`, `ip_address`, `attempts`, `lastlogin`) VALUES
 	('3ab3627de5edd26396fee60a9f5ffc3d14e987c2', 'contact@pepiuox.net', '127.0.0.1', 1, '2022-09-02 23:54:13');
 
@@ -943,10 +899,10 @@ CREATE TABLE IF NOT EXISTS `page` (
 -- Dumping data for table test_cms.page: ~6 rows (approximately)
 INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
 	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;i5zn&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/circulodepiccha-slideshow-1.jpg&amp;quot; id=&amp;quot;irjt&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-5 col-md-7 col-10&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;Our Key Features\n            &amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do\n              eiusmod tempor incididunt ut labore et dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Social Media Marketin\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Dedicated Team\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 1, 1, 0, 0, 1, '2023-05-09 06:37:01'),
-	(2, 1, 0, 'Abous Us', 'abous-us', NULL, 'Abous Us', 'Abous Us', 'Abous Us', 'logopao2.jpg', 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;i5zn&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/circulodepiccha-slideshow-1.jpg&amp;quot; id=&amp;quot;irjt&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;i3ck&amp;quot; class=&amp;quot;col-md-4&amp;quot;&amp;gt;&amp;lt;p&amp;gt;col-md-4&amp;lt;/p&amp;gt;&amp;lt;div id=&amp;quot;ikfvz&amp;quot;&amp;gt;Hello Insert your text here&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;gjs-row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;gjs-cell&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-5 col-md-7 col-10&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;Our Key Features\n            &amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do\n              eiusmod tempor incididunt ut labore et dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Social Media Marketin\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Dedicated Team\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.gjs-row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.gjs-cell{min-height:75px;flex-grow:1;flex-basis:100%;}#ikfvz{padding:10px;}@media (max-width: 768px){.gjs-row{flex-wrap:wrap;}}', 0, 1, 0, 0, 1, '2023-04-27 03:55:28'),
+	(2, 1, 0, 'Abous Us', 'abous-us', NULL, 'Abous Us', 'Abous Us', 'Abous Us', 'logopao2.jpg', 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i6kb&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.\n                        I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-3 order-3 order-md-1&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-1.svg&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-6 col-8 d-flex flex-column justify-content-center p-3 order-1 order-md-2&amp;quot;&amp;gt;&amp;lt;h3&amp;gt;Mere tranquil existence&amp;lt;/h3&amp;gt;&amp;lt;p&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-2 col-4 d-flex flex-column align-items-center justify-content-center order-2 order-md-2 p-3&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary mb-3&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mb-3&amp;quot;&amp;gt;Main action&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Link&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i6kb{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-06-02 03:59:09'),
 	(3, 1, 0, 'Shaman', 'shaman', NULL, 'Shaman', 'Shaman', 'Shaman', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 2, 0, 1, '2022-09-16 09:35:48'),
 	(4, 1, 0, 'Retreats', 'retreats', NULL, 'Retreats', 'Retreats', 'Retreats', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2022-11-15 02:46:52'),
-	(5, 1, 0, 'Diets', 'diets', NULL, 'Diets', 'Diets', 'Diets', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;icwnu&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#icwnu{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-04-27 03:56:38'),
+	(5, 1, 0, 'Diets', 'diets', NULL, 'Diets', 'Diets', 'Diets', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iycj1&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i2m2s&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;bg-white p-4 col-10 mx-auto mx-md-0 col-lg-6&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;ipgac&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;I am so happy\n  &amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;itc5r&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone.\n  &amp;lt;/p&amp;gt;&amp;lt;form method=&amp;quot;get&amp;quot; id=&amp;quot;ihzng&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;form-inline d-flex justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;idi6t&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group&amp;quot;&amp;gt;&amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; id=&amp;quot;name&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your name&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;input type=&amp;quot;email&amp;quot; id=&amp;quot;form6&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your email&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;div id=&amp;quot;iot1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group-append&amp;quot;&amp;gt;&amp;lt;button type=&amp;quot;button&amp;quot; id=&amp;quot;inbmo&amp;quot; draggable=&amp;quot;true&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Subscribe&amp;lt;/button&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/form&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;icwnu&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#icwnu{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iycj1{background-image:url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:right bottom;background-size:cover;background-repeat:repeat;background-attachment:fixed;}', 0, 1, 0, 0, 1, '2023-08-01 09:04:49'),
 	(6, 1, 0, 'Ayahuasca', 'ayahuasca', NULL, 'Ayahuasca', 'Ayahuasca', 'Ayahuasca', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i2wn&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i2wn{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-05-09 09:28:30');
 
 -- Dumping structure for table test_cms.pageviews
@@ -1122,7 +1078,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 
 -- Dumping data for table test_cms.profiles: ~1 rows (approximately)
 INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('649744517643b9e2928596', '38abde43fa36adfc636ba6f6846bdf7cb2d0a54b', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-04-16 07:05:13', '2023-05-24 05:04:41');
+	('649744517643b9e2928596', 'a9bba21646148f0c35fa068e28eb84dd39d8097d', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-04-16 07:05:13', '2023-08-12 07:59:09');
 
 -- Dumping structure for table test_cms.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
@@ -1364,7 +1320,7 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
 
 -- Dumping data for table test_cms.site_configuration: ~1 rows (approximately)
 INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `MAILSERVER`, `PORTSERVER`, `USEREMAIL`, `PASSMAIL`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
-	(1, 'http://www.pepiuox.net', 'PEPIUOX', NULL, 'http://localhost:130/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox', 'pepiuox', 'pepiuox', '+51 999063645', 'smtp.pepiuox.net', '946', 'contact@pepiuox.net', 'truelove', 'Super Admin', 9, 'Admin', 5, '123aa6a5e2b27edd4749e75c9bab4b9ea7f2381501b0e7e6e884cd5e3733e9db', '$CM]J#Qt3MWP5xvAD${2s9Dr%Eod)YJff6dxC[yW7RPaXY6i7WV2ca]jQQy%NP#66gOHD{iuCQf6p]MUpvMy]ojXcRHK3eS@j#@Qp(1g@x@]wySSdVVVriWAMB%NVWx0', '2022-01-08 13:42:41', '2023-05-24 17:36:59');
+	(1, 'http://www.pepiuox.net', 'PEPIUOX', 'icon-pepiuox.png', 'http://localhost:130/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', 'smtp.hostinger.com', '461', 'contact@pepiuox.net', 'truelove', 'Super Admin', 9, 'Admin', 5, '123aa6a5e2b27edd4749e75c9bab4b9ea7f2381501b0e7e6e884cd5e3733e9db', '$CM]J#Qt3MWP5xvAD${2s9Dr%Eod)YJff6dxC[yW7RPaXY6i7WV2ca]jQQy%NP#66gOHD{iuCQf6p]MUpvMy]ojXcRHK3eS@j#@Qp(1g@x@]wySSdVVVriWAMB%NVWx0', '2022-01-08 13:42:41', '2023-08-04 00:24:52');
 
 -- Dumping structure for table test_cms.slideshow
 DROP TABLE IF EXISTS `slideshow`;
@@ -1490,6 +1446,21 @@ CREATE TABLE IF NOT EXISTS `stats_year` (
 
 -- Dumping data for table test_cms.stats_year: ~0 rows (approximately)
 
+-- Dumping structure for table test_cms.table_column_settings
+DROP TABLE IF EXISTS `table_column_settings`;
+CREATE TABLE IF NOT EXISTS `table_column_settings` (
+  `tqop_Id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_table` varchar(50) DEFAULT NULL,
+  `col_name` varchar(50) DEFAULT NULL,
+  `col_list` tinyint(1) DEFAULT 0,
+  `col_add` tinyint(1) DEFAULT 0,
+  `col_update` tinyint(1) DEFAULT 0,
+  `col_view` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`tqop_Id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.table_column_settings: ~0 rows (approximately)
+
 -- Dumping structure for table test_cms.table_config
 DROP TABLE IF EXISTS `table_config`;
 CREATE TABLE IF NOT EXISTS `table_config` (
@@ -1500,7 +1471,7 @@ CREATE TABLE IF NOT EXISTS `table_config` (
 
 -- Dumping data for table test_cms.table_config: ~1 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
-	(4, 'configuration,datos_personales,galleries,gallery,members,menu,menu_options,page,plugins_app,preset,press_gal,profiles,site_configuration,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,volunteer');
+	(1, 'datos_personales,galleries,gallery,members,menu,menu_options,page,plugins_app,preset,press_gal,profiles,site_configuration,templates,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,type_blocks,type_gallery,volunteer');
 
 -- Dumping structure for table test_cms.table_queries
 DROP TABLE IF EXISTS `table_queries`;
@@ -1520,32 +1491,21 @@ CREATE TABLE IF NOT EXISTS `table_queries` (
   PRIMARY KEY (`tque_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.table_queries: ~11 rows (approximately)
-INSERT INTO `table_queries` (`tque_Id`, `name_table`, `col_name`, `col_type`, `input_type`, `joins`, `j_table`, `j_id`, `j_value`, `j_as`, `query`, `jvpos`) VALUES
-	(1, 'menu_options', 'id_menu', 'char', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 'menu_options', 'fluid', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 'menu_options', 'placement', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 'menu_options', 'aligment', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(5, 'menu_options', 'background', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(6, 'menu_options', 'color', 'enum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(7, 'menu', 'sort', 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(8, 'menu', 'page_id', 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(9, 'menu', 'title_page', 'varchar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(10, 'menu', 'link_page', 'varchar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(11, 'menu', 'parent_id', 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+-- Dumping data for table test_cms.table_queries: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.table_settings
 DROP TABLE IF EXISTS `table_settings`;
 CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
-  `table_name` text NOT NULL,
-  `views_name` text NOT NULL,
-  `adds_name` text NOT NULL,
-  `updates_name` text NOT NULL,
-  `deletes_name` text NOT NULL,
-  `permits_name` text NOT NULL,
+  `table_name` char(50) NOT NULL DEFAULT '',
+  `table_list` tinyint(1) NOT NULL DEFAULT 0,
+  `table_view` tinyint(1) NOT NULL DEFAULT 0,
+  `table_add` tinyint(1) NOT NULL DEFAULT 0,
+  `table_update` tinyint(1) NOT NULL DEFAULT 0,
+  `table_delete` tinyint(1) NOT NULL DEFAULT 0,
+  `table_secure` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`IdTbset`) USING BTREE,
-  UNIQUE KEY `table_name` (`table_name`) USING HASH
+  UNIQUE KEY `table_name` (`table_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.table_settings: ~0 rows (approximately)
@@ -1563,24 +1523,30 @@ CREATE TABLE IF NOT EXISTS `templates` (
 -- Dumping structure for table test_cms.themes
 DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
-  `theme_id` varchar(25) NOT NULL,
-  `theme_name` varchar(25) NOT NULL,
-  `default` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `theme_id` char(64) NOT NULL,
+  `id_page` int(11) NOT NULL,
+  `theme_name` char(50) NOT NULL,
+  `base_default` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `active_theme` enum('Yes','No') DEFAULT 'No',
   PRIMARY KEY (`theme_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.themes: ~0 rows (approximately)
+-- Dumping data for table test_cms.themes: ~3 rows (approximately)
+INSERT INTO `themes` (`theme_id`, `id_page`, `theme_name`, `base_default`, `active_theme`) VALUES
+	('131026167064cd2b9daa099', 1, 'cerulean', 'Yes', 'No'),
+	('195729664064cdaaf8e0cca', 2, 'cosmo', 'Yes', 'No'),
+	('93195907164cda521f020b', 4, 'cosmo', 'Yes', 'No');
 
 -- Dumping structure for table test_cms.theme_base_colors
 DROP TABLE IF EXISTS `theme_base_colors`;
 CREATE TABLE IF NOT EXISTS `theme_base_colors` (
-  `theme_id` char(25) NOT NULL,
+  `idtbc` char(64) NOT NULL,
   `body` char(50) DEFAULT NULL,
   `text` char(50) DEFAULT NULL,
   `links` char(50) DEFAULT NULL,
-  PRIMARY KEY (`theme_id`) USING BTREE,
-  UNIQUE KEY `theme_id` (`theme_id`),
-  CONSTRAINT `FK_tbase_color` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  PRIMARY KEY (`idtbc`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtbc`) USING BTREE,
+  CONSTRAINT `FK_tbase_colors` FOREIGN KEY (`idtbc`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.theme_base_colors: ~0 rows (approximately)
@@ -1588,14 +1554,14 @@ CREATE TABLE IF NOT EXISTS `theme_base_colors` (
 -- Dumping structure for table test_cms.theme_base_font
 DROP TABLE IF EXISTS `theme_base_font`;
 CREATE TABLE IF NOT EXISTS `theme_base_font` (
-  `theme_id` char(25) NOT NULL,
+  `idtbf` char(64) NOT NULL,
   `family` char(50) DEFAULT NULL,
   `size` char(50) DEFAULT NULL,
   `weight` enum('default','light','normal','bold') DEFAULT NULL,
   `line_height` char(50) DEFAULT NULL,
-  PRIMARY KEY (`theme_id`) USING BTREE,
-  UNIQUE KEY `theme_id` (`theme_id`),
-  CONSTRAINT `FK_tbase_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idtbf`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtbf`) USING BTREE,
+  CONSTRAINT `FK_tbase_font` FOREIGN KEY (`idtbf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.theme_base_font: ~0 rows (approximately)
@@ -1603,13 +1569,13 @@ CREATE TABLE IF NOT EXISTS `theme_base_font` (
 -- Dumping structure for table test_cms.theme_headings_font
 DROP TABLE IF EXISTS `theme_headings_font`;
 CREATE TABLE IF NOT EXISTS `theme_headings_font` (
-  `theme_id` char(25) NOT NULL,
+  `idthf` char(64) NOT NULL,
   `family` char(50) DEFAULT NULL,
   `weight` enum('default','light','normal','bold') DEFAULT NULL,
   `line_weight` char(50) DEFAULT NULL,
-  PRIMARY KEY (`theme_id`),
-  UNIQUE KEY `theme_id` (`theme_id`),
-  CONSTRAINT `FK_headings_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idthf`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idthf`) USING BTREE,
+  CONSTRAINT `FK_theadings_font` FOREIGN KEY (`idthf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.theme_headings_font: ~0 rows (approximately)
@@ -1617,12 +1583,12 @@ CREATE TABLE IF NOT EXISTS `theme_headings_font` (
 -- Dumping structure for table test_cms.theme_lead_font
 DROP TABLE IF EXISTS `theme_lead_font`;
 CREATE TABLE IF NOT EXISTS `theme_lead_font` (
-  `theme_id` char(25) NOT NULL,
-  `size` char(50) DEFAULT NULL,
-  `weight` char(50) DEFAULT NULL,
-  PRIMARY KEY (`theme_id`) USING BTREE,
-  UNIQUE KEY `theme_id` (`theme_id`),
-  CONSTRAINT `FK_tlead_font` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `idtlf` char(64) NOT NULL,
+  `size` char(6) DEFAULT NULL,
+  `weight` char(6) DEFAULT NULL,
+  PRIMARY KEY (`idtlf`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtlf`) USING BTREE,
+  CONSTRAINT `FK_tlead_font` FOREIGN KEY (`idtlf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.theme_lead_font: ~0 rows (approximately)
@@ -1630,7 +1596,7 @@ CREATE TABLE IF NOT EXISTS `theme_lead_font` (
 -- Dumping structure for table test_cms.theme_palette
 DROP TABLE IF EXISTS `theme_palette`;
 CREATE TABLE IF NOT EXISTS `theme_palette` (
-  `theme_id` char(25) NOT NULL,
+  `idtp` char(64) NOT NULL,
   `primary` char(7) DEFAULT NULL,
   `secondary` char(7) DEFAULT NULL,
   `info` char(7) DEFAULT NULL,
@@ -1642,9 +1608,9 @@ CREATE TABLE IF NOT EXISTS `theme_palette` (
   `custom` char(7) DEFAULT NULL,
   `custom_light` char(7) DEFAULT NULL,
   `custom_dark` char(7) DEFAULT NULL,
-  PRIMARY KEY (`theme_id`) USING BTREE,
-  UNIQUE KEY `theme_id` (`theme_id`),
-  CONSTRAINT `FK_tpalette` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idtp`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtp`) USING BTREE,
+  CONSTRAINT `FK_theme_palette` FOREIGN KEY (`idtp`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.theme_palette: ~0 rows (approximately)
@@ -1652,16 +1618,16 @@ CREATE TABLE IF NOT EXISTS `theme_palette` (
 -- Dumping structure for table test_cms.theme_settings
 DROP TABLE IF EXISTS `theme_settings`;
 CREATE TABLE IF NOT EXISTS `theme_settings` (
-  `theme_id` char(25) NOT NULL,
+  `idts` char(64) NOT NULL,
   `container` enum('default','narrow') NOT NULL DEFAULT 'default',
   `spacer` enum('x 2','x 1.5','x 1.2','default','x .8','x .5') NOT NULL DEFAULT 'default',
   `radius` char(50) DEFAULT NULL,
   `radius_sm` char(50) DEFAULT NULL,
   `radius_lg` char(50) DEFAULT NULL,
   `font_size` enum('default','responsive','unresponsive') NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`theme_id`) USING BTREE,
-  UNIQUE KEY `theme_id` (`theme_id`),
-  CONSTRAINT `FK_tsettings` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idts`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idts`) USING BTREE,
+  CONSTRAINT `FK_theme_settings` FOREIGN KEY (`idts`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.theme_settings: ~0 rows (approximately)
@@ -4097,7 +4063,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 
 -- Dumping data for table test_cms.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('649744517643b9e2928596', 'pepiuox', 'contact@pepiuox.net', 'b3hIbHRZR3VIQzlSbVluWGV0amhsdz09', '90bfd9cc340725cf33045cf86bf57038c8b551f6', 'bf6894f0c476c66155b1e410cccc790dedf16588', '38abde43fa36adfc636ba6f6846bdf7cb2d0a54b', '420752', 'Super Admin', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2023-05-24 05:04:41');
+	('649744517643b9e2928596', 'pepiuox', 'contact@pepiuox.net', 'b3hIbHRZR3VIQzlSbVluWGV0amhsdz09', '90bfd9cc340725cf33045cf86bf57038c8b551f6', 'bf6894f0c476c66155b1e410cccc790dedf16588', 'a9bba21646148f0c35fa068e28eb84dd39d8097d', '420752', 'Super Admin', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2023-08-12 07:59:09');
 
 -- Dumping structure for table test_cms.videos
 DROP TABLE IF EXISTS `videos`;
@@ -4162,17 +4128,17 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
   `state_province_region` varchar(50) DEFAULT NULL,
   `zip_code` varchar(50) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
-  `profession` varchar(50) DEFAULT NULL,
-  `personal_interest` varchar(50) DEFAULT NULL,
-  `skills` varchar(50) DEFAULT NULL,
-  `allergies` varchar(50) DEFAULT NULL,
+  `profession` varchar(250) DEFAULT NULL,
+  `personal_interest` varchar(500) DEFAULT NULL,
+  `skills` varchar(250) DEFAULT NULL,
+  `allergies` varchar(150) DEFAULT NULL,
   `allergy_description` text DEFAULT NULL,
   `diseases` varchar(50) DEFAULT NULL,
   `disease_description` text DEFAULT NULL,
   `comments` varchar(50) DEFAULT NULL,
-  `contact_person_name` varchar(50) DEFAULT NULL,
-  `contact_person_phone` varchar(50) DEFAULT NULL,
-  `contact_person_email` varchar(50) DEFAULT NULL,
+  `contact_person_name` varchar(250) DEFAULT NULL,
+  `contact_person_phone` varchar(250) DEFAULT NULL,
+  `contact_person_email` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -91,6 +91,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         echo '<td><a href="' . $linkedit . $tbs['table_name'] . '"><i class="fas fa-edit"></i> Edit</a></td>';
                         echo '</tr>';
                     }
+                } else {
+
+                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">';
                 }
                 echo '</tbody>';
                 echo '</table>';
@@ -303,8 +306,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         </select>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" id="submit" name="submit"
-                                class="btn btn-primary">
+                        <button type="submit" id="submit" name="submit" class="btn btn-primary">
                             <span class="fas fa-plus-square"></span> Add table
                         </button>
                     </div>
