@@ -163,12 +163,6 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <?php
                 echo '<div class="col-12">';
                 echo '<h2 class="text-primary">Build option ' . $tble . ' table for columns</h2>';
-                echo '<div class="col-auto">';
-                echo '<a class="btn btn-primary" href="dashboard.php?cms=table_builder&w=select">Select table options</a>';
-                echo '</div>';
-                echo '<div class="col-auto">';
-                echo '<a class="btn btn-secondary" href="dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">change input options</a>';
-                echo '</div>';
                 echo '</div>';
 
                 function insertTQO($table, $column) {
@@ -229,7 +223,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $result = $conn->query($sql);
                 echo '<div class="col-12">';
                 echo '<form class="row form-horizontal" method="post">';
-
+                echo '<div class="col-auto">';
+                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=table_builder&w=select">Select table options</a>';
+                echo '</div>';
+                echo '<div class="col-auto">';
+                echo '<a class="btn btn-secondary mb-3" href="dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">change input options</a>';
+                echo '</div>';
                 echo '<table class="table">';
                 echo '<thead>';
                 echo '<th>Column name</th><th>List</th><th>Add</th><th>Update</th><th>View</th><th>Edit option</th>';
@@ -269,16 +268,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 }
                 echo '</tbody>';
                 echo '<table>';
-
+                echo '<div class="col-auto">';
+                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=table_builder&w=select">Select table options</a>';
+                echo '</div>';
+                echo '<div class="col-auto">';
+                echo '<a class="btn btn-secondary mb-3" href="dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">change input options</a>';
+                echo '</div>';
                 echo '</form>';
-                echo '</div>';
-                echo '<div class="col-12">';
-                echo '<div class="col-auto">';
-                echo '<a class="btn btn-primary" href="dashboard.php?cms=table_builder&w=select">Select table options</a>';
-                echo '</div>';
-                echo '<div class="col-auto">';
-                echo '<a class="btn btn-secondary" href="dashboard.php?cms=table_builder&w=editor&tbl=' . $tble . '">change input options</a>';
-                echo '</div>';
                 echo '</div>';
                 ?>
             </div>
