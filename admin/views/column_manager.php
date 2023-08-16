@@ -13,7 +13,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     if ($w == "select") {
 
         $tableNames = '';
-        $result = $conn->query("SELECT * FROM table_config");
+        $result = $conn->query("SELECT * FROM table_settings");
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -109,19 +109,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $content = '<?php' . "\n";
                     $content .= '//This is temporal file only for add new row' . "\n";
                     $content .= "if(isset(\$_POST['addtable'])){" . "\n";
-                    $content .= "\$iqry = \"INSERT INTO table_settings (table_name) VALUES ('" . $tble . "')\";" . "\n";
+                    
                     $content .= "\$result = \$conn->query(\"SELECT name_table FROM table_queries WHERE name_table = '" . $tble . "'\");" . "\n";
                     $content .= "if (\$result->num_rows > 0) {" . "\n";
                     $content .= "echo 'This table already exists, It was already added.';" . "\n";
                     $content .= "}else{" . "\n";
                     $content .= $dq . "\n";
                     $content .= 'if ($conn->query($query) === TRUE) {
-                                    if ($conn->query($iqry)=== TRUE) {
                                     echo "Record added successfully";';
                     $content .= " echo '" . $metad . "';";
 
-                    $content .= '}
-                                } else {
+                    $content .= '} else {
                                 echo "Error added record: " . $conn->error;
                                 }
                                 }
