@@ -105,28 +105,30 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $metad = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
 
                     $vfile = 'qtmp.php';
-                    $myfile = fopen("$vfile", "w") or die("Unable to open file!");
+                    
                     $content = '<?php' . "\n";
                     $content .= '//This is temporal file only for add new row' . "\n";
                     $content .= "if(isset(\$_POST['addtable'])){" . "\n";
-                    
                     $content .= "\$result = \$conn->query(\"SELECT name_table FROM table_queries WHERE name_table = '" . $tble . "'\");" . "\n";
                     $content .= "if (\$result->num_rows > 0) {" . "\n";
                     $content .= "echo 'This table already exists, It was already added.';" . "\n";
                     $content .= "}else{" . "\n";
                     $content .= $dq . "\n";
-                    $content .= 'if ($conn->query($query) === TRUE) {
-                                    echo "Record added successfully";';
-                    $content .= " echo '" . $metad . "';";
-
-                    $content .= '} else {
-                                echo "Error added record: " . $conn->error;
-                                }
-                                }
-                            }' . "\n";
+                    $content .= 'if ($conn->query($query) === TRUE) {' . "\n";
+                    $content .= ' echo "Record added successfully";' . "\n";
+                    $content .= " echo '" . $metad . "';" . "\n";
+                    $content .= '} else {' . "\n";
+                    $content .= '   echo "Error added record: " . $conn->error;' . "\n";
+                    $content .= '   }' . "\n";
+                    $content .= '}' . "\n";
+                    $content .= '}' . "\n";
                     $content .= "?>";
-                    fwrite($myfile, $content);
-                    fclose($myfile);
+                    if (!file_exists($vfile)) {
+                        file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
+                    } else {
+                        unlink($rvfile);
+                        file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
+                    }
 
                     include 'qtmp.php';
                     echo '<form method="POST" role="form" class="form-horizontal">
@@ -192,28 +194,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         insertTQO($tble, $row0['Field']);
                     }
                 }
-                /*
-                  $opq = implode(", ", $bq);
-
-                  $opfile = 'opqtmp.php';
-                  if (file_exists($opfile)) {
-                  unlink($opfile);
-                  }
-                  $content = '';
-                  $content .= '<?php' . "\n";
-                  $content .= 'echo "' . $opq . '";' . "\n";
-                  $content .= '?>';
-
-                  if (!file_exists($opfile)) {
-                  file_put_contents($opfile, $content, FILE_APPEND | LOCK_EX);
-                  } else {
-                  unlink($rvfile);
-                  file_put_contents($opfile, $content, FILE_APPEND | LOCK_EX);
-                  }
-
-                  include 'opqtmp.php';
-                 */
-                //$sql = "SHOW COLUMNS FROM " . $tble;
+            
                 $lnk = "dashboard.php?cms=column_manager&w=update&tbl=" . $tble . "&id=";
 
                 $sql = "SELECT * FROM table_column_settings WHERE name_table='$tble'";
@@ -315,9 +296,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
             $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id='$id' AND name_table='$tble'";
             if ($conn->query($upset) === TRUE) {
-                $_SESSION['success'] = "Record updated successfully";
+                echo "Record updated successfully";
+                echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
             } else {
-                $_SESSION['error'] = "Error updating record: " . $conn->error;
+                echo "Error updating record: " . $conn->error;
             }
         }
         ?>

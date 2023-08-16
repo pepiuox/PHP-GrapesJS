@@ -92,7 +92,6 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         echo '</tr>';
                     }
                 } else {
-
                     echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">';
                 }
                 echo '</tbody>';
@@ -184,9 +183,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                         $upset = "UPDATE table_settings SET $colset WHERE table_name='$tble'";
                         if ($conn->query($upset) === TRUE) {
-                            $_SESSION['success'] = "Record updated successfully";
+                            echo "Record updated successfully";
+                            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">';
                         } else {
-                            $_SESSION['error'] = "Error updating record: " . $conn->error;
+                           echo "Error updating record: " . $conn->error;
                         }
                     }
 
