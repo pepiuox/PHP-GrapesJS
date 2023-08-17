@@ -1,6 +1,6 @@
 <script src="<?php echo SITE_PATH; ?>assets/js/image-scale.min.js" type="text/javascript"></script>
 <style>
-    
+
     .myinfo{
         list-style: none;
         margin: 0px;
@@ -20,37 +20,37 @@
     .scrollpanel {
         margin: 0px;
         width: 100%;
-        height: auto;        
+        height: auto;
         float: left;
-        overflow-x: hidden;        
-        overflow: auto;       
+        overflow-x: hidden;
+        overflow: auto;
         border-left: 1px solid #4d4d4d;
     }
     .sconte {
         font-family: 'proximanova-regular';
         width: 100%;
-        height: 100%;        
-        font-size : 12px;    
+        height: 100%;
+        font-size : 12px;
         font-weight: 100;
         font-family: 'proximanova-regular';
-        text-align: justify;        
+        text-align: justify;
         padding: 5px 10px;
         text-justify: inter-word;
     }
-    @media screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 768px) 
-    { 
-        .scrollpanel {               
-            border: 0px;            
+    @media screen
+    and (min-device-width: 320px)
+    and (max-device-width: 768px)
+    {
+        .scrollpanel {
+            border: 0px;
         }
         .myinfo,
         .sconte{
             margin-top: 20px;
         }
     }
-    
-    form.br{       
+
+    form.br{
         font-size: 13px;
         color: #999999;
         padding-left: 20px;
@@ -60,7 +60,7 @@
         color: #999999;
         font-size: 13px;
     }
-    .infocontact{        
+    .infocontact{
         float: right;
 
     }
@@ -82,7 +82,7 @@
         display: block;
         width: 100%;
         height: auto;
-    }   
+    }
     .infocontact .tinfo img{
         display: inline;
         width: 15px;
@@ -97,14 +97,14 @@
         height: 15px;
         margin-bottom: 5px;
     }
-    .infocontact p{  
+    .infocontact p{
         font-size: 12px;
         color: #999999;
         text-align: left;
         margin-right: 10px;
     }
-    .infocontact span img{  
-        vertical-align: middle;        
+    .infocontact span img{
+        vertical-align: middle;
         width: 15px;
         height: 15px;
     }
@@ -114,5 +114,8 @@
         text-align: right;
         padding-right: 40px;
     }
-    .error {font-size: 13px; color: #FF0000;}
+    .error {
+        font-size: 13px;
+        color: #FF0000;
+    }
 </style>

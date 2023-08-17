@@ -2,6 +2,7 @@
 if (!isset($_SESSION)) {
     session_start();
 }
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -11,11 +12,10 @@ if (file_exists($connfile)) {
     require 'Autoload.php';
 
     $verify = new UserVerify();
-    
-require '../PHPMailer/src/Exception.php';
-require '../PHPMailer/src/PHPMailer.php';
-require '../PHPMailer/src/SMTP.php';
 
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
 } else {
     header('Location: ../installer/install.php');
     exit();

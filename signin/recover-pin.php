@@ -68,7 +68,8 @@ if (file_exists($connfile)) {
             </div>
         </div>
         <!-- /.login-box -->
-        <?php include '../elements/footer.php';
+        <?php
+        include '../elements/footer.php';
     }
     ?>
 </body>

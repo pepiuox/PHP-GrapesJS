@@ -933,12 +933,12 @@ header('Location: " . $this->pname . "?cms=crud&w=list&tbl=" . $tble . "');
         $content .= "\$query=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . "='\$id' \";" . "\r\n";
         $content .= 'if ($conn->query($query) === TRUE) {
  $_SESSION["success"] = "The data was updated correctly.";
-            '. "\n";
+            ' . "\n";
         $content .= "echo \"<script>
 window.onload = function() {
     location.href = '" . $this->pname . '?cms=crud&w=list&tbl=' . $tble . "';
 }
-</script>\";". "\n";
+</script>\";" . "\n";
         $content .= ' } else {
               $_SESSION["error"] = "Error updating data: " . $conn->error;
             }' . "\r\n";
@@ -1539,6 +1539,5 @@ window.onload = function() {
             }
         }
     }
-
 }
 ?>

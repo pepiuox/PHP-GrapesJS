@@ -2,7 +2,6 @@
     <div class="row">
         <div class="card py-3">
             <div class="card-body">
-
                 <form method="post" class="form-horizontal" role="form" id="add_volunteer" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="firstname">Firstname:</label>
@@ -24,16 +23,16 @@
                         <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="birthday" name="birthday">
                     </div>
                     <script type="text/javascript">
-                 $(document).ready(function ()
-                    {
-                $("#birthday").datepicker({
-                    weekStart: 1,
-                    daysOfWeekHighlighted: "6,0",
-                    autoclose: true,
-                    todayHighlight: true
-                });
-                $("#birthday").datepicker("setDate", new Date());
-                    });
+                        $(document).ready(function ()
+                        {
+                            $("#birthday").datepicker({
+                                weekStart: 1,
+                                daysOfWeekHighlighted: "6,0",
+                                autoclose: true,
+                                todayHighlight: true
+                            });
+                            $("#birthday").datepicker("setDate", new Date());
+                        });
                     </script>
                     <div class="form-group">
                         <label for="age">Age:</label>

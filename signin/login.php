@@ -8,7 +8,6 @@ if (file_exists($connfile)) {
     require 'Autoload.php';
 
     $login = new UserClass();
-    
 } else {
     header('Location: ../installer/install.php');
     exit();
@@ -18,11 +17,9 @@ if (file_exists($connfile)) {
 </head>
 <body class="hold-transition login-page">
     <?php
-  
-    if ($login->isLoggedIn() === true ) {
-          header('Location: ../admin/dashboard.php');
-         exit();  
-        
+    if ($login->isLoggedIn() === true) {
+        header('Location: ../admin/dashboard.php');
+        exit();
     } else {
         /* login-box */
         if (isset($_SESSION['attempt']) || isset($_SESSION['attempt_again'])) {

@@ -1,4 +1,4 @@
-<?php $changepass = new ChangePass; ?>
+<?php $changepass = new ChangePass(); ?>
 <div class="container">
     <div class="row">
         <!-- /.login-logo -->

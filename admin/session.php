@@ -59,7 +59,7 @@ class Session {
      * update the active visitors tables.
      */
     public function startSession() {
-        
+
         session_start();   //Tell PHP to start the session
 
         /* Determine if user is logged in */
@@ -101,7 +101,7 @@ class Session {
      * authenticity. Returns true if the user has logged in.
      */
     public function checkLogin() {
-        
+
         /* Check if user has been remembered */
         if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
             $this->username = $_SESSION['username'] = $_COOKIE['cookname'];
@@ -214,7 +214,7 @@ class Session {
      * unsets session variables and demotes his user level to guest.
      */
     public function logout() {
-        
+
         /**
          * Delete cookies - the time must be in the past,
          * so just negate what you added when creating the
@@ -713,7 +713,6 @@ class Session {
         }
         return $randstr;
     }
-
 }
 
 /**

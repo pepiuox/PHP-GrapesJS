@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of userForgot
  *
@@ -7,7 +8,7 @@
 class userForgot {
 
     public $baseurl;
-   private $connection;
+    private $connection;
 
     public function __construct() {
         global $conn;

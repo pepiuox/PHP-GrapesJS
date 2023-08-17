@@ -43,4 +43,3 @@ header('Content-Type: text/html; charset=UTF-8');
                 $(this).next('.custom-file-label').html(fileName);
             })
         </script>
-        

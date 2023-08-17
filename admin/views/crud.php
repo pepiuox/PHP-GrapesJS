@@ -14,7 +14,7 @@ if ($w == "select") {
         if ($total_found > 0) {
             $row = $result->fetch_assoc();
             $tableNames = explode(',', $row['table_name']);
-        } 
+        }
     }
     ?>
     <div class="container">
@@ -38,12 +38,12 @@ if ($w == "select") {
                             ?>
                         </select>
                         <script>
-                            let select =  document.querySelector('#selecttb');
+                            let select = document.querySelector('#selecttb');
                             let result = document.querySelector('#fttl');
-                            select.addEventListener('change', function () {                                        
+                            select.addEventListener('change', function () {
                                 let nvalue = this.value.replace("_", " ");
                                 let url = 'dashboard.php?cms=crud&w=list&tbl=' + this.value;
-                                result.textContent='Form ' + nvalue;
+                                result.textContent = 'Form ' + nvalue;
                                 window.location.replace(url);
                             });
                         </script>
@@ -160,7 +160,6 @@ if ($w == "select") {
 
                     if ($c->wQueries("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
                         $_SESSION['success'] = "Record deleted successfully";
-                        
                     } else {
                         $_SESSION['error'] = "Error deleting record";
                     }

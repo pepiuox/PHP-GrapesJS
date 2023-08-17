@@ -1,5 +1,6 @@
 <?php
-/* Save Page*/
+
+/* Save Page */
 include '../config/dbconnection.php';
 
 if (isset($_POST['content'])) {

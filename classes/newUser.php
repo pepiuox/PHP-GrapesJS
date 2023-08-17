@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Description of Register
  *
  * @author PePiuoX
  */
-
 require '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -66,7 +66,7 @@ class newUser {
         $query->bind_param("s", $username);
         $query->execute();
         $result = $query->get_result();
-        
+
         return $result->num_rows;
     }
 
@@ -75,7 +75,7 @@ class newUser {
         $query->bind_param("s", $email);
         $query->execute();
         $result = $query->get_result();
-        
+
         return $result->num_rows;
     }
 

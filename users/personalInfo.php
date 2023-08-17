@@ -44,7 +44,7 @@
                     $respro = $conn->prepare("SELECT * FROM profiles WHERE idp = ? AND mkhash = ? ");
                     $respro->bind_param("ss", $userid, $hash);
                     $respro->execute();
-                    $prof = $respro->get_result();                    
+                    $prof = $respro->get_result();
                     $rpro = $prof->fetch_assoc();
                     $respro->close();
                     ?> 
@@ -74,16 +74,16 @@
                             <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="birthday" name="birthday" value="<?php echo $rpro['birthday']; ?>">
                         </div>
                         <script type="text/javascript">
-                                                                $(document).ready(function ()
-                                                                {
-                                                                    $("#birthday").datepicker({
-                                                                        weekStart: 1,
-                                                                        daysOfWeekHighlighted: "6,0",
-                                                                        autoclose: true,
-                                                                        todayHighlight: true
-                                                                    });
-                                                                    $("#birthday").datepicker("setDate", new Date());
-                                                                });
+                            $(document).ready(function ()
+                            {
+                                $("#birthday").datepicker({
+                                    weekStart: 1,
+                                    daysOfWeekHighlighted: "6,0",
+                                    autoclose: true,
+                                    todayHighlight: true
+                                });
+                                $("#birthday").datepicker("setDate", new Date());
+                            });
                         </script>
                         <div class="form-group">
                             <label for="phone" class ="control-label col-sm-3">Phone:</label>

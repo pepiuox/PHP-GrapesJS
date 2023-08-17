@@ -92,8 +92,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="../assets/plugins/grapesjs/js/grapesjs-script-editor.min.js"></script>
                 <script src="../assets/plugins/grapesjs/js/grapesjs-project-manager.min.js"></script>
                 <script src="../assets/plugins/grapesjs/js/grapesjs-component-code-editor.min.js"></script>
-               
-                
+
+
                 <script src="../assets/plugins/ckeditor/ckeditor.js"></script>
                 <script>
                     jQuery.htmlPrefilter = function (html) {
@@ -624,13 +624,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             'grapesjs-plugin-export': {
                                 addExportBtn: true
                             },
-                            'grapesjs-custom-code':{},   
-                            'grapesjs-component-code-editor':{},
+                            'grapesjs-custom-code': {},
+                            'grapesjs-component-code-editor': {},
                             'grapesjs-plugin-forms': {
-                                blocks:['form', 'input', 'textarea', 'select', 'button', 'label', 'checkbox', 'radio'],
-                                category:'Forms'
+                                blocks: ['form', 'input', 'textarea', 'select', 'button', 'label', 'checkbox', 'radio'],
+                                category: 'Forms'
                             },
-                            
+
                             'grapesjs-bootstrap-elements': {
                                 blocks: {},
                                 blockCategories: {},
@@ -764,7 +764,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         })
                     });
 
-        // Add info command
+                    // Add info command
 
                     var panelViews = pn.addPanel({
                         id: "views"

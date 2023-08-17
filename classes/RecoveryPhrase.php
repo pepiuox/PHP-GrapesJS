@@ -7,7 +7,7 @@
  */
 class RecoveryPhrase {
 
-   private $connection;
+    private $connection;
     public $baseurl;
     private $iduv;
     private $level;
@@ -131,5 +131,4 @@ class RecoveryPhrase {
             }
         }
     }
-
 }

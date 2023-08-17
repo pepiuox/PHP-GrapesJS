@@ -1,4 +1,4 @@
-<?php $recoveryphrase = new RecoveryPhrase;
+<?php $recoveryphrase = new RecoveryPhrase();
 ?>
 
 <div class="container">

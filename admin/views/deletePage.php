@@ -38,7 +38,7 @@ if (!empty($_GET['id'])) {
         </div>
     </div>
     <?php
-}else{
+} else {
     header('Location: dashboard.php?cms=pagelist');
 }
 ?>

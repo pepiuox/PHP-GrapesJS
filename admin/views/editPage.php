@@ -163,36 +163,36 @@
         <input type="text" class="form-control" id="imagen" name="imagen" value="' . $row['image'] . '" readonly="readonly">
   </div>
   </div>' . "\n";
-                                                     
-                          enum_values('page', 'type', $row['type']);
+
+                            enum_values('page', 'type', $row['type']);
 
                             echo '<div class="form-group">
 				<label for="menu" class ="control-label col-sm-3">Menu:</label> 
                                 ';
                             menuopt($row['menu']);
                             echo '</div>';
-                             echo '<div class="form-group">
+                            echo '<div class="form-group">
 				<label for="hidden_page" class ="control-label col-sm-3">Hidden page:</label> 
                                 <select class="form-select" id="hidden_page" name="hidden_page">';
                             action($row['hidden_page']);
-			echo '</select></div>';
+                            echo '</select></div>';
                             echo '<div class="form-group">
                        <label for="path_file" class="control-label col-sm-3">Path file:</label>
-                       <input type="text" class="form-control" id="path_file" name="path_file" value="'.$row['path_file'].'">
+                       <input type="text" class="form-control" id="path_file" name="path_file" value="' . $row['path_file'] . '">
                   </div>';
-echo '<div class="form-group">
+                            echo '<div class="form-group">
                        <label for="script_name" class="control-label col-sm-3">Script name:</label>
-                       <input type="text" class="form-control" id="script_name" name="script_name" value="'.$row['script_name'].'">
+                       <input type="text" class="form-control" id="script_name" name="script_name" value="' . $row['script_name'] . '">
                   </div>';
-echo '<div class="form-group">
+                            echo '<div class="form-group">
                        <label for="template" class="control-label col-sm-3">Template:</label>
-                       <input type="text" class="form-control" id="template" name="template" value="'.$row['template'].'">
+                       <input type="text" class="form-control" id="template" name="template" value="' . $row['template'] . '">
                   </div>';
-echo '<div class="form-group">
+                            echo '<div class="form-group">
                        <label for="base_template" class="control-label col-sm-3">Base template:</label>
-                       <input type="text" class="form-control" id="base_template" name="base_template" value="'.$row['base_template'].'">
+                       <input type="text" class="form-control" id="base_template" name="base_template" value="' . $row['base_template'] . '">
                   </div>';
-                           
+
                             echo '<div class="form-group">
     <label for="startpage">Is home page</label>
     <select class="form-select" id="startpage" name="startpage">';
@@ -229,6 +229,6 @@ echo '<div class="form-group">
         let ttl = document.getElementById("title").value;
         ttl = ttl.toLowerCase();
         ttl = ttl.replace(/ /g, "-");
-         document.getElementById("link").value = ttl;
-   }
+        document.getElementById("link").value = ttl;
+    }
 </script>

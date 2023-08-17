@@ -105,7 +105,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $metad = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
 
                     $vfile = 'qtmp.php';
-                    
+
                     $content = '<?php' . "\n";
                     $content .= '//This is temporal file only for add new row' . "\n";
                     $content .= "if(isset(\$_POST['addtable'])){" . "\n";
@@ -194,7 +194,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         insertTQO($tble, $row0['Field']);
                     }
                 }
-            
+
                 $lnk = "dashboard.php?cms=column_manager&w=update&tbl=" . $tble . "&id=";
 
                 $sql = "SELECT * FROM table_column_settings WHERE name_table='$tble'";

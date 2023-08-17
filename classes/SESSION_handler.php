@@ -48,7 +48,6 @@ class SESSION_handler {
         // fix $_COOKIE[session_name() thing
         return false; // session is NOT expired
     }
-
 }
 ?>
 

@@ -7,7 +7,7 @@ $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
     require '../config/dbconnection.php';
     require 'Autoload.php';
-  
+
     $login = new UserClass();
     $level = new AccessLevel();
     $newuser = new newUser();

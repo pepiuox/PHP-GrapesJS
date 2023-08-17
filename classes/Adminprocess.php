@@ -232,7 +232,6 @@ class AdminProcess {
         }
         return $subuser;
     }
-
 }
 
 ?>

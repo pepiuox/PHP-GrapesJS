@@ -15,7 +15,6 @@ class Autoload {
         }
         return FALSE;
     }
-
 }
 
 spl_Autoload_register('Autoload::loader');

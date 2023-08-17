@@ -58,5 +58,4 @@ class GetVisitor {
 
         return $ip;
     }
-
 }

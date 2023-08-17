@@ -17,39 +17,50 @@ if (file_exists($connfile)) {
 <html lang="en">
     <head>
         <title>test</title>
-<script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-        
+        <script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+
     </head>
     <body>
         <link href="<?php echo SITE_PATH; ?>assets/css/sortablemenu.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo SITE_PATH; ?>assets/js/sortablemenu.js" type="text/javascript"></script>
+        <script src="<?php echo SITE_PATH; ?>assets/js/sortablemenu.js" type="text/javascript"></script>
 
-<style>
-    #sortable-row { list-style: none; }
-    #sortable-row li { margin-bottom:4px; padding:2px 10px; background-color:#EEEEEE;cursor:move;}
-    #sortable-row li.ui-state-highlight { height: 20px; background-color:#F0F0F0;border:#ccc 2px dotted;}
-</style>
-<script>
-    $(function () {
-        $("#sortable-row").sortable({
-            connectWith: "#sortable-row",
-            placeholder: "ui-state-highlight",
-            update: function (event, ui) {
-                $(this).children().each(function (index) {
-                    $(this).find('ul').last().html(index + 1);
-                });
+        <style>
+            #sortable-row {
+                list-style: none;
             }
-        });
-    });
+            #sortable-row li {
+                margin-bottom:4px;
+                padding:2px 10px;
+                background-color:#EEEEEE;
+                cursor:move;
+            }
+            #sortable-row li.ui-state-highlight {
+                height: 20px;
+                background-color:#F0F0F0;
+                border:#ccc 2px dotted;
+            }
+        </style>
+        <script>
+            $(function () {
+                $("#sortable-row").sortable({
+                    connectWith: "#sortable-row",
+                    placeholder: "ui-state-highlight",
+                    update: function (event, ui) {
+                        $(this).children().each(function (index) {
+                            $(this).find('ul').last().html(index + 1);
+                        });
+                    }
+                });
+            });
 
-    function saveOrder() {
-        var selectedLanguage = new Array();
-        $('ul#sortable-row li').each(function () {
-            selectedLanguage.push($(this).attr("id"));
-        });
-        document.getElementById("row_order").value = selectedLanguage;
-    }
-</script>
+            function saveOrder() {
+                var selectedLanguage = new Array();
+                $('ul#sortable-row li').each(function () {
+                    selectedLanguage.push($(this).attr("id"));
+                });
+                document.getElementById("row_order").value = selectedLanguage;
+            }
+        </script>
         <?php
         $run_qry = $conn->query("SELECT * FROM table_config");
         $total_found = $run_qry->num_rows;
@@ -98,72 +109,71 @@ if (file_exists($connfile)) {
         <p id="result"></p>
         <script>
             function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  let expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
 
-function getCookie(cname) {
-  let name = cname + "=";
-  let ca = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
+            function getCookie(cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
 
-function checkCookie() {
-  let user = getCookie("username");
-  if (user != "") {
-    alert("Welcome again " + user);
-  } else {
-    user = prompt("Please enter your name:", "");
-    if (user != "" && user != null) {
-      setCookie("username", user, 365);
-    }
-  }
-}
+            function checkCookie() {
+                let user = getCookie("username");
+                if (user != "") {
+                    alert("Welcome again " + user);
+                } else {
+                    user = prompt("Please enter your name:", "");
+                    if (user != "" && user != null) {
+                        setCookie("username", user, 365);
+                    }
+                }
+            }
 
 // Store
-sessionStorage.setItem("lastname", "Mantilla");
+            sessionStorage.setItem("lastname", "Mantilla");
 
 // Retrieve
-document.getElementById("result").innerHTML = sessionStorage.getItem("lastname"); 
-$(document).ready(function () {
-createCookie("lastname", "Mantilla", "10");
-});
+            document.getElementById("result").innerHTML = sessionStorage.getItem("lastname");
+            $(document).ready(function () {
+                createCookie("lastname", "Mantilla", "10");
+            });
 
-function createCookie(name, value, days) {
-    var expires;
-      
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
-    }
-    else {
-        expires = "";
-    }
-      
-    document.cookie = escape(name) + "=" + 
-        escape(value) + expires + "; path=/";
-}
+            function createCookie(name, value, days) {
+                var expires;
 
-    window.onload = displayClock();
-            
-function displayClock(){
-  var display = new Date().toLocaleTimeString();
-  var clock = document.getElementById('clock');
-  clock.innerText = display;
-  setTimeout(displayClock, 1000); 
-}
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                } else {
+                    expires = "";
+                }
+
+                document.cookie = escape(name) + "=" +
+                        escape(value) + expires + "; path=/";
+            }
+
+            window.onload = displayClock();
+
+            function displayClock() {
+                var display = new Date().toLocaleTimeString();
+                var clock = document.getElementById('clock');
+                clock.innerText = display;
+                setTimeout(displayClock, 1000);
+            }
         </script>
         <p id="demo"></p>
         <?php
@@ -180,26 +190,26 @@ function displayClock(){
         <script>
             // Get today's date
             const attempts = new Date('2021-08-30 10:52:39');
-            
+
             const today = new Date();
-            const res =Math.floor(((today - attempts)/999)/59);
+            const res = Math.floor(((today - attempts) / 999) / 59);
             document.getElementById("calc").innerHTML = res;
-            
-            $(document).ready(function() {
-    var totalMinutes = $('#calc').html();
 
-    var hours = Math.floor(totalMinutes / 60);          
-    var minutes = totalMinutes % 60;
+            $(document).ready(function () {
+                var totalMinutes = $('#calc').html();
 
-    $('.convertedHour').html(hours);
-    $('.convertedMin').html(minutes);    
-});
-            
+                var hours = Math.floor(totalMinutes / 60);
+                var minutes = totalMinutes % 60;
+
+                $('.convertedHour').html(hours);
+                $('.convertedMin').html(minutes);
+            });
+
             // Compare today with October 3rd
             if (today.getHours() === 20 && today.getMinutes() === 12) {
-              document.getElementById("demo").innerHTML = "It's now 3rd.";
+                document.getElementById("demo").innerHTML = "It's now 3rd.";
             } else {
-              document.getElementById("demo").innerHTML  = "It's not now 3rd.";
+                document.getElementById("demo").innerHTML = "It's not now 3rd.";
             }
         </script>
         <?php
@@ -319,33 +329,33 @@ function displayClock(){
 
         <div id="myBrowser"></div>
         <script>
-document.onload = GetBrowser();
+            document.onload = GetBrowser();
 
-function GetBrowser(){
-        var browser = '';
-var browserVersion = 0;
+            function GetBrowser() {
+                var browser = '';
+                var browserVersion = 0;
 
-if (/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-    browser = 'Opera';
-} else if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-    browser = 'MSIE';
-} else if (/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-    browser = 'Netscape';
-} else if (/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-    browser = 'Chrome';
-} else if (/Safari[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-    browser = 'Safari';
-    /Version[\/\s](\d+\.\d+)/.test(navigator.userAgent);
-    browserVersion = new Number(RegExp.$1);
-} else if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-    browser = 'Firefox';
-}
-if(browserVersion === 0){
-    browserVersion = parseFloat(new Number(RegExp.$1));
-}
-var myBrowser = document.getElementById('myBrowser');
-myBrowser.innerText = browser + "*" + browserVersion;
-}
+                if (/Opera[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+                    browser = 'Opera';
+                } else if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+                    browser = 'MSIE';
+                } else if (/Navigator[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+                    browser = 'Netscape';
+                } else if (/Chrome[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+                    browser = 'Chrome';
+                } else if (/Safari[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+                    browser = 'Safari';
+                    /Version[\/\s](\d+\.\d+)/.test(navigator.userAgent);
+                    browserVersion = new Number(RegExp.$1);
+                } else if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+                    browser = 'Firefox';
+                }
+                if (browserVersion === 0) {
+                    browserVersion = parseFloat(new Number(RegExp.$1));
+                }
+                var myBrowser = document.getElementById('myBrowser');
+                myBrowser.innerText = browser + "*" + browserVersion;
+            }
         </script>
 
     </body>

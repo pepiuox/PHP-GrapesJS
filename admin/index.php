@@ -12,12 +12,12 @@ if (file_exists($connfile)) {
     $level = new AccessLevel();
 
     if ($login->isLoggedIn() === true) {
-        if($level->levels() === 9){
-        header('Location: ../admin/dashboard.php');
-        exit();
-        }else{
-          header('Location: ../users/profile.php');
-        exit();  
+        if ($level->levels() === 9) {
+            header('Location: ../admin/dashboard.php');
+            exit();
+        } else {
+            header('Location: ../users/profile.php');
+            exit();
         }
     } else {
 

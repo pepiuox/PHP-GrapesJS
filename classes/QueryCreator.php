@@ -1,23 +1,19 @@
 <?php
 
-include '../config/dbconnection.php';
-
-$dbprd = new Database();
-$dbc = $dbprd->PdoConnection();
-
 class QueryCreator {
 
-    private $conn;
+    private $connection;
     private $DBname = 'ecommerce';
     public $table = 'proveedores';
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct() {
+        global $conn;
+        $this->connection = $conn;
     }
 
     public function SelectData() {
         $content = '';
-        $colmns = $this->conn->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type
+        $colmns = $this->connection->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type
             FROM information_schema.columns WHERE
             table_schema = '$this->DBname'
             AND table_name = '$this->table'")->fetchAll(PDO::FETCH_OBJ);
@@ -35,7 +31,7 @@ class QueryCreator {
         $colsn = implode(", ", $cnames);
 
         $qry = '$query = "INSERT INTO "' . $this->table . '" SET " ' . $colsn . '"';
-        $pre = '$result = $this->conn->prepare($query);' . "\n";
+        $pre = '$result = $this->connection->prepare($query);' . "\n";
         $content .= $qry . "\n";
         $content .= $pre . "\n";
 
@@ -58,7 +54,6 @@ class QueryCreator {
 
         return $content;
     }
-
 }
 
 $data = new QueryCreator($dbc);

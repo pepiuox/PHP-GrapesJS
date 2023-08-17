@@ -71,6 +71,6 @@ class Form {
     public function getErrorArray() {
         return $this->errors;
     }
-
 }
+
 ?>

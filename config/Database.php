@@ -1,4 +1,5 @@
 <?php
+
 class Database {
 
     private $config;
@@ -23,7 +24,7 @@ class Database {
 
     public function __construct() {
         include 'server.php';
-        $this->config = $settings;        
+        $this->config = $settings;
         $this->socket = "";
     }
 
@@ -43,7 +44,7 @@ class Database {
         $this->pass = $data['password'];
         $this->port = $data['port'];
         $this->charset = $data['charset'];
-        
+
         define('DBHOST', $this->host);
         define('DBUSER', $this->user);
         define('DBPASS', $this->pass);
@@ -51,9 +52,9 @@ class Database {
 
         if (is_array($this->config['connections'])) {
             $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
-           
+
             try {
-                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);             
+                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage(), (int) $e->getCode());
             }
@@ -77,7 +78,7 @@ class Database {
         $this->pass = $data['password'];
         $this->port = $data['port'];
         $this->charset = $data['charset'];
-        
+
         define('DBHOST', $this->host);
         define('DBUSER', $this->user);
         define('DBPASS', $this->pass);
@@ -92,5 +93,4 @@ class Database {
         $this->conn->set_charset($this->charset);
         return $this->conn;
     }
-
 }

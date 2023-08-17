@@ -37,7 +37,6 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                 <!-- Brand Logo -->
                 <a href="index.php" class="brand-link">
                     <?php
-                    
                     $logo = SITE_BRAND_IMG;
                     if (file_exists($logo)) {
                         ?>
@@ -209,7 +208,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                 <div class="col-md-9">
                                     <div class="card">
                                         <div class="card-header p-2">
-                                           <ul class="nav nav-tabs" id="users" role="tablist">
+                                            <ul class="nav nav-tabs" id="users" role="tablist">
                                                 <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
                                                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                                                 <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
@@ -341,7 +340,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                                             </span>
                                                         </div>
                                                         <!-- /.timeline-label --> 
-                                                       <!-- timeline item -->
+                                                        <!-- timeline item -->
                                                         <div>
                                                             <i class="fas fa-envelope bg-primary"></i>
 
@@ -496,16 +495,16 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                                             <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="birthday" name="birthday" value="<?php echo $rpro['birthday']; ?>">
                                                         </div>
                                                         <script type="text/javascript">
-                                                                                                $(document).ready(function ()
-                                                                                                {
-                                                                                                    $("#birthday").datepicker({
-                                                                                                        weekStart: 1,
-                                                                                                        daysOfWeekHighlighted: "6,0",
-                                                                                                        autoclose: true,
-                                                                                                        todayHighlight: true
-                                                                                                    });
-                                                                                                    $("#birthday").datepicker("setDate", new Date());
-                                                                                                });
+                                                            $(document).ready(function ()
+                                                            {
+                                                                $("#birthday").datepicker({
+                                                                    weekStart: 1,
+                                                                    daysOfWeekHighlighted: "6,0",
+                                                                    autoclose: true,
+                                                                    todayHighlight: true
+                                                                });
+                                                                $("#birthday").datepicker("setDate", new Date());
+                                                            });
                                                         </script>
                                                         <div class="form-group">
                                                             <label for="phone" class ="control-label col-sm-3">Phone:</label>

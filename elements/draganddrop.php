@@ -71,176 +71,176 @@
         </style>
     </head>
     <body>
-        
+
         <div class="box"><div class="item" draggable="true"></div></div>
         <div class="box"></div>
-        <div id="drop_container" ondrop="drop(event,'drop_container')" ondragover="DopHere(event)"></div>
-        <div id="dropback_container" ondrop="drop(event,'dropback_container')" ondragover="DopHere(event)">
+        <div id="drop_container" ondrop="drop(event, 'drop_container')" ondragover="DopHere(event)"></div>
+        <div id="dropback_container" ondrop="drop(event, 'dropback_container')" ondragover="DopHere(event)">
             <img id="image_drag" src="https://www.tejasrana.com/wp-content/uploads/2015/06/TR.png" draggable="true" ondragstart="image_drags(event)">
         </div>
         <script>
-        /* draggable element */
-const item = document.querySelector('.item');
+            /* draggable element */
+            const item = document.querySelector('.item');
 
-item.addEventListener('dragstart', dragStart);
+            item.addEventListener('dragstart', dragStart);
 
-function dragStart(e) {
-    e.dataTransfer.setData('text/plain', e.target.id);
-    setTimeout(() => {
-        e.target.classList.add('hide');
-    }, 0);
-}
+            function dragStart(e) {
+                e.dataTransfer.setData('text/plain', e.target.id);
+                setTimeout(() => {
+                    e.target.classList.add('hide');
+                }, 0);
+            }
 
-/* drop targets */
-const boxes = document.querySelectorAll('.box');
+            /* drop targets */
+            const boxes = document.querySelectorAll('.box');
 
-boxes.forEach(box => {
-    box.addEventListener('dragenter', dragEnter);
-    box.addEventListener('dragover', dragOver);
-    box.addEventListener('dragleave', dragLeave);
-    box.addEventListener('drop', drop);
-});
+            boxes.forEach(box => {
+                box.addEventListener('dragenter', dragEnter);
+                box.addEventListener('dragover', dragOver);
+                box.addEventListener('dragleave', dragLeave);
+                box.addEventListener('drop', drop);
+            });
 
-function dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add('drag-over');
-}
+            function dragEnter(e) {
+                e.preventDefault();
+                e.target.classList.add('drag-over');
+            }
 
-function dragOver(e) {
-    e.preventDefault();
-    e.target.classList.add('drag-over');
-}
+            function dragOver(e) {
+                e.preventDefault();
+                e.target.classList.add('drag-over');
+            }
 
-function dragLeave(e) {
-    e.target.classList.remove('drag-over');
-}
+            function dragLeave(e) {
+                e.target.classList.remove('drag-over');
+            }
 
-function drop(e) {
-    e.target.classList.remove('drag-over');
+            function drop(e) {
+                e.target.classList.remove('drag-over');
 
-    // get the draggable element
-    const id = e.dataTransfer.getData('text/plain');
-    const draggable = document.getElementById(id);
+                // get the draggable element
+                const id = e.dataTransfer.getData('text/plain');
+                const draggable = document.getElementById(id);
 
-    // add it to the drop target
-    e.target.appendChild(draggable);
+                // add it to the drop target
+                e.target.appendChild(draggable);
 
-    // display the draggable element
-    draggable.classList.remove('hide');
-}
+                // display the draggable element
+                draggable.classList.remove('hide');
+            }
         </script>
         <script>
             function onDragStart(event) {
-          event
-            .dataTransfer
-            .setData('text/plain', event.target.id);
+                event
+                        .dataTransfer
+                        .setData('text/plain', event.target.id);
 
-          event
-            .currentTarget
-            .style
-            .backgroundColor = 'yellow';
-        }
-    
-        function DopHere(ev) {
-            ev.preventDefault();
-        }
-        function image_drags(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-        function drop(ev,div_id) {
-               ev.preventDefault();
-     
-               var hasImages =hasImage(div_id);
-               var data = ev.dataTransfer.getData("text");
-               if(hasImages==false){       
-                 var data = ev.dataTransfer.getData("text");
-                 ev.target.appendChild(document.getElementById(data));
-               }else{
-                 alert('div already have an image.');
-               }
-        }
-        function hasImage(id) {
-               var arrival_div=document.getElementById(id);
-               var childElements = document.getElementById(id).childNodes;
-               for (var i = 0; i < childElements.length; i++) {
-                 if (childElements[i].localName != null && childElements[i].localName.toLowerCase() == "img") {
-                   return true;
-                 }
-               }  
-               return false;
-        }
- 
+                event
+                        .currentTarget
+                        .style
+                        .backgroundColor = 'yellow';
+            }
+
+            function DopHere(ev) {
+                ev.preventDefault();
+            }
+            function image_drags(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+            function drop(ev, div_id) {
+                ev.preventDefault();
+
+                var hasImages = hasImage(div_id);
+                var data = ev.dataTransfer.getData("text");
+                if (hasImages == false) {
+                    var data = ev.dataTransfer.getData("text");
+                    ev.target.appendChild(document.getElementById(data));
+                } else {
+                    alert('div already have an image.');
+                }
+            }
+            function hasImage(id) {
+                var arrival_div = document.getElementById(id);
+                var childElements = document.getElementById(id).childNodes;
+                for (var i = 0; i < childElements.length; i++) {
+                    if (childElements[i].localName != null && childElements[i].localName.toLowerCase() == "img") {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
         </script>
 
 
         <script type="text/javascript">
 
-          function getMargins(element) {
-                      var style = element.currentStyle || window.getComputedStyle(element);
+            function getMargins(element) {
+                var style = element.currentStyle || window.getComputedStyle(element);
 
-              var result = {
-                  getX: function() {
-                      return parseInt(style.marginLeft);
-                  },
-                  getY: function() {
-                      return parseInt(style.marginTop);
-                  }
-              };
-		
-              return result;
-          }
+                var result = {
+                    getX: function () {
+                        return parseInt(style.marginLeft);
+                    },
+                    getY: function () {
+                        return parseInt(style.marginTop);
+                    }
+                };
 
-          function prepareDragging(element, handle) {
-              var dragging = false;
+                return result;
+            }
 
-              var clickX, clickY;
-              var positionX, positionY;
+            function prepareDragging(element, handle) {
+                var dragging = false;
 
-              var style = element.style;
+                var clickX, clickY;
+                var positionX, positionY;
 
-              function onMouseDown(e) {
-                  clickX = e.clientX;
-                  clickY = e.clientY;
+                var style = element.style;
 
-                  var margins = getMargins(element);
+                function onMouseDown(e) {
+                    clickX = e.clientX;
+                    clickY = e.clientY;
 
-                      // this approach prevents agains different margin sizes
-                  positionX = element.offsetLeft - margins.getX();
-                  positionY = element.offsetTop - margins.getY();
+                    var margins = getMargins(element);
 
-                  dragging = true;
-              }
+                    // this approach prevents agains different margin sizes
+                    positionX = element.offsetLeft - margins.getX();
+                    positionY = element.offsetTop - margins.getY();
 
-              function onMouseUp(e) {
-                  dragging = false;
-              }
-      
-              function onMouseMove(e) {
-                  if (dragging) {
-                      var x = positionX + e.clientX - clickX;
-                      var y = positionY + e.clientY - clickY;
-                
-                      style.left = x + 'px';
-                      style.top = y + 'px';
-                  }
-              }
+                    dragging = true;
+                }
 
-              handle.addEventListener('mousedown', onMouseDown);  
-              window.addEventListener('mouseup', onMouseUp);  
-              window.addEventListener('mousemove', onMouseMove);
-        
-              var remove = function() {
-                  if (remove) {
-                      handle.removeEventListener('mousedown', onMouseDown);  
-                      window.removeEventListener('mouseup', onMouseUp); 
-                      window.removeEventListener('mousemove', onMouseMove);
+                function onMouseUp(e) {
+                    dragging = false;
+                }
 
-                      remove = null;
-                  }
-              };
-      
-              return remove;
-          }
+                function onMouseMove(e) {
+                    if (dragging) {
+                        var x = positionX + e.clientX - clickX;
+                        var y = positionY + e.clientY - clickY;
+
+                        style.left = x + 'px';
+                        style.top = y + 'px';
+                    }
+                }
+
+                handle.addEventListener('mousedown', onMouseDown);
+                window.addEventListener('mouseup', onMouseUp);
+                window.addEventListener('mousemove', onMouseMove);
+
+                var remove = function () {
+                    if (remove) {
+                        handle.removeEventListener('mousedown', onMouseDown);
+                        window.removeEventListener('mouseup', onMouseUp);
+                        window.removeEventListener('mousemove', onMouseMove);
+
+                        remove = null;
+                    }
+                };
+
+                return remove;
+            }
 
         </script>
     </body>

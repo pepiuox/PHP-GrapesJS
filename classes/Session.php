@@ -686,7 +686,6 @@ class Session {
         }
         return $randstr;
     }
-
 }
 
 ?>

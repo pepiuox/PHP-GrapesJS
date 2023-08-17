@@ -1,37 +1,46 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-include '../config/Database.php';
 
-$link = new Database();
-$conn = $link->MysqliConnection();
+class testclass {
 
+    private $connection;
+    private $user_id;
+    private $level;
 
-        if(isset($_SESSION['user_id'])){
-            $user_id = $_SESSION['user_id'];
+    public function __construct() {
+        global $conn;
+        $this->connection = $conn;
+
+        if (isset($_SESSION['user_id'])) {
+            $this->user_id = $_SESSION['user_id'];
         }
-        if(isset($_SESSION['levels'])){
-           $level = $_SESSION['levels'];  
+        if (isset($_SESSION['levels'])) {
+            $this->level = $_SESSION['levels'];
         }
-       
-  
+    }
 
-    /* This functions verify if exits user level in the users_roles table 
+    /* This public functions verify if exits user level in the users_roles table 
      * 
      */
 
-    function levels() {
-global $conn, $user_id, $level;
-        $stmt = $conn->prepare("SELECT iduv, level FROM uverify WHERE iduv = ? AND level = ?");
-        $stmt->bind_param("ss", $user_id, $level);
+    public function roles($level) {
+        $stmt = $this->connection->prepare("SELECT idRol, name, default_role FROM users_roles WHERE name = ?");
+        $stmt->bind_param("s", $this->level);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function levels() {
+
+        $stmt = $this->connection->prepare("SELECT iduv, level FROM uverify WHERE iduv = ? AND level = ?");
+        $stmt->bind_param("ss", $this->user_id, $this->level);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
 
         $lvls = $result->fetch_assoc();
-        
-        $userrole = roles($level);
+
+        $userrole = $this->roles($this->level);
         $rol = $userrole['name'];
         $rold = $userrole['default_role'];
 
@@ -43,46 +52,33 @@ global $conn, $user_id, $level;
             } else {
                 return 1;
             }
-        } 
+        }
     }
-echo levels();
-     function roles($level) {
-global $conn;
-        $stmt = $conn->prepare("SELECT idRol, name, default_role FROM users_roles WHERE name = ?");
-        $stmt->bind_param("s", $level);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
-    }
-    
-  function DefaulRoles($level) {
-        $userrole = roles($level);
+
+    public function DefaulRoles($level) {
+        $userrole = $this->roles($this->level);
         $rol = $userrole['default_role'];
         return $rol;
     }
-echo DefaulRoles($level);
-   function getRols($level) {
-        $userrole = roles($level);
+
+    public function getRols($level) {
+        $userrole = $this->roles($this->level);
         $rol = $userrole['idRol'];
         return $rol;
-        
     }
-echo getRols($level);
-    /* This functions get id and name if exits user level in the users_roles table
+
+    /* This public functions get id and name if exits user level in the users_roles table
      * 
      */
 
+    public function permissions($idr) {
 
-function permissions($idr) {
-global $conn;
-        $stmt = $conn->prepare("SELECT id, permission_id FROM role_permissions WHERE role_id = ?");
+        $stmt = $this->connection->prepare("SELECT id, permission_id FROM role_permissions WHERE role_id = ?");
         $stmt->bind_param("s", $idr);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_array();
     }
-
-
-
+}
 ?>
 

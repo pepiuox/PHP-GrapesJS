@@ -14,35 +14,34 @@ class AccessConnect {
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows == 1) {
-             /* Return result array */
+            /* Return result array */
             $dbarray = $result->fetch_assoc();
             return $dbarray;
         } else {
             /* Error occurred, return given name by default */
-            return NULL;           
+            return NULL;
         }
         $stmt->close();
     }
 
     public function getUserOnly($username) {
-       $stmt = $this->connection->prepare("SELECT username FROM uverify WHERE username = ?");
+        $stmt = $this->connection->prepare("SELECT username FROM uverify WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows == 1) {
-             /* Return result array */
+            /* Return result array */
             $dbarray = $result->fetch_assoc();
             return $dbarray['username'];
         } else {
             /* Error occurred, return given name by default */
-            return NULL;           
+            return NULL;
         }
         $stmt->close();
     }
-
 }
 
 ?>

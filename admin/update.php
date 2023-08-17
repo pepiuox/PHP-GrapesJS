@@ -1,5 +1,6 @@
 <?php
-/* Update Page*/
+
+/* Update Page */
 include '../config/dbconnection.php';
 
 if (isset($_POST['content'])) {

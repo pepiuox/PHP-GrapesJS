@@ -37,7 +37,6 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                 <!-- Brand Logo -->
                 <a href="index.php" class="brand-link">
                     <?php
-                    
                     $logo = SITE_BRAND_IMG;
                     if (file_exists($logo)) {
                         ?>
@@ -70,7 +69,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                                     $vpages = 'Personal user information';
                                 } elseif ($user == 'pdetail') {
                                     $vpages = 'Personal details';
-                                }elseif ($user == 'sphra') {
+                                } elseif ($user == 'sphra') {
                                     $vpages = 'Security phrase';
                                 } elseif ($user == 'chpass') {
                                     $vpages = 'Change of password';
@@ -112,7 +111,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
                         include 'contacts.php';
                     } else {
                         include 'info.php';
-                         }
+                    }
                     ?>
                 </section>
                 <!-- /.content -->
