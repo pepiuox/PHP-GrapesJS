@@ -70,13 +70,13 @@ $vpages = '';
                             <div class="col-sm-6">
                                 <?php
                                 $w = '';
-                                if ($cms == 'pagelist') {
+                                if ($cms == 'list_pages') {
                                     $vpages = 'Page List';
-                                } elseif ($cms == 'addpage') {
+                                } elseif ($cms == 'add_page') {
                                     $vpages = 'Add Page';
-                                } elseif ($cms == 'editpage') {
+                                } elseif ($cms == 'edit_page') {
                                     $vpages = 'Edit Page';
-                                } elseif ($cms == 'deletepage') {
+                                } elseif ($cms == 'delete_page') {
                                     $vpages = 'Delete Page';
                                 } elseif ($cms == 'siteconf') {
                                     $vpages = 'Site Definitions';
@@ -86,7 +86,7 @@ $vpages = '';
                                     $vpages = 'Menu Template';
                                 } elseif ($cms == 'plugins') {
                                     $vpages = 'Plugins App';
-                                } elseif ($cms == 'crud') {
+                                } elseif ($cms == 'table_crud') {
                                     $vpages = 'CRUD';
                                 } elseif ($cms == 'column_manager') {
                                     $vpages = 'Column Manager';
@@ -118,14 +118,14 @@ $vpages = '';
                     <?php include '../elements/alerts.php'; ?>
                     <!-- Main row -->
                     <?php
-                    if ($cms == 'pagelist') {
-                        include 'views/pageList.php';
-                    } elseif ($cms == 'addpage') {
-                        include 'views/addPage.php';
-                    } elseif ($cms == 'editpage') {
-                        include 'views/editPage.php';
-                    } elseif ($cms == 'deletepage') {
-                        include 'views/deletePage.php';
+                    if ($cms == 'list_pages') {
+                        include 'views/pages.php';
+                    } elseif ($cms == 'add_page') {
+                        include 'views/pages.php';
+                    } elseif ($cms == 'edit_page') {
+                        include 'views/pages.php';
+                    } elseif ($cms == 'delete_page') {
+                        include 'views/pages.php';
                     } elseif ($cms == 'siteconf') {
                         include 'views/settings.php';
                     } elseif ($cms == 'themes') {

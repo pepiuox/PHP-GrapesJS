@@ -1,4 +1,3 @@
-
 <?php
 $p = new Protect();
 if (isset($_GET['w']) && !empty($_GET['w'])) {
@@ -42,7 +41,7 @@ if ($w == "select") {
                             let result = document.querySelector('#fttl');
                             select.addEventListener('change', function () {
                                 let nvalue = this.value.replace("_", " ");
-                                let url = 'dashboard.php?cms=crud&w=list&tbl=' + this.value;
+                                let url = 'dashboard.php?cms=table_crud&w=list&tbl=' + this.value;
                                 result.textContent = 'Form ' + nvalue;
                                 window.location.replace(url);
                             });
@@ -60,7 +59,7 @@ if ($w == "select") {
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-3">
-                <a class="btn btn-secondary" href="dashboard.php?cms=crud&w=select">Select a Table </a>
+                <a class="btn btn-secondary" href="dashboard.php?cms=table_crud&w=select">Select a Table </a>
                 <a class="btn btn-success" href="dashboard.php?cms=table_builder&w=editor&tbl=<?php echo $tble; ?>">Edit query Table </a>
             </div>
             <div class="col-md-9">
@@ -87,7 +86,7 @@ if ($w == "select") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Back to List</a>
+                   href="dashboard.php?cms=table_crud&w=list&tbl=<?php echo $tble; ?>">Back to List</a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Add Data </h2>
@@ -112,7 +111,7 @@ if ($w == "select") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">Back to List </a>
+                   href="dashboard.php?cms=table_crud&w=list&tbl=<?php echo $tble; ?>">Back to List </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Edit Data </h2>
@@ -138,7 +137,7 @@ if ($w == "select") {
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <a href="dashboard.php?cms=crud&w=list&tbl=<?php echo $tble; ?>">List</a>
+                <a href="dashboard.php?cms=table_crud&w=list&tbl=<?php echo $tble; ?>">List</a>
             </div>
             <div class="col-md-9">
 

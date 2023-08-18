@@ -103,69 +103,80 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=pagelist" class="nav-link <?php
-                if ($cms === 'pagelist') {
-                    echo 'active';
-                }
-                ?>">
-                    <i class="nav-icon fas fa-list-alt"></i>
-                    <p>
-                        Page list                    
-                    </p>
-                </a>
-            </li>
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-book"></i>
+                    <i class="fas fa-solid fa-server nav-icon"></i>
                     <p>
-                        View Pages
-                        <i class="fas fa-angle-left right"></i>
+                        Pages       
+                        <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
-                <ul class="nav nav-treeview">
-                    <?php
-                    $pages = $conn->query("SELECT * FROM page");
-                    while ($page = $pages->fetch_array()) {
-                        $plink = $page['link'];
-                        $ptitle = $page['title'];
-                        $pparent = $page['parent'];
-                        echo'<li class="nav-item">';
-                        if ($pparent > 0) {
-                            $parent = $conn->query("SELECT * FROM page where id=$pparent");
-                            $pagep = $parent->fetch_assoc();
-                            echo '<a href="' . SITE_PATH . $pagep['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
-                        } else {
-                            echo '<a href="' . SITE_PATH . $plink . '" target="_blank" class="nav-link ';
-                        }
-
-                        if ($fname === $plink) {
+                <ul class="nav nav-treeview"> 
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=list_pages" class="nav-link <?php
+                        if ($cms === 'list_pages') {
                             echo 'active';
                         }
-                        echo '">
+                        ?>">
+                            <i class="nav-icon fas fa-list-alt"></i>
+                            <p>
+                                Page list                    
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                View Pages
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <?php
+                            $pages = $conn->query("SELECT * FROM page");
+                            while ($page = $pages->fetch_array()) {
+                                $plink = $page['link'];
+                                $ptitle = $page['title'];
+                                $pparent = $page['parent'];
+                                echo'<li class="nav-item">';
+                                if ($pparent > 0) {
+                                    $parent = $conn->query("SELECT * FROM page where id=$pparent");
+                                    $pagep = $parent->fetch_assoc();
+                                    echo '<a href="' . SITE_PATH . $pagep['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
+                                } else {
+                                    echo '<a href="' . SITE_PATH . $plink . '" target="_blank" class="nav-link ';
+                                }
+
+                                if ($fname === $plink) {
+                                    echo 'active';
+                                }
+                                echo '">
                             <i class="far fa-circle nav-icon"></i>
                             <p>' . $ptitle . '</p>
                         </a>
                     </li>
                     ';
-                    }
-                    ?>
+                            }
+                            ?>
 
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="nav-link <?php
+                        if ($cms === 'add_page') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>
+                                Add page                   
+                            </p>
+                        </a>
+                    </li>  
                 </ul>
             </li>
-
-            <li class="nav-item">
-                <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=addpage" class="nav-link <?php
-                if ($cms === 'addpage') {
-                    echo 'active';
-                }
-                ?>">
-                    <i class="nav-icon fas fa-file-alt"></i>
-                    <p>
-                        Add page                   
-                    </p>
-                </a>
-            </li>        
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="fas fa-solid fa-server nav-icon"></i>
@@ -205,8 +216,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=crud&w=select" class="nav-link <?php
-                        if ($cms === 'crud') {
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_crud&w=select" class="nav-link <?php
+                        if ($cms === 'table_crud') {
                             echo 'active';
                         }
                         ?>">

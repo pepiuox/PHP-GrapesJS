@@ -11,7 +11,7 @@ class CheckValidUser {
             $id = $_SESSION['user_id'];
             $hash = $_SESSION['hash'];
 
-            $stmt = $$this->connection->prepare("SELECT * FROM profiles WHERE idp = ? AND mkhash = ?");
+            $stmt = $this->connection->prepare("SELECT * FROM profiles WHERE idp = ? AND mkhash = ?");
             $stmt->bind_param("ss", $id, $hash);
             $stmt->execute();
             $result = $stmt->get_result();
