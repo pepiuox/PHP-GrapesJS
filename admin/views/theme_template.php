@@ -63,14 +63,14 @@ if ($w == "list") {
 
     if (isset($_POST['addtheme'])) {
         $idtheme = uniqid(rand(), false);
-        $id_page = $_POST['id_page'];
+        
         $theme_name = $_POST['theme_name'];
         $theme = $_POST['theme'];
         $base_default = $_POST['base_default'];
         $active_theme = $_POST['active_theme'];
 
-        $stmt = $conn->prepare("INSERT INTO themes (theme_id, id_page, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("s1ssss", $idtheme, $theme_name, $theme, $base_default, $active_theme);
+        $stmt = $conn->prepare("INSERT INTO themes (theme_id, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("sssss", $idtheme, $theme_name, $theme, $base_default, $active_theme);
         $stmt->execute();
 
         $stmt = $conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
@@ -103,25 +103,13 @@ if ($w == "list") {
         <div class="row pt-3">
 
             <form method="post" class="row form-horizontal" role="form" id="add_themes" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="id_page">Page:</label>
-
-                    <select id="id_page" name="id_page" class="form-select" aria-label="select">
-                        <option>Select theme</option>
-                        <?php
-                        $pages = $conn->query("SELECT id, title FROM page");
-                        while ($npg = $pages->fetch_array()) {
-                            echo '<option value="' . $npg['id'] . '">' . $npg['title'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
+                
                 <div class="form-group">
                     <label for="theme_name">Theme name:</label>
                     <input type="text" class="form-control" id="theme_name" name="theme_name">
                 </div>
                 <div class="form-group">
-                    <label for="theme">Select </label>
+                    <label for="theme">Select bootstrap theme</label>
                     <select name="theme" id="theme" class="form-select" aria-label="select">
                         <option>Select theme</option>
                         <?php
@@ -159,30 +147,53 @@ if ($w == "list") {
 } elseif ($w == "edit") {
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
-        ?>
 
-        <script>
-            function componentFromStr(numStr, percent) {
-                var num = Math.max(0, parseInt(numStr, 10));
-                return percent ?
-                        Math.floor(255 * Math.min(100, num) / 100) : Math.min(255, num);
+//This is temporal file only for add new row
+        if (isset($_POST['editrow'])) {
+            
+            $theme_name = $_POST["theme_name"];
+            $theme = $_POST["theme"];
+            $base_default = $_POST["base_default"];
+            $active_theme = $_POST["active_theme"];
+
+            $query = "UPDATE themes SET theme_name = '$theme_name', theme = '$theme', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
+            if ($conn->query($query) === TRUE) {
+                $_SESSION["success"] = "The data was updated correctly.";
+
+                echo "<script>
+window.onload = function() {
+    location.href = 'dashboard.php?cms=table_crud&w=list&tbl=themes';
+}
+</script>";
+            } else {
+                $_SESSION["error"] = "Error updating data: " . $conn->error;
             }
+        }
+        $rtt = $conn->query("SELECT * FROM themes WHERE theme_id='$id'");
+        $tt = $rtt->fetch_assoc();
+        ?> 
+        <div class="container">
+            <div class="row">
+                <form role="form" id="edit_themes" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="theme_name" class ="control-label col-sm-3">Theme name:</label>
+                        <input type="text" class="form-control" id="theme_name" name="theme_name" value="<?php echo $tt['theme_name']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="theme" class ="control-label col-sm-3">Theme:</label>
+                        <input type="text" class="form-control" id="theme" name="theme" value="<?php echo $tt['theme']; ?>">
+                    </div>
+                    <?php enum_values('themes', 'base_default', $tt['base_default']); ?>
+                    <?php enum_values('themes', 'active_theme', $tt['active_theme']); ?>
 
-            function rgbToHex(rgb) {
-                var rgbRegex = /^rgb\(\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*\)$/;
-                var result, r, g, b, hex = "";
-                if ((result = rgbRegex.exec(rgb))) {
-                    r = componentFromStr(result[1], result[2]);
-                    g = componentFromStr(result[3], result[4]);
-                    b = componentFromStr(result[5], result[6]);
+                    <div class="form-group">
+                        <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "fas fa-edit"></span> Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-                    hex = "0x" + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
-                }
-                return hex;
-            }
-
-            document.body.innerHTML = rgbToHex("rgb(255,255,200)");
-        </script>
 
         <?php
     }

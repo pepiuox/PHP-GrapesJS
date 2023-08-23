@@ -87,7 +87,7 @@ if ($w == "list") {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options#theme_settings';
+    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
 }
 </script>";
                                 } else {
@@ -147,7 +147,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options#theme_palette';
+    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
 }
 </script>";
                                 } else {
@@ -159,112 +159,112 @@ window.onload = function() {
                             ?> 
                             <form class="row form-horizontal" role="form" id="edit_theme_palette" method="POST">
                                 <div class="form-group">
-                                    <label for="primary" class ="control-label col-sm-3">Primary:</label>
-                                    <input type="text" class="form-control" id="primary" name="primary" value="<?php echo $tp['primary_color']; ?>">
+                                    <label for="primary_color" class ="control-label col-sm-3">Primary:</label>
+                                    <input type="text" class="form-control" id="primary_color" name="primary_color" value="<?php echo $tp['primary_color']; ?>">
                                     <script>
-                                        const primary = new CP(document.querySelector('#primary'));
-                                        primary.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const primary_color = new CP(document.querySelector('#primary_color'));
+                                        primary_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="secondary" class ="control-label col-sm-3">Secondary:</label>
-                                    <input type="text" class="form-control" id="secondary" name="secondary" value="<?php echo $tp['secondary_color']; ?>">
+                                    <label for="secondary_color" class ="control-label col-sm-3">Secondary:</label>
+                                    <input type="text" class="form-control" id="secondary_color" name="secondary_color" value="<?php echo $tp['secondary_color']; ?>">
                                     <script>
-                                        const secondary = new CP(document.querySelector('#secondary'));
-                                        secondary.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const secondary_color = new CP(document.querySelector('#secondary_color'));
+                                        secondary_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="info" class ="control-label col-sm-3">Info:</label>
-                                    <input type="text" class="form-control" id="info" name="info" value="<?php echo $tp['info_color']; ?>">
+                                    <label for="info_color" class ="control-label col-sm-3">Info:</label>
+                                    <input type="text" class="form-control" id="info_color" name="info_color" value="<?php echo $tp['info_color']; ?>">
                                     <script>
-                                        const info = new CP(document.querySelector('#info'));
-                                        info.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const info_color = new CP(document.querySelector('#info_color'));
+                                        info_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="light" class ="control-label col-sm-3">Light:</label>
-                                    <input type="text" class="form-control" id="light" name="light" value="<?php echo $tp['light_color']; ?>">
+                                    <label for="light_color" class ="control-label col-sm-3">Light:</label>
+                                    <input type="text" class="form-control" id="light_color" name="light_color" value="<?php echo $tp['light_color']; ?>">
                                     <script>
-                                        const light = new CP(document.querySelector('#light'));
-                                        light.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const light_color = new CP(document.querySelector('#light_color'));
+                                        light_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dark" class ="control-label col-sm-3">Dark:</label>
-                                    <input type="text" class="form-control" id="dark" name="dark" value="<?php echo $tp['dark_color']; ?>">
+                                    <label for="dark_color" class ="control-label col-sm-3">Dark:</label>
+                                    <input type="text" class="form-control" id="dark_color" name="dark_color" value="<?php echo $tp['dark_color']; ?>">
                                     <script>
-                                        const dark = new CP(document.querySelector('#dark'));
-                                        dark.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const dark_color = new CP(document.querySelector('#dark_color'));
+                                        dark_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="success" class ="control-label col-sm-3">Success:</label>
-                                    <input type="text" class="form-control" id="success" name="success" value="<?php echo $tp['success_color']; ?>">
+                                    <label for="success_color" class ="control-label col-sm-3">Success:</label>
+                                    <input type="text" class="form-control" id="success_color" name="success_color" value="<?php echo $tp['success_color']; ?>">
                                     <script>
-                                        const success = new CP(document.querySelector('#success'));
-                                        success.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const success_color = new CP(document.querySelector('#success_color'));
+                                        success_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="warning" class ="control-label col-sm-3">Warning:</label>
-                                    <input type="text" class="form-control" id="warning" name="warning" value="<?php echo $tp['warning_color']; ?>">
+                                    <label for="warning_color" class ="control-label col-sm-3">Warning:</label>
+                                    <input type="text" class="form-control" id="warning_color" name="warning_color" value="<?php echo $tp['warning_color']; ?>">
                                     <script>
-                                        const warning = new CP(document.querySelector('#warning'));
-                                        warning.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const warning_color = new CP(document.querySelector('#warning_color'));
+                                        warning_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="danger" class ="control-label col-sm-3">Danger:</label>
-                                    <input type="text" class="form-control" id="danger" name="danger" value="<?php echo $tp['danger_color']; ?>">
+                                    <label for="danger_color" class ="control-label col-sm-3">Danger:</label>
+                                    <input type="text" class="form-control" id="danger_color" name="danger_color" value="<?php echo $tp['danger_color']; ?>">
                                     <script>
-                                        const danger = new CP(document.querySelector('#danger'));
-                                        danger.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const danger_color = new CP(document.querySelector('#danger_color'));
+                                        danger_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="custom" class ="control-label col-sm-3">Custom:</label>
-                                    <input type="text" class="form-control" id="custom" name="custom" value="<?php echo $tp['custom_color']; ?>">
+                                    <label for="custom_color" class ="control-label col-sm-3">Custom:</label>
+                                    <input type="text" class="form-control" id="custom_color" name="custom_color" value="<?php echo $tp['custom_color']; ?>">
                                     <script>
-                                        const custom = new CP(document.querySelector('#custom'));
-                                        custom.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const custom_color = new CP(document.querySelector('#custom_color'));
+                                        custom_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="custom_light" class ="control-label col-sm-3">Custom light:</label>
-                                    <input type="text" class="form-control" id="custom_light" name="custom_light" value="<?php echo $tp['custom_light_color']; ?>">
+                                    <label for="custom_light_color" class ="control-label col-sm-3">Custom light:</label>
+                                    <input type="text" class="form-control" id="custom_light_color" name="custom_light_color" value="<?php echo $tp['custom_light_color']; ?>">
                                     <script>
-                                        const custom_light = new CP(document.querySelector('#custom_light'));
-                                        custom_light.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const custom_light_color = new CP(document.querySelector('#custom_light_color'));
+                                        custom_light_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label for="custom_dark" class ="control-label col-sm-3">Custom dark:</label>
-                                    <input type="text" class="form-control" id="custom_dark" name="custom_dark" value="<?php echo $tp['custom_dark_color']; ?>">
+                                    <label for="custom_dark_color" class ="control-label col-sm-3">Custom dark:</label>
+                                    <input type="text" class="form-control" id="custom_dark_color" name="custom_dark_color" value="<?php echo $tp['custom_dark_color']; ?>">
                                     <script>
-                                        const custom_dark = new CP(document.querySelector('#custom_dark'));
-                                        custom_dark.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const custom_dark_color = new CP(document.querySelector('#custom_dark_color'));
+                                        custom_dark_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
@@ -293,7 +293,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options#theme_lead_font';
+    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
 }
 </script>";
                                 } else {
@@ -319,7 +319,7 @@ window.onload = function() {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="tab-pane fade" id="theme_headings_font" role="tabpanel" aria-labelledby="theme_headings_font-tab" tabindex="0">
                     <div class="card">
                         <div class="card-body">
@@ -338,7 +338,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options#theme_headings_font';
+    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
 }
 </script>";
                                 } else {
@@ -365,14 +365,13 @@ window.onload = function() {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="tab-pane fade" id="theme_base_font" role="tabpanel" aria-labelledby="theme_base_font-tab" tabindex="0">
                     <div class="card">
                         <div class="card-body">
 
                             <h3 class="py-5 text-primary">Theme Base Font</h3>
                             <?php
-
                             if (isset($_POST['theme_base_font'])) {
                                 $family = $_POST['family'];
                                 $size = $_POST['size'];
@@ -385,7 +384,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options#theme_base_font';
+    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
 }
 </script>";
                                 } else {
@@ -422,19 +421,23 @@ window.onload = function() {
 
                             <h3 class="py-5 text-primary">Theme Base Colors</h3>
                             <?php
-
                             if (isset($_POST['theme_base_colors'])) {
-                                $body = $_POST['body'];
-                                $text = $_POST['text'];
-                                $links = $_POST['links'];
+                                $_POST = array_map('stripslashes', $_POST);
 
-                                $query = "UPDATE `theme_base_colors` SET body = '$body', text = '$text', links = '$links' WHERE idtbc='$id'";
+                                //collect form data
+                                extract($_POST);
+
+                                //$body_color = $_POST['body_color'];
+                                //$text_color = $_POST['text_color'];
+                                //$links_color = $_POST['links_color'];
+
+                                $query = "UPDATE `theme_base_colors` SET body_color = '$body_color', text_color = '$text_color', links_color = '$links_color' WHERE idtbc='$id'";
                                 if ($conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options#theme_base_colors';
+    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
 }
 </script>";
                                 } else {
@@ -446,32 +449,32 @@ window.onload = function() {
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_base_colors" method="POST">
                                 <div class="form-group">
-                                    <label for="body" class ="control-label col-sm-3">Body:</label>
-                                    <input type="text" class="form-control" id="body" name="body" value="<?php echo$tbc['body']; ?>">
+                                    <label for="body_color" class ="control-label col-sm-3">Body:</label>
+                                    <input type="text" class="form-control" id="body_color" name="body_color" value="<?php echo $tbc['body_color']; ?>">
                                     <script>
-                                        const body = new CP(document.querySelector('#body'));
-                                        body.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const body_color = new CP(document.querySelector('#body_color'));
+                                        body_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>                                  
                                 </div>
                                 <div class="form-group">
                                     <label for="text" class ="control-label col-sm-3">Text:</label>
-                                    <input type="text" class="form-control" id="text" name="text" value="<?php echo $tbc['text']; ?>">
+                                    <input type="text" class="form-control" id="text_color" name="text_color" value="<?php echo $tbc['text_color']; ?>">
                                     <script>
-                                        const text = new CP(document.querySelector('#text'));
-                                        text.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const text_color = new CP(document.querySelector('#text_color'));
+                                        text_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>
                                 <div class="form-group">
                                     <label for="links" class ="control-label col-sm-3">Links:</label>
-                                    <input type="text" class="form-control" id="links" name="links" value="<?php echo $tbc['links']; ?>">
+                                    <input type="text" class="form-control" id="links_color" name="links_color" value="<?php echo $tbc['links_color']; ?>">
                                     <script>
-                                        const links = new CP(document.querySelector('#links'));
-                                        links.on('change', function (r, g, b, a) {
-                                        this.source.value = this.color(r, g, b, a);
+                                        const links_color = new CP(document.querySelector('#links_color'));
+                                        links_color.on('change', function (r, g, b, a) {
+                                            this.source.value = this.color(r, g, b, a);
                                         });
                                     </script>
                                 </div>

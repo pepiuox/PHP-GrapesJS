@@ -48,7 +48,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     echo '</td><td>' . "\n";
                                     echo '<a href="dashboard.php?cms=edit_page&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
                                     echo '</td><td>' . "\n";
-                                    echo '<a href="builder.php?id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
+                                    echo '<a href="builder.php?build=page&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
                                     echo '</td><td>' . "\n";
                                     echo '<a href="dashboard.php?cms=delete_page&&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                     echo '</td></tr>';

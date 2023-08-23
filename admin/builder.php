@@ -18,7 +18,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     $id = '';
     $pcontent = '';
     $pstyle = '';
-
+    $build = '';
+    if (isset($_GET['build']) && !empty($_GET['build'])) {
+        $build = $_GET['build'];
+    }
     if (isset($_GET['id']) && !empty($_GET['id'])) {
 
         $targetDir = "../uploads/";
@@ -105,18 +108,29 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     });
                 </script>
                 <?php
-                if (isset($_GET['id'])) {
-                    $id = $_GET['id'];
-                    $erow = $conn->prepare("SELECT id, title, content, style FROM page WHERE id=?");
-                    $erow->bind_param('i', $id);
-                    $erow->execute();
-                    $result = $erow->get_result();
-                    $row = $result->fetch_assoc();
-                    $pcontent = $row['content'];
-                    $pstyle = $row['style'];
-                } else {
-                    $pcontent = "";
-                    $pstyle = "";
+                if (isset($_GET['build'])) {
+                    if ($build === 'page') {
+                        $id = $_GET['id'];
+                        $erow = $conn->prepare("SELECT id, title, content, style FROM page WHERE id=?");
+                        $erow->bind_param('i', $id);
+                        $erow->execute();
+                        $result = $erow->get_result();
+                        $row = $result->fetch_assoc();
+                        $pcontent = $row['content'];
+                        $pstyle = $row['style'];
+                    } elseif ($build === 'blog_posts') {
+                        $id = $_GET['id'];
+                        $erow = $conn->prepare("SELECT id, title, content, style FROM blog_posts WHERE id=?");
+                        $erow->bind_param('i', $id);
+                        $erow->execute();
+                        $result = $erow->get_result();
+                        $row = $result->fetch_assoc();
+                        $pcontent = $row['content'];
+                        $pstyle = $row['style'];
+                    } else {
+                        header('Location: dashboard.php');
+                        exit();
+                    }
                 }
                 ?>
 
@@ -974,12 +988,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     // function buttom
                     function viewContent() {
                         var id = '<?php echo $id; ?>';
-                        var url = 'view.php?id=' + id;
+                        var tbl = '<?php echo $build; ?>';
+                        var url = 'view.php?tbl=' + tbl + '&id=' + id;
                         window.open(url);
                     }
 
                     function saveContent() {
                         var idp = '<?php echo $id; ?>';
+                        var tbl = '<?php echo $build; ?>';
                         var content = editor.getHtml(); //get html content of document
                         var style = editor.getCss(); //get css content of document
                         // Get edit field value
@@ -988,6 +1004,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             type: 'post',
                             data: {
                                 idp: idp,
+                                tbl: tbl,
                                 content: content,
                                 style: style
                             }
@@ -997,7 +1014,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
 
                     function pageList() {
-                        var url = 'dashboard.php?cms=pagelist';
+                        <?php if($build === 'page'){
+                            $linkp =  'list_pages'; 
+                        } elseif($build === 'blog_posts'){
+                            $linkp =  'list_posts';
+                        }
+                        ?>
+                        var url = 'dashboard.php?cms=<?php echo $linkp; ?>';
                         location.replace(url);
                     }
 
@@ -1011,7 +1034,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
 
                     function newContent() {
-                        var url = 'dashboard.php?cms=addpage';
+                        <?php if($build === 'page'){
+                            $linkn =  'add_page'; 
+                        } elseif($build === 'blog_posts'){
+                            $linkn =  'add_post';
+                        }
+                        ?>
+                        var url = 'dashboard.php?cms=<?php echo $linkn; ?>';
                         location.replace(url);
                     }
 

@@ -11,9 +11,10 @@ if (file_exists($connfile)) {
     header('Location: ../installer/install.php');
     exit();
 }
-if (isset($_GET['id'])) {
+if (isset($_GET['tbl']) && isset($_GET['id'])) {
+    $tbl = $_GET['tbl'];
     $id = $_GET['id'];
-    $spg = $conn->prepare("SELECT * FROM page WHERE id=?");
+    $spg = $conn->prepare("SELECT * FROM $tbl WHERE id=?");
     $spg->bind_param("i", $id);
     $spg->execute();
     $rs = $spg->get_result();
@@ -26,12 +27,9 @@ if (isset($_GET['id'])) {
         $keyword = $row['keyword'];
         $classification = $row['classification'];
         $description = $row['description'];
-        $cont = $row['type'];
-        $menu = $row['menu'];
         $content = $row['content'];
         $style = $row['style'];
-        $prnt = $row['parent'];
-        $lng = $row['language'];
+      
         ?>
         <!doctype html>
         <html lang="en">
@@ -190,11 +188,11 @@ if (isset($_GET['id'])) {
         </html>
         <?php
     } else {
-        header('Location: dashboard.php?cms=pagelist');
+        header('Location: dashboard.php?cms=list_pages');
         exit();
     }
 } else {
-    header('Location: dashboard.php?cms=pagelist');
+    header('Location: dashboard.php?cms=list_pages');
     exit();
 }
 ?>

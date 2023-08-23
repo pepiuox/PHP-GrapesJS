@@ -44,7 +44,7 @@ if ($cms == "list_posts") {
                                 echo '</td><td>' . "\n";
                                 echo '<a href="dashboard.php?cms=edit_post&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
                                 echo '</td><td>' . "\n";
-                                echo '<a href="builder.php?build=post&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
+                                echo '<a href="builder.php?build=blog_posts&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
                                 echo '</td><td>' . "\n";
                                 echo '<a href="dashboard.php?cms=deletepost&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                 echo '</td></tr>';
