@@ -1,11 +1,11 @@
 <?php
-$p = new Protect();
+
 if (isset($_GET['w']) && !empty($_GET['w'])) {
-    $w = $p->secureStr($_GET['w']);
+    $w = protect($_GET['w']);
 }
 $id = '';
 if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = $p->secureStr($_GET['id']);
+    $id = protect($_GET['id']);
 }
 
 if ($w == "list") {
@@ -17,7 +17,7 @@ if ($w == "list") {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Category name</th><th>Description</th><th><a href="dashboard.php?cms=post_category&w=add" class="btn btn-primary" > Add new category</a></th>
+                                <th>Category name</th><th>Description</th><th><a href="dashboard.php?cms=post_category&w=add" class="btn btn-primary" > Add new category</a></th><th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,7 +27,12 @@ if ($w == "list") {
                             if ($rest->num_rows > 0) {
                                 while ($row = $rest->fetch_array()) {
                                     echo '<tr>';
-                                    echo '<td>' . $row['category_name'] . '</td><td>' . $row['description'] . '</td><td></td>';
+                                    echo '<td>' . $row['category_name'] . '</td><td>' . $row['description'] . '</td>';
+                                    echo '<td>';
+                                    echo '<a href="dashboard.php?cms=post_category&w=edit&id=' . $row['categoryId'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
+                                    echo '</td>';
+                                    echo '<td>';
+                                     echo '<a href="dashboard.php?cms=post_category&w=delete&id=' . $row['categoryId'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                     echo '</tr>';
                                 }
                             } else {
@@ -52,7 +57,7 @@ if ($w == "list") {
         if ($stmt->error) {
             echo "FAILURE! " . $stmt->error;
         } else {
-            echo "Category added";
+           echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
         }
         $stmt->close();
     }
@@ -98,7 +103,7 @@ if ($w == "list") {
             if ($stmt->error) {
                 echo "FAILURE! " . $stmt->error;
             } else {
-                echo "Updated {$stmt->affected_rows} category";
+               echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
             }
             $stmt->close();
         }
@@ -149,7 +154,7 @@ if ($w == "list") {
             if ($stmt->error) {
                 echo "FAILURE! " . $stmt->error;
             } else {
-                echo "Delete {$stmt->affected_rows} category";
+                echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
             }
             $stmt->close();
         }
