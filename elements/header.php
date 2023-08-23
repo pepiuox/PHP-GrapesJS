@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/adminlte/css/adminlte.min.css">
         <!-- overlayScrollbars -->
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-        <?php if ($fname === 'index') { ?>
+        <?php if ($fname === 'dashboard') { ?>
+            <!-- Color-Picker -->
+            <link href="<?php echo SITE_PATH; ?>assets/plugins/color-picker/css/index.min.css" rel="stylesheet" type="text/css"/>           
             <!-- Ionicons -->
             <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">        
             <!-- Tempusdominus Bootstrap 4 -->
@@ -21,7 +23,7 @@
             <!-- iCheck -->
             <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
             <!-- JQVMap -->
-            <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/jqvmap/jqvmap.min.css">        
+            <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/jqvmap/jqvmap.min.css">
             <!-- Daterange picker -->
             <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/daterangepicker/daterangepicker.css">
             <!-- summernote -->

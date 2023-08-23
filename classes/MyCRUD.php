@@ -160,7 +160,7 @@ class MyCRUD {
         $result = $this->sQueries($tble);
 
         $i = 0;
-        echo '<form method="POST" enctype="multipart/form-data">' . "\n";
+        echo '<form class="row form-horizontal" role="form" method="POST" enctype="multipart/form-data">' . "\n";
         echo '<table class="table table-bordered">' . "\n";
         echo '<thead class="bg-info">' . "\n";
         echo '<tr>' . "\n";
@@ -457,7 +457,7 @@ class MyCRUD {
         // start form
         // start table head
         $names = array();
-        echo '<form method="POST">' . "\n";
+        echo '<form class="row form-horizontal" role="form" method="POST">' . "\n";
         echo '<table class="table table-bordered table table-striped table-hover">' . "\n";
         echo '<thead class="bg-info">' . "\n";
         echo '<tr>' . "\n";
@@ -643,7 +643,7 @@ class MyCRUD {
                         // -------------
                         echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                         $sqp1 = "select * from $c_tb";
 
@@ -741,7 +741,7 @@ class MyCRUD {
                     //
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <select type="text" class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
@@ -831,7 +831,7 @@ class MyCRUD {
                     //
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
-                       <select type="text" class="form-select" id="' . $dtpe->name . '" name="' . $dtpe->name . '" >' . "\n";
+                       <select class="form-select" id="' . $dtpe->name . '" name="' . $dtpe->name . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
@@ -956,7 +956,7 @@ window.onload = function() {
         $rowcq = $resultq->num_rows;
         $r = 0;
         if ($rowcq > $r) {
-            echo '<form class="form-horizontal" role="form" id="add_' . $tble . '" method="POST" enctype="multipart/form-data">' . "\n";
+            echo '<form class="row form-horizontal" role="form" id="edit_' . $tble . '" method="POST" enctype="multipart/form-data">' . "\n";
             while ($rqu = $resultq->fetch_array()) {
 
                 $qresult = $this->wQueries("SELECT * FROM $tble WHERE $ncol = '$id' ");
@@ -981,13 +981,13 @@ window.onload = function() {
                         echo '
 			<div class="form-group">
         <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-        <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >';
+        <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >';
 
                         $qres = $this->sQueries($c_tb);
 
                         while ($rqj = $qres->fetch_array()) {
                             if ($cdta == $rqj[$c_id]) {
-                                echo '<option value="' . $rqj[$c_id] . '" selected="selected">' . $rqj[$c_vl] . '</option>';
+                                echo '<option value="' . $rqj[$c_id] . '" selected>' . $rqj[$c_vl] . '</option>';
                             } else {
                                 echo '<option value="' . $rqj[$c_id] . '">' . $rqj[$c_vl] . '</option>';
                             }
@@ -1074,7 +1074,7 @@ window.onload = function() {
                     //
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <select type="text" class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
@@ -1095,7 +1095,7 @@ window.onload = function() {
     </div>' . "\n";
             echo '</form>' . "\n";
         } else {
-            echo '<form role="form" id="add_' . $tble . '" method="POST">' . "\n";
+            echo '<form role="form" id="edit_' . $tble . '" method="POST">' . "\n";
             foreach ($columns as $finfo) {
 
                 $qresult = $this->wQueries("select * from $tble where $ncol = '$id' ");
@@ -1178,7 +1178,7 @@ window.onload = function() {
                     //
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <select type="text" class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+                       <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     $options = $enum_list;
                     foreach ($options as $option) {
@@ -1237,7 +1237,7 @@ window.onload = function() {
     public function deleteData($tble, $id) {
         $ncol = $this->getID($tble);
         $qresult = $this->wQueries("select * from $tble where $ncol = '$id' ");
-        echo '<form role="form" id="delete_' . $tble . '" method="POST">' . "\n";
+        echo '<form class="row form-horizontal" role="form" id="delete_' . $tble . '" method="POST">' . "\n";
         $row = $qresult->fetch_assoc();
         while ($finfo = $qresult->fetch_field()) {
             $cdta = $row[$finfo->name];
@@ -1260,7 +1260,7 @@ window.onload = function() {
     // adduery
     public function addQuery($tble) {
         $qresult = $this->sQueries($tble);
-        echo '<form method="post" role="form" id="query_' . $tble . '">' . "\n";
+        echo '<form class="row form-horizontal" role="form" method="post" id="query_' . $tble . '">' . "\n";
         while ($finfo = $qresult->fetch_field()) {
             if ($finfo->name === $this->getID($tble)) {
                 continue;
@@ -1382,7 +1382,7 @@ window.onload = function() {
         } else {
             $i = 0;
             $ttle = str_replace("_", " ", $tble);
-            echo '<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+            echo '<form class="row form-horizontal" role="form" method="POST" enctype="multipart/form-data">
     <fieldset>
 
         <!-- Form Name -->

@@ -14,8 +14,7 @@
     $(this).addClass("active");
     });
     });
-    });
-</script>
+    });</script>
 <script>
     $(document).ready(function(){
     $(".nav-tabs a").click(function(){
@@ -23,7 +22,7 @@
     });
     });
 </script>
-<?php if ($fname === 'slider') { ?>
+    <?php if ($fname === 'slider') { ?>
     <!-- Ion Slider -->
     <script src="<?php echo SITE_PATH; ?>assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
     <!-- Bootstrap slider -->

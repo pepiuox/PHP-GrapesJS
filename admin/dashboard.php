@@ -19,6 +19,11 @@ if (isset($_GET['cms']) && !empty($_GET['cms'])) {
 } else {
     $cms = '';
 }
+if (isset($_GET['user']) && !empty($_GET['user'])) {
+    $user = $_GET['user'];
+} else {
+    $user = '';
+}
 
 $vpages = '';
 ?>
@@ -70,7 +75,17 @@ $vpages = '';
                             <div class="col-sm-6">
                                 <?php
                                 $w = '';
-                                if ($cms == 'list_pages') {
+                                if ($cms == 'list_posts') {
+                                    $vpages = 'List Posts';
+                                } elseif ($cms == 'add_post') {
+                                    $vpages = 'Add Post';
+                                } elseif ($cms == 'edit_post') {
+                                    $vpages = 'Edit Post';
+                                } elseif ($cms == 'delete_post') {
+                                    $vpages = 'Delete Post';
+                                } elseif ($cms == 'post_category') {
+                                    $vpages = 'Post Categories';
+                                } elseif ($cms == 'list_pages') {
                                     $vpages = 'Page List';
                                 } elseif ($cms == 'add_page') {
                                     $vpages = 'Add Page';
@@ -81,6 +96,8 @@ $vpages = '';
                                 } elseif ($cms == 'siteconf') {
                                     $vpages = 'Site Definitions';
                                 } elseif ($cms == 'themes') {
+                                    $vpages = 'Themes';
+                                } elseif ($cms == 'theme_template') {
                                     $vpages = 'Theme Template';
                                 } elseif ($cms == 'menu') {
                                     $vpages = 'Menu Template';
@@ -118,7 +135,17 @@ $vpages = '';
                     <?php include '../elements/alerts.php'; ?>
                     <!-- Main row -->
                     <?php
-                    if ($cms == 'list_pages') {
+                    if ($cms == 'list_posts') {
+                        include 'views/blog_posts.php';
+                    } elseif ($cms == 'add_post') {
+                        include 'views/blog_posts.php';
+                    } elseif ($cms == 'edit_post') {
+                        include 'views/blog_posts.php';
+                    } elseif ($cms == 'delete_post') {
+                        include 'views/blog_posts.php';
+                    } elseif ($cms == 'post_category') {
+                        include 'views/category.php';
+                    } elseif ($cms == 'list_pages') {
                         include 'views/pages.php';
                     } elseif ($cms == 'add_page') {
                         include 'views/pages.php';
@@ -130,6 +157,8 @@ $vpages = '';
                         include 'views/settings.php';
                     } elseif ($cms == 'themes') {
                         include 'views/themes.php';
+                    } elseif ($cms == 'theme_template') {
+                        include 'views/theme_template.php';
                     } elseif ($cms == 'menu') {
                         include 'views/menu.php';
                     } elseif ($cms == 'plugins') {

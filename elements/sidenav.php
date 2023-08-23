@@ -36,12 +36,24 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=themes" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=themes&w=list" class="nav-link <?php
                         if ($cms === 'themes') {
                             echo 'active';
                         }
+                        ?>">                            
+                            <i class="nav-icon fas fa-solid fa-draw-polygon"></i>
+                            <p>
+                                Themes                  
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=theme_template" class="nav-link <?php
+                        if ($cms === 'theme_tenplate') {
+                            echo 'active';
+                        }
                         ?>">
-                            <i class="nav-icon fas fa-bars"></i>
+                            <i class="nav-icon fas fa-solid fa-draw-polygon"></i>
                             <p>
                                 Theme template                  
                             </p>
@@ -105,7 +117,7 @@
             </li>
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
-                    <i class="fas fa-solid fa-server nav-icon"></i>
+                    <i class="fas fa-solid fa-file nav-icon"></i>
                     <p>
                         Pages       
                         <i class="right fas fa-angle-left"></i>
@@ -159,7 +171,6 @@
                     ';
                             }
                             ?>
-
                         </ul>
                     </li>
 
@@ -175,6 +186,92 @@
                             </p>
                         </a>
                     </li>  
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-solid fa-paste nav-icon"></i>
+                    <p>
+                        Posts       
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=post_category&w=list" class="nav-link <?php
+                        if ($cms === 'post_category') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-list-ul"></i>
+                            <p>
+                                Post Category                   
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=list_posts" class="nav-link <?php
+                        if ($cms === 'list_posts') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-list-alt"></i>
+                            <p>
+                                List Posts              
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                View Posts
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <?php
+                            $pages = $conn->query("SELECT * FROM blog_posts");
+                            while ($page = $pages->fetch_array()) {
+                                $plink = $page['link'];
+                                $ptitle = $page['title'];
+                                $category = $page['category_id'];
+                                echo'<li class="nav-item">';
+                                if ($category > 0) {
+                                    $categ = $conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON categoryID=category_id where category_id=$category");
+                                    $pcatg = $categ->fetch_assoc();
+                                    echo '<a href="' . SITE_PATH . $pcatg['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
+                                } else {
+                                    echo '<a href="' . SITE_PATH . $plink . '" target="_blank" class="nav-link ';
+                                }
+
+                                if ($fname === $plink) {
+                                    echo 'active';
+                                }
+                                echo '">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>' . $ptitle . '</p>
+                        </a>
+                    </li>
+                    ';
+                            }
+                            ?>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_post" class="nav-link <?php
+                        if ($cms === 'add_post') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>
+                                Add post                   
+                            </p>
+                        </a>
+                    </li>                   
                 </ul>
             </li>
             <li class="nav-item has-treeview">

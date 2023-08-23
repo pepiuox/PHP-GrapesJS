@@ -1,17 +1,19 @@
 <?php
 
 include_once '../config/dbconnection.php';
-if (isset($_POST['nome']) && $_POST['nome'] != "") {
-    $svlue = $_POST["nome"];
+if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
+    $tbname = $_POST["tbname"];
+
+    echo '<p>' . $tbname . '</p>';
 
     function selrQuery($tble) {
-        global $link;
-        if (!$link) {
+        global $conn;
+        if (!$conn) {
             die('Error: Could not connect: ' . mysqli_error());
         }
 
         $sql = "SELECT * FROM " . $tble;
-        $qresult = $link->query($sql);
+        $qresult = $conn->query($sql);
 
         echo '<div class="form-group">
               <label class="col-md-12 control-label" for="column_id">Select a value to relate</label>
@@ -28,13 +30,13 @@ if (isset($_POST['nome']) && $_POST['nome'] != "") {
     }
 
     function selvQuery($tble) {
-        global $link;
-        if (!$link) {
+        global $conn;
+        if (!$conn) {
             die('Error: Could not connect: ' . mysqli_error());
         }
 
         $sql = "SELECT * FROM " . $tble;
-        $qresult = $link->query($sql);
+        $qresult = $conn->query($sql);
 
         echo '<div class="form-group">
   <label class="col-md-12 control-label" for="column_value">Select a value for show</label>
@@ -50,8 +52,8 @@ if (isset($_POST['nome']) && $_POST['nome'] != "") {
         return;
     }
 
-    echo selrQuery($svlue);
-    echo selvQuery($svlue);
+    echo selrQuery($tbname);
+    echo selvQuery($tbname);
 }
 
 

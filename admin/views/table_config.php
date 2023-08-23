@@ -23,7 +23,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $all_table_value = implode(",", $_POST['tables']);
         if ($total_found > 0) {
             // update
-            $upd_qry = "UPDATE table_config SET table_name='" . $all_table_value . "'";
+            $upd_qry = "UPDATE table_config SET table_name='" . $all_table_value . "' WHERE tcon_Id='1'";
             $restup = $conn->query($upd_qry);
             if (!$restup) {
                 $_SESSION['ErrorMessage'] = 'There was an error updating.';

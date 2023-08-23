@@ -106,6 +106,9 @@ if ($w == "select") {
     <?php
 } elseif ($w == "edit") {
     $tble = $p->secureStr($_GET['tbl']);
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+    }
     ?>
     <div class="container">
         <div class="row">
@@ -119,10 +122,6 @@ if ($w == "select") {
         </div>
         <div class="col-md-12">
             <?php
-            if (isset($_GET["id"])) {
-                $id = $_GET["id"];
-            }
-
             $c->updateScript($tble);
             include 'updatetmp.php';
             $c->inputQEdit($tble, $id);
@@ -133,6 +132,9 @@ if ($w == "select") {
 } elseif ($w == "delete") {
     $tble = $p->secureStr($_GET['tbl']);
     $ncol = $c->getID($tble);
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+    }
     ?>
     <div class="container">
         <div class="row">
@@ -151,10 +153,6 @@ if ($w == "select") {
         <div class="row">
             <div class="col-md-12">
                 <?php
-                if (isset($_GET["id"])) {
-                    $id = $_GET["id"];
-                }
-
                 if (isset($_POST["deleterow"])) {
 
                     if ($c->wQueries("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {

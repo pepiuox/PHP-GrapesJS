@@ -173,7 +173,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             } else {
                 $_SESSION['ErrorMessage'] = "Failed: The page has not been created";
             }
-            echo '<script> window.location.replace("builder.php?id=' . $last_id . '"); </script>';
+            echo '<script> window.location.replace("builder.php?build=page&id=' . $last_id . '"); </script>';
         }
         ?>
         <div class="container">                   
