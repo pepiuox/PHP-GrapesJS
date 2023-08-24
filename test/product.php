@@ -1,5 +1,4 @@
 <?php
-
 $dbprdc = new Database();
 $dbprd = $dbprdc->PdoConnection();
 
@@ -287,27 +286,27 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                 <?php if (!empty($pdes)) {
                                                     ?>
                                                     <div class="mx-2 p-2" style="-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; text-align:center; <?php
-                                                    if ($pdes === 5) {
-                                                        echo 'background: #ff0000; color: #fff;';
-                                                    } else if ($pdes === 10) {
-                                                        echo 'background: #ff5300; color: #fff;';
-                                                    } else if ($pdes === 15) {
-                                                        echo 'background: #ff9400; color: #fff;';
-                                                    } else if ($pdes === 20) {
-                                                        echo 'background: #ffd300; color: #666;';
-                                                    } else if ($pdes === 25) {
-                                                        echo 'background: #ffff00; color: #666;';
-                                                    } else if ($pdes === 30) {
-                                                        echo 'background: #d0f600; color: #666;';
-                                                    } else if ($pdes === 35) {
-                                                        echo 'background: #92e900; color: #666;';
-                                                    } else if ($pdes === 40) {
-                                                        echo 'background: #51dc00; color: #fff;';
-                                                    } else if ($pdes === 45) {
-                                                        echo 'background: #00cc00; color: #fff;';
-                                                    } else if ($pdes === 50) {
-                                                        echo 'background: #00b200; color: #fff;';
-                                                    }
+                                        if ($pdes === 5) {
+                                            echo 'background: #ff0000; color: #fff;';
+                                        } else if ($pdes === 10) {
+                                            echo 'background: #ff5300; color: #fff;';
+                                        } else if ($pdes === 15) {
+                                            echo 'background: #ff9400; color: #fff;';
+                                        } else if ($pdes === 20) {
+                                            echo 'background: #ffd300; color: #666;';
+                                        } else if ($pdes === 25) {
+                                            echo 'background: #ffff00; color: #666;';
+                                        } else if ($pdes === 30) {
+                                            echo 'background: #d0f600; color: #666;';
+                                        } else if ($pdes === 35) {
+                                            echo 'background: #92e900; color: #666;';
+                                        } else if ($pdes === 40) {
+                                            echo 'background: #51dc00; color: #fff;';
+                                        } else if ($pdes === 45) {
+                                            echo 'background: #00cc00; color: #fff;';
+                                        } else if ($pdes === 50) {
+                                            echo 'background: #00b200; color: #fff;';
+                                        }
                                                     ?>">
                                                         <p><span style="font-size: 180%;">con <b><?= $prow['descuento'] ?>%</b> de descuento</span></p>
                                                         <p><span style="font-size: 130%;"> Antes S/. </span> <span style="font-size: 130%; text-decoration: line-through;"><?= $prec; ?> </span> &nbsp;&nbsp;  <span style="font-size: 120%"> ahorras S/. <?= roundDecimal($tdes); ?></span></p>
@@ -476,82 +475,81 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 </div>
             </section>
             <script>
-                      var slideIndex = 1;
-                      showSlides(slideIndex);
+                var slideIndex = 1;
+                showSlides(slideIndex);
 
-                      function plusSlides(n) {
-                          showSlides(slideIndex += n);
-                      }
+                function plusSlides(n) {
+                    showSlides(slideIndex += n);
+                }
 
-                      function currentSlide(n) {
-                          showSlides(slideIndex = n);
-                      }
+                function currentSlide(n) {
+                    showSlides(slideIndex = n);
+                }
 
-                      function showSlides(n) {
-                          var i;
-                          var slides = document.getElementsByClassName("mySlides");
-                          var dots = document.getElementsByClassName("demo");
+                function showSlides(n) {
+                    var i;
+                    var slides = document.getElementsByClassName("mySlides");
+                    var dots = document.getElementsByClassName("demo");
 
-                          if (n > slides.length) {
-                              slideIndex = 1;
-                          }
-                          if (n < 1) {
-                              slideIndex = slides.length;
-                          }
-                          for (i = 0; i < slides.length; i++) {
-                              slides[i].style.display = "none";
-                          }
-                          for (i = 0; i < dots.length; i++) {
-                              dots[i].className = dots[i].className.replace(" active", "");
-                          }
-                          slides[slideIndex - 1].style.display = "block";
-                          dots[slideIndex - 1].className += " active";
+                    if (n > slides.length) {
+                        slideIndex = 1;
+                    }
+                    if (n < 1) {
+                        slideIndex = slides.length;
+                    }
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
+                    }
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    slides[slideIndex - 1].style.display = "block";
+                    dots[slideIndex - 1].className += " active";
 
-                      }
+                }
             </script>
             <script>
                 function increment_quantity(id) {
-            var inputQuantityElement = $("#input-quantity-"+id);
-            var newQuantity = parseInt($(inputQuantityElement).val())+1;
-            save_to_db(code, newQuantity);
-            }
+                    var inputQuantityElement = $("#input-quantity-" + id);
+                    var newQuantity = parseInt($(inputQuantityElement).val()) + 1;
+                    save_to_db(code, newQuantity);
+                }
 
-            function decrement_quantity(code) {
-            var inputQuantityElement = $("#input-quantity-"+id);
-            if($(inputQuantityElement).val() > 1)
-            {
-            var newQuantity = parseInt($(inputQuantityElement).val()) - 1;
-            save_to_db(code, newQuantity);
-            }
-            }
+                function decrement_quantity(code) {
+                    var inputQuantityElement = $("#input-quantity-" + id);
+                    if ($(inputQuantityElement).val() > 1)
+                    {
+                        var newQuantity = parseInt($(inputQuantityElement).val()) - 1;
+                        save_to_db(code, newQuantity);
+                    }
+                }
             </script>
             <script>
                 $('#adds').click(function add() {
-            var $prods = $("#cantidad");
-            var a = $prods.val();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-            a++;
-            $("#subs").prop("disabled", !a);
-            $prods.val(a);
-            });
-            $("#subs").prop("disabled", !$("#cantidad").val());
+                    var $prods = $("#cantidad");
+                    var a = $prods.val();
 
-            $('#subs').click(function subst() {
-            var $prods = $("#cantidad");
-            var b = $prods.val();
-            if (b >= 1) {
-            b--;
-            $prods.val(b);
-            }
-            else {
-            $("#subs").prop("disabled", true);
-            }
-            });
+                    a++;
+                    $("#subs").prop("disabled", !a);
+                    $prods.val(a);
+                });
+                $("#subs").prop("disabled", !$("#cantidad").val());
+
+                $('#subs').click(function subst() {
+                    var $prods = $("#cantidad");
+                    var b = $prods.val();
+                    if (b >= 1) {
+                        b--;
+                        $prods.val(b);
+                    } else {
+                        $("#subs").prop("disabled", true);
+                    }
+                });
                 $('input').arrowIncrement({
-            formatFn: function (value) {
-            return '$' + value.toFixed(2);
-            }
-            });
+                    formatFn: function (value) {
+                        return '$' + value.toFixed(2);
+                    }
+                });
             </script>
 
             <?php

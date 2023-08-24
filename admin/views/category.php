@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = protect($_GET['w']);
 }
@@ -13,11 +12,11 @@ if ($w == "list") {
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" class="form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
+                <form method="post" class="row form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Category name</th><th>Description</th><th><a href="dashboard.php?cms=post_category&w=add" class="btn btn-primary" > Add new category</a></th><th></th>
+                                <th>Category name</th><th>Description</th><th><a href="dashboard.php?cms=post_category&w=add" class="btn btn-primary" > Add new category</a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,10 +28,8 @@ if ($w == "list") {
                                     echo '<tr>';
                                     echo '<td>' . $row['category_name'] . '</td><td>' . $row['description'] . '</td>';
                                     echo '<td>';
-                                    echo '<a href="dashboard.php?cms=post_category&w=edit&id=' . $row['categoryId'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
-                                    echo '</td>';
-                                    echo '<td>';
-                                     echo '<a href="dashboard.php?cms=post_category&w=delete&id=' . $row['categoryId'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+                                    echo '<a class="btn btn-success" href="dashboard.php?cms=post_category&w=edit&id=' . $row['categoryId'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a> ';
+                                    echo '<a class="btn btn-danger" href="dashboard.php?cms=post_category&w=delete&id=' . $row['categoryId'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                     echo '</tr>';
                                 }
                             } else {
@@ -57,7 +54,7 @@ if ($w == "list") {
         if ($stmt->error) {
             echo "FAILURE! " . $stmt->error;
         } else {
-           echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
+            echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
         }
         $stmt->close();
     }
@@ -68,11 +65,11 @@ if ($w == "list") {
                 <a class="btn btn-secondary" href="dashboard.php?cms=post_category&w=list">Back to List</a>
             </div>
             <div class="col-md-9">
-                <h2 class="text-primary">Add Data </h2>
+                <h2 class="text-primary">Add Category </h2>
             </div>
             <div class="col-md-12">
 
-                <form method="post" class="form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
+                <form method="post" class="row form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="category_name">Category name:</label>
                         <input type="text" class="form-control" id="category_name" name="category_name">
@@ -103,7 +100,7 @@ if ($w == "list") {
             if ($stmt->error) {
                 echo "FAILURE! " . $stmt->error;
             } else {
-               echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
+                echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
             }
             $stmt->close();
         }
@@ -120,11 +117,11 @@ if ($w == "list") {
                     <a class="btn btn-secondary" href="dashboard.php?cms=post_category&w=list">Back to List</a>
                 </div>
                 <div class="col-md-9">
-                    <h2 class="text-primary">Add Data </h2>
+                    <h2 class="text-primary">Edit Category </h2>
                 </div>
                 <div class="col-md-12">
 
-                    <form method="post" class="form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
+                    <form method="post" class="row form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="category_name">Category name:</label>
                             <input type="text" class="form-control" id="category_name" name="category_name" value="<?php echo $row['category_name']; ?>">
@@ -148,7 +145,7 @@ if ($w == "list") {
         $id = $_GET['id'];
         if (isset($_POST['delete'])) {
             $sql = "DELETE FROM categories WHERE categoryId = ?";
-             $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare($sql);
             $stmt->bind_param('i', $id);
             $stmt->execute();
             if ($stmt->error) {

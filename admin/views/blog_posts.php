@@ -166,11 +166,9 @@ if ($cms == "list_posts") {
                                     <option>Select a Category</option>
                                     <?php
                                     while ($ctg = $catg->fetch_array()) {
-                                        echo '<option value="1">Publish</option>';
+                                        echo '<option value="'.$ctg['categoryId'].'">'.$ctg['category_name'].'</option>';
                                     }
-                                    ?>
-                                    <option value="1">Publish</option>
-                                    <option value="0">Unpublished</option>
+                                    ?>                                   
                                 </select>
                                 <?php
                             } else {
