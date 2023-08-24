@@ -14,14 +14,15 @@ if ($w == "list") {
                 <thead>
                     <tr>
                         <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
-                        <th>Page</th>
+                        
                         <th>Theme name</th>
+                        <th>Theme</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $result = $conn->query("SELECT * FROM themes LEFT JOIN page ON themes.id_page = page.id");
+                    $result = $conn->query("SELECT * FROM themes");
                     $numr = $result->num_rows;
                     if ($numr > 0) {
                         while ($prow = $result->fetch_array()) {
@@ -30,9 +31,8 @@ if ($w == "list") {
                             <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="dashboard.php?cms=theme_template&amp;w=list"><i class="fas fa-edit"></i></a>
                             <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="dashboard.php?cms=themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
                         </td>
-                        <td>' . $prow['title'] . '</td>
                         <td>' . $prow['theme_name'] . '</td>
-                        
+                        <td>' . $prow['theme'] . '</td>
                         </tr>';
                         }
                     }
