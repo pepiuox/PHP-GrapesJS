@@ -14,10 +14,8 @@ if ($w == "list") {
                 <thead>
                     <tr>
                         <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
-                        
                         <th>Theme name</th>
                         <th>Theme</th>
-
                     </tr>
                 </thead>
                 <tbody>
