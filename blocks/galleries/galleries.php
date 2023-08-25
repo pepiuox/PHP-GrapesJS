@@ -14,7 +14,7 @@ $num_ct = count($rowts);
 
 if ($num_ct > 0) {
     ?>
-    <div class="col_full">
+    <div class="galleries">
         <div class="galleryShow">  
             <div class="row">
                 <div class="col-md-11">

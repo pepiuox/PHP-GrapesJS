@@ -4,9 +4,9 @@ $connfile = 'config/dbconnection.php';
 if (file_exists($connfile)) {
     $page = $_SERVER['PHP_SELF'];
 
-    include 'config/dbconnection.php';
-    require 'classes/UserClass.php';
-    require 'classes/GetVisitor.php';
+    require_once 'config/dbconnection.php';
+    require_once 'classes/UserClass.php';
+    require_once 'classes/GetVisitor.php';
 
     $login = new UserClass();
     $timestamp = $currentDate->format('Y-m-d H:i:s');
@@ -81,7 +81,7 @@ if (file_exists($connfile)) {
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
                 <?php
-                include 'elements/metalink.php';
+                require_once 'elements/metalink.php';
 
                 if (!empty($description)) {
                     ?>
@@ -102,7 +102,7 @@ if (file_exists($connfile)) {
                     <meta name="classification" content="<?php echo $classification; ?>" />
                 <?php } else { ?>
                     <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
-        <?php } ?>
+                <?php } ?>
                 <title><?php echo $title; ?></title>
                 <link href="<?php echo SITE_PATH; ?>assets/css/theme.css" rel="stylesheet" type="text/css" />
                 <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -232,26 +232,17 @@ if (file_exists($connfile)) {
             <body>
                 <div id="wrapper"> 
                     <?php
-                    require 'elements/menu.php';
+                    require_once 'elements/menu.php';
                     ?>
-                    <div class='container-fluid'>
+                    <div class='container-fluid' id="content-page">
                         <?php
-                        echo decodeContent($content) . "\n";
+                        $string = decodeContent($content);
+                        $string = str_replace("<body>", "", $string);
+                        $string = str_replace("</body>", "", $string);
+                        echo $string . "\n";
                         ?>
                     </div>
-                </div>
-                <script>
-                    $(document).ready(function () {
-                        $('#wrapper body').remove();
-                    });
-                    //Start
-                    // A simple script was added that removes the ids inside the wrapper added by Grapesjs, if you don't want this script you can remove.
-                    setTimeout(function () {
-                        $('#wrapper').find('*').removeAttr("id");
-
-                    }, 0);
-                    //End
-                </script>
+                </div>              
             </body>
         </html>
         <?php
@@ -263,7 +254,7 @@ if (file_exists($connfile)) {
                 <meta charset="utf-8"/>
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>   
-        <?php include 'elements/metalink.php'; ?>     
+                <?php require_once 'elements/metalink.php'; ?>     
                 <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />           
                 <meta name="keywords" content="<?php echo SITE_KEYWORDS; ?>" />           
                 <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
@@ -278,19 +269,18 @@ if (file_exists($connfile)) {
             <body>
                 <div class="wrapper"> 
                     <?php
-                    require 'elements/navbar.php';
+                    require_once 'elements/navbar.php';
                     ?>
                     <div class='container'>
                         <div class="row">
                             <div  class="col-12 text-center">
-        <?php echo $initweb . ' - ' . SITE_PATH; ?>
+                                <?php echo $initweb . ' - ' . SITE_PATH; ?>
                                 <h3> Start creating your first page of content </h3>
                                 <a href="signin/login.php">Login</a> - <a href="admin/dashboard.php">Dashboard</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </body>
         </html>
         <?php
@@ -301,8 +291,3 @@ if (file_exists($connfile)) {
     exit();
 }
 ?>
-
-
-
-
-

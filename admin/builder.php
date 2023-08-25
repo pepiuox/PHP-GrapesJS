@@ -23,7 +23,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $build = $_GET['build'];
     }
     if (isset($_GET['id']) && !empty($_GET['id'])) {
-
+        $id = $_GET['id'];
         $targetDir = "../uploads/";
 
         function Get_ImagesToFolder($targetDir) {
@@ -73,7 +73,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <link rel="stylesheet" href="../assets/plugins/grapesjs/css/demos.css">
                 <link rel="stylesheet" href="../assets/plugins/grapesjs/css/grapick.min.css">
                 <link href="../assets/css/editor.css" rel="stylesheet">
-                <script src="../assets/plugins/jquery/jquery.min-3.3.1.js"></script>
+                <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
                 <script src="../assets/plugins/grapesjs/js/toastr.min.js"></script>
                 <script src="../assets/plugins/grapesjs/js/grapes.min.js"></script>
                 <script src="../assets/plugins/grapesjs/js/grapesjs-preset-webpage.js"></script>
@@ -95,8 +95,6 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <script src="../assets/plugins/grapesjs/js/grapesjs-script-editor.min.js"></script>
                 <script src="../assets/plugins/grapesjs/js/grapesjs-project-manager.min.js"></script>
                 <script src="../assets/plugins/grapesjs/js/grapesjs-component-code-editor.min.js"></script>
-
-
                 <script src="../assets/plugins/ckeditor/ckeditor.js"></script>
                 <script>
                     jQuery.htmlPrefilter = function (html) {
@@ -108,29 +106,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     });
                 </script>
                 <?php
-                if (isset($_GET['build'])) {
-                    if ($build === 'page') {
-                        $id = $_GET['id'];
-                        $erow = $conn->prepare("SELECT id, title, content, style FROM page WHERE id=?");
-                        $erow->bind_param('i', $id);
-                        $erow->execute();
-                        $result = $erow->get_result();
-                        $row = $result->fetch_assoc();
-                        $pcontent = $row['content'];
-                        $pstyle = $row['style'];
-                    } elseif ($build === 'blog_posts') {
-                        $id = $_GET['id'];
-                        $erow = $conn->prepare("SELECT id, title, content, style FROM blog_posts WHERE id=?");
-                        $erow->bind_param('i', $id);
-                        $erow->execute();
-                        $result = $erow->get_result();
-                        $row = $result->fetch_assoc();
-                        $pcontent = $row['content'];
-                        $pstyle = $row['style'];
-                    } else {
-                        header('Location: dashboard.php');
-                        exit();
-                    }
+                if (isset($build) && !empty($build)) {
+
+                    $erow = $conn->prepare("SELECT id, title, content, style FROM $build WHERE id=?");
+                    $erow->bind_param('i', $id);
+                    $erow->execute();
+                    $result = $erow->get_result();
+                    $row = $result->fetch_assoc();
+                    $pcontent = $row['content'];
+                    $pstyle = $row['style'];
+                } else {
+                    header('Location: dashboard.php');
+                    exit();
                 }
                 ?>
 
@@ -603,7 +590,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                             'Text row one',
                                             'Text row two',
                                             'Text row three'
-                                        ],
+                                        ]
                                     }
                                 }
                             },
@@ -685,7 +672,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             }
                         }
                     });
-
+                  
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
@@ -694,68 +681,68 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     // Update canvas-clear command
                     cmdm.add('canvas-clear', function () {
                         if (confirm('Are you sure to clean the canvas?')) {
-                            editor.runCommand('core:canvas-clear')
+                            editor.runCommand('core:canvas-clear');
                             setTimeout(function () {
                                 localStorage.clear();
                             }, 0);
                         }
                     });
+                    
                     cmdm.add('set-device-desktop', {
                         run: function (ed) {
                             ed.setDevice('Desktop');
                         },
                         stop: function () {}
                     });
+                    
                     cmdm.add('set-device-tabvar ', {
                         run: function (ed) {
                             ed.setDevice('Tabvar ');
                         },
                         stop: function () {}
                     });
+                    
                     cmdm.add('set-device-mobile', {
                         run: function (ed) {
                             ed.setDevice('Mobile portrait');
                         },
                         stop: function () {}
                     });
-                    // Store DB
+                    
                     cmdm.add('dashboard', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             dashboardPage();
                         }
                     });
-                    cmdm.add('save-page', {
+                    cmdm.add('save-changes', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             saveContent();
                         }
                     });
-                    cmdm.add('view-page', {
-                        run: function (em, sender) {
-                            sender.set('active', true);
-                            viewContent();
-                        }
-                    });
-                    cmdm.add('page-list', {
+                    
+                    cmdm.add('view-list', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             pageList();
                         }
                     });
-                    cmdm.add('refresh-page', {
+                    
+                    cmdm.add('refresh-content', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             refreshContent();
                         }
                     });
-                    cmdm.add('new-page', {
+                    
+                    cmdm.add('new-content', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             newContent();
                         }
                     });
-                    cmdm.add('view-page', {
+                    cmdm.add('view-content', {
                         run: function (em, sender) {
                             sender.set('active', true); //get full HTML structure after design
                             viewContent();
@@ -806,14 +793,16 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             'data-tooltip-pos': 'bottom'
                         }
                     });
+                    
                     pn.addButton('options', {
                         id: 'open-templates',
                         className: 'fa fa-folder-o',
                         attributes: {
                             title: 'Open projects and templates'
                         },
-                        command: 'open-templates', //Open modal 
+                        command: 'open-templates' //Open modal 
                     });
+                    
                     pn.addButton('views', {
                         id: 'open-pages',
                         className: 'fa fa-file-o',
@@ -843,48 +832,53 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
+                        
                     pn.addButton('options', [{
-                            id: 'save-page',
+                            id: 'save-changes',
                             className: 'fa fa-floppy-o',
-                            command: 'save-page',
+                            command: 'save-changes',
                             attributes: {
-                                title: 'Save page',
+                                title: 'Save changes',
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
+                        
                     pn.addButton('options', [{
-                            id: 'page-list',
+                            id: 'view-list',
                             className: 'fa fa-list',
-                            command: 'page-list',
+                            command: 'view-list',
                             attributes: {
-                                title: 'Page list',
+                                title: 'Content list',
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
+                        
                     pn.addButton('options', [{
-                            id: 'view-page',
+                            id: 'view-content',
                             className: 'fa fa-file-text-o',
-                            command: 'view-page',
+                            command: 'view-content',
                             attributes: {
-                                title: 'View Page',
+                                title: 'View content',
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
+                        
                     pn.addButton('options', [{
-                            id: 'refresh-page',
+                            id: 'refresh-content',
                             className: 'fa fa-refresh',
-                            command: 'refresh-page',
+                            command: 'refresh-content',
                             attributes: {
-                                title: 'Refresh page',
+                                title: 'Refresh content',
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
+                        
                     pn.addButton('options', [{
-                            id: 'new-page',
+                            id: 'new-content',
                             className: 'fa fa-file-o',
-                            command: 'new-page',
+                            command: 'new-content',
                             attributes: {
-                                title: 'New page',
+                                title: 'New content',
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
@@ -897,6 +891,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         showDuration: 250,
                         hideDuration: 150
                     };
+                    
                     console.warn = function (msg) {
                         if (msg.indexOf('[undefined]') == -1) {
                             toastr.warning(msg);
@@ -933,11 +928,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     editor.on('storage:load', function (e) {
                         console.log('Loaded ', e)
                     });
+                    
                     editor.on('storage:store', function (e) {
                         console.log('Stored ', e)
                     });
 
-
+                    //editor.getHtml();
                     // Do stuff on load
                     editor.on('load', function () {
                         var $ = grapesjs.$;
@@ -1014,12 +1010,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
 
                     function pageList() {
-                        <?php if($build === 'page'){
-                            $linkp =  'list_pages'; 
-                        } elseif($build === 'blog_posts'){
-                            $linkp =  'list_posts';
-                        }
-                        ?>
+        <?php
+        if ($build === 'page') {
+            $linkp = 'list_pages';
+        } elseif ($build === 'blog_posts') {
+            $linkp = 'list_posts';
+        }
+        ?>
                         var url = 'dashboard.php?cms=<?php echo $linkp; ?>';
                         location.replace(url);
                     }
@@ -1034,12 +1031,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
 
                     function newContent() {
-                        <?php if($build === 'page'){
-                            $linkn =  'add_page'; 
-                        } elseif($build === 'blog_posts'){
-                            $linkn =  'add_post';
-                        }
-                        ?>
+        <?php
+        if ($build === 'page') {
+            $linkn = 'add_page';
+        } elseif ($build === 'blog_posts') {
+            $linkn = 'add_post';
+        }
+        ?>
                         var url = 'dashboard.php?cms=<?php echo $linkn; ?>';
                         location.replace(url);
                     }
@@ -1182,7 +1180,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             width: $el.width(),
                             height: $el.height()
                         }
-                    }
+                    };
                     doResize(null, starterData);
                 </script>
             </body>

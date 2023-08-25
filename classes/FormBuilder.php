@@ -2,18 +2,160 @@
 
 class FormBuilder {
 
-    private $connection;
-    public $inputName;
-    public $inputType;
-    public $formAttribute;
+    private $elements;
 
-    public function __construct() {
-        
+    public function addForm($formName, $formAttribute, $formAction) {
+        $this->Form($formName, $formAttribute, $formAction);
     }
 
-    
+    public function Form($formName, $formAttribute, $formAction) {
+        echo '<form ' . $this->FormAttributes($formAttribute, $formAction) . ' ' . $this->FormName($formName) . '>' . "\n";
+        echo '</form>' . "\n";
+    }
 
-    public function FormElements($element) {
+    public function FormName($formName) {
+        return 'name="' . $formName . '"';
+    }
+
+    public function FormAttributes($formAttribute, $formAction = null) {
+
+        if (!empty($formAction)) {
+            return 'action="' . $formAction . '" method="' . $formAttribute . '"';
+        } else {
+            return ' method="' . $formAttribute . '"';
+        }
+    }
+
+    public function selectElement($array) {
+        $this->elements = $array;
+        $element = $this->elements['form_element'];
+        $form = $this->elements['elements'][$element];
+        $label = $this->elements['element_label'];
+
+        $name = $form['name'];
+        $id = $form['id'];
+        $class = $form['class'];
+
+        if (!empty($label)) {
+            echo '<label for="' . $label . '" class="form-label">' . ucfirst($label) . '</label>' . "\n";
+        }
+        echo '<' . $element;
+        if (!empty($name)) {
+            echo ' name="' . $name . '" ';
+        }
+        if (!empty($id)) {
+            echo 'id="' . $id . '" ';
+        }
+        if (!empty($class)) {
+            echo 'class="' . $class . '" ';
+        }
+
+        echo '>';
+        echo '<option></option>' . "\n";
+        echo '</' . $element . '>' . "\n";
+    }
+
+    public function buttonElement($array) {
+        $this->elements = $array;
+        $element = $this->elements['form_element'];
+        $form = $this->elements['elements'][$element];
+        $label = $this->elements['element_label'];
+        $type = $form['type'];
+        $name = $form['name'];
+        $id = $form['id'];
+        $class = $form['class'];
+        $value = $form['value'];
+        if (!empty($label)) {
+            echo '<label for="' . $label . '" class="form-label">' . ucfirst($label) . '</label>' . "\n";
+        }
+        echo '<' . $element . ' type="' . $type . '" ';
+        if (!empty($name)) {
+            echo 'name="' . $name . '" ';
+        }
+        if (!empty($id)) {
+            echo 'id="' . $id . '" ';
+        }
+        if (!empty($class)) {
+            echo 'class="' . $class . '" ';
+        }
+
+        echo '>';
+        if (!empty($value)) {
+            echo '' . $value . '';
+        } else {
+            echo 'Add value';
+        }
+        echo '</' . $element . '>' . "\n";
+    }
+
+    public function inputElement($array) {
+        $this->elements = $array;
+
+        $element = $this->elements['form_element'];
+        $form = $this->elements['elements'][$element];
+        $label = $this->elements['element_label'];
+        $type = $form['type'];
+        $name = $form['name'];
+        $id = $form['id'];
+        $class = $form['class'];
+        $placeholder = $form['placeholder'];
+        if (!empty($label)) {
+            echo '<label for="' . $label . '" class="form-label">' . ucfirst($label) . '</label>' . "\n";
+        }
+        echo '<' . $element . ' type="' . $type . '" ';
+        if (!empty($name)) {
+            echo 'name="' . $name . '" ';
+        }
+        if (!empty($id)) {
+            echo 'id="' . $id . '" ';
+        }
+        if (!empty($class)) {
+            echo 'class="' . $class . '" ';
+        }
+        if (!empty($placeholder)) {
+            echo 'placeholder="' . $placeholder . '" ';
+        }
+        echo '>' . "\n";
+    }
+
+    public function textareaElement($array) {
+        $this->elements = $array;
+
+        $element = $this->elements['form_element'];
+        $form = $this->elements['elements'][$element];
+        $label = $this->elements['element_label'];
+        $name = $form['name'];
+        $id = $form['id'];
+        $class = $form['class'];
+        $rows = $form['rows'];
+        $cols = $form['cols'];
+        if (!empty($label)) {
+            echo '<label for="' . $label . '" class="form-label">' . ucfirst($label) . '</label>' . "\n";
+        }
+        echo '<' . $element;
+        if (!empty($name)) {
+            echo ' name="' . $name . '" ';
+        }
+        if (!empty($id)) {
+            echo 'id="' . $id . '" ';
+        }
+        if (!empty($class)) {
+            echo 'class="' . $class . '" ';
+        }
+        if (!empty($rows)) {
+            echo 'rows="' . $rows . '" ';
+        }
+        if (!empty($cols)) {
+            echo ' cols="' . $cols . '" ';
+        }
+        echo '></textarea>' . "\n";
+    }
+
+    public function Elements($formElement, $inputType, $inputName) {
+        echo '<' . $this->FormElements($formElement, $inputType) . $this->ElementAttributes($inputName) . ' >';
+    }
+
+    public function FormElements($element, $inputType = '') {
         $elements = array(
             "input",
             "label",
@@ -28,9 +170,15 @@ class FormBuilder {
             "optgroup"
         );
         if (in_array($element, $elements)) {
-            echo '<input type="' . $this->InputType($type) . '" ' . $this->InputAttributes($name) . '>';
+            if ($element == 'input') {
+                return 'input' . $this->InputType($inputType);
+            } elseif ($element == 'select') {
+                return 'select';
+            } else {
+                return 'Select a element';
+            }
         } else {
-            echo 'This is not a type of input';
+            return 'This is not a type of element';
         }
     }
 
@@ -61,17 +209,76 @@ class FormBuilder {
         );
 
         if (in_array($type, $types)) {
-            echo '<input type="' . $type . '" ' . $this->ElementAttributes($name) . '>';
+            return ' type="' . $type . '"';
         } else {
-            echo 'This is not a type of input';
+            return 'This is not a type of input';
         }
     }
 
     public function ElementAttributes($name) {
-        echo 'name="' . $name . '" id="' . $name . '"';
-    }
-
-    public function InputLabel($name) {
-        echo '<label for="' . $name . '" class="form-label">' . ucfirst($name) . ':</label>';
+        return ' name="' . $name . '" id="' . $name . '"';
     }
 }
+
+$form = new FormBuilder();
+echo '<!DOCTYPE html>'
+ . '<html>'
+ . '<head>'
+ . '<style>.prueba{padding:24px;}</style>'
+ . '</head>'
+ . '<body>';
+//$form->Elements('select', '', 'name');
+
+$array = array('form_element' => 'button',
+    'element_label' => 'text',
+    'elements' => array(
+        'button' => array(
+            'type' => 'text',
+            'name' => 'test',
+            'id' => 'test',
+            'class' => 'prueba',
+            'value' => 'Send'
+        )
+    )
+);
+$form->buttonElement($array);
+
+$input1 = array('form_element' => 'input',
+    'element_label' => 'text',
+    'elements' => array(
+        'input' => array(
+            'type' => 'text',
+            'name' => 'test',
+            'id' => 'test',
+            'class' => '',
+            'placeholder' => 'this a test'
+        )
+    )
+);
+$form->inputElement($input1);
+
+$select1 = array('form_element' => 'select',
+    'element_label' => 'text',
+    'elements' => array(
+        'select' => array(
+            'name' => 'test',
+            'id' => 'test',
+            'class' => ''
+        )
+    )
+);
+$form->selectElement($select1);
+$text1 = array('form_element' => 'textarea',
+    'element_label' => 'text',
+    'elements' => array(
+        'textarea' => array(
+            'name' => 'test',
+            'id' => 'test',
+            'class' => '',
+            'rows' => '4',
+            'cols' => '40'
+        )
+    )
+);
+$form->textareaElement($text1);
+echo '</body></html>';

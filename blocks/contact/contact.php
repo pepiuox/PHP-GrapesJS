@@ -1,6 +1,6 @@
 <!-- contact block -->
 
-<div class="row">    
+<div class="contact">    
     <div class="col-md-5">        
         <div class="infocontact">
             <?php

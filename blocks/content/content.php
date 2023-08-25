@@ -1,5 +1,5 @@
 <!-- content block -->
-<div class="row">    
+<div class="content">    
     <?php
     if ($bid) {
         $result = $conn->query("SELECT id, title, content FROM page WHERE id = '$bid'");
