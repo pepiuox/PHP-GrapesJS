@@ -15,7 +15,7 @@ if ($w == "list") {
                     <tr>
                         <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
                         <th>Theme name</th>
-                        <th>Theme</th>
+                        <th>Theme bootstrap</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +30,7 @@ if ($w == "list") {
                             <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="dashboard.php?cms=themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
                         </td>
                         <td>' . $prow['theme_name'] . '</td>
-                        <td>' . $prow['theme'] . '</td>
+                        <td>' . $prow['theme_bootstrap'] . '</td>
                         </tr>';
                         }
                     }
@@ -85,7 +85,7 @@ if ($w == "list") {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
+    location.href = 'dashboard.php?cms=themes&w=options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -127,33 +127,38 @@ window.onload = function() {
                             <?php
 //This is temporal file only for add new row
                             if (isset($_POST['theme_palette'])) {
-                                $primary = $_POST['primary'];
-                                $secondary = $_POST['secondary'];
-                                $info = $_POST['info'];
-                                $light = $_POST['light'];
-                                $dark = $_POST['dark'];
-                                $success = $_POST['success'];
-                                $warning = $_POST['warning'];
-                                $danger = $_POST['danger'];
-                                $custom = $_POST['custom'];
-                                $custom_light = $_POST['custom_light'];
-                                $custom_dark = $_POST['custom_dark'];
+                                $primary = $_POST['primary_color'];
+                                $secondary = $_POST['secondary_color'];
+                                $info = $_POST['info_color'];
+                                $light = $_POST['light_color'];
+                                $dark = $_POST['dark_color'];
+                                $success = $_POST['success_color'];
+                                $warning = $_POST['warning_color'];
+                                $danger = $_POST['danger_color'];
+                                $custom = $_POST['custom_color'];
+                                $custom_light = $_POST['custom_light_color'];
+                                $custom_dark = $_POST['custom_dark_color'];
 
-                                $sql = "UPDATE theme_palette SET primary_color = '$primary', secondary_color = '$secondary', info_color = '$info', light_color = '$light', dark_color = '$dark', success_color = '$success', warning_color = '$warning', danger_color = '$danger', custom_color = '$custom', custom_light_color = '$custom_light', custom_dark_color = '$custom_dark' WHERE idtp='$id' ";
-                                if ($conn->query($sql) === TRUE) {
+                                $sql = "UPDATE theme_palette SET primary_color = ?, secondary_color = ', info_color = ?, light_color = ?, dark_color = ?, success_color = ?, warning_color = ?, danger_color = ?, custom_color = ?, custom_light_color = ?, custom_dark_color = ? WHERE idtp = ? ";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->bind_param("ssssssssssss", $primary, $secondary, $info, $light, $dark, $success, $warning, $danger, $custom, $custom_light, $custom_dark, $id);
+                                if ($stmt->error) {
+                                    echo "FAILURE!!! " . $stmt->error;
+                                } else {
                                     echo "The data was updated correctly.";
-
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
+    location.href = 'dashboard.php?cms=themes&w=options&id=" . $id . "';
 }
 </script>";
-                                } else {
-                                    echo "Error updating data: " . $conn->error;
                                 }
                             }
-                            $rtp = $conn->query("SELECT * FROM theme_palette WHERE idtp='$id'");
-                            $tp = $rtp->fetch_assoc();
+                            $sql = "SELECT * FROM theme_palette WHERE idtp=?";
+                            $rtp = $conn->prepare($sql);
+                            $rtp->bind_param("s", $id);
+                            $rtp->execute();
+                            $result = $rtp->get_result(); // get the mysqli result
+                            $tp = $result->fetch_assoc();
                             ?> 
                             <form class="row form-horizontal" role="form" id="edit_theme_palette" method="POST">
                                 <div class="form-group">
@@ -291,7 +296,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
+    location.href = 'dashboard.php?cms=themes&w=options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -336,7 +341,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
+    location.href = 'dashboard.php?cms=themes&w=options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -382,7 +387,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
+    location.href = 'dashboard.php?cms=themes&w=options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -435,7 +440,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=themes&w=options&id=".$id."';
+    location.href = 'dashboard.php?cms=themes&w=options&id=" . $id . "';
 }
 </script>";
                                 } else {

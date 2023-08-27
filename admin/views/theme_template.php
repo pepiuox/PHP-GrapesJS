@@ -13,17 +13,16 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
-                        <th>Page</th>
+                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>                      
                         <th>Theme name</th>
-                        <th>Theme</th>
+                        <th>Theme bootstrap</th>
                         <th>Base default</th>
                         <th>Active theme</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $result = $conn->query("SELECT * FROM themes LEFT JOIN page ON themes.id_page = page.id");
+                    $result = $conn->query("SELECT * FROM themes ");
                     $numr = $result->num_rows;
                     if ($numr > 0) {
                         while ($prow = $result->fetch_array()) {
@@ -31,10 +30,9 @@ if ($w == "list") {
                         <td><!--Button -->
                             <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=theme_template&amp;w=edit&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
                             <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=theme_template&amp;w=delete&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
-                        </td>
-                        <td>' . $prow['title'] . '</td>
+                        </td>                        
                         <td>' . $prow['theme_name'] . '</td>
-                            <td>' . $prow['theme'] . '</td>
+                            <td>' . $prow['theme_bootstrap'] . '</td>
                         <td>' . $prow['base_default'] . '</td>
                         <td>' . $prow['active_theme'] . '</td>
                         </tr>';
@@ -63,7 +61,7 @@ if ($w == "list") {
 
     if (isset($_POST['addtheme'])) {
         $idtheme = uniqid(rand(), false);
-        
+
         $theme_name = $_POST['theme_name'];
         $theme = $_POST['theme'];
         $base_default = $_POST['base_default'];
@@ -103,15 +101,15 @@ if ($w == "list") {
         <div class="row pt-3">
 
             <form method="post" class="row form-horizontal" role="form" id="add_themes" enctype="multipart/form-data">
-                
+
                 <div class="form-group">
                     <label for="theme_name">Theme name:</label>
                     <input type="text" class="form-control" id="theme_name" name="theme_name">
                 </div>
                 <div class="form-group">
-                    <label for="theme">Select bootstrap theme</label>
-                    <select name="theme" id="theme" class="form-select" aria-label="select">
-                        <option>Select theme</option>
+                    <label for="theme_bootstrap">Select theme bootstrap </label>
+                    <select name="theme_bootstrap" id="theme_bootstrap" class="form-select" aria-label="select">
+                        <option>Select theme bootstrap</option>
                         <?php
                         //Output findings
                         foreach ($results_array as $value) {
@@ -148,15 +146,28 @@ if ($w == "list") {
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
 
+        $log_directory = '../themes';
+        $results_array = array();
+
+        if (is_dir($log_directory)) {
+            if ($handle = opendir($log_directory)) {
+                //Notice the parentheses I added:
+                while (($file = readdir($handle)) !== FALSE) {
+                    $results_array[] = $file;
+                }
+                closedir($handle);
+            }
+        }
+
 //This is temporal file only for add new row
         if (isset($_POST['editrow'])) {
-            
+
             $theme_name = $_POST["theme_name"];
-            $theme = $_POST["theme"];
+            $theme_bootstrap = $_POST["theme_bootstrap"];
             $base_default = $_POST["base_default"];
             $active_theme = $_POST["active_theme"];
 
-            $query = "UPDATE themes SET theme_name = '$theme_name', theme = '$theme', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
+            $query = "UPDATE themes SET theme_name = '$theme_name', theme_bootstrap = '$theme_bootstrap', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
             if ($conn->query($query) === TRUE) {
                 $_SESSION["success"] = "The data was updated correctly.";
 
@@ -175,14 +186,30 @@ window.onload = function() {
         <div class="container">
             <div class="row">
                 <form role="form" id="edit_themes" method="POST">
-                    
+
                     <div class="form-group">
                         <label for="theme_name" class ="control-label col-sm-3">Theme name:</label>
                         <input type="text" class="form-control" id="theme_name" name="theme_name" value="<?php echo $tt['theme_name']; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="theme" class ="control-label col-sm-3">Theme:</label>
-                        <input type="text" class="form-control" id="theme" name="theme" value="<?php echo $tt['theme']; ?>">
+                        <label for="theme_bootstrap" class ="control-label col-sm-3">Theme bootstrap:</label>
+                        <select name="theme_bootstrap" id="theme_bootstrap" class="form-select" aria-label="select">
+                            <option>Select theme bootstrap</option>
+                            <?php
+                            $thmbt = $tt['theme_bootstrap'];
+                            //Output findings
+                            foreach ($results_array as $value) {
+                                if ($value === '.' || $value === '..') {
+                                    continue;
+                                }
+                                if ($value == $thmbt) {
+                                    echo '<option value="' . $value . '" selected>' . ucfirst($value) . '</option>';
+                                } else {
+                                    echo '<option value="' . $value . '">' . ucfirst($value) . '</option>';
+                                }
+                            }
+                            ?>
+                        </select> 
                     </div>
                     <?php enum_values('themes', 'base_default', $tt['base_default']); ?>
                     <?php enum_values('themes', 'active_theme', $tt['active_theme']); ?>
@@ -197,5 +224,7 @@ window.onload = function() {
 
         <?php
     }
+} elseif ($w == "delete") {
+    
 }
 ?>
