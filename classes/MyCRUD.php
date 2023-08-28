@@ -181,8 +181,12 @@ class MyCRUD {
             $searching = 1;
             $qry = protect($_POST['qry']);
         }
-        $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
-        $limit = 20;
+        $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 20;
+        $page = (isset($_GET['page']) && is_numeric($_GET['page']) ) ? $_GET['page'] : 1;
+        /*
+          $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+          $limit = 20; */
+
         $startpoint = ($page * $limit) - $limit;
         if ($page == 1) {
             $i = 1;
@@ -870,8 +874,8 @@ class MyCRUD {
         $pnames = implode(", ", $pname);
         $ptadds = implode(" ", $ptadd);
 
-        $rvfile = 'ftmp.php';
-        $mfile = fopen("$rvfile", "w") or die("Unable to open file!");
+        $vfile = 'ftmp.php';
+
         $content = '<?php' . "\n";
         $content .= "if(isset(\$_POST['addrow'])){" . "\n";
         $content .= $ptadds . "\n";
@@ -887,9 +891,8 @@ header('Location: " . $this->pname . "?cms=table_crud&w=list&tbl=" . $tble . "')
 \$conn->close();" . "\n";
         $content .= "}";
         $content .= "?> \n";
+        file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
 
-        fwrite($mfile, $content);
-        fclose($mfile);
         include 'ftmp.php';
 
         echo '<form method="post" class="form-horizontal" role="form" id="add_' . $tble . '" enctype="multipart/form-data">' . "\n";
@@ -924,8 +927,8 @@ header('Location: " . $this->pname . "?cms=table_crud&w=list&tbl=" . $tble . "')
         $scpt = implode("", $postnames);
         $ecols = implode(", ", $varnames);
 
-        $fichero = 'updatetmp.php';
-        $myfile = fopen("$fichero", "w") or die("Unable to open file!");
+        $vfile = 'updatetmp.php';
+
         $content = '<?php' . "\n";
         $content .= '//This is temporal file only for add new row' . "\n";
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
@@ -945,8 +948,7 @@ window.onload = function() {
         $content .= "} \r\n";
         $content .= "?> \n";
 
-        fwrite($myfile, $content);
-        fclose($myfile);
+        file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
     }
 
     public function inputQEdit($tble, $id) {
@@ -1214,8 +1216,8 @@ window.onload = function() {
         $ptadds = implode(" ", $ptadd);
         $pnames = implode(", ", $pname);
 
-        $rvfile = 'ftmp.php';
-        $mfile = fopen("$rvfile", "w") or die("Unable to open file!");
+        $vfile = 'ftmp.php';
+
         $content = '<?php' . "\n";
         $content .= "if(isset(\$_POST['editrow'])){" . "\n\n";
         $content .= $ptadds . "\n";
@@ -1228,9 +1230,8 @@ window.onload = function() {
         $content .= " }" . "\n";
         $content .= "?> \n";
 
-        fwrite($mfile, $content);
-        fclose($mfile);
-        include 'ftmp.php';
+        file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
+        include_once 'ftmp.php';
     }
 
     // deleterow
