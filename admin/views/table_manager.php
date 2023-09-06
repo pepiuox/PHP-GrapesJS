@@ -53,13 +53,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             echo 'No';
                         }
                         echo '</td>';
-                        echo '<td>';
-                        if ($tbs['table_view'] == 1) {
-                            echo 'Yes';
-                        } else {
-                            echo 'No';
-                        }
-                        echo '</td>';
+
                         echo '<td>';
                         if ($tbs['table_add'] == 1) {
                             echo 'Yes';
@@ -76,6 +70,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         echo '</td>';
                         echo '<td>';
                         if ($tbs['table_delete'] == 1) {
+                            echo 'Yes';
+                        } else {
+                            echo 'No';
+                        }
+                        echo '</td>';
+                        echo '<td>';
+                        if ($tbs['table_view'] == 1) {
                             echo 'Yes';
                         } else {
                             echo 'No';
@@ -186,7 +187,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             echo "Record updated successfully";
                             echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">';
                         } else {
-                           echo "Error updating record: " . $conn->error;
+                            echo "Error updating record: " . $conn->error;
                         }
                     }
 
@@ -288,9 +289,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 }
                 if (isset($_POST['submit'])) {
                     $tble_name = $_POST['addtb'];
-                    $ins_qry = "INSERT INTO table_settings(table_name) VALUES('" . $tble_name . "')";
-                    $conn->query($ins_qry);
-                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=' . $tble_name . '">';
+                    $sqlnr = $conn->query("SELECT * FROM table_settings WHERE tablename='$tble_name'")->num_rows;
+                    if ($sqlnr > 0) {
+                        echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=' . $tble_name . '">';
+                    } else {
+                        $ins_qry = "INSERT INTO table_settings(table_name) VALUES('" . $tble_name . "')";
+                        $conn->query($ins_qry);
+                        echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=' . $tble_name . '">';
+                    }
                 }
                 ?>
                 <form class="row form-horizontal" method="post">

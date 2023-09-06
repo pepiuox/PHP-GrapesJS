@@ -4,8 +4,9 @@ class columnSettings {
 
     private $connection;
 
-    public function __construct($db) {
-        $this->connection = $db;
+    public function __construct() {
+        global $conn;
+        $this->connection = $conn;
     }
 
     public function setList($value) {

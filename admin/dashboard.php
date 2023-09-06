@@ -104,7 +104,7 @@ $vpages = '';
                                 } elseif ($cms == 'plugins') {
                                     $vpages = 'Plugins App';
                                 } elseif ($cms == 'table_crud') {
-                                    $vpages = 'CRUD';
+                                    $vpages = 'Table CRUD';
                                 } elseif ($cms == 'column_manager') {
                                     $vpages = 'Column Manager';
                                 } elseif ($cms == 'table_config') {
@@ -168,7 +168,7 @@ $vpages = '';
                     } elseif ($cms == 'adduser') {
                         include 'adduser.php';
                     } elseif ($cms == 'table_crud') {
-                        include 'views/crud.php';
+                        include 'views/table_crud.php';
                     } elseif ($cms == 'column_manager') {
                         include 'views/column_manager.php';
                     } elseif ($cms == 'table_config') {

@@ -1,11 +1,11 @@
 <?php
 
-include 'error_report.php';
-include 'Database.php';
+require_once 'error_report.php';
+require_once 'Database.php';
 $link = new Database();
 $conn = $link->MysqliConnection();
-require 'function.php';
-include 'define.php';
+require_once 'function.php';
+require_once 'define.php';
 
 if (!empty(SITE_PATH)) {
     $siteinstall = SITE_PATH;

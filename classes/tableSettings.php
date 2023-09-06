@@ -59,6 +59,7 @@ class tableSettings {
 
     public function tblSettings($tname) {
 
+
         $stmt = $this->connection->prepare("SELECT * FROM table_settings WHERE table_name=?");
         $stmt->bind_param("s", $tname);
         $stmt->execute();
@@ -70,7 +71,7 @@ class tableSettings {
             $row = $rts->fetch_assoc();
             return json_encode($row, true);
         } else {
-            echo 'Error in Database';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_crud&w=select">';           
         }
         $stmt->close();
     }

@@ -18,7 +18,7 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
         echo '<div class="form-group">
               <label class="col-md-12 control-label" for="column_id">Select a value to relate</label>
               <div class="col-md-12"> 
-                 <select id="column_id" name="column_id" class="form-control">' . "\n";
+                 <select id="column_id" name="column_id" class="form-select">' . "\n";
         while ($rinfo = $qresult->fetch_field()) {
             $rempp = str_replace("_", " ", $rinfo->name);
             echo '<option value="' . $rinfo->name . '">' . $rempp . '</option>' . "\n";
@@ -26,7 +26,7 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
         echo '   </select>
               </div>
               </div>' . "\n";
-        return;
+        
     }
 
     function selvQuery($tble) {
@@ -41,7 +41,7 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
         echo '<div class="form-group">
   <label class="col-md-12 control-label" for="column_value">Select a value for show</label>
   <div class="col-md-12">
-    <select id="column_value" name="column_value" class="form-control">' . "\n";
+    <select id="column_value" name="column_value" class="form-select">' . "\n";
         while ($vinfo = $qresult->fetch_field()) {
             $vempp = str_replace("_", " ", $vinfo->name);
             echo '<option value="' . $vinfo->name . '">' . $vempp . '</option>' . "\n";
@@ -49,7 +49,7 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
         echo '</select>
   </div>
 </div>' . "\n";
-        return;
+        
     }
 
     echo selrQuery($tbname);

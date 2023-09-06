@@ -292,6 +292,7 @@ class MyCRUD {
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
+
                     $resultq = $this->connection->query("SELECT * FROM table_queries WHERE name_table='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
 
                     if ($resultq->num_rows > 0) {
@@ -301,9 +302,12 @@ class MyCRUD {
                                 echo '<td><img src="' . $row[$colmn->name] . '" style="width:auto; height: 100px;"></td>' . "\n";
                             } else {
                                 $tb = $trow['j_table'];
+
                                 $id = $trow['j_id'];
                                 $val = $trow['j_value'];
-                                $rest = $this->connection->query("SELECT * FROM $tb WHERE $id='$fd'");
+                                $ql = "SELECT * FROM " . $tb . " WHERE " . $id . "='" . $fd . "'";
+                                echo $ql;
+                                $rest = $this->connection->query($ql);
                                 $tow = $rest->fetch_assoc();
                                 echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>' . "\n";
                             }

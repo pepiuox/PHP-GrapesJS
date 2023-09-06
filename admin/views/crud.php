@@ -20,7 +20,7 @@ if ($w == "select") {
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-6">
-                <h3 id="fttl">List of system tables </h3>
+                <h3>List of system tables </h3>
             </div>
             <div class="col-md-6">
                 <form method="post">
@@ -39,11 +39,8 @@ if ($w == "select") {
                         </select>
                         <script>
                             let select = document.querySelector('#selecttb');
-                            let result = document.querySelector('#fttl');
                             select.addEventListener('change', function () {
-                                let nvalue = this.value.replace("_", " ");
                                 let url = 'dashboard.php?cms=table_crud&w=list&tbl=' + this.value;
-                                result.textContent = 'Form ' + nvalue;
                                 window.location.replace(url);
                             });
                         </script>

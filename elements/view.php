@@ -81,7 +81,7 @@ if (file_exists($connfile)) {
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
                 <?php
-                require_once 'elements/metalink.php';
+                require_once 'metalink.php';
 
                 if (!empty($description)) {
                     ?>
@@ -232,7 +232,7 @@ if (file_exists($connfile)) {
             <body>
                 <div id="wrapper"> 
                     <?php
-                    require_once 'elements/menu.php';
+                    require_once 'menu.php';
                     ?>
                     <div class='container-fluid' id="content-page">
                         <?php
