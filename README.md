@@ -6,6 +6,9 @@ Easy installation recommendation, unzip your source in the folder to install and
 
 Many more functionalities are being developed, but as this is very functional and practical.
 
+## Dear friends.
+### This application is being developed, there are parts that are not yet fully functional, but the creation of pages if it is useful and is in function, if you want to contribute to the development, it would be of great help
+
 ## Dashboard
 ### Basic and classic.
 <img src="https://pepiuox.net/files/builder1.jpg">
