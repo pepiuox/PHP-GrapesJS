@@ -203,17 +203,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $ttl->close();
         $ttn = $ucol->fetch_assoc();
         $cnm = $ttn['col_name'];
+        $fid = $ttn['tqop_Id'];
 
-        $stmt = $conn->prepare("SELECT * FROM table_queries WHERE table_name=? AND col_name=?");
-        $stmt->bind_param("ss", $tble, $cnm);
-        $stmt->execute();
-        $upcol = $stmt->get_result();
-        $stmt->close();
-
-        $finfo = $upcol->fetch_assoc();
-        $fid = $finfo['tque_Id'];
-
-        $cln = ucfirst(str_replace("_", " ", $finfo['col_name']));
+        $cln = ucfirst(str_replace("_", " ", $cnm));
 // 
 //extract($_POST);
         if (isset($_POST['build'])) {
@@ -288,24 +280,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         </div>
 
                                         <?php
-                                        $result0 = $conn->query("SHOW COLUMNS FROM table_column_settings");
-                                        $bq = array();
-
                                         echo '<table class="table">';
                                         echo '<thead>';
                                         echo '<tr>';
-                                        while ($row0 = $result0->fetch_array()) {
-
-                                            if ($row0['Field'] == 'tqop_Id') {
-                                                continue;
-                                            } elseif ($row0['Field'] == 'table_name') {
-                                                continue;
-                                            } else {
-                                                $remp = str_replace("_", " ", $row0['Field']);
-                                                $bq[] = '<th>' . ucfirst($remp) . '</th>';
-                                            }
-                                        }
-                                        echo implode(" \n", $bq);
+                                        echo '<th>Column name</th>';
+                                        echo '<th>List</th>';
+                                        echo '<th>Add</th>';
+                                        echo '<th>Update</th>';
+                                        echo '<th>View</th>';                                        
                                         echo '</tr>';
                                         echo '</thead>';
                                         echo '<tbody>';
@@ -355,8 +337,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                                         $sltb = protect($_POST['input_type']);
 
-                                        $stmt = $conn->prepare("UPDATE table_queries SET input_type = ? WHERE tque_Id = ?");
-                                        $stmt->bind_param('ii', $sltb, $fid);
+                                        $stmt = $conn->prepare("UPDATE table_column_settings SET input_type = ? WHERE tqop_Id = ?");
+                                        $stmt->bind_param('ii', $sltb, $id);
                                         $status = $stmt->execute();
                                         if ($status === false) {
                                             trigger_error($stmt->error, E_USER_ERROR);
@@ -375,27 +357,27 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                                     <select id="input_type" name="input_type" class="form-select">
                                                         <?php
                                                         echo '<option value="1" ';
-                                                        if ($finfo['input_type'] == 1) {
+                                                        if ($ttn['input_type'] == 1) {
                                                             echo 'selected="selected"';
                                                         }
                                                         echo '>Input</option>' . "\n";
                                                         echo '<option value="2" ';
-                                                        if ($finfo['input_type'] == 2) {
+                                                        if ($ttn['input_type'] == 2) {
                                                             echo 'selected="selected"';
                                                         }
                                                         echo '>Text Area</option>' . "\n";
                                                         echo '<option value="3" ';
-                                                        if ($finfo['input_type'] == 3) {
+                                                        if ($ttn['input_type'] == 3) {
                                                             echo 'selected="selected"';
                                                         }
                                                         echo '>Select</option>' . "\n";
                                                         echo '<option value="4" ';
-                                                        if ($finfo['input_type'] == 4) {
+                                                        if ($ttn['input_type'] == 4) {
                                                             echo 'selected="selected"';
                                                         }
                                                         echo '>File - Imagen</option>' . "\n";
                                                         echo '<option value="5" ';
-                                                        if ($finfo['input_type'] == 5) {
+                                                        if ($ttn['input_type'] == 5) {
                                                             echo 'selected="selected"';
                                                         }
                                                         echo '>Check box</option>' . "\n";
@@ -446,9 +428,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <div class="tab-pane" role="tabpanel" id="addquery">
                                     <?php
                                     if (isset($_POST['submitqr'])) {
-                                        $qry = protect($_POST['query']);
+                                        $qry = protect($_POST['where']);
 
-                                        $stmt = $conn->prepare("UPDATE table_queries SET query = ? WHERE tque_Id = ?");
+                                        $stmt = $conn->prepare("UPDATE table_column_settings SET where = ? WHERE tqop_Id = ?");
                                         $stmt->bind_param('si', $qry, $inp);
                                         $status = $stmt->execute();
                                         if ($status === false) {
@@ -463,8 +445,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         <fieldset>                                           
                                             <?php
                                             echo '<div class="form-group">
-                            <label for="' . $finfo['col_name'] . '">Query for ' . ucfirst($remp) . ':</label>
-                            <textarea type="text" class="form-control" id="query" name="query">' . $finfo['query'] . '</textarea>
+                            <label for="' . $ttn['col_name'] . '">Query for ' . $cln . ':</label>
+                            <textarea type="text" class="form-control" id="where" name="where">' . $ttn['where'] . '</textarea>
                           </div>' . "\n";
                                             ?>
                                             <div class="form-group">
@@ -485,7 +467,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         $sr = protect($_POST['column_id']);
                                         $sv = protect($_POST['column_value']);
 
-                                        $stmt = $conn->prepare("UPDATE table_queries SET joins = ?, j_table = ?, j_id = ?, j_value = ? WHERE tque_Id = ?");
+                                        $stmt = $conn->prepare("UPDATE table_column_settings SET joins = ?, j_table = ?, j_id = ?, j_value = ? WHERE tqop_Id = ?");
                                         $stmt->bind_param('ssssi', $joins, $tb, $sr, $sv, $fid);
                                         $status = $stmt->execute();
                                         if ($status === false) {
@@ -580,7 +562,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $row = mysqli_fetch_array($result1);
                 $ncol = $row[0];
 
-                $qresult = $conn->prepare("SELECT * FROM table_queries WHERE table_name=?");
+                $qresult = $conn->prepare("SELECT * FROM table_column_settings WHERE table_name=?");
                 $qresult->bind_param("s", $tble);
                 $qresult->execute();
                 $tbsc = $qresult->get_result();
@@ -592,39 +574,39 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         <button type = "submit" id="updatequeries" name="updatequeries" class="btn btn-primary"><span class = "fas fa-plus-square"></span> Save query to columns</button>
 <a class="btn btn-success" href="dashboard.php?cms=table_crud&w=list&tbl=' . $tble . '">View Table</a>                      
 </div>' . "\n";
-                while ($finfo = $tbsc->fetch_assoc()) {
-                    $remp = str_replace("_", " ", $finfo['col_name']);
-                    $column = $finfo['col_name'];
+                while ($ttn = $tbsc->fetch_assoc()) {
+                    $remp = str_replace("_", " ", $ttn['col_name']);
+                    $column = $ttn['col_name'];
                     echo '<style>
-                            #vtable-' . $finfo['tque_Id'] . '{
+                            #vtable-' . $ttn['tqop_Id'] . '{
                                 display: none;
                             }
                           </style>' . "\n";
                     echo '<script>
 $(document).ready(function () {
-                $("#btsel_' . $finfo['tque_Id'] . '").hide();
-                $("#text_' . $finfo['tque_Id'] . '").hide();
-                $("#type_' . $finfo['tque_Id'] . '").on("change", function() {
+                $("#btsel_' . $ttn['tqop_Id'] . '").hide();
+                $("#text_' . $ttn['tqop_Id'] . '").hide();
+                $("#type_' . $ttn['tqop_Id'] . '").on("change", function() {
                 
-                    let value = $("#type_' . $finfo['tque_Id'] . ' option:selected").val();
+                    let value = $("#type_' . $ttn['tqop_Id'] . ' option:selected").val();
                     if (value === 1) {
-                        $("#btsel_' . $finfo['tque_Id'] . '").hide();
-                        $("#text_' . $finfo['tque_Id'] . '").hide();
+                        $("#btsel_' . $ttn['tqop_Id'] . '").hide();
+                        $("#text_' . $ttn['tqop_Id'] . '").hide();
                         $("#stb").val("");
                     }
                     if (value === 2) {
-                        $("#text_' . $finfo['tque_Id'] . '").show();
-                        $("#btsel_' . $finfo['tque_Id'] . '").hide();
+                        $("#text_' . $ttn['tqop_Id'] . '").show();
+                        $("#btsel_' . $ttn['tqop_Id'] . '").hide();
                         $("#stb").val(value);
                     }
                     if (value === 3) {
-                        $("#btsel_' . $finfo['tque_Id'] . '").show();
-                        $("#text_' . $finfo['tque_Id'] . '").hide();
+                        $("#btsel_' . $ttn['tqop_Id'] . '").show();
+                        $("#text_' . $ttn['tqop_Id'] . '").hide();
                         $("#stb").val(value);
                     }
                     if (value === 4) {
-                        $("#btsel_' . $finfo['tque_Id'] . '").show();
-                        $("#text_' . $finfo['tque_Id'] . '").hide();
+                        $("#btsel_' . $ttn['tqop_Id'] . '").show();
+                        $("#text_' . $ttn['tqop_Id'] . '").hide();
                         $("#stb").val(value);
                     }
                 }
@@ -634,24 +616,24 @@ $(document).ready(function () {
                     echo '<div class="form-group">
                             <label class="col-md-4 control-label" for="type">Select Input Type for ' . ucfirst($remp) . '</label>                                
                             <div class="col-md-4">
-                            <select id="type_' . $finfo['tque_Id'] . '" name="type_' . $finfo['tque_Id'] . '" class="form-select">
+                            <select id="type_' . $ttn['tqop_Id'] . '" name="type_' . $ttn['tqop_Id'] . '" class="form-select">
                               <option value="1" ';
-                    if ($finfo['input_type'] == 1) {
+                    if ($ttn['input_type'] == 1) {
                         echo 'selected="selected"';
                     }
                     echo '>Input</option>' . "\n";
                     echo '<option value="2" ';
-                    if ($finfo['input_type'] == 2) {
+                    if ($ttn['input_type'] == 2) {
                         echo 'selected="selected"';
                     }
                     echo '>Text Area</option>' . "\n";
                     echo '<option value="3" ';
-                    if ($finfo['input_type'] == 3) {
+                    if ($ttn['input_type'] == 3) {
                         echo 'selected="selected"';
                     }
                     echo '>Select</option>' . "\n";
                     echo '<option value="4" ';
-                    if ($finfo['input_type'] == 4) {
+                    if ($ttn['input_type'] == 4) {
                         echo 'selected="selected"';
                     }
                     echo '>File - Imagen</option>' . "\n";
@@ -660,24 +642,24 @@ $(document).ready(function () {
                           </div>' . "\n";
 
                     echo '<div class="form-group">
-                          <button type="button" id="btsel_' . $finfo['tque_Id'] . '" name="btsel_' . $finfo['tque_Id'] . '" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#Modal1">
+                          <button type="button" id="btsel_' . $ttn['tqop_Id'] . '" name="btsel_' . $ttn['tqop_Id'] . '" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#Modal1">
                           Add Colmn Id and Value 
                           </button>
                           </div>' . "\n";
 
                     echo '<script type="text/javascript">' . "\n";
                     echo "$(document).ready(function () {" . "\n";
-                    echo '$("#btsel_' . $finfo['tque_Id'] . '").on("click", function (e) {' . "\n";
+                    echo '$("#btsel_' . $ttn['tqop_Id'] . '").on("click", function (e) {' . "\n";
                     echo "e.preventDefault();
-                                    let seltb = '" . $finfo['tque_Id'] . "';
+                                    let seltb = '" . $ttn['tqop_Id'] . "';
                                     $('#idtb').val(seltb);                                    
                                 });
                             });" . "\n";
                     echo "</script>" . "\n";
 
-                    echo '<div class="form-group" id="text_' . $finfo['tque_Id'] . '">
-                            <label for="' . $finfo['col_name'] . '">Query for ' . ucfirst($remp) . ':</label>
-                            <textarea type="text" class="form-control" id="' . $finfo['col_name'] . '" name="' . $finfo['col_name'] . '">' . $finfo['query'] . '</textarea>
+                    echo '<div class="form-group" id="text_' . $ttn['tqop_Id'] . '">
+                            <label for="' . $ttn['col_name'] . '">Query for ' . ucfirst($remp) . ':</label>
+                            <textarea type="text" class="form-control" id="' . $ttn['col_name'] . '" name="' . $ttn['col_name'] . '">' . $ttn['query'] . '</textarea>
                           </div>' . "\n";
                 }
                 echo '<div class="form-group">
@@ -693,18 +675,18 @@ $(document).ready(function () {
 
                 function queries($tble) {
                     global $conn;
-                    $sql = "SELECT * FROM table_queries WHERE table_name='{$tble}'";
+                    $sql = "SELECT * FROM table_column_settings WHERE table_name='{$tble}'";
                     $qresult = $conn->query($sql);
 
                     $r = 0;
                     $cqn = '';
                     while ($info = $qresult->fetch_assoc()) {
-                        $id = $info['tque_Id'];
+                        $id = $info['tqop_Id'];
                         $query = $info['col_name'];
                         $npost = "\${$query} = \$_POST['{$query}'];";
                         $cqn .= $npost . "\n";
-                        $cq = "query='\${$query}' WHERE tque_Id='{$id}'";
-                        $cqn .= '$sql' . $r . ' = "UPDATE table_queries SET ' . $cq . ' ";' . "\n";
+                        $cq = "query='\${$query}' WHERE tqop_Id='{$id}'";
+                        $cqn .= '$sql' . $r . ' = "UPDATE table_column_settings SET ' . $cq . ' ";' . "\n";
                         $cqn .= '$conn->query($sql' . $r . ');' . "\n";
                         $r = $r + 1;
                     }
@@ -745,7 +727,7 @@ $(document).ready(function () {
                     $sr = protect($_POST['column_id']);
                     $sv = protect($_POST['column_value']);
 
-                    $stmt = $conn->prepare("UPDATE table_queries SET input_type = ?, joins = ?, j_table = ?, j_id = ?, j_value = ? WHERE tque_Id = ?");
+                    $stmt = $conn->prepare("UPDATE table_column_settings SET input_type = ?, joins = ?, j_table = ?, j_id = ?, j_value = ? WHERE tqop_Id = ?");
                     $stmt->bind_param('issssi', $sltb, $joins, $tb, $sr, $sv, $inp);
                     $status = $stmt->execute();
                     if ($status === false) {
