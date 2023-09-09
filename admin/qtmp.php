@@ -1,22 +1,46 @@
 <?php
 //This is temporal file only for add new row
-if (isset($_POST["updatequeries"])) {
-$sort = $_POST['sort'];
-$sql0 = "UPDATE table_queries SET query='$sort' WHERE tque_Id='1' ";
-$conn->query($sql0);
-$page_id = $_POST['page_id'];
-$sql1 = "UPDATE table_queries SET query='$page_id' WHERE tque_Id='2' ";
-$conn->query($sql1);
-$title_page = $_POST['title_page'];
-$sql2 = "UPDATE table_queries SET query='$title_page' WHERE tque_Id='3' ";
-$conn->query($sql2);
-$link_page = $_POST['link_page'];
-$sql3 = "UPDATE table_queries SET query='$link_page' WHERE tque_Id='4' ";
-$conn->query($sql3);
-$parent_id = $_POST['parent_id'];
-$sql4 = "UPDATE table_queries SET query='$parent_id' WHERE tque_Id='5' ";
-$conn->query($sql4);
+if(isset($_POST['addtable'])){
+$result = $conn->query("SELECT table_name FROM table_column_settings WHERE table_name = 'page'");
+if ($result->num_rows > 0) {
+echo 'This table already exists, It was already added.';
+}else{
+$query = "INSERT INTO table_column_settings (table_name, col_name, col_type) VALUES
+('page', 'language', 'int'), 
+('page', 'position', 'int'), 
+('page', 'title', 'varchar'), 
+('page', 'link', 'varchar'), 
+('page', 'url', 'varchar'), 
+('page', 'keyword', 'varchar'), 
+('page', 'classification', 'varchar'), 
+('page', 'description', 'varchar'), 
+('page', 'image', 'varchar'), 
+('page', 'type', 'enum'), 
+('page', 'menu', 'int'), 
+('page', 'hidden_page', 'tinyint'), 
+('page', 'path_file', 'varchar'), 
+('page', 'script_name', 'varchar'), 
+('page', 'template', 'varchar'), 
+('page', 'base_template', 'varchar'), 
+('page', 'content', 'longtext'), 
+('page', 'style', 'longtext'), 
+('page', 'startpage', 'int'), 
+('page', 'level', 'int'), 
+('page', 'parent', 'int'), 
+('page', 'sort', 'int'), 
+('page', 'active', 'int'), 
+('page', 'update', 'timestamp')";
+if ($conn->query($query) === TRUE) {
+$ins_qry = "INSERT INTO table_settings(table_name) VALUES('page')";
+if ($conn->query($ins_qry) === TRUE){
 echo "Record added successfully";
-header("Location: dashboard.php?cms=querybuilder&w=editor&tbl=menu");
-} 
-?> 
+echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=page">';
+} else {
+echo "Error added record: " . $conn->error;
+}
+} else {
+echo "Error added record: " . $conn->error;
+}
+}
+}
+?>

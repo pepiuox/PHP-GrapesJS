@@ -203,7 +203,6 @@ $vpages = '';
                                     <div class="small-box bg-success">
                                         <div class="inner">
                                             <h3>53<sup style="font-size: 20px">%</sup></h3>
-
                                             <p> Bounce Rate</p>
                                         </div>
                                         <div class="icon">
@@ -225,7 +224,7 @@ $vpages = '';
                                         <div class="icon">
                                             <i class="ion ion-person-add"></i>
                                         </div>
-                                        <a href="dashboard.php?cms=pagelist" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="dashboard.php?cms=list_page" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <!-- ./col -->
@@ -236,7 +235,6 @@ $vpages = '';
                                             <?php
                                             echo '<h3>' . numvisitor() . '</h3>';
                                             ?>
-
                                             <p>Unique Visitors</p>
                                         </div>
                                         <div class="icon">

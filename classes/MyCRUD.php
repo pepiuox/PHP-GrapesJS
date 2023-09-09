@@ -3,12 +3,12 @@
 class MyCRUD {
 
     private $connection;
-    public $pname;
+    public $pgname;
 
     public function __construct() {
         global $conn, $rname;
         $this->connection = $conn;
-        $this->pname = $rname;
+        $this->pgname = $rname;
     }
 
     public function protect($str) {
@@ -20,9 +20,8 @@ class MyCRUD {
         return $str;
     }
 
-    public function sQueries($tble) {
-        $sql = "SELECT * FROM $tble";
-        return $this->connection->query($sql);
+    public function sQuery($tble) {
+        return $this->connection->query("SELECT * FROM $tble");
     }
 
     public function wQueries($query) {
@@ -30,7 +29,7 @@ class MyCRUD {
     }
 
     public function getID($tble) {
-        if ($result = $this->sQueries($tble)) {
+        if ($result = $this->sQuery($tble)) {
             /* Get field information for 2nd column */
             $result->field_seek(0);
             $finfo = $result->fetch_field();
@@ -46,6 +45,17 @@ class MyCRUD {
             $rows[] = $row['Field'];
         }
         return $rows;
+    }
+
+    public function listDatatype($tble) {
+        $nDB = DBNAME;
+        $dsql = "SELECT COLUMN_NAME AS name, DATA_TYPE AS type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$nDB' AND TABLE_NAME = '$tble'";
+        $dresult = $this->wQueries($dsql);
+        $cnm = array();
+        while ($row = $dresult->fetch_assoc()) {
+            $cnm[] = $row['type'];
+        }
+        return $cnm;
     }
 
     public function showCol($tble) {
@@ -76,7 +86,7 @@ class MyCRUD {
     }
 
     public function tblQueries($tble) {
-        $sqlq = "SELECT * FROM table_queries WHERE name_table='$tble' AND input_type IS NOT NULL";
+        $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$tble' AND input_type IS NOT NULL";
         $resultq = $this->wQueries($sqlq);
         $rowcq = $resultq->num_rows;
         $r = 0;
@@ -92,6 +102,7 @@ class MyCRUD {
                 $c_tb = $rqu['j_table'];
                 $c_id = $rqu['j_id'];
                 $c_vl = $rqu['j_value'];
+
                 $ctl[] = '$finfo->name != "' . $c_id . '" && $finfo->name != "' . $c_vl . '"';
                 $qers[] = $c_jo . " (SELECT " . $c_id . ', ' . $c_vl . ' FROM ' . $c_tb . ') ' . $c_tb . ' ON ' . $tble . '.' . $c_nm . '=' . $c_tb . '.' . $c_id;
                 $nif[] = "if (\$finfo->name === '{$c_nm}') {
@@ -109,7 +120,7 @@ class MyCRUD {
             }
 
             $valr = implode(" ", $qers);
-            $nifs = implode("else", $nif);
+            $nifs = implode(" else", $nif);
             $ctls = implode(" && ", $ctl);
 
             $sql = "SELECT * FROM $tble $valr";
@@ -157,7 +168,7 @@ class MyCRUD {
     }
 
     public function listColm($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
 
         $i = 0;
         echo '<form class="row form-horizontal" role="form" method="POST" enctype="multipart/form-data">' . "\n";
@@ -269,31 +280,29 @@ class MyCRUD {
 
             $result = $stmt->get_result();
 
-            echo '
-	<table class="table">
+            echo '<table class="table">
 			<thead>
 				<tr>
-<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>';
+<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>' . "\n";
             foreach ($colmns as $colmn) {
                 $tremp = ucfirst(str_replace("_", " ", $colmn->name));
                 $remp = str_replace(" id", " ", $tremp);
                 echo '<th>' . $remp . '</th>' . "\n";
             }
-            echo '
-			</tr>
-			</thead>
-			<tbody>' . "\n";
+            echo '</tr>' . "\n";
+            echo '</thead>' . "\n";
+            echo '<tbody>' . "\n";
             while ($row = $result->fetch_array()) {
 
                 echo '<tr>' . "\n";
                 echo '<td><!--Button -->
-                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
-<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
+                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
+<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
 
-                    $resultq = $this->connection->query("SELECT * FROM table_queries WHERE name_table='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
+                    $resultq = $this->connection->query("SELECT * FROM table_column_settings WHERE table_name='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
 
                     if ($resultq->num_rows > 0) {
                         while ($trow = $resultq->fetch_array()) {
@@ -302,11 +311,9 @@ class MyCRUD {
                                 echo '<td><img src="' . $row[$colmn->name] . '" style="width:auto; height: 100px;"></td>' . "\n";
                             } else {
                                 $tb = $trow['j_table'];
-
                                 $id = $trow['j_id'];
                                 $val = $trow['j_value'];
                                 $ql = "SELECT * FROM " . $tb . " WHERE " . $id . "='" . $fd . "'";
-                                echo $ql;
                                 $rest = $this->connection->query($ql);
                                 $tow = $rest->fetch_assoc();
                                 echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>' . "\n";
@@ -323,9 +330,9 @@ class MyCRUD {
 		</table>' . "\n";
 
             if (ceil($total_pages / $num_results_on_page) > 0) {
-                $url = $this->pname . '?cms=table_crud&w=list&tbl=' . $tble;
+                $url = $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble;
                 ?>
-                <nav aria-label="Page navigation mx-auto">
+                <nav aria-label="page navigation mx-auto">
                     <ul class="pagination justify-content-center">
                         <?php if ($page > 1) { ?>
                             <li class="page-item prev"><a
@@ -380,7 +387,7 @@ class MyCRUD {
         $colms = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
 
-        $resultq = $this->wQueries("SELECT * FROM table_queries WHERE name_table='$tble' AND input_type IS NOT NULL");
+        $resultq = $this->wQueries("SELECT * FROM table_column_settings WHERE table_name='$tble' AND input_type IS NOT NULL");
         $resv = $resultq->num_rows;
 
         $r = 0;
@@ -398,6 +405,7 @@ class MyCRUD {
                 $c_tb = $row['j_table'];
                 $c_id = $row['j_id'];
                 $c_vl = $row['j_value'];
+
                 $ttl[] = '$meta->name != "' . $c_id . '" && $meta->name != "' . $c_vl . '"';
                 $ctl[] = '$name != "' . $c_id . '" && $name != "' . $c_vl . '"';
                 $fcols[] = "if(\$name == '{$c_nm}'){echo '<td>'.\$rw['{$c_vl}'].'</td>';}" . "\n";
@@ -440,7 +448,7 @@ class MyCRUD {
         }
 
         $endpage = '';
-        if ($nres = $this->sQueries($tble)) {
+        if ($nres = $this->sQuery($tble)) {
             $rowcq = $nres->num_rows;
             $endpage = ceil($rowcq / $range);
         }
@@ -451,15 +459,16 @@ class MyCRUD {
         $i = 0;
         if ($resv > $i) {
             $rvfile = 'ftmp.php';
-            $mfile = fopen("$rvfile", "w") or die("Unable to open file!");
+            if (file_exists($rvfile)) {
+                unlink($rvfile);
+            }
             $content = '<?php' . "\n";
             $content .= "if ({$vtl}) {" . "\n";
             $content .= "echo '<th>' . ucfirst(\$remp) . '</th>';" . "\n";
             $content .= "}" . "\n";
             $content .= "?> \n";
 
-            fwrite($mfile, $content);
-            fclose($mfile);
+            file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
         }
 
         // start form
@@ -480,7 +489,7 @@ class MyCRUD {
             }
         }
 
-        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add</a></th>' . "\n";
+        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add</a></th>' . "\n";
         echo '</tr>' . "\n";
         echo '</thead>' . "\n";
         echo '<tbody>' . "\n";
@@ -498,7 +507,10 @@ class MyCRUD {
                     if ($resv > $y) {
 
                         $vrfile = 'vtmp.php';
-                        $vfile = fopen("$vrfile", "w") or die("Unable to open file!");
+                        if (file_exists($rvfile)) {
+                            unlink($rvfile);
+                        }
+
                         $varcont = '<?php' . "\n";
                         $varcont .= "if (\$key == 0) {" . "\n";
                         $varcont .= "echo '<td id=\"'.\$rw['" . $ncol . "'].'\">'.\$rw['" . $ncol . "'].'</td>';" . "\n";
@@ -508,8 +520,7 @@ class MyCRUD {
                         $varcont .= "echo '<td>' . \$rw[\$name] . '</td>';" . "\n";
                         $varcont .= "} ?> \n";
 
-                        fwrite($vfile, $varcont);
-                        fclose($vfile);
+                        file_put_contents($vrfile, $varcont, FILE_APPEND | LOCK_EX);
 
                         include 'vtmp.php';
                     } else {
@@ -526,8 +537,8 @@ class MyCRUD {
 
             $i_row = $row[0];
             echo '<td><!--Button -->
-                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
-                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
+                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
+                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
                 </td>';
 
             echo '</tr>' . "\n";
@@ -537,7 +548,7 @@ class MyCRUD {
         echo '</table>' . "\n";
         // end body table
         // end
-        $url = $this->pname . '?cms=table_crud&w=list&tbl=' . $tble;
+        $url = $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble;
 
         if ($i < $rowcq) {
             echo '<nav aria-label="navigation">';
@@ -619,7 +630,7 @@ class MyCRUD {
         $columns = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
         //
-        $sqlq = "SELECT * FROM table_queries WHERE name_table='$tble'";
+        $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$tble'";
         $resultq = $this->connection->query($sqlq);
         $rowcq = $resultq->num_rows;
         if ($rowcq > 0) {
@@ -628,10 +639,12 @@ class MyCRUD {
                 $c_nm = $rqu['col_name'];
                 $c_tp = $rqu['col_type'];
                 $i_tp = $rqu['input_type'];
-                // $c_jo = $rqu['joins'];
+                $c_jo = $rqu['joins'];
                 $c_tb = $rqu['j_table'];
                 $c_id = $rqu['j_id'];
                 $c_vl = $rqu['j_value'];
+                $c_as = $rqu['j_as'];
+                $c_qr = $rqu['query'];
 
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
@@ -700,7 +713,7 @@ class MyCRUD {
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
 <div class="input-group">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="' . $c_nm . '">Subir</span>
+    <span class="input-group-text" id="' . $c_nm . '">Upload</span>
   </div>
   <div class="custom-file">
     <input type="file" class="custom-file-input" id="' . $c_nm . '" name="' . $c_nm . '"
@@ -859,45 +872,122 @@ class MyCRUD {
 
     // addrow
     public function addData($tble) {
-
-        $ncol = $this->getID($tble);
-        //
-        $sql = "SELECT * FROM $tble";
-        //
-        $qresult = $this->connection->query($sql);
+        $vname = array();
+        $pname = array();
+        $ptadd = array();
+        $nvl = array();
+        $colID = $this->getID($tble);
+//
+        $qresult = $this->sQuery($tble);
         while ($finfo = $qresult->fetch_field()) {
-            if ($finfo->name == $ncol) {
+            if ($finfo->name == $colID) {
                 continue;
             }
+            $nvl[] = '?';
             $vname[] = $finfo->name;
             $pname[] = "'$" . $finfo->name . "'";
             $ptadd[] = "$" . $finfo->name . " = \$_POST['" . $finfo->name . "'];" . "\n";
         }
 
+        $nvls = implode(", ", $nvl);
         $vnames = implode(", ", $vname);
         $pnames = implode(", ", $pname);
         $ptadds = implode(" ", $ptadd);
+        /*
+          i - integer
+          d - double
+          s - string
+          b - BLOB
+         */
+        $tpd = array(
+            'tinyint' => 'i',
+            'smallint' => 'i',
+            'mediumint' => 'i',
+            'int' => 'i',
+            'bigint' => 'i',
+            'bit' => 'i',
+            'float' => 'd',
+            'double' => 'd',
+            'decimal' => 'd',
+            'varchar' => 's',
+            'char' => 's',
+            'tinytext' => 's',
+            'text' => 's',
+            'mediumtext' => 's',
+            'longtext' => 's',
+            'json' => 's',
+            'uuid' => 's',
+            'binary' => 'b',
+            'varbinary' => 'b',
+            'tinyblob' => 'b',
+            'blob' => 'b',
+            'mediumblob' => 'b',
+            'longblob' => 'b',
+            'date' => 's',
+            'time' => 's',
+            'year' => 's',
+            'datetime' => 's',
+            'timestamp' => 's',
+            'point' => 's',
+            'linestring' => 's',
+            'polygon' => 's',
+            'geometry' => 's',
+            'multipint' => 's',
+            'multilinestring' => 's',
+            'multipolygon' => 's',
+            'geometrycollection' => 's',
+            'unknown' => 's',
+            'enum' => 's',
+            'set' => 's'
+        );
 
-        $vfile = 'ftmp.php';
+        $colmns = $this->viewColumns($tble);
 
+        foreach ($tpd AS $key => $val) {
+            $tpk[] = $key;
+        }
+        foreach ($colmns AS $col) {
+            if (in_array($col->type, $tpk)) {
+                if ($col->name === $colID) {
+                    continue;
+                }
+                $cname[] = '$' . $col->name;
+                $ctype[] = $tpd[$col->type];
+            }
+        }
+        $cnames = implode(', ', $cname);
+        $ctypes = implode('', $ctype);
+
+        /*
+          i - integer
+          d - double
+          s - string
+          b - BLOB
+         */
+
+        $vfile = 'qtmp.php';
+        if (file_exists($vfile)) {
+            unlink($vfile);
+        }
         $content = '<?php' . "\n";
+        $content .= '//This is a temporary file to add data to the table.' . "\n";
         $content .= "if(isset(\$_POST['addrow'])){" . "\n";
         $content .= $ptadds . "\n";
         $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
-        $content .= 'VALUES (' . $pnames . ')";' . "\n";
-        $content .= "if (\$conn->query(\$sql) === TRUE) {
-    \$_SESSION['success'] = 'The data was added correctly';
-header('Location: " . $this->pname . "?cms=table_crud&w=list&tbl=" . $tble . "');
-} else {
-    \$_SESSION['error'] = 'Error: ' . \$conn->error;
-}
-
+        $content .= 'VALUES (' . $nvls . ')";' . "\n";
+        $content .= "\$stmt = \$conn->prepare(\$sql);" . "\n";
+        $content .= '$stmt->bind_param("' . $ctypes . '", ' . $cnames . ');' . "\n";
+        $content .= '$stmt->execute();' . "\n";
+        $content .= '$stmt->close();' . "\n";
+        $content .= "\$_SESSION['success'] = 'The data was added correctly';
+header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "');
 \$conn->close();" . "\n";
-        $content .= "}";
+        $content .= "} \n";
         $content .= "?> \n";
+
         file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
 
-        include 'ftmp.php';
+        include_once 'qtmp.php';
 
         echo '<form method="post" class="form-horizontal" role="form" id="add_' . $tble . '" enctype="multipart/form-data">' . "\n";
 
@@ -912,7 +1002,7 @@ header('Location: " . $this->pname . "?cms=table_crud&w=list&tbl=" . $tble . "')
     // addScript
     public function updateScript($tble) {
 
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $ncol = $this->getID($tble);
 
         $r = 0;
@@ -923,32 +1013,109 @@ header('Location: " . $this->pname . "?cms=table_crud&w=list&tbl=" . $tble . "')
 
             while ($info = $result->fetch_field()) {
                 if ($info->name != $ncol) {
-                    $postnames[] = '$' . $info->name . ' = $_POST["' . $info->name . '"]; ' . "\r\n";
-                    $varnames[] = $info->name . " = '$" . $info->name . "'";
+                    $postnames[] = "\$" . $info->name . "  = \$_POST['" . $info->name . "'];" . "\r\n";
+                    $varnames[] = $info->name . " = ?";
                 }
             }
         }
         $scpt = implode("", $postnames);
         $ecols = implode(", ", $varnames);
 
-        $vfile = 'updatetmp.php';
+        /*
+          i - integer
+          d - double
+          s - string
+          b - BLOB
+         */
+        $tpd = array(
+            'tinyint' => 'i',
+            'smallint' => 'i',
+            'mediumint' => 'i',
+            'int' => 'i',
+            'bigint' => 'i',
+            'bit' => 'i',
+            'float' => 'd',
+            'double' => 'd',
+            'decimal' => 'd',
+            'varchar' => 's',
+            'char' => 's',
+            'tinytext' => 's',
+            'text' => 's',
+            'mediumtext' => 's',
+            'longtext' => 's',
+            'json' => 's',
+            'uuid' => 's',
+            'binary' => 'b',
+            'varbinary' => 'b',
+            'tinyblob' => 'b',
+            'blob' => 'b',
+            'mediumblob' => 'b',
+            'longblob' => 'b',
+            'date' => 's',
+            'time' => 's',
+            'year' => 's',
+            'datetime' => 's',
+            'timestamp' => 's',
+            'point' => 's',
+            'linestring' => 's',
+            'polygon' => 's',
+            'geometry' => 's',
+            'multipint' => 's',
+            'multilinestring' => 's',
+            'multipolygon' => 's',
+            'geometrycollection' => 's',
+            'unknown' => 's',
+            'enum' => 's',
+            'set' => 's'
+        );
 
+        $colmns = $this->viewColumns($tble);
+
+        foreach ($tpd AS $key => $val) {
+            $tpk[] = $key;
+        }
+        foreach ($colmns AS $col) {
+            if (in_array($col->type, $tpk)) {
+                if ($col->name === $ncol) {
+                    continue;
+                }
+                $cname[] = '$' . $col->name;
+                $ctype[] = $tpd[$col->type];
+            }
+        }
+        foreach ($colmns AS $colid) {
+            if (in_array($colid->type, $tpk)) {
+                if ($colid->name !== $ncol) {
+                    continue;
+                }
+                $idname[] = '$' . $colid->name;
+                $idtype[] = $tpd[$colid->type];
+            }
+        }
+        $idtypes = implode('', $idtype);
+        $cnames = implode(', ', $cname);
+        $ctypes = implode('', $ctype);
+        $bindp = $ctypes . $idtypes;
+
+        $vfile = 'updatetmp.php';
+        if (file_exists($vfile)) {
+            unlink($vfile);
+        }
         $content = '<?php' . "\n";
         $content .= '//This is temporal file only for add new row' . "\n";
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
         $content .= $scpt . "\r\n";
-        $content .= "\$query=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . "='\$id' \";" . "\r\n";
-        $content .= 'if ($conn->query($query) === TRUE) {
- $_SESSION["success"] = "The data was updated correctly.";
-            ' . "\n";
+        $content .= "\$query=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . " = ? \";" . "\r\n";
+        $content .= '$stmt = $conn->prepare($query);' . "\r\n";
+        $content .= '$stmt->bind_param("' . $bindp . '",' . $cnames . ', $id);' . "\n";
+        $content .= '$stmt->execute();' . "\n";
+        $content .= '$stmt->close();' . "\n";
+        $content .= '$_SESSION["success"] = "The data was updated correctly.";' . "\n";
         $content .= "echo \"<script>
 window.onload = function() {
-    location.href = '" . $this->pname . '?cms=table_crud&w=list&tbl=' . $tble . "';
+    location.href = '" . $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble . "';
 }
 </script>\";" . "\n";
-        $content .= ' } else {
-              $_SESSION["error"] = "Error updating data: " . $conn->error;
-            }' . "\r\n";
         $content .= "} \r\n";
         $content .= "?> \n";
 
@@ -958,7 +1125,7 @@ window.onload = function() {
     public function inputQEdit($tble, $id) {
         $columns = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
-        $resultq = $this->wQueries("SELECT * FROM table_queries WHERE name_table='$tble'");
+        $resultq = $this->wQueries("SELECT * FROM table_column_settings WHERE table_name='$tble'");
         $rowcq = $resultq->num_rows;
         $r = 0;
         if ($rowcq > $r) {
@@ -971,7 +1138,7 @@ window.onload = function() {
                 $c_nm = $rqu['col_name'];
                 $c_tp = $rqu['col_type'];
                 $i_tp = $rqu['input_type'];
-                // $c_jo = $rqu['joins'];
+                $c_jo = $rqu['joins'];
                 $c_tb = $rqu['j_table'];
                 $c_id = $rqu['j_id'];
                 $c_vl = $rqu['j_value'];
@@ -989,7 +1156,7 @@ window.onload = function() {
         <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
         <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >';
 
-                        $qres = $this->sQueries($c_tb);
+                        $qres = $this->sQuery($c_tb);
 
                         while ($rqj = $qres->fetch_array()) {
                             if ($cdta == $rqj[$c_id]) {
@@ -1264,7 +1431,7 @@ window.onload = function() {
 
     // adduery
     public function addQuery($tble) {
-        $qresult = $this->sQueries($tble);
+        $qresult = $this->sQuery($tble);
         echo '<form class="row form-horizontal" role="form" method="post" id="query_' . $tble . '">' . "\n";
         while ($finfo = $qresult->fetch_field()) {
             if ($finfo->name === $this->getID($tble)) {
@@ -1286,7 +1453,7 @@ window.onload = function() {
 
     // addpost
     public function addpost($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $r = 0;
         $postnames = array();
         while ($result->field_count > $r) {
@@ -1301,7 +1468,7 @@ window.onload = function() {
 
     // updatedata
     public function updateData($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $varnames = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1317,7 +1484,7 @@ window.onload = function() {
 
     // ifmpty
     public function ifMpty($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $checkd = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1333,7 +1500,7 @@ window.onload = function() {
 
     // addttl
     public function addTtl($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $checkd = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1349,7 +1516,7 @@ window.onload = function() {
 
     // addtpost
     public function addTPost($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $checkd = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1364,7 +1531,7 @@ window.onload = function() {
 
     // ifempty
     public function ifEmpty($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $checkd = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1430,7 +1597,7 @@ window.onload = function() {
 
     // add colm
     public function addColm($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
 
         if (!$result) {
             return 'ERROR:' . mysqli_error();
@@ -1467,7 +1634,7 @@ window.onload = function() {
     }
 
     public function supdateData($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $varnames = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1479,7 +1646,7 @@ window.onload = function() {
     }
 
     public function supdateD($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $varnames = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1491,7 +1658,7 @@ window.onload = function() {
     }
 
     public function addReq($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $r = 0;
         $varnames = '';
         if ($result->field_count > $r) {
@@ -1505,7 +1672,7 @@ window.onload = function() {
     }
 
     public function addReqch($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $checkd = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1519,7 +1686,7 @@ window.onload = function() {
     }
 
     public function addvTtl($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $checkd = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1533,7 +1700,7 @@ window.onload = function() {
     }
 
     public function sValues($tble) {
-        $result = $this->sQueries($tble);
+        $result = $this->sQuery($tble);
         $r = 0;
         if ($result->field_count > $r) {
             while ($info = $result->fetch_field()) {

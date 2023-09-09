@@ -26,7 +26,6 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
         echo '   </select>
               </div>
               </div>' . "\n";
-        
     }
 
     function selvQuery($tble) {
@@ -49,7 +48,6 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
         echo '</select>
   </div>
 </div>' . "\n";
-        
     }
 
     echo selrQuery($tbname);

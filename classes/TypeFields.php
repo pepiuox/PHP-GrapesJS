@@ -11,12 +11,12 @@ class TypeFields {
         $total = $result->num_rows;
         if ($total > 0) {
 
-            while ($rqu = $resultq->fetch_assoc()) {
+            while ($rqu = $result->fetch_assoc()) {
 
                 $c_nm = $rqu['col_name'];
                 $c_tp = $rqu['col_type'];
                 $i_tp = $rqu['input_type'];
-// $c_jo = $rqu['joins'];
+                $c_jo = $rqu['joins'];
                 $c_tb = $rqu['j_table'];
                 $c_id = $rqu['j_id'];
                 $c_vl = $rqu['j_value'];
@@ -86,21 +86,21 @@ class TypeFields {
                         });</script>";
                         echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
-<div class="input-group">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="' . $c_nm . '">Subir</span>
-  </div>
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="' . $c_nm . '" name="' . $c_nm . '"
-      aria-describedby="i' . $c_nm . '">
-    <label class="custom-file-label" for="' . $c_nm . '">Elegir archivo</label>
-  </div>
-</div>
-<div id="preview">
-                    		<?= $preview;?>
-                    	</div>
-</div>
-' . "\n";
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="' . $c_nm . '">Subir</span>
+                          </div>
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="' . $c_nm . '" name="' . $c_nm . '"
+                              aria-describedby="i' . $c_nm . '">
+                            <label class="custom-file-label" for="' . $c_nm . '">Elegir archivo</label>
+                          </div>
+                        </div>
+                        <div id="preview">
+                                                        <?= $preview;?>
+                                                </div>
+                        </div>
+                        ' . "\n";
                     } else {
                         echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>

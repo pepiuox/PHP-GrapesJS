@@ -103,10 +103,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 function insertTQO($table, $column) {
                     global $conn;
-                    $query = $conn->query("SELECT name_table,col_name FROM table_column_settings WHERE name_table='$table' AND col_name='$column'");
+                    $query = $conn->query("SELECT table_name,col_name FROM table_column_settings WHERE table_name='$table' AND col_name='$column'");
                     $num = $query->num_rows;
                     if ($num == 0) {
-                        $qry = "INSERT INTO table_column_settings (name_table,col_name) VALUES ('" . $table . "','" . $column . "')";
+                        $qry = "INSERT INTO table_column_settings (table_name,col_name) VALUES ('" . $table . "','" . $column . "')";
 
                         if ($conn->query($qry) === TRUE) {
                             return TRUE;
@@ -133,7 +133,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 $lnk = "dashboard.php?cms=column_manager&w=update&tbl=" . $tble . "&id=";
 
-                $sql = "SELECT * FROM table_column_settings WHERE name_table='$tble'";
+                $sql = "SELECT * FROM table_column_settings WHERE table_name='$tble'";
 
                 $result = $conn->query($sql);
                 echo '<div class="col-12">';
@@ -196,7 +196,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $tble = protect($_GET['tbl']);
         $id = protect($_GET['id']);
 
-        $ttl = $conn->prepare("SELECT * FROM table_column_settings WHERE tqop_Id=? AND name_table=?");
+        $ttl = $conn->prepare("SELECT * FROM table_column_settings WHERE tqop_Id=? AND table_name=?");
         $ttl->bind_param("is", $id, $tble);
         $ttl->execute();
         $ucol = $ttl->get_result();
@@ -204,7 +204,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $ttn = $ucol->fetch_assoc();
         $cnm = $ttn['col_name'];
 
-        $stmt = $conn->prepare("SELECT * FROM table_queries WHERE name_table=? AND col_name=?");
+        $stmt = $conn->prepare("SELECT * FROM table_queries WHERE table_name=? AND col_name=?");
         $stmt->bind_param("ss", $tble, $cnm);
         $stmt->execute();
         $upcol = $stmt->get_result();
@@ -271,7 +271,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                                         $colset = implode(", ", $col);
 
-                                        $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id='$id' AND name_table='$tble'";
+                                        $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id='$id' AND table_name='$tble'";
                                         if ($conn->query($upset) === TRUE) {
                                             echo "Record updated successfully";
                                             echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=update&tbl=' . $tble . '&id=' . $id . '#optionsshows">';
@@ -298,7 +298,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                                             if ($row0['Field'] == 'tqop_Id') {
                                                 continue;
-                                            } elseif ($row0['Field'] == 'name_table') {
+                                            } elseif ($row0['Field'] == 'table_name') {
                                                 continue;
                                             } else {
                                                 $remp = str_replace("_", " ", $row0['Field']);
@@ -309,7 +309,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         echo '</tr>';
                                         echo '</thead>';
                                         echo '<tbody>';
-                                        $tbcol = $conn->prepare("SELECT * FROM table_column_settings WHERE tqop_Id=? AND name_table=?");
+                                        $tbcol = $conn->prepare("SELECT * FROM table_column_settings WHERE tqop_Id=? AND table_name=?");
                                         $tbcol->bind_param("ss", $id, $tble);
                                         $tbcol->execute();
                                         $tbsc = $tbcol->get_result();
@@ -580,7 +580,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $row = mysqli_fetch_array($result1);
                 $ncol = $row[0];
 
-                $qresult = $conn->prepare("SELECT * FROM table_queries WHERE name_table=?");
+                $qresult = $conn->prepare("SELECT * FROM table_queries WHERE table_name=?");
                 $qresult->bind_param("s", $tble);
                 $qresult->execute();
                 $tbsc = $qresult->get_result();
@@ -693,7 +693,7 @@ $(document).ready(function () {
 
                 function queries($tble) {
                     global $conn;
-                    $sql = "SELECT * FROM table_queries WHERE name_table='{$tble}'";
+                    $sql = "SELECT * FROM table_queries WHERE table_name='{$tble}'";
                     $qresult = $conn->query($sql);
 
                     $r = 0;
@@ -718,6 +718,9 @@ $(document).ready(function () {
                 $mpty = $c->ifMpty($tble);
 
                 $rvfile = 'qtmp.php';
+                if (file_exists($rvfile)) {
+                    unlink($rvfile);
+                }
 
                 $redir = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
 
@@ -730,12 +733,7 @@ $(document).ready(function () {
                 $content .= "} \n";
                 $content .= "?> \n";
 
-                if (!file_exists($rvfile)) {
-                    file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
-                } else {
-                    unlink($rvfile);
-                    file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
-                }
+                file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
 
                 include_once 'qtmp.php';
 
@@ -755,6 +753,7 @@ $(document).ready(function () {
                     } else {
                         echo "Updated column successfully" . $stmt->affected_rows;
                     }
+                    $stmt->close();
                 }
                 ?>
             </div>
