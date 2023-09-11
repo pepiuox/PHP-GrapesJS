@@ -10,7 +10,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     $w = protect($_GET['w']);
     $c = new MyCRUD();
 
-    function tnmes() {
+    function tnmes($tbsl = '') {
         global $conn;
         if ($result = $conn->query("SELECT DATABASE()")) {
             $row = $result->fetch_row();
@@ -30,7 +30,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <option value="">Select Table</option>' . "\n";
         foreach ($tableNames as $tname) {
             $rem = str_replace("_", " ", $tname);
-            echo '<option value="' . $tname . '">' . ucfirst($rem) . '</option>' . "\n";
+            if ($tname === $tbsl) {
+                echo '<option value="' . $tname . '" selected>' . ucfirst($rem) . '</option>' . "\n";
+            } else {
+                echo '<option value="' . $tname . '">' . ucfirst($rem) . '</option>' . "\n";
+            }
         }
         echo '   </select>                    
                            </div>                        
@@ -236,6 +240,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <li class="nav-item"><a class="nav-link" href="#properties" data-toggle="tab">Properties</a></li>
                             <li class="nav-item"><a class="nav-link" href="#addquery" data-toggle="tab">Add query</a></li>
                             <li class="nav-item"><a class="nav-link" href="#relatedtables" data-toggle="tab">Related tables</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#dependent" data-toggle="tab">Dependent dropdown</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
@@ -287,7 +292,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         echo '<th>List</th>';
                                         echo '<th>Add</th>';
                                         echo '<th>Update</th>';
-                                        echo '<th>View</th>';                                        
+                                        echo '<th>View</th>';
                                         echo '</tr>';
                                         echo '</thead>';
                                         echo '<tbody>';
@@ -391,39 +396,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                                 </div>
                                             </div>
                                         </fieldset>
-                                    </form>
-                                    <script>
-                                /*
-                                 $(document).ready(function () {
-                                 $("#btsel").hide();
-                                 $("#texta").hide();
-                                 $("#typei").on("change", function () {
-                                         
-                                 let value = $("#input_type option:selected").val();
-                                 if (value === 1) {
-                                 $("#btsel").hide();
-                                 $("#texta").hide();
-                                 $("#stb").val("");
-                                 }
-                                 if (value === 2) {
-                                 $("#texta").show();
-                                 $("#btsel").hide();
-                                 $("#stb").val(value);
-                                 }
-                                 if (value === 3) {
-                                 $("#btsel").show();
-                                 $("#texta").hide();
-                                 $("#stb").val(value);
-                                 }
-                                 if (value === 4) {
-                                 $("#btsel").show();
-                                 $("#texta").hide();
-                                 $("#stb").val(value);
-                                 }
-                                 });
-                                 });
-                                 * */
-                                    </script>
+                                    </form>                                    
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="addquery">
                                     <?php
@@ -444,10 +417,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <form action="" method="post" enctype="multipart/form-data">
                                         <fieldset>                                           
                                             <?php
-                                            echo '<div class="form-group">
-                            <label for="' . $ttn['col_name'] . '">Query for ' . $cln . ':</label>
-                            <textarea type="text" class="form-control" id="where" name="where">' . $ttn['where'] . '</textarea>
-                          </div>' . "\n";
+                                            echo '<div class="form-group">' . "\n";
+                                            echo '<label for="' . $ttn['col_name'] . '">Query for ' . $cln . ':</label>' . "\n";
+                                            echo '<textarea type="text" class="form-control" id="where" name="where">' . $ttn['where'] . '</textarea>' . "\n";
+                                            echo '</div>' . "\n";
                                             ?>
                                             <div class="form-group">
                                                 <div class="col-md-12">
@@ -481,45 +454,79 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <h4 class="text-primary">Select table to relate</h4>
                                     <form class="row form-horizontal" method="POST" id="queries">
                                         <fieldset>
-
                                             <div class="form-group" id="vtble">
                                                 <label class="control-label" for="joins">Select type JOIN</label>
                                                 <div class="col-md-12">
                                                     <select id="joins" name="joins" class="form-select">
                                                         <option value="">Select JOIN</option>
-                                                        <option value="INNER JOIN">INNER JOIN</option>
-                                                        <option value="LEFT JOIN">LEFT JOIN</option>
-                                                        <option value="RIGHT JOIN">RIGHT JOIN</option>
-                                                        <option value="STRAIGHT JOIN">STRAIGHT JOIN</option>
-                                                        <option value="CROSS JOIN">CROSS JOIN</option>
-                                                        <option value="NATURAL JOIN">NATURAL JOIN</option>
+
+                                                        <option value="INNER JOIN"
+                                                        <?php
+                                                        if ($ttn['joins'] == 'INNER JOIN') {
+                                                            echo ' selected';
+                                                        }
+                                                        ?>>INNER JOIN</option>
+                                                        <option value="LEFT JOIN"
+                                                        <?php
+                                                        if ($ttn['joins'] == 'LEFT JOIN') {
+                                                            echo ' selected';
+                                                        }
+                                                        ?>>LEFT JOIN</option>
+                                                        <option value="RIGHT JOIN"
+                                                        <?php
+                                                        if ($ttn['joins'] == 'RIGHT JOIN') {
+                                                            echo ' selected';
+                                                        }
+                                                        ?>>RIGHT JOIN</option>
+                                                        <option value="STRAIGHT JOIN"
+                                                        <?php
+                                                        if ($ttn['joins'] == 'STRAIGHT JOIN') {
+                                                            echo ' selected';
+                                                        }
+                                                        ?>>STRAIGHT JOIN</option>
+                                                        <option value="CROSS JOIN"
+                                                        <?php
+                                                        if ($ttn['joins'] == 'CROSS JOIN') {
+                                                            echo ' selected';
+                                                        }
+                                                        ?>>CROSS JOIN</option>
+                                                        <option value="NATURAL JOIN"
+                                                        <?php
+                                                        if ($ttn['joins'] == 'NATURAL JOIN') {
+                                                            echo ' selected';
+                                                        }
+                                                        ?>>NATURAL JOIN</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <?php
-                                            tnmes();
+                                            tnmes($ttn['j_table']);
                                             ?>
                                             <script>
-                                                $(document).ready(function () {
-                                                    $('#j_table').on("change", function (e) {
-                                                        e.preventDefault();
-                                                        var tbname = $('#j_table').val();
-                                                        var params = {
-                                                            "tbname": tbname
-                                                        };
-                                                        $.ajax({
-                                                            type: 'POST',
-                                                            url: 'tbq.php',
-                                                            data: params,
-                                                            success: function (response) {
-                                                                $('#seltables').html(response);
-                                                            },
-                                                            error: function () {
-                                                                alert("Something went wrong!");
-                                                            }
-                                                        });
-                                                    }).trigger("change");
-                                                });
+                                $(document).ready(function () {
+                                    $('#j_table').on("change", function (e) {
+                                        e.preventDefault();
+                                        var tbname = $('#j_table').val();
+                                        var tid = '<?php echo $ttn['j_id']; ?>';
+                                        var tvl = '<?php echo $ttn['j_value']; ?>';
+                                        var params = {
+                                            "tbname": tbname,
+                                            "tid": tid,
+                                            "tvl": tvl
+                                        };
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: 'tbq.php',
+                                            data: params,
+                                            success: function (response) {
+                                                $('#seltables').html(response);
+                                            },
+                                            error: function () {
+                                                alert("Something went wrong!");
+                                            }
+                                        });
+                                    }).trigger("change");
+                                });
                                             </script>
                                             <div class="form-group">
                                                 <div class="col-md-12" id="seltables" name="seltables"></div>
@@ -527,6 +534,64 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <button type="submit" id="submitrv" name="submitrv" class="btn btn-warning">Save</button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="dependent">
+                                    <?php
+                                    if (isset($_POST['submitdp'])) {
+                                        $qrm = protect($_POST['main_field']);
+                                        $qrl = protect($_POST['lookup_field']);
+
+                                        $stmt = $conn->prepare("UPDATE table_column_settings SET main_field = ?, lookup_field = ? WHERE tqop_Id = ?");
+                                        $stmt->bind_param('ssi', $qrm, $qrl, $inp);
+                                        $status = $stmt->execute();
+                                        if ($status === false) {
+                                            trigger_error($stmt->error, E_USER_ERROR);
+                                        } else {
+                                            echo "Updated column successfully" . $stmt->affected_rows;
+                                        }
+                                    }
+                                    ?>
+                                    <h3>Dependent dropdown main field</h3>
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <fieldset>                                           
+                                            <?php
+                                            echo '<div class="form-check">' . "\n";
+                                            echo '<input class="form-check-input" type="checkbox" id="dropdep" name="dropdep" value="1"';
+                                            if (!empty($ttn['j_table'])) {
+                                                echo ' checked';
+                                            }
+                                            echo '>' . "\n";
+                                            echo '<label class="form-check-label" for="dropdep">Parent main field:</label>' . "\n";
+                                            echo '</div>' . "\n";
+                                            if (!empty($ttn['j_table'])) {
+                                                echo '<div class="form-group">' . "\n";
+                                                echo '<label for="main_field">Parent main field:</label>' . "\n";
+                                                echo '<input type="text" class="form-control" id="main_field" name="main_field" value="' . $ttn['j_id'] . '">' . "\n";
+                                                echo '</div>' . "\n";
+
+                                                echo '<div class="form-group">' . "\n";
+                                                echo '<label for="lookup_field">lookup filter field:</label>' . "\n";
+                                                echo '<input type="text" class="form-control" id="lookup_field" name="lookup_field" value="' . $ttn['col_name'] . '">' . "\n";
+                                                echo '</div>' . "\n";
+                                            } else {
+                                                echo '<div class="form-group">' . "\n";
+                                                echo '<label for="main_field">Parent main field:</label>' . "\n";
+                                                echo '<input type="text" class="form-control" id="main_field" name="main_field" value="' . $ttn['main_field'] . '">' . "\n";
+                                                echo '</div>' . "\n";
+
+                                                echo '<div class="form-group">' . "\n";
+                                                echo '<label for="lookup_field">lookup filter field:</label>' . "\n";
+                                                echo '<input type="text" class="form-control" id="lookup_field" name="lookup_field" value="' . $ttn['lookup_field'] . '">' . "\n";
+                                                echo '</div>' . "\n";
+                                            }
+                                            ?>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <button type="submit" id="submitdp" name="submitdp" class="btn btn-warning">Save</button>
                                                 </div>
                                             </div>
                                         </fieldset>
