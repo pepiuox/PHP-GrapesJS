@@ -4,8 +4,8 @@ if (!isset($_SESSION)) {
 }
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
+    require_once '../config/dbconnection.php';
+    require_once 'Autoload.php';
 
     $login = new UserClass();
     $check = new CheckValidUser();
@@ -133,7 +133,7 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
         header('Location: ../index.php');
         exit();
     }
-    require '../elements/footer.php';
+    require_once '../elements/footer.php';
     ?>
 
 </body>

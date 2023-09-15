@@ -237,8 +237,10 @@ if (file_exists($connfile)) {
                     <div class='container-fluid' id="content-page">
                         <?php
                         $string = decodeContent($content);
-                        $string = str_replace("<body>", "", $string);
-                        $string = str_replace("</body>", "", $string);
+                        if (!empty($content)) {
+                            $string = str_replace("<body>", "", $string);
+                            $string = str_replace("</body>", "", $string);
+                        }
                         echo $string . "\n";
                         ?>
                     </div>

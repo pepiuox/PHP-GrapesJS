@@ -26,8 +26,8 @@ if ($w == "list") {
                         while ($prow = $result->fetch_array()) {
                             echo '<tr>
                         <td><!--Button -->
-                            <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="dashboard.php?cms=theme_template&amp;w=list"><i class="fas fa-edit"></i></a>
-                            <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="dashboard.php?cms=themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
+                            <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="dashboard.php?cms=theme_template&amp;w=list"><i class="fas fa-edit"></i> List</a>
+                            <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="dashboard.php?cms=themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i> More options</a>
                         </td>
                         <td>' . $prow['theme_name'] . '</td>
                         <td>' . $prow['theme_bootstrap'] . '</td>

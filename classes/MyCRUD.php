@@ -2,10 +2,18 @@
 
 class MyCRUD {
 
-    private $connection;
+    protected $connection;
+    protected $hostDB;
+    protected $userDB;
+    protected $passDB;
+    protected $baseDB;
     public $pgname;
 
     public function __construct() {
+        $this->hostDB = DBHOST;
+        $this->userDB = DBUSER;
+        $this->passDB = DBPASS;
+        $this->baseDB = DBNAME;
         global $conn, $rname;
         $this->connection = $conn;
         $this->pgname = $rname;
@@ -20,16 +28,16 @@ class MyCRUD {
         return $str;
     }
 
-    public function sQuery($tble) {
+    public function getAllData($tble) {
         return $this->connection->query("SELECT * FROM $tble");
     }
 
-    public function wQueries($query) {
+    public function selectData($query) {
         return $this->connection->query($query);
     }
 
     public function getID($tble) {
-        if ($result = $this->sQuery($tble)) {
+        if ($result = $this->getAllData($tble)) {
             /* Get field information for 2nd column */
             $result->field_seek(0);
             $finfo = $result->fetch_field();
@@ -39,7 +47,7 @@ class MyCRUD {
 
     public function getColumnNames($tble) {
         $sql = 'DESCRIBE ' . $tble;
-        $result = $this->wQueries($sql);
+        $result = $this->selectData($sql);
         $rows = array();
         while ($row = $result->fetch_fields()) {
             $rows[] = $row['Field'];
@@ -50,7 +58,7 @@ class MyCRUD {
     public function listDatatype($tble) {
         $nDB = DBNAME;
         $dsql = "SELECT COLUMN_NAME AS name, DATA_TYPE AS type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$nDB' AND TABLE_NAME = '$tble'";
-        $dresult = $this->wQueries($dsql);
+        $dresult = $this->selectData($dsql);
         $cnm = array();
         while ($row = $dresult->fetch_assoc()) {
             $cnm[] = $row['type'];
@@ -61,7 +69,7 @@ class MyCRUD {
     public function showCol($tble) {
         $nDB = DBNAME;
         $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$nDB' AND TABLE_NAME = '$tble'";
-        $result = $this->wQueries($sql);
+        $result = $this->selectData($sql);
         $columnArr = array();
         while ($row = $result->fetch_assoc()) {
             $columnArr[] = $row['DATA_TYPE'];
@@ -70,24 +78,21 @@ class MyCRUD {
     }
 
     public function viewColumns($tble) {
-        $hostDB = DBHOST;
-        $userDB = DBUSER;
-        $passDB = DBPASS;
-        $baseDB = DBNAME;
+
         try {
-            $dbDdata = new PDO("mysql:host=$hostDB;dbname=$baseDB", $userDB, $passDB);
+            $dbDdata = new PDO("mysql:host=$this->hostDB;dbname=$this->baseDB", $this->userDB, $this->passDB);
         } catch (Exception $e) {
             echo "Something happened to the database: " . $e->getMessage();
         }
         return $dbDdata->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type
             FROM information_schema.columns WHERE
-            table_schema = '$baseDB'
+            table_schema = '$this->baseDB'
             AND table_name = '$tble'")->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function tblQueries($tble) {
         $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$tble' AND input_type IS NOT NULL";
-        $resultq = $this->wQueries($sqlq);
+        $resultq = $this->selectData($sqlq);
         $rowcq = $resultq->num_rows;
         $r = 0;
 
@@ -108,7 +113,7 @@ class MyCRUD {
                 $nif[] = "if (\$finfo->name === '{$c_nm}') {
                     echo '<div class=\"form-group\">
         <label for=\"' . \$finfo->name . '\">' . ucfirst(\$remp) . ':</label>
-        <select type=\"text\" class=\"form-control\" id=\"' . \$finfo->name . '\" name=\"' . \$finfo->name . '\" >';
+        <select type=\"select\" class=\"form-control\" id=\"' . \$finfo->name . '\" name=\"' . \$finfo->name . '\" >';
 
                     \$qres = \$this->connection->query(\"SELECT * FROM  {$c_tb}\");
                     while (\$rqj = \$qres->fetch_array()) {
@@ -131,7 +136,7 @@ class MyCRUD {
     }
 
     public function getList($sql, $col) {
-        $result = $this->wQueries($sql);
+        $result = $this->selectData($sql);
 
         if ($result->field_count > 0) {
             while ($th = $result->fetch_field()) {
@@ -168,7 +173,7 @@ class MyCRUD {
     }
 
     public function listColm($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
 
         $i = 0;
         echo '<form class="row form-horizontal" role="form" method="POST" enctype="multipart/form-data">' . "\n";
@@ -210,9 +215,9 @@ class MyCRUD {
                 $qry = 'empty query';
             }
 
-            $result = $this->wQueries("SELECT * FROM $tble WHERE id LIKE '%$qry%' ORDER BY id");
+            $result = $this->selectData("SELECT * FROM $tble WHERE id LIKE '%$qry%' ORDER BY id");
         } else {
-            $result = $this->wQueries("SELECT * FROM $tble ORDER BY id LIMIT {$startpoint} , {$limit}");
+            $result = $this->selectData("SELECT * FROM $tble ORDER BY id LIMIT {$startpoint} , {$limit}");
         }
         // end pagination
         if ($result->num_rows > 0) {
@@ -387,7 +392,7 @@ class MyCRUD {
         $colms = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
 
-        $resultq = $this->wQueries("SELECT * FROM table_column_settings WHERE table_name='$tble' AND input_type IS NOT NULL");
+        $resultq = $this->selectData("SELECT * FROM table_column_settings WHERE table_name='$tble' AND input_type IS NOT NULL");
         $resv = $resultq->num_rows;
 
         $r = 0;
@@ -448,13 +453,13 @@ class MyCRUD {
         }
 
         $endpage = '';
-        if ($nres = $this->sQuery($tble)) {
+        if ($nres = $this->getAllData($tble)) {
             $rowcq = $nres->num_rows;
             $endpage = ceil($rowcq / $range);
         }
 
-        $res = $this->wQueries($sel);
-        $result = $this->wQueries($select);
+        $res = $this->selectData($sel);
+        $result = $this->selectData($select);
 
         $i = 0;
         if ($resv > $i) {
@@ -506,7 +511,7 @@ class MyCRUD {
                 foreach ($names as $key => $name) {
                     if ($resv > $y) {
 
-                        $vrfile = 'vtmp.php';
+                        $vrfile = 'qtmp.php';
                         if (file_exists($rvfile)) {
                             unlink($rvfile);
                         }
@@ -644,7 +649,7 @@ class MyCRUD {
                 $c_id = $rqu['j_id'];
                 $c_vl = $rqu['j_value'];
                 $c_as = $rqu['j_as'];
-                $c_qr = $rqu['query'];
+                $c_qr = $rqu['where'];
 
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
@@ -878,20 +883,18 @@ class MyCRUD {
         $nvl = array();
         $colID = $this->getID($tble);
 //
-        $qresult = $this->sQuery($tble);
+        $qresult = $this->getAllData($tble);
         while ($finfo = $qresult->fetch_field()) {
             if ($finfo->name == $colID) {
                 continue;
             }
             $nvl[] = '?';
-            $vname[] = $finfo->name;
-            $pname[] = "'$" . $finfo->name . "'";
+            $vname[] = $finfo->name;          
             $ptadd[] = "$" . $finfo->name . " = \$_POST['" . $finfo->name . "'];" . "\n";
         }
 
         $nvls = implode(", ", $nvl);
-        $vnames = implode(", ", $vname);
-        $pnames = implode(", ", $pname);
+        $vnames = implode(", ", $vname);      
         $ptadds = implode(" ", $ptadd);
         /*
           i - integer
@@ -906,6 +909,12 @@ class MyCRUD {
             'int' => 'i',
             'bigint' => 'i',
             'bit' => 'i',
+            'binary' => 'b',
+            'varbinary' => 'b',
+            'tinyblob' => 'b',
+            'blob' => 'b',
+            'mediumblob' => 'b',
+            'longblob' => 'b',
             'float' => 'd',
             'double' => 'd',
             'decimal' => 'd',
@@ -917,12 +926,6 @@ class MyCRUD {
             'longtext' => 's',
             'json' => 's',
             'uuid' => 's',
-            'binary' => 'b',
-            'varbinary' => 'b',
-            'tinyblob' => 'b',
-            'blob' => 'b',
-            'mediumblob' => 'b',
-            'longblob' => 'b',
             'date' => 's',
             'time' => 's',
             'year' => 's',
@@ -958,13 +961,6 @@ class MyCRUD {
         $cnames = implode(', ', $cname);
         $ctypes = implode('', $ctype);
 
-        /*
-          i - integer
-          d - double
-          s - string
-          b - BLOB
-         */
-
         $vfile = 'qtmp.php';
         if (file_exists($vfile)) {
             unlink($vfile);
@@ -980,8 +976,7 @@ class MyCRUD {
         $content .= '$stmt->execute();' . "\n";
         $content .= '$stmt->close();' . "\n";
         $content .= "\$_SESSION['success'] = 'The data was added correctly';
-header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "');
-\$conn->close();" . "\n";
+header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "');" . "\n";
         $content .= "} \n";
         $content .= "?> \n";
 
@@ -994,15 +989,161 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
         $this->joinCols($tble);
 
         echo '<div class="form-group">
-        <button type="submit" id="addrow" name="addrow" class="btn btn-primary"><span class="fas fa-plus-square" onclick="dVals();"></span> Add</button>
+        <button type="submit" id="addrow" name="addrow" class="btn btn-primary"><span class="fas fa-plus-square"></span> Add</button>
     </div>' . "\n";
         echo '</form>' . "\n";
     }
 
     // addScript
+
+    public function insertData($tble) {
+        $ncol = $this->getID($tble);
+        $result = $this->connecion->query("SELECT * FROM $tble");
+        while ($finfo = $result->fetch_field()) {
+            if ($finfo->name == $ncol) {
+                continue;
+            }
+            $vname[] = $finfo->name;
+            $bname[] = "$" . $finfo->name;
+            $pname[] = "?";
+            $ptadd[] = "$" . $finfo->name . " = \$_POST['" . $finfo->name . "'];" . "\n";
+        }
+        $fields = $result->field_count;
+        $bp = array();
+
+        for ($i = 0; $i < $fields; $i++) {
+            $finfo = $result->fetch_field_direct($i);
+            if (!$finfo->name == $ncol) {
+                continue;
+            } else {
+                $nq = $this->connecion->query("SELECT COLUMN_TYPE as type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $finfo->table . "' AND COLUMN_NAME = '" . $finfo->name . "'");
+                $row = $nq->fetch_assoc();
+                $nt = strcspn($row['type'], '(');
+                $ns = substr($row['type'], 0, $nt);
+                /*
+                  i - integer
+                  d - double
+                  s - string
+                  b - BLOB
+                 */
+                $intdata = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint'];
+                $strdata = ['varchar', 'char', 'text', 'tinytext', 'mediumtext', 'longtext', 'time', 'year', 'date', 'datetime', 'timestamp', 'json', 'enum', 'set', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection'];
+                $doudata = ['binary', 'varbinary', 'bit', 'float', 'double', 'decimal'];
+                $blodata = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
+
+                if (in_array($ns, $intdata)) {
+                    $bp[] = 'i';
+                } elseif (in_array($ns, $strdata)) {
+                    $bp[] = 's';
+                } elseif (in_array($ns, $doudata)) {
+                    $bp[] = 'd';
+                } elseif (in_array($ns, $blodata)) {
+                    $bp[] = 'b';
+                }
+                $vd = implode("", $bp);
+            }
+        }
+
+        $vnames = implode(", ", $vname);
+        $bnames = implode(", ", $bname);
+        $pnames = implode(", ", $pname);
+        $ptadds = implode(" ", $ptadd);
+
+        $rvfile = 'qtmp.php';
+        if (file_exists($rvfile)) {
+            unlink($rvfile);
+        }
+
+        $content = '<?php' . "\n";
+        $content .= '//This is temporal file only for add new row' . "\n";
+        $content .= "if(isset(\$_POST['addrow'])){" . "\n";
+        $content .= $ptadds . "\n";
+        $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
+        $content .= 'VALUES (' . $pnames . ')";' . "\n";
+        $content .= "\$insert = \$conn->prepare(\$sql);
+\$insert->bind_param('" . $vd . "'," . $bnames . " );
+\$insert->execute();
+\$insert->close();" . "\n";
+        $content .= "}" . "\n";
+        $content .= "?> \n";
+
+        file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
+        
+        include_once 'qtmp.php';
+    }
+
+    public function updateSelectData($tble) {
+        $ncol = $this->getID($tble);
+        $result = $this->connection->query("SELECT * FROM $tble");
+        $fields = $result->field_count;
+        for ($i = 0; $i < $fields; $i++) {
+            $finfo = $result->fetch_field_direct($i);
+            if ($finfo->name == $ncol) {
+                continue;
+            } else {
+                $nq = $this->connection->query("SELECT COLUMN_TYPE as type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $finfo->table . "' AND COLUMN_NAME = '" . $finfo->name . "'");
+                $row = $nq->fetch_assoc();
+                $nt = strcspn($row['type'], '(');
+                $ns = substr($row['type'], 0, $nt);
+                /*
+                  i - integer
+                  d - double
+                  s - string
+                  b - BLOB
+                 */
+                $intdata = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint'];
+                $strdata = ['varchar', 'char', 'text', 'tinytext', 'mediumtext', 'longtext', 'time', 'year', 'date', 'datetime', 'timestamp', 'json', 'enum', 'set', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection'];
+                $doudata = ['binary', 'varbinary', 'bit', 'float', 'double', 'decimal'];
+                $blodata = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
+
+                if (in_array($ns, $intdata)) {
+                    $bp[] = 'i';
+                } elseif (in_array($ns, $strdata)) {
+                    $bp[] = 's';
+                } elseif (in_array($ns, $doudata)) {
+                    $bp[] = 'd';
+                } elseif (in_array($ns, $blodata)) {
+                    $bp[] = 'b';
+                }
+                $vd = implode("", $bp);
+            }
+        }
+        if ($fields > 0) {
+            while ($info = mysqli_fetch_field($result)) {
+                if ($info->name != $ncol) {
+                    $postnames[] = '$' . $info->name . ' = $_POST["' . $info->name . '"]; ' . "\r\n";
+                    $varnames[] = $info->name . " = ?";
+                    $bname[] = "$" . $finfo->name;
+                }
+            }
+        }
+        $scpt = implode("", $postnames);
+        $ecols = implode(", ", $varnames);
+        $bnames = implode(", ", $bname);
+
+        $rvfile = 'qtmp.php';
+        if (file_exists($rvfile)) {
+            unlink($rvfile);
+        }
+
+        $content = '<?php' . "\n";
+        $content .= '//This is temporal file only for add new row' . "\n";
+        $content .= "if (isset(\$_POST['editrow'])) { \r\n";
+        $content .= $scpt . "\r\n";
+        $content .= '$query = "UPDATE ' . $tble . ' SET ' . $ecols . ' WHERE ' . $ncol . ' = ?";' . "\r\n";
+        $content .= "\$insert = \$conn->prepare(\$sql);
+\$insert->bind_param('" . $vd . "i', " . $bnames . ", \$id );
+\$insert->execute();
+\$insert->close();" . "\n";
+        $content .= "}" . "\n";
+        $content .= "?> \n";
+
+        file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
+    }
+
     public function updateScript($tble) {
 
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $ncol = $this->getID($tble);
 
         $r = 0;
@@ -1097,7 +1238,7 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
         $ctypes = implode('', $ctype);
         $bindp = $ctypes . $idtypes;
 
-        $vfile = 'updatetmp.php';
+        $vfile = 'qtmp.php';
         if (file_exists($vfile)) {
             unlink($vfile);
         }
@@ -1120,19 +1261,20 @@ window.onload = function() {
         $content .= "?> \n";
 
         file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
+        include_once 'qtmp.php';
     }
 
     public function inputQEdit($tble, $id) {
         $columns = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
-        $resultq = $this->wQueries("SELECT * FROM table_column_settings WHERE table_name='$tble'");
+        $resultq = $this->selectData("SELECT * FROM table_column_settings WHERE table_name='$tble'");
         $rowcq = $resultq->num_rows;
         $r = 0;
         if ($rowcq > $r) {
             echo '<form class="row form-horizontal" role="form" id="edit_' . $tble . '" method="POST" enctype="multipart/form-data">' . "\n";
             while ($rqu = $resultq->fetch_array()) {
 
-                $qresult = $this->wQueries("SELECT * FROM $tble WHERE $ncol = '$id' ");
+                $qresult = $this->selectData("SELECT * FROM $tble WHERE $ncol = '$id' ");
                 $row = $qresult->fetch_assoc();
 
                 $c_nm = $rqu['col_name'];
@@ -1148,7 +1290,9 @@ window.onload = function() {
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
 
-                if ($c_tp === 'int' || $c_tp === 'tinyint' || $c_tp === 'smallint' || $c_tp === 'mediumint' || $c_tp === 'bigint' || $c_tp === 'bit' || $c_tp === 'float' || $c_tp === 'double' || $c_tp === 'decimal') {
+                $tpdi = array('int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal');
+
+                if (in_array($c_tp, $tpdi)) {
                     if ($i_tp === 3) {
 
                         echo '
@@ -1156,7 +1300,7 @@ window.onload = function() {
         <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
         <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >';
 
-                        $qres = $this->sQuery($c_tb);
+                        $qres = $this->getAllData($c_tb);
 
                         while ($rqj = $qres->fetch_array()) {
                             if ($cdta == $rqj[$c_id]) {
@@ -1240,7 +1384,7 @@ window.onload = function() {
                 if ($c_tp === 'enum' || $c_tp === 'set') {
                     // ----------------------
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
-                    $iresult = $this->wQueries($isql);
+                    $iresult = $this->selectData($isql);
                     $row = $iresult->fetch_array();
                     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
@@ -1271,7 +1415,7 @@ window.onload = function() {
             echo '<form role="form" id="edit_' . $tble . '" method="POST">' . "\n";
             foreach ($columns as $finfo) {
 
-                $qresult = $this->wQueries("select * from $tble where $ncol = '$id' ");
+                $qresult = $this->selectData("select * from $tble where $ncol = '$id' ");
                 $row = $qresult->fetch_assoc();
                 if ($finfo->name === $ncol) {
                     continue;
@@ -1284,7 +1428,10 @@ window.onload = function() {
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
 
-                if ($c_tp === 'int' || $c_tp === 'tinyint' || $c_tp === 'smallint' || $c_tp === 'mediumint' || $c_tp === 'bigint' || $c_tp === 'bit' || $c_tp === 'float' || $c_tp === 'double' || $c_tp === 'decimal') {
+                $tpdi = array('int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal');
+
+                if (in_array($c_tp, $tpdi)) {
+
                     echo '<div class="form-group">
 				<label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label> <input type="text"
 					class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"
@@ -1344,7 +1491,7 @@ window.onload = function() {
                     // ----------------------
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
 
-                    $iresult = $this->wQueries($isql);
+                    $iresult = $this->selectData($isql);
                     $row = $iresult->fetch_array();
                     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
@@ -1408,7 +1555,7 @@ window.onload = function() {
     // deleterow
     public function deleteData($tble, $id) {
         $ncol = $this->getID($tble);
-        $qresult = $this->wQueries("select * from $tble where $ncol = '$id' ");
+        $qresult = $this->selectData("select * from $tble where $ncol = '$id' ");
         echo '<form class="row form-horizontal" role="form" id="delete_' . $tble . '" method="POST">' . "\n";
         $row = $qresult->fetch_assoc();
         while ($finfo = $qresult->fetch_field()) {
@@ -1431,7 +1578,7 @@ window.onload = function() {
 
     // adduery
     public function addQuery($tble) {
-        $qresult = $this->sQuery($tble);
+        $qresult = $this->getAllData($tble);
         echo '<form class="row form-horizontal" role="form" method="post" id="query_' . $tble . '">' . "\n";
         while ($finfo = $qresult->fetch_field()) {
             if ($finfo->name === $this->getID($tble)) {
@@ -1453,7 +1600,7 @@ window.onload = function() {
 
     // addpost
     public function addpost($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $r = 0;
         $postnames = array();
         while ($result->field_count > $r) {
@@ -1468,7 +1615,7 @@ window.onload = function() {
 
     // updatedata
     public function updateData($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $varnames = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1484,7 +1631,7 @@ window.onload = function() {
 
     // ifmpty
     public function ifMpty($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $checkd = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1500,7 +1647,7 @@ window.onload = function() {
 
     // addttl
     public function addTtl($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $checkd = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1516,7 +1663,7 @@ window.onload = function() {
 
     // addtpost
     public function addTPost($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $checkd = array();
         $r = 0;
         while ($result->field_count > $r) {
@@ -1531,7 +1678,7 @@ window.onload = function() {
 
     // ifempty
     public function ifEmpty($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $checkd = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1548,7 +1695,7 @@ window.onload = function() {
     // edit row
     public function editColm($tble, $id) {
         $ncol = $this->getID($tble);
-        $result = $this->wQueries("select * from $tble where $ncol = '$id' ");
+        $result = $this->selectData("select * from $tble where $ncol = '$id' ");
         if (!$result) {
             return 'ERROR:' . mysqli_error();
         } else {
@@ -1597,7 +1744,7 @@ window.onload = function() {
 
     // add colm
     public function addColm($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
 
         if (!$result) {
             return 'ERROR:' . mysqli_error();
@@ -1634,7 +1781,7 @@ window.onload = function() {
     }
 
     public function supdateData($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $varnames = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1646,7 +1793,7 @@ window.onload = function() {
     }
 
     public function supdateD($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $varnames = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1658,7 +1805,7 @@ window.onload = function() {
     }
 
     public function addReq($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $r = 0;
         $varnames = '';
         if ($result->field_count > $r) {
@@ -1672,7 +1819,7 @@ window.onload = function() {
     }
 
     public function addReqch($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $checkd = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1686,7 +1833,7 @@ window.onload = function() {
     }
 
     public function addvTtl($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $checkd = array();
         $r = 0;
         if ($result->field_count > $r) {
@@ -1700,7 +1847,7 @@ window.onload = function() {
     }
 
     public function sValues($tble) {
-        $result = $this->sQuery($tble);
+        $result = $this->getAllData($tble);
         $r = 0;
         if ($result->field_count > $r) {
             while ($info = $result->fetch_field()) {

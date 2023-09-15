@@ -5,14 +5,14 @@
  *
  * @author PePiuoX
  */
-require '../vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
 class newUser {
 
     public $baseurl;
-    private $connection;
+    protected $connection;
     private $ip;
     public $mail;
 

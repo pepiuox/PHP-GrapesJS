@@ -3,8 +3,8 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require '../config/dbconnection.php';
-require 'Autoload.php';
+require_once '../config/dbconnection.php';
+require_once 'Autoload.php';
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
     $login = new UserClass();

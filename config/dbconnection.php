@@ -1,19 +1,21 @@
 <?php
 
-require_once 'error_report.php';
-require_once 'Database.php';
+include 'error_report.php';
+include 'Database.php';
 $link = new Database();
-$conn = $link->MysqliConnection();
+$conn = $link-> MysqliConnection();
 require_once 'function.php';
-require_once 'define.php';
+include_once 'define.php';
 
-if (!empty(SITE_PATH)) {
-    $siteinstall = SITE_PATH;
-} else {
-    $base = 'http://localhost:130/';
+        if (!empty(SITE_PATH)) {
+            $siteinstall = SITE_PATH;
+        } else {
+$base = 'http://localhost:130/';
 }
 $fname = basename($_SERVER['SCRIPT_FILENAME'], '.php');
 $rname = $fname . '.php';
 $alertpg = $_SERVER['REQUEST_URI'];
-?>
+
+    
+    ?>
     

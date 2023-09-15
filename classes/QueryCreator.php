@@ -2,7 +2,7 @@
 
 class QueryCreator {
 
-    private $connection;
+    protected $connection;
     private $DBname = 'ecommerce';
     public $table = 'proveedores';
 

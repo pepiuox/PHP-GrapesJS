@@ -136,6 +136,18 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="nav-link <?php
+                        if ($cms === 'add_page') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>
+                                Add page                   
+                            </p>
+                        </a>
+                    </li>  
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
@@ -163,29 +175,15 @@
                                 if ($fname === $plink) {
                                     echo 'active';
                                 }
-                                echo '">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>' . $ptitle . '</p>
-                        </a>
-                    </li>
-                    ';
+                                echo '">';
+                                echo '<p>' . $ptitle . '</p>';
+                                echo '<i class="far fa-circle nav-icon"></i>';
+                                echo '</a>';
+                                echo '</li>';
                             }
                             ?>
                         </ul>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="nav-link <?php
-                        if ($cms === 'add_page') {
-                            echo 'active';
-                        }
-                        ?>">
-                            <i class="nav-icon fas fa-file-alt"></i>
-                            <p>
-                                Add page                   
-                            </p>
-                        </a>
-                    </li>  
                 </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -221,6 +219,18 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_post" class="nav-link <?php
+                        if ($cms === 'add_post') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>
+                                Add post                   
+                            </p>
+                        </a>
+                    </li>   
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
@@ -231,11 +241,11 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <?php
-                            $pages = $conn->query("SELECT * FROM blog_posts");
-                            while ($page = $pages->fetch_array()) {
-                                $plink = $page['link'];
-                                $ptitle = $page['title'];
-                                $category = $page['category_id'];
+                            $posts = $conn->query("SELECT * FROM blog_posts");
+                            while ($post = $posts->fetch_array()) {
+                                $plink = $post['link'];
+                                $ptitle = $post['title'];
+                                $category = $poste['category_id'];
                                 echo'<li class="nav-item">';
                                 if ($category > 0) {
                                     $categ = $conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON categoryID=category_id where category_id=$category");
@@ -248,30 +258,15 @@
                                 if ($fname === $plink) {
                                     echo 'active';
                                 }
-                                echo '">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>' . $ptitle . '</p>
-                        </a>
-                    </li>
-                    ';
+                                echo '">';
+                                echo '<i class="far fa-circle nav-icon"></i>';
+                                echo '<p>' . $ptitle . '</p>';
+                                echo '</a>';
+                                echo'</li>';
                             }
                             ?>
-
                         </ul>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_post" class="nav-link <?php
-                        if ($cms === 'add_post') {
-                            echo 'active';
-                        }
-                        ?>">
-                            <i class="nav-icon fas fa-file-alt"></i>
-                            <p>
-                                Add post                   
-                            </p>
-                        </a>
-                    </li>                   
                 </ul>
             </li>
             <li class="nav-item has-treeview">

@@ -2,7 +2,7 @@
 
 class formCRUD {
 
-    private $connection;
+    protected $connection;
     public $tname;
 
     public function __construct($conn) {

@@ -35,7 +35,7 @@ class Session {
     private $userinfo = array();  //The array holding all user info
     private $url;          //The page url current being viewed
     private $referrer;     //Last recorded site page viewed
-    private $connection;
+    protected $connection;
 
     /**
      * Note: referrer should really only be considered the actual

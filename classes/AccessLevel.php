@@ -6,7 +6,7 @@
 
 class AccessLevel {
 
-    private $connection;
+    protected $connection;
     private $userrole;
     private $user_id;
     private $level;

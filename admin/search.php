@@ -1,6 +1,6 @@
 <?php
-require 'db.php';
-require 'MyCRUD.php';
+require_once 'db.php';
+require_once 'MyCRUD.php';
 $path = basename($_SERVER['REQUEST_URI']);
 $file = basename($path);
 
@@ -65,7 +65,7 @@ include 'top.php';
     include 'header.php';
     if ($w == "select") {
 
-        if ($result = $c->wQueries("SELECT * FROM table_config")) {
+        if ($result = $c->selectData("SELECT * FROM table_config")) {
             $total_found = mysqli_num_rows($result);
 
             if ($total_found > 0) {

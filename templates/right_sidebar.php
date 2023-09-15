@@ -16,7 +16,7 @@ if (!empty($myMenu['type_menu'])) {
                 if (!empty($bid)) {
                     ?>
                     <div class="container myBlock">                    
-                        <?php require 'blocks/' . $block['type_block'] . '/' . $block['type_block'] . '.php'; ?>                                      
+                        <?php require_once 'blocks/' . $block['type_block'] . '/' . $block['type_block'] . '.php'; ?>                                      
                     </div>
                     <?php
                 }

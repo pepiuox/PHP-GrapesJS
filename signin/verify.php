@@ -8,14 +8,14 @@ use PHPMailer\PHPMailer\Exception;
 
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
+    require_once '../config/dbconnection.php';
+    require_once 'Autoload.php';
 
     $verify = new UserVerify();
 
-    require '../PHPMailer/src/Exception.php';
-    require '../PHPMailer/src/PHPMailer.php';
-    require '../PHPMailer/src/SMTP.php';
+    require_once '../PHPMailer/src/Exception.php';
+    require_once '../PHPMailer/src/PHPMailer.php';
+    require_once '../PHPMailer/src/SMTP.php';
 } else {
     header('Location: ../installer/install.php');
     exit();

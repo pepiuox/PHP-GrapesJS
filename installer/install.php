@@ -67,7 +67,7 @@ if (!file_exists($file)) {
         if ($_SESSION['DBConnected'] === 'Connected') {
             $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
             // Check connection
-            require 'installUser.php';
+            require_once 'installUser.php';
         }
     }
 // Back to first step
@@ -184,18 +184,15 @@ if (!file_exists($file)) {
                     } elseif ($val->name === 'UPDATED') {
                         continue;
                     }
-                    $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+                    $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');";
                 }
 
                 if (!file_exists($definefiles)) {
-                    $def = fopen($definefiles, 'w');
-                    if (!$def) {
-                        $_SESSION['ErrorMessage'] = 'Error creating the file ' . $definefiles;
-                    }
-
+                    
                     $ndef = '<?php' . "\n";
                     $ndef .= implode("\n ", $fldname);
                     $ndef .= '?>' . "\n";
+                    
                     file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
 
                     $_SESSION['SuccessMessage'] = "The configuration definitions file has been created ";
@@ -230,8 +227,7 @@ if (!file_exists($file)) {
 // Create file for connection
     if (isset($_POST['createfile'])) {
 // Create file for server connection
-        fopen($serverfile, 'w') or die('Cannot open file:  ' . $serverfile);
-
+        
         $svcontent .= '';
         $svcontent .= "<?php
 
@@ -258,20 +254,17 @@ if (!file_exists($file)) {
 );
         ?>";
 
-        file_put_contents($serverfile, $svcontent, FILE_APPEND | LOCK_EX);
-
-        fopen($file, 'w') or die('Cannot open file:  ' . $file);
+        file_put_contents($serverfile, $svcontent, FILE_APPEND | LOCK_EX);        
 
         $filecontent = '';
         $filecontent .= '<?php' . "\n\n";
         $filecontent .= "include 'error_report.php';" . "\n";
         $filecontent .= "include 'Database.php';" . "\n";
-        $filecontent .= '$link = new Database();';
-        $filecontent .= '$conn = $link-> MysqliConnection();';
-
+        $filecontent .= '$link = new Database();'. "\n";
+        $filecontent .= '$conn = $link-> MysqliConnection();'. "\n";
         $filecontent .= "
-require 'function.php';
-include 'define.php';". "\n";
+require_once 'function.php';
+include_once 'define.php';". "\n";
         
         $filecontent .= "
         if (!empty(SITE_PATH)) {
@@ -283,7 +276,6 @@ include 'define.php';". "\n";
             $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
         $filecontent .= "}" . "\n";
-
         $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
         $filecontent .= "\$rname = \$fname . '.php';" . "\n";
         $filecontent .= "\$alertpg = \$_SERVER['REQUEST_URI'];" . "\n\n";
@@ -296,7 +288,7 @@ include 'define.php';". "\n";
             $_SESSION['SuccessMessage'] = "Configuration file created successfully, installation is complete. ";
             $_SESSION['AlertMessage'] = "Now you will be redirected to the home page . ";
             $finalstep = 'finalstep.php';
-            $file_handle = fopen($finalstep, 'w');
+            
             $lastcontent = '';
             $lastcontent .= '<?php' . "\n";
             $lastcontent .= 'session_start();' . "\n";
@@ -446,7 +438,7 @@ session_destroy();
                                                 <strong> Server Host : <span class="text-primary"><?php echo $_SESSION['DBHOST']; ?></span></strong><br/>                                        
                                                 <strong> Server User : <span class="text-primary"><?php echo $_SESSION['DBUSER']; ?></span></strong><br/>                                       
                                                 <strong> Server Password : <span class="text-primary"> <?php echo $_SESSION['DBPASSWORD']; ?></span></strong><br/>                                        
-                                                <strong> DataBase Name : <span class="text-danger"> <?php echo $_SESSION['DBNAME']; ?></span></strong>
+                                                <strong> Database Name : <span class="text-danger"> <?php echo $_SESSION['DBNAME']; ?></span></strong>
                                             </p>                                        
                                         </div>
                                         <div class="mb-3">

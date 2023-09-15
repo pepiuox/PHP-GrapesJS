@@ -4,7 +4,7 @@ class GetVisitor {
 
     public $getip;
     public $baseurl;
-    private $connection;
+    protected $connection;
     private $timestamp;
 
     public function __construct() {

@@ -4,8 +4,8 @@ if (!isset($_SESSION)) {
 }
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
+    require_once '../config/dbconnection.php';
+    require_once 'Autoload.php';
 
     $login = new UserClass();
 } else {
@@ -33,7 +33,7 @@ if (file_exists($connfile)) {
         }
     }
     ?>
-    <?php require '../elements/footer.php'; ?>
+    <?php require_once '../elements/footer.php'; ?>
 
 </body>
 </html>

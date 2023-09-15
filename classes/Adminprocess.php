@@ -4,7 +4,7 @@ class AdminProcess {
     /* Class constructor */
 
     public $session;
-    private $connection;
+    protected $connection;
     public $form;
 
     public function __construct() {

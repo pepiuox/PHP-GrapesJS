@@ -16,7 +16,7 @@ class UserClass {
 
     public $system;
     public $baseurl;
-    private $connection;
+    protected $connection;
     private $ip;
     public $timestamp;
     private $expiry;

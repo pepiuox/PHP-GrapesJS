@@ -89,26 +89,13 @@ CREATE TABLE IF NOT EXISTS `announcement` (
 
 -- Dumping data for table test_cms.announcement: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.app_config
-DROP TABLE IF EXISTS `app_config`;
-CREATE TABLE IF NOT EXISTS `app_config` (
-  `setting` char(26) NOT NULL,
-  `value` varchar(12000) NOT NULL,
-  `sortorder` int(5) DEFAULT NULL,
-  `category` varchar(25) NOT NULL,
-  `type` varchar(15) NOT NULL,
-  `description` varchar(140) DEFAULT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_cms.app_config: ~0 rows (approximately)
-
 -- Dumping structure for table test_cms.articles
 DROP TABLE IF EXISTS `articles`;
 CREATE TABLE IF NOT EXISTS `articles` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` char(250) DEFAULT NULL,
-  `link` char(250) DEFAULT NULL
+  `link` char(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.articles: ~0 rows (approximately)
@@ -177,6 +164,49 @@ CREATE TABLE IF NOT EXISTS `blocks_content` (
 
 -- Dumping data for table test_cms.blocks_content: ~0 rows (approximately)
 
+-- Dumping structure for table test_cms.blog_categories
+DROP TABLE IF EXISTS `blog_categories`;
+CREATE TABLE IF NOT EXISTS `blog_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` char(50) DEFAULT NULL,
+  `description` char(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.blog_categories: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.blog_posts
+DROP TABLE IF EXISTS `blog_posts`;
+CREATE TABLE IF NOT EXISTS `blog_posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `style` longtext DEFAULT NULL,
+  `keyword` char(150) DEFAULT NULL,
+  `classification` char(150) DEFAULT NULL,
+  `description` char(150) DEFAULT NULL,
+  `author` int(11) DEFAULT NULL,
+  `menu` int(11) DEFAULT NULL,
+  `hidden_blog` tinyint(1) DEFAULT NULL,
+  `published` tinyint(1) DEFAULT NULL,
+  `date_posted` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.blog_posts: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.blog_post_tags
+DROP TABLE IF EXISTS `blog_post_tags`;
+CREATE TABLE IF NOT EXISTS `blog_post_tags` (
+  `blog_post_id` int(11) NOT NULL,
+  `tag_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.blog_post_tags: ~0 rows (approximately)
+
 -- Dumping structure for table test_cms.breadcrumblinks
 DROP TABLE IF EXISTS `breadcrumblinks`;
 CREATE TABLE IF NOT EXISTS `breadcrumblinks` (
@@ -227,32 +257,18 @@ CREATE TABLE IF NOT EXISTS `carousel_widget` (
 /*!40000 ALTER TABLE `carousel_widget` DISABLE KEYS */;
 /*!40000 ALTER TABLE `carousel_widget` ENABLE KEYS */;
 
--- Dumping structure for table test_cms.category
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE IF NOT EXISTS `category` (
-  `category_id` int(11) NOT NULL,
-  `category_name` varchar(250) NOT NULL
+-- Dumping structure for table test_cms.categories
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `categoryId` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(50) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`categoryId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.category: ~0 rows (approximately)
-
--- Dumping structure for table test_cms.cols_set
-DROP TABLE IF EXISTS `cols_set`;
-CREATE TABLE IF NOT EXISTS `cols_set` (
-  `id` int(11) NOT NULL,
-  `table_name` varchar(50) DEFAULT NULL,
-  `col_name` varchar(50) DEFAULT NULL,
-  `type_input` varchar(50) DEFAULT NULL,
-  `list_page` varchar(50) DEFAULT NULL,
-  `add_page` varchar(50) DEFAULT NULL,
-  `update_page` varchar(50) DEFAULT NULL,
-  `view_page` varchar(50) DEFAULT NULL,
-  `delete_page` varchar(50) DEFAULT NULL,
-  `search_text` varchar(50) DEFAULT NULL,
-  `col_set` varchar(150) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_cms.cols_set: ~0 rows (approximately)
+-- Dumping data for table test_cms.categories: ~1 rows (approximately)
+INSERT INTO `categories` (`categoryId`, `category_name`, `description`) VALUES
+	(1, 'Media', 'Videos and photos');
 
 -- Dumping structure for table test_cms.comment
 DROP TABLE IF EXISTS `comment`;
@@ -713,7 +729,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.login_attempts: ~0 rows (approximately)
+-- Dumping data for table test_cms.login_attempts: ~1 rows (approximately)
 INSERT INTO `login_attempts` (`id_session`, `user_data`, `ip_address`, `attempts`, `lastlogin`) VALUES
 	('3ab3627de5edd26396fee60a9f5ffc3d14e987c2', 'contact@pepiuox.net', '127.0.0.1', 1, '2022-09-02 23:54:13');
 
@@ -898,12 +914,12 @@ CREATE TABLE IF NOT EXISTS `page` (
 
 -- Dumping data for table test_cms.page: ~6 rows (approximately)
 INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `update`) VALUES
-	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;i5zn&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/circulodepiccha-slideshow-1.jpg&amp;quot; id=&amp;quot;irjt&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-5 col-md-7 col-10&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt; &amp;lt;a role=&amp;quot;button&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;Our Key Features\n            &amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do\n              eiusmod tempor incididunt ut labore et dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Social Media Marketin\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Dedicated Team\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}', 1, 1, 0, 0, 1, '2023-05-09 06:37:01'),
+	(1, 1, 0, 'Home', 'home', NULL, 'Home', 'Home', 'Home', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;i5zn&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/circulodepiccha-slideshow-1.jpg&amp;quot; id=&amp;quot;irjt&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot; id=&amp;quot;izwf&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;gjs-row&amp;quot; id=&amp;quot;i1z3m&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;gjs-cell&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i155&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ie1n&amp;quot; class=&amp;quot;mx-auto col-lg-5 col-md-7 col-10&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i9ph&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;iji2h&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;mb-3&amp;quot;&amp;gt;Como estan las cosas ahora&amp;lt;br type=&amp;quot;_moz&amp;quot;/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;a id=&amp;quot;imbxq&amp;quot; draggable=&amp;quot;true&amp;quot; role=&amp;quot;button&amp;quot; data-cke-saved-href=&amp;quot;#&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;Our Key Features\n            &amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do\n              eiusmod tempor incididunt ut labore et dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Social Media Marketin\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Dedicated Team\n            &amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et\n              dolore magna aliqua.\n            &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}.gjs-row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.gjs-cell{min-height:75px;flex-grow:1;flex-basis:100%;}@media (max-width: 768px){.gjs-row{flex-wrap:wrap;}}', 1, 1, 0, 0, 1, '2023-08-25 08:27:14'),
 	(2, 1, 0, 'Abous Us', 'abous-us', NULL, 'Abous Us', 'Abous Us', 'Abous Us', 'logopao2.jpg', 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i6kb&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.\n                        I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-3 order-3 order-md-1&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-1.svg&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-6 col-8 d-flex flex-column justify-content-center p-3 order-1 order-md-2&amp;quot;&amp;gt;&amp;lt;h3&amp;gt;Mere tranquil existence&amp;lt;/h3&amp;gt;&amp;lt;p&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-2 col-4 d-flex flex-column align-items-center justify-content-center order-2 order-md-2 p-3&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary mb-3&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mb-3&amp;quot;&amp;gt;Main action&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Link&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i6kb{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-06-02 03:59:09'),
 	(3, 1, 0, 'Shaman', 'shaman', NULL, 'Shaman', 'Shaman', 'Shaman', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 2, 0, 1, '2022-09-16 09:35:48'),
 	(4, 1, 0, 'Retreats', 'retreats', NULL, 'Retreats', 'Retreats', 'Retreats', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2022-11-15 02:46:52'),
 	(5, 1, 0, 'Diets', 'diets', NULL, 'Diets', 'Diets', 'Diets', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iycj1&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i2m2s&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;bg-white p-4 col-10 mx-auto mx-md-0 col-lg-6&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;ipgac&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;I am so happy\n  &amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;itc5r&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone.\n  &amp;lt;/p&amp;gt;&amp;lt;form method=&amp;quot;get&amp;quot; id=&amp;quot;ihzng&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;form-inline d-flex justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;idi6t&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group&amp;quot;&amp;gt;&amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; id=&amp;quot;name&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your name&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;input type=&amp;quot;email&amp;quot; id=&amp;quot;form6&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your email&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;div id=&amp;quot;iot1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group-append&amp;quot;&amp;gt;&amp;lt;button type=&amp;quot;button&amp;quot; id=&amp;quot;inbmo&amp;quot; draggable=&amp;quot;true&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Subscribe&amp;lt;/button&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/form&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;icwnu&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#icwnu{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iycj1{background-image:url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:right bottom;background-size:cover;background-repeat:repeat;background-attachment:fixed;}', 0, 1, 0, 0, 1, '2023-08-01 09:04:49'),
-	(6, 1, 0, 'Ayahuasca', 'ayahuasca', NULL, 'Ayahuasca', 'Ayahuasca', 'Ayahuasca', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i2wn&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i2wn{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-05-09 09:28:30');
+	(6, 1, 0, 'Ayahuasca', 'ayahuasca', NULL, 'Ayahuasca', 'Ayahuasca', 'Ayahuasca', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;iyih&amp;quot; class=&amp;quot;py-5 text-center align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot; id=&amp;quot;ipvi&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle mb-3 text-muted fa-5x&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-dark&amp;quot;&amp;gt;Do&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Something&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;gjs-row&amp;quot; id=&amp;quot;ivlba&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;gjs-cell&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-6 p-0 pr-1&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/icon-pepiuox.png&amp;quot; id=&amp;quot;ih1m4&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-6 p-0 pl-1&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-3.svg&amp;quot; class=&amp;quot;img-fluid d-block rounded-circle&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#iyih{background-image:linear-gradient(to left bottom, rgba(189, 195, 199, .75), rgba(44, 62, 80, .75));background-size:100%;}.gjs-row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.gjs-cell{min-height:75px;flex-grow:1;flex-basis:100%;}@media (max-width: 768px){.gjs-row{flex-wrap:wrap;}}', 0, 1, 0, 0, 1, '2023-08-25 10:17:31');
 
 -- Dumping structure for table test_cms.pageviews
 DROP TABLE IF EXISTS `pageviews`;
@@ -939,6 +955,19 @@ CREATE TABLE IF NOT EXISTS `page_menu` (
 -- Dumping data for table test_cms.page_menu: 0 rows
 /*!40000 ALTER TABLE `page_menu` DISABLE KEYS */;
 /*!40000 ALTER TABLE `page_menu` ENABLE KEYS */;
+
+-- Dumping structure for table test_cms.people
+DROP TABLE IF EXISTS `people`;
+CREATE TABLE IF NOT EXISTS `people` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.people: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.personal_config
 DROP TABLE IF EXISTS `personal_config`;
@@ -1078,7 +1107,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 
 -- Dumping data for table test_cms.profiles: ~1 rows (approximately)
 INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('649744517643b9e2928596', 'a9bba21646148f0c35fa068e28eb84dd39d8097d', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-04-16 07:05:13', '2023-08-12 07:59:09');
+	('649744517643b9e2928596', 'bf53c493ce309c316de94f81df9f6325cf4b8f6c', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-04-16 07:05:13', '2023-09-15 11:52:06');
 
 -- Dumping structure for table test_cms.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
@@ -1161,115 +1190,6 @@ CREATE TABLE IF NOT EXISTS `setsession` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.setsession: ~0 rows (approximately)
-
--- Dumping structure for table test_cms.settings
-DROP TABLE IF EXISTS `settings`;
-CREATE TABLE IF NOT EXISTS `settings` (
-  `Option_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `Option_Default` enum('Y','N') DEFAULT 'N',
-  `Default_Theme` varchar(30) DEFAULT NULL,
-  `Menu_Horizontal` enum('Y','N') DEFAULT 'Y',
-  `Vertical_Menu_Width` int(3) DEFAULT 150,
-  `Show_Border_Layout` enum('N','Y') DEFAULT 'Y',
-  `Show_Shadow_Layout` enum('N','Y') DEFAULT 'Y',
-  `Show_Announcement` enum('Y','N') DEFAULT 'N',
-  `Demo_Mode` enum('N','Y') DEFAULT 'N',
-  `Show_Page_Processing_Time` enum('Y','N') DEFAULT 'N',
-  `Allow_User_Preferences` enum('N','Y') DEFAULT 'Y',
-  `SMTP_Server` varchar(50) DEFAULT NULL,
-  `SMTP_Server_Port` varchar(5) DEFAULT NULL,
-  `SMTP_Server_Username` varchar(50) DEFAULT NULL,
-  `SMTP_Server_Password` varchar(50) DEFAULT NULL,
-  `Sender_Email` varchar(50) DEFAULT NULL,
-  `Recipient_Email` varchar(50) DEFAULT NULL,
-  `Use_Default_Locale` enum('Y','N') DEFAULT 'Y',
-  `Default_Language` varchar(5) DEFAULT NULL,
-  `Default_Timezone` varchar(50) DEFAULT NULL,
-  `Default_Thousands_Separator` varchar(5) DEFAULT NULL,
-  `Default_Decimal_Point` varchar(5) DEFAULT NULL,
-  `Default_Currency_Symbol` varchar(10) DEFAULT NULL,
-  `Default_Money_Thousands_Separator` varchar(5) DEFAULT NULL,
-  `Default_Money_Decimal_Point` varchar(5) DEFAULT NULL,
-  `Maintenance_Mode` enum('N','Y') DEFAULT 'N',
-  `Maintenance_Finish_DateTime` datetime DEFAULT NULL,
-  `Auto_Normal_After_Maintenance` enum('Y','N') DEFAULT 'Y',
-  `Allow_User_To_Register` enum('Y','N') DEFAULT 'Y',
-  `Suspend_New_User_Account` enum('N','Y') DEFAULT 'N',
-  `User_Need_Activation_After_Registered` enum('Y','N') DEFAULT 'Y',
-  `Show_Captcha_On_Registration_Page` enum('Y','N') DEFAULT 'N',
-  `Show_Terms_And_Conditions_On_Registration_Page` enum('Y','N') DEFAULT 'Y',
-  `Show_Captcha_On_Login_Page` enum('N','Y') DEFAULT 'N',
-  `Show_Captcha_On_Forgot_Password_Page` enum('N','Y') DEFAULT 'N',
-  `Show_Captcha_On_Change_Password_Page` enum('N','Y') DEFAULT 'N',
-  `User_Auto_Login_After_Activation_Or_Registration` enum('Y','N') DEFAULT 'Y',
-  `User_Auto_Logout_After_Idle_In_Minutes` int(3) DEFAULT 20,
-  `User_Login_Maximum_Retry` int(3) DEFAULT 3,
-  `User_Login_Retry_Lockout` int(3) DEFAULT 5,
-  `Redirect_To_Last_Visited_Page_After_Login` enum('Y','N') DEFAULT 'Y',
-  `Enable_Password_Expiry` enum('Y','N') DEFAULT 'Y',
-  `Password_Expiry_In_Days` int(3) DEFAULT 90,
-  `Show_Entire_Header` enum('Y','N') DEFAULT 'Y',
-  `Logo_Width` int(3) DEFAULT 170,
-  `Show_Site_Title_In_Header` enum('Y','N') DEFAULT 'Y',
-  `Show_Current_User_In_Header` enum('Y','N') DEFAULT 'Y',
-  `Text_Align_In_Header` enum('left','center','right') DEFAULT 'left',
-  `Site_Title_Text_Style` enum('normal','capitalize','uppercase') DEFAULT 'normal',
-  `Language_Selector_Visibility` enum('inheader','belowheader','hidethemall') DEFAULT 'inheader',
-  `Language_Selector_Align` enum('autoadjust','left','center','right') DEFAULT 'autoadjust',
-  `Show_Entire_Footer` enum('Y','N') DEFAULT 'Y',
-  `Show_Text_In_Footer` enum('Y','N') DEFAULT 'Y',
-  `Show_Back_To_Top_On_Footer` enum('N','Y') DEFAULT 'Y',
-  `Show_Terms_And_Conditions_On_Footer` enum('Y','N') DEFAULT 'Y',
-  `Show_About_Us_On_Footer` enum('N','Y') DEFAULT 'Y',
-  `Pagination_Position` enum('1','2','3') DEFAULT '3',
-  `Pagination_Style` enum('1','2') DEFAULT '2',
-  `Selectable_Records_Per_Page` varchar(50) DEFAULT '1,2,3,5,10,15,20,50',
-  `Selectable_Groups_Per_Page` varchar(50) DEFAULT '1,2,3,5,10',
-  `Default_Record_Per_Page` int(3) DEFAULT 10,
-  `Default_Group_Per_Page` int(3) DEFAULT 3,
-  `Maximum_Selected_Records` int(3) DEFAULT 50,
-  `Maximum_Selected_Groups` int(3) DEFAULT 50,
-  `Show_PageNum_If_Record_Not_Over_Pagesize` enum('Y','N') DEFAULT 'Y',
-  `Table_Width_Style` enum('1','2','3') DEFAULT '2' COMMENT '1 = Scroll, 2 = Normal, 3 = 100%',
-  `Scroll_Table_Width` int(4) DEFAULT 800,
-  `Scroll_Table_Height` int(4) DEFAULT 300,
-  `Show_Record_Number_On_List_Page` enum('N','Y') DEFAULT 'Y',
-  `Show_Empty_Table_On_List_Page` enum('N','Y') DEFAULT 'Y',
-  `Search_Panel_Collapsed` enum('Y','N') DEFAULT 'Y',
-  `Filter_Panel_Collapsed` enum('Y','N') DEFAULT 'Y',
-  `Rows_Vertical_Align_Top` enum('N','Y') DEFAULT 'Y',
-  `Show_Add_Success_Message` enum('N','Y') DEFAULT 'Y',
-  `Show_Edit_Success_Message` enum('N','Y') DEFAULT 'Y',
-  `jQuery_Auto_Hide_Success_Message` enum('N','Y') DEFAULT 'N',
-  `Show_Record_Number_On_Detail_Preview` enum('N','Y') DEFAULT 'Y',
-  `Show_Empty_Table_In_Detail_Preview` enum('N','Y') DEFAULT 'Y',
-  `Detail_Preview_Table_Width` int(3) DEFAULT 100,
-  `Password_Minimum_Length` int(2) DEFAULT 6,
-  `Password_Maximum_Length` int(2) DEFAULT 20,
-  `Password_Must_Comply_With_Minumum_Length` enum('N','Y') DEFAULT 'Y',
-  `Password_Must_Comply_With_Maximum_Length` enum('N','Y') DEFAULT 'Y',
-  `Password_Must_Contain_At_Least_One_Lower_Case` enum('N','Y') DEFAULT 'Y',
-  `Password_Must_Contain_At_Least_One_Upper_Case` enum('N','Y') DEFAULT 'Y',
-  `Password_Must_Contain_At_Least_One_Numeric` enum('N','Y') DEFAULT 'Y',
-  `Password_Must_Contain_At_Least_One_Symbol` enum('N','Y') DEFAULT 'Y',
-  `Password_Must_Be_Difference_Between_Old_And_New` enum('N','Y') DEFAULT 'Y',
-  `Export_Record_Options` enum('selectedrecords','currentpage','allpages') DEFAULT 'selectedrecords',
-  `Show_Record_Number_On_Exported_List_Page` enum('N','Y') DEFAULT 'Y',
-  `Use_Table_Setting_For_Export_Field_Caption` enum('N','Y') DEFAULT 'Y',
-  `Use_Table_Setting_For_Export_Original_Value` enum('N','Y') DEFAULT 'Y',
-  `Font_Name` varchar(50) DEFAULT 'tahoma',
-  `Font_Size` varchar(4) DEFAULT '11px',
-  `Use_Javascript_Message` enum('1','0') DEFAULT '1',
-  `Login_Window_Type` enum('popup','default') DEFAULT 'popup',
-  `Forgot_Password_Window_Type` enum('popup','default') DEFAULT 'popup',
-  `Change_Password_Window_Type` enum('popup','default') DEFAULT 'popup',
-  `Registration_Window_Type` enum('popup','default') DEFAULT 'popup',
-  `Reset_Password_Field_Options` enum('EmailOrUsername','Username','Email') DEFAULT 'EmailOrUsername',
-  `Action_Button_Alignment` enum('Right','Left') DEFAULT 'Right',
-  PRIMARY KEY (`Option_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_cms.settings: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.site_configuration
 DROP TABLE IF EXISTS `site_configuration`;
@@ -1446,20 +1366,51 @@ CREATE TABLE IF NOT EXISTS `stats_year` (
 
 -- Dumping data for table test_cms.stats_year: ~0 rows (approximately)
 
+-- Dumping structure for table test_cms.sub_categories
+DROP TABLE IF EXISTS `sub_categories`;
+CREATE TABLE IF NOT EXISTS `sub_categories` (
+  `subcat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_category` int(11) NOT NULL,
+  `sub_category_name` varchar(50) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`subcat_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.sub_categories: ~0 rows (approximately)
+
 -- Dumping structure for table test_cms.table_column_settings
 DROP TABLE IF EXISTS `table_column_settings`;
 CREATE TABLE IF NOT EXISTS `table_column_settings` (
   `tqop_Id` int(11) NOT NULL AUTO_INCREMENT,
-  `name_table` varchar(50) DEFAULT NULL,
+  `table_name` varchar(50) DEFAULT NULL,
   `col_name` varchar(50) DEFAULT NULL,
   `col_list` tinyint(1) DEFAULT 0,
   `col_add` tinyint(1) DEFAULT 0,
   `col_update` tinyint(1) DEFAULT 0,
   `col_view` tinyint(1) DEFAULT 0,
+  `col_type` varchar(50) DEFAULT NULL,
+  `input_type` int(11) DEFAULT NULL,
+  `joins` varchar(50) DEFAULT NULL,
+  `j_table` varchar(50) DEFAULT NULL,
+  `j_id` varchar(50) DEFAULT NULL,
+  `j_value` varchar(50) DEFAULT NULL,
+  `j_as` varchar(50) DEFAULT NULL,
+  `j_order` varchar(50) DEFAULT NULL,
+  `where` varchar(250) DEFAULT NULL,
+  `dependent` varchar(50) DEFAULT NULL,
+  `main_field` varchar(50) DEFAULT NULL,
+  `lookup_field` varchar(50) DEFAULT NULL,
+  `jvpos` int(11) DEFAULT NULL,
   PRIMARY KEY (`tqop_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.table_column_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.table_column_settings: ~5 rows (approximately)
+INSERT INTO `table_column_settings` (`tqop_Id`, `table_name`, `col_name`, `col_list`, `col_add`, `col_update`, `col_view`, `col_type`, `input_type`, `joins`, `j_table`, `j_id`, `j_value`, `j_as`, `j_order`, `where`, `dependent`, `main_field`, `lookup_field`, `jvpos`) VALUES
+	(1, 'menu', 'sort', 0, 0, 0, 0, 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 'menu', 'page_id', 1, 1, 1, 1, 'int', 3, 'LEFT JOIN', 'page', 'id', 'title', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 'menu', 'title_page', 0, 0, 0, 0, 'varchar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 'menu', 'link_page', 0, 0, 0, 0, 'varchar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 'menu', 'parent_id', 0, 0, 0, 0, 'int', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table test_cms.table_config
 DROP TABLE IF EXISTS `table_config`;
@@ -1471,27 +1422,7 @@ CREATE TABLE IF NOT EXISTS `table_config` (
 
 -- Dumping data for table test_cms.table_config: ~1 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `table_name`) VALUES
-	(1, 'datos_personales,galleries,gallery,members,menu,menu_options,page,plugins_app,preset,press_gal,profiles,site_configuration,templates,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes,type_blocks,type_gallery,volunteer');
-
--- Dumping structure for table test_cms.table_queries
-DROP TABLE IF EXISTS `table_queries`;
-CREATE TABLE IF NOT EXISTS `table_queries` (
-  `tque_Id` int(11) NOT NULL AUTO_INCREMENT,
-  `name_table` varchar(50) DEFAULT NULL,
-  `col_name` varchar(50) DEFAULT NULL,
-  `col_type` varchar(50) DEFAULT NULL,
-  `input_type` int(11) DEFAULT NULL,
-  `joins` varchar(50) DEFAULT NULL,
-  `j_table` varchar(50) DEFAULT NULL,
-  `j_id` varchar(50) DEFAULT NULL,
-  `j_value` varchar(50) DEFAULT NULL,
-  `j_as` varchar(50) DEFAULT NULL,
-  `query` varchar(250) DEFAULT NULL,
-  `jvpos` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tque_Id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_cms.table_queries: ~0 rows (approximately)
+	(1, 'menu,page,templates,theme_base_colors,theme_base_font,theme_headings_font,theme_lead_font,theme_palette,theme_settings,themes');
 
 -- Dumping structure for table test_cms.table_settings
 DROP TABLE IF EXISTS `table_settings`;
@@ -1499,16 +1430,28 @@ CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` char(50) NOT NULL DEFAULT '',
   `table_list` tinyint(1) NOT NULL DEFAULT 0,
-  `table_view` tinyint(1) NOT NULL DEFAULT 0,
   `table_add` tinyint(1) NOT NULL DEFAULT 0,
   `table_update` tinyint(1) NOT NULL DEFAULT 0,
   `table_delete` tinyint(1) NOT NULL DEFAULT 0,
+  `table_view` tinyint(1) NOT NULL DEFAULT 0,
   `table_secure` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`IdTbset`) USING BTREE,
   UNIQUE KEY `table_name` (`table_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.table_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.table_settings: ~1 rows (approximately)
+INSERT INTO `table_settings` (`IdTbset`, `table_name`, `table_list`, `table_add`, `table_update`, `table_delete`, `table_view`, `table_secure`) VALUES
+	(1, 'menu', 1, 1, 0, 1, 1, 0);
+
+-- Dumping structure for table test_cms.tags
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE IF NOT EXISTS `tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.tags: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.templates
 DROP TABLE IF EXISTS `templates`;
@@ -1523,102 +1466,110 @@ CREATE TABLE IF NOT EXISTS `templates` (
 -- Dumping structure for table test_cms.themes
 DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
-  `theme_id` char(64) NOT NULL,
-  `id_page` int(11) NOT NULL,
+  `theme_id` int(11) NOT NULL AUTO_INCREMENT,
   `theme_name` char(50) NOT NULL,
+  `theme_bootstrap` char(50) NOT NULL,
   `base_default` enum('Yes','No') NOT NULL DEFAULT 'No',
-  `active_theme` enum('Yes','No') DEFAULT 'No',
+  `active_theme` enum('Yes','No') NOT NULL DEFAULT 'No',
   PRIMARY KEY (`theme_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.themes: ~3 rows (approximately)
-INSERT INTO `themes` (`theme_id`, `id_page`, `theme_name`, `base_default`, `active_theme`) VALUES
-	('131026167064cd2b9daa099', 1, 'cerulean', 'Yes', 'No'),
-	('195729664064cdaaf8e0cca', 2, 'cosmo', 'Yes', 'No'),
-	('93195907164cda521f020b', 4, 'cosmo', 'Yes', 'No');
+-- Dumping data for table test_cms.themes: ~1 rows (approximately)
+INSERT INTO `themes` (`theme_id`, `theme_name`, `theme_bootstrap`, `base_default`, `active_theme`) VALUES
+	(1, 'test theme color', 'lumen', 'Yes', 'Yes');
 
 -- Dumping structure for table test_cms.theme_base_colors
 DROP TABLE IF EXISTS `theme_base_colors`;
 CREATE TABLE IF NOT EXISTS `theme_base_colors` (
-  `idtbc` char(64) NOT NULL,
-  `body` char(50) DEFAULT NULL,
-  `text` char(50) DEFAULT NULL,
-  `links` char(50) DEFAULT NULL,
+  `idtbc` int(11) NOT NULL AUTO_INCREMENT,
+  `body_color` char(8) DEFAULT NULL,
+  `text_color` char(8) DEFAULT NULL,
+  `links_color` char(8) DEFAULT NULL,
   PRIMARY KEY (`idtbc`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtbc`) USING BTREE,
-  CONSTRAINT `FK_tbase_colors` FOREIGN KEY (`idtbc`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_theme_base_colors` FOREIGN KEY (`idtbc`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.theme_base_colors: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_base_colors: ~1 rows (approximately)
+INSERT INTO `theme_base_colors` (`idtbc`, `body_color`, `text_color`, `links_color`) VALUES
+	(1, '#ffffff', '#2f0202', '#172fa2');
 
 -- Dumping structure for table test_cms.theme_base_font
 DROP TABLE IF EXISTS `theme_base_font`;
 CREATE TABLE IF NOT EXISTS `theme_base_font` (
-  `idtbf` char(64) NOT NULL,
+  `idtbf` int(11) NOT NULL AUTO_INCREMENT,
   `family` char(50) DEFAULT NULL,
   `size` char(50) DEFAULT NULL,
-  `weight` enum('default','light','normal','bold') DEFAULT NULL,
+  `weight` enum('default','light','normal','bold') NOT NULL DEFAULT 'default',
   `line_height` char(50) DEFAULT NULL,
   PRIMARY KEY (`idtbf`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtbf`) USING BTREE,
-  CONSTRAINT `FK_tbase_font` FOREIGN KEY (`idtbf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_theme_base_font` FOREIGN KEY (`idtbf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.theme_base_font: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_base_font: ~1 rows (approximately)
+INSERT INTO `theme_base_font` (`idtbf`, `family`, `size`, `weight`, `line_height`) VALUES
+	(1, '', '', 'default', '');
 
 -- Dumping structure for table test_cms.theme_headings_font
 DROP TABLE IF EXISTS `theme_headings_font`;
 CREATE TABLE IF NOT EXISTS `theme_headings_font` (
-  `idthf` char(64) NOT NULL,
+  `idthf` int(11) NOT NULL AUTO_INCREMENT,
   `family` char(50) DEFAULT NULL,
-  `weight` enum('default','light','normal','bold') DEFAULT NULL,
+  `weight` enum('default','light','normal','bold') NOT NULL DEFAULT 'default',
   `line_weight` char(50) DEFAULT NULL,
   PRIMARY KEY (`idthf`) USING BTREE,
   UNIQUE KEY `theme_id` (`idthf`) USING BTREE,
-  CONSTRAINT `FK_theadings_font` FOREIGN KEY (`idthf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_theme_headings_font` FOREIGN KEY (`idthf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.theme_headings_font: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_headings_font: ~1 rows (approximately)
+INSERT INTO `theme_headings_font` (`idthf`, `family`, `weight`, `line_weight`) VALUES
+	(1, '', 'default', '');
 
 -- Dumping structure for table test_cms.theme_lead_font
 DROP TABLE IF EXISTS `theme_lead_font`;
 CREATE TABLE IF NOT EXISTS `theme_lead_font` (
-  `idtlf` char(64) NOT NULL,
+  `idtlf` int(11) NOT NULL AUTO_INCREMENT,
   `size` char(6) DEFAULT NULL,
   `weight` char(6) DEFAULT NULL,
   PRIMARY KEY (`idtlf`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtlf`) USING BTREE,
-  CONSTRAINT `FK_tlead_font` FOREIGN KEY (`idtlf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_theme_lead_font` FOREIGN KEY (`idtlf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.theme_lead_font: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_lead_font: ~1 rows (approximately)
+INSERT INTO `theme_lead_font` (`idtlf`, `size`, `weight`) VALUES
+	(1, '', '');
 
 -- Dumping structure for table test_cms.theme_palette
 DROP TABLE IF EXISTS `theme_palette`;
 CREATE TABLE IF NOT EXISTS `theme_palette` (
-  `idtp` char(64) NOT NULL,
-  `primary` char(7) DEFAULT NULL,
-  `secondary` char(7) DEFAULT NULL,
-  `info` char(7) DEFAULT NULL,
-  `light` char(7) DEFAULT NULL,
-  `dark` char(7) DEFAULT NULL,
-  `success` char(7) DEFAULT NULL,
-  `warning` char(7) DEFAULT NULL,
-  `danger` char(7) DEFAULT NULL,
-  `custom` char(7) DEFAULT NULL,
-  `custom_light` char(7) DEFAULT NULL,
-  `custom_dark` char(7) DEFAULT NULL,
+  `idtp` int(11) NOT NULL AUTO_INCREMENT,
+  `primary_color` char(8) DEFAULT NULL,
+  `secondary_color` char(8) DEFAULT NULL,
+  `info_color` char(8) DEFAULT NULL,
+  `light_color` char(8) DEFAULT NULL,
+  `dark_color` char(8) DEFAULT NULL,
+  `success_color` char(8) DEFAULT NULL,
+  `warning_color` char(8) DEFAULT NULL,
+  `danger_color` char(8) DEFAULT NULL,
+  `custom_color` char(8) DEFAULT NULL,
+  `custom_light_color` char(8) DEFAULT NULL,
+  `custom_dark_color` char(8) DEFAULT NULL,
   PRIMARY KEY (`idtp`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtp`) USING BTREE,
   CONSTRAINT `FK_theme_palette` FOREIGN KEY (`idtp`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.theme_palette: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_palette: ~1 rows (approximately)
+INSERT INTO `theme_palette` (`idtp`, `primary_color`, `secondary_color`, `info_color`, `light_color`, `dark_color`, `success_color`, `warning_color`, `danger_color`, `custom_color`, `custom_light_color`, `custom_dark_color`) VALUES
+	(1, '#993f3f', '#814040', '#1f53a5', '#000000', '#4b3737', '#000000', '#d24747', '#000000', '#000000', '#d4b8b8', '#000000');
 
 -- Dumping structure for table test_cms.theme_settings
 DROP TABLE IF EXISTS `theme_settings`;
 CREATE TABLE IF NOT EXISTS `theme_settings` (
-  `idts` char(64) NOT NULL,
+  `idts` int(11) NOT NULL AUTO_INCREMENT,
   `container` enum('default','narrow') NOT NULL DEFAULT 'default',
   `spacer` enum('x 2','x 1.5','x 1.2','default','x .8','x .5') NOT NULL DEFAULT 'default',
   `radius` char(50) DEFAULT NULL,
@@ -1630,7 +1581,9 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   CONSTRAINT `FK_theme_settings` FOREIGN KEY (`idts`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_cms.theme_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_settings: ~1 rows (approximately)
+INSERT INTO `theme_settings` (`idts`, `container`, `spacer`, `radius`, `radius_sm`, `radius_lg`, `font_size`) VALUES
+	(1, 'default', 'default', NULL, NULL, NULL, 'default');
 
 -- Dumping structure for table test_cms.timezone
 DROP TABLE IF EXISTS `timezone`;
@@ -1687,6 +1640,16 @@ CREATE TABLE IF NOT EXISTS `type_gallery` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_cms.type_gallery: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.type_menu
+DROP TABLE IF EXISTS `type_menu`;
+CREATE TABLE IF NOT EXISTS `type_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_menu` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_cms.type_menu: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.type_page
 DROP TABLE IF EXISTS `type_page`;
@@ -3859,37 +3822,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`, `deleted_user`, `last_login`) VALUES
 	('649744517643b9e2928596', 'NGlZSHo4RWR5YXNNaTRsMmIrOE1FZz09', 'UFhuUldMaUM2b2ZzK0hDYy9raGN1aGxiWjNOcGQ2V2tEbXVaNDl0TlNkQT0=', 'b3hIbHRZR3VIQzlSbVluWGV0amhsdz09', 1, 0, '127.0.0.1', '2023-04-16 14:05:13', NULL, 0, 0, '420752', '2023-04-16 07:05:13', '2023-04-16 07:05:13', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
--- Dumping structure for table test_cms.users_mk
-DROP TABLE IF EXISTS `users_mk`;
-CREATE TABLE IF NOT EXISTS `users_mk` (
-  `id` char(128) NOT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `password_recovery` text DEFAULT NULL,
-  `email_verified` int(11) DEFAULT NULL,
-  `email_hash` text DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `ip` varchar(255) DEFAULT NULL,
-  `last_login` int(11) DEFAULT NULL,
-  `signup_time` int(11) DEFAULT NULL,
-  `document_verified` int(11) DEFAULT NULL,
-  `document_1` text DEFAULT NULL,
-  `document_2` text DEFAULT NULL,
-  `mobile_verified` int(11) DEFAULT NULL,
-  `mobile_number` text DEFAULT NULL,
-  `mktoken` varchar(128) DEFAULT NULL,
-  `mkkey` varchar(128) DEFAULT NULL,
-  `mkhash` varchar(128) DEFAULT NULL,
-  `mkpin` int(6) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `password` (`password`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_cms.users_mk: ~0 rows (approximately)
-
 -- Dumping structure for table test_cms.users_roles
 DROP TABLE IF EXISTS `users_roles`;
 CREATE TABLE IF NOT EXISTS `users_roles` (
@@ -4063,7 +3995,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 
 -- Dumping data for table test_cms.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('649744517643b9e2928596', 'pepiuox', 'contact@pepiuox.net', 'b3hIbHRZR3VIQzlSbVluWGV0amhsdz09', '90bfd9cc340725cf33045cf86bf57038c8b551f6', 'bf6894f0c476c66155b1e410cccc790dedf16588', 'a9bba21646148f0c35fa068e28eb84dd39d8097d', '420752', 'Super Admin', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2023-08-12 07:59:09');
+	('649744517643b9e2928596', 'pepiuox', 'contact@pepiuox.net', 'b3hIbHRZR3VIQzlSbVluWGV0amhsdz09', '90bfd9cc340725cf33045cf86bf57038c8b551f6', 'bf6894f0c476c66155b1e410cccc790dedf16588', 'bf53c493ce309c316de94f81df9f6325cf4b8f6c', '420752', 'Super Admin', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2023-09-15 11:52:06');
 
 -- Dumping structure for table test_cms.videos
 DROP TABLE IF EXISTS `videos`;

@@ -20,7 +20,7 @@ $data = decrypt($_COOKIE['PHPSESSION'], 'longsecretsalt');
 
 class SessionClass {
 
-    private $connection;
+    protected $connection;
     private static $_instance;
 
     public static function getInstance() {

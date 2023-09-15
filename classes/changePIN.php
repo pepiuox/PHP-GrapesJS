@@ -3,7 +3,7 @@
 class changePIN {
 
     public $baseurl;
-    private $connection;
+    protected $connection;
     private $iduv;
     private $level;
     private $mkhash;

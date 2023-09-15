@@ -20,9 +20,9 @@
     </div>        
     <div class="col-md-7">
         <?php
-        require 'PHPMailer/src/Exception.php';
-        require 'PHPMailer/src/PHPMailer.php';
-        require 'PHPMailer/src/SMTP.php';
+        require_once 'PHPMailer/src/Exception.php';
+        require_once 'PHPMailer/src/PHPMailer.php';
+        require_once 'PHPMailer/src/SMTP.php';
         $nameErr = $emailErr = $answerboxErr = '';
         $name = $email = $message = $answerbox = '';
 

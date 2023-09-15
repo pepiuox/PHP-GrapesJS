@@ -3,7 +3,7 @@
 class ChangePass {
 
     public $baseurl;
-    private $connection;
+    protected $connection;
 
     public function __construct() {
         global $conn;

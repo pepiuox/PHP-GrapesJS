@@ -7,7 +7,7 @@
  */
 class RecoveryPhrase {
 
-    private $connection;
+    protected $connection;
     public $baseurl;
     private $iduv;
     private $level;

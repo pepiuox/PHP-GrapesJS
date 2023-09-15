@@ -7,7 +7,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
 $c = new MyCRUD();
 if ($w == "select") {
 
-    if ($result = $c->wQueries("SELECT * FROM table_config")) {
+    if ($result = $c->selectData("SELECT * FROM table_config")) {
         $total_found = $result->num_rows;
 
         if ($total_found > 0) {
@@ -67,7 +67,7 @@ if ($w == "select") {
     <div class="container">
         <div class="row">
             <?php
-            $fichero = 'frtmp.php';
+            $fichero = 'qtmp.php';
             if (file_exists($fichero)) {
                 unlink($fichero);
             }
@@ -121,8 +121,8 @@ if ($w == "select") {
                 $id = $_GET["id"];
             }
 
-            $c->updateScript($tble);
-            include 'updatetmp.php';
+            $c->updateSelectData($tble);
+            
             $c->inputQEdit($tble, $id);
             ?>             
         </div>
@@ -152,7 +152,7 @@ if ($w == "select") {
 
                 if (isset($_POST["deleterow"])) {
 
-                    if ($c->wQueries("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
+                    if ($c->selectData("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
                         $_SESSION['success'] = "Record deleted successfully";
                     } else {
                         $_SESSION['error'] = "Error deleting record";

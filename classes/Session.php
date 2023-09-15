@@ -8,7 +8,7 @@ class Session {
 
     public $form;
     public $mailer;
-    private $connection;
+    protected $connection;
     public $username;     //Username given on sign-up
     public $userid;       //Random value generated on current login
     public $userlevel;    //The level to which the user pertains

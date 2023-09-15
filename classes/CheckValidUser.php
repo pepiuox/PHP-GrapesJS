@@ -2,7 +2,7 @@
 
 class CheckValidUser {
 
-    private $connection;
+    protected $connection;
 
     public function __construct() {
         global $conn;

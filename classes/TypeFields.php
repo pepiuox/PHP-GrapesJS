@@ -2,7 +2,7 @@
 
 class TypeFields {
 
-    private $connection;
+    protected $connection;
 
     public function __construct($table) {
         global $conn;

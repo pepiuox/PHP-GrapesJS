@@ -5,8 +5,8 @@ if (!isset($_SESSION)) {
 
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
+    require_once '../config/dbconnection.php';
+    require_once 'Autoload.php';
 
     $login = new UserClass();
     $level = new AccessLevel();

@@ -2,8 +2,8 @@
 session_start();
 $connfile = '../config/dbconnection.php';
 if (file_exists($connfile)) {
-    require '../config/dbconnection.php';
-    require 'Autoload.php';
+    require_once '../config/dbconnection.php';
+    require_once 'Autoload.php';
     $login = new UserClass();
     $check = new CheckValidUser();
     $level = new AccessLevel();
@@ -174,7 +174,7 @@ if (isset($_GET['tbl']) && isset($_GET['id'])) {
             </head>
             <body>
                 <?php
-                require '../elements/menu.php';
+                require_once '../elements/menu.php';
                 ?>
                 <div class='container'>
                     <?php

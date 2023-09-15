@@ -2,7 +2,7 @@
 
 class testclass {
 
-    private $connection;
+    protected $connection;
     private $user_id;
     private $level;
 

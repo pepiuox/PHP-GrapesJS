@@ -8,7 +8,7 @@
 class installUser {
 
     public $baseurl;
-    private $connection;
+    protected $connection;
     private $ip;
 
     public function __construct() {
