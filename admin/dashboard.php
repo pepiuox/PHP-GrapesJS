@@ -62,7 +62,7 @@ $w = '';
                 <div class="sidebar">
                     <!-- Sidebar Menu -->
                     <?php
-                    include '../elements/sidenav.php';
+                    include_once '../elements/sidenav.php';
                     ?>
                     <!-- /.sidebar-menu -->
                 </div>
@@ -93,7 +93,7 @@ $w = '';
                 <!-- /.content-header -->
                 <!-- Main content -->
                 <section class="content">
-                    <?php include '../elements/alerts.php'; ?>
+                    <?php include_once '../elements/alerts.php'; ?>
                     <!-- Main row -->
                     <?php
                     include_once $vp->ViewIncludes($cms);
@@ -104,7 +104,7 @@ $w = '';
             <!-- /.content -->
             <!-- /.content-wrapper -->
             <?php
-            include '../elements/footprint.php';
+            include_once '../elements/footprint.php';
             ?>
             <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
