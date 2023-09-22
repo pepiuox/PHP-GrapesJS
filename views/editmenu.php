@@ -2,7 +2,7 @@
 if (isset($_POST["submit"])) {
     $id_ary = explode(",", $_POST["row_order"]);
     for ($i = 1; $i < count($id_ary); $i++) {
-        $database->query("UPDATE page SET pos='" . $i . "' WHERE id=" . $id_ary[$i]);
+        $conn->query("UPDATE page SET pos='" . $i . "' WHERE id=" . $id_ary[$i]);
     }
 }
 ?>
@@ -10,9 +10,20 @@ if (isset($_POST["submit"])) {
 <script src="<?php echo B_URL; ?>js/sortablemenu.js" type="text/javascript"></script>
 
 <style>
-    #sortable-row { list-style: none; }
-    #sortable-row li { margin-bottom:4px; padding:2px 10px; background-color:#EEEEEE;cursor:move;}
-    #sortable-row li.ui-state-highlight { height: 20px; background-color:#F0F0F0;border:#ccc 2px dotted;}
+    #sortable-row {
+        list-style: none;
+    }
+    #sortable-row li {
+        margin-bottom:4px;
+        padding:2px 10px;
+        background-color:#EEEEEE;
+        cursor:move;
+    }
+    #sortable-row li.ui-state-highlight {
+        height: 20px;
+        background-color:#F0F0F0;
+        border:#ccc 2px dotted;
+    }
 </style>
 <script>
     $(function () {
@@ -46,7 +57,7 @@ if (isset($_POST["submit"])) {
             function mmenu($parent) {
                 global $database;
                 $menu = "";
-                $result = $database->query("SELECT id, language, pos, title, link, image, parent, sort FROM page WHERE parent='$parent' ORDER BY pos");
+                $result = $conn->query("SELECT id, language, pos, title, link, image, parent, sort FROM page WHERE parent='$parent' ORDER BY pos");
                 while ($rmen = $result->fetch_array()) {
                     $menu .= "  <li name='mast' id='{$rmen['id']}'><a href='dashboard.php?cms=pages&w=edit&id={$rmen['id']}&lng={$rmen['language']}'>" . $rmen['title'] . "</a>\n";
                     //if ($rmen['sort'] == 1) {
@@ -63,6 +74,5 @@ if (isset($_POST["submit"])) {
         </ul>
     </div>
     <input type="submit" class="btnSave" name="submit" value="Guardar orden" onClick="saveOrder();" />
-    
 </form> 
 </div>

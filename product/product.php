@@ -53,8 +53,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         </head>
         <body>
             <?php
-            include 'navbar.php';
-            include 'find_word.php';
+            include_once 'navbar.php';
+            include_once 'find_word.php';
             ?>
             <div class="sidebarCart">
                 <div class="scrollingCart">
@@ -248,8 +248,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                     }
                                                     ?>
                                                 </div>
-
-
                                                 <?php
                                                 if (!empty($prow['categoria_id'])) {
                                                     echo '<p><b>Categoria:</b> <a href="' . PATH_APP . 'categorias?cat=' . $prow['idCat'] . '">' . $prow['nombre_categoria'] . '</a>';
@@ -286,27 +284,27 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                 <?php if (!empty($pdes)) {
                                                     ?>
                                                     <div class="mx-2 p-2" style="-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; text-align:center; <?php
-                                        if ($pdes === 5) {
-                                            echo 'background: #ff0000; color: #fff;';
-                                        } else if ($pdes === 10) {
-                                            echo 'background: #ff5300; color: #fff;';
-                                        } else if ($pdes === 15) {
-                                            echo 'background: #ff9400; color: #fff;';
-                                        } else if ($pdes === 20) {
-                                            echo 'background: #ffd300; color: #666;';
-                                        } else if ($pdes === 25) {
-                                            echo 'background: #ffff00; color: #666;';
-                                        } else if ($pdes === 30) {
-                                            echo 'background: #d0f600; color: #666;';
-                                        } else if ($pdes === 35) {
-                                            echo 'background: #92e900; color: #666;';
-                                        } else if ($pdes === 40) {
-                                            echo 'background: #51dc00; color: #fff;';
-                                        } else if ($pdes === 45) {
-                                            echo 'background: #00cc00; color: #fff;';
-                                        } else if ($pdes === 50) {
-                                            echo 'background: #00b200; color: #fff;';
-                                        }
+                                                    if ($pdes === 5) {
+                                                        echo 'background: #ff0000; color: #fff;';
+                                                    } else if ($pdes === 10) {
+                                                        echo 'background: #ff5300; color: #fff;';
+                                                    } else if ($pdes === 15) {
+                                                        echo 'background: #ff9400; color: #fff;';
+                                                    } else if ($pdes === 20) {
+                                                        echo 'background: #ffd300; color: #666;';
+                                                    } else if ($pdes === 25) {
+                                                        echo 'background: #ffff00; color: #666;';
+                                                    } else if ($pdes === 30) {
+                                                        echo 'background: #d0f600; color: #666;';
+                                                    } else if ($pdes === 35) {
+                                                        echo 'background: #92e900; color: #666;';
+                                                    } else if ($pdes === 40) {
+                                                        echo 'background: #51dc00; color: #fff;';
+                                                    } else if ($pdes === 45) {
+                                                        echo 'background: #00cc00; color: #fff;';
+                                                    } else if ($pdes === 50) {
+                                                        echo 'background: #00b200; color: #fff;';
+                                                    }
                                                     ?>">
                                                         <p><span style="font-size: 180%;">con <b><?= $prow['descuento'] ?>%</b> de descuento</span></p>
                                                         <p><span style="font-size: 130%;"> Antes S/. </span> <span style="font-size: 130%; text-decoration: line-through;"><?= $prec; ?> </span> &nbsp;&nbsp;  <span style="font-size: 120%"> ahorras S/. <?= roundDecimal($tdes); ?></span></p>
@@ -395,7 +393,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                     ?>
                                                 </p>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -429,7 +426,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                     <a class="nav-link" id="settings-tab" data-toggle="tab" href="#tb4" role="tab" aria-controls="tb4" aria-selected="false">Especificaciones</a>
                                 </li>
                             </ul>
-
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tb1" role="tabpanel" aria-labelledby="tb1-tab">

@@ -399,10 +399,10 @@ class MyCRUD {
         // start vars
         if ($resv > $r) {
 
-            $qers = array();
             $ttl = array();
             $ctl = array();
             $fcols = array();
+            $qers = array();
 
             while ($row = $resultq->fetch_array()) {
                 $c_nm = $row['col_name'];
@@ -417,9 +417,9 @@ class MyCRUD {
                 $qers[] = $c_jo . " (SELECT " . $c_id . ', ' . $c_vl . ' FROM ' . $c_tb . ') ' . $c_tb . ' ON ' . $tble . '.' . $c_nm . '=' . $c_tb . '.' . $c_id;
             }
             $vtl = implode(" && ", $ttl);
-            $valr = implode(" ", $qers);
-            $fcol = implode(" else", $fcols);
             $ctls = implode(" && ", $ctl);
+            $fcol = implode(" else", $fcols);
+            $valr = implode(" ", $qers);
         }
 
         // end vars
@@ -630,6 +630,87 @@ class MyCRUD {
         }
     }
 
+    public function ShowInputData($table, $clmn) {
+        $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$table' AND col_name='$clmn'";
+        $resultq = $this->connection->query($sqlq);
+        $nrows = $resultq->num_rows;
+        if ($nrows > 0) {
+
+            $rqu = $resultq->fetch_assoc();
+            $t_nm = $rqu['table_name'];
+            $c_nm = $rqu['col_name'];
+            $c_tp = $rqu['col_type'];
+            $c_jo = $rqu['joins'];
+            $c_tb = $rqu['j_table'];
+            $c_id = $rqu['j_id'];
+            $c_vl = $rqu['j_value'];
+            $c_as = $rqu['j_as'];
+            $c_qr = $rqu['where'];
+
+            $remp = ucfirst(str_replace("_", " ", $c_nm));
+            $frmp = str_replace(" id", "", $remp);
+
+            $intdata = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint'];
+            $strdata = ['varchar', 'char', 'text', 'tinytext', 'mediumtext', 'longtext', 'time', 'year', 'date', 'datetime', 'timestamp', 'json', 'enum', 'set', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection'];
+            $doudata = ['binary', 'varbinary', 'bit', 'float', 'double', 'decimal'];
+            $blodata = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
+
+            $sql = "SELECT * FROM $t_nm";
+            if (in_array($c_tp, $intdata)) {
+                echo '<div class="form-group">
+                       <label for="' . $c_nm . '">' . $frmp . ':</label>
+                       <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
+                  </div>' . "\n";
+            } elseif (in_array($c_tp, $strdata)) {
+                echo '<div class="form-group">
+                       <label for="' . $c_nm . '">' . $frmp . ':</label>
+                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
+                  </div>' . "\n";
+            } elseif (in_array($c_tp, $doudata)) {
+                echo '<div class="form-group">
+                       <label for="' . $c_nm . '">' . $frmp . ':</label>
+                       <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
+                  </div>' . "\n";
+            } elseif (in_array($c_tp, $blodata)) {
+                echo '<div class="form-group">
+                       <label for="' . $c_nm . '">' . $frmp . ':</label>
+                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
+                  </div>' . "\n";
+            }
+
+
+            if (!empty($c_jo)) {
+                $inpQ = "SELECT * FROM $c_tb WHERE ";
+            }
+        }
+    }
+
+    public function get_enum_values($tble, $field) {
+        $type = $this->connection->query("SHOW COLUMNS FROM {$tble} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
+        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+        $enum = explode("','", $matches[1]);
+        return $enum;
+    }
+
+    public function enum_values($tble, $field) {
+
+        $type = $this->connection->query("SHOW COLUMNS FROM {$tble} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
+        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+        $enum = explode("','", $matches[1]);
+        $frmp = ucfirst(str_replace("_", " ", $field));
+        echo '<div class="form-group">
+                       <label for="' . $field . '">' . $frmp . ':</label>
+                       <select class="form-select" id="' . $field . '" name="' . $field . '" >' . "\n";
+        foreach ($enum as $option) {
+            $soption = '<option value="' . $option . '"';
+            $soption .= ($enum === $option) ? ' SELECTED' : '';
+            $soption .= '>' . $option . '</option>';
+            echo $soption . "\n";
+        }
+        echo '</select>' . "\n";
+        echo '</div>' . "\n";
+    }
+
     public function joinCols($tble) {
 
         $columns = $this->viewColumns($tble);
@@ -638,6 +719,14 @@ class MyCRUD {
         $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$tble'";
         $resultq = $this->connection->query($sqlq);
         $rowcq = $resultq->num_rows;
+
+        $itpi = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal'];
+        $itpc = ['time', 'year'];
+        $itpd = ['date', 'datetime', 'timestamp'];
+        $itpv = ['varchar', 'char'];
+        $itpt = ['text', 'tinytext', 'mediumtext', 'longtext', 'json', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection', 'binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob'];
+        $itpe = ['enum', 'set'];
+
         if ($rowcq > 0) {
             while ($rqu = $resultq->fetch_assoc()) {
 
@@ -658,8 +747,9 @@ class MyCRUD {
                     continue;
                 }
 
-                if ($c_tp === 'int' || $c_tp === 'tinyint' || $c_tp === 'smallint' || $c_tp === 'mediumint' || $c_tp === 'bigint' || $c_tp === 'bit' || $c_tp === 'float' || $c_tp === 'double' || $c_tp === 'decimal') {
 
+
+                if (in_array($c_tp, $itpi)) {
                     if ($i_tp != 3) {
                         echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
@@ -683,21 +773,18 @@ class MyCRUD {
                         echo '</div>' . "\n";
                         // --------------
                     }
-                }
-                if ($c_tp === 'time' || $c_tp === 'year') {
+                } elseif (in_array($c_tp, $itpc)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
                   </div>' . "\n";
-                }
-                if ($c_tp === 'date' || $c_tp === 'datetime' || $c_tp === 'timestamp') {
+                } elseif (in_array($c_tp, $itpd)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
                   </div>' . "\n";
                     echo '<script type="text/javascript">
-                                        $(document).ready(function ()
-                                        {
+                                        $(document).ready(function (){
                                             $("#' . $c_nm . '").datepicker({
                                                 weekStart: 1,
                                                 daysOfWeekHighlighted: "6,0",
@@ -707,8 +794,7 @@ class MyCRUD {
                                             $("#' . $c_nm . '").datepicker("setDate", new Date());
                                         });
                                     </script>' . "\n";
-                }
-                if ($c_tp === 'varchar' || $c_tp === 'char') {
+                } elseif (in_array($c_tp, $itpv)) {
                     if ($c_nm === 'imagen') {
                         echo "<script>$('.custom-file-input').on('change',function(){
                             var fileName = document.getElementById('imagen').files[0].name;
@@ -737,40 +823,21 @@ class MyCRUD {
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
                   </div>' . "\n";
                     }
-                }
-                if ($c_tp === 'text' || $c_tp === 'tinytext' || $c_tp === 'mediumtext' || $c_tp === 'longtext' || $c_tp === 'json') {
+                } elseif (in_array($c_tp, $itpt)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
                        <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
                   </div>' . "\n";
-                }
-                if ($c_tp === 'point' || $c_tp === 'linestring' || $c_tp === 'polygon' || $c_tp === 'geometry' || $c_tp === 'multipoint' || $c_tp === 'multilinestring' || $c_tp === 'multipolygon' || $c_tp === 'geometrycollection') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'binary' || $c_tp === 'varbinary' || $c_tp === 'tinyblob' || $c_tp === 'blob' || $c_tp === 'mediumblob' || $c_tp === 'longblob') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'enum' || $c_tp === 'set') {
+                } elseif (in_array($c_tp, $itpe)) {
                     // ----------------------
-                    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
-
-                    $iresult = $this->connection->query($isql);
-                    $row = $iresult->fetch_array();
-                    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
                     $default_value = '';
                     //
+                    $values = $this->get_enum_values($tble, $c_nm);
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>
                        <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
-                    $options = $enum_list;
-                    foreach ($options as $option) {
+                    foreach ($values as $option) {
                         $soption = '<option value="' . $option . '"';
                         $soption .= ($default_value === $option) ? ' SELECTED' : '';
                         $soption .= '>' . $option . '</option>';
@@ -791,27 +858,25 @@ class MyCRUD {
                     continue;
                 }
 
-                if ($dtpe->type === 'int' || $dtpe->type === 'tinyint' || $dtpe->type === 'smallint' || $dtpe->type === 'mediumint' || $dtpe->type === 'bigint' || $dtpe->type === 'bit' || $dtpe->type === 'float' || $dtpe->type === 'double' || $dtpe->type === 'decimal') {
-
+                if (in_array($dtpe->type, $itpi)) {
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '">
                   </div>' . "\n";
                 }
-                if ($dtpe->type === 'time' || $dtpe->type === 'year') {
+                if (in_array($dtpe->type, $itpc)) {
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '">
                   </div>' . "\n";
                 }
-                if ($dtpe->type === 'date' || $dtpe->type === 'datetime' || $dtpe->type === 'timestamp') {
+                if (in_array($dtpe->type, $itpd)) {
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '">
                   </div>' . "\n";
                     echo '<script type="text/javascript">
-                                        $(document).ready(function ()
-                                        {
+                                        $(document).ready(function() {
                                             $("#' . $dtpe->name . '").datepicker({
                                                 weekStart: 1,
                                                 daysOfWeekHighlighted: "6,0",
@@ -822,45 +887,29 @@ class MyCRUD {
                                         });
                                     </script>' . "\n";
                 }
-                if ($dtpe->type === 'varchar' || $dtpe->type === 'char') {
+                if (in_array($dtpe->type, $itpv)) {
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '">
                   </div>' . "\n";
                 }
-                if ($dtpe->type === 'text' || $dtpe->type === 'tinytext' || $dtpe->type === 'mediumtext' || $dtpe->type === 'longtext' || $dtpe->type === 'json') {
+                if (in_array($dtpe->type, $itpt)) {
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
                        <textarea type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '"></textarea>
                   </div>' . "\n";
                 }
-                if ($dtpe->type === 'point' || $dtpe->type === 'linestring' || $dtpe->type === 'polygon' || $dtpe->type === 'geometry' || $dtpe->type === 'multipoint' || $dtpe->type === 'multilinestring' || $dtpe->type === 'multipolygon' || $dtpe->type === 'geometrycollection') {
-                    echo '<div class="form-group">
-                       <label for="' . $dtpe->name . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($dtpe->type === 'binary' || $dtpe->type === 'varbinary' || $dtpe->type === 'tinyblob' || $dtpe->type === 'blob' || $dtpe->type === 'mediumblob' || $dtpe->type === 'longblob') {
-                    echo '<div class="form-group">
-                       <label for="' . $dtpe->name . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $dtpe->name . '" name="' . $dtpe->name . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($dtpe->type === 'enum' || $dtpe->type === 'set') {
+                if (in_array($dtpe->type, $itpe)) {
                     // ----------------------
-                    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $dtpe->name . "'";
 
-                    $iresult = $this->connection->query($isql);
-                    $row = $iresult->fetch_array();
-                    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
+                    $values = $this->get_enum_values($tble, $dtpe->name);
                     $default_value = '';
                     //
                     echo '<div class="form-group">
                        <label for="' . $dtpe->name . '">' . $frmp . ':</label>
                        <select class="form-select" id="' . $dtpe->name . '" name="' . $dtpe->name . '" >' . "\n";
 
-                    $options = $enum_list;
-                    foreach ($options as $option) {
+                    foreach ($values as $option) {
                         $soption = '<option value="' . $option . '"';
                         $soption .= ($default_value === $option) ? ' SELECTED' : '';
                         $soption .= '>' . $option . '</option>';
@@ -878,7 +927,6 @@ class MyCRUD {
     // addrow
     public function addData($tble) {
         $vname = array();
-        $pname = array();
         $ptadd = array();
         $nvl = array();
         $colID = $this->getID($tble);
@@ -889,12 +937,12 @@ class MyCRUD {
                 continue;
             }
             $nvl[] = '?';
-            $vname[] = $finfo->name;          
+            $vname[] = $finfo->name;
             $ptadd[] = "$" . $finfo->name . " = \$_POST['" . $finfo->name . "'];" . "\n";
         }
 
         $nvls = implode(", ", $nvl);
-        $vnames = implode(", ", $vname);      
+        $vnames = implode(", ", $vname);
         $ptadds = implode(" ", $ptadd);
         /*
           i - integer
@@ -902,60 +950,72 @@ class MyCRUD {
           s - string
           b - BLOB
          */
-        $tpd = array(
-            'tinyint' => 'i',
-            'smallint' => 'i',
-            'mediumint' => 'i',
-            'int' => 'i',
-            'bigint' => 'i',
-            'bit' => 'i',
-            'binary' => 'b',
-            'varbinary' => 'b',
-            'tinyblob' => 'b',
-            'blob' => 'b',
-            'mediumblob' => 'b',
-            'longblob' => 'b',
-            'float' => 'd',
-            'double' => 'd',
-            'decimal' => 'd',
-            'varchar' => 's',
-            'char' => 's',
-            'tinytext' => 's',
-            'text' => 's',
-            'mediumtext' => 's',
-            'longtext' => 's',
-            'json' => 's',
-            'uuid' => 's',
-            'date' => 's',
-            'time' => 's',
-            'year' => 's',
-            'datetime' => 's',
-            'timestamp' => 's',
-            'point' => 's',
-            'linestring' => 's',
-            'polygon' => 's',
-            'geometry' => 's',
-            'multipint' => 's',
-            'multilinestring' => 's',
-            'multipolygon' => 's',
-            'geometrycollection' => 's',
-            'unknown' => 's',
-            'enum' => 's',
-            'set' => 's'
-        );
+        $tpi = [
+            'tinyint',
+            'smallint',
+            'mediumint',
+            'int',
+            'bigint',
+            'bit'
+        ];
+        $tpb = [
+            'binary',
+            'varbinary',
+            'tinyblob',
+            'blob',
+            'mediumblob',
+            'longblob'
+        ];
+        $tpd = [
+            'float',
+            'double',
+            'decimal'
+        ];
+        $tps = [
+            'varchar',
+            'char',
+            'tinytext',
+            'text',
+            'mediumtext',
+            'longtext',
+            'json',
+            'uuid',
+            'date',
+            'time',
+            'year',
+            'datetime',
+            'timestamp',
+            'point',
+            'linestring',
+            'polygon',
+            'geometry',
+            'multipint',
+            'multilinestring',
+            'multipolygon',
+            'geometrycollection',
+            'unknown',
+            'enum',
+            'set'
+        ];
 
         $colmns = $this->viewColumns($tble);
 
-        foreach ($tpd AS $key => $val) {
-            $tpk[] = $key;
-        }
         foreach ($colmns AS $col) {
-            if (in_array($col->type, $tpk)) {
-                if ($col->name === $colID) {
-                    continue;
-                }
+            if ($col->name === $colID) {
+                continue;
+            }
+            if (in_array($col->type, $tpi)) {
                 $cname[] = '$' . $col->name;
-                $ctype[] = $tpd[$col->type];
+                $ctype[] = 'i';
+            } elseif (in_array($col->type, $tpb)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'b';
+            } elseif (in_array($col->type, $tpd)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'd';
+            } elseif (in_array($col->type, $tps)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 's';
             }
         }
         $cnames = implode(', ', $cname);
@@ -1008,46 +1068,80 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
             $pname[] = "?";
             $ptadd[] = "$" . $finfo->name . " = \$_POST['" . $finfo->name . "'];" . "\n";
         }
-        $fields = $result->field_count;
-        $bp = array();
-
-        for ($i = 0; $i < $fields; $i++) {
-            $finfo = $result->fetch_field_direct($i);
-            if (!$finfo->name == $ncol) {
-                continue;
-            } else {
-                $nq = $this->connecion->query("SELECT COLUMN_TYPE as type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $finfo->table . "' AND COLUMN_NAME = '" . $finfo->name . "'");
-                $row = $nq->fetch_assoc();
-                $nt = strcspn($row['type'], '(');
-                $ns = substr($row['type'], 0, $nt);
-                /*
-                  i - integer
-                  d - double
-                  s - string
-                  b - BLOB
-                 */
-                $intdata = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint'];
-                $strdata = ['varchar', 'char', 'text', 'tinytext', 'mediumtext', 'longtext', 'time', 'year', 'date', 'datetime', 'timestamp', 'json', 'enum', 'set', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection'];
-                $doudata = ['binary', 'varbinary', 'bit', 'float', 'double', 'decimal'];
-                $blodata = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
-
-                if (in_array($ns, $intdata)) {
-                    $bp[] = 'i';
-                } elseif (in_array($ns, $strdata)) {
-                    $bp[] = 's';
-                } elseif (in_array($ns, $doudata)) {
-                    $bp[] = 'd';
-                } elseif (in_array($ns, $blodata)) {
-                    $bp[] = 'b';
-                }
-                $vd = implode("", $bp);
-            }
-        }
 
         $vnames = implode(", ", $vname);
         $bnames = implode(", ", $bname);
         $pnames = implode(", ", $pname);
         $ptadds = implode(" ", $ptadd);
+
+        $tpi = [
+            'int',
+            'tinyint',
+            'smallint',
+            'mediumint',
+            'bigint'
+        ];
+        $tpb = [
+            'tinyblob',
+            'blob',
+            'mediumblob',
+            'longblob'
+        ];
+        $tpd = [
+            'binary',
+            'varbinary',
+            'bit',
+            'float',
+            'double',
+            'decimal'
+        ];
+        $tps = [
+            'varchar',
+            'char',
+            'text',
+            'tinytext',
+            'mediumtext',
+            'longtext',
+            'time',
+            'year',
+            'date',
+            'datetime',
+            'timestamp',
+            'json',
+            'enum',
+            'set',
+            'point',
+            'linestring',
+            'polygon',
+            'geometry',
+            'multipoint',
+            'multilinestring',
+            'multipolygon',
+            'geometrycollection'
+        ];
+
+        $colmns = $this->viewColumns($tble);
+
+        foreach ($colmns AS $col) {
+            if ($col->name === $ncol) {
+                continue;
+            }
+            if (in_array($col->type, $tpi)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'i';
+            } elseif (in_array($col->type, $tpb)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'b';
+            } elseif (in_array($col->type, $tpd)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'd';
+            } elseif (in_array($col->type, $tps)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 's';
+            }
+        }
+        $cnames = implode(', ', $cname);
+        $ctypes = implode('', $ctype);
 
         $rvfile = 'qtmp.php';
         if (file_exists($rvfile)) {
@@ -1068,77 +1162,8 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
         $content .= "?> \n";
 
         file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
-        
+
         include_once 'qtmp.php';
-    }
-
-    public function updateSelectData($tble) {
-        $ncol = $this->getID($tble);
-        $result = $this->connection->query("SELECT * FROM $tble");
-        $fields = $result->field_count;
-        for ($i = 0; $i < $fields; $i++) {
-            $finfo = $result->fetch_field_direct($i);
-            if ($finfo->name == $ncol) {
-                continue;
-            } else {
-                $nq = $this->connection->query("SELECT COLUMN_TYPE as type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $finfo->table . "' AND COLUMN_NAME = '" . $finfo->name . "'");
-                $row = $nq->fetch_assoc();
-                $nt = strcspn($row['type'], '(');
-                $ns = substr($row['type'], 0, $nt);
-                /*
-                  i - integer
-                  d - double
-                  s - string
-                  b - BLOB
-                 */
-                $intdata = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint'];
-                $strdata = ['varchar', 'char', 'text', 'tinytext', 'mediumtext', 'longtext', 'time', 'year', 'date', 'datetime', 'timestamp', 'json', 'enum', 'set', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection'];
-                $doudata = ['binary', 'varbinary', 'bit', 'float', 'double', 'decimal'];
-                $blodata = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
-
-                if (in_array($ns, $intdata)) {
-                    $bp[] = 'i';
-                } elseif (in_array($ns, $strdata)) {
-                    $bp[] = 's';
-                } elseif (in_array($ns, $doudata)) {
-                    $bp[] = 'd';
-                } elseif (in_array($ns, $blodata)) {
-                    $bp[] = 'b';
-                }
-                $vd = implode("", $bp);
-            }
-        }
-        if ($fields > 0) {
-            while ($info = mysqli_fetch_field($result)) {
-                if ($info->name != $ncol) {
-                    $postnames[] = '$' . $info->name . ' = $_POST["' . $info->name . '"]; ' . "\r\n";
-                    $varnames[] = $info->name . " = ?";
-                    $bname[] = "$" . $finfo->name;
-                }
-            }
-        }
-        $scpt = implode("", $postnames);
-        $ecols = implode(", ", $varnames);
-        $bnames = implode(", ", $bname);
-
-        $rvfile = 'qtmp.php';
-        if (file_exists($rvfile)) {
-            unlink($rvfile);
-        }
-
-        $content = '<?php' . "\n";
-        $content .= '//This is temporal file only for add new row' . "\n";
-        $content .= "if (isset(\$_POST['editrow'])) { \r\n";
-        $content .= $scpt . "\r\n";
-        $content .= '$query = "UPDATE ' . $tble . ' SET ' . $ecols . ' WHERE ' . $ncol . ' = ?";' . "\r\n";
-        $content .= "\$insert = \$conn->prepare(\$sql);
-\$insert->bind_param('" . $vd . "i', " . $bnames . ", \$id );
-\$insert->execute();
-\$insert->close();" . "\n";
-        $content .= "}" . "\n";
-        $content .= "?> \n";
-
-        file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
     }
 
     public function updateScript($tble) {
@@ -1175,6 +1200,12 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
             'int' => 'i',
             'bigint' => 'i',
             'bit' => 'i',
+            'binary' => 'b',
+            'varbinary' => 'b',
+            'tinyblob' => 'b',
+            'blob' => 'b',
+            'mediumblob' => 'b',
+            'longblob' => 'b',
             'float' => 'd',
             'double' => 'd',
             'decimal' => 'd',
@@ -1186,12 +1217,6 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
             'longtext' => 's',
             'json' => 's',
             'uuid' => 's',
-            'binary' => 'b',
-            'varbinary' => 'b',
-            'tinyblob' => 'b',
-            'blob' => 'b',
-            'mediumblob' => 'b',
-            'longblob' => 'b',
             'date' => 's',
             'time' => 's',
             'year' => 's',
@@ -1264,6 +1289,113 @@ window.onload = function() {
         include_once 'qtmp.php';
     }
 
+    public function updatetData($tble) {
+        $ncol = $this->getID($tble);
+        $result = $this->getAllData($tble);
+
+        while ($info = mysqli_fetch_field($result)) {
+            if ($info->name == $ncol) {
+                continue;
+            }
+            $postnames[] = '$' . $info->name . ' = $_POST["' . $info->name . '"]; ' . "\r\n";
+            $varnames[] = $info->name . " = ?";
+        }
+
+        $scpt = implode("", $postnames);
+        $ecols = implode(", ", $varnames);
+
+        $tpi = [
+            'tinyint',
+            'smallint',
+            'mediumint',
+            'int',
+            'bigint',
+            'bit'
+        ];
+        $tpb = [
+            'binary',
+            'varbinary',
+            'tinyblob',
+            'blob',
+            'mediumblob',
+            'longblob'
+        ];
+        $tpd = [
+            'float',
+            'double',
+            'decimal'
+        ];
+        $tps = [
+            'varchar',
+            'char',
+            'tinytext',
+            'text',
+            'mediumtext',
+            'longtext',
+            'json',
+            'uuid',
+            'date',
+            'time',
+            'year',
+            'datetime',
+            'timestamp',
+            'point',
+            'linestring',
+            'polygon',
+            'geometry',
+            'multipint',
+            'multilinestring',
+            'multipolygon',
+            'geometrycollection',
+            'unknown',
+            'enum',
+            'set'
+        ];
+
+        $colmns = $this->viewColumns($tble);
+
+        foreach ($colmns AS $col) {
+            if ($col->name === $ncol) {
+                continue;
+            }
+            if (in_array($col->type, $tpi)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'i';
+            } elseif (in_array($col->type, $tpb)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'b';
+            } elseif (in_array($col->type, $tpd)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 'd';
+            } elseif (in_array($col->type, $tps)) {
+                $cname[] = '$' . $col->name;
+                $ctype[] = 's';
+            }
+        }
+        $cnames = implode(', ', $cname);
+        $ctypes = implode('', $ctype);
+
+        $rvfile = 'qtmp.php';
+        if (file_exists($rvfile)) {
+            unlink($rvfile);
+        }
+
+        $content = '<?php' . "\n";
+        $content .= '//This is temporal file only for add new row' . "\n";
+        $content .= "if (isset(\$_POST['editrow'])) { \r\n";
+        $content .= $scpt . "\r\n";
+        $content .= '$query = "UPDATE ' . $tble . ' SET ' . $ecols . ' WHERE ' . $ncol . ' = ?";' . "\r\n";
+        $content .= "\$updated = \$conn->prepare(\$sql);
+\$updated->bind_param('" . $ctypes . "i', " . $cnames . ", \$id );
+\$updated->execute();
+\$updated->close();" . "\n";
+        $content .= "}" . "\n";
+        $content .= "?> \n";
+
+        file_put_contents($rvfile, $content, FILE_APPEND | LOCK_EX);
+        include_once 'qtmp.php';
+    }
+
     public function inputQEdit($tble, $id) {
         $columns = $this->viewColumns($tble);
         $ncol = $this->getID($tble);
@@ -1290,9 +1422,14 @@ window.onload = function() {
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
 
-                $tpdi = array('int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal');
+                $itpi = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal'];
+                $itpc = ['time', 'year'];
+                $itpd = ['date', 'datetime', 'timestamp'];
+                $itpv = ['varchar', 'char'];
+                $itpt = ['text', 'tinytext', 'mediumtext', 'longtext', 'json', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection', 'binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob'];
+                $itpe = ['enum', 'set'];
 
-                if (in_array($c_tp, $tpdi)) {
+                if (in_array($c_tp, $itpi)) {
                     if ($i_tp === 3) {
 
                         echo '
@@ -1320,14 +1457,12 @@ window.onload = function() {
 			</div>
 			' . "\n";
                     }
-                }
-                if ($c_tp === 'time' || $c_tp === 'year') {
+                } elseif (in_array($c_tp, $itpc)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
-                }
-                if ($c_tp === 'date' || $c_tp === 'datetime' || $c_tp === 'timestamp') {
+                } elseif (in_array($c_tp, $itpd)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
@@ -1344,8 +1479,7 @@ window.onload = function() {
                                             $("#' . $c_nm . '").datepicker("setDate", new Date());
                                         });
                                     </script>' . "\n";
-                }
-                if ($c_tp === 'varchar' || $c_tp === 'char') {
+                } elseif (in_array($c_tp, $itpv)) {
                     if ($i_tp === 4) {
                         echo '<div class="form-group">
                     <label for="' . $c_nm . '">' . $frmp . ':
@@ -1362,26 +1496,12 @@ window.onload = function() {
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
                     }
-                }
-                if ($c_tp === 'text' || $c_tp === 'tinytext' || $c_tp === 'mediumtext' || $c_tp === 'longtext' || $c_tp === 'json') {
+                } elseif (in_array($c_tp, $itpt)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
                   </div>' . "\n";
-                }
-                if ($c_tp === 'point' || $c_tp === 'linestring' || $c_tp === 'polygon' || $c_tp === 'geometry' || $c_tp === 'multipoint' || $c_tp === 'multilinestring' || $c_tp === 'multipolygon' || $c_tp === 'geometrycollection') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'binary' || $c_tp === 'varbinary' || $c_tp === 'tinyblob' || $c_tp === 'blob' || $c_tp === 'mediumblob' || $c_tp === 'longblob') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'enum' || $c_tp === 'set') {
+                } elseif (in_array($c_tp, $itpe)) {
                     // ----------------------
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
                     $iresult = $this->selectData($isql);
@@ -1428,9 +1548,14 @@ window.onload = function() {
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
 
-                $tpdi = array('int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal');
+                $itpi = array('int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal');
+                $itpc = array('time', 'year');
+                $itpd = array('date', 'datetime', 'timestamp');
+                $itpv = array('varchar', 'char');
+                $itpt = array('text', 'tinytext', 'mediumtext', 'longtext', 'json', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection', 'binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob');
+                $itpe = array('enum', 'set');
 
-                if (in_array($c_tp, $tpdi)) {
+                if (in_array($c_tp, $itpi)) {
 
                     echo '<div class="form-group">
 				<label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label> <input type="text"
@@ -1438,14 +1563,12 @@ window.onload = function() {
 					value="' . $cdta . '">
 			</div>
 			' . "\n";
-                }
-                if ($c_tp === 'time' || $c_tp === 'year') {
+                } elseif (in_array($c_tp, $itpc)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
-                }
-                if ($c_tp === 'date' || $c_tp === 'datetime' || $c_tp === 'timestamp') {
+                } elseif (in_array($c_tp, $itpd)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
@@ -1463,31 +1586,19 @@ window.onload = function() {
                                         });
                                     </script>' . "\n";
                 }
-                if ($c_tp === 'varchar' || $c_tp === 'char') {
+                if (in_array($c_tp, $itpv)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
                 }
-                if ($c_tp === 'text' || $c_tp === 'tinytext' || $c_tp === 'mediumtext' || $c_tp === 'longtext' || $c_tp === 'json') {
+                if (in_array($c_tp, $itpt)) {
                     echo '<div class="form-group">
                        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
                   </div>' . "\n";
                 }
-                if ($c_tp === 'point' || $c_tp === 'linestring' || $c_tp === 'polygon' || $c_tp === 'geometry' || $c_tp === 'multipoint' || $c_tp === 'multilinestring' || $c_tp === 'multipolygon' || $c_tp === 'geometrycollection') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'binary' || $c_tp === 'varbinary' || $c_tp === 'tinyblob' || $c_tp === 'blob' || $c_tp === 'mediumblob' || $c_tp === 'longblob') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'enum' || $c_tp === 'set') {
+                if (in_array($c_tp, $itpe)) {
                     // ----------------------
                     $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
 
@@ -1534,7 +1645,10 @@ window.onload = function() {
         $ptadds = implode(" ", $ptadd);
         $pnames = implode(", ", $pname);
 
-        $vfile = 'ftmp.php';
+        $vfile = 'qtmp.php';
+        if (file_exists($vfile)) {
+            unlink($vfile);
+        }
 
         $content = '<?php' . "\n";
         $content .= "if(isset(\$_POST['editrow'])){" . "\n\n";

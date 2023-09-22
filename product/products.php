@@ -255,10 +255,10 @@ $prow = $presult->fetchAll();
                     }
                     ?>>
                         <a class='page-link' <?php
-                    if ($page > 1) {
-                        echo "href='" . PATH_APP . "?page=$previous_page'";
-                    }
-                    ?>>Previous</a>
+                        if ($page > 1) {
+                            echo "href='" . PATH_APP . "?page=$previous_page'";
+                        }
+                        ?>>Previous</a>
                     </li>
                     <?php
                     if ($total_no_of_pages <= $range) {
@@ -319,10 +319,10 @@ $prow = $presult->fetchAll();
                     }
                     ?>>
                         <a class='page-link' <?php
-                    if ($page < $total_no_of_pages) {
-                        echo "href='" . PATH_APP . "?page=$next_page'";
-                    }
-                    ?>>Next</a>
+                        if ($page < $total_no_of_pages) {
+                            echo "href='" . PATH_APP . "?page=$next_page'";
+                        }
+                        ?>>Next</a>
                     </li>
 
                     <?php
@@ -335,5 +335,4 @@ $prow = $presult->fetchAll();
         </div>
     </div>
 </div>
-
 <?php $this->inc('elements/footer.php'); ?>

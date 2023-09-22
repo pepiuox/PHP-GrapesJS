@@ -121,8 +121,7 @@ if ($w == "select") {
                 $id = $_GET["id"];
             }
 
-            $c->updateSelectData($tble);
-            
+            $c->updateData($tble);           
             $c->inputQEdit($tble, $id);
             ?>             
         </div>

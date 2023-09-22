@@ -6,23 +6,21 @@
 <script src="<?php echo SITE_PATH; ?>assets/plugins/adminlte/js/adminlte.min.js"></script>
 
 <script>
-    $(document).ready(function ()
-            $("a").find('.active').each(function () {
+    $(document).ready(function (){
+    $("a").find('.active').each(function () {
     $(this).parent().closest('.has-treeview').addClass("menu-open");
     $('.has-treeview').children('a').first().addClass("active");
     $('.has-treeview').find('a').each(function () {
     $(this).addClass("active");
     });
     });
-    });
-        </script>
+    });</script>
 <script>
     $(document).ready(function(){
     $(".nav-tabs a").click(function(){
     $(this).tab('show');
     });
-    });
-</script>
+    });</script>
     <?php if ($fname === 'slider') { ?>
     <!-- Ion Slider -->
     <script src="<?php echo SITE_PATH; ?>assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>

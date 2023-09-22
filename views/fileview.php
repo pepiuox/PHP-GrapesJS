@@ -14,7 +14,7 @@
     }
 
     th small {
-        font-size: 9px; 
+        font-size: 9px;
     }
 
     td, th {
@@ -44,7 +44,7 @@
 
     td:not(:first-of-type) a {
         background-image: none !important;
-    } 
+    }
 
     tr:nth-of-type(odd) {
         background-color: #E6E6E6;
@@ -61,20 +61,26 @@
     /* icons for file types (icons by famfamfam) */
 
     /* images */
-    table tr td:first-of-type a[href$=".jpg"], 
-    table tr td:first-of-type a[href$=".png"], 
-    table tr td:first-of-type a[href$=".gif"], 
-    table tr td:first-of-type a[href$=".svg"], 
+    table tr td:first-of-type a[href$=".jpg"],
+    table tr td:first-of-type a[href$=".png"],
+    table tr td:first-of-type a[href$=".gif"],
+    table tr td:first-of-type a[href$=".svg"],
     table tr td:first-of-type a[href$=".jpeg"]
-    {background-image: url(../img/image.png);}
+    {
+        background-image: url(../img/image.png);
+    }
 
     /* zips */
-    table tr td:first-of-type a[href$=".zip"] 
-    {background-image: url(../img/zip.png);}
+    table tr td:first-of-type a[href$=".zip"]
+    {
+        background-image: url(../img/zip.png);
+    }
 
     /* css */
-    table tr td:first-of-type a[href$=".css"] 
-    {background-image: url(../img/css.png);}
+    table tr td:first-of-type a[href$=".css"]
+    {
+        background-image: url(../img/css.png);
+    }
 
     /* docs */
     table tr td:first-of-type a[href$=".doc"],
@@ -85,44 +91,56 @@
     table tr td:first-of-type a[href$=".ppsx"],
     table tr td:first-of-type a[href$=".xls"],
     table tr td:first-of-type a[href$=".xlsx"]
-    {background-image: url(../img/office.png)}
+    {
+        background-image: url(../img/office.png)
+    }
 
     /* videos */
-    table tr td:first-of-type a[href$=".avi"], 
-    table tr td:first-of-type a[href$=".wmv"], 
-    table tr td:first-of-type a[href$=".mp4"], 
-    table tr td:first-of-type a[href$=".mov"], 
+    table tr td:first-of-type a[href$=".avi"],
+    table tr td:first-of-type a[href$=".wmv"],
+    table tr td:first-of-type a[href$=".mp4"],
+    table tr td:first-of-type a[href$=".mov"],
     table tr td:first-of-type a[href$=".m4a"]
-    {background-image: url(../img/video.png);}
+    {
+        background-image: url(../img/video.png);
+    }
 
     /* audio */
-    table tr td:first-of-type a[href$=".mp3"], 
-    table tr td:first-of-type a[href$=".ogg"], 
-    table tr td:first-of-type a[href$=".aac"], 
-    table tr td:first-of-type a[href$=".wma"] 
-    {background-image: url(../img/audio.png);}
+    table tr td:first-of-type a[href$=".mp3"],
+    table tr td:first-of-type a[href$=".ogg"],
+    table tr td:first-of-type a[href$=".aac"],
+    table tr td:first-of-type a[href$=".wma"]
+    {
+        background-image: url(../img/audio.png);
+    }
 
     /* web pages */
     table tr td:first-of-type a[href$=".html"],
     table tr td:first-of-type a[href$=".htm"],
     table tr td:first-of-type a[href$=".xml"]
-    {background-image: url(../img/xml.png);}
+    {
+        background-image: url(../img/xml.png);
+    }
 
-    table tr td:first-of-type a[href$=".php"] 
-    {background-image: url(../img/php.png);}
+    table tr td:first-of-type a[href$=".php"]
+    {
+        background-image: url(../img/php.png);
+    }
 
-    table tr td:first-of-type a[href$=".js"] 
-    {background-image: url(../img/script.png);}
+    table tr td:first-of-type a[href$=".js"]
+    {
+        background-image: url(../img/script.png);
+    }
 
     /* directories */
     table tr.dir td:first-of-type a
-    {background-image: url(../img/folder.png);}
+    {
+        background-image: url(../img/folder.png);
+    }
 </style>
 <script src="../js/sorttable.js"></script>   
 <div class="w-100">
-
     <h3>Contenido de Archivos</h3>
-
     <table class="sortable">
         <thead>
             <tr>
@@ -145,11 +163,11 @@
 
             // Finds extensions of files
             function findexts($filename) {
-                 $filename = strtolower($filename) ;
-   $exts = explode(".", $filename) ;
-   $n = count($exts)-1;
-   $exts = $exts[$n];
-   return $exts;
+                $filename = strtolower($filename);
+                $exts = explode(".", $filename);
+                $n = count($exts) - 1;
+                $exts = $exts[$n];
+                return $exts;
             }
 
             // Closes directory
@@ -184,7 +202,7 @@
                     $extn = findexts($dirArray[$index]);
 
                     // Gets file size 
-                    $size = number_format(filesize($dirArray[$index]),2, '.', '');
+                    $size = number_format(filesize($dirArray[$index]), 2, '.', '');
 
                     // Gets Date Modified Data
                     $modtime = date("M j Y g:i A", filemtime($dirArray[$index]));
@@ -249,10 +267,10 @@
                     // Print 'em
                     echo "
           <tr class='$class'>
-            <td><a class='selimg' href='".B_URL."upload/$namehref'>$name</a></td>
-            <td><a href='".B_URL."upload/$namehref'>$extn</a></td>
-            <td><a href='".B_URL."upload/$namehref'>$size</a></td>
-            <td sorttable_customkey='$timekey'><a href='".B_URL."upload/$namehref'>$modtime</a></td>
+            <td><a class='selimg' href='" . B_URL . "upload/$namehref'>$name</a></td>
+            <td><a href='" . B_URL . "upload/$namehref'>$extn</a></td>
+            <td><a href='" . B_URL . "upload/$namehref'>$size</a></td>
+            <td sorttable_customkey='$timekey'><a href='" . B_URL . "upload/$namehref'>$modtime</a></td>
           </tr>";
                 }
             }
