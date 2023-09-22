@@ -314,6 +314,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     </form>
                 </div>
                 <div class="col-md-12 py-4">
+                    <style>
+                        input:checked + label {
+                            color: blue;
+                        }
+                        input[type="checkbox"] {
+                            box-shadow: 0 0 0 2px green;
+                            color: green;
+                        }
+                        input[type="checkbox"]:checked {
+                            box-shadow: 0 0 0 2px hotpink;
+                        }
+                    </style>
                     <h3>Table selected - <?php echo ucfirst(str_replace("_", " ", $tble)); ?></h3>
                     <?php
                     //
@@ -351,11 +363,6 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 echo ' checked';
                             }
                             echo '></td>' . "\n";
-                            echo '<td><input class="form-check-input" type="checkbox" value="1" name="table_view" id="table_view"';
-                            if ($tbs['table_view'] == 1) {
-                                echo ' checked';
-                            }
-                            echo '></td>' . "\n";
                             echo '<td><input class="form-check-input" type="checkbox" value="1" name="table_add" id="table_add"';
                             if ($tbs['table_add'] == 1) {
                                 echo ' checked';
@@ -368,6 +375,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             echo '></td>' . "\n";
                             echo '<td><input class="form-check-input" type="checkbox" value="1" name="table_delete" id="table_delete"';
                             if ($tbs['table_delete'] == 1) {
+                                echo ' checked';
+                            }
+                            echo '></td>' . "\n";
+                            echo '<td><input class="form-check-input" type="checkbox" value="1" name="table_view" id="table_view"';
+                            if ($tbs['table_view'] == 1) {
                                 echo ' checked';
                             }
                             echo '></td>' . "\n";

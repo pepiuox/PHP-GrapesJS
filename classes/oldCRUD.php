@@ -1,6 +1,6 @@
 <?php
 
-class MyCRUD {
+class newCRUD {
 
     protected $connection;
     protected $hostDB;
@@ -28,55 +28,12 @@ class MyCRUD {
         $this->connection = $conn;
         $this->pgname = $rname;
 
-        $this->itpi = [
-            'int',
-            'tinyint',
-            'smallint',
-            'mediumint',
-            'bigint',
-            'bit',
-            'float',
-            'double',
-            'decimal'
-        ];
-        $this->itpc = [
-            'time',
-            'year'
-        ];
-        $this->itpd = [
-            'date',
-            'datetime',
-            'timestamp'
-        ];
-        $this->itpv = [
-            'varchar',
-            'char'
-        ];
-        $this->itpt = [
-            'text',
-            'tinytext',
-            'mediumtext',
-            'longtext',
-            'json',
-            'point',
-            'linestring',
-            'polygon',
-            'geometry',
-            'multipoint',
-            'multilinestring',
-            'multipolygon',
-            'geometrycollection',
-            'binary',
-            'varbinary',
-            'tinyblob',
-            'blob',
-            'mediumblob',
-            'longblob'
-        ];
-        $this->itpe = [
-            'enum',
-            'set'
-        ];
+        $this->itpi = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal'];
+        $this->itpc = ['time', 'year'];
+        $this->itpd = ['date', 'datetime', 'timestamp'];
+        $this->itpv = ['varchar', 'char'];
+        $this->itpt = ['text', 'tinytext', 'mediumtext', 'longtext', 'json', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection', 'binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob'];
+        $this->itpe = ['enum', 'set'];
 
         $this->tpi = [
             'tinyint',
@@ -198,6 +155,51 @@ class MyCRUD {
             AND table_name = '$tble'")->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function tblQueries($tble) {
+        $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$tble' AND input_type IS NOT NULL";
+        $resultq = $this->selectData($sqlq);
+        $rowcq = $resultq->num_rows;
+        $r = 0;
+
+        if ($r < $rowcq) {
+            $nif = array();
+            $qers = array();
+            $ctl = array();
+            while ($rqu = $resultq->fetch_array()) {
+
+                $c_nm = $rqu['col_name'];
+                $c_jo = $rqu['joins'];
+                $c_tb = $rqu['j_table'];
+                $c_id = $rqu['j_id'];
+                $c_vl = $rqu['j_value'];
+
+                $ctl[] = '$finfo->name != "' . $c_id . '" && $finfo->name != "' . $c_vl . '"';
+                $qers[] = $c_jo . " (SELECT " . $c_id . ', ' . $c_vl . ' FROM ' . $c_tb . ') ' . $c_tb . ' ON ' . $tble . '.' . $c_nm . '=' . $c_tb . '.' . $c_id;
+                $nif[] = "if (\$finfo->name === '{$c_nm}') {
+                    echo '<div class=\"form-group\">
+        <label for=\"' . \$finfo->name . '\">' . ucfirst(\$remp) . ':</label>
+        <select type=\"select\" class=\"form-control\" id=\"' . \$finfo->name . '\" name=\"' . \$finfo->name . '\" >';
+
+                    \$qres = \$this->connection->query(\"SELECT * FROM  {$c_tb}\");
+                    while (\$rqj = \$qres->fetch_array()) {
+                        echo '<option value=\"' . \$rqj['{$c_id}'] . '\">' . \$rqj['{$c_vl}'] . '</option>';
+                    }
+                    echo '</select>';
+                    echo '</div>';
+                }";
+            }
+
+            $valr = implode(" ", $qers);
+            $nifs = implode(" else", $nif);
+            $ctls = implode(" && ", $ctl);
+
+            $sql = "SELECT * FROM $tble $valr";
+        } else {
+            $sql = "SELECT * FROM $tble";
+        }
+        return;
+    }
+
     public function getList($sql, $col) {
         $result = $this->selectData($sql);
 
@@ -233,6 +235,101 @@ class MyCRUD {
             echo '</tbody>
 </table>' . "\n";
         }
+    }
+
+    public function listColm($tble) {
+        $result = $this->getAllData($tble);
+
+        $i = 0;
+        echo '<form class="row form-horizontal" role="form" method="POST" enctype="multipart/form-data">' . "\n";
+        echo '<table class="table table-bordered">' . "\n";
+        echo '<thead class="bg-info">' . "\n";
+        echo '<tr>' . "\n";
+        while ($i < $result->field_count) {
+            $meta = $result->fetch_field();
+            $remp = str_replace("_", " ", $meta->name);
+            echo '<th>' . ucfirst($remp) . '</th>' . "\n";
+            $i = $i + 1;
+        }
+        echo '<th><a href="./forms.php?a=' . $tble . '&b=add" id="addrow" name="addrow" class="btn btn-primary">Add new</a></th>' . "\n";
+        echo '</tr>' . "\n";
+        echo '</thead>' . "\n";
+        echo '<tbody>' . "\n";
+
+        // pagination
+        $searching = 0;
+        if (isset($_POST['qry'])) {
+            $searching = 1;
+            $qry = protect($_POST['qry']);
+        }
+        $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 20;
+        $page = (isset($_GET['page']) && is_numeric($_GET['page']) ) ? $_GET['page'] : 1;
+        /*
+          $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+          $limit = 20; */
+
+        $startpoint = ($page * $limit) - $limit;
+        if ($page == 1) {
+            $i = 1;
+        } else {
+            $i = $page * $limit;
+        }
+
+        if ($searching == 1) {
+            if (empty($qry)) {
+                $qry = 'empty query';
+            }
+
+            $result = $this->selectData("SELECT * FROM $tble WHERE id LIKE '%$qry%' ORDER BY id");
+        } else {
+            $result = $this->selectData("SELECT * FROM $tble ORDER BY id LIMIT {$startpoint} , {$limit}");
+        }
+        // end pagination
+        if ($result->num_rows > 0) {
+            $i = 0;
+            while ($row = $result->fetch_row()) {
+                echo '<tr>' . "\n";
+                $count = count($row);
+                $y = 0;
+                while ($y < $count) {
+                    $c_row = current($row);
+                    if ($y == 0) {
+                        echo '<td id="' . $c_row . '">' . $c_row . '</td>' . "\n";
+                    } else {
+                        echo '<td>' . $c_row . '</td>' . "\n";
+                    }
+                    next($row);
+                    $y = $y + 1;
+                }
+
+                $i_row = $row[0];
+                echo '<td><!-- Button -->
+                      <a href="./?a=' . $tble . '&b=edit&id=' . $i_row . '" title="Edit"><i class="fas fa-edit"></i></a>
+                      <a href="./?a=' . $tble . '&b=delete&id=' . $i_row . '" title="Delete"><i class="fas fa-trash-alt"></i></a>
+</td>';
+
+                echo '</tr>' . "\n";
+                $i = $i + 1;
+            }
+        } else {
+            if ($searching == "1") {
+                echo '<tr><td colspan="8">No results for <b>' . $qry . '</b>.</td></tr>' . "\n";
+            } else {
+                echo '<tr><td colspan="8">Still no have exchanges.</td></tr>' . "\n";
+            }
+        }
+        echo '</tbody>' . "\n";
+        echo '</table>' . "\n";
+
+        if ($searching == "0") {
+            $ver = "./forms.php?a=" . $tble;
+            if (admin_pagination($tble, $ver, $limit, $page)) {
+                echo admin_pagination($tble, $ver, $limit, $page);
+            }
+        }
+
+        echo '</form>' . "\n";
+        mysqli_free_result($result);
     }
 
     public function getDatalist($tble) {

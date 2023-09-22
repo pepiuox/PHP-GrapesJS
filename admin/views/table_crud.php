@@ -37,8 +37,8 @@ if ($w == "select") {
                             ?>
                         </select>
                         <script>
-                            let select = document.querySelector('#selecttb');                         
-                            select.addEventListener('change', function () { 
+                            let select = document.querySelector('#selecttb');
+                            select.addEventListener('change', function () {
                                 let url = 'dashboard.php?cms=table_crud&w=list&tbl=' + this.value;
                                 window.location.replace(url);
                             });
@@ -104,6 +104,9 @@ if ($w == "select") {
 } elseif ($w == "edit") {
     $tble = $p->secureStr($_GET['tbl']);
     $titl = ucfirst(str_replace("_", " ", $tble));
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+    }
     ?>
     <div class="container">
         <div class="row">
@@ -117,11 +120,7 @@ if ($w == "select") {
         </div>
         <div class="col-md-12">
             <?php
-            if (isset($_GET["id"])) {
-                $id = $_GET["id"];
-            }
-
-            $c->updateData($tble);           
+            $c->updateData($tble);
             $c->inputQEdit($tble, $id);
             ?>             
         </div>
@@ -144,22 +143,22 @@ if ($w == "select") {
         <div class="row">
             <div class="col-md-12">
                 <h4 class="text-primary">Are you sure you want to delete data?</h4>
-                <?php
-                if (isset($_GET["id"])) {
-                    $id = $_GET["id"];
-                }
+    <?php
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+    }
 
-                if (isset($_POST["deleterow"])) {
+    if (isset($_POST["deleterow"])) {
 
-                    if ($c->selectData("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
-                        $_SESSION['success'] = "Record deleted successfully";
-                    } else {
-                        $_SESSION['error'] = "Error deleting record";
-                    }
-                }
+        if ($c->selectData("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
+            $_SESSION['success'] = "Record deleted successfully";
+        } else {
+            $_SESSION['error'] = "Error deleting record";
+        }
+    }
 
-                $c->deleteData($tble, $id);
-                ?>
+    $c->deleteData($tble, $id);
+    ?>
             </div>
         </div>
     </div>

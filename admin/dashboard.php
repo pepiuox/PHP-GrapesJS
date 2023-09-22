@@ -10,6 +10,7 @@ if (file_exists($connfile)) {
     $login = new UserClass();
     $check = new CheckValidUser();
     $level = new AccessLevel();
+    $vp = new DashboardRoutes();
 } else {
     header('Location: ../installer/install.php');
     exit();
@@ -19,13 +20,15 @@ if (isset($_GET['cms']) && !empty($_GET['cms'])) {
 } else {
     $cms = '';
 }
+
 if (isset($_GET['user']) && !empty($_GET['user'])) {
     $user = $_GET['user'];
 } else {
     $user = '';
 }
 
-$vpages = '';
+$vpages = $vp->vPages($cms);
+$w = '';
 ?>
 <?php include '../elements/header.php'; ?>
 </head>
@@ -74,48 +77,6 @@ $vpages = '';
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <?php
-                                $w = '';
-                                if ($cms == 'list_posts') {
-                                    $vpages = 'List Posts';
-                                } elseif ($cms == 'add_post') {
-                                    $vpages = 'Add Post';
-                                } elseif ($cms == 'edit_post') {
-                                    $vpages = 'Edit Post';
-                                } elseif ($cms == 'delete_post') {
-                                    $vpages = 'Delete Post';
-                                } elseif ($cms == 'post_category') {
-                                    $vpages = 'Post Categories';
-                                } elseif ($cms == 'list_pages') {
-                                    $vpages = 'Page List';
-                                } elseif ($cms == 'add_page') {
-                                    $vpages = 'Add Page';
-                                } elseif ($cms == 'edit_page') {
-                                    $vpages = 'Edit Page';
-                                } elseif ($cms == 'delete_page') {
-                                    $vpages = 'Delete Page';
-                                } elseif ($cms == 'siteconf') {
-                                    $vpages = 'Site Definitions';
-                                } elseif ($cms == 'themes') {
-                                    $vpages = 'Themes';
-                                } elseif ($cms == 'theme_template') {
-                                    $vpages = 'Theme Template';
-                                } elseif ($cms == 'menu') {
-                                    $vpages = 'Menu Template';
-                                } elseif ($cms == 'plugins') {
-                                    $vpages = 'Plugins App';
-                                } elseif ($cms == 'table_crud') {
-                                    $vpages = 'Table CRUD';
-                                } elseif ($cms == 'column_manager') {
-                                    $vpages = 'Column Manager';
-                                } elseif ($cms == 'table_config') {
-                                    $vpages = 'Table Config';
-                                } elseif ($cms == 'table_manager') {
-                                    $vpages = 'Table Manager';
-                                } elseif ($cms == 'volunteer') {
-                                    $vpages = 'Volunteer';
-                                } else {
-                                    $vpages = 'Dashboard';
-                                }
                                 ?>
                                 <h1 class="m-0 text-dark"><?php echo $vpages; ?></h1>
 
@@ -135,120 +96,7 @@ $vpages = '';
                     <?php include '../elements/alerts.php'; ?>
                     <!-- Main row -->
                     <?php
-                    if ($cms == 'list_posts') {
-                        include 'views/blog_posts.php';
-                    } elseif ($cms == 'add_post') {
-                        include 'views/blog_posts.php';
-                    } elseif ($cms == 'edit_post') {
-                        include 'views/blog_posts.php';
-                    } elseif ($cms == 'delete_post') {
-                        include 'views/blog_posts.php';
-                    } elseif ($cms == 'post_category') {
-                        include 'views/category.php';
-                    } elseif ($cms == 'list_pages') {
-                        include 'views/pages.php';
-                    } elseif ($cms == 'add_page') {
-                        include 'views/pages.php';
-                    } elseif ($cms == 'edit_page') {
-                        include 'views/pages.php';
-                    } elseif ($cms == 'delete_page') {
-                        include 'views/pages.php';
-                    } elseif ($cms == 'siteconf') {
-                        include 'views/settings.php';
-                    } elseif ($cms == 'themes') {
-                        include 'views/themes.php';
-                    } elseif ($cms == 'theme_template') {
-                        include 'views/theme_template.php';
-                    } elseif ($cms == 'menu') {
-                        include 'views/menu.php';
-                    } elseif ($cms == 'plugins') {
-                        include 'views/plugins.php';
-                    } elseif ($cms == 'users') {
-                        include 'admin.php';
-                    } elseif ($cms == 'adduser') {
-                        include 'adduser.php';
-                    } elseif ($cms == 'table_crud') {
-                        include 'views/table_crud.php';
-                    } elseif ($cms == 'column_manager') {
-                        include 'views/column_manager.php';
-                    } elseif ($cms == 'table_config') {
-                        include 'views/table_config.php';
-                    } elseif ($cms == 'table_manager') {
-                        include 'views/table_manager.php';
-                    } elseif ($cms == 'volunteer') {
-                        include 'views/volunteer.php';
-                    } else {
-                        ?>
-                        <div class="container-fluid">
-                            <!-- Small boxes (Stat box) -->
-                            <div class="row">
-                                <div class="col-lg-3 col-6">                            
-                                    <!-- small box -->
-                                    <div class="small-box bg-info">
-                                        <div class="inner">
-                                            <?php
-                                            echo '<h3>' . numusers() . '</h3>';
-                                            ?>
-                                            <p>User Registrations</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="ion ion-bag"></i>
-                                        </div>
-                                        <a href="dashboard.php?cms=users" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                                <!-- ./col -->
-                                <div class="col-lg-3 col-6">
-                                    <!-- small box -->
-                                    <div class="small-box bg-success">
-                                        <div class="inner">
-                                            <h3>53<sup style="font-size: 20px">%</sup></h3>
-                                            <p> Bounce Rate</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="ion ion-stats-bars"></i>
-                                        </div>
-                                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                                <!-- ./col -->
-                                <div class="col-lg-3 col-6">
-                                    <!-- small box -->
-                                    <div class="small-box bg-warning">
-                                        <div class="inner">
-                                            <?php
-                                            echo '<h3>' . numpages() . '</h3>';
-                                            ?>
-                                            <p>Number of pages and Contents </p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="ion ion-person-add"></i>
-                                        </div>
-                                        <a href="dashboard.php?cms=list_page" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                                <!-- ./col -->
-                                <div class="col-lg-3 col-6">
-                                    <!-- small box -->
-                                    <div class="small-box bg-danger">
-                                        <div class="inner">
-                                            <?php
-                                            echo '<h3>' . numvisitor() . '</h3>';
-                                            ?>
-                                            <p>Unique Visitors</p>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="ion ion-pie-graph"></i>
-                                        </div>
-                                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                                <!-- ./col -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <?php
-                    }
+                    include_once $vp->ViewIncludes($cms);
                     ?>                        
                 </section>
                 <!-- /.row (main row) -->
