@@ -10,7 +10,7 @@ class GetVisitor {
     public function __construct() {
         global $conn;
         $date = new DateTime();
-        $this->timestamp = $date->getTimestamp();
+        $this->timestamp = $date->format('Y-m-d H:i:s');
         $this->system = SITE_PATH;
         $this->connection = $conn;
 
@@ -33,7 +33,7 @@ class GetVisitor {
     public function checkUserIP($ip) {
         $stmt = $this->connection->prepare('SELECT ip FROM visitor WHERE ip = ?');
         $stmt->bind_param('s', $ip);
-        $stmt->execute();        
+        $stmt->execute();
         $num = $stmt->get_result();
         return $num->num_rows;
     }
@@ -77,6 +77,8 @@ class GetVisitor {
             $dif = $this->differenceInHours($startdate, $enddate);
             if ($dif >= 24) {
                 $this->connection->query("UPDATE counter SET counter = counter + 1");
+            } else {
+                return;
             }
         } else {
             $this->connection->query("UPDATE counter SET counter = counter + 1");

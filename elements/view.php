@@ -1,5 +1,5 @@
 <?php
-$currentDate = new DateTime();
+
 $connfile = 'config/dbconnection.php';
 if (file_exists($connfile)) {
     $page = $_SERVER['PHP_SELF'];
@@ -9,8 +9,7 @@ if (file_exists($connfile)) {
     require_once 'classes/GetVisitor.php';
 
     $login = new UserClass();
-    $timestamp = $currentDate->format('Y-m-d H:i:s');
-    $visitor = new GetVisitor($timestamp);
+    $visitor = new GetVisitor();
 
     $_SESSION['language'] = '';
     $initweb = 'http://' . $_SERVER['HTTP_HOST'] . '/';
@@ -36,7 +35,7 @@ if (file_exists($connfile)) {
         $spg->execute();
         $rs = $spg->get_result();
         $rpx = $rs->fetch_assoc();
-        $namelink = $base . $rpx['link'];
+        $namelink = $initweb . $rpx['link'];
         header("Location: $namelink");
         exit();
     } elseif (isset($basename) && !empty($basename)) {
@@ -49,12 +48,8 @@ if (file_exists($connfile)) {
         if ($nm > 0) {
             $rpx = $rs->fetch_assoc();
         } else {
-            $spg = $conn->prepare("SELECT * FROM page WHERE startpage = ? AND active = ? ");
-            $spg->bind_param("ii", $startpage, $active);
-            $spg->execute();
-            $rs = $spg->get_result();
-            $nm = $rs->num_rows;
-            $rpx = $rs->fetch_assoc();
+            header("Location: $initweb");
+            exit();
         }
     }
 

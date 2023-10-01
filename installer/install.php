@@ -271,7 +271,7 @@ include_once 'define.php';". "\n";
             \$siteinstall = SITE_PATH;
         } else {" . "\n";
         if (!empty($siteinstall)) {
-            $filecontent .= "\$base = '" . $siteinstall . "';" . "\n";
+            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].';" . "\n";
         } else {
             $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
