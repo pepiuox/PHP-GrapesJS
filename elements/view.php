@@ -244,7 +244,10 @@ if (file_exists($connfile)) {
                         echo $string . "\n";
                         ?>
                     </div>
-                </div>              
+                </div>  
+                <?php
+                require_once 'footer.php';
+                ?>
             </body>
         </html>
         <?php
@@ -256,7 +259,7 @@ if (file_exists($connfile)) {
                 <meta charset="utf-8"/>
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>   
-                <?php require_once 'elements/metalink.php'; ?>     
+                <?php require_once 'metalink.php'; ?>     
                 <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />           
                 <meta name="keywords" content="<?php echo SITE_KEYWORDS; ?>" />           
                 <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
@@ -271,7 +274,7 @@ if (file_exists($connfile)) {
             <body>
                 <div class="wrapper"> 
                     <?php
-                    require_once 'elements/navbar.php';
+                    require_once 'navbar.php';
                     ?>
                     <div class='container'>
                         <div class="row">
@@ -283,6 +286,9 @@ if (file_exists($connfile)) {
                         </div>
                     </div>
                 </div>
+                <?php
+                require_once 'footer.php';
+                ?>
             </body>
         </html>
         <?php

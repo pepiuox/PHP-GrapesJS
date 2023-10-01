@@ -27,7 +27,7 @@ class MyCRUD {
         global $conn, $rname;
         $this->connection = $conn;
         $this->pgname = $rname;
-
+        // Array to get input type
         $this->itpi = [
             'int',
             'tinyint',
@@ -77,7 +77,7 @@ class MyCRUD {
             'enum',
             'set'
         ];
-
+// Array to get code type for prepare statement
         $this->tpi = [
             'tinyint',
             'smallint',
@@ -943,7 +943,7 @@ class MyCRUD {
         $content .= $ptadds . "\n";
         $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
         $content .= 'VALUES (' . $nvls . ')";' . "\n";
-        $content .= "\$stmt = \$conn->prepare(\$sql);" . "\n";
+        $content .= "\$stmt = \$this->connection->prepare(\$sql);" . "\n";
         $content .= '$stmt->bind_param("' . $ctypes . '", ' . $cnames . ');' . "\n";
         $content .= '$stmt->execute();' . "\n";
         $content .= '$stmt->close();' . "\n";
@@ -1020,7 +1020,7 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
         $content .= $ptadds . "\n";
         $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
         $content .= 'VALUES (' . $pnames . ')";' . "\n";
-        $content .= "\$insert = \$conn->prepare(\$sql);
+        $content .= "\$insert = \$this->connection->prepare(\$sql);
 \$insert->bind_param('" . $vd . "'," . $bnames . " );
 \$insert->execute();
 \$insert->close();" . "\n";
@@ -1138,7 +1138,7 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
         $content .= $scpt . "\r\n";
         $content .= "\$query=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . " = ? \";" . "\r\n";
-        $content .= '$stmt = $conn->prepare($query);' . "\r\n";
+        $content .= '$stmt = $this->connection->prepare($query);' . "\r\n";
         $content .= '$stmt->bind_param("' . $bindp . '",' . $cnames . ', $id);' . "\n";
         $content .= '$stmt->execute();' . "\n";
         $content .= '$stmt->close();' . "\n";
@@ -1203,7 +1203,7 @@ window.onload = function() {
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
         $content .= $scpt . "\r\n";
         $content .= '$query = "UPDATE ' . $tble . ' SET ' . $ecols . ' WHERE ' . $ncol . ' = ?";' . "\r\n";
-        $content .= "\$updated = \$conn->prepare(\$sql);
+        $content .= "\$updated = \$this->connection->prepare(\$sql);
 \$updated->bind_param('" . $ctypes . "i', " . $cnames . ", \$id );
 \$updated->execute();
 \$updated->close();" . "\n";
@@ -1781,6 +1781,114 @@ window.onload = function() {
                 }
                 echo implode(" ", $checkd);
             }
+        }
+    }
+
+    public function searchData($tble, $col, $str) {
+
+        $total_pages = $this->connection->query("SELECT * FROM $tble")->num_rows;
+
+        $colmns = $this->viewColumns($tble);
+
+        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+
+        $num_results_on_page = 10;
+
+        if ($stmt = $this->connection->prepare("SELECT * FROM $tble WHERE (`$col` LIKE '%" . $str . "%') LIMIT ?,?")) {
+
+            $calc_page = ($page - 1) * $num_results_on_page;
+            $stmt->bind_param('ii', $calc_page, $num_results_on_page);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            echo '
+	<table class="table">
+			<thead>
+				<tr><th></th>' . "\n";
+            foreach ($colmns as $colmn) {
+                $tremp = ucfirst(str_replace("_", " ", $colmn->name));
+                $remp = str_replace(" id", " ", $tremp);
+                echo '<th>' . $remp . '</th>';
+            }
+            echo '				
+			</tr>
+			</thead>
+			<tbody>' . "\n";
+            while ($row = $result->fetch_array()) {
+
+                echo '<tr>' . "\n";
+                echo '<td><!--Button -->
+                <a id="editrow" name="editrow" class="btn btn-success" href="index.php?w=edit&tbl=' . $tble . '&id=' . $row[0] . '">Editar</a>
+                <a id="deleterow" name="deleterow" class="btn btn-danger" href="index.php?w=delete&tbl=' . $tble . '&id=' . $row[0] . '">Borrar</a>
+                </td>' . "\n";
+                foreach ($colmns as $colmn) {
+                    $fd = $row[$colmn->name];
+                    $resultq = $this->connection->query("SELECT * FROM table_queries WHERE name_table='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
+                    $resv = $resultq->num_rows;
+                    $r = 0;
+                    if ($resv > $r) {
+                        $trow = $resultq->fetch_assoc();
+                        $tb = $trow['j_table'];
+                        $id = $trow['j_id'];
+                        $val = $trow['j_value'];
+                        $tow = $this->connection->query("SELECT * FROM $tb WHERE $id='$fd'")->fetch_assoc();
+
+                        echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>' . "\n";
+                    } else {
+                        echo '<td>' . $row[$colmn->name] . '</td>' . "\n";
+                    }
+                }
+
+
+                echo '</tr>' . "\n";
+            }
+            echo '</tbody>
+		</table>' . "\n";
+
+            if (ceil($total_pages / $num_results_on_page) > 0) {
+                ?>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mx-auto">
+                        <?php if ($page > 1) { ?>
+                            <li class="prev"><a href="search.php?page=<?php echo $page - 1 ?>">Anterior</a></li>
+                        <?php } ?>
+
+                        <?php if ($page > 3) { ?>
+                            <li class="start"><a href="search.php?page=1">1</a></li>
+                            <li class="dots">...</li>
+                        <?php } ?>
+
+                        <?php if ($page - 2 > 0) { ?>
+                            <li class="page"><a href="search.php?page=<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a></li>
+                        <?php } ?>
+                        <?php if ($page - 1 > 0) { ?>
+                            <li class="page"><a href="search.php?page=<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a></li>
+                        <?php } ?>
+
+                        <li class="currentpage"><a href="search.php?page=<?php echo $page ?>"><?php echo $page ?></a></li>
+
+                        <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1) { ?>
+                            <li class="page"><a href="search.php?page=<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a></li>
+                        <?php } ?>
+                        <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1) { ?>
+                            <li class="page"><a href="search.php?page=<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a></li>
+                        <?php } ?>
+
+                        <?php if ($page < ceil($total_pages / $num_results_on_page) - 2) { ?>
+                            <li class="dots">...</li>
+                            <li class="end"><a
+                                    href="search.php?page=<?php echo ceil($total_pages / $num_results_on_page) ?>"><?php echo ceil($total_pages / $num_results_on_page) ?></a></li>
+                            <?php } ?>
+
+                        <?php if ($page < ceil($total_pages / $num_results_on_page)) { ?>
+                            <li class="next"><a href="search.php?page=<?php echo $page + 1 ?>">Siguiente</a></li>
+                        <?php } ?>
+                    </ul>
+                </nav>
+                <?php
+            }
+            $stmt->close();
         }
     }
 }

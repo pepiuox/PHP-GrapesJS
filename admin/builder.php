@@ -26,6 +26,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $id = $_GET['id'];
         $targetDir = "../uploads/";
 
+        if ($build === 'page') {
+            $linkp = 'list_pages';
+            $linkn = 'add_page';
+        } elseif ($build === 'blog_posts') {
+            $linkp = 'list_posts';
+            $linkn = 'add_post';
+        }
+
         function Get_ImagesToFolder($targetDir) {
             $ImagesArray = [];
             $file_display = [
@@ -513,8 +521,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                                     type: 'integer',
                                                     units: ['px', '%', ''],
                                                     unit: '',
-                                                    defaults: 'auto',
-                                                }],
+                                                    defaults: 'auto'
+                                                }]
                                         }, {
                                             name: 'Align',
                                             property: 'align-self',
@@ -522,7 +530,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                             defaults: 'auto',
                                             list: [{
                                                     value: 'auto',
-                                                    name: 'Auto',
+                                                    name: 'Auto'
                                                 }, {
                                                     value: 'flex-start',
                                                     title: 'Start',
@@ -575,7 +583,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 style: [
                                     '../assets/plugins/grapesjs/css/tui-color-picker.min.css',
                                     '../assets/plugins/grapesjs/css/tui-image-editor.min.css'
-                                ],
+                                ]
                             },
                             'grapesjs-tabs': {
                                 tabsBlock: {category: 'Extra'}
@@ -672,7 +680,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             }
                         }
                     });
-                  
+
                     var pn = editor.Panels;
                     var modal = editor.Modal;
                     var cmdm = editor.Commands;
@@ -687,28 +695,28 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             }, 0);
                         }
                     });
-                    
+
                     cmdm.add('set-device-desktop', {
                         run: function (ed) {
                             ed.setDevice('Desktop');
                         },
                         stop: function () {}
                     });
-                    
+
                     cmdm.add('set-device-tabvar ', {
                         run: function (ed) {
                             ed.setDevice('Tabvar ');
                         },
                         stop: function () {}
                     });
-                    
+
                     cmdm.add('set-device-mobile', {
                         run: function (ed) {
                             ed.setDevice('Mobile portrait');
                         },
                         stop: function () {}
                     });
-                    
+
                     cmdm.add('dashboard', {
                         run: function (em, sender) {
                             sender.set('active', true);
@@ -721,21 +729,21 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             saveContent();
                         }
                     });
-                    
+
                     cmdm.add('view-list', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             pageList();
                         }
                     });
-                    
+
                     cmdm.add('refresh-content', {
                         run: function (em, sender) {
                             sender.set('active', true);
                             refreshContent();
                         }
                     });
-                    
+
                     cmdm.add('new-content', {
                         run: function (em, sender) {
                             sender.set('active', true);
@@ -793,7 +801,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             'data-tooltip-pos': 'bottom'
                         }
                     });
-                    
+
                     pn.addButton('options', {
                         id: 'open-templates',
                         className: 'fa fa-folder-o',
@@ -802,7 +810,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         },
                         command: 'open-templates' //Open modal 
                     });
-                    
+
                     pn.addButton('views', {
                         id: 'open-pages',
                         className: 'fa fa-file-o',
@@ -832,7 +840,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
-                        
+
                     pn.addButton('options', [{
                             id: 'save-changes',
                             className: 'fa fa-floppy-o',
@@ -842,7 +850,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
-                        
+
                     pn.addButton('options', [{
                             id: 'view-list',
                             className: 'fa fa-list',
@@ -852,7 +860,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
-                        
+
                     pn.addButton('options', [{
                             id: 'view-content',
                             className: 'fa fa-file-text-o',
@@ -862,7 +870,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
-                        
+
                     pn.addButton('options', [{
                             id: 'refresh-content',
                             className: 'fa fa-refresh',
@@ -872,7 +880,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 'data-tooltip-pos': 'bottom'
                             }
                         }]);
-                        
+
                     pn.addButton('options', [{
                             id: 'new-content',
                             className: 'fa fa-file-o',
@@ -891,7 +899,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         showDuration: 250,
                         hideDuration: 150
                     };
-                    
+
                     console.warn = function (msg) {
                         if (msg.indexOf('[undefined]') == -1) {
                             toastr.warning(msg);
@@ -926,11 +934,31 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     // editor.runCommand('gjs-export-zip');
                     // Store and load events
                     editor.on('storage:load', function (e) {
-                        console.log('Loaded ', e)
+                        console.log('Loaded ', e);
                     });
-                    
+
                     editor.on('storage:store', function (e) {
-                        console.log('Stored ', e)
+                        console.log('Stored ', e);
+                    });
+                    editor.getHtml({
+                        cleanId: false
+                    });
+
+                    editor.getInnerHTML({
+                        attributes(component, attributes) {
+                            if (component.get('tagName')) {
+                                attributes.id = false;
+                            }
+                            return attributes;
+                        }
+                    });
+                    editor.toHTML({
+                        attributes(component, attributes) {
+                            if (component.get('tagName')) {
+                                attributes.id = false;
+                            }
+                            return attributes;
+                        }
                     });
 
                     //editor.getHtml();
@@ -1010,13 +1038,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
 
                     function pageList() {
-        <?php
-        if ($build === 'page') {
-            $linkp = 'list_pages';
-        } elseif ($build === 'blog_posts') {
-            $linkp = 'list_posts';
-        }
-        ?>
+
                         var url = 'dashboard.php?cms=<?php echo $linkp; ?>';
                         location.replace(url);
                     }
@@ -1031,13 +1053,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
 
                     function newContent() {
-        <?php
-        if ($build === 'page') {
-            $linkn = 'add_page';
-        } elseif ($build === 'blog_posts') {
-            $linkn = 'add_post';
-        }
-        ?>
+
                         var url = 'dashboard.php?cms=<?php echo $linkn; ?>';
                         location.replace(url);
                     }
