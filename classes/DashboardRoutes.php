@@ -2,12 +2,6 @@
 
 class DashboardRoutes {
 
-    public $cms;
-
-    public function __construct() {
-        
-    }
-
     public function ViewIncludes($cms) {
         $view = '';
         if ($cms === 'list_posts') {
@@ -61,6 +55,7 @@ class DashboardRoutes {
     }
 
     public function vPages($cms = '') {
+        $vpages = '';
         if ($cms === 'list_posts') {
             $vpages = 'List Posts';
         } elseif ($cms === 'add_post') {

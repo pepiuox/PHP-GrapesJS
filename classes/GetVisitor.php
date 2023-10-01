@@ -8,7 +8,6 @@ class GetVisitor {
     private $timestamp;
 
     public function __construct() {
-
         global $conn;
         $date = new DateTime();
         $this->timestamp = $date->getTimestamp();
@@ -34,7 +33,7 @@ class GetVisitor {
     public function checkUserIP($ip) {
         $stmt = $this->connection->prepare('SELECT ip FROM visitor WHERE ip = ?');
         $stmt->bind_param('s', $ip);
-        $stmt->execute();
+        $stmt->execute();        
         $num = $stmt->get_result();
         return $num->num_rows;
     }
@@ -63,7 +62,6 @@ class GetVisitor {
         } else {
             $ip = $remote;
         }
-
         return $ip;
     }
 
