@@ -9,9 +9,9 @@ class Session {
     public $form;
     public $mailer;
     protected $connection;
-    public $username;     //Username given on sign-up
-    public $userid;       //Random value generated on current login
-    public $userlevel;    //The level to which the user pertains
+    private $username;     //Username given on sign-up
+    private $userid;       //Random value generated on current login
+    private $userlevel;    //The level to which the user pertains
     public $time;         //Time user was active (page loaded)
     public $logged_in;    //True if user is logged in, false otherwise
     public $userinfo = array();  //The array holding all user info

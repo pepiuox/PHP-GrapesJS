@@ -11,6 +11,7 @@ if (file_exists($connfile)) {
     $check = new CheckValidUser();
     $level = new AccessLevel();
     $vp = new DashboardRoutes();
+    $visitor = new GetVisitor();
 } else {
     header('Location: ../installer/install.php');
     exit();

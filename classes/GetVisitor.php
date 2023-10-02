@@ -6,16 +6,23 @@ class GetVisitor {
     public $baseurl;
     protected $connection;
     private $timestamp;
+    public $date;
+    protected $hash;
+    protected $token;
+    private $session;
 
     public function __construct() {
         global $conn;
-        $date = new DateTime();
-        $this->timestamp = $date->format('Y-m-d H:i:s');
-        $this->system = SITE_PATH;
         $this->connection = $conn;
-
+        $this->date = new DateTime();
+        $this->timestamp = $this->date->format('Y-m-d H:i:s');
+        $this->system = SITE_PATH;
+        $this->hash = SECURE_HASH;
+        $this->token = SECURE_TOKEN;
         $this->getip = $this->getUserIP();
         $num = $this->checkUserIP($this->getip);
+        $_SESSION['session_visit'] = $this->ende_crypter('encrypt', $this->getip, $this->hash, $this->token);
+        $this->session = $_SESSION['session_visit'];
 
         if ($num === 0) {
             $stmt = $this->connection->prepare("INSERT INTO visitor (ip) VALUES (?)");
@@ -28,6 +35,25 @@ class GetVisitor {
         } else {
             $this->CounterVisitor($this->getip);
         }
+
+        if (!empty($this->session)) {
+            $this->guest_online();
+        }
+    }
+
+    private function ende_crypter($action, $string, $secret_key, $secret_iv) {
+        $output = false;
+        $encrypt_method = 'AES-256-CBC';
+// hash
+        $key = hash('sha256', $secret_key);
+// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        if ($action == 'encrypt') {
+            $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
+        } else if ($action == 'decrypt') {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        return $output;
     }
 
     public function checkUserIP($ip) {
@@ -90,5 +116,63 @@ class GetVisitor {
         $endtimestamp = strtotime($enddate);
         $difference = round(abs($endtimestamp - $starttimestamp) / 3600, 2);
         return $difference;
+    }
+
+    public function pageViews($title) {
+        $stmt = $this->connection->prepare('SELECT * FROM pageviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
+        $stmt->bind_param('ss', $title, $this->getip);
+        $stmt->execute();
+        $rows = $stmt->get_result();
+        if ($rows->num_rows > 0) {
+            $row = $rows->fetch_assoc();
+            $startdate = $row['date_view'];
+            $enddate = $this->timestamp;
+            $dif = $this->differenceInHours($startdate, $enddate);
+            if ($dif >= 24) {
+                $stmt = $this->connection->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
+                $stmt->bind_param('ss', $title, $this->getip);
+                $stmt->execute();
+            } else {
+                return;
+            }
+        } else {
+            $stmt = $this->connection->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
+            $stmt->bind_param('ss', $title, $this->getip);
+            $stmt->execute();
+        }
+    }
+
+    public function guest_online() {
+
+        $current_time = $this->timestamp;
+
+        $stmt = $this->connection->prepare("SELECT session FROM total_visitors WHERE session = ?");
+        $stmt->bind_param('s', $this->session);
+        $stmt->execute();
+        $session_exist = $stmt->get_result();
+        $session_check = $session_exist->num_rows;
+
+        if ($session_check == 0 && $this->session != "") {
+            $stmt = $this->connection->prepare("INSERT INTO total_visitors (session, time) VALUES (?,?)");
+            $stmt->bind_param('ss', $this->session, $current_time);
+            $stmt->execute();
+        } else {
+            $stmt = $this->connection->prepare("UPDATE total_visitors SET time = ? WHERE session = ?");
+            $stmt->bind_param('ss', $current_time, $this->session);
+            $stmt->execute();
+        }
+    }
+
+    public function total_online() {
+       
+        $time = strtotime($this->timestamp);
+        $tim = $time - (60 * 60); //one hour
+        $timeout = date("Y-m-d H:i:s", $tim);
+
+        $stmt = $this->connection->prepare("SELECT * FROM total_visitors WHERE time>= ?");
+        $stmt->bind_param('s', $timeout);
+        $stmt->execute();
+        $select_total = $stmt->get_result();
+        return $select_total->num_rows;
     }
 }

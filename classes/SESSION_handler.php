@@ -5,7 +5,7 @@ class SESSION_handler {
     public static $gc_maxlifetime;
     public static $cookie_lifetime;
 
-    function __construct() {
+    public function __construct() {
         self::$gc_maxlifetime = ini_get('session.gc_maxlifetime');
         self::$cookie_lifetime = ini_get('session.cookie_lifetime');
         if (session_status() == PHP_SESSION_NONE) {

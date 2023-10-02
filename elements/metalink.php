@@ -31,20 +31,3 @@
 <!-- End icon devices compatibility -->  
 <!-- Start SEO / SEM -->
 <link rel="canonical" href="<?php echo SITE_PATH; ?>"/>
-<meta property="og:site_name" content="Paola Paredes"/>
-<meta property="og:title" content="Projects"/>
-<meta property="og:url" content="<?php echo SITE_PATH; ?>"/>
-<meta property="og:image" content="<?php echo SITE_PATH; ?>upload/building.jpg" />
-<meta property="og:description" content="Paola Paredes is a professional photographer, artist and traveler" /> 
-<meta property="og:type" content="website"/>
-<meta property="og:locale:alternate" content="en_EN" />
-<meta property="og:locale:alternate" content="es_ES" />
-<meta property="fb:admins" content="26245712364571234572" /> 
-<meta itemprop="name" content="Projects"/>
-<meta itemprop="url" content="<?php echo SITE_PATH; ?>"/>
-<meta name="twitter:site" content="@paolaparedes">
-<meta name="twitter:title" content="Projects"/>
-<meta name="twitter:url" content="<?php echo SITE_PATH; ?>"/>
-<meta name="twitter:card" content="summary"/>       
-<meta name="twitter:creator" content="@pepiuox">
-<meta name="twitter:image" content="<?php echo SITE_PATH; ?>upload/imagepage.jpg"> 

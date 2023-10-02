@@ -1,5 +1,4 @@
 <?php
-
 $connfile = 'config/dbconnection.php';
 if (file_exists($connfile)) {
     $page = $_SERVER['PHP_SELF'];
@@ -67,6 +66,8 @@ if (file_exists($connfile)) {
         $prnt = $rpx['parent'];
         $lng = $rpx['language'];
 
+        $visitor->pageViews($title);
+        
         $language = $_SESSION["language"] = $lng;
         ?>
         <!doctype html>
