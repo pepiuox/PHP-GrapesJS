@@ -72,7 +72,7 @@ if ($w == "list") {
                             <?php
 //This is temporal file only for add new row
                             if (isset($_POST['theme_settings'])) {
-                                $container = $_POST['container'];
+                                $container = $_POST["container"];
                                 $spacer = $_POST['spacer'];
                                 $radius = $_POST['radius'];
                                 $radius_sm = $_POST['radius_sm'];
@@ -96,7 +96,7 @@ window.onload = function() {
                             $ts = $rts->fetch_assoc();
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_settings" method="POST">
-                                <?php enum_values('theme_settings', 'container', $ts['container']); ?>
+                                <?php enum_values('theme_settings', "container", $ts["container"]); ?>
                                 <?php enum_values('theme_settings', 'spacer', $ts['spacer']); ?>                            
                                 <div class="form-group">
                                     <label for="radius" class ="control-label col-sm-3">Radius:</label>

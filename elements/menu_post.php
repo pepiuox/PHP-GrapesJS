@@ -12,7 +12,7 @@ $color = '';
 if ($rmopt['fluid'] === 'yes') {
     $fluid = 'container-fluid';
 } else {
-    $fluid = 'container';
+    $fluid = "container";
 }
 
 if ($rmopt['placement'] === 'top') {

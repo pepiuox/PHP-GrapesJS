@@ -176,7 +176,7 @@ if (isset($_GET['tbl']) && isset($_GET['id'])) {
                 <?php
                 require_once '../elements/menu.php';
                 ?>
-                <div class='container'>
+                <div class="container">
                     <?php
                     echo decodeContent($content) . "\n";
                     ?>

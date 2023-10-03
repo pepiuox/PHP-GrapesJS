@@ -272,7 +272,7 @@ if (file_exists($connfile)) {
                     <?php
                     require_once 'navbar.php';
                     ?>
-                    <div class='container'>
+                    <div class="container">
                         <div class="row">
                             <div  class="col-12 text-center">
                                 <?php echo $initweb . ' - ' . SITE_PATH; ?>
