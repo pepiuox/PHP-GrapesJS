@@ -20,32 +20,6 @@ function decodeContent($str) {
     }
 }
 
-/* get number of pages
- * 
- */
-
-function numpages() {
-    global $conn;
-    return $conn->query("SELECT id FROM page")->num_rows;
-}
-
-/* get number of visitor
- * 
- */
-
-function numvisitor() {
-    global $conn;
-    return $conn->query("SELECT ip FROM active_guests")->num_rows;
-}
-
-/* get number of users
- * 
- */
-
-function numusers() {
-    global $conn;
-    return $conn->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
-}
 
 /*
  * nparent() 

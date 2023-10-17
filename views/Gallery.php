@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $_GET['w'];
     if ($w === 'list') {
         ?>
-        <div class="w-100"> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Agregar Nueva galeria</a> 
             </p>
@@ -82,7 +82,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'add') {
         ?>
-        <div class="w-100">
+        <div class="container">
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `galleries` ( `gallery` ,  `name` ,  `type` ,  `description` ,  `pageId`,  `active`  ) VALUES(  '{$_POST['gallery']}' ,  '{$_POST['name']}' ,  '{$_POST['type']}' ,  '{$_POST['description']}' ,  '{$_POST['pageId']}' ,  '{$_POST['active']}'  ) ";
@@ -96,15 +96,15 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             </p>
             <h3>Agregar una Galeria</h3> 
             <form action='' method='POST'> 
-                <div class="w-100">
+                <div class="container">
                     <label class="form-label">Nombre de galleria:</label>
                     <input type="text" class="form-control" name='gallery' id='gallery'/>
                 </div>  
-                <div class="w-100">
+                <div class="container">
                     <label class="form-label">Nombre:</label>
                     <input type="text" class="form-control" name='name' id='name'/>
                 </div>                
-                <div class="w-100">
+                <div class="container">
                     <label class="form-label">Tipo de galeria:</label>                   
                     <?php
                     $stpg = "SELECT * FROM type_gallery";
@@ -121,7 +121,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>
                     </select>
                 </div> 
-                <div class='w-100'><label class="form-label">Descripción:</label>
+                <div class="container"><label class="form-label">Descripción:</label>
                     <textarea class="form-control" name='description' id='description'></textarea>
                     <script>
                         CKEDITOR.replace('description', {
@@ -133,7 +133,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         });
                     </script>
                 </div>           
-                <div class="w-100"><label class="form-label">Página de visualización:</label>                    
+                <div class="container"><label class="form-label">Página de visualización:</label>                    
                     <?php
                     $sqp1 = "SELECT * FROM page";
                     $queryp1 = $conn->query($sqp1);
@@ -149,7 +149,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>
                     </select>
                 </div> 
-                <div class="w-100"><label class="form-label">Activo:</label>
+                <div class="container"><label class="form-label">Activo:</label>
                     <select class="form-select" name='active' id='active'>
                         <?php
                         $acti = array("No", "Si");
@@ -162,14 +162,14 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>     
                     </select>
                 </div> 
-                <div class='w-100'><input class="btn btn-primary" type='submit' value='Agregar Galeria' /><input type='hidden' value='1' name='submitted' /></div> 
+                <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Galeria' /><input type='hidden' value='1' name='submitted' /></div> 
                 <div class="clear"></div>
             </form> 
         </div>
         <?php
     } elseif ($w === 'edit') {
         ?>
-        <div class="w-100">  
+        <div class="container">  
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -187,15 +187,15 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <h3>Editar <?php echo $row['name']; ?></h3> 
 
                 <form action='' method='POST'> 
-                    <div class="w-100">
+                    <div class="container">
                         <label class="form-label">Nombre de gallery:</label>
                         <input type="text" class="form-control" name='gallery' id='gallery' value='<?php echo $row['gallery']; ?>' />
                     </div>                                        
-                    <div class="w-100">
+                    <div class="container">
                         <label class="form-label">Nombre:</label>
                         <input type="text" class="form-control" name='name' id='name' value='<?php echo $row['name']; ?>'/>
                     </div> 
-                    <div class="w-100">
+                    <div class="container">
                         <label class="form-label">Tipo de galeria:</label>                   
                         <?php
                         $stpg = "SELECT * FROM type_gallery";
@@ -218,7 +218,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>
                         </select>
                     </div>
-                    <div class='w-100'><label class="form-label">Descripción:</label>
+                    <div class="container"><label class="form-label">Descripción:</label>
                         <textarea class="form-control" name='description' id='description'><?php echo $row['description']; ?></textarea> 
                         <script>
                             CKEDITOR.replace('description', {
@@ -230,7 +230,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             });
                         </script>
                     </div> 
-                    <div class="w-100"><label class="form-label">Página de visualización:</label>                    
+                    <div class="container"><label class="form-label">Página de visualización:</label>                    
                         <?php
                         $sqp1 = "SELECT * FROM page";
                         $queryp1 = $conn->query($sqp1);
@@ -252,7 +252,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>
                         </select>
                     </div> 
-                    <div class="w-100"><label class="form-label">Activo:</label>
+                    <div class="container"><label class="form-label">Activo:</label>
                         <select class="form-select" name='active' id='active'>
                             <?php
                             $acti = array("No", "Si");
@@ -273,7 +273,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>     
                         </select>
                     </div> 
-                    <div class='w-100'><input class="btn btn-primary" type='submit' value='Editar Galeria' /><input type='hidden' value='1' name='submitted' /></div> 
+                    <div class="container"><input class="btn btn-primary" type='submit' value='Editar Galeria' /><input type='hidden' value='1' name='submitted' /></div> 
                     <div class="clear"></div>
                 </form> 
             <?php } ?> 
@@ -281,7 +281,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'view') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Nueva Galeria</a> 
             </p>
@@ -338,7 +338,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'delete') {
         ?>
-        <div class="w-100"> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Nueva Galeria</a> 
             </p>
@@ -354,7 +354,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'listgi') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['gal']) && !empty($_GET['gal'])) {
                 $id = (int) $_GET['gal'];
@@ -483,7 +483,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'addi') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -521,23 +521,23 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <div id="picture">
                             <span>No hay imagen? Utilice el botón para seleccionar una!</span>
                         </div>
-                        <div class="w-100">
+                        <div class="container">
                             <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
                             <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                         </div>
                     </div> 
                     <div class="col-md-6">
-                        <div class='w-100'><label class="form-label">Descripción:</label><textarea class="form-control" name='caption_en' id='caption_en'></textarea></div> 
-                        <div class='w-100'><label class="form-label">Link:</label><input type="text" class="form-control" name='link' id='link'/></div>                         
+                        <div class="container"><label class="form-label">Descripción:</label><textarea class="form-control" name='caption_en' id='caption_en'></textarea></div> 
+                        <div class="container"><label class="form-label">Link:</label><input type="text" class="form-control" name='link' id='link'/></div>                         
                     </div>
-                    <div class='w-100'><input class="btn btn-primary" type='submit' value='Agregar Imagen' /><input type='hidden' value='1' name='submitted' /></div>                      
+                    <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Imagen' /><input type='hidden' value='1' name='submitted' /></div>                      
                 </form> 
             <?php } ?>
         </div>
         <?php
     } elseif ($w === 'listgm') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['gal']) && !empty($_GET['gal'])) {
                 $id = (int) $_GET['gal'];
@@ -679,7 +679,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'addm') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -715,19 +715,19 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <div id="picture">
                             <span>No hay imagen? Utilice el botón para seleccionar una!</span>
                         </div>
-                        <div class="w-100">
+                        <div class="container">
                             <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
                             <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                         </div>                        
                     </div> 
                     <div class='col-md-6'>
-                        <div class='w-100'><label class="form-label">Título:</label>
+                        <div class="container"><label class="form-label">Título:</label>
                             <input type="text" class="form-control" name='name' id='name'/>
                         </div> 
-                        <div class='w-100'><label class="form-label">Descripción:</label>
+                        <div class="container"><label class="form-label">Descripción:</label>
                             <textarea class="form-control" name='description' id='description'></textarea>
                         </div> 
-                        <div class='w-100'><label class="form-label">Origen:</label>
+                        <div class="container"><label class="form-label">Origen:</label>
                             <select class="form-select" name='source' id='source'>
                                 <?php
                                 $acti = array("youtube", "vimeo");
@@ -740,11 +740,11 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                                 ?>     
                             </select>
                         </div> 
-                        <div class='w-100'><label class="form-label">Id Video:</label>
+                        <div class="container"><label class="form-label">Id Video:</label>
                             <input type="text" class="form-control" name='idlink' id='idlink'/>
                         </div>    
                     </div>
-                    <div class='w-100'><input class="btn btn-primary" type='submit' value='Agregar Multimedia' /><input type='hidden' value='1' name='submitted' /></div>                         
+                    <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Multimedia' /><input type='hidden' value='1' name='submitted' /></div>                         
                 </form> 
                 <?php
             }
@@ -753,7 +753,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'listgp') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['gal']) && !empty($_GET['gal'])) {
                 $id = (int) $_GET['gal'];
@@ -898,7 +898,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'addp') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -936,14 +936,14 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <div id="picture">
                             <span>No hay imagen? Utilice el botón para seleccionar una!</span>
                         </div>
-                        <div class="w-100">
+                        <div class="container">
                             <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
                             <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                         </div>
                     </div> 
                     <div class='col-md-6'><label class="form-label">Título:</label><input type="text" class="form-control" name='title' id='title'/></div> 
                     <div class='col-md-6'><label class="form-label">SubTítulo:</label><input type="text" class="form-control" name='subtitle' id='subtitle'/></div> 
-                    <div class='w-100'><label class="form-label">Descripción:</label><textarea class="form-control" name='description' id='description'></textarea></div> 
+                    <div class="container"><label class="form-label">Descripción:</label><textarea class="form-control" name='description' id='description'></textarea></div> 
                     <div class='col-md-6'><label class="form-label">Fecha de publicación:</label><input type="text" class="form-control" name='printing_date' id='printing_date'/></div> 
                     <div class='col-md-6'><label class="form-label">Tipo de publicación:</label>                    
                         <select class="form-select" name='type_press' id='type_press'>
@@ -958,7 +958,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>     
                         </select>
                     </div> 
-                    <div class='w-100'><input class="btn btn-primary" type='submit' value='Agregar Publicacion' /><input type='hidden' value='1' name='submitted' /></div> 
+                    <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Publicacion' /><input type='hidden' value='1' name='submitted' /></div> 
 
                 </form> 
                 <?php

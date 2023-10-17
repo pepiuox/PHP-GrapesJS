@@ -1,5 +1,5 @@
 <div class='row'> 
-    <div class="w-100">
+    <div class="container">
         <h3>Subir imagenes con administrador de archivos</h3>
         <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
         <script type="text/javascript">
@@ -15,7 +15,7 @@
         </script>
         <input type="button" id="imageUpload" value='Subir Imagenes' />
     </div>
-    <div class="w-100">                     
+    <div class="container">                     
         <h3>Subir imagenes</h3>
         <p>Cargar imagenes en jpg o png no mayores a 1600 px</p>
         <p>Usar <a href="http://www.xnview.com/en/">Xnview para reducir imagenes en volumen</a></p>

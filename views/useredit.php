@@ -1,4 +1,4 @@
-<div class="w-100"> 
+<div class="container"> 
     <?php
     /**
      * User has submitted form without errors and user's
@@ -27,7 +27,7 @@
                 echo "<td><font size=\"2\" color=\"#ff0000\">" . $form->num_errors . " error(es) econtrados</font></td>";
             }
             ?>
-            <div class="w-100" id="userupdate">
+            <div class="container" id="userupdate">
                 <form action="process.php" method="POST">
                     <label class="form-label">Nombre: </label>
                     <p class="left">

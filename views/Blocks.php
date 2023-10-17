@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $_GET['w'];
     if ($w === 'list') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=blocks&w=add'>Agregar Nuevo Bloque</a> 
             </p>
@@ -52,7 +52,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'add') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `blocks` ( `blockId` ,  `active` ,  `pageId`  ) VALUES(  '{$_POST['blockId']}' ,  '{$_POST['active']}' ,  '{$_POST['pageId']}'  ) ";
@@ -62,7 +62,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <form action='' method='POST'> 
-                <div class="w-100">
+                <div class="container">
                     <label class="form-label">Tipo de Bloque:</label>
                     <?php
                     $stp1 = "SELECT * FROM type_blocks";
@@ -78,7 +78,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     ?>
                     </select>  
                 </div> 
-                <div class="w-100">
+                <div class="container">
                     <label class="form-label">Activo:</label>
                     <select class="form-select" name='active' id='active'>
                         <?php
@@ -93,7 +93,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>     
                     </select>
                 </div> 
-                <div class="w-100">
+                <div class="container">
                     <label class="form-label">Página:</label>
                     <?php
                     $sqp1 = "SELECT * FROM page";
@@ -110,7 +110,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>
                     </select>
                 </div> 
-                <div class="w-100">
+                <div class="container">
                     <input class="btn btn-primary" type='submit' value='Agregar Bloque' />
                     <input type='hidden' value='1' name='submitted' />
                 </div> 
@@ -119,7 +119,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'edit') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['idB'])) {
                 $idB = (int) $_GET['idB'];
@@ -136,7 +136,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     <a class="btn btn-secondary" href='dashboard.php?cms=blocks&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
                 </p>
                 <form action='' method='POST'> 
-                    <div class="w-100">
+                    <div class="container">
                         <label class="form-label">Bloque:</label>
                         <label class="form-label">Tipo de Bloque:</label>
                         <?php
@@ -159,7 +159,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>
                         </select>  
                     </div> 
-                    <div class="w-100">
+                    <div class="container">
                         <label class="form-label">Activo:</label>
                         <select class="form-select" name='active' id='active'>
                             <?php
@@ -182,7 +182,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>     
                         </select>
                     </div> 
-                    <div class="w-100"><label class="form-label">Página:</label>
+                    <div class="container"><label class="form-label">Página:</label>
                         <?php
                         $sqp1 = "SELECT * FROM page";
                         $queryp1 = $conn->query($sqp1);
@@ -204,7 +204,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>
                         </select>
                     </div> 
-                    <div class="w-100">
+                    <div class="container">
                         <input class="btn btn-primary" type='submit' value='Editar Bloque' />
                         <input type='hidden' value='1' name='submitted' />
                     </div> 
@@ -214,7 +214,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'delete') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             $idB = (int) $_GET['idB'];
             $conn->query("DELETE FROM `blocks` WHERE `idB` = '$idB' ");

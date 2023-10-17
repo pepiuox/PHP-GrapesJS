@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $_GET['w'];
     if ($w === 'list') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <a class="btn btn-secondary" href='dashboard.php?cms=press&w=add'>Nueva Publicacion</a> 
             <h3>Lista de Publicaciones</h3> 
             <?php
@@ -58,7 +58,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'add') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `press_gal` ( `galId` ,  `image` , `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  '{$_POST['galId']}' ,  '{$_POST['image']}',  '{$_POST['title']}' ,  '{$_POST['subtitle']}' ,  '{$_POST['description']}' ,  '{$_POST['printing_date']}' ,  '{$_POST['type_press']}'  ) ";
@@ -106,7 +106,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     <div id="picture">
                         <span>No hay imagen? Utilice el botón para seleccionar una!</span>
                     </div>
-                    <div class="w-100">
+                    <div class="container">
                         <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
                         <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                     </div>                    
@@ -119,7 +119,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     <label class="form-label">Sub Título:</label>
                     <input type="text" class="form-control" name='subtitle' id='subtitle'/>
                 </div> 
-                <div class='w-100'>
+                <div class="container">
                     <label class="form-label">Descripción:</label>
                     <textarea class="form-control" name='description' id='description'></textarea>
                 </div> 
@@ -142,7 +142,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>     
                     </select>
                 </div> 
-                <div class='w-100'>
+                <div class="container">
                     <input class="btn btn-primary" type='submit' value='Agregar Publicacion' />
                     <input type='hidden' value='1' name='submitted' />
                 </div> 
@@ -151,7 +151,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'edit') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['idPr']) && !empty($_GET['idPr'])) {
                 $idPr = (int) $_GET['idPr'];
@@ -169,7 +169,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <h3>Editar de Publicacion</h3> 
                 <form action='' method='POST'> 
                     <div class='col-md-6'>
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Galeria:</label>
                             <select class="form-select" name='galId' id='galId'> 
                                 <?php
@@ -192,11 +192,11 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                                 ?>
                             </select>
                         </div> 
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Título:</label>
                             <input type="text" class="form-control" name='title' id='title' value='<?php echo $row['title']; ?>' />
                         </div> 
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Sub Título:</label>
                             <input type="text" class="form-control" name='subtitle' id='subtitle' value='<?php echo $row['subtitle']; ?>' />
                         </div> 
@@ -221,12 +221,12 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <div id="picture">
                             <img class="scale" src="<?php echo $row['image']; ?>" />                            
                         </div>
-                        <div class='w-100'>
+                        <div class="container">
                             <input type="text" name='image' id='image' placeholder="Imagen Url" value='<?php echo $row['image']; ?>' readonly/>                            
                             <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                         </div>       
                     </div>                         
-                    <div class='w-100'>
+                    <div class="container">
                         <label class="form-label">Descripción:</label>
                         <textarea class="form-control" name='description' id='description'><?php echo $row['description']; ?></textarea>
                     </div> 
@@ -263,7 +263,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>     
                         </select>
                     </div> 
-                    <div class='w-100'>
+                    <div class="container">
                         <input class="btn btn-secondary" type='submit' value='Editar Publicacion' />
                         <input type='hidden' value='1' name='submitted' />
                     </div> 
@@ -273,7 +273,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'delete') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=press&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=press&w=add'>Nueva Fila</a> 
             </p>

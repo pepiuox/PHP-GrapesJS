@@ -9,27 +9,8 @@ class Ejecutor {
         $this->connection = $conn;
     } 
     
-    public function AddData($tble) {
-      
-        $sql = "SELECT * FROM $tble";
-        return $this->connection->query($sql);
-        while ($i < mysqli_num_fields($result)) {
-            $meta = mysqli_fetch_field($result);
-            $remp = str_replace("_", " ", $meta->name);
-        }
-    }
-
-    public function UpdateData($table, $id) {
-        
-    }
-
-    public function DeleteData($table, $id) {
-        
-    }
-
     public function searchAllDB($search) {
-        
-
+       
         $out = "";
 
         $sql = "show tables";

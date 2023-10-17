@@ -1,4 +1,4 @@
-<div class="w-100">
+<div class="container">
     <?php
     /* Requested Username error checking */
     $req_user = trim($_GET['user']);
@@ -29,7 +29,7 @@
     echo "<b>Email:</b> " . $req_user_info['email'] . "</p>";
     ?>
 </div>
-<div class="w-100">
+<div class="container">
     <?php
     /**
      * Note: when you add your own fields to the users tablemysql_numrows()

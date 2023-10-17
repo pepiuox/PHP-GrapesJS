@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $_GET['w'];
     if ($w === 'list') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class='button' href='dashboard.php?cms=multimedia&w=add'>Agregar Nueva Multimedia</a> 
             </p>
@@ -57,7 +57,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'add') {
         ?> 
-        <div class='w-100'>
+        <div class="container">
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description_en`,  `description_es` ,  `source` ,  `idlink`  ) VALUES(  '{$_POST['galId']}' ,  '{$_POST['name']}' ,  '{$_POST['image']}' ,  '{$_POST['description_en']}',  '{$_POST['description_es']}' ,  '{$_POST['source']}' ,  '{$_POST['idlink']}'  ) ";
@@ -106,19 +106,19 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     <div id="picture">
                         <span>No hay imagen? Utilice el botón para seleccionar una!</span>
                     </div>
-                    <div class="w-100">
+                    <div class="container">
                         <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
                         <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                     </div>                   
                 </div> 
                 <div class='col-md-6'>
-                    <div class='w-100'><label class="form-label">Descripción EN:</label>
+                    <div class="container"><label class="form-label">Descripción EN:</label>
                         <textarea class="form-control" name='description_en' id='description_en'></textarea>
                     </div> 
-                    <div class='w-100'><label class="form-label">Descripción ES:</label>
+                    <div class="container"><label class="form-label">Descripción ES:</label>
                         <textarea class="form-control" name='description_es' id='description_es'></textarea>
                     </div> 
-                    <div class='w-100'><label class="form-label">Origen:</label>
+                    <div class="container"><label class="form-label">Origen:</label>
                         <select class="form-select" name='source' id='source'>
                             <?php
                             $acti = array("youtube", "vimeo", "daylimotion");
@@ -131,17 +131,17 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>     
                         </select>
                     </div> 
-                    <div class='w-100'><label class="form-label">Id Video:</label>
+                    <div class="container"><label class="form-label">Id Video:</label>
                         <input type="text" class="form-control" name='idlink' id='idlink'/>
                     </div>    
                 </div>
-                <div class='w-100'><input class="btn btn-primary" type='submit' value='Agregar Multimedia' /><input type='hidden' value='1' name='submitted' /></div> 
+                <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Multimedia' /><input type='hidden' value='1' name='submitted' /></div> 
             </form> 
         </div>
         <?php
     } elseif ($w === 'edit') {
         ?> 
-        <div class='w-100'>
+        <div class="container">
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -201,21 +201,21 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             <img class="scale" src="<?php echo $row['image']; ?>" />                            
                         </div>
                         <span>No hay imagen? Utilice el botón para seleccionar una!</span>
-                        <div class="w-100">
+                        <div class="container">
                             <input type="text" name='image' id='image' placeholder="Imagen Url" value='<?php echo $row['image']; ?>' readonly />
                             <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                         </div>
                     </div>                    
                     <div class='col-md-6'>    
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Descripción EN:</label>
                             <textarea class="form-control" name='description_en' id='description_en'><?php echo $row['description_en']; ?></textarea>
                         </div> 
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Descripción ES:</label>
                             <textarea class="form-control" name='description_en' id='description_es'><?php echo $row['description_es']; ?></textarea>
                         </div> 
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Origen:</label>                        
                             <select class="form-select" name='source' id='source'>
                                 <?php
@@ -236,12 +236,12 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                                 ?>     
                             </select>
                         </div> 
-                        <div class='w-100'>
+                        <div class="container">
                             <label class="form-label">Id Video:</label>
                             <input type="text" class="form-control" name='idlink' id='idlink' value='<?php echo $row['idlink']; ?>' />
                         </div> 
                     </div>
-                    <div class='w-100'>
+                    <div class="container">
                         <input class="btn btn-primary" type='submit' value='Editar Fila' />
                         <input type='hidden' value='1' name='submitted' />
                     </div> 
@@ -251,7 +251,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'view') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -260,7 +260,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             ?>
             <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=add'>Nueva Fila</a> 
             <h3>Vista de multimedia_gal</h3> 
-            <div class='w-100'> 
+            <div class="container"> 
                 <div class='col-md-6'>
                     <label class="form-label">Galeria:</label>
                     <?php echo $row['gallery']; ?>
@@ -297,7 +297,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             <?php
         } elseif ($w === 'delete') {
             ?> 
-            <div class='w-100'> 
+            <div class="container"> 
                 <p>
                     <a class='button' href='dashboard.php?cms=multimedia&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=add'>Nuevo multimedia</a> 
                 </p>

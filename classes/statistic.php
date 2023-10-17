@@ -14,7 +14,7 @@ class statistic {
         $archivo = "ruta/archivo/visitas.txt";
 
 //Si que quiere ignorar la propia IP escribirla aquí, esto se podría automatizar
-        $ip = "mi.ip.";
+        $ip = "127.0.0.1";
         $new_ip = get_client_ip();
 
         if ($new_ip !== $ip) {

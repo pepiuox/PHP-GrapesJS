@@ -139,7 +139,7 @@
     }
 </style>
 <script src="../js/sorttable.js"></script>   
-<div class="w-100">
+<div class="container">
     <h3>Contenido de Archivos</h3>
     <table class="sortable">
         <thead>

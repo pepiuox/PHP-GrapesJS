@@ -4,7 +4,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
 
     if ($w === 'list') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Agregar Nuevo Tipo de Página</a> 
             </p>
@@ -43,7 +43,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div>
     <?php } elseif ($w === 'add') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `type_page` ( `type_page`  ) VALUES(  '{$_POST['type_page']}'  ) ";
@@ -69,7 +69,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div>
     <?php } elseif ($w === 'edit') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -86,11 +86,11 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 </p>
                 <h3>Editar tipo de página</h3> 
                 <form action='' method='POST'> 
-                    <div class='w-100'>
+                    <div class="container">
                         <label class="form-label">Tipo de página:</label><br />
                         <input type="text" class="form-control" name='type_page' id='type_page' value='<?php echo $row['type_page']; ?>' />
                     </div> 
-                    <div class='w-100'>
+                    <div class="container">
                         <input class="btn btn-primary" type='submit' value='Editar Fila' />
                         <input type='hidden' value='1' name='submitted' />
                     </div> 
@@ -99,7 +99,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div>
     <?php } elseif ($w === 'view') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -110,7 +110,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Nuevo tipo de página</a> 
             </p>
             <h3>Vista de type_page</h3> 
-            <div class='w-100'> 
+            <div class="container"> 
                 <div class='col-md-6'>
                     <label class="form-label">Tipo de pagina:</label><?php echo $row['type_page']; ?>
                 </div> 
@@ -118,7 +118,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div>
     <?php } elseif ($w === 'delete') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Nuevo tipo de página</a> 
             </p>

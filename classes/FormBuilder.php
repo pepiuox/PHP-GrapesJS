@@ -26,6 +26,41 @@ class FormBuilder {
         }
     }
 
+    public function FormElements($element, $inputType = '') {
+        $elements = array(
+            "input",
+            "label",
+            "select",
+            "textarea",
+            "button",
+            "fieldset",
+            "legend",
+            "datalist",
+            "output",
+            "option",
+            "optgroup"
+        );
+        if (in_array($element, $elements)) {
+            if ($element == 'input') {
+                return 'input' . $this->InputType($inputType);
+            } elseif ($element == 'select') {
+                return 'select';
+            } else {
+                return 'Select a element';
+            }
+        } else {
+            return 'This is not a type of element';
+        }
+    }
+
+    public function ElementAttributes($name) {
+        return ' name="' . $name . '" id="' . $name . '"';
+    }
+
+    public function addElements($formElement, $inputType, $inputName) {
+        echo '<' . $this->FormElements($formElement, $inputType) . $this->ElementAttributes($inputName) . ' >';
+    }
+
     public function selectElement($array) {
         $this->elements = $array;
         $element = $this->elements['form_element'];
@@ -151,37 +186,6 @@ class FormBuilder {
         echo '></textarea>' . "\n";
     }
 
-    public function Elements($formElement, $inputType, $inputName) {
-        echo '<' . $this->FormElements($formElement, $inputType) . $this->ElementAttributes($inputName) . ' >';
-    }
-
-    public function FormElements($element, $inputType = '') {
-        $elements = array(
-            "input",
-            "label",
-            "select",
-            "textarea",
-            "button",
-            "fieldset",
-            "legend",
-            "datalist",
-            "output",
-            "option",
-            "optgroup"
-        );
-        if (in_array($element, $elements)) {
-            if ($element == 'input') {
-                return 'input' . $this->InputType($inputType);
-            } elseif ($element == 'select') {
-                return 'select';
-            } else {
-                return 'Select a element';
-            }
-        } else {
-            return 'This is not a type of element';
-        }
-    }
-
     public function InputType($type) {
         $types = array(
             "button",
@@ -214,10 +218,6 @@ class FormBuilder {
             return 'This is not a type of input';
         }
     }
-
-    public function ElementAttributes($name) {
-        return ' name="' . $name . '" id="' . $name . '"';
-    }
 }
 
 $form = new FormBuilder();
@@ -228,7 +228,8 @@ echo '<!DOCTYPE html>'
  . '</head>'
  . '<body>';
 //$form->Elements('select', '', 'name');
-
+$form->addForm('new', 'post', '');
+$form->addElements('input', 'text', 'name');
 $array = array('form_element' => 'button',
     'element_label' => 'text',
     'elements' => array(

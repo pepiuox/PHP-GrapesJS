@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $_GET['w'];
     if ($w === 'list') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
             </p>
@@ -67,7 +67,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'add') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `my_info` ( `first_name` ,  `last_name` ,  `age` ,  `gender` ,  `description_en` ,  `description_es` ,  `image` ,  `active`  ) VALUES( ,  '{$_POST['first_name']}' ,  '{$_POST['last_name']}' ,  '{$_POST['age']}' ,  '{$_POST['gender']}' ,  '{$_POST['description']}' ,  '{$_POST['image']}' ,  '{$_POST['active']}'  ) ";
@@ -93,7 +93,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <div class='col-md-6'>
                     <label class="form-label">Genero:</label><br /><input type="text" class="form-control" name='gender' id='gender'/>
                 </div> 
-                <div class='w-100'>
+                <div class="container">
                     <label class="form-label">Descripcion Ingles:</label>
                     <textarea class="form-control" name='description_en' id='description_en'></textarea>
                     <script>
@@ -102,7 +102,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         });
                     </script>
                 </div> 
-                <div class='w-100'>
+                <div class="container">
                     <label class="form-label">Descripcion Español:</label>
                     <textarea class="form-control" name='description_es' id='description_es'></textarea>
                     <script>
@@ -128,7 +128,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         ?>     
                     </select>
                 </div> 
-                <div class='w-100'>
+                <div class="container">
                     <input class="btn btn-primary" type='submit' value='Agregar Fila' />
                     <input type='hidden' value='1' name='submitted' />
                 </div> 
@@ -136,7 +136,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div>
     <?php } elseif ($w === 'edit') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $idPro = (int) $_GET['id'];
@@ -169,7 +169,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <label class="form-label">Gender:</label>
                         <input type="text" class="form-control" name='gender' id='gender' value='<?php echo $row['gender']; ?>' />
                     </div> 
-                    <div class='w-100'>
+                    <div class="container">
                         <label class="form-label">Description EN:</label>
                         <textarea class="form-control" name='description_en' id='description_en'><?php echo $row['description_en']; ?></textarea>
                         <script>
@@ -178,7 +178,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             });
                         </script>
                     </div>
-                    <div class='w-100'>
+                    <div class="container">
                         <label class="form-label">Description ES:</label>
                         <textarea class="form-control" name='description_es' id='description_es'><?php echo $row['description_es']; ?></textarea>
                         <script>
@@ -195,7 +195,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <label class="form-label">Active:</label>
                         <input type="text" class="form-control" name='active' id='active' value='<?php echo $row['active']; ?>' />
                     </div> 
-                    <div class='w-100'>
+                    <div class="container">
                         <input class="btn btn-primary" type='submit' value='Editar Fila' />
                         <input type='hidden' value='1' name='submitted' />
                     </div> 
@@ -204,7 +204,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div> 
     <?php } elseif ($w === 'view') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $idPro = (int) $_GET['id'];
@@ -215,7 +215,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <a class='button' href='dashboard.php?cms=profiles&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
             </p>
             <h3>Vista de profile</h3> 
-            <div class='w-100'>                 
+            <div class="container">                 
                 <div class='col-md-6'>
                     <label class="form-label">First Name:</label><?php echo $row['first_name']; ?>
                 </div> 
@@ -245,7 +245,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         </div>
     <?php } elseif ($w === 'delete') {
         ?>
-        <div class='w-100'>
+        <div class="container">
             <p>
                 <a class='button' href='dashboard.php?cms=profiles&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
             </p>

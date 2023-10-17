@@ -1,4 +1,4 @@
-<div class="w-100"> 
+<div class="container"> 
     <h3>Editar de Perfil Visual</h3> 
     <?php
     $row = mysqli_fetch_array($conn->query("SELECT * FROM `my_info` WHERE active = '1' AND `idPro` = '1' "));
@@ -87,15 +87,15 @@
                     $('#image').val(file);
                 }
             </script>
-            <div class='w-100'>
+            <div class="container">
                 <img class="img-fluid" src="<?php echo $row['image']; ?>" />                            
             </div>
-            <div class='w-100'>
+            <div class="container">
                 <input type="text" name='image' id='image' placeholder="Imagen Url" value='<?php echo $row['image']; ?>' readonly/>                            
                 <input type="button" id="imageUpload" value='Seleccionar Imagen' />
             </div>                    
         </div> 
-        <div class='w-100'><label class="form-label">Descripción personal / Ingles:</label>                                                               
+        <div class="container"><label class="form-label">Descripción personal / Ingles:</label>                                                               
             <textarea class="form-control" name='description_en' id='description_en'><?php echo $row['description_en']; ?></textarea>
             <script>
                 CKEDITOR.replace('description_en', {
@@ -103,7 +103,7 @@
                 });
             </script>
         </div> 
-        <div class='w-100'><label class="form-label">Descripción personal / Español:</label>                                                               
+        <div class="container"><label class="form-label">Descripción personal / Español:</label>                                                               
             <textarea class="form-control" name='description_es' id='description_es'><?php echo $row['description_es']; ?></textarea>
             <script>
                 CKEDITOR.replace('description_es', {
@@ -111,7 +111,7 @@
                 });
             </script>
         </div> 
-        <div class='w-100'>
+        <div class="container">
             <input class="btn btn-secondary" type='submit' value='Editar Perfil' /><input type='hidden' value='1' name='submitted' />
         </div> 
     </form>   

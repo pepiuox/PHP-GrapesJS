@@ -46,7 +46,7 @@ if (isset($_POST["submit"])) {
         document.getElementById("row_order").value = selectedLanguage;
     }
 </script>
-<div class="w-100">
+<div class="container">
     <form name="frmQA" method="POST" />
     <h4 class='title' id='title0'>Ordene el menu si es necesario.</h4>
     <input type = "hidden" name="row_order" id="row_order" /> 

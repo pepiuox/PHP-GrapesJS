@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $_GET['w'];
     if ($w === 'list') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Agregar Nueva Imagen</a> 
             </p>
@@ -43,7 +43,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'add') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `image_gal` ( `galId` ,  `image` ,  `caption_en` ,`caption_es` ,`paypal_code`,  `link`   ) VALUES(  '{$_POST['galId']}' ,  '{$_POST['image']}' ,  '{$_POST['caption_en']}',  '{$_POST['caption_es']}' ,'{$_POST['paypal_code']}',  '{$_POST['link']}'   ) ";
@@ -58,7 +58,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             <h3>Agregar una Imagen</h3> 
             <form action='' method='POST'> 
                 <div class="col-md-6">
-                    <div class='w-100'><label class="form-label">Galeria:</label>               
+                    <div class="container"><label class="form-label">Galeria:</label>               
                         <?php
                         $sql1 = "SELECT * FROM galleries WHERE type = '1'";
                         $query1 = $conn->query($sql1);
@@ -72,8 +72,8 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             ?>
                         </select>   
                     </div>                     
-                    <div class='w-100'><label class="form-label">Codigo Paypal:</label><textarea class="form-control" name='paypal_code' id='paypal_code'></textarea></div>
-                    <div class='w-100'><label class="form-label">Link:</label><input type="text" class="form-control" name='link' id='link'/></div>                     
+                    <div class="container"><label class="form-label">Codigo Paypal:</label><textarea class="form-control" name='paypal_code' id='paypal_code'></textarea></div>
+                    <div class="container"><label class="form-label">Link:</label><input type="text" class="form-control" name='link' id='link'/></div>                     
                 </div>
                 <div class='col-md-6'><label class="form-label">Imagen:</label>
                     <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
@@ -96,12 +96,12 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         <img class="scale" src="" />                        
                     </div>
                     <span>No hay imagen? Utilice el botón para seleccionar una!</span>
-                    <div class="w-100">
+                    <div class="container">
                         <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
                         <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                     </div>                       
                 </div>                     
-                <div class='w-100'><label class="form-label">Descripción EN:</label><textarea class="form-control" name='caption_en' id='caption_en'></textarea>
+                <div class="container"><label class="form-label">Descripción EN:</label><textarea class="form-control" name='caption_en' id='caption_en'></textarea>
                     <script>
                         CKEDITOR.replace('caption_en', {
                             filebrowserBrowseUrl: 'elfinder/elfinder.html',
@@ -112,7 +112,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         });
                     </script>
                 </div> 
-                <div class='w-100'><label class="form-label">Descripción ES:</label><textarea class="form-control" name='caption_es' id='caption_es'></textarea>
+                <div class="container"><label class="form-label">Descripción ES:</label><textarea class="form-control" name='caption_es' id='caption_es'></textarea>
                     <script>
                         CKEDITOR.replace('caption_es', {
                             filebrowserBrowseUrl: 'elfinder/elfinder.html',
@@ -123,13 +123,13 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         });
                     </script>
                 </div>
-                <div class='w-100'><input class="btn btn-primary" type='submit' value='Agregar Imagen' /><input type='hidden' value='1' name='submitted' /></div> 
+                <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Imagen' /><input type='hidden' value='1' name='submitted' /></div> 
             </form> 
         </div>
         <?php
     } elseif ($w === 'edit') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -147,7 +147,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <h3>Editar de Imagen para galeria</h3> 
                 <form action='' method='POST'> 
                     <div class="col-md-6">   
-                        <div class='w-100'><label class="form-label">Galeria:</label>
+                        <div class="container"><label class="form-label">Galeria:</label>
                             <select class="form-select" name='galId' id='galId'> 
                                 <?php
                                 $sql1 = "SELECT * FROM galleries";
@@ -169,9 +169,9 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                                 ?>
                             </select> 
                         </div>                                                          
-                        <div class='w-100'><label class="form-label">Codigo Paypal:</label>
+                        <div class="container"><label class="form-label">Codigo Paypal:</label>
                             <textarea class="form-control" name='paypal_code' id='paypal_code'><?php echo $row['paypal_code']; ?></textarea></div>
-                        <div class='w-100'><label class="form-label">Link:</label>
+                        <div class="container"><label class="form-label">Link:</label>
                             <input type="text" class="form-control" name='link' id='link' value='<?php echo $row['link']; ?>' /></div>                         
                     </div>
                     <div class='col-md-6'><label class="form-label">Imagen de página:</label>
@@ -191,16 +191,16 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             $('#image').val(file);
                         }
                         </script>
-                        <div id="w-100">
+                        <div id="container">
                             <img class="img-fluid" src="<?php echo $row['image']; ?>" />                            
                         </div>
                         <span>Selecciona una imagen si desea cambiar la imagen? Utilice el botón para seleccionar una!</span>
-                        <div class="w-100">
+                        <div class="container">
                             <input type="text" name='image' id='image' value='<?php echo $row['image']; ?>' readonly />
                             <input type="button" id="imageUpload" value='Seleccionar Imagen' />
                         </div>                        
                     </div>   
-                    <div class='w-100'><label class="form-label">Descripción EN:</label><textarea class="form-control" name='caption_en' id='caption_en'><?php echo $row['caption_en']; ?></textarea>                                                          
+                    <div class="container"><label class="form-label">Descripción EN:</label><textarea class="form-control" name='caption_en' id='caption_en'><?php echo $row['caption_en']; ?></textarea>                                                          
                         <script>
                             CKEDITOR.replace('caption_en', {
                                 filebrowserBrowseUrl: 'elfinder/elfinder.html',
@@ -211,7 +211,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             });
                         </script>
                     </div> 
-                    <div class='w-100'><label class="form-label">Descripción ES:</label><textarea class="form-control" name='caption_es' id='caption_es'><?php echo $row['caption_es']; ?></textarea>
+                    <div class="container"><label class="form-label">Descripción ES:</label><textarea class="form-control" name='caption_es' id='caption_es'><?php echo $row['caption_es']; ?></textarea>
                         <script>
                             CKEDITOR.replace('caption_es', {
                                 filebrowserBrowseUrl: 'elfinder/elfinder.html',
@@ -222,14 +222,14 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                             });
                         </script>
                     </div>
-                    <div class='w-100'><input class="btn btn-primary" type='submit' value='Editar Imagen' /><input type='hidden' value='1' name='submitted' /></div> 
+                    <div class="container"><input class="btn btn-primary" type='submit' value='Editar Imagen' /><input type='hidden' value='1' name='submitted' /></div> 
                 </form> 
             <?php } ?> 
         </div>
         <?php
     } elseif ($w === 'view') {
         ?>
-        <div class='w-100'> 
+        <div class="container"> 
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
@@ -240,12 +240,12 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <a class="btn btn-secondary" href='dashboard.php?cms=images&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Nueva Imagen</a> 
             </p>
             <h3>Vista de imagenes</h3> 
-            <div class='w-100'>
+            <div class="container">
                 <div class="row">
                     <div class='col-md-6'>
                         <label class="form-label">Galeria : <?php echo $row['gallery']; ?></label>                                  
                     </div>
-                    <div class='w-100'>
+                    <div class="container">
                         <label class="form-label">Imagen:</label>
                         <img class="img-fluid" src="<?php echo $row['image']; ?>"/>
                     </div>                 
@@ -261,7 +261,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <?php
     } elseif ($w === 'delete') {
         ?> 
-        <div class='w-100'> 
+        <div class="container"> 
             <p>
                 <a class="btn btn-secondary" href='dashboard.php?cms=images&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Nueva Fila</a> 
             </p>

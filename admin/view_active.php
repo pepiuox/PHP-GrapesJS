@@ -6,7 +6,7 @@ $result = $conn->query($q);
 $num_rows = $result->num_rows;
 
 if (!$result || ($num_rows === 0)) {
-    echo "Error de visualización de información";
+    echo "Information display error";
 } else if ($num_rows > 0) {
     /* Display active users, with link to their info */
     echo '<table class="table" align="left">' . "\n";
