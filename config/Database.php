@@ -84,11 +84,13 @@ class Database {
         define('DBPASS', $this->pass);
         define('DBNAME', $this->dbnm);
 
-        $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->dbnm, $this->port, $this->socket);
+        mysqli_report(MYSQLI_REPORT_OFF);
+        $this->conn = @new mysqli($this->host, $this->user, $this->pass, $this->dbnm, $this->port, $this->socket);
 
         /* If connection fails for some reason */
         if ($this->conn->connect_error) {
             die('Error, Database connection failed: (' . $this->conn->connect_errno . ') ' . $this->conn->connect_error);
+            exit();
         }
         $this->conn->set_charset($this->charset);
         return $this->conn;
