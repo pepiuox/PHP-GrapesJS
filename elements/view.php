@@ -7,18 +7,20 @@ if (file_exists($connfile)) {
     require_once 'classes/UserClass.php';
     require_once 'classes/GetVisitor.php';
 
+	$pages = new Routers();
     $login = new UserClass();
     $visitor = new GetVisitor();
 
-    $_SESSION['language'] = '';
-    $initweb = 'http://' . $_SERVER['HTTP_HOST'] . '/';
-    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    $escaped_url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+    $_SESSION["language"] = "";
+    $initweb = $protocol . $_SERVER["HTTP_HOST"] . "/";
+    $pg404 = $initweb . "404.php";
+    $url = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    $escaped_url = htmlspecialchars($url, ENT_QUOTES, "UTF-8");
     $url_path = parse_url($escaped_url, PHP_URL_PATH);
     $basename = pathinfo($url_path, PATHINFO_BASENAME);
     $active = 1;
     $startpage = 1;
-    $nm = '';
+    $nm = "";
 
     if ($initweb === $url) {
         $spg = $conn->prepare("SELECT * FROM page WHERE startpage = ? AND active = ? ");
@@ -34,22 +36,32 @@ if (file_exists($connfile)) {
         $spg->execute();
         $rs = $spg->get_result();
         $rpx = $rs->fetch_assoc();
-        $namelink = $initweb . $rpx['link'];
-        header("Location: $namelink");
-        exit();
+        if ($nm > 0) {
+            $rpx = $rs->fetch_assoc();
+			$namelink = $pages->Pages($rpx["link"]);           
+        } else {
+            header("Location: $namelink");
+            exit();
+        }
     } elseif (isset($basename) && !empty($basename)) {
-        $spg = $conn->prepare("SELECT * FROM page WHERE link = ? AND active = ? ");
+        $npg = $pages->Pages($basename);
+		if($npg == $url ){
+			$spg = $conn->prepare(
+            "SELECT * FROM page WHERE link = ? AND active = ? "
+        );
         $spg->bind_param("si", $basename, $active);
         $spg->execute();
         $rs = $spg->get_result();
+        $spg->close();
         $nm = $rs->num_rows;
 
         if ($nm > 0) {
             $rpx = $rs->fetch_assoc();
-        } else {
-            header("Location: $initweb");
+        } 
+		}else{
+			header("Location: $npg");
             exit();
-        }
+		}
     }
 
     if ($nm > 0) {
