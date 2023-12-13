@@ -4,6 +4,7 @@ class GetVisitor {
 
     protected $getip;
     public $baseurl;
+	public $system;
     protected $connection;
     private $timestamp;
     public $date;

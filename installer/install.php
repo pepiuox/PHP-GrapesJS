@@ -2,7 +2,6 @@
 session_start();
 
 $folder = basename(dirname(__DIR__));
-
 $laststep = 'finalstep.php';
 if (file_exists($laststep)) {
     unlink($laststep);
@@ -17,15 +16,23 @@ if (isset($_SESSION['PathInstall'])) {
 
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
-$definefiles = '../config/define.php';
+
 $file = '../config/dbconnection.php';
 $serverfile = '../config/server.php';
+$definefiles = '../config/define.php';
+if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
+        if ($_SESSION['DBConnected'] === 'Connected') {
+            $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
+            // Check connection
+            require_once 'installUser.php';
+        }
+    }
 if (!file_exists($file)) {
 
     if (isset($_GET['step']) && !empty($_GET['step'])) {
         $step = $_GET['step'];
 
-        if ($step == 1) {
+        if ($step === 1) {
             $_SESSION['DBConnected'] = '';
         }
     } else {
@@ -34,6 +41,7 @@ if (!file_exists($file)) {
     }
 
 
+	
 // Firts step
 // Check Database
     if (isset($_POST['check'])) {
@@ -47,10 +55,10 @@ if (!file_exists($file)) {
         $_SESSION['DBPASSWORD'] = $db_password;
         $_SESSION['DBNAME'] = $db_name;
 
-        $conf = new mysqli($db_host, $db_user, $db_password, $db_name);
+        $conn = new mysqli($db_host, $db_user, $db_password, $db_name);
 
         /* If connection fails for some reason */
-        if ($conf->connect_error) {
+        if ($conn->connect_error) {
             $_SESSION['ErrorMessage'] = "The database has not been created yet, do you want to create it?";
             $_SESSION['StepInstall'] = 2;
             header("Location: install.php?step=2");
@@ -63,13 +71,7 @@ if (!file_exists($file)) {
             exit();
         }
     }
-    if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
-        if ($_SESSION['DBConnected'] === 'Connected') {
-            $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
-            // Check connection
-            require_once 'installUser.php';
-        }
-    }
+    
 // Back to first step
     if (isset($_POST['init'])) {
         $_SESSION['StepInstall'] = 1;
@@ -138,7 +140,7 @@ if (!file_exists($file)) {
 
 // Fourth step
 // Define configuration for the website
-    function RandHash($len = 64) {
+    function RandHash($len = 128) {
 
         $secret = substr(sha1(openssl_random_pseudo_bytes(21)), - $len) . sha1(openssl_random_pseudo_bytes(13));
         return substr(hash('sha256', $secret), 0, $len);
@@ -258,22 +260,28 @@ if (!file_exists($file)) {
 
         $filecontent = '';
         $filecontent .= '<?php' . "\n\n";
-        $filecontent .= "include 'error_report.php';" . "\n";
-        $filecontent .= "include 'Database.php';" . "\n";
-        $filecontent .= '$link = new Database();'. "\n";
-        $filecontent .= '$conn = $link-> MysqliConnection();'. "\n";
-        $filecontent .= "
+		$filecontent .= "include 'error_report.php';
+include 'Database.php';
+\$link = new Database();
+\$conn = \$link->MysqliConnection();
+require_once 'Routers.php';
 require_once 'function.php';
-include_once 'define.php';". "\n";
+include_once 'define.php';". "\n\n";
+
+		$filecontent .= '$protocol =
+        (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
+        $_SERVER["SERVER_PORT"] == 443
+            ? "https://"
+            : "http://";' . "\n\n";
         
         $filecontent .= "
         if (!empty(SITE_PATH)) {
             \$siteinstall = SITE_PATH;
         } else {" . "\n";
         if (!empty($siteinstall)) {
-            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].';" . "\n";
+            $filecontent .= "\$base = \$protocol.\$_SERVER['HTTP_HOST'].';" . "\n";
         } else {
-            $filecontent .= "\$base = 'http://'.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
+            $filecontent .= "\$base = \$protocol.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
         $filecontent .= "}" . "\n";
         $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
@@ -301,10 +309,9 @@ include_once 'define.php';". "\n";
         \$nu = randHash(30) . '.php';
         rename('install.php', \$nf);
         rename('installUser.php', \$nu);
-        ?>
+        
             " . "\n";
-            $lastcontent .= '
-            <?php 
+            $lastcontent .= '           
             $rname = $_SERVER["REQUEST_URI"]; 
             ?>
         <!DOCTYPE html>
