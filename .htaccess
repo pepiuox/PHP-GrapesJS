@@ -4,7 +4,7 @@
         ## Begin - Rewrite rules to block out some common exploits.
 	# If you experience problems on your site block out the operations listed below
 	# This attempts to block the most common type of exploit `attempts` to Monstra
-	#
+	#        
 	# Block out any script trying to base64_encode data within the URL.
 	RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
 	# Block out any script that includes a <script> tag in URL.
@@ -14,14 +14,70 @@
 	# Block out any script trying to modify a _REQUEST variable via URL.
 	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 	# Return 403 Forbidden header and show the content of the root homepage
-	RewriteRule .* index.php [F]
+	RewriteRule .* index.php [F,L]
 	#
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME}/index.html !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # RewriteRule ^([^\.]+)$ $1.php [NC,L]
+        # RewriteRule ^(.+)\.php$ /$1 [R,L]
+	# RewriteCond %{REQUEST_FILENAME}/index.html !-f
 	RewriteCond %{REQUEST_FILENAME}/index.php !-f
-	RewriteRule . index.php [L]
+        #
+        # RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
+        RewriteRule ^ index.php [QSA,L]
+	# RewriteRule . index.php [L]
         Redirect 301 "/home" "/"
 	Redirect 301 "/inicio" "/"
         Redirect 301 "/system" "/admin"
         Redirect 301 "/login" "/signin"
 </IfModule>
+<IfModule mod_headers.c>
+        # Make sure proxies don't deliver the wrong content
+        # Header always set Content-Security-Policy: upgrade-insecure-requests        
+        # This one can be a pain in the A** to set up, which is why I commented it out.
+        Header set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        Header append Vary User-Agent env=!dont-vary
+        Header always append X-Frame-Options SAMEORIGIN
+        Header always set Content-Security-Policy "upgrade-insecure-requests;"
+        # // This is the Xss header you are looking for
+        Header set X-XSS-Protection "1; mode=block"       
+        Header set X-Content-Type-Options nosniff
+        Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+        Header set Access-Control-Allow-Origin "*"
+        IndexIgnore *.zip *.css *.js *.pyt    
+        Options -MultiViews -Indexes        
+
+</IfModule>
+<IfModule mod_security.c>
+        SecFilterEngine On
+                # ^Turn the filtering engine On or Off
+        SecFilterScanPOST On
+                # ^Should mod_security inspect POST payloads
+        SecFilterSelective "HTTP_USER_AGENT|HTTP_HOST" "^$"
+                # ^Require HTTP_USER_AGENT and HTTP_HOST in all requests
+        SecFilter "../"
+                # ^Prevent path traversal (..) attacks
+        SecFilter "<[[:space:]]*script"
+                # ^Weaker XSS protection but allows common HTML tags
+        SecFilter "<(.|n)+>"
+                # ^Prevent XSS atacks (HTML/Javascript injection)
+        SecFilter "delete[[:space:]]+from"
+        SecFilter "insert[[:space:]]+into"
+        SecFilter "select.+from"
+        SecFilter "drop[[:space:]]table"
+                # ^Very crude filters to prevent SQL injection attacks
+        SecFilterSelective ARG_PHPSESSID "!^[0-9a-z]*$"
+        SecFilterSelective COOKIE_PHPSESSID "!^[0-9a-z]*$"
+                # ^Protecting from XSS attacks through the PHP session cookie
+        SecFilterDefaultAction "deny,log,status:500"
+                # ^Action to take by default
+</IfModule>
+                # Block access to backup and source files.
+                # These files may be left by some text editors and can pose a great security
+                # danger when anyone has access to them.
+
+<FilesMatch "(^#.*#|.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op])|~)$">
+        Order allow,deny
+        Deny from all
+        Satisfy All
+</FilesMatch>
