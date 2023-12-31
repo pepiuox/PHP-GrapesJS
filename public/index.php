@@ -11,5 +11,5 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION)) {
     session_start();
 }
-require_once 'src/elements/view.php';
+require_once '../src/components/view.php';
 ?>

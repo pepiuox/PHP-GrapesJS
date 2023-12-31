@@ -14,8 +14,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table app_users.actions_logs
-DROP TABLE IF EXISTS `actions_logs`;
+-- Dumping structure for table test_cms.actions_logs
 CREATE TABLE IF NOT EXISTS `actions_logs` (
   `actions_logs_id` int(11) NOT NULL AUTO_INCREMENT,
   `email_login` varchar(255) DEFAULT NULL,
@@ -28,43 +27,39 @@ CREATE TABLE IF NOT EXISTS `actions_logs` (
   PRIMARY KEY (`actions_logs_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.actions_logs: 0 rows
+-- Dumping data for table test_cms.actions_logs: 0 rows
 /*!40000 ALTER TABLE `actions_logs` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions_logs` ENABLE KEYS */;
 
--- Dumping structure for table app_users.active_guests
-DROP TABLE IF EXISTS `active_guests`;
+-- Dumping structure for table test_cms.active_guests
 CREATE TABLE IF NOT EXISTS `active_guests` (
   `ip` varchar(20) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.active_guests: ~0 rows (approximately)
+-- Dumping data for table test_cms.active_guests: ~1 rows (approximately)
 INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
 	('127.0.0.1', '2023-10-01 01:51:11');
 
--- Dumping structure for table app_users.active_sessions
-DROP TABLE IF EXISTS `active_sessions`;
+-- Dumping structure for table test_cms.active_sessions
 CREATE TABLE IF NOT EXISTS `active_sessions` (
   `session` char(128) DEFAULT NULL,
   `access` char(128) DEFAULT NULL,
   `date_session` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.active_sessions: ~0 rows (approximately)
+-- Dumping data for table test_cms.active_sessions: ~0 rows (approximately)
 
--- Dumping structure for table app_users.active_users
-DROP TABLE IF EXISTS `active_users`;
+-- Dumping structure for table test_cms.active_users
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(256) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.active_users: ~0 rows (approximately)
+-- Dumping data for table test_cms.active_users: ~0 rows (approximately)
 
--- Dumping structure for table app_users.admins
-DROP TABLE IF EXISTS `admins`;
+-- Dumping structure for table test_cms.admins
 CREATE TABLE IF NOT EXISTS `admins` (
   `adminid` char(64) NOT NULL DEFAULT uuid_short(),
   `usercode` char(128) NOT NULL,
@@ -74,12 +69,11 @@ CREATE TABLE IF NOT EXISTS `admins` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.admins: ~1 rows (approximately)
+-- Dumping data for table test_cms.admins: ~1 rows (approximately)
 INSERT INTO `admins` (`adminid`, `usercode`, `is_active`, `superadmin`) VALUES
 	('100546964394868738', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 1, 1);
 
--- Dumping structure for table app_users.admins_users
-DROP TABLE IF EXISTS `admins_users`;
+-- Dumping structure for table test_cms.admins_users
 CREATE TABLE IF NOT EXISTS `admins_users` (
   `admin_id` char(128) NOT NULL,
   `admincode` char(128) NOT NULL,
@@ -108,14 +102,102 @@ CREATE TABLE IF NOT EXISTS `admins_users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.admins_users: 1 rows
+-- Dumping data for table test_cms.admins_users: 1 rows
 /*!40000 ALTER TABLE `admins_users` DISABLE KEYS */;
 INSERT INTO `admins_users` (`admin_id`, `admincode`, `username`, `email`, `password`, `user_type`, `first_name`, `last_name`, `birthday`, `gender`, `address`, `phone`, `picture`, `is_active`, `session_id`, `mk_hash`, `mk_lasttime`, `pm_sendmail`, `timestamp_login`, `pass_change`, `timestamp_create`, `timestamp_update`) VALUES
 	('100546964394868738', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `admins_users` ENABLE KEYS */;
 
--- Dumping structure for table app_users.deleted_users
-DROP TABLE IF EXISTS `deleted_users`;
+-- Dumping structure for table test_cms.announcement
+CREATE TABLE IF NOT EXISTS `announcement` (
+  `announcement_id` int(11) unsigned NOT NULL,
+  `is_active` enum('N','Y') NOT NULL DEFAULT 'N',
+  `topic` varchar(50) NOT NULL,
+  `message` mediumtext NOT NULL,
+  `date_lastupdate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `auto_publish` enum('Y','N') DEFAULT 'N',
+  `date_start` datetime DEFAULT NULL,
+  `date_end` datetime DEFAULT NULL,
+  `date_created` datetime DEFAULT NULL,
+  `created_by` varchar(200) DEFAULT NULL,
+  `translated_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.announcement: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.blacklist_ip
+CREATE TABLE IF NOT EXISTS `blacklist_ip` (
+  `blacklist_ip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `timestamp_create` datetime DEFAULT NULL,
+  PRIMARY KEY (`blacklist_ip_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.blacklist_ip: 0 rows
+/*!40000 ALTER TABLE `blacklist_ip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blacklist_ip` ENABLE KEYS */;
+
+-- Dumping structure for table test_cms.blog_categories
+CREATE TABLE IF NOT EXISTS `blog_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` char(50) DEFAULT NULL,
+  `description` char(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.blog_categories: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.blog_posts
+CREATE TABLE IF NOT EXISTS `blog_posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `style` longtext DEFAULT NULL,
+  `keyword` char(150) DEFAULT NULL,
+  `classification` char(150) DEFAULT NULL,
+  `description` char(150) DEFAULT NULL,
+  `author` int(11) DEFAULT NULL,
+  `menu` int(11) DEFAULT NULL,
+  `hidden_blog` tinyint(1) DEFAULT NULL,
+  `published` tinyint(1) DEFAULT NULL,
+  `date_posted` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.blog_posts: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.blog_post_tags
+CREATE TABLE IF NOT EXISTS `blog_post_tags` (
+  `blog_post_id` int(11) NOT NULL,
+  `tag_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.blog_post_tags: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.categories
+CREATE TABLE IF NOT EXISTS `categories` (
+  `categoryId` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(50) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`categoryId`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.categories: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.counter
+CREATE TABLE IF NOT EXISTS `counter` (
+  `counter` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.counter: ~1 rows (approximately)
+INSERT INTO `counter` (`counter`) VALUES
+	(21);
+
+-- Dumping structure for table test_cms.deleted_users
 CREATE TABLE IF NOT EXISTS `deleted_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
@@ -126,10 +208,9 @@ CREATE TABLE IF NOT EXISTS `deleted_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.deleted_users: ~0 rows (approximately)
+-- Dumping data for table test_cms.deleted_users: ~0 rows (approximately)
 
--- Dumping structure for table app_users.districts
-DROP TABLE IF EXISTS `districts`;
+-- Dumping structure for table test_cms.districts
 CREATE TABLE IF NOT EXISTS `districts` (
   `idDist` char(6) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -141,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `districts` (
   UNIQUE KEY `idDist` (`idDist`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.districts: ~1,874 rows (approximately)
+-- Dumping data for table test_cms.districts: ~1,874 rows (approximately)
 INSERT INTO `districts` (`idDist`, `name`, `region_id`, `province_id`, `created`, `updated`) VALUES
 	('010101', 'Chachapoyas', '010100', '010000', '2023-10-18 06:08:35', '2023-10-18 06:08:35'),
 	('010102', 'Asunción', '010100', '010000', '2023-10-18 06:08:35', '2023-10-18 06:08:35'),
@@ -2018,8 +2099,43 @@ INSERT INTO `districts` (`idDist`, `name`, `region_id`, `province_id`, `created`
 	('250305', 'Alexander Von Humboldt', '250300', '250000', '2023-10-18 06:08:35', '2023-10-18 06:08:35'),
 	('250401', 'Purús', '250400', '250000', '2023-10-18 06:08:35', '2023-10-18 06:08:35');
 
--- Dumping structure for table app_users.forgot_pass
-DROP TABLE IF EXISTS `forgot_pass`;
+-- Dumping structure for table test_cms.eventlog
+CREATE TABLE IF NOT EXISTS `eventlog` (
+  `id` bigint(20) unsigned NOT NULL,
+  `event` varchar(200) NOT NULL,
+  `eventRowIdOrRef` varchar(20) DEFAULT NULL,
+  `eventDesc` text DEFAULT NULL,
+  `eventTable` varchar(20) DEFAULT NULL,
+  `staffInCharge` bigint(20) unsigned NOT NULL,
+  `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.eventlog: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.faq
+CREATE TABLE IF NOT EXISTS `faq` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) DEFAULT NULL,
+  `answer` text DEFAULT NULL,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.faq: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.follow
+CREATE TABLE IF NOT EXISTS `follow` (
+  `follow_id` int(11) NOT NULL,
+  `sender` char(128) NOT NULL DEFAULT '',
+  `receiver` char(128) NOT NULL DEFAULT '',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`follow_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.follow: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.forgot_pass
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `idFpa` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -2030,10 +2146,9 @@ CREATE TABLE IF NOT EXISTS `forgot_pass` (
   PRIMARY KEY (`idFpa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.forgot_pass: ~0 rows (approximately)
+-- Dumping data for table test_cms.forgot_pass: ~0 rows (approximately)
 
--- Dumping structure for table app_users.forgot_pin
-DROP TABLE IF EXISTS `forgot_pin`;
+-- Dumping structure for table test_cms.forgot_pin
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `idFpi` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -2044,20 +2159,42 @@ CREATE TABLE IF NOT EXISTS `forgot_pin` (
   PRIMARY KEY (`idFpi`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.forgot_pin: ~0 rows (approximately)
+-- Dumping data for table test_cms.forgot_pin: ~0 rows (approximately)
 
--- Dumping structure for table app_users.history
-DROP TABLE IF EXISTS `history`;
+-- Dumping structure for table test_cms.help
+CREATE TABLE IF NOT EXISTS `help` (
+  `Help_ID` int(11) NOT NULL,
+  `Language` char(2) NOT NULL,
+  `Topic` varchar(255) NOT NULL,
+  `Description` longtext NOT NULL,
+  `Category` int(11) NOT NULL,
+  `Order` int(11) NOT NULL,
+  `Display_in_Page` varchar(100) NOT NULL,
+  `Updated_By` varchar(20) DEFAULT NULL,
+  `Last_Updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.help: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.help_categories
+CREATE TABLE IF NOT EXISTS `help_categories` (
+  `category_id` int(11) NOT NULL,
+  `language` char(2) NOT NULL,
+  `category_description` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.help_categories: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.history
 CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL,
   `usercode` char(128) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.history: ~0 rows (approximately)
+-- Dumping data for table test_cms.history: ~0 rows (approximately)
 
--- Dumping structure for table app_users.ip
-DROP TABLE IF EXISTS `ip`;
+-- Dumping structure for table test_cms.ip
 CREATE TABLE IF NOT EXISTS `ip` (
   `id_session` char(128) NOT NULL,
   `user_data` char(128) NOT NULL,
@@ -2065,12 +2202,22 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.ip: ~0 rows (approximately)
+-- Dumping data for table test_cms.ip: ~1 rows (approximately)
 INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
 	('577272556846484d32316438507671736b777a6f7042467a616c44346d624150', 'contact@pepiuox.net', '127.0.0.1', '2023-11-13 18:31:59');
 
--- Dumping structure for table app_users.login_attempts
-DROP TABLE IF EXISTS `login_attempts`;
+-- Dumping structure for table test_cms.items
+CREATE TABLE IF NOT EXISTS `items` (
+  `id` int(11) unsigned NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.items: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.login_attempts
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id_session` varchar(128) NOT NULL,
   `user_data` varchar(100) NOT NULL,
@@ -2079,10 +2226,9 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.login_attempts: ~0 rows (approximately)
+-- Dumping data for table test_cms.login_attempts: ~0 rows (approximately)
 
--- Dumping structure for table app_users.members
-DROP TABLE IF EXISTS `members`;
+-- Dumping structure for table test_cms.members
 CREATE TABLE IF NOT EXISTS `members` (
   `id` char(128) NOT NULL,
   `username` varchar(65) NOT NULL DEFAULT '',
@@ -2104,10 +2250,9 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.members: ~0 rows (approximately)
+-- Dumping data for table test_cms.members: ~0 rows (approximately)
 
--- Dumping structure for table app_users.member_info
-DROP TABLE IF EXISTS `member_info`;
+-- Dumping structure for table test_cms.member_info
 CREATE TABLE IF NOT EXISTS `member_info` (
   `userid` char(128) NOT NULL,
   `firstname` varchar(60) NOT NULL,
@@ -2125,10 +2270,9 @@ CREATE TABLE IF NOT EXISTS `member_info` (
   CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.member_info: ~0 rows (approximately)
+-- Dumping data for table test_cms.member_info: ~0 rows (approximately)
 
--- Dumping structure for table app_users.member_jail
-DROP TABLE IF EXISTS `member_jail`;
+-- Dumping structure for table test_cms.member_jail
 CREATE TABLE IF NOT EXISTS `member_jail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` char(128) NOT NULL,
@@ -2141,10 +2285,9 @@ CREATE TABLE IF NOT EXISTS `member_jail` (
   CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.member_jail: ~0 rows (approximately)
+-- Dumping data for table test_cms.member_jail: ~0 rows (approximately)
 
--- Dumping structure for table app_users.member_roles
-DROP TABLE IF EXISTS `member_roles`;
+-- Dumping structure for table test_cms.member_roles
 CREATE TABLE IF NOT EXISTS `member_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` char(128) NOT NULL,
@@ -2157,10 +2300,222 @@ CREATE TABLE IF NOT EXISTS `member_roles` (
   CONSTRAINT `fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.member_roles: ~0 rows (approximately)
+-- Dumping data for table test_cms.member_roles: ~0 rows (approximately)
 
--- Dumping structure for table app_users.permissions
-DROP TABLE IF EXISTS `permissions`;
+-- Dumping structure for table test_cms.menu
+CREATE TABLE IF NOT EXISTS `menu` (
+  `idMenu` int(11) NOT NULL AUTO_INCREMENT,
+  `sort` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
+  `title_page` varchar(100) DEFAULT NULL,
+  `link_page` varchar(100) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT 0,
+  PRIMARY KEY (`idMenu`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.menu: ~6 rows (approximately)
+INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
+	(1, NULL, 1, 'Inicio', 'inicio', 0),
+	(2, NULL, 2, 'Servicios', 'servicios', 0),
+	(3, NULL, 3, 'Promociones', 'promociones', 2),
+	(4, NULL, 4, 'Proveedores', 'proveedores', 0),
+	(5, NULL, 5, 'Ofertas', 'ofertas', 4),
+	(6, NULL, 6, 'Contacto', 'contacto', 0);
+
+-- Dumping structure for table test_cms.menu_options
+CREATE TABLE IF NOT EXISTS `menu_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_menu` char(50) NOT NULL,
+  `fluid` enum('Yes','No') DEFAULT NULL,
+  `placement` enum('top','bottom','sticky-top') DEFAULT NULL,
+  `aligment` enum('start','center','end') DEFAULT NULL,
+  `background` enum('primary','secondary','light','dark','info','success','warning','danger') DEFAULT NULL,
+  `color` enum('light','dark') DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_menu` (`id_menu`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Dumping data for table test_cms.menu_options: ~2 rows (approximately)
+INSERT INTO `menu_options` (`id`, `id_menu`, `fluid`, `placement`, `aligment`, `background`, `color`) VALUES
+	(1, 'main_navbar', 'Yes', 'top', 'start', 'primary', 'dark'),
+	(2, 'main_menu', 'Yes', 'top', 'end', 'dark', 'light');
+
+-- Dumping structure for table test_cms.page
+CREATE TABLE IF NOT EXISTS `page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `language` int(11) NOT NULL DEFAULT 1,
+  `position` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(50) DEFAULT 'Title',
+  `link` varchar(150) DEFAULT NULL,
+  `url` varchar(150) DEFAULT NULL,
+  `keyword` varchar(150) DEFAULT NULL,
+  `classification` varchar(150) DEFAULT NULL,
+  `description` varchar(160) DEFAULT NULL,
+  `image` varchar(150) DEFAULT NULL,
+  `type` enum('Design','File','Link') NOT NULL,
+  `menu` int(11) DEFAULT 1,
+  `hidden_page` tinyint(1) DEFAULT 0,
+  `path_file` varchar(250) DEFAULT NULL,
+  `script_name` varchar(250) DEFAULT NULL,
+  `template` varchar(150) DEFAULT NULL,
+  `base_template` varchar(150) DEFAULT NULL,
+  `content` longtext DEFAULT NULL,
+  `style` longtext DEFAULT NULL,
+  `startpage` int(11) DEFAULT 0,
+  `level` int(11) DEFAULT 1,
+  `parent` int(11) DEFAULT 0,
+  `sort` int(11) DEFAULT 0,
+  `active` int(11) DEFAULT 1,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.page: ~6 rows (approximately)
+INSERT INTO `page` (`id`, `language`, `position`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `created`, `updated`) VALUES
+	(1, 1, 0, 'Inicio', 'inicio', NULL, 'Inicio', 'Inicio', 'Inicio', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;iafuo&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iaq6l&amp;quot; class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i0lkk&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;Encuentra un servicio o proveedor&amp;lt;br id=&amp;quot;ia8y&amp;quot; draggable=&amp;quot;true&amp;quot;/&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;in7xp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Publica tus servicios y productos o haz saber que necesitas y encuentralo de forma segura y confiable.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;a id=&amp;quot;iza5ur&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Promociones&amp;lt;/a&amp;gt; &amp;lt;a id=&amp;quot;i410ic&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Ofertas&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;&amp;lt;span lang=&amp;quot;es&amp;quot; class=&amp;quot;HwtZe&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;jCAhz ChMk0b&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;ryNqvb&amp;quot;&amp;gt;Nuestras caracter&amp;iacute;sticas clave&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Se parte de nuestro directorio para contactar con tu clientes de una forma segura y rapida.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;&amp;lt;span lang=&amp;quot;es&amp;quot; class=&amp;quot;HwtZe&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;jCAhz ChMk0b&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;ryNqvb&amp;quot;&amp;gt;Marketing directo&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;Nuestro sistema te conecta a clientes con proveedores de servicios o productos sin problemas&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Un equipo dedicado&amp;lt;br/&amp;gt;&amp;lt;/h3&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;Mejoramos dia a dia para hacer que tu negocio crezca sin problemas de medios inseguros.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;div id=&amp;quot;iftvoc&amp;quot; class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;text-center mx-auto col-md-12&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i5lggf&amp;quot; class=&amp;quot;text-light&amp;quot;&amp;gt;Estas buscanto o tienes algo que ofrecer.&amp;lt;br/&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ilz7np&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;i6wfch&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Cliente&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;icngp3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Si estas en la busca de servicios y proveedores registrate y encuentra cerca de ti aquello que necesitas.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;ijp64p&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;iucglj&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;icmjyn&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;izyn5o&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iif0kn&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Servicios&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;ii6sq6&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Si tienes servicios puedes ofrecerlos, tus clientes pueden estar mas cerca de lo que imaginas. &amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;inry5q&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;izcdm1&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;imry6b&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ia0ddl&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;ib6b2m&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Proveedor&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iuyalh&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Aun no encuentras la forma se ofrecer tus productos, crear una cuenta y conectarte con tus clientes.&amp;nbsp; &amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;i4ou4n&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;ia6uyd&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;ikhlrp&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-3&amp;quot; id=&amp;quot;i42ibr&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;Main&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;ul class=&amp;quot;list-unstyled&amp;quot;&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Home&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Features&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Pricing&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;Others&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;ul class=&amp;quot;list-unstyled&amp;quot;&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;FAQ&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Resources&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Career&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-md-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;About&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;i9zak&amp;quot; class=&amp;quot;col-lg-3 col-md-6 p-3&amp;quot;&amp;gt;&amp;lt;h5 id=&amp;quot;iqnc4w&amp;quot;&amp;gt; &amp;lt;b&amp;gt;Follow us&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;div id=&amp;quot;i5eutl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7dwoe&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-md-12 d-flex align-items-center justify-content-between my-2&amp;quot;&amp;gt;&amp;lt;a id=&amp;quot;i2ebba&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i8vi7l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-facebook text-muted fa-lg mr-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;isazig&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i5isjc&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-instagram text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;il0pof&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i5gomi&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-google-plus text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;iskvap&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;im7i8k&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-pinterest text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;ih7mz6&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;ir653x&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-reddit text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;iribyw&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;icsmts&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-twitter text-muted fa-lg ml-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-0 mt-2&amp;quot;&amp;gt;&amp;copy; 2021 PHP GrapesJS. All rights reserved&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#iafuo{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:160/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iftvoc{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:160/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:100%, 100%;background-repeat:repeat, repeat;}#iaq6l{color:white;}', 1, 1, 0, 0, 1, '2023-09-30 23:39:21', '2023-11-14 16:28:41'),
+	(2, 1, 0, 'Servicios', 'servicios', NULL, 'Servicios', 'Servicios', 'Servicios', NULL, 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i6kb&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.\n                        I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-3 order-3 order-md-1&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-1.svg&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-6 col-8 d-flex flex-column justify-content-center p-3 order-1 order-md-2&amp;quot;&amp;gt;&amp;lt;h3&amp;gt;Mere tranquil existence&amp;lt;/h3&amp;gt;&amp;lt;p&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-2 col-4 d-flex flex-column align-items-center justify-content-center order-2 order-md-2 p-3&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary mb-3&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mb-3&amp;quot;&amp;gt;Main action&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Link&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i6kb{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2023-11-05 04:56:07'),
+	(3, 1, 0, 'Promociones', 'promociones', NULL, 'Promociones', 'Promociones', 'Promociones', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 2, 0, 1, '2023-09-30 23:39:21', '2023-11-05 05:08:21'),
+	(4, 1, 0, 'Proveedores', 'proveedores', NULL, 'Proveedores', 'Proveedores', 'Proveedores', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2023-11-05 04:57:31'),
+	(5, 1, 0, 'Ofertas', 'ofertas', NULL, 'Ofertas', 'Ofertas', 'Ofertas', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;icwnu&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot; id=&amp;quot;i6nf&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;ixee&amp;quot; data-gjs-type=&amp;quot;text&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;You wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;ip5a&amp;quot; data-gjs-type=&amp;quot;text&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a id=&amp;quot;izpcf&amp;quot; data-gjs-type=&amp;quot;link&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a id=&amp;quot;ijufi&amp;quot; data-gjs-type=&amp;quot;link&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;i46e&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iycj1&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i2m2s&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;bg-white p-4 col-10 mx-auto mx-md-0 col-lg-6&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;ipgac&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;I am so happy\n  &amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;itc5r&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone.\n  &amp;lt;/p&amp;gt;&amp;lt;form method=&amp;quot;get&amp;quot; id=&amp;quot;ihzng&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;form-inline d-flex justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;idi6t&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group&amp;quot;&amp;gt;&amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; id=&amp;quot;name&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your name&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;input type=&amp;quot;email&amp;quot; id=&amp;quot;form6&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your email&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;div id=&amp;quot;iot1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group-append&amp;quot;&amp;gt;&amp;lt;button type=&amp;quot;button&amp;quot; id=&amp;quot;inbmo&amp;quot; draggable=&amp;quot;true&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Subscribe&amp;lt;/button&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/form&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ikc1t&amp;quot; class=&amp;quot;py-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 col-6 p-3&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle-o fa-5x text-primary&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 col-6 p-3&amp;quot;&amp;gt;&amp;lt;p&amp;gt; &amp;lt;a href=&amp;quot;https://goo.gl/maps/AUq7b9W7yYJ2&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt; Fake street, 100\n                            &amp;lt;br/&amp;gt;NYC - 20179, USA&amp;lt;/a&amp;gt; &amp;lt;/p&amp;gt;&amp;lt;p&amp;gt; &amp;lt;a href=&amp;quot;tel:+246 - 542 550 5462&amp;quot;&amp;gt;+1 - 256 845 87 86&amp;lt;/a&amp;gt; &amp;lt;/p&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;mailto:info@PHP GrapesJS.com&amp;quot;&amp;gt;info@PHP GrapesJS.com&amp;lt;/a&amp;gt; &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;About&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-0 mt-2&amp;quot;&amp;gt;&amp;copy; 2021 PHP GrapesJS. All rights reserved&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#icwnu{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iycj1{background-image:url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:right bottom;background-size:cover;background-repeat:repeat;background-attachment:fixed;}', 0, 1, 4, 0, 1, '2023-09-30 23:39:21', '2023-11-14 18:44:19'),
+	(6, 1, 0, 'Contacto', 'contacto', NULL, 'Contacto', 'Contacto', 'Contacto', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;iyih&amp;quot; class=&amp;quot;py-5 text-center align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot; id=&amp;quot;ipvi&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle mb-3 text-muted fa-5x&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-dark&amp;quot;&amp;gt;Do&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Something&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;gjs-row&amp;quot; id=&amp;quot;ivlba&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;gjs-cell&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-6 p-0 pr-1&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/icon-pepiuox.png&amp;quot; id=&amp;quot;ih1m4&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-6 p-0 pl-1&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-3.svg&amp;quot; class=&amp;quot;img-fluid d-block rounded-circle&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#iyih{background-image:linear-gradient(to left bottom, rgba(189, 195, 199, .75), rgba(44, 62, 80, .75));background-size:100%;}.gjs-row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.gjs-cell{min-height:75px;flex-grow:1;flex-basis:100%;}@media (max-width: 768px){.gjs-row{flex-wrap:wrap;}}', 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2023-11-09 07:44:11');
+
+-- Dumping structure for table test_cms.pageviews
+CREATE TABLE IF NOT EXISTS `pageviews` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `page` char(250) DEFAULT NULL,
+  `ip` char(20) DEFAULT NULL,
+  `date_view` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.pageviews: ~100 rows (approximately)
+INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
+	(1, 'Ayahuasca', '127.0.0.1', '2023-10-01 17:43:22'),
+	(2, 'Home', '127.0.0.1', '2023-10-01 17:43:23'),
+	(3, 'Diets', '127.0.0.1', '2023-10-01 17:47:04'),
+	(4, 'Abous Us', '127.0.0.1', '2023-10-01 17:57:56'),
+	(5, 'Retreats', '127.0.0.1', '2023-10-02 02:18:26'),
+	(6, 'Shaman', '127.0.0.1', '2023-10-02 02:51:39'),
+	(7, 'Diets', '127.0.0.1', '2023-10-02 16:29:34'),
+	(8, 'Home', '127.0.0.1', '2023-10-02 16:29:35'),
+	(9, 'Abous Us', '127.0.0.1', '2023-10-03 05:59:41'),
+	(10, 'Ayahuasca', '127.0.0.1', '2023-10-03 06:48:13'),
+	(11, 'Shaman', '127.0.0.1', '2023-10-03 08:32:33'),
+	(12, 'Retreats', '127.0.0.1', '2023-10-03 09:02:30'),
+	(13, 'Home', '127.0.0.1', '2023-10-03 18:58:46'),
+	(14, 'Home', '127.0.0.1', '2023-10-10 16:07:21'),
+	(15, 'Home', '127.0.0.1', '2023-10-11 17:21:06'),
+	(16, 'Home', '127.0.0.1', '2023-10-13 05:43:16'),
+	(17, 'Retreats', '127.0.0.1', '2023-10-13 06:22:16'),
+	(18, 'Diets', '127.0.0.1', '2023-10-13 06:22:18'),
+	(19, 'Ayahuasca', '127.0.0.1', '2023-10-13 06:22:19'),
+	(20, 'Shaman', '127.0.0.1', '2023-10-13 06:37:24'),
+	(21, 'Abous Us', '127.0.0.1', '2023-10-13 06:44:27'),
+	(22, 'Home', '127.0.0.1', '2023-10-14 05:24:08'),
+	(23, 'Home', '127.0.0.1', '2023-10-16 02:33:37'),
+	(24, 'Home', '127.0.0.1', '2023-10-17 01:42:23'),
+	(25, 'Home', '127.0.0.1', '2023-10-17 19:46:25'),
+	(26, 'Home', '127.0.0.1', '2023-10-20 01:21:53'),
+	(27, 'Home', '127.0.0.1', '2023-10-21 05:53:16'),
+	(28, 'Abous Us', '127.0.0.1', '2023-10-21 05:54:12'),
+	(29, 'Retreats', '127.0.0.1', '2023-10-21 05:54:15'),
+	(30, 'Ayahuasca', '127.0.0.1', '2023-10-21 05:54:16'),
+	(31, 'Diets', '127.0.0.1', '2023-10-21 05:58:01'),
+	(32, 'Inicio', '127.0.0.1', '2023-10-23 19:38:54'),
+	(33, 'Inicio', '127.0.0.1', '2023-10-25 06:34:48'),
+	(34, 'Inicio', '127.0.0.1', '2023-11-01 06:14:59'),
+	(35, 'Inicio', '127.0.0.1', '2023-11-02 16:39:13'),
+	(36, 'Ayahuasca', '127.0.0.1', '2023-11-02 20:21:11'),
+	(37, 'Diets', '127.0.0.1', '2023-11-02 20:21:12'),
+	(38, 'Retreats', '127.0.0.1', '2023-11-02 20:21:13'),
+	(39, 'Abous Us', '127.0.0.1', '2023-11-02 20:21:14'),
+	(40, 'Pefil', '127.0.0.1', '2023-11-03 03:10:47'),
+	(41, 'Inicio', '127.0.0.1', '2023-11-05 02:06:27'),
+	(42, 'Inicio', '127.0.0.1', '2023-11-07 20:48:04'),
+	(43, 'Contacto', '127.0.0.1', '2023-11-07 20:49:29'),
+	(44, 'Ofertas', '127.0.0.1', '2023-11-07 20:49:32'),
+	(45, 'Promociones', '127.0.0.1', '2023-11-07 20:49:34'),
+	(46, 'Inicio', '127.0.0.1', '2023-11-09 01:27:17'),
+	(47, 'Ofertas', '127.0.0.1', '2023-11-09 01:27:40'),
+	(48, 'Proveedores', '127.0.0.1', '2023-11-09 01:51:57'),
+	(49, 'Contacto', '127.0.0.1', '2023-11-09 07:20:25'),
+	(50, 'Servicios', '127.0.0.1', '2023-11-09 07:42:55'),
+	(51, 'Promociones', '127.0.0.1', '2023-11-09 07:42:57'),
+	(52, 'Inicio', '127.0.0.1', '2023-11-09 22:49:58'),
+	(53, 'Ofertas', '127.0.0.1', '2023-11-09 23:29:24'),
+	(54, 'Inicio', '127.0.0.1', '2023-11-10 17:29:55'),
+	(55, 'Servicios', '127.0.0.1', '2023-11-10 17:52:49'),
+	(56, 'Proveedores', '127.0.0.1', '2023-11-10 17:53:20'),
+	(57, 'Contacto', '127.0.0.1', '2023-11-10 18:29:15'),
+	(58, 'Inicio', '127.0.0.1', '2023-11-13 07:20:11'),
+	(59, 'Inicio', '127.0.0.1', '2023-11-14 16:33:19'),
+	(60, 'Servicios', '127.0.0.1', '2023-11-14 18:07:37'),
+	(61, 'Proveedores', '127.0.0.1', '2023-11-14 18:07:38'),
+	(62, 'Contacto', '127.0.0.1', '2023-11-14 18:07:40'),
+	(63, 'Ofertas', '127.0.0.1', '2023-11-14 18:07:41'),
+	(64, 'Promociones', '127.0.0.1', '2023-11-14 18:07:45'),
+	(65, 'Inicio', '127.0.0.1', '2023-11-17 06:37:58'),
+	(66, 'Inicio', '127.0.0.1', '2023-11-18 08:11:47'),
+	(67, 'Inicio', '127.0.0.1', '2023-11-19 20:21:10'),
+	(68, 'Servicios', '127.0.0.1', '2023-11-19 23:32:05'),
+	(69, 'Ofertas', '127.0.0.1', '2023-11-19 23:33:18'),
+	(70, 'Inicio', '127.0.0.1', '2023-11-23 08:23:12'),
+	(71, 'Promociones', '127.0.0.1', '2023-11-23 08:42:24'),
+	(72, 'Ofertas', '127.0.0.1', '2023-11-23 08:42:27'),
+	(73, 'Contacto', '127.0.0.1', '2023-11-23 08:42:28'),
+	(74, 'Inicio', '127.0.0.1', '2023-11-24 03:56:08'),
+	(75, 'Promociones', '127.0.0.1', '2023-11-24 03:58:27'),
+	(76, 'Servicios', '127.0.0.1', '2023-11-24 03:58:29'),
+	(77, 'Ofertas', '127.0.0.1', '2023-11-24 03:58:32'),
+	(78, 'Contacto', '127.0.0.1', '2023-11-24 03:58:36'),
+	(79, 'Inicio', '127.0.0.1', '2023-11-25 01:17:32'),
+	(80, 'Contacto', '127.0.0.1', '2023-11-25 01:56:50'),
+	(81, 'Inicio', '127.0.0.1', '2023-11-26 04:13:00'),
+	(82, 'Ofertas', '127.0.0.1', '2023-11-27 04:53:39'),
+	(83, 'Inicio', '127.0.0.1', '2023-11-30 19:24:06'),
+	(84, 'Promociones', '127.0.0.1', '2023-11-30 19:25:53'),
+	(85, 'Proveedores', '127.0.0.1', '2023-11-30 19:25:58'),
+	(86, 'Ofertas', '127.0.0.1', '2023-11-30 19:26:05'),
+	(87, 'Contacto', '127.0.0.1', '2023-11-30 19:26:08'),
+	(88, 'Contacto', '127.0.0.1', '2023-12-01 17:30:49'),
+	(89, 'Ofertas', '127.0.0.1', '2023-12-01 17:30:52'),
+	(90, 'Promociones', '127.0.0.1', '2023-12-01 17:30:55'),
+	(91, 'Inicio', '127.0.0.1', '2023-12-04 02:19:45'),
+	(92, 'Proveedores', '127.0.0.1', '2023-12-04 02:22:42'),
+	(93, 'Contacto', '127.0.0.1', '2023-12-04 02:22:54'),
+	(94, 'Servicios', '127.0.0.1', '2023-12-04 02:25:01'),
+	(95, 'Ofertas', '127.0.0.1', '2023-12-04 02:25:08'),
+	(96, 'Promociones', '127.0.0.1', '2023-12-04 02:25:10'),
+	(97, 'Inicio', '127.0.0.1', '2023-12-05 05:45:06'),
+	(98, 'Inicio', '127.0.0.1', '2023-12-09 07:09:19'),
+	(99, 'Inicio', '127.0.0.1', '2023-12-14 16:07:21'),
+	(100, 'Inicio', '127.0.0.1', '2023-12-23 03:06:12');
+
+-- Dumping structure for table test_cms.page_menu
+CREATE TABLE IF NOT EXISTS `page_menu` (
+  `page_menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_name` varchar(255) DEFAULT NULL,
+  `lang_iso` varchar(10) DEFAULT NULL,
+  `pages_id` int(11) DEFAULT NULL,
+  `other_link` varchar(512) DEFAULT NULL,
+  `plugin_menu` varchar(255) DEFAULT NULL,
+  `drop_menu` int(11) DEFAULT NULL,
+  `drop_page_menu_id` int(11) DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
+  `new_windows` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `arrange` int(11) DEFAULT NULL,
+  `timestamp_create` timestamp NULL DEFAULT current_timestamp(),
+  `timestamp_update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`page_menu_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.page_menu: 0 rows
+/*!40000 ALTER TABLE `page_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `page_menu` ENABLE KEYS */;
+
+-- Dumping structure for table test_cms.permissions
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -2172,7 +2527,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.permissions: ~15 rows (approximately)
+-- Dumping data for table test_cms.permissions: ~15 rows (approximately)
 INSERT INTO `permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
 	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
@@ -2190,8 +2545,7 @@ INSERT INTO `permissions` (`id`, `name`, `description`, `category`, `required`) 
 	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 
--- Dumping structure for table app_users.personal_config
-DROP TABLE IF EXISTS `personal_config`;
+-- Dumping structure for table test_cms.personal_config
 CREATE TABLE IF NOT EXISTS `personal_config` (
   `usercode` char(128) DEFAULT NULL,
   `looking_for` varchar(50) DEFAULT NULL,
@@ -2212,10 +2566,9 @@ CREATE TABLE IF NOT EXISTS `personal_config` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.personal_config: ~0 rows (approximately)
+-- Dumping data for table test_cms.personal_config: ~0 rows (approximately)
 
--- Dumping structure for table app_users.personal_services
-DROP TABLE IF EXISTS `personal_services`;
+-- Dumping structure for table test_cms.personal_services
 CREATE TABLE IF NOT EXISTS `personal_services` (
   `idd` char(128) NOT NULL,
   `usercode` char(128) DEFAULT NULL,
@@ -2243,12 +2596,11 @@ CREATE TABLE IF NOT EXISTS `personal_services` (
   CONSTRAINT `FK1_idd` FOREIGN KEY (`idd`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.personal_services: ~1 rows (approximately)
+-- Dumping data for table test_cms.personal_services: ~1 rows (approximately)
 INSERT INTO `personal_services` (`idd`, `usercode`, `nombre`, `edad`, `tipo_figura`, `estatura`, `busto`, `cintura`, `caderas`, `detalles_fisicos`, `zonas`, `citas`, `salidas`, `dias`, `horarios`, `descripcion_servicio`, `servicios`, `adicionales`, `pack_videos`, `otras_atenciones`) VALUES
 	('d250f5d9858202c5f7e2238a4b50ef81291cd4b1462ced1a168e8cc4bb6eaf3e', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Dumping structure for table app_users.provinces
-DROP TABLE IF EXISTS `provinces`;
+-- Dumping structure for table test_cms.provinces
 CREATE TABLE IF NOT EXISTS `provinces` (
   `idProv` char(6) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -2259,7 +2611,7 @@ CREATE TABLE IF NOT EXISTS `provinces` (
   UNIQUE KEY `idProv` (`idProv`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.provinces: ~196 rows (approximately)
+-- Dumping data for table test_cms.provinces: ~196 rows (approximately)
 INSERT INTO `provinces` (`idProv`, `name`, `region_id`, `created`, `updated`) VALUES
 	('010100', 'Chachapoyas', '010000', '2023-10-18 06:07:13', '2023-10-18 06:07:13'),
 	('010200', 'Bagua', '010000', '2023-10-18 06:07:13', '2023-10-18 06:07:13'),
@@ -2458,8 +2810,7 @@ INSERT INTO `provinces` (`idProv`, `name`, `region_id`, `created`, `updated`) VA
 	('250300', 'Padre Abad ', '250000', '2023-10-18 06:07:13', '2023-10-18 06:07:13'),
 	('250400', 'Purús', '250000', '2023-10-18 06:07:13', '2023-10-18 06:07:13');
 
--- Dumping structure for table app_users.rating_sp
-DROP TABLE IF EXISTS `rating_sp`;
+-- Dumping structure for table test_cms.rating_sp
 CREATE TABLE IF NOT EXISTS `rating_sp` (
   `idRat` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL DEFAULT '',
@@ -2469,10 +2820,9 @@ CREATE TABLE IF NOT EXISTS `rating_sp` (
   UNIQUE KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.rating_sp: ~0 rows (approximately)
+-- Dumping data for table test_cms.rating_sp: ~0 rows (approximately)
 
--- Dumping structure for table app_users.regions
-DROP TABLE IF EXISTS `regions`;
+-- Dumping structure for table test_cms.regions
 CREATE TABLE IF NOT EXISTS `regions` (
   `idRegi` char(6) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -2482,7 +2832,7 @@ CREATE TABLE IF NOT EXISTS `regions` (
   UNIQUE KEY `idRegi` (`idRegi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.regions: ~25 rows (approximately)
+-- Dumping data for table test_cms.regions: ~25 rows (approximately)
 INSERT INTO `regions` (`idRegi`, `name`, `created_at`, `updated_at`) VALUES
 	('010000', 'Amazonas', NULL, NULL),
 	('020000', 'Ãncash', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -2510,8 +2860,7 @@ INSERT INTO `regions` (`idRegi`, `name`, `created_at`, `updated_at`) VALUES
 	('240000', 'Tumbes', NULL, NULL),
 	('250000', 'Ucayali', NULL, NULL);
 
--- Dumping structure for table app_users.roles
-DROP TABLE IF EXISTS `roles`;
+-- Dumping structure for table test_cms.roles
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -2523,14 +2872,13 @@ CREATE TABLE IF NOT EXISTS `roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.roles: ~3 rows (approximately)
+-- Dumping data for table test_cms.roles: ~3 rows (approximately)
 INSERT INTO `roles` (`id`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Superadmin', 'Master administrator of site', 1, NULL),
 	(2, 'Admin', 'Site administrator', 1, NULL),
 	(3, 'Standard User', 'Default site role for standard users', 1, 1);
 
--- Dumping structure for table app_users.role_permissions
-DROP TABLE IF EXISTS `role_permissions`;
+-- Dumping structure for table test_cms.role_permissions
 CREATE TABLE IF NOT EXISTS `role_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
@@ -2542,7 +2890,7 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.role_permissions: ~24 rows (approximately)
+-- Dumping data for table test_cms.role_permissions: ~24 rows (approximately)
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -2569,8 +2917,7 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(23, 2, 14),
 	(24, 2, 15);
 
--- Dumping structure for table app_users.secrets
-DROP TABLE IF EXISTS `secrets`;
+-- Dumping structure for table test_cms.secrets
 CREATE TABLE IF NOT EXISTS `secrets` (
   `secretid` char(128) NOT NULL,
   `userid` char(128) NOT NULL,
@@ -2585,10 +2932,9 @@ CREATE TABLE IF NOT EXISTS `secrets` (
   UNIQUE KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.secrets: ~0 rows (approximately)
+-- Dumping data for table test_cms.secrets: ~0 rows (approximately)
 
--- Dumping structure for table app_users.sessions
-DROP TABLE IF EXISTS `sessions`;
+-- Dumping structure for table test_cms.sessions
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `set_time` int(2) NOT NULL DEFAULT 2,
@@ -2598,10 +2944,103 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.sessions: ~0 rows (approximately)
+-- Dumping data for table test_cms.sessions: ~0 rows (approximately)
 
--- Dumping structure for table app_users.table_column_settings
-DROP TABLE IF EXISTS `table_column_settings`;
+-- Dumping structure for table test_cms.site_configuration
+CREATE TABLE IF NOT EXISTS `site_configuration` (
+  `ID_Site` int(11) NOT NULL,
+  `DOMAIN_SITE` varchar(60) NOT NULL,
+  `SITE_NAME` varchar(60) NOT NULL,
+  `SITE_BRAND_IMG` varchar(250) DEFAULT NULL,
+  `SITE_PATH` varchar(250) DEFAULT NULL,
+  `SITE_DESCRIPTION` tinytext DEFAULT NULL,
+  `SITE_KEYWORDS` tinytext DEFAULT NULL,
+  `SITE_CLASSIFICATION` tinytext DEFAULT NULL,
+  `SITE_EMAIL` varchar(60) DEFAULT NULL,
+  `SITE_IMAGE` varchar(250) DEFAULT NULL,
+  `SITE_ADMIN` varchar(60) DEFAULT NULL,
+  `SITE_CONTROL` varchar(60) DEFAULT NULL,
+  `SITE_CONFIG` varchar(60) DEFAULT NULL,
+  `SITE_LANGUAGE_1` varchar(60) DEFAULT NULL,
+  `SITE_LANGUAGE_2` varchar(60) DEFAULT NULL,
+  `FOLDER_IMAGES` varchar(60) DEFAULT NULL,
+  `SITE_CREATOR` varchar(60) DEFAULT NULL,
+  `SITE_EDITOR` varchar(60) DEFAULT NULL,
+  `SITE_BUILDER` varchar(60) DEFAULT NULL,
+  `SITE_LIST` varchar(60) DEFAULT NULL,
+  `NAME_CONTACT` varchar(128) DEFAULT NULL,
+  `PHONE_CONTACT` varchar(60) DEFAULT NULL,
+  `EMAIL_CONTACT` varchar(128) DEFAULT NULL,
+  `ADDRESS` tinytext DEFAULT NULL,
+  `TWITTER` varchar(60) DEFAULT NULL,
+  `FACEBOOKID` varchar(60) DEFAULT NULL,
+  `SKYPE` varchar(60) DEFAULT NULL,
+  `TELEGRAM` varchar(60) DEFAULT NULL,
+  `WHATSAPP` varchar(60) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID_Site`),
+  UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.site_configuration: ~1 rows (approximately)
+INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `created`, `updated`) VALUES
+	(1, '//www.esrapi.com', 'ESRAPI', 'icon-pepiuox.png', '//localhost:160/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', '2022-01-08 13:42:41', '2023-12-04 04:10:33');
+
+-- Dumping structure for table test_cms.site_mail_configuration
+CREATE TABLE IF NOT EXISTS `site_mail_configuration` (
+  `idMc` int(11) NOT NULL AUTO_INCREMENT,
+  `idSite` int(11) NOT NULL,
+  `mail_support` char(60) DEFAULT NULL,
+  `subject_support` char(150) DEFAULT NULL,
+  `mail_help` char(50) DEFAULT NULL,
+  `subject_help` char(150) DEFAULT NULL,
+  `mail_faq` char(50) DEFAULT NULL,
+  `subject_faq` char(150) DEFAULT NULL,
+  PRIMARY KEY (`idMc`),
+  KEY `FK_email_site` (`idSite`),
+  CONSTRAINT `FK_email_site` FOREIGN KEY (`idSite`) REFERENCES `site_configuration` (`ID_Site`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table test_cms.site_mail_configuration: ~1 rows (approximately)
+INSERT INTO `site_mail_configuration` (`idMc`, `idSite`, `mail_support`, `subject_support`, `mail_help`, `subject_help`, `mail_faq`, `subject_faq`) VALUES
+	(1, 1, 'support@esrapi.com', NULL, 'help@esrapi.com', NULL, 'faq@esrapi.com', NULL);
+
+-- Dumping structure for table test_cms.site_security
+CREATE TABLE IF NOT EXISTS `site_security` (
+  `idSs` int(11) NOT NULL AUTO_INCREMENT,
+  `site` int(11) NOT NULL,
+  `MAILSERVER` varchar(60) DEFAULT NULL,
+  `PORTSERVER` varchar(60) DEFAULT NULL,
+  `USEREMAIL` varchar(128) DEFAULT NULL,
+  `PASSMAIL` varchar(128) DEFAULT NULL,
+  `SUPERADMIN_NAME` varchar(60) DEFAULT NULL,
+  `SUPERADMIN_LEVEL` tinyint(1) DEFAULT NULL,
+  `ADMIN_NAME` varchar(60) NOT NULL DEFAULT '',
+  `ADMIN_LEVEL` tinyint(1) NOT NULL,
+  `SECURE_HASH` char(128) DEFAULT NULL,
+  `SECURE_TOKEN` char(128) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`idSs`) USING BTREE,
+  KEY `FK_site_secutity` (`site`),
+  CONSTRAINT `FK_site_secutity` FOREIGN KEY (`site`) REFERENCES `site_configuration` (`ID_Site`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.site_security: ~1 rows (approximately)
+INSERT INTO `site_security` (`idSs`, `site`, `MAILSERVER`, `PORTSERVER`, `USEREMAIL`, `PASSMAIL`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `created`, `updated`) VALUES
+	(1, 1, 'smtp.hostinger.com', '461', 'YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=', 'bnVEa3VFZXV6eERRNjVDcEVpZWJNWEoxVW9WTEE1YTBmMnczTXB4aElFMD0=', 'Super Admin', 9, 'Admin', 5, 'a29e043dd46db054812c9c39df78cbd4d1eb70e733f665a8ba6ffe5b4fe5ba50', 'O@UQ{#oUr(8[0(CxU&BG]jNIhQXJnzICv9[[bkP|)&CDAL6i2&ZZcHWKaNTZ[M@W', '2023-11-14 20:20:47', '2023-11-18 06:17:30');
+
+-- Dumping structure for table test_cms.social_link
+CREATE TABLE IF NOT EXISTS `social_link` (
+  `social_name` varchar(20) DEFAULT NULL,
+  `social_url` varchar(150) DEFAULT NULL,
+  KEY `social_name` (`social_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.social_link: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.table_column_settings
 CREATE TABLE IF NOT EXISTS `table_column_settings` (
   `tqop_Id` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` varchar(50) DEFAULT NULL,
@@ -2626,10 +3065,9 @@ CREATE TABLE IF NOT EXISTS `table_column_settings` (
   PRIMARY KEY (`tqop_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.table_column_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.table_column_settings: ~0 rows (approximately)
 
--- Dumping structure for table app_users.table_config
-DROP TABLE IF EXISTS `table_config`;
+-- Dumping structure for table test_cms.table_config
 CREATE TABLE IF NOT EXISTS `table_config` (
   `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
   `db_name` char(50) NOT NULL,
@@ -2637,12 +3075,11 @@ CREATE TABLE IF NOT EXISTS `table_config` (
   PRIMARY KEY (`tcon_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.table_config: ~0 rows (approximately)
+-- Dumping data for table test_cms.table_config: ~1 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `db_name`, `table_name`) VALUES
 	(1, '', 'users_contacts,users_info,users_locations,users_plans,users_privacy,users_profiles,users_secures,users_social_media,users_types');
 
--- Dumping structure for table app_users.table_settings
-DROP TABLE IF EXISTS `table_settings`;
+-- Dumping structure for table test_cms.table_settings
 CREATE TABLE IF NOT EXISTS `table_settings` (
   `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` char(50) NOT NULL DEFAULT '',
@@ -2656,17 +3093,176 @@ CREATE TABLE IF NOT EXISTS `table_settings` (
   UNIQUE KEY `table_name` (`table_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.table_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.table_settings: ~0 rows (approximately)
 
--- Dumping structure for table app_users.type_actions
-DROP TABLE IF EXISTS `type_actions`;
+-- Dumping structure for table test_cms.tags
+CREATE TABLE IF NOT EXISTS `tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.tags: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.templates
+CREATE TABLE IF NOT EXISTS `templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `templates` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.templates: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.themes
+CREATE TABLE IF NOT EXISTS `themes` (
+  `theme_id` int(11) NOT NULL AUTO_INCREMENT,
+  `theme_name` char(50) NOT NULL,
+  `theme_bootstrap` char(50) NOT NULL,
+  `base_default` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `active_theme` enum('Yes','No') NOT NULL DEFAULT 'No',
+  PRIMARY KEY (`theme_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.themes: ~1 rows (approximately)
+INSERT INTO `themes` (`theme_id`, `theme_name`, `theme_bootstrap`, `base_default`, `active_theme`) VALUES
+	(1, 'test theme color', 'cerulean', 'Yes', 'Yes');
+
+-- Dumping structure for table test_cms.theme_base_colors
+CREATE TABLE IF NOT EXISTS `theme_base_colors` (
+  `idtbc` int(11) NOT NULL AUTO_INCREMENT,
+  `body_color` char(8) DEFAULT NULL,
+  `text_color` char(8) DEFAULT NULL,
+  `links_color` char(8) DEFAULT NULL,
+  PRIMARY KEY (`idtbc`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtbc`) USING BTREE,
+  CONSTRAINT `FK_theme_base_colors` FOREIGN KEY (`idtbc`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.theme_base_colors: ~1 rows (approximately)
+INSERT INTO `theme_base_colors` (`idtbc`, `body_color`, `text_color`, `links_color`) VALUES
+	(1, '#ffffff', '#2f0202', '#172fa2');
+
+-- Dumping structure for table test_cms.theme_base_font
+CREATE TABLE IF NOT EXISTS `theme_base_font` (
+  `idtbf` int(11) NOT NULL AUTO_INCREMENT,
+  `family` char(50) DEFAULT NULL,
+  `size` char(50) DEFAULT NULL,
+  `weight` enum('default','light','normal','bold') NOT NULL DEFAULT 'default',
+  `line_height` char(50) DEFAULT NULL,
+  PRIMARY KEY (`idtbf`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtbf`) USING BTREE,
+  CONSTRAINT `FK_theme_base_font` FOREIGN KEY (`idtbf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.theme_base_font: ~1 rows (approximately)
+INSERT INTO `theme_base_font` (`idtbf`, `family`, `size`, `weight`, `line_height`) VALUES
+	(1, '', '', 'default', '');
+
+-- Dumping structure for table test_cms.theme_headings_font
+CREATE TABLE IF NOT EXISTS `theme_headings_font` (
+  `idthf` int(11) NOT NULL AUTO_INCREMENT,
+  `family` char(50) DEFAULT NULL,
+  `weight` enum('default','light','normal','bold') NOT NULL DEFAULT 'default',
+  `line_weight` char(50) DEFAULT NULL,
+  PRIMARY KEY (`idthf`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idthf`) USING BTREE,
+  CONSTRAINT `FK_theme_headings_font` FOREIGN KEY (`idthf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.theme_headings_font: ~1 rows (approximately)
+INSERT INTO `theme_headings_font` (`idthf`, `family`, `weight`, `line_weight`) VALUES
+	(1, '', 'default', '');
+
+-- Dumping structure for table test_cms.theme_lead_font
+CREATE TABLE IF NOT EXISTS `theme_lead_font` (
+  `idtlf` int(11) NOT NULL AUTO_INCREMENT,
+  `size` char(6) DEFAULT NULL,
+  `weight` char(6) DEFAULT NULL,
+  PRIMARY KEY (`idtlf`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtlf`) USING BTREE,
+  CONSTRAINT `FK_theme_lead_font` FOREIGN KEY (`idtlf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.theme_lead_font: ~1 rows (approximately)
+INSERT INTO `theme_lead_font` (`idtlf`, `size`, `weight`) VALUES
+	(1, '', '');
+
+-- Dumping structure for table test_cms.theme_palette
+CREATE TABLE IF NOT EXISTS `theme_palette` (
+  `idtp` int(11) NOT NULL AUTO_INCREMENT,
+  `primary_color` char(8) DEFAULT NULL,
+  `secondary_color` char(8) DEFAULT NULL,
+  `info_color` char(8) DEFAULT NULL,
+  `light_color` char(8) DEFAULT NULL,
+  `dark_color` char(8) DEFAULT NULL,
+  `success_color` char(8) DEFAULT NULL,
+  `warning_color` char(8) DEFAULT NULL,
+  `danger_color` char(8) DEFAULT NULL,
+  `custom_color` char(8) DEFAULT NULL,
+  `custom_light_color` char(8) DEFAULT NULL,
+  `custom_dark_color` char(8) DEFAULT NULL,
+  PRIMARY KEY (`idtp`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idtp`) USING BTREE,
+  CONSTRAINT `FK_theme_palette` FOREIGN KEY (`idtp`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.theme_palette: ~1 rows (approximately)
+INSERT INTO `theme_palette` (`idtp`, `primary_color`, `secondary_color`, `info_color`, `light_color`, `dark_color`, `success_color`, `warning_color`, `danger_color`, `custom_color`, `custom_light_color`, `custom_dark_color`) VALUES
+	(1, '#993f3f', '#814040', '#1f53a5', '#000000', '#4b3737', '#000000', '#d24747', '#000000', '#000000', '#d4b8b8', '#000000');
+
+-- Dumping structure for table test_cms.theme_settings
+CREATE TABLE IF NOT EXISTS `theme_settings` (
+  `idts` int(11) NOT NULL AUTO_INCREMENT,
+  `container` enum('default','narrow') NOT NULL DEFAULT 'default',
+  `spacer` enum('x 2','x 1.5','x 1.2','default','x .8','x .5') NOT NULL DEFAULT 'default',
+  `radius` char(50) DEFAULT NULL,
+  `radius_sm` char(50) DEFAULT NULL,
+  `radius_lg` char(50) DEFAULT NULL,
+  `font_size` enum('default','responsive','unresponsive') NOT NULL DEFAULT 'default',
+  PRIMARY KEY (`idts`) USING BTREE,
+  UNIQUE KEY `theme_id` (`idts`) USING BTREE,
+  CONSTRAINT `FK_theme_settings` FOREIGN KEY (`idts`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.theme_settings: ~1 rows (approximately)
+INSERT INTO `theme_settings` (`idts`, `container`, `spacer`, `radius`, `radius_sm`, `radius_lg`, `font_size`) VALUES
+	(1, 'default', 'default', NULL, NULL, NULL, 'default');
+
+-- Dumping structure for table test_cms.tokens
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `tokenid` char(25) NOT NULL,
+  `userid` char(128) NOT NULL,
+  `expired` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`tokenid`) USING BTREE,
+  UNIQUE KEY `tokenid_UNIQUE` (`tokenid`) USING BTREE,
+  UNIQUE KEY `userid_UNIQUE` (`userid`) USING BTREE,
+  CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.tokens: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.total_visitors
+CREATE TABLE IF NOT EXISTS `total_visitors` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `session` char(128) DEFAULT NULL,
+  `time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.total_visitors: ~2 rows (approximately)
+INSERT INTO `total_visitors` (`id`, `session`, `time`) VALUES
+	(1, 'VzB2V21zVUVpVGJvUGt6TEoxTFJHZz09', '2023-10-25 11:21:21'),
+	(2, 'Q3NucDBJazVVclkrZTE1RkVyME4zUT09', '2023-12-23 09:06:12');
+
+-- Dumping structure for table test_cms.type_actions
 CREATE TABLE IF NOT EXISTS `type_actions` (
   `idta` int(11) NOT NULL AUTO_INCREMENT,
   `action` char(20) NOT NULL,
   PRIMARY KEY (`idta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.type_actions: ~6 rows (approximately)
+-- Dumping data for table test_cms.type_actions: ~6 rows (approximately)
 INSERT INTO `type_actions` (`idta`, `action`) VALUES
 	(1, 'validation'),
 	(2, 'verification'),
@@ -2675,8 +3271,25 @@ INSERT INTO `type_actions` (`idta`, `action`) VALUES
 	(5, 'verified'),
 	(6, 'approved');
 
--- Dumping structure for table app_users.users
-DROP TABLE IF EXISTS `users`;
+-- Dumping structure for table test_cms.type_menu
+CREATE TABLE IF NOT EXISTS `type_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_menu` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.type_menu: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.type_page
+CREATE TABLE IF NOT EXISTS `type_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_page` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.type_page: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.users
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -2705,12 +3318,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users: ~0 rows (approximately)
+-- Dumping data for table test_cms.users: ~1 rows (approximately)
 INSERT INTO `users` (`idUser`, `usercode`, `username`, `email`, `password`, `usr_type`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`, `deleted_user`, `last_login`) VALUES
 	('d250f5d9858202c5f7e2238a4b50ef81291cd4b1462ced1a168e8cc4bb6eaf3e', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'Mk9Pa0p0elZsaElIVmZONTJjSHFadz09', 'UkpkcjhyT3psbXJBM25Nais0aU1oWjZQNVFJTVBmaFFmWStST2NUYVRMWT0=', 'dmdtTlFtZUdzSW1yMUIxckFEZnkyZz09', '', 1, 0, '127.0.0.1', '2023-10-25 05:17:17', '', 0, 0, 'Rmt2LzdEN3dEZy9qZ0Q5NkpaYUI5QT09', '2023-10-16 01:06:18', '2023-10-25 05:17:17', '2023-10-16 01:06:18', '2023-10-16 01:06:18');
 
--- Dumping structure for table app_users.users_actions
-DROP TABLE IF EXISTS `users_actions`;
+-- Dumping structure for table test_cms.users_actions
 CREATE TABLE IF NOT EXISTS `users_actions` (
   `usercode` char(128) NOT NULL,
   `action` char(20) NOT NULL,
@@ -2723,13 +3335,12 @@ CREATE TABLE IF NOT EXISTS `users_actions` (
   UNIQUE KEY `usercode` (`usercode`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_actions: ~2 rows (approximately)
+-- Dumping data for table test_cms.users_actions: ~2 rows (approximately)
 INSERT INTO `users_actions` (`usercode`, `action`, `validation`, `verification`, `approval`, `created`, `updated`) VALUES
 	('@m}d@Ou2a0gkqJ&aJ|3Sh$k%dmN3faXwds$s7O&$5Yxe1N}1Ak11tyxH87333993', '', '', NULL, NULL, '2023-10-31 07:06:44', '2023-10-31 07:06:44'),
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'approved', '', NULL, NULL, '2023-10-28 18:13:26', '2023-10-28 18:14:07');
 
--- Dumping structure for table app_users.users_active
-DROP TABLE IF EXISTS `users_active`;
+-- Dumping structure for table test_cms.users_active
 CREATE TABLE IF NOT EXISTS `users_active` (
   `usercode` char(128) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 0,
@@ -2739,12 +3350,11 @@ CREATE TABLE IF NOT EXISTS `users_active` (
   CONSTRAINT `FK_users_active` FOREIGN KEY (`usercode`) REFERENCES `users_actions` (`usercode`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_active: ~2 rows (approximately)
+-- Dumping data for table test_cms.users_active: ~1 rows (approximately)
 INSERT INTO `users_active` (`usercode`, `is_active`, `timestamp`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 1, '2023-10-28 18:11:26');
 
--- Dumping structure for table app_users.users_assigned_role
-DROP TABLE IF EXISTS `users_assigned_role`;
+-- Dumping structure for table test_cms.users_assigned_role
 CREATE TABLE IF NOT EXISTS `users_assigned_role` (
   `usercode` char(128) NOT NULL,
   `role_id` int(11) NOT NULL,
@@ -2755,12 +3365,11 @@ CREATE TABLE IF NOT EXISTS `users_assigned_role` (
   CONSTRAINT `FK_users_roles` FOREIGN KEY (`role_id`) REFERENCES `users_roles` (`idRol`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_assigned_role: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_assigned_role: ~1 rows (approximately)
 INSERT INTO `users_assigned_role` (`usercode`, `role_id`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 1);
 
--- Dumping structure for table app_users.users_banned
-DROP TABLE IF EXISTS `users_banned`;
+-- Dumping structure for table test_cms.users_banned
 CREATE TABLE IF NOT EXISTS `users_banned` (
   `usercode` char(128) NOT NULL,
   `username` char(128) NOT NULL DEFAULT '',
@@ -2771,10 +3380,9 @@ CREATE TABLE IF NOT EXISTS `users_banned` (
   UNIQUE KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_banned: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_banned: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_compare
-DROP TABLE IF EXISTS `users_compare`;
+-- Dumping structure for table test_cms.users_compare
 CREATE TABLE IF NOT EXISTS `users_compare` (
   `usercode` char(128) NOT NULL,
   `ratings` int(11) DEFAULT 0,
@@ -2787,10 +3395,9 @@ CREATE TABLE IF NOT EXISTS `users_compare` (
   KEY `usercode` (`usercode`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_compare: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_compare: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_contacts
-DROP TABLE IF EXISTS `users_contacts`;
+-- Dumping structure for table test_cms.users_contacts
 CREATE TABLE IF NOT EXISTS `users_contacts` (
   `iduc` int(20) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
@@ -2799,10 +3406,9 @@ CREATE TABLE IF NOT EXISTS `users_contacts` (
   PRIMARY KEY (`iduc`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_contacts: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_contacts: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_csp
-DROP TABLE IF EXISTS `users_csp`;
+-- Dumping structure for table test_cms.users_csp
 CREATE TABLE IF NOT EXISTS `users_csp` (
   `idUser` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -2831,10 +3437,9 @@ CREATE TABLE IF NOT EXISTS `users_csp` (
   CONSTRAINT `FK_cspusers_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_csp: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_csp: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_deleted
-DROP TABLE IF EXISTS `users_deleted`;
+-- Dumping structure for table test_cms.users_deleted
 CREATE TABLE IF NOT EXISTS `users_deleted` (
   `usercode` char(128) NOT NULL,
   `username` varchar(65) NOT NULL,
@@ -2847,10 +3452,9 @@ CREATE TABLE IF NOT EXISTS `users_deleted` (
   UNIQUE KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_deleted: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_deleted: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_followers
-DROP TABLE IF EXISTS `users_followers`;
+-- Dumping structure for table test_cms.users_followers
 CREATE TABLE IF NOT EXISTS `users_followers` (
   `iduf` int(20) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
@@ -2859,10 +3463,9 @@ CREATE TABLE IF NOT EXISTS `users_followers` (
   PRIMARY KEY (`iduf`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_followers: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_followers: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_forgot_pass
-DROP TABLE IF EXISTS `users_forgot_pass`;
+-- Dumping structure for table test_cms.users_forgot_pass
 CREATE TABLE IF NOT EXISTS `users_forgot_pass` (
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -2874,10 +3477,9 @@ CREATE TABLE IF NOT EXISTS `users_forgot_pass` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_forgot_pass: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_forgot_pass: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_forgot_pin
-DROP TABLE IF EXISTS `users_forgot_pin`;
+-- Dumping structure for table test_cms.users_forgot_pin
 CREATE TABLE IF NOT EXISTS `users_forgot_pin` (
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -2889,10 +3491,9 @@ CREATE TABLE IF NOT EXISTS `users_forgot_pin` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_forgot_pin: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_forgot_pin: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_groups
-DROP TABLE IF EXISTS `users_groups`;
+-- Dumping structure for table test_cms.users_groups
 CREATE TABLE IF NOT EXISTS `users_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(150) NOT NULL,
@@ -2902,10 +3503,9 @@ CREATE TABLE IF NOT EXISTS `users_groups` (
   UNIQUE KEY `group_level` (`group_level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_groups: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_groups: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_info
-DROP TABLE IF EXISTS `users_info`;
+-- Dumping structure for table test_cms.users_info
 CREATE TABLE IF NOT EXISTS `users_info` (
   `userid` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -2930,12 +3530,11 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   CONSTRAINT `FK_users_info_uverify` FOREIGN KEY (`userid`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_info: ~1 rows (approximately)
+-- Dumping data for table test_cms.users_info: ~1 rows (approximately)
 INSERT INTO `users_info` (`userid`, `usercode`, `firstname`, `lastname`, `gender`, `age`, `birthday`, `phone`, `country`, `state`, `city`, `address1`, `address2`, `is_active`, `created`, `updated`) VALUES
 	('d250f5d9858202c5f7e2238a4b50ef81291cd4b1462ced1a168e8cc4bb6eaf3e', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'Jose', 'Mantilla', 'Male', 48, '1975-06-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-10-21 04:32:17', '2023-10-22 08:10:40');
 
--- Dumping structure for table app_users.users_jail
-DROP TABLE IF EXISTS `users_jail`;
+-- Dumping structure for table test_cms.users_jail
 CREATE TABLE IF NOT EXISTS `users_jail` (
   `user_id` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -2948,10 +3547,9 @@ CREATE TABLE IF NOT EXISTS `users_jail` (
   CONSTRAINT `FK_user_jail` FOREIGN KEY (`user_id`) REFERENCES `users_csp` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_jail: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_jail: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_likes
-DROP TABLE IF EXISTS `users_likes`;
+-- Dumping structure for table test_cms.users_likes
 CREATE TABLE IF NOT EXISTS `users_likes` (
   `idul` int(20) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
@@ -2960,10 +3558,9 @@ CREATE TABLE IF NOT EXISTS `users_likes` (
   PRIMARY KEY (`idul`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_likes: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_likes: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_locations
-DROP TABLE IF EXISTS `users_locations`;
+-- Dumping structure for table test_cms.users_locations
 CREATE TABLE IF NOT EXISTS `users_locations` (
   `usercode` char(128) NOT NULL,
   `user_type` tinyint(2) NOT NULL DEFAULT 0,
@@ -2981,12 +3578,11 @@ CREATE TABLE IF NOT EXISTS `users_locations` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_locations: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_locations: ~1 rows (approximately)
 INSERT INTO `users_locations` (`usercode`, `user_type`, `name_location_1`, `address_1`, `name_location_2`, `address_2`, `name_location_3`, `address_3`, `name_location_4`, `address_4`, `name_location_5`, `address_5`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Dumping structure for table app_users.users_logs
-DROP TABLE IF EXISTS `users_logs`;
+-- Dumping structure for table test_cms.users_logs
 CREATE TABLE IF NOT EXISTS `users_logs` (
   `idlogs` int(11) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -2996,10 +3592,9 @@ CREATE TABLE IF NOT EXISTS `users_logs` (
   PRIMARY KEY (`idlogs`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_logs: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_logs: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_notes
-DROP TABLE IF EXISTS `users_notes`;
+-- Dumping structure for table test_cms.users_notes
 CREATE TABLE IF NOT EXISTS `users_notes` (
   `usercode` char(128) NOT NULL,
   `userprov` char(128) NOT NULL,
@@ -3010,10 +3605,9 @@ CREATE TABLE IF NOT EXISTS `users_notes` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_notes: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_notes: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_permissions
-DROP TABLE IF EXISTS `users_permissions`;
+-- Dumping structure for table test_cms.users_permissions
 CREATE TABLE IF NOT EXISTS `users_permissions` (
   `idPer` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -3025,7 +3619,7 @@ CREATE TABLE IF NOT EXISTS `users_permissions` (
   UNIQUE KEY `id_UNIQUE` (`idPer`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_permissions: ~15 rows (approximately)
+-- Dumping data for table test_cms.users_permissions: ~15 rows (approximately)
 INSERT INTO `users_permissions` (`idPer`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
 	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
@@ -3043,8 +3637,7 @@ INSERT INTO `users_permissions` (`idPer`, `name`, `description`, `category`, `re
 	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 
--- Dumping structure for table app_users.users_plans
-DROP TABLE IF EXISTS `users_plans`;
+-- Dumping structure for table test_cms.users_plans
 CREATE TABLE IF NOT EXISTS `users_plans` (
   `usercode` char(128) NOT NULL,
   `verification` tinyint(1) DEFAULT 0,
@@ -3058,12 +3651,11 @@ CREATE TABLE IF NOT EXISTS `users_plans` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_plans: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_plans: ~1 rows (approximately)
 INSERT INTO `users_plans` (`usercode`, `verification`, `upgrades`, `type_plan`, `days_plan`, `required`, `created`, `updated`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 0, 0, '99', 90, 0, '2023-10-21 04:33:52', '2023-12-16 07:42:43');
 
--- Dumping structure for table app_users.users_privacy
-DROP TABLE IF EXISTS `users_privacy`;
+-- Dumping structure for table test_cms.users_privacy
 CREATE TABLE IF NOT EXISTS `users_privacy` (
   `idPri` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -3083,12 +3675,11 @@ CREATE TABLE IF NOT EXISTS `users_privacy` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_privacy: ~2 rows (approximately)
+-- Dumping data for table test_cms.users_privacy: ~1 rows (approximately)
 INSERT INTO `users_privacy` (`idPri`, `usercode`, `verification`, `nationality`, `type_document`, `number_document`, `name_company`, `ruc_number`, `logo_image`, `required`, `created`, `updated`) VALUES
 	('4fde7c58bf1e186c628c502d717fdbee6cdd831215ead6f2936570b64360ce51', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', '', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2023-10-28 23:56:39', '2023-10-30 00:20:50');
 
--- Dumping structure for table app_users.users_profiles
-DROP TABLE IF EXISTS `users_profiles`;
+-- Dumping structure for table test_cms.users_profiles
 CREATE TABLE IF NOT EXISTS `users_profiles` (
   `idp` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -3117,12 +3708,11 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_profiles: ~1 rows (approximately)
+-- Dumping data for table test_cms.users_profiles: ~1 rows (approximately)
 INSERT INTO `users_profiles` (`idp`, `usercode`, `usrtypes`, `mkhash`, `avatar`, `profile_image`, `profile_cover`, `public_phone`, `public_email`, `social_media`, `profession`, `occupation`, `profile_bio`, `language`, `is_active`, `banned`, `created`, `updated`) VALUES
 	('d250f5d9858202c5f7e2238a4b50ef81291cd4b1462ced1a168e8cc4bb6eaf3e', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', '', '6d7553376d4e4c73526f5539794d337a4175424e306e4f4a684437634c574337', NULL, 'bolso.jpg', NULL, '999063645', 'contact@pepiuox.net', NULL, NULL, NULL, NULL, NULL, 1, 0, '2023-09-15 14:52:01', '2023-12-14 16:08:07');
 
--- Dumping structure for table app_users.users_rating
-DROP TABLE IF EXISTS `users_rating`;
+-- Dumping structure for table test_cms.users_rating
 CREATE TABLE IF NOT EXISTS `users_rating` (
   `usercode` char(128) NOT NULL,
   `rating` int(13) NOT NULL DEFAULT 0,
@@ -3135,10 +3725,9 @@ CREATE TABLE IF NOT EXISTS `users_rating` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_rating: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_rating: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_roles
-DROP TABLE IF EXISTS `users_roles`;
+-- Dumping structure for table test_cms.users_roles
 CREATE TABLE IF NOT EXISTS `users_roles` (
   `idRol` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -3150,7 +3739,7 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_roles: ~5 rows (approximately)
+-- Dumping data for table test_cms.users_roles: ~5 rows (approximately)
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Super Admin', 'Master administrator of site', 1, 9),
 	(2, 'Admin', 'Site administrator', 1, 5),
@@ -3158,8 +3747,7 @@ INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_
 	(4, 'Stantard User', 'Default site role for standard users', 1, 1),
 	(5, 'Guest', 'Guest visit', 0, 0);
 
--- Dumping structure for table app_users.users_role_permissions
-DROP TABLE IF EXISTS `users_role_permissions`;
+-- Dumping structure for table test_cms.users_role_permissions
 CREATE TABLE IF NOT EXISTS `users_role_permissions` (
   `idRp` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
@@ -3171,7 +3759,7 @@ CREATE TABLE IF NOT EXISTS `users_role_permissions` (
   CONSTRAINT `FK_usr_role` FOREIGN KEY (`role_id`) REFERENCES `users_roles` (`idRol`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_role_permissions: ~25 rows (approximately)
+-- Dumping data for table test_cms.users_role_permissions: ~27 rows (approximately)
 INSERT INTO `users_role_permissions` (`idRp`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -3201,8 +3789,7 @@ INSERT INTO `users_role_permissions` (`idRp`, `role_id`, `permission_id`) VALUES
 	(27, 3, 13),
 	(28, 3, 14);
 
--- Dumping structure for table app_users.users_searches
-DROP TABLE IF EXISTS `users_searches`;
+-- Dumping structure for table test_cms.users_searches
 CREATE TABLE IF NOT EXISTS `users_searches` (
   `usercode` char(128) NOT NULL,
   `searches` varchar(500) DEFAULT NULL,
@@ -3212,12 +3799,11 @@ CREATE TABLE IF NOT EXISTS `users_searches` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_searches: ~2 rows (approximately)
+-- Dumping data for table test_cms.users_searches: ~1 rows (approximately)
 INSERT INTO `users_searches` (`usercode`, `searches`, `created`, `updated`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', NULL, '2023-10-30 19:16:47', '2023-10-30 20:48:39');
 
--- Dumping structure for table app_users.users_secures
-DROP TABLE IF EXISTS `users_secures`;
+-- Dumping structure for table test_cms.users_secures
 CREATE TABLE IF NOT EXISTS `users_secures` (
   `idsec` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -3246,12 +3832,11 @@ CREATE TABLE IF NOT EXISTS `users_secures` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_secures: ~1 rows (approximately)
+-- Dumping data for table test_cms.users_secures: ~1 rows (approximately)
 INSERT INTO `users_secures` (`idsec`, `usercode`, `type_user`, `type_plan`, `type_document`, `id_document`, `name_company`, `ruc_number`, `business_sector`, `phone`, `mobile_phone`, `address`, `location`, `folder_files`, `validation`, `activation_code`, `is_active`, `required`, `created`, `updated`) VALUES
 	('a16a3f84b0cfb3f81de666bddfd4b2b93a293ce00237e0c812e35ef74bc5b35a', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '53c0f631af6b773c517', NULL, NULL, 0, 0, '2023-10-30 01:24:24', '2023-11-13 08:27:48');
 
--- Dumping structure for table app_users.users_settings
-DROP TABLE IF EXISTS `users_settings`;
+-- Dumping structure for table test_cms.users_settings
 CREATE TABLE IF NOT EXISTS `users_settings` (
   `idUsr` int(11) NOT NULL,
   `usercode` char(128) DEFAULT NULL,
@@ -3265,10 +3850,9 @@ CREATE TABLE IF NOT EXISTS `users_settings` (
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_settings: ~0 rows (approximately)
 
--- Dumping structure for table app_users.users_social_media
-DROP TABLE IF EXISTS `users_social_media`;
+-- Dumping structure for table test_cms.users_social_media
 CREATE TABLE IF NOT EXISTS `users_social_media` (
   `usercode` char(128) NOT NULL,
   `website` char(150) DEFAULT NULL,
@@ -3285,24 +3869,22 @@ CREATE TABLE IF NOT EXISTS `users_social_media` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_social_media: ~1 rows (approximately)
+-- Dumping data for table test_cms.users_social_media: ~1 rows (approximately)
 INSERT INTO `users_social_media` (`usercode`, `website`, `whatsapp`, `instagram`, `facebook`, `telegram`, `youtube`, `twitter`, `tiktok`, `tumblr`, `linkedin`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'esrapi.com', NULL, 'pepiuox', 'pepiuox', NULL, 'pepiuox', NULL, NULL, NULL, NULL);
 
--- Dumping structure for table app_users.users_to_group
-DROP TABLE IF EXISTS `users_to_group`;
+-- Dumping structure for table test_cms.users_to_group
 CREATE TABLE IF NOT EXISTS `users_to_group` (
   `user_admin_id` int(11) NOT NULL,
   `user_groups_id` int(11) NOT NULL,
   PRIMARY KEY (`user_admin_id`,`user_groups_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_to_group: 0 rows
+-- Dumping data for table test_cms.users_to_group: 0 rows
 /*!40000 ALTER TABLE `users_to_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_to_group` ENABLE KEYS */;
 
--- Dumping structure for table app_users.users_types
-DROP TABLE IF EXISTS `users_types`;
+-- Dumping structure for table test_cms.users_types
 CREATE TABLE IF NOT EXISTS `users_types` (
   `usercode` char(128) DEFAULT NULL,
   `user_type` char(128) DEFAULT NULL,
@@ -3311,12 +3893,11 @@ CREATE TABLE IF NOT EXISTS `users_types` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table app_users.users_types: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_types: ~1 rows (approximately)
 INSERT INTO `users_types` (`usercode`, `user_type`, `val_user`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'Members', 1);
 
--- Dumping structure for table app_users.users_verifications
-DROP TABLE IF EXISTS `users_verifications`;
+-- Dumping structure for table test_cms.users_verifications
 CREATE TABLE IF NOT EXISTS `users_verifications` (
   `usercode` char(128) NOT NULL,
   `verification` char(128) DEFAULT NULL,
@@ -3330,12 +3911,11 @@ CREATE TABLE IF NOT EXISTS `users_verifications` (
   CONSTRAINT `FK_users_verification` FOREIGN KEY (`usercode`) REFERENCES `users_actions` (`usercode`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.users_verifications: ~2 rows (approximately)
+-- Dumping data for table test_cms.users_verifications: ~1 rows (approximately)
 INSERT INTO `users_verifications` (`usercode`, `verification`, `is_verify`, `portraid_date`, `image_document_front`, `image_document_back`, `payment_document`) VALUES
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Dumping structure for table app_users.uverify
-DROP TABLE IF EXISTS `uverify`;
+-- Dumping structure for table test_cms.uverify
 CREATE TABLE IF NOT EXISTS `uverify` (
   `iduv` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
@@ -3365,12 +3945,11 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   UNIQUE KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.uverify: ~1 rows (approximately)
+-- Dumping data for table test_cms.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `usercode`, `username`, `email`, `password`, `usr_type`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `level_key`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
 	('d250f5d9858202c5f7e2238a4b50ef81291cd4b1462ced1a168e8cc4bb6eaf3e', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'ZG5veHVBWHBBMDdPZ1FQL1dwbnB0dz09', 'TEFXbnp6cFJ0Q2FHWGE1UkRwa1RLL1hERTJBcUl1YlozWnRmcmhlUnd2dz0=', 'dmdtTlFtZUdzSW1yMUIxckFEZnkyZz09', '', 'edd6586cc7f6198a1cc256201db73094f7799d9f', '809c1145c76d1d767b8dab46ce713c95e9e43b84', '6d7553376d4e4c73526f5539794d337a4175424e306e4f4a684437634c574337', 'Rmt2LzdEN3dEZy9qZ0Q5NkpaYUI5QT09', 'Super Admin', 'YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=', 'STREbHRNSzlSL3E1T1pWNjlZYlUwTXI3dGFYbVJ5VG1zK1N0QnFkRUNTVT0=', '', NULL, NULL, 1, 1, 1, 0, '2023-12-14 16:08:07');
 
--- Dumping structure for table app_users.view_log
-DROP TABLE IF EXISTS `view_log`;
+-- Dumping structure for table test_cms.view_log
 CREATE TABLE IF NOT EXISTS `view_log` (
   `idVl` int(11) NOT NULL,
   `usercode` char(128) DEFAULT NULL,
@@ -3381,17 +3960,16 @@ CREATE TABLE IF NOT EXISTS `view_log` (
   `like` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.view_log: ~0 rows (approximately)
+-- Dumping data for table test_cms.view_log: ~0 rows (approximately)
 
--- Dumping structure for table app_users.visitor
-DROP TABLE IF EXISTS `visitor`;
+-- Dumping structure for table test_cms.visitor
 CREATE TABLE IF NOT EXISTS `visitor` (
   `ip` varchar(20) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table app_users.visitor: ~6 rows (approximately)
+-- Dumping data for table test_cms.visitor: ~6 rows (approximately)
 INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2023-10-01 01:51:11', '2023-10-04 06:34:03'),
 	('127.0.0.1', '2023-10-03 06:39:20', '2023-10-04 06:34:03'),
@@ -3399,6 +3977,26 @@ INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2023-10-11 17:21:05', '2023-10-12 08:27:23'),
 	('127.0.0.1', '2023-10-13 05:18:04', '2023-10-15 03:37:46'),
 	('127.0.0.1', '2023-10-16 01:05:28', '2023-10-18 07:19:00');
+
+-- Dumping structure for table test_cms.visitor_productos
+CREATE TABLE IF NOT EXISTS `visitor_productos` (
+  `visitsprId` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` char(20) DEFAULT NULL,
+  `producto_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`visitsprId`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table test_cms.visitor_productos: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.visitor_servicios
+CREATE TABLE IF NOT EXISTS `visitor_servicios` (
+  `visitsprId` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` char(20) DEFAULT NULL,
+  `servicio_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`visitsprId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Dumping data for table test_cms.visitor_servicios: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
