@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <?php
 /*
-Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
 */
 ?>
 <html lang="en">
@@ -16,7 +16,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<h1 class="samples">
 		CKEditor &mdash; Posted Data
 	</h1>
-	<table border="1" id="outputSample">
+	<table border="1" cellspacing="0" id="outputSample">
 		<colgroup><col width="120"></colgroup>
 		<thead>
 			<tr>
@@ -53,7 +53,7 @@ if (!empty($_POST))
 			CKEditor - The text editor for the Internet - <a class="samples" href="https://ckeditor.com/">https://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2020, <a class="samples" href="https://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+			Copyright &copy; 2003-2023, <a class="samples" href="https://cksource.com/">CKSource</a> Holding sp. z o.o. All rights reserved.
 		</p>
 	</div>
 </body>
