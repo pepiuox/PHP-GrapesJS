@@ -24,7 +24,7 @@ class Routers
                 ? "https://"
                 : "http://";
         $this->host = $this->protocol . $_SERVER["HTTP_HOST"] . "/";
-        $this->pg404 = $this->host . "404.php";
+        $this->pg404 = $this->host . "error/404";
         $this->url =
             $this->protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
         $this->escaped_url = htmlspecialchars($this->url, ENT_QUOTES, "UTF-8");

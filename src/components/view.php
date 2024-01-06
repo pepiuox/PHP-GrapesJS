@@ -81,8 +81,7 @@ require_once "elements/top.php";
 
             if($request === $purl){
                 require_once $pfile.".php";
-            }
-               
+            }      
         }
         ?>
     </div>
