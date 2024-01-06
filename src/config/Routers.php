@@ -8,6 +8,7 @@ class Routers
     public $protocol;
     public $escaped_url;
     public $url_path;
+    public $startpage = 1;
     public $active = 1;
     public $parent = 0;
     public $pg404;
@@ -17,10 +18,11 @@ class Routers
         global $conn;
         $this->conn = $conn;
 
-        $this->protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
-        $_SERVER["SERVER_PORT"] == 443
-            ? "https://"
-            : "http://";
+        $this->protocol =
+            (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
+            $_SERVER["SERVER_PORT"] == 443
+                ? "https://"
+                : "http://";
         $this->host = $this->protocol . $_SERVER["HTTP_HOST"] . "/";
         $this->pg404 = $this->host . "404.php";
         $this->url =
@@ -30,10 +32,43 @@ class Routers
         $this->basename = pathinfo($this->url_path, PATHINFO_BASENAME);
     }
 
+    public function InitPage()
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM page WHERE startpage = ? AND active = ? "
+        );
+        $stmt->bind_param("ii", $this->startpage, $this->active);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $stmt->close();
+
+        if ($rs->num_rows == 1) {
+            return $rs->fetch_assoc();
+        }
+    }
+
+    public function PageDataWeb($basename)
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM page WHERE link = ? AND active = ? "
+        );
+        $stmt->bind_param("si", $basename, $this->active);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $stmt->close();
+        $nm = $rs->num_rows;
+
+        if ($nm === 1) {
+            return $rs->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
     public function Pages($plink)
     {
         $pg = $this->conn->prepare(
-            "SELECT link, startpage, parent, type, path_file, active FROM page WHERE link = ? AND active = ? "
+            "SELECT system_path, link, startpage, type, path_file, parent, active FROM page WHERE link = ? AND active = ? "
         );
         $pg->bind_param("si", $plink, $this->active);
         $pg->execute();
@@ -41,19 +76,21 @@ class Routers
         $pg->close();
         if ($rs->num_rows == 1) {
             $row = $rs->fetch_assoc();
-            if($row["startpage"] === 1){
-                       return $this->host; 
-                    }
-            if($row["type"] === 'Design'){
-                if ($row["parent"] > 0) {
-                    $link = $this->GetParent($row["parent"]);
-                    return $this->host . $link . "/" . $row["link"];
-                } else {
-                   return $this->host . $row["link"];
-                }
+            if ($row["startpage"] === 1) {
+                return $this->host;
+            }
+            if ($row["parent"] > 0) {
+                $link = $this->GetParent($row["parent"]);
+                return $this->host . $link . "/" . $row["link"];
             } else {
-                  return $this->host . $row["path_file"];  
-            }       
+                if (empty($row["system_path"])) {
+                    return $this->host . $row["link"];
+                } else {
+                    return $this->host . $row["system_path"] . $row["link"];
+                }
+            }
+        } else {
+            return $this->pg404;
         }
     }
 
@@ -105,5 +142,4 @@ class Routers
         $row = $rp->fetch_assoc();
         return $row["link"];
     }
-
 }
