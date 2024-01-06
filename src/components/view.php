@@ -6,7 +6,7 @@
 //  Email      : contact@pepiuox.net
 //
 
-require_once "../src/config/loader.php";
+require_once $source."/src/config/loader.php";
 
 $pages = new Routers();
 $visitor = new GetVisitor();

@@ -26,10 +26,7 @@
         # RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
         RewriteRule ^ index.php [QSA,L]
 	# RewriteRule . index.php [L]
-        Redirect 301 "/home" "/"
-	Redirect 301 "/inicio" "/"
-        Redirect 301 "/system" "/admin"
-        Redirect 301 "/login" "/signin"
+
 </IfModule>
 <IfModule mod_headers.c>
         # Make sure proxies don't deliver the wrong content

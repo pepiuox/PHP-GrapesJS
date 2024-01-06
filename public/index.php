@@ -11,5 +11,8 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION)) {
     session_start();
 }
-require_once '../src/components/view.php';
+$path_app = dirname(__DIR__);
+$source = str_replace('\\', '/', $path_app);
+
+require_once $source.'/src/components/view.php';
 ?>
