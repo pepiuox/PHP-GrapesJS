@@ -2,10 +2,10 @@
     RewriteEngine On
     RewriteBase /
 
-    RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+    RewriteCond %{THE_REQUEST} /build/([^\s?]*) [NC]
     RewriteRule ^ %1 [L,NE,R=302]
-    RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
-    #RewriteRule ^(.*)$ public/index.php?$1 [L,QSA]
+    RewriteRule ^((?!build/).*)$ build/$1 [L,NC]
+    #RewriteRule ^(.*)$ build/index.php?$1 [L,QSA]
 
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteCond %{REQUEST_URI} !/$
