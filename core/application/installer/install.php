@@ -6,8 +6,12 @@
  * @author PePiuoX
  */
 session_start();
-
+$website = 'http://' . $_SERVER["HTTP_HOST"] . "/";
 $folder = basename(dirname(__DIR__));
+
+$path_app = dirname(__DIR__, 3);
+$source = str_replace('\\', '/', $path_app);
+
 $laststep = 'finalstep.php';
 if (file_exists($laststep)) {
     unlink($laststep);
@@ -23,9 +27,9 @@ if (isset($_SESSION['PathInstall'])) {
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
 
-$file = '../config/dbconnection.php';
-$serverfile = '../config/server.php';
-$definefiles = '../config/define.php';
+$file = $source.'/core/config/dbconnection.php';
+$serverfile = $source.'/core/config/server.php';
+$definefiles = $source.'/core/config/define.php';
 if (isset($_SESSION['DBConnected']) && !empty($_SESSION['DBConnected'])) {
         if ($_SESSION['DBConnected'] === 'Connected') {
             $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
@@ -164,7 +168,7 @@ if (!file_exists($file)) {
 
     extract($_POST);
     if (isset($_POST['Update'])) {
-        $definefiles = '../config/define.php';
+        $definefiles = $source.'/core/config/define.php';
         if (file_exists($definefiles)) {
             unlink($definefiles);
         }
@@ -370,10 +374,10 @@ session_destroy();
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>PHP GrapesJS</title>
 
-            <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-            <link href="../assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
-            <link href="../assets/plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
-            <script src="../assets/plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
+            <link href="<? echo $website;?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+            <link href="<? echo $website;?>assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+            <link href="<? echo $website;?>assets/plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
+            <script src="<? echo $website;?>assets/plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
         </head>
         <body>
             <?php include '../elements/alerts.php'; ?>
@@ -634,9 +638,9 @@ session_destroy();
                 </div>
             </div>
 
-            <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-            <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="../assets/js/popper.min.js" type="text/javascript"></script>   
+            <script src="<? echo $website;?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="<? echo $website;?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<? echo $website;?>assets/js/popper.min.js" type="text/javascript"></script>   
 
         </body>
     </html>
@@ -650,8 +654,8 @@ session_destroy();
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>PHP GrapesJS</title>
 
-            <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-            <link href="../assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+            <link href="<? echo $website;?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+            <link href="<? echo $website;?>assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         </head>
         <body class="bg-dark">
             <div class="container py-4">
@@ -661,15 +665,15 @@ session_destroy();
                         <div class="card-body text-center">
                             <h3>PHP GrapesJS is already installed</h3>
                             <p>
-                                <a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/signin/login.php'; ?>" target="_self" class="btn btn-info">Go to homepage</a> 
+                                <a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/signin/login'; ?>" target="_self" class="btn btn-info">Go to homepage</a> 
                             </p>                           
                         </div>
                     </div>
                 </div>
             </div>
-            <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-            <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-            <script src="../assets/js/popper.min.js" type="text/javascript"></script>   
+            <script src="<? echo $website;?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="<? echo $website;?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="<? echo $website;?>assets/js/popper.min.js" type="text/javascript"></script>   
         </body>
     </html>
     <?php
