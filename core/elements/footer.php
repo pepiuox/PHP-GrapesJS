@@ -1,4 +1,8 @@
-
+<div class="container-fluid bg-primary">
+    <div class="row">
+        <div class="col-md-12 text-center p-4"><?php echo '© '. date("Y").' Copyright: '. SITE_NAME .' - Develop by PePiuoX'; ?></div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $("a").find('.active').each(function () {

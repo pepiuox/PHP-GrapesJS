@@ -92,9 +92,10 @@ if($title ==='Dashboard'){
                 require_once $pfile.".php";
             }      
         }
-        ?>
+        
+        require_once "elements/footer.php"; ?>
     </div>
-    <?php require_once "elements/footer.php"; ?>
+    
 </body>
 </html>
 
