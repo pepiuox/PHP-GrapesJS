@@ -301,7 +301,7 @@ $lastcontent = '';
 $lastcontent .= '<?php' . "\n";
             $lastcontent .= 'session_start();' . "\n";
             $lastcontent .= "
-            \$alertpg ='../index.php';". "\n";
+            \$alertpg = '../signin/login.php';". "\n";
             $lastcontent .= "
         function randHash(\$len = 32) {
             return substr(md5(openssl_random_pseudo_bytes(20)), -\$len);
