@@ -8,10 +8,8 @@
     #RewriteRule ^(.*)$ build/index.php?$1 [L,QSA]
 
     RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteCond %{REQUEST_FILENAME}.php -d
     RewriteCond %{REQUEST_URI} !/$
     RewriteRule ^(.*)$ $1.php [L]
-    Redirect 301 "/home" "/"
-	Redirect 301 "/inicio" "/"
-        Redirect 301 "/system" "/admin"
-        Redirect 301 "/login" "/signin"
+    
 </IfModule>

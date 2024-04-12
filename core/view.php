@@ -35,6 +35,7 @@ if ($initweb === $url) {
 }
 
 $bid = $rpx["id"];
+$syspath = $rpx['system_path'];
 $title = $rpx["title"];
 $plink = $rpx["link"];
 $purl = $rpx["url"];
@@ -57,7 +58,7 @@ require_once "elements/top.php";
 
 </head>
 <?php 
-if($title ==='Dashboard'){
+if($syspath ==='admin/'){
     ?>
 <body class="hold-transition sidebar-mini layout-fixed">
     <?php

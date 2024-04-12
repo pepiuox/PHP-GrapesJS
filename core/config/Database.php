@@ -1,5 +1,13 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+//  Description of Database class
+//  Database.php file
+//
 class Database {
 
     private $config;
@@ -23,7 +31,7 @@ class Database {
     private $dsn;
 
     public function __construct() {
-        $settings ='';
+        $settings = '';
         require_once 'server.php';
         $this->config = $settings;
         $this->socket = "";

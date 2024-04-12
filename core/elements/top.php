@@ -39,26 +39,28 @@ $theme = $conn->prepare(
         $theme->execute();
         $tm = $theme->get_result();
         $theme->close();
-		$nt = $tm->num_rows;
+	$nt = $tm->num_rows;
 
         if ($nt > 0) {
-            $thm = $tm->fetch_assoc();
-			
+            $thm = $tm->fetch_assoc();			
 			?>
-		<link href="<?php echo SITE_PATH; ?>src/themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
+		<link href="<?php echo SITE_PATH; ?>themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
 		<?php
-		}else{
+	}else{
 			?>
 		<link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<?php
-		}
-?>
+	}
+        
+        ?>
+                
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/adminlte/css/adminlte.min.css">
+                
         <!-- Font Awesome -->
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome-free/css/all.min.css">
         <!-- botstrap, jquery, pooper -->
-        <script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>        
-		<script src="<?php echo SITE_PATH; ?>assets/plugins/popper/popper.min.js" type="text/javascript"></script>
+        <script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>        
+	
         <script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
 
         <link rel="stylesheet" type="text/css" href="<?php echo SITE_PATH; ?>assets/css/menu.css" />

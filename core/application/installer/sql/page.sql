@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               10.4.32-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.6.0.6783
+-- HeidiSQL Version:             12.6.0.6821
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -120,7 +120,7 @@ DROP TABLE IF EXISTS `announcement`;
 CREATE TABLE IF NOT EXISTS `announcement` (
   `announcement_id` int(11) unsigned NOT NULL,
   `is_active` enum('N','Y') NOT NULL DEFAULT 'N',
-  `topic` varchar(50) NOT NULL,
+  `topic` int(11) NOT NULL,
   `message` mediumtext NOT NULL,
   `date_lastupdate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `auto_publish` enum('Y','N') DEFAULT 'N',
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `counter` (
 
 -- Dumping data for table test_cms.counter: ~0 rows (approximately)
 INSERT INTO `counter` (`counter`) VALUES
-	(28);
+	(33);
 
 -- Dumping structure for table test_cms.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
@@ -2119,15 +2119,28 @@ INSERT INTO `districts` (`idDist`, `name`, `region_id`, `province_id`, `created`
 DROP TABLE IF EXISTS `eventlog`;
 CREATE TABLE IF NOT EXISTS `eventlog` (
   `id` bigint(20) unsigned NOT NULL,
-  `event` varchar(200) NOT NULL,
+  `event` int(11) NOT NULL,
   `eventRowIdOrRef` varchar(20) DEFAULT NULL,
   `eventDesc` text DEFAULT NULL,
   `eventTable` varchar(20) DEFAULT NULL,
   `staffInCharge` bigint(20) unsigned NOT NULL,
-  `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dumping data for table test_cms.eventlog: ~0 rows (approximately)
+
+-- Dumping structure for table test_cms.events
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE IF NOT EXISTS `events` (
+  `eventId` int(11) NOT NULL AUTO_INCREMENT,
+  `event_name` char(200) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  PRIMARY KEY (`eventId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.events: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.faq
 DROP TABLE IF EXISTS `faq`;
@@ -2185,15 +2198,16 @@ CREATE TABLE IF NOT EXISTS `forgot_pin` (
 -- Dumping structure for table test_cms.help
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE IF NOT EXISTS `help` (
-  `Help_ID` int(11) NOT NULL,
-  `Language` char(2) NOT NULL,
-  `Topic` varchar(255) NOT NULL,
-  `Description` longtext NOT NULL,
-  `Category` int(11) NOT NULL,
-  `Order` int(11) NOT NULL,
-  `Display_in_Page` varchar(100) NOT NULL,
-  `Updated_By` varchar(20) DEFAULT NULL,
-  `Last_Updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `helpId` int(11) NOT NULL AUTO_INCREMENT,
+  `language` char(2) NOT NULL,
+  `topic` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `category` int(11) NOT NULL,
+  `order` int(11) NOT NULL,
+  `display_in_page` varchar(100) NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  `last_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`helpId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dumping data for table test_cms.help: ~0 rows (approximately)
@@ -2227,7 +2241,7 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test_cms.ip: ~0 rows (approximately)
+-- Dumping data for table test_cms.ip: ~1 rows (approximately)
 INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
 	('577272556846484d32316438507671736b777a6f7042467a616c44346d624150', 'contact@pepiuox.net', '127.0.0.1', '2023-11-13 18:31:59');
 
@@ -2406,7 +2420,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test_cms.page: ~12 rows (approximately)
+-- Dumping data for table test_cms.page: ~13 rows (approximately)
 INSERT INTO `page` (`id`, `language`, `position`, `system_path`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `created`, `updated`) VALUES
 	(1, 1, 0, '', 'Inicio', 'inicio', NULL, 'Inicio', 'Inicio', 'Inicio', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;iafuo&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iaq6l&amp;quot; class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i0lkk&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;Encuentra un servicio o proveedor&amp;lt;br id=&amp;quot;ia8y&amp;quot; draggable=&amp;quot;true&amp;quot;/&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;in7xp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Publica tus servicios y productos o haz saber que necesitas y encuentralo de forma segura y confiable.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;a id=&amp;quot;iza5ur&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Promociones&amp;lt;/a&amp;gt; &amp;lt;a id=&amp;quot;i410ic&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Ofertas&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;&amp;lt;span lang=&amp;quot;es&amp;quot; class=&amp;quot;HwtZe&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;jCAhz ChMk0b&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;ryNqvb&amp;quot;&amp;gt;Nuestras caracter&amp;iacute;sticas clave&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Se parte de nuestro directorio para contactar con tu clientes de una forma segura y rapida.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;&amp;lt;span lang=&amp;quot;es&amp;quot; class=&amp;quot;HwtZe&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;jCAhz ChMk0b&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;ryNqvb&amp;quot;&amp;gt;Marketing directo&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;Nuestro sistema te conecta a clientes con proveedores de servicios o productos sin problemas&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Un equipo dedicado&amp;lt;br/&amp;gt;&amp;lt;/h3&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;Mejoramos dia a dia para hacer que tu negocio crezca sin problemas de medios inseguros.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;div id=&amp;quot;iftvoc&amp;quot; class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;text-center mx-auto col-md-12&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i5lggf&amp;quot; class=&amp;quot;text-light&amp;quot;&amp;gt;Estas buscanto o tienes algo que ofrecer.&amp;lt;br/&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ilz7np&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;i6wfch&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Cliente&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;icngp3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Si estas en la busca de servicios y proveedores registrate y encuentra cerca de ti aquello que necesitas.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;ijp64p&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;iucglj&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;icmjyn&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;izyn5o&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iif0kn&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Servicios&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;ii6sq6&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Si tienes servicios puedes ofrecerlos, tus clientes pueden estar mas cerca de lo que imaginas. &amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;inry5q&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;izcdm1&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;imry6b&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ia0ddl&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;ib6b2m&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Proveedor&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iuyalh&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Aun no encuentras la forma se ofrecer tus productos, crear una cuenta y conectarte con tus clientes.&amp;nbsp; &amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;i4ou4n&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;ia6uyd&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;ikhlrp&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-3&amp;quot; id=&amp;quot;i42ibr&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;Main&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;ul class=&amp;quot;list-unstyled&amp;quot;&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Home&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Features&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Pricing&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;Others&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;ul class=&amp;quot;list-unstyled&amp;quot;&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;FAQ&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Resources&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Career&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-md-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;About&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;i9zak&amp;quot; class=&amp;quot;col-lg-3 col-md-6 p-3&amp;quot;&amp;gt;&amp;lt;h5 id=&amp;quot;iqnc4w&amp;quot;&amp;gt; &amp;lt;b&amp;gt;Follow us&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;div id=&amp;quot;i5eutl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7dwoe&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-md-12 d-flex align-items-center justify-content-between my-2&amp;quot;&amp;gt;&amp;lt;a id=&amp;quot;i2ebba&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i8vi7l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-facebook text-muted fa-lg mr-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;isazig&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i5isjc&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-instagram text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;il0pof&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i5gomi&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-google-plus text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;iskvap&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;im7i8k&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-pinterest text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;ih7mz6&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;ir653x&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-reddit text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;iribyw&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;icsmts&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-twitter text-muted fa-lg ml-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-0 mt-2&amp;quot;&amp;gt;&amp;copy; 2021 PHP GrapesJS. All rights reserved&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#iafuo{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:160/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iftvoc{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:160/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:100%, 100%;background-repeat:repeat, repeat;}#iaq6l{color:white;}', 1, 1, 0, 0, 1, '2023-09-30 23:39:21', '2024-01-06 07:24:57'),
 	(2, 1, 0, '', 'Servicios', 'servicios', NULL, 'Servicios', 'Servicios', 'Servicios', NULL, 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i6kb&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.\n                        I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-3 order-3 order-md-1&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-1.svg&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-6 col-8 d-flex flex-column justify-content-center p-3 order-1 order-md-2&amp;quot;&amp;gt;&amp;lt;h3&amp;gt;Mere tranquil existence&amp;lt;/h3&amp;gt;&amp;lt;p&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-2 col-4 d-flex flex-column align-items-center justify-content-center order-2 order-md-2 p-3&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary mb-3&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mb-3&amp;quot;&amp;gt;Main action&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Link&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i6kb{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2024-01-06 07:24:59'),
@@ -2414,12 +2428,15 @@ INSERT INTO `page` (`id`, `language`, `position`, `system_path`, `title`, `link`
 	(4, 1, 0, '', 'Proveedores', 'proveedores', NULL, 'Proveedores', 'Proveedores', 'Proveedores', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2024-01-06 07:25:03'),
 	(5, 1, 0, '', 'Ofertas', 'ofertas', NULL, 'Ofertas', 'Ofertas', 'Ofertas', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;icwnu&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot; id=&amp;quot;i6nf&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;ixee&amp;quot; data-gjs-type=&amp;quot;text&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;You wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;ip5a&amp;quot; data-gjs-type=&amp;quot;text&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt; &amp;lt;a id=&amp;quot;izpcf&amp;quot; data-gjs-type=&amp;quot;link&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a id=&amp;quot;ijufi&amp;quot; data-gjs-type=&amp;quot;link&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;i46e&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-3&amp;quot;&amp;gt;&amp;quot;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.&amp;quot;&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Act now!&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iycj1&amp;quot; class=&amp;quot;py-5 text-center&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i2m2s&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;bg-white p-4 col-10 mx-auto mx-md-0 col-lg-6&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;ipgac&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;I am so happy\n  &amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;itc5r&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone.\n  &amp;lt;/p&amp;gt;&amp;lt;form method=&amp;quot;get&amp;quot; id=&amp;quot;ihzng&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;form-inline d-flex justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;idi6t&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group&amp;quot;&amp;gt;&amp;lt;input type=&amp;quot;text&amp;quot; name=&amp;quot;name&amp;quot; id=&amp;quot;name&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your name&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;input type=&amp;quot;email&amp;quot; id=&amp;quot;form6&amp;quot; draggable=&amp;quot;true&amp;quot; placeholder=&amp;quot;Your email&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;form-control&amp;quot;/&amp;gt;&amp;lt;div id=&amp;quot;iot1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;input-group-append&amp;quot;&amp;gt;&amp;lt;button type=&amp;quot;button&amp;quot; id=&amp;quot;inbmo&amp;quot; draggable=&amp;quot;true&amp;quot; autocomplete=&amp;quot;off&amp;quot; class=&amp;quot;btn btn-primary&amp;quot;&amp;gt;Subscribe&amp;lt;/button&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/form&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;ikc1t&amp;quot; class=&amp;quot;py-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 col-6 p-3&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-circle-o fa-5x text-primary&amp;quot;&amp;gt;&amp;lt;/i&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-4 col-6 p-3&amp;quot;&amp;gt;&amp;lt;p&amp;gt; &amp;lt;a href=&amp;quot;https://goo.gl/maps/AUq7b9W7yYJ2&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt; Fake street, 100\n                            &amp;lt;br/&amp;gt;NYC - 20179, USA&amp;lt;/a&amp;gt; &amp;lt;/p&amp;gt;&amp;lt;p&amp;gt; &amp;lt;a href=&amp;quot;tel:+246 - 542 550 5462&amp;quot;&amp;gt;+1 - 256 845 87 86&amp;lt;/a&amp;gt; &amp;lt;/p&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;mailto:info@PHP GrapesJS.com&amp;quot;&amp;gt;info@PHP GrapesJS.com&amp;lt;/a&amp;gt; &amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;About&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-0 mt-2&amp;quot;&amp;gt;&amp;copy; 2021 PHP GrapesJS. All rights reserved&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#icwnu{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iycj1{background-image:url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:right bottom;background-size:cover;background-repeat:repeat;background-attachment:fixed;}', 0, 1, 4, 0, 1, '2023-09-30 23:39:21', '2024-01-06 07:25:05'),
 	(6, 1, 0, '', 'Contacto', 'contacto', NULL, 'Contacto', 'Contacto', 'Contacto', NULL, 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;iyih&amp;quot; class=&amp;quot;py-5 text-center align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot; id=&amp;quot;ipvi&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-8 mx-auto&amp;quot;&amp;gt; &amp;lt;i class=&amp;quot;d-block fa fa-stop-circle mb-3 text-muted fa-5x&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-dark&amp;quot;&amp;gt;Do&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Something&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;gjs-row&amp;quot; id=&amp;quot;ivlba&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;gjs-cell&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-6 p-0 pr-1&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;../uploads/icon-pepiuox.png&amp;quot; id=&amp;quot;ih1m4&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-6 p-0 pl-1&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-3.svg&amp;quot; class=&amp;quot;img-fluid d-block rounded-circle&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#iyih{background-image:linear-gradient(to left bottom, rgba(189, 195, 199, .75), rgba(44, 62, 80, .75));background-size:100%;}.gjs-row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}.gjs-cell{min-height:75px;flex-grow:1;flex-basis:100%;}@media (max-width: 768px){.gjs-row{flex-wrap:wrap;}}', 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2024-01-06 07:25:07'),
-	(12, 1, 0, 'signin/', 'Login', 'login', '/signin/login', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/login', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-12-29 11:07:59', '2024-01-06 07:38:39'),
-	(13, 1, 0, 'signin/', 'Register', 'register', '/signin/register', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/register', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-12-29 11:09:48', '2024-01-06 07:38:43'),
-	(14, 1, 0, 'signin/', 'Logout', 'logout', '/signin/logout', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/logout', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-12-29 11:10:39', '2024-01-06 07:38:47'),
-	(15, 1, 0, 'signin/', 'Forgot password', 'forgot-password', '/signin/forgot-password', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot_password', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-02 07:28:07', '2024-01-06 07:38:54'),
-	(16, 1, 0, 'signin/', 'Forgot username', 'forgot-username', '/signin/forgot-username', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot_username', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-02 07:28:54', '2024-01-06 07:39:00'),
-	(17, 1, 0, 'signin/', 'Forgot email', 'forgot-email', '/signin/forgot-email', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot_email', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-02 07:30:21', '2024-01-06 07:39:07');
+	(12, 1, 0, 'signin/', 'Login', 'login', '/signin/login', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/login/login', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-12-29 11:07:59', '2024-01-11 07:50:12'),
+	(13, 1, 0, 'signin/', 'Register', 'register', '/signin/register', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/register/register', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-12-29 11:09:48', '2024-01-11 07:50:23'),
+	(14, 1, 0, 'signin/', 'Logout', 'logout', '/signin/logout', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/login/logout', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2023-12-29 11:10:39', '2024-01-11 07:50:30'),
+	(15, 1, 0, 'signin/', 'Forgot password', 'forgot-password', '/signin/forgot-password', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot/forgot_password', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-02 07:28:07', '2024-01-11 07:50:40'),
+	(16, 1, 0, 'signin/', 'Forgot username', 'forgot-username', '/signin/forgot-username', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot/forgot_username', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-02 07:28:54', '2024-01-11 07:50:55'),
+	(17, 1, 0, 'signin/', 'Forgot email', 'forgot-email', '/signin/forgot-email', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot/forgot_email', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-02 07:30:21', '2024-01-11 07:51:05'),
+	(18, 1, 0, 'error/', '404', '404', '/error/404', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/error_pages/404', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-06 08:03:28', '2024-01-11 07:56:18'),
+	(19, 1, 0, 'signin/', 'Forgot PIN', 'forgot-pin', '/signin/forgot-pin', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot/forgot_pin', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-06 14:55:02', '2024-01-11 07:51:32'),
+	(20, 1, 0, 'admin/', 'Dashboard', 'dashboard', '/admin/dashboard', NULL, NULL, NULL, NULL, 'File', 1, 0, 'managers/dashboard', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-11 04:48:18', '2024-01-11 06:49:59');
 
 -- Dumping structure for table test_cms.pageviews
 DROP TABLE IF EXISTS `pageviews`;
@@ -2431,7 +2448,7 @@ CREATE TABLE IF NOT EXISTS `pageviews` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test_cms.pageviews: ~131 rows (approximately)
+-- Dumping data for table test_cms.pageviews: ~181 rows (approximately)
 INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(1, 'Ayahuasca', '127.0.0.1', '2023-10-01 17:43:22'),
 	(2, 'Home', '127.0.0.1', '2023-10-01 17:43:23'),
@@ -2585,7 +2602,78 @@ INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(150, 'Forgot password', '127.0.0.1', '2024-01-06 07:26:01'),
 	(151, 'Forgot email', '127.0.0.1', '2024-01-06 07:26:04'),
 	(152, 'Forgot username', '127.0.0.1', '2024-01-06 07:26:05'),
-	(153, 'Ofertas', '127.0.0.1', '2024-01-06 07:32:03');
+	(153, 'Ofertas', '127.0.0.1', '2024-01-06 07:32:03'),
+	(154, NULL, '127.0.0.1', '2024-01-06 08:08:04'),
+	(155, NULL, '127.0.0.1', '2024-01-06 08:08:14'),
+	(156, '404', '127.0.0.1', '2024-01-06 08:11:53'),
+	(157, 'Forgot PIN', '127.0.0.1', '2024-01-06 14:55:11'),
+	(158, 'Inicio', '127.0.0.1', '2024-01-10 15:50:24'),
+	(159, '404', '127.0.0.1', '2024-01-10 15:50:24'),
+	(160, 'Register', '127.0.0.1', '2024-01-10 21:46:39'),
+	(161, 'Login', '127.0.0.1', '2024-01-10 21:46:41'),
+	(162, 'Contacto', '127.0.0.1', '2024-01-10 21:46:45'),
+	(163, 'Proveedores', '127.0.0.1', '2024-01-10 21:46:49'),
+	(164, 'Ofertas', '127.0.0.1', '2024-01-10 21:46:50'),
+	(165, 'Promociones', '127.0.0.1', '2024-01-10 21:46:53'),
+	(166, 'Dashboard', '127.0.0.1', '2024-01-11 06:50:09'),
+	(167, 'Servicios', '127.0.0.1', '2024-01-11 07:49:13'),
+	(168, 'Forgot username', '127.0.0.1', '2024-01-11 07:57:16'),
+	(169, 'Forgot email', '127.0.0.1', '2024-01-11 07:59:55'),
+	(170, 'Forgot password', '127.0.0.1', '2024-01-11 08:22:38'),
+	(171, 'Forgot PIN', '127.0.0.1', '2024-01-11 08:22:40'),
+	(172, 'Register', '127.0.0.1', '2024-01-12 02:30:04'),
+	(173, '404', '127.0.0.1', '2024-01-12 02:30:04'),
+	(174, 'Forgot username', '127.0.0.1', '2024-01-12 02:30:13'),
+	(175, 'Contacto', '127.0.0.1', '2024-01-12 02:53:16'),
+	(176, 'Proveedores', '127.0.0.1', '2024-01-12 03:25:15'),
+	(177, 'Servicios', '127.0.0.1', '2024-01-12 03:25:19'),
+	(178, 'Inicio', '127.0.0.1', '2024-01-12 03:25:29'),
+	(179, 'Login', '127.0.0.1', '2024-01-12 03:25:42'),
+	(180, 'Forgot email', '127.0.0.1', '2024-01-12 04:18:16'),
+	(181, 'Forgot password', '127.0.0.1', '2024-01-12 04:18:18'),
+	(182, 'Forgot PIN', '127.0.0.1', '2024-01-12 04:18:19'),
+	(183, 'Inicio', '127.0.0.1', '2024-01-13 03:04:21'),
+	(184, '404', '127.0.0.1', '2024-01-13 03:04:21'),
+	(185, 'Contacto', '127.0.0.1', '2024-01-13 06:37:05'),
+	(186, 'Ofertas', '127.0.0.1', '2024-01-13 06:37:10'),
+	(187, 'Promociones', '127.0.0.1', '2024-01-13 06:37:12'),
+	(188, 'Proveedores', '127.0.0.1', '2024-01-13 06:38:45'),
+	(189, 'Servicios', '127.0.0.1', '2024-01-13 06:38:47'),
+	(190, 'Login', '127.0.0.1', '2024-01-13 07:07:59'),
+	(191, 'Forgot password', '127.0.0.1', '2024-01-13 07:08:03'),
+	(192, 'Forgot password', '127.0.0.1', '2024-01-14 04:35:36'),
+	(193, '404', '127.0.0.1', '2024-01-14 04:35:36'),
+	(194, 'Proveedores', '127.0.0.1', '2024-01-14 04:35:39'),
+	(195, 'Contacto', '127.0.0.1', '2024-01-14 05:52:39'),
+	(196, 'Inicio', '127.0.0.1', '2024-01-18 01:28:23'),
+	(197, '404', '127.0.0.1', '2024-01-18 01:28:23'),
+	(198, 'Proveedores', '127.0.0.1', '2024-01-18 02:14:22'),
+	(199, 'Ofertas', '127.0.0.1', '2024-01-18 02:14:25'),
+	(200, 'Contacto', '127.0.0.1', '2024-01-18 02:21:41'),
+	(201, 'Register', '127.0.0.1', '2024-01-18 02:21:49'),
+	(202, 'Servicios', '127.0.0.1', '2024-01-18 02:36:28'),
+	(203, 'Inicio', '127.0.0.1', '2024-01-19 17:06:33'),
+	(204, '404', '127.0.0.1', '2024-01-19 17:06:33'),
+	(205, 'Register', '127.0.0.1', '2024-01-19 17:14:14'),
+	(206, 'Login', '127.0.0.1', '2024-01-19 17:14:16'),
+	(207, 'Servicios', '127.0.0.1', '2024-01-19 17:19:18'),
+	(208, 'Contacto', '127.0.0.1', '2024-01-19 17:23:09'),
+	(209, 'Proveedores', '127.0.0.1', '2024-01-19 17:31:09'),
+	(210, 'Ofertas', '127.0.0.1', '2024-01-19 17:47:14'),
+	(211, 'Promociones', '127.0.0.1', '2024-01-19 17:47:17'),
+	(212, 'Inicio', '127.0.0.1', '2024-03-24 06:25:29'),
+	(213, '404', '127.0.0.1', '2024-03-24 06:25:30'),
+	(214, 'Register', '127.0.0.1', '2024-03-24 06:25:36'),
+	(215, 'Ofertas', '127.0.0.1', '2024-03-24 06:25:49'),
+	(216, 'Promociones', '127.0.0.1', '2024-03-24 06:25:57'),
+	(217, 'Contacto', '127.0.0.1', '2024-03-24 06:26:07'),
+	(218, 'Login', '127.0.0.1', '2024-03-24 06:26:19'),
+	(219, 'Inicio', '127.0.0.1', '2024-04-12 00:03:17'),
+	(220, '404', '127.0.0.1', '2024-04-12 00:03:17'),
+	(221, 'Promociones', '127.0.0.1', '2024-04-12 00:13:13'),
+	(222, 'Contacto', '127.0.0.1', '2024-04-12 00:13:22'),
+	(223, 'Ofertas', '127.0.0.1', '2024-04-12 00:13:27'),
+	(224, 'Login', '127.0.0.1', '2024-04-12 00:13:34');
 
 -- Dumping structure for table test_cms.page_menu
 DROP TABLE IF EXISTS `page_menu`;
@@ -3365,6 +3453,16 @@ CREATE TABLE IF NOT EXISTS `tokens` (
 
 -- Dumping data for table test_cms.tokens: ~0 rows (approximately)
 
+-- Dumping structure for table test_cms.topics
+DROP TABLE IF EXISTS `topics`;
+CREATE TABLE IF NOT EXISTS `topics` (
+  `topicId` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_name` char(100) DEFAULT NULL,
+  PRIMARY KEY (`topicId`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test_cms.topics: ~0 rows (approximately)
+
 -- Dumping structure for table test_cms.total_visitors
 DROP TABLE IF EXISTS `total_visitors`;
 CREATE TABLE IF NOT EXISTS `total_visitors` (
@@ -3378,7 +3476,7 @@ CREATE TABLE IF NOT EXISTS `total_visitors` (
 INSERT INTO `total_visitors` (`id`, `session`, `time`) VALUES
 	(1, 'VzB2V21zVUVpVGJvUGt6TEoxTFJHZz09', '2023-10-25 11:21:21'),
 	(2, 'Q3NucDBJazVVclkrZTE1RkVyME4zUT09', '2023-12-23 09:06:12'),
-	(3, 'N0U5cmRDWUd6aHJBeDkvL3JlanZvUT09', '2024-01-06 13:43:50'),
+	(3, 'N0U5cmRDWUd6aHJBeDkvL3JlanZvUT09', '2024-04-12 08:38:46'),
 	(4, 'dXJZeUJrUDNHZFZDOThheEg4OWZlZz09', '2023-12-27 09:25:59');
 
 -- Dumping structure for table test_cms.type_actions
@@ -3466,9 +3564,8 @@ CREATE TABLE IF NOT EXISTS `users_actions` (
   UNIQUE KEY `usercode` (`usercode`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test_cms.users_actions: ~2 rows (approximately)
+-- Dumping data for table test_cms.users_actions: ~1 rows (approximately)
 INSERT INTO `users_actions` (`usercode`, `action`, `validation`, `verification`, `approval`, `created`, `updated`) VALUES
-	('@m}d@Ou2a0gkqJ&aJ|3Sh$k%dmN3faXwds$s7O&$5Yxe1N}1Ak11tyxH87333993', '', '', NULL, NULL, '2023-10-31 07:06:44', '2023-10-31 07:06:44'),
 	('AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 'approved', '', NULL, NULL, '2023-10-28 18:13:26', '2023-10-28 18:14:07');
 
 -- Dumping structure for table test_cms.users_active
@@ -4134,7 +4231,7 @@ CREATE TABLE IF NOT EXISTS `visitor` (
   `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test_cms.visitor: ~13 rows (approximately)
+-- Dumping data for table test_cms.visitor: ~12 rows (approximately)
 INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2023-10-01 01:51:11', '2023-10-04 06:34:03'),
 	('127.0.0.1', '2023-10-03 06:39:20', '2023-10-04 06:34:03'),
@@ -4148,7 +4245,12 @@ INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2023-12-27 03:22:42', '2023-12-31 12:23:34'),
 	('::1', '2023-12-27 03:25:17', '2023-12-27 09:25:59'),
 	('127.0.0.1', '2024-01-02 02:23:20', '2024-01-02 11:53:50'),
-	('127.0.0.1', '2024-01-06 06:45:53', '2024-01-06 13:43:50');
+	('127.0.0.1', '2024-01-06 06:45:53', '2024-01-06 23:17:52'),
+	('127.0.0.1', '2024-01-10 15:50:24', '2024-01-14 12:51:48'),
+	('127.0.0.1', '2024-01-18 01:28:23', '2024-01-18 08:39:00'),
+	('127.0.0.1', '2024-01-19 17:06:33', '2024-01-20 09:43:39'),
+	('127.0.0.1', '2024-03-24 06:25:29', '2024-03-24 12:26:20'),
+	('127.0.0.1', '2024-04-12 00:03:17', '2024-04-12 08:38:46');
 
 -- Dumping structure for table test_cms.visitor_productos
 DROP TABLE IF EXISTS `visitor_productos`;

@@ -1,4 +1,13 @@
 <?php
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+//  Description of Routers class
+//  Routers.php file
+//
 class Routers
 {
     protected $conn;

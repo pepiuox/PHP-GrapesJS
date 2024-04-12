@@ -42,7 +42,7 @@ function dropdown()
 
         if (in_array($row["id"], $parents)) {
             echo '<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" href="' .
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" href="' .
                 $plink .
                 '">' .
                 $row["title"] .
@@ -128,7 +128,7 @@ function third($sid, $plink)
     $stmt1->execute();
     $result1 = $stmt1->get_result();
     $stmt1->close();
-    echo '<ul class="dropdown-menu dropdown-submenu">' . "\n";
+    echo '<ul class="dropdown-menu dropdown-submenu submenu">' . "\n";
     while ($row = $result1->fetch_array()) {
         $sbid = $row["id"];
         $slink = $plink . "/" . $row["link"];
@@ -223,16 +223,17 @@ if ($rmopt["color"] === "light") {
                 <?php echo SITE_NAME; ?>
             <?php } ?>
         </a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#<?php echo $id_menu; ?>" aria-controls="<?php echo $id_menu; ?>"  aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-	 <div class="collapse navbar-collapse <?php echo $aligment; ?>" id="main_nav">		 
+     
+	 <div class="collapse navbar-collapse <?php echo $aligment; ?>" id="<?php echo $id_menu; ?>">		 
             <ul class="navbar-nav dropdown-hover-all me-auto mb-2 mb-lg-0">               
 <?php echo dropdown(); ?>
             </ul>
-		 
-		
-				<form class="d-flex input-group w-auto">
+	
+<form class="d-flex input-group w-auto">
+    <div class="input-group">
       <input
         type="search"
         class="form-control rounded"
@@ -251,6 +252,7 @@ if ($rmopt["color"] === "light") {
 		    <a class="btn btn-secondary btn-outline-info" role="button" href="<?php echo SITE_PATH; ?>signin/login">Ingresar <i class="fa-solid fa-user"></i></a>
 			<?php }
    ?>
+    </div>
     </form>
         </div>
     </div>

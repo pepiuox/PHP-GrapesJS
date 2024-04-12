@@ -1,0 +1,719 @@
+<!doctype html>
+<html>
+    <head>
+        <title>menu</title>
+        <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+<style type="text/css">
+
+
+/******************************Drop-down menu work on hover**********************************/
+.navbar {
+	background: none;
+	border: 0 solid;
+	margin: 0;
+	padding: 0;
+	min-height: 20px;
+	width: 100%;
+}
+
+.navbar-nav > li > a {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.navbar-nav > li:last-child > a {
+	padding-right: 0;
+	margin-right: 0;
+}
+
+.navbar-nav .show .dropdown-menu > li > a {
+	padding: 10px;
+}
+
+.dropdown-menu {
+	padding: 0;
+	margin-top: 0;
+	border-radius: 0;
+	-webkit-box-shadow: none!important;
+	box-shadow: none!important;
+}
+
+.dropdown:hover >.dropdown-menu {
+	display: block !important;
+}
+
+.dropdown-menu .dropdown .dropdown-menu {
+	left: 100%;
+	top: 0%;
+	margin: 0 20px;
+	border-width: 0;
+}
+.custom-toggle-arrow{
+      font-size: 18px;
+      margin-top: 1px;
+      line-height: 12px;
+}
+.dropdown-submenu:hover > .dropdown-menu {
+	display: block !important;
+	left: 100%;
+	margin-top: -37px;
+}
+
+.dropdown-menu.show {
+	-webkit-animation: fadeIn 0.3s alternate;
+      /* Safari 4.0 - 8.0 */
+	animation: fadeIn 0.3s alternate;
+}
+
+.dropdown-menu .dropdown-toggle::after {
+	vertical-align: middle;
+	border-left: 4px solid;
+	border-bottom: 4px solid transparent;
+	border-top: 4px solid transparent;
+}
+
+.dropdown-menu > li a:hover,
+    .dropdown-menu > li.show {
+	background: #007bff;
+	color: white;
+}
+
+.dropdown-menu > li.show > a {
+	color: white;
+}
+
+.dropdown-menu .dropdown .dropdown-menu.left {
+	right: 100%;
+	left: auto;
+}
+
+
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	-moz-border-radius: 0 6px 6px;
+	border-radius: 0 6px 6px 6px;
+}
+.dropdown-menu .dropdown-submenu-left {
+    right: 100%;
+    left: auto;
+}
+.dropdown-submenu:hover > .dropdown-menu {
+	display: block;
+}
+
+.dropdown-submenu > a:after {
+	display: block;
+	content: " ";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #ccc;
+	margin-top: 5px;
+	margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after {
+	border-left-color: #fff;
+}
+.dropdown-menu .dropdown .dropdown-menu.left {
+    right: 100%;
+    left: auto;
+}
+.dropdown-hover:hover>.dropdown-menu {
+    display: inline-block;
+}
+
+.dropdown-hover>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+.dropdown-submenu.pull-left {
+	float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+	-webkit-border-radius: 6px 0 6px 6px;
+	-moz-border-radius: 6px 0 6px 6px;
+	border-radius: 6px 0 6px 6px;
+}
+
+.nav-item.dropdown.dropdown-mega {
+	position: static;
+}
+
+.nav-item.dropdown.dropdown-mega .dropdown-menu {
+	width: 90%;
+	top: auto;
+	left: 5%;
+}
+
+.navbar-toggler {
+	border: none;
+	padding: 0;
+	outline: none;
+}
+
+.navbar-toggler:focus {
+	box-shadow: none;
+}
+
+.navbar-toggler .hamburger-toggle {
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	z-index: 11;
+	float: right;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger {
+	position: absolute;
+	transform: translate(-50%, -50%) rotate(0deg);
+	left: 50%;
+	top: 50%;
+	width: 50%;
+	height: 50%;
+	pointer-events: none;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger span {
+	width: 100%;
+	height: 4px;
+	position: absolute;
+	background: #333;
+	border-radius: 2px;
+	z-index: 1;
+	transition: transform 0.2s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.2s cubic-bezier(0.77, 0.2, 0.05, 1), all 0.2s ease-in-out;
+	left: 0px;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger span:first-child {
+	top: 10%;
+	transform-origin: 50% 50%;
+	transform: translate(0% -50%) !important;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger span:nth-child(2) {
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.navbar-toggler .hamburger-toggle .hamburger span:last-child {
+	left: 0px;
+	top: auto;
+	bottom: 10%;
+	transform-origin: 50% 50%;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger.active span {
+	position: absolute;
+	margin: 0;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger.active span:first-child {
+	top: 45%;
+	transform: rotate(45deg);
+}
+
+.navbar-toggler .hamburger-toggle .hamburger.active span:nth-child(2) {
+	left: 50%;
+	width: 0px;
+}
+
+.navbar-toggler .hamburger-toggle .hamburger.active span:last-child {
+	top: 45%;
+	transform: rotate(-45deg);
+}
+
+.icons {
+	display: inline-flex;
+	margin-left: auto;
+}
+
+.icons a {
+	transition: all 0.2s ease-in-out;
+	padding: 0.2rem 0.4rem;
+	color: #ccc !important;
+	text-decoration: none;
+}
+
+.icons a:hover {
+	color: white;
+	text-shadow: 0 0 30px white;
+}
+
+@media (min-width: 768px) {
+	ul.navbar-nav li:hover > ul.dropdown-menu {
+		display: block;
+	}
+}
+
+@media (min-width: 768px) {
+	.dropdown-menu .dropdown .dropdown-menu {
+		margin: 0;
+		border-width: 1px;
+	}
+}
+
+@media only screen and (min-width: 767px) {
+	.navbar .collapse ul li:hover> ul {
+		display: block;
+	}
+
+	.navbar .collapse ul ul {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		min-width: 200px;
+		display: none;
+	}
+    /*******/
+	.navbar .collapse ul ul li {
+		position: relative;
+	}
+
+	.navbar .collapse ul ul li:hover> ul {
+		display: block;
+	}
+
+	.navbar .collapse ul ul ul {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		min-width: 200px;
+		display: none;
+	}
+    /*******/
+	.navbar .collapse ul ul ul li {
+		position: relative;
+	}
+
+	.navbar .collapse ul ul ul li:hover ul {
+		display: block;
+	}
+
+	.navbar .collapse ul ul ul ul {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		min-width: 200px;
+		display: none;
+		z-index: 1;
+	}
+    /*******/
+	.navbar .collapse ul ul ul ul li {
+		position: relative;
+	}
+
+	.navbar .collapse ul ul ul ul li:hover ul {
+		display: block;
+	}
+
+	.navbar .collapse ul ul ul ul ul {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		min-width: 200px;
+		display: none;
+		z-index: 1;
+	}
+    /*******/
+	.navbar .collapse ul ul ul ul ul li {
+		position: relative;
+	}
+
+	.navbar .collapse ul ul ul ul ul li:hover ul {
+		display: block;
+	}
+
+	.navbar .collapse ul ul ul ul ul ul {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		min-width: 200px;
+		display: none;
+		z-index: 1;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.navbar-nav .show .dropdown-menu .dropdown-menu > li > a {
+		padding: 10px;
+	}
+
+	.navbar-nav .show .dropdown-menu .dropdown-menu .dropdown-menu > li > a {
+		padding: 10px;
+	}
+}  
+    
+    /* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+    
+	.dropdown-menu li {
+		position: relative;
+	}
+
+	.dropdown-menu .submenu {
+		display: none;
+		position: absolute;
+		left: 100%;
+		top: -7px;
+	}
+
+	.dropdown-menu .submenu-left {
+		right: 100%;
+		left: auto;
+	}
+
+	.dropdown-menu > li:hover {
+		background-color: #f1f1f1;
+	}
+
+	.dropdown-menu > li:hover > .submenu {
+		display: block;
+	}
+}	
+    /* ============ desktop view .end// ============ */
+    
+    /* ============ small devices ============ */
+@media (max-width: 991px) {
+    
+	.dropdown-menu .dropdown-menu {
+		margin-left: 0.7rem;
+		margin-right: 0.7rem;
+		margin-bottom: .5rem;
+	}
+}	
+    /* ============ small devices .end// ============ */
+        </style>
+          <script>
+ /* Navbar toggler */
+ const toggleBtn = document.querySelector(".navbar-toggler");
+ const navbarNav = document.querySelector(".navbar-nav");
+ const navCloseBtn = document.querySelector(".btn-nav-close");
+
+ toggleBtn.addEventListener("click", () => {
+     navbarNav.classList.toggle("active");
+ });
+ navCloseBtn.addEventListener("click", () => {
+     navbarNav.classList.remove("active");
+ });
+
+ /* Search popup */
+ const searchBtn = document.querySelector(".btn-search");
+ const searchBtnClose = document.querySelector(".btn-search-close");
+ const searchPopup = document.querySelector(".search-popup");
+
+ searchBtn.addEventListener("click", () => {
+     searchPopup.classList.toggle("active");
+ });
+ searchBtnClose.addEventListener("click", () => {
+     searchPopup.classList.remove("active");
+ });
+
+ /* Add icon on .nav-item if dropdown exists */
+ const navItems = document.querySelectorAll(".nav-item");
+
+ navItems.forEach((item) => {
+     const hasDropdowns = item.querySelector(".dropdown") !== null;
+     if (hasDropdowns) {
+         item.classList.add("icon");
+     }
+ });
+
+
+ (function($) {
+     var defaults = {
+         sm: 540,
+         md: 720,
+         lg: 960,
+         xl: 1140,
+         navbar_expand: 'lg',
+         animation: true,
+         animateIn: 'fadeIn'
+     };
+     var screen_width = $(document).width();
+         settings = $.extend(defaults, '.navbar');
+
+         if (screen_width >= settings.lg) {
+             $(this).find('.dropdown').hover(function() {
+                 $(this).addClass('show');
+                 $(this).find('.dropdown-menu').first().addClass('show');
+                 if (settings.animation) {
+                     $(this).find('.dropdown-menu').first().addClass('animated ' + settings.animateIn);
+                 }
+             }, function() {
+                 $(this).removeClass('show');
+                 $(this).find('.dropdown-menu').first().removeClass('show');
+             });
+         }
+
+       
+     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+         if (!$(this).next().hasClass('show')) {
+             $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+         }
+         var $subMenu = $(this).next(".dropdown-menu");
+         $subMenu.toggleClass('show');
+
+         $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+             $('.dropdown-submenu .show').removeClass("show");
+         });
+
+         return false;
+     });
+ })(jQuery);
+
+window.addEventListener("resize", function() {
+     "use strict";
+     window.location.reload();
+ });
+
+
+  // Wait for the DOM (Document Object Model) to be fully loaded
+ document.addEventListener('DOMContentLoaded', function(event) {
+
+     /////// Prevent closing from click inside dropdown
+     document.querySelectorAll('.dropdown-menu').forEach(function(element) {
+         element.addEventListener('click', function(e) {
+             e.stopPropagation();
+         });
+     });
+
+     // make it as accordion for smaller screens
+     if (window.innerWidth < 992) {
+
+         // close all inner dropdowns when parent is closed
+         document.querySelectorAll('.navbar .dropdown').forEach(function(everydropdown) {
+             everydropdown.addEventListener('hidden.bs.dropdown', function() {
+                 // after dropdown is hidden, then find all submenus
+                 this.querySelectorAll('.submenu').forEach(function(everysubmenu) {
+                     // hide every submenu as well
+                     everysubmenu.style.display = 'none';
+                 });
+             });
+         });
+
+         document.querySelectorAll('.dropdown-menu a').forEach(function(element) {
+             element.addEventListener('click', function(e) {
+                 
+                 let nextEl = this.nextElementSibling;
+                 if (nextEl && nextEl.classList.contains('submenu')) {
+                     // prevent opening link if link needs to open dropdown
+                     e.preventDefault();
+                     console.log(nextEl);
+                     if (nextEl.style.display == 'block') {
+                         nextEl.style.display = 'none';
+                     } else {
+                         nextEl.style.display = 'block';
+                     }
+
+                 }
+             });
+         });
+     }
+     // end if innerWidth
+
+     // Hamburger menu
+     var navbarToggler = document.querySelectorAll('.navbar-toggler')[0];
+     navbarToggler.addEventListener('click', function(e) {
+         e.target.children[0].classList.toggle('active');
+     });
+
+     // Select the <html> element
+     var html = document.querySelectorAll('html')[0];
+
+     // Select the first element with the attribute 'data-bs-toggle-theme'
+     var themeToggle = document.querySelectorAll('*[data-bs-toggle-theme]')[0];
+
+     // Set the default theme to 'dark' for the <html> element
+     html.setAttribute('data-bs-theme', 'dark');
+
+     // Check if a themeToggle element is found
+     if (themeToggle) {
+         // Add a click event listener to the themeToggle element
+         themeToggle.addEventListener('click', function(event) {
+             // Prevent the default behavior of the click event
+             event.preventDefault();
+
+             // Check the current theme attribute value of the <html> element
+             if (html.getAttribute('data-bs-theme') === 'dark') {
+                 // If the current theme is 'dark', change it to 'light'
+                 html.setAttribute('data-bs-theme', 'light');
+             } else {
+                 // If the current theme is not 'dark', change it back to 'dark'
+                 html.setAttribute('data-bs-theme', 'dark');
+             }
+         });
+     }
+ });             
+        </script>
+    </head>
+    <body>
+<nav class="navbar navbar-expand-lg shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Bootstrap</a>
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content">
+        <div class="hamburger-toggle">
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-content">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Multilevel</a>
+            <ul class="dropdown-menu shadow">
+              <li><a class="dropdown-item" href="#">Gallery</a></li>
+              <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+              <li class="dropstart">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Submenu Left</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                  <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                  <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                  <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                  <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                </ul>
+              </li>
+              <li class="dropend">
+                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">Submenu Right</a>
+                <ul class="dropdown-menu shadow">
+                  <li><a class="dropdown-item" href=""> Second level 1</a></li>
+                  <li><a class="dropdown-item" href=""> Second level 2</a></li>
+                  <li><a class="dropdown-item" href=""> Second level 3</a></li>
+                  <li class="dropend">
+                    <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">Let's go deeper!</a>
+                    <ul class="dropdown-menu dropdown-submenu shadow">
+                      <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                      <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                      <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                      <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                      <li class="dropend">
+                        <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Still don't have enough? Go much deeper!</a>
+                        <ul class="dropdown-menu dropdown-submenu shadow">
+                          <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                          <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                </ul>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown dropdown-mega position-static">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Megamenu</a>
+            <div class="dropdown-menu shadow">
+              <div class="mega-content px-4">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-12 col-sm-4 col-md-3 py-4">
+                      <h5>Pages</h5>
+                      <div class="list-group">
+                        <a class="list-group-item" href="#">Accomodations</a>
+                        <a class="list-group-item" href="#">Terms & Conditions</a>
+                        <a class="list-group-item" href="#">Privacy</a>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-3 py-4">
+                      <h5>Card</h5>
+                      <div class="card">
+                  <img src="https://via.placeholder.com/320x180" class="img-fluid" alt="image">
+                  <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  </div>
+                </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-3 py-4">
+                      <h5>Lot of Pages</h5>
+                      <p>Lorem ipsum dolo sit achmet muhamed borlan de irtka.
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 py-4">
+                      <h5>Damn, so many</h5>
+                      <div class="list-group">
+                        <a class="list-group-item" href="#">Accomodations</a>
+                        <a class="list-group-item" href="#">Terms & Conditions</a>
+                        <a class="list-group-item" href="#">Privacy</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" tabindex="-1" data-bs-toggle-theme="true" aria-disabled="true"><i class="fa fa-adjust"></i></a>
+          </li>
+        </ul>
+        <form class="d-flex">
+            <div class="input-group">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary border-0" type="submit">Search</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <section class="my-5">
+<div class="container">
+
+</div>
+  </section>
+
+  <footer class="bg-dark p-4 text-white text-center">
+    <small>&copy; 2020-2023 Written by <a href="https://simonkoehler.com/ref/codepen" target="_blank" class="link-light" title="Check my Website">Simon Köhler</a></small>
+    <div class="icons">
+        <a href="https://blog.simonkoehler.com/" target="_blank">
+              <i class="fa fa-globe"></i>
+            </a>
+        <a href="https://www.linkedin.com/in/koehlersimon/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+        <a href="https://x.com/koehlersimon" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+        
+        <a href="https://www.youtube.com/channel/UC_PtQESDvj-GZNeo9LarRuA?view_as=subscriber" target="_blank">
+              <i class="fab fa-youtube"></i>
+            </a>
+      </div>
+  </footer>
+     </body>
+</html>

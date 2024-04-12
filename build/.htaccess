@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
+        DirectoryIndex index.php
 	RewriteEngine On
 	RewriteBase /
         ## Begin - Rewrite rules to block out some common exploits.
