@@ -1,4 +1,5 @@
 <?php
+
 //
 //  This application develop by PePiuoX.
 //  Created by : Lab eMotion
@@ -8,12 +9,12 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 /**
  * Description of Register
  */
+class NewUsers {
 
-class NewUsers
-{
     public $baseurl;
     protected $conn;
     private $ip;
@@ -22,8 +23,7 @@ class NewUsers
     public $time;
     private $uca;
 
-    public function __construct()
-    {
+    public function __construct() {
         global $conn;
         $this->conn = $conn;
         $this->uca = new UsersCodeAccess();
@@ -31,8 +31,7 @@ class NewUsers
         $this->ip = $this->getUserIP();
         $this->dt = new DateTime();
         $this->time = $this->dt->format("Y-m-d H:i:s");
-        $this->baseurl =
-            "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]);
+        $this->baseurl = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]);
 
         /* If registration data is posted call createUser function. */
         if (isset($_POST["register"])) {
@@ -40,26 +39,23 @@ class NewUsers
         }
         $this->includes();
     }
-    private function includes()
-    {
+
+    private function includes() {
         require_once "../PHPMailer/src/Exception.php";
         require_once "../PHPMailer/src/PHPMailer.php";
         require_once "../PHPMailer/src/SMTP.php";
     }
 
-    public function procheck($string)
-    {
-		$str = htmlentities(stripslashes($string), ENT_QUOTES);
+    public function procheck($string) {
+        $str = htmlentities(stripslashes($string), ENT_QUOTES);
         return htmlspecialchars(trim($str), ENT_QUOTES);
     }
 
-    public function risValidUsername($str)
-    {
+    public function risValidUsername($str) {
         return preg_match('/^[_a-zA-Z0-9-_\.]+$/', $str);
     }
 
-    public function risValidEmail($str)
-    {
+    public function risValidEmail($str) {
         if (
             !preg_match(
                 "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,6})$^",
@@ -72,14 +68,12 @@ class NewUsers
         return filter_var($str, FILTER_VALIDATE_EMAIL);
     }
 
-    public function risValidPassword($str)
-    {
+    public function risValidPassword($str) {
         $pattern = '/^(?=.*[!@#$%^&*()\-_=+`~\[\]{}?])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,30}$/';
         return preg_match($pattern, $str);
     }
 
-    private function checkUsername($username)
-    {
+    private function checkUsername($username) {
         $user = $this->gc->ende_crypter(
             "encrypt",
             $username,
@@ -96,8 +90,7 @@ class NewUsers
         return $result->num_rows;
     }
 
-    private function checkEmail($email)
-    {
+    private function checkEmail($email) {
         $mail = $this->gc->ende_crypter(
             "encrypt",
             $email,
@@ -114,8 +107,7 @@ class NewUsers
         return $result->num_rows;
     }
 
-    public function getUserIP()
-    {
+    public function getUserIP() {
         // Get real visitor IP behind CloudFlare network
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
             $_SERVER["REMOTE_ADDR"] = $_SERVER["HTTP_CF_CONNECTING_IP"];
@@ -143,8 +135,7 @@ class NewUsers
      * checked that values are filled, if all is correct data is entered to user database.
      */
 
-    private function Register()
-    {
+    private function Register() {
         if (isset($_POST["register"])) {
             $username = $this->procheck($_POST["username"]);
             $email = $this->procheck($_POST["email"]);
@@ -152,8 +143,7 @@ class NewUsers
             $repassword = $this->procheck($_POST["password2"]);
             $agree = $this->procheck($_POST["agreeTerms"]);
             if ($agree != "agree") {
-                $_SESSION["ErrorMessage"] =
-                    "You need to accept the terms and conditions, to register your account!";
+                $_SESSION["ErrorMessage"] = "You need to accept the terms and conditions, to register your account!";
                 header("Location: register.php");
                 exit;
             }
@@ -175,8 +165,7 @@ class NewUsers
             } elseif ($this->checkEmail($email) > 0) {
                 $_SESSION["ErrorMessage"] = "Email already exists!";
             } elseif ($this->risValidPassword($password) === 0) {
-                $_SESSION["ErrorMessage"] =
-                    "The password need capital letters, numbers and symbols and be more than 8 to 30 digits!";
+                $_SESSION["ErrorMessage"] = "The password need capital letters, numbers and symbols and be more than 8 to 30 digits!";
             } elseif ($password != $repassword) {
                 $_SESSION["ErrorMessage"] = "The password does not match!";
             } else {
@@ -239,7 +228,7 @@ class NewUsers
                     // adding data in table uverify
                     $stmt1 = $this->conn->prepare(
                         "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,activation_code,is_activated,banned) " .
-                            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
                     $stmt1->bind_param(
                         "sssssssssii",
@@ -263,7 +252,7 @@ class NewUsers
                     // adding data in table users
                     $stmt = $this->conn->prepare(
                         "INSERT INTO users (idUser,usercode,username,email,password,status,ip,signup_time,email_verified,document_verified,mobile_verified,mkpin) " .
-                            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
                     $stmt->bind_param(
                         "sssssisssiis",
@@ -328,9 +317,9 @@ class NewUsers
                         $query->execute();
                         $result = $query->get_result();
                         $query->close();
-						
+
                         if ($result->num_rows === 1) {
-                                $this->sendPMailer(
+                            $this->sendPMailer(
                                 $email,
                                 $username,
                                 $pin,
@@ -338,12 +327,10 @@ class NewUsers
                                 $enck
                             );
                         } else {
-                            $_SESSION["ErrorMessage"] =
-                                "Security log could not be completed, see technical support .";
+                            $_SESSION["ErrorMessage"] = "Security log could not be completed, see technical support .";
                         }
                     } else {
-                        $_SESSION["ErrorMessage"] =
-                            "User creation failed, check with support to continue with your registration.";
+                        $_SESSION["ErrorMessage"] = "User creation failed, check with support to continue with your registration.";
                     }
                 }
             }
@@ -351,8 +338,7 @@ class NewUsers
         $this->conn->close();
     }
 
-    private function sendPMailer($email, $username, $pin, $code, $enck)
-    {
+    private function sendPMailer($email, $username, $pin, $code, $enck) {
 
         $usr = $this->gc->ende_crypter(
             "decrypt",
@@ -367,20 +353,17 @@ class NewUsers
             SECURE_HASH
         );
 
-        $subject =
-            "Revise su correo electrónico para verificación, Su código para activar su cuenta.";
+        $subject = "Revise su correo electrónico para verificación, Su código para activar su cuenta.";
         // This should be changed to an email that you would like to send activation e-mail from.
         $body = "<html>
 <body><h4>Hola " . $username . ".</h4>";
-        $body .=
-            "<p>Su código PIN de acceso es: <b>" .
+        $body .= "<p>Su código PIN de acceso es: <b>" .
             $pin .
             "</b>" .
             "<br>" .
             "Te recomendamos guardarlo, lo necesitas para acceder con tu contraseña." .
             "<br>";
-        $body .=
-            "Para activar su cuenta, haga clic en el siguiente enlace" .
+        $body .= "Para activar su cuenta, haga clic en el siguiente enlace" .
             "<br>" .
             ' <a href="' .
             DOMAIN_SITE .
@@ -413,8 +396,8 @@ class NewUsers
             echo "<h4>Message could not be sent. Mailer Error: {$mail->ErrorInfo}</h4>";
         } else {
             echo "<h4>The email message was sent. Remember! Save this, your PIN code is: " .
-                $pin .
-                " Thank you for registering</h4>";
+            $pin .
+            " Thank you for registering</h4>";
         }
     }
 }

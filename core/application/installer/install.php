@@ -31,6 +31,7 @@ if (isset($_SESSION['PathInstall'])) {
 
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
+require_once 'Autoload.php';
 
 $file = $source . '/core/config/dbconnection.php';
 $serverfile = $source . '/core/config/server.php';
@@ -173,21 +174,22 @@ if (!file_exists($file)) {
     }
 
     extract($_POST);
-    if (isset($_POST['Update'])) {
+    if (isset($_POST['UpdateCode'])) {
         $definefiles = $source . '/core/config/define.php';
         if (file_exists($definefiles)) {
             unlink($definefiles);
         }
-        $_SESSION['AlertMessage'] = "The definitions are up to date.";
+        $_SESSION['AlertMessage'] = "The Codes are up to date.";
 
         foreach ($_POST as $k => $v) {
-            if ($_POST['Update'] === $v) {
+            if ($_POST['UpdateCode'] === $v) {
                 continue;
             }
             $vals[] = "`" . $k . "` = '" . $v . "'";
         }
         $vupdates = implode(", ", $vals);
-        $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
+        $update = ("UPDATE site_security SET $vupdates WHERE `idSs` = '1'");
+        
         if ($conn->query($update) === TRUE) {
             $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
             if ($result = $conn->query($sql)) {
@@ -204,11 +206,32 @@ if (!file_exists($file)) {
                     }
                     $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');";
                 }
+      
+            }
+            $sql1 = "SELECT * FROM site_security WHERE `idSs` = '1'";
+            if ($result1 = $conn->query($sql1)) {
+                $fname1 = $result1->fetch_fields();
+                $fdata1 = $result1->fetch_assoc();
+
+                foreach ($fname1 as $val) {
+                    if ($val->name === 'idSs') {
+                        continue;
+                    }elseif ($val->name === 'site') {
+                        continue;
+                    } elseif ($val->name === 'created') {
+                        continue;
+                    } elseif ($val->name === 'updated') {
+                        continue;
+                    }
+                    $fldname1[] = "define('" . $val->name . "','" . $fdata1[$val->name] . "');";
+                }
 
                 if (!file_exists($definefiles)) {
 
                     $ndef = '<?php' . "\n";
                     $ndef .= implode("\n ", $fldname);
+                    $ndef .= "\n";
+                    $ndef .= implode("\n ", $fldname1);
                     $ndef .= '?>' . "\n";
 
                     file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
@@ -220,6 +243,32 @@ if (!file_exists($file)) {
                     exit;
                 }
             }
+        } else {
+            $_SESSION['ErrorMessage'] = 'Error Updating configutations.';
+        }
+        $conn->close();
+    }
+    if (isset($_POST['Update'])) {
+        $definefiles = $source . '/core/config/define.php';
+        if (file_exists($definefiles)) {
+            unlink($definefiles);
+        }
+        $_SESSION['AlertMessage'] = "The definitions are up to date.";
+
+        foreach ($_POST as $k => $v) {
+            if ($_POST['Update'] === $v) {
+                continue;
+            }
+            $vals[] = "`" . $k . "` = '" . $v . "'";
+        }
+        $vupdates = implode(", ", $vals);
+        $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
+        if ($conn->query($update) === TRUE) {
+            $_SESSION['SuccessMessage'] = "The configuration definitions file has been created ";
+
+                    $_SESSION['StepInstall'] = 4;
+                    header("Location: install.php?step=4");
+                    exit;
         } else {
             $_SESSION['ErrorMessage'] = 'Error Updating configutations.';
         }
@@ -338,12 +387,12 @@ include_once 'define.php';" . "\n\n";
         <meta http-equiv="refresh" content="5; url=../signin/login.php" />
         <title>PHP GrapesJS</title>
 
-        <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-        <link href="../assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="' . $website . 'assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+        <link href="' . $website . 'assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
     <?php
-        include "../elements/alerts.php";
+        include "' . $source . '/core/elements/alerts.php";
         ?>
         <div class="container">
             <div class="row">
@@ -352,9 +401,9 @@ include_once 'define.php';" . "\n\n";
                 </div>
              </div>
          </div>
-        <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../assets/js/popper.min.js" type="text/javascript"></script>   
+        <script src="' . $website . 'assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="' . $website . 'assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="' . $website . 'assets/js/popper.min.js" type="text/javascript"></script>   
     </body>
 </html>  
 <?php
@@ -373,133 +422,133 @@ session_destroy();
         }
     }
 ?>
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>PHP GrapesJS</title>
+                    <!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                            <meta charset="UTF-8" />
+                            <meta name="viewport" content="width=device-width, initial-scale=1" />
+                            <title>PHP GrapesJS</title>
 
-                    <link href="<? echo $website; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-                    <link href="<? echo $website; ?>assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
-                    <link href="<? echo $website; ?>assets/plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
-                    <script src="<? echo $website; ?>assets/plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
-                </head>
-                <body>
-    <?php include '../elements/alerts.php'; ?>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 py-4">
-                                <div id="resp"></div>
+                            <link href="<?php echo $website; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+                            <link href="<?php echo $website; ?>assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+                            <link href="<?php echo $website; ?>assets/plugins/adminlte/css/adminlte.min.css" rel="stylesheet" type="text/css"/>
+                            <script src="<?php echo $website; ?>assets/plugins/adminlte/js/adminlte.min.js" type="text/javascript"></script>
+                        </head>
+                        <body>
+    <?php include $source . '/core/elements/alerts.php'; ?>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 py-4">
+                                        <div id="resp"></div>
 
-                                <div class="card mx-auto col-6">
-                                    <div class="card-body">
-                                        <form method="post">
-                                            <div class="mb-3">
-                                                <h2>PHP GrapesJS</h2>
-                                                <h4>You are about to install PHP GrapesJS.</h4>
-                                                <p>We recommend that you follow the steps carefully and verify that everything is correctly installed.
-                                                </p>
-                                            </div>
-                                            <hr>
+                                        <div class="card mx-auto col-6">
+                                            <div class="card-body">
+                                                <form method="post">
+                                                    <div class="mb-3">
+                                                        <h2>PHP GrapesJS</h2>
+                                                        <h4>You are about to install PHP GrapesJS.</h4>
+                                                        <p>We recommend that you follow the steps carefully and verify that everything is correctly installed.
+                                                        </p>
+                                                    </div>
+                                                    <hr>
     <?php
     if ($step == 1 && $_SESSION['StepInstall'] == 1) {
     ?>
-                                                        <div class="mb-3">
-                                                            <div class="alert alert-primary text-center" role="alert">
-                                                                <h3>1.- First step</h3>
-                                                            </div>
-                                                            <h4> Save your setting for DB</h4>
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="host" class="col-form-label">Database Host</label> 
-                                                            <input id="host" name="host" type="text" class="form-control">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="user" class="col-form-label">Database Username</label> 
-                                                            <input id="user" name="user" type="text" class="form-control">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="password" class="col-form-label">Database Password</label> 
-                                                            <input id="password" name="password" type="text" class="form-control">
-                                                        </div> 
-                                                        <div class="mb-3">
-                                                            <label for="dbname" class="col-form-label">Database Name</label> 
-                                                            <input id="dbname" name="dbname" type="text" class="form-control">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <button class="btn btn-primary" name="check" id="check">Check DB connection</button> 
-                                                        </div>
-                                                        <hr>
-                                                        <div class="mb-3">
-                                                            <p>
-                                                                If you have already created the database, check the connection and continue with the installation of tables in the third step, otherwise create the table in the second step. 
-                                                            </p>
-                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <div class="alert alert-primary text-center" role="alert">
+                                                                                <h3>1.- First step</h3>
+                                                                            </div>
+                                                                            <h4> Save your setting for DB</h4>
+                                                                            <div class="progress">
+                                                                                <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="host" class="col-form-label">Database Host</label> 
+                                                                            <input id="host" name="host" type="text" class="form-control">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="user" class="col-form-label">Database Username</label> 
+                                                                            <input id="user" name="user" type="text" class="form-control">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="password" class="col-form-label">Database Password</label> 
+                                                                            <input id="password" name="password" type="text" class="form-control">
+                                                                        </div> 
+                                                                        <div class="mb-3">
+                                                                            <label for="dbname" class="col-form-label">Database Name</label> 
+                                                                            <input id="dbname" name="dbname" type="text" class="form-control">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <button class="btn btn-primary" name="check" id="check">Check DB connection</button> 
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="mb-3">
+                                                                            <p>
+                                                                                If you have already created the database, check the connection and continue with the installation of tables in the third step, otherwise create the table in the second step. 
+                                                                            </p>
+                                                                        </div>
         <?php
     } elseif ($step == 2 || $_SESSION['StepInstall'] == 2) {
         ?>
-                                                        <div class="alert alert-danger" role="alert">
-                                                            <h5>You don't have the <?php echo $_SESSION['DBNAME']; ?> database installed </h5>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <div class="alert alert-primary text-center" role="alert">
-                                                                <h3>2.- Second step</h3>
-                                                            </div>
-                                                            <h4> Create you database.</h4>
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
-                                                            </div>
-                                                        </div>
+                                                                        <div class="alert alert-danger" role="alert">
+                                                                            <h5>You don't have the <?php echo $_SESSION['DBNAME']; ?> database installed </h5>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <div class="alert alert-primary text-center" role="alert">
+                                                                                <h3>2.- Second step</h3>
+                                                                            </div>
+                                                                            <h4> Create you database.</h4>
+                                                                            <div class="progress">
+                                                                                <div class="progress-bar" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
+                                                                            </div>
+                                                                        </div>
 
-                                                        <div class="mb-3">
-                                                            <h4>This option creates the database</h4>
-                                                            <p>
-                                                                <strong> Server Host : <span class="text-primary"><?php echo $_SESSION['DBHOST']; ?></span></strong><br/>                                        
-                                                                <strong> Server User : <span class="text-primary"><?php echo $_SESSION['DBUSER']; ?></span></strong><br/>                                       
-                                                                <strong> Server Password : <span class="text-primary"> <?php echo $_SESSION['DBPASSWORD']; ?></span></strong><br/>                                        
-                                                                <strong> Database Name : <span class="text-danger"> <?php echo $_SESSION['DBNAME']; ?></span></strong>
-                                                            </p>                                        
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <p>
-                                                                If everything is correct, check the box and create the database.
-                                                            </p>
-                                                            <div class="form-check">
+                                                                        <div class="mb-3">
+                                                                            <h4>This option creates the database</h4>
+                                                                            <p>
+                                                                                <strong> Server Host : <span class="text-primary"><?php echo $_SESSION['DBHOST']; ?></span></strong><br/>                                        
+                                                                                <strong> Server User : <span class="text-primary"><?php echo $_SESSION['DBUSER']; ?></span></strong><br/>                                       
+                                                                                <strong> Server Password : <span class="text-primary"> <?php echo $_SESSION['DBPASSWORD']; ?></span></strong><br/>                                        
+                                                                                <strong> Database Name : <span class="text-danger"> <?php echo $_SESSION['DBNAME']; ?></span></strong>
+                                                                            </p>                                        
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <p>
+                                                                                If everything is correct, check the box and create the database.
+                                                                            </p>
+                                                                            <div class="form-check">
 
-                                                                <input class="form-check-input" type="checkbox" value="yes" id="cdbn" name="cdbn">
-                                                                <label class="form-check-label" for="flexCheckDisabled">
-                                                                    Confirm the creation of the database.
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <button name="init" type="submit" class="btn btn-success"><i class="fas fa-arrow-left"></i> Start steps </button>
-                                                            <button name="createdb" type="submit" class="btn btn-primary">Create database </button>
-                                                        </div>
+                                                                                <input class="form-check-input" type="checkbox" value="yes" id="cdbn" name="cdbn">
+                                                                                <label class="form-check-label" for="flexCheckDisabled">
+                                                                                    Confirm the creation of the database.
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <button name="init" type="submit" class="btn btn-success"><i class="fas fa-arrow-left"></i> Start steps </button>
+                                                                            <button name="createdb" type="submit" class="btn btn-primary">Create database </button>
+                                                                        </div>
 
     <?php } elseif ($step == 3 || $_SESSION['StepInstall'] == 3) {
     ?>
-                                                        <div class="alert alert-success" role="alert">
-                                                            <h5>Your DB is connected to <?php echo $_SESSION['DBNAME']; ?></h5>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <div class="alert alert-primary text-center" role="alert">
-                                                                <h3>3.- Third step</h3>
-                                                            </div>
-                                                            <h4> Install tables in your database.</h4>
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">55%</div>
-                                                            </div>
-                                                        </div>
-                                                        <h4>This step creates the tables in your database </h4>
+                                                                        <div class="alert alert-success" role="alert">
+                                                                            <h5>Your DB is connected to <?php echo $_SESSION['DBNAME']; ?></h5>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <div class="alert alert-primary text-center" role="alert">
+                                                                                <h3>3.- Third step</h3>
+                                                                            </div>
+                                                                            <h4> Install tables in your database.</h4>
+                                                                            <div class="progress">
+                                                                                <div class="progress-bar" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">55%</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <h4>This step creates the tables in your database </h4>
 
-                                                        <div class="mb-3">
-                                                            <button class="btn btn-info" type="submit" name="install" id="install">Install tables</button>
-                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <button class="btn btn-info" type="submit" name="install" id="install">Install tables</button>
+                                                                        </div>
         <?php
     } elseif ($step == 4 || $_SESSION['StepInstall'] == 4) {
         $conn = new mysqli($_SESSION['DBHOST'], $_SESSION['DBUSER'], $_SESSION['DBPASSWORD'], $_SESSION['DBNAME']);
@@ -510,178 +559,188 @@ session_destroy();
         $result = $conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'") or trigger_error($conn->error);
         $confs = $result->fetch_assoc();
         ?>
-                                                        <div class="alert alert-success" role="alert">
-                                                            <h5>Create configuration for your web site</h5>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <div class="alert alert-primary text-center" role="alert">
-                                                                <h3>4.- Fourth step</h3>
-                                                            </div>
-                                                            <h4>Define the website values .</h4>
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
-                                                            </div>
-                                                        </div>
-                                                        <h4>Define values for the configuration</h4> 
+                                                                        <div class="alert alert-success" role="alert">
+                                                                            <h5>Create configuration for your web site</h5>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <div class="alert alert-primary text-center" role="alert">
+                                                                                <h3>4.- Fourth step</h3>
+                                                                            </div>
+                                                                            <h4>Define the website values .</h4>
+                                                                            <div class="progress">
+                                                                                <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <h4>Define values for the configuration</h4> 
 
-                                                        <form method="post">
-                                                            <hr>
-                                                            <div class="form-group">
-                                                                <label for="DOMAIN_SITE">DOMAIN SITE:</label>
-                                                                <input type="text" class="form-control" id="DOMAIN_SITE" name="DOMAIN_SITE" value="<?php echo $confs["DOMAIN_SITE"]; ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="SITE_NAME">SITE NAME:</label>
-                                                                <input type="text" class="form-control" id="SITE_NAME" name="SITE_NAME" value="<?php echo $confs["SITE_NAME"]; ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="SITE_PATH">SITE PATH:</label>
-                                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $siteinstall; ?>">
-                                                            </div>
-                                                            <hr>
-                                                            <h5>Secure installs strings</h5>
-                                                            <div class="form-group">
-                                                                <label for="SECURE_HASH">SECURE HASH:</label>
-                                                                <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo RandHash(); ?>" readonly="yes">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="SECURE_TOKEN">SECURE TOKEN:</label>
-                                                                <textarea class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" readonly="yes"><?php echo RandKey(); ?></textarea>
-                                                            </div>              
-                                                            <div class="col-12">
-                                                                <button type="submit" name="Update" class="btn btn-primary">Save</button>
-                                                            </div>
-                                                        </form>
+                                                                        <form method="post">
+                                                                            <hr>
+                                                                            <div class="form-group">
+                                                                                <label for="DOMAIN_SITE">DOMAIN SITE:</label>
+                                                                                <input type="text" class="form-control" id="DOMAIN_SITE" name="DOMAIN_SITE" value="<?php echo $confs["DOMAIN_SITE"]; ?>">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="SITE_NAME">SITE NAME:</label>
+                                                                                <input type="text" class="form-control" id="SITE_NAME" name="SITE_NAME" value="<?php echo $confs["SITE_NAME"]; ?>">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="SITE_PATH">SITE PATH:</label>
+                                                                                <input type="text" class="form-control" id="SITE_PATH" name="SITE_PATH" value="<?php echo $siteinstall; ?>">
+                                                                            </div>
+                                                                            <hr>
+                                                                                         
+                                                                            <div class="col-12">
+                                                                                <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                                                            </div>
+                                                                        </form>
+                                                                        <hr>
+                                                                        <h4>Save Secure installs</h4>
+                                                                        <form method="post">
+                                                                            <h5>Secure installs strings or codes</h5>
+                                                                            <div class="form-group">
+                                                                                <label for="SECURE_HASH">SECURE HASH:</label>
+                                                                                <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo RandHash(); ?>" readonly="yes">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="SECURE_TOKEN">SECURE TOKEN:</label>
+                                                                                <textarea class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" readonly="yes"><?php echo RandKey(); ?></textarea>
+                                                                            </div> 
+                                                                            <hr>
+                                                                            <div class="col-12">
+                                                                                <button type="submit" name="UpdateCode" class="btn btn-primary">Save</button>
+                                                                            </div>
+                                                     
+                                                                        </form>
         <?php
         $conn->close();
     } elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {
         ?>
-                                                        <div class="alert alert-success" role="alert">
-                                                            <h5>Admin registration </h5>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <div class="alert alert-primary text-center" role="alert">
-                                                                <h3>5.- Fifth step</h3>
+                                                                        <div class="alert alert-success" role="alert">
+                                                                            <h5>Admin registration </h5>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <div class="alert alert-primary text-center" role="alert">
+                                                                                <h3>5.- Fifth step</h3>
 
-                                                            </div>
-                                                            <h4>Remember the data entered for the user.</h4>
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" style="width: 86%;" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">86%</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                        <h5 class="text-danger">We recommend you check if there are users with administration levels. </h5>
-                                                        <p>1.- Verify that there are no high-level users in the installation</p>
-                                                            <button class = "btn btn-info" type="submit" name="verifyuser" id="verifyuser">Verify user admin</button>
-                                                        <p>2.- Deleted high-level users in the installation</p>
-                                                            <button class = "btn btn-danger" type="submit" name="cleanuser" id="cleanuser">Clean user admin</button>
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Firstname">
-                                                            <span class="input-group-text fas fa-id-card"></span>
-                                                        </div>                    
-                                                        <div class="input-group mb-3">
-                                                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Lastname">                          
-                                                            <span class="input-group-text far fa-id-card"></span>
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <input type="text" name="username" id="username" class="form-control" placeholder="Username">
-                                                            <span class="input-group-text fas fa-user"></span>
-                                                        </div>                    
-                                                        <div class="input-group mb-3">
-                                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email">                          
-                                                            <span class="input-group-text fas fa-envelope"></span>
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">                                            
-                                                            <span class="input-group-text fas fa-lock"></span>                                                
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <input type="password" name="password2" id="password2" class="form-control" placeholder="Retype password">
-                                                            <span class="input-group-text fas fa-lock"></span>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <div class="icheck-primary">
-                                                                <input type="checkbox" id="agreeTerms" name="agreeTerms" value="agree">
-                                                                <label for="agreeTerms">
-                                                                    I agree to the <a href="#">terms</a>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <!-- /.col -->
-                                                        <div class="mb-3">
-                                                            
-                                                            <button type="submit" name="register" class="btn btn-primary btn-block">Register user</button>
-                                                        </div>
-                                                        <!-- /.col -->
+                                                                            </div>
+                                                                            <h4>Remember the data entered for the user.</h4>
+                                                                            <div class="progress">
+                                                                                <div class="progress-bar" role="progressbar" style="width: 86%;" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">86%</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                        <h5 class="text-danger">We recommend you check if there are users with administration levels. </h5>
+                                                                        <p>1.- Verify that there are no high-level users in the installation</p>
+                                                                            <button class = "btn btn-info" type="submit" name="verifyuser" id="verifyuser">Verify user admin</button>
+                                                                        <p>2.- Deleted high-level users in the installation</p>
+                                                                            <button class = "btn btn-danger" type="submit" name="cleanuser" id="cleanuser">Clean user admin</button>
+                                                                        </div>
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Firstname">
+                                                                            <span class="input-group-text fas fa-id-card"></span>
+                                                                        </div>                    
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Lastname">                          
+                                                                            <span class="input-group-text far fa-id-card"></span>
+                                                                        </div>
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                                                                            <span class="input-group-text fas fa-user"></span>
+                                                                        </div>                    
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email">                          
+                                                                            <span class="input-group-text fas fa-envelope"></span>
+                                                                        </div>
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">                                            
+                                                                            <span class="input-group-text fas fa-lock"></span>                                                
+                                                                        </div>
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="password" name="password2" id="password2" class="form-control" placeholder="Retype password">
+                                                                            <span class="input-group-text fas fa-lock"></span>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <div class="icheck-primary">
+                                                                                <input type="checkbox" id="agreeTerms" name="agreeTerms" value="agree">
+                                                                                <label for="agreeTerms">
+                                                                                    I agree to the <a href="#">terms</a>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.col -->
+                                                                        <div class="mb-3">
+                                                                            
+                                                                            <button type="submit" name="register" class="btn btn-primary btn-block">Register user</button>
+                                                                        </div>
+                                                                        <!-- /.col -->
         <?php
     } elseif ($step == 6 || $_SESSION['StepInstall'] == 6) {
         ?>
-                                                        <div class = "alert alert-success" role = "alert">
-                                                            <h5>Create file configuration</h5>
-                                                        </div>
-                                                        <div class = "mb-3">
-                                                            <div class = "alert alert-primary text-center" role = "alert">
-                                                                <h3>6.- Sixth step</h3>
-                                                            </div>
-                                                            <h4>System installation is nearing completion .</h4>
-                                                            <div class = "progress">
-                                                                <div class = "progress-bar" role = "progressbar" style = "width: 95%;" aria-valuenow = "95" aria-valuemin = "0" aria-valuemax = "100">95%</div>
-                                                            </div>
-                                                        </div>
+                                                                        <div class = "alert alert-success" role = "alert">
+                                                                            <h5>Create file configuration</h5>
+                                                                        </div>
+                                                                        <div class = "mb-3">
+                                                                            <div class = "alert alert-primary text-center" role = "alert">
+                                                                                <h3>6.- Sixth step</h3>
+                                                                            </div>
+                                                                            <h4>System installation is nearing completion .</h4>
+                                                                            <div class = "progress">
+                                                                                <div class = "progress-bar" role = "progressbar" style = "width: 95%;" aria-valuenow = "95" aria-valuemin = "0" aria-valuemax = "100">95%</div>
+                                                                            </div>
+                                                                        </div>
 
-                                                        <div class = "mb-3">
-                                                            <h4>This is the final step to start editing your website. </h4>
-                                                            <button class="btn btn-info" type="submit" name="createfile" id="createfile">Create configuration</button>
-                                                        </div>
+                                                                        <div class = "mb-3">
+                                                                            <h4>This is the final step to start editing your website. </h4>
+                                                                            <button class="btn btn-info" type="submit" name="createfile" id="createfile">Create configuration</button>
+                                                                        </div>
         <?php
     }
         ?>
-                                        </form>
+                                                </form>
+                                            </div>
+                                        </div>                    
                                     </div>
-                                </div>                    
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <script src="<? echo $website; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-                    <script src="<? echo $website; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-                    <script src="<? echo $website; ?>assets/js/popper.min.js" type="text/javascript"></script>   
+                            <script src="<?php echo $website; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+                            <script src="<?php echo $website; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+                            <script src="<?php echo $website; ?>assets/js/popper.min.js" type="text/javascript"></script>   
 
-                </body>
-            </html>
+                        </body>
+                    </html>
     <?php
 } else {
     ?>
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>PHP GrapesJS</title>
+                    <!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                            <meta charset="UTF-8" />
+                            <meta name="viewport" content="width=device-width, initial-scale=1" />
+                            <title>PHP GrapesJS</title>
 
-                    <link href="<? echo $website; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
-                    <link href="<? echo $website; ?>assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
-                </head>
-                <body class="bg-dark">
-                    <div class="container py-4">
-                        <div class="row">
+                            <link href="<?php echo $website; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  
+                            <link href="<?php echo $website; ?>assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+                        </head>
+                        <body class="bg-dark">
+                            <div class="container py-4">
+                                <div class="row">
 
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <h3>PHP GrapesJS is already installed</h3>
-                                    <p>
-                                        <a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/signin/login'; ?>" target="_self" class="btn btn-info">Go to homepage</a> 
-                                    </p>                           
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h3>PHP GrapesJS is already installed</h3>
+                                            <p>
+                                                <a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/signin/login'; ?>" target="_self" class="btn btn-info">Go to homepage</a> 
+                                            </p>                           
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <script src="<? echo $website; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-                    <script src="<? echo $website; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-                    <script src="<? echo $website; ?>assets/js/popper.min.js" type="text/javascript"></script>   
-                </body>
-            </html>
+                            <script src="<?php echo $website; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+                            <script src="<?php echo $website; ?>assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+                            <script src="<?php echo $website; ?>assets/js/popper.min.js" type="text/javascript"></script>   
+                        </body>
+                    </html>
     <?php
 }
     ?>
