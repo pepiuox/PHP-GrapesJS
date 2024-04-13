@@ -422,7 +422,7 @@ class installUser {
                             header("Location: install.php?step=6");
                             exit;
                         } else {
-                            $_SESSION["ErrorMessage"] = "Security log could not be completed, see technical support .";
+                            $_SESSION["ErrorMessage"] = "Security log could not be completed, see technical support.";
                         }
                     } else {
                         $_SESSION["ErrorMessage"] = "User creation failed, check with support to continue with your registration.";
