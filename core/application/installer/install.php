@@ -434,6 +434,8 @@ unset($_SESSION["DBHOST"]);
 unset($_SESSION["DBUSER"]);
 unset($_SESSION["DBPASSWORD"]);
 unset($_SESSION["DBNAME"]);
+unset($_SESSION["SECURE_TOKEN"]);
+unset($_SESSION["SECURE_HASH"]);
 session_destroy();
 ?>
         ';
