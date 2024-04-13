@@ -1,6 +1,6 @@
 <?php
 
-$settings = array(
+$settings=array(
     'default-connection' => 'cms',
     'connections' => array(
         'cms' => array(

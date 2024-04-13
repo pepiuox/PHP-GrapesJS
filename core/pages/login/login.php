@@ -1,6 +1,7 @@
 <?php
     $login = new UsersClass();
     $level = new AccessLevel();
+    
 ?>
 
 	<div class="hold-transition login-page">

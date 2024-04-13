@@ -1,8 +1,8 @@
 <?php
-define('DOMAIN_SITE','http://www.pepiuox.net');
- define('SITE_NAME','PEPIUOX');
+define('DOMAIN_SITE','//www.esrapi.com');
+ define('SITE_NAME','ESRAPI');
  define('SITE_BRAND_IMG','icon-pepiuox.png');
- define('SITE_PATH','http://localhost:130/');
+ define('SITE_PATH','//localhost:130/');
  define('SITE_DESCRIPTION','Your description for your domains');
  define('SITE_KEYWORDS','Your keywords for your domains');
  define('SITE_CLASSIFICATION','Your classification for your domains');
@@ -26,8 +26,10 @@ define('DOMAIN_SITE','http://www.pepiuox.net');
  define('FACEBOOKID','pepiuox30675');
  define('SKYPE','pepiuox');
  define('TELEGRAM','pepiuox');
- define('WHATSAPP','+51999063645');
- define('MAILSERVER','smtp.hostinger.com');
+ define('WHATSAPP','+51 999063645');
+ define('created','2022-01-08 08:42:41');
+ define('updated','2023-12-22 23:33:14');
+define('MAILSERVER','smtp.hostinger.com');
  define('PORTSERVER','461');
  define('USEREMAIL','YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=');
  define('PASSMAIL','bnVEa3VFZXV6eERRNjVDcEVpZWJNWEoxVW9WTEE1YTBmMnczTXB4aElFMD0=');
@@ -35,6 +37,5 @@ define('DOMAIN_SITE','http://www.pepiuox.net');
  define('SUPERADMIN_LEVEL','9');
  define('ADMIN_NAME','Admin');
  define('ADMIN_LEVEL','5');
- define('SECURE_HASH','404f1899dbec35694922dbc7e51d921e69d84c9ba3b1b45c7aa33cb882be399e');
- define('SECURE_TOKEN','6NkTx64snRiUX}ojCWU1vWIx#snx]Eux3#2AOzB8(GjUt%MwZ7LgtDFvMlrDOXFCwGmw}eLvikWpWd3crnZ@h4K(Ki[uzAW6Zo8}g0e@CPC7OQF7}nj$yc{kYGCddycr');
- ?>
+ define('SECURE_HASH','b5771f3c6b6f65fd39b059d34d294116ab321bc88abe2c6411036654d9c6a50d');
+ define('SECURE_TOKEN','o]ZmhBH8g{#qmt4ndEAe[[$}[EcszyYYkX25E&db0Bz&E4e&]R2S5$AVb{%PyB{vxmVb$FM4d4wtw]3Prd((wnDzZaG7}{gCqLko$z#y5mj(wX({IRgu&Dd@xvd1wxwf');?>
