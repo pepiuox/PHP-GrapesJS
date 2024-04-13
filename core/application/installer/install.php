@@ -352,7 +352,7 @@ include_once 'define.php';" . "\n\n";
             \$siteinstall = SITE_PATH;
         } else {" . "\n";
         if (!empty($siteinstall)) {
-            $filecontent .= "\$base = \$protocol.\$_SERVER['HTTP_HOST'].';" . "\n";
+            $filecontent .= "\$base = \$protocol.\$_SERVER['HTTP_HOST'].'/';" . "\n";
         } else {
             $filecontent .= "\$base = \$protocol.\$_SERVER['HTTP_HOST'].'" . $folder . "\n";
         }
@@ -360,7 +360,20 @@ include_once 'define.php';" . "\n\n";
         $filecontent .= "\$fname = basename(\$_SERVER['SCRIPT_FILENAME'], '.php');" . "\n";
         $filecontent .= "\$rname = \$fname . '.php';" . "\n";
         $filecontent .= "\$alertpg = \$_SERVER['REQUEST_URI'];" . "\n\n";
-        $filecontent .= "    
+        $filecontent .= "\$lang = '';
+\$lg = '';
+if(!isset(\$_SESSION['translation'])){
+	\$lg = 'es';
+}
+if(!empty(\$lg)){
+	\$_SESSION['translation'] = \$lg;
+}
+if(isset(\$_SESSION['translation'])){
+	\$lg = \$_SESSION['translation'];
+	require_once 'language/lang/'.\$lg.'.php';
+}else{
+	require_once 'language/lang/es.php';
+}    
     ?>
     ";
         file_put_contents($file, $filecontent, FILE_APPEND | LOCK_EX);
