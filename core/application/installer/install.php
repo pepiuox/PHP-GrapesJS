@@ -431,7 +431,7 @@ if(isset(\$_SESSION['translation'])){
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="refresh" content="5; url=../signin/login.php" />
+        <meta http-equiv="refresh" content="5; url=login" />
         <title>PHP GrapesJS</title>
 
         <link href="' .
@@ -828,7 +828,7 @@ session_destroy();
                                                     <h3>PHP GrapesJS is already installed</h3>
                                                     <p>
                                                         <a href="<?php
-    echo "http://" .
+    echo "//" .
     $_SERVER["HTTP_HOST"] .
     "/signin/login";
     ?>" target="_self" class="btn btn-info">Go to homepage</a> 
