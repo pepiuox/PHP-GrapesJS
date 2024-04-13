@@ -29,6 +29,15 @@ if (isset($_SESSION['PathInstall'])) {
     $siteinstall = $website . $folder . '/';
 }
 
+/*
+if(isset($_SESSION['SECURE_HASH']) && !empty($_SESSION['SECURE_HASH'])){
+    define('SECURE_HASH',$_SESSION['SECURE_HASH']);
+}
+ if(isset($_SESSION['SECURE_TOKEN']) && !empty($_SESSION['SECURE_TOKEN'])){
+    define('SECURE_TOKEN',$_SESSION['SECURE_TOKEN']);
+}
+*/
+
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;
 require_once 'Autoload.php';
@@ -174,6 +183,31 @@ if (!file_exists($file)) {
     }
 
     extract($_POST);
+    
+    if (isset($_POST['Update'])) {
+        
+     $_SESSION['SECURE_HASH'] = $_POST['SECURE_HASH'];
+     $_SESSION['SECURE_TOKEN'] = $_POST['SECURE_TOKEN'];
+        
+        foreach ($_POST as $k => $v) {
+            if ($_POST['Update'] === $v) {
+                continue;
+            }
+            $vals[] = "`" . $k . "` = '" . $v . "'";
+        }
+        $vupdates = implode(", ", $vals);
+        $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
+        if ($conn->query($update) === TRUE) {
+            $_SESSION['SuccessMessage'] = "The configuration definitions file has been created ";
+
+                    $_SESSION['StepInstall'] = 4;
+                    header("Location: install.php?step=4");
+                    exit;
+        } else {
+            $_SESSION['ErrorMessage'] = 'Error Updating configutations.';
+        }
+        $conn->close();
+    }
     if (isset($_POST['UpdateCode'])) {
         $definefiles = $source . '/core/config/define.php';
         if (file_exists($definefiles)) {
@@ -243,32 +277,6 @@ if (!file_exists($file)) {
                     exit;
                 }
             }
-        } else {
-            $_SESSION['ErrorMessage'] = 'Error Updating configutations.';
-        }
-        $conn->close();
-    }
-    if (isset($_POST['Update'])) {
-        $definefiles = $source . '/core/config/define.php';
-        if (file_exists($definefiles)) {
-            unlink($definefiles);
-        }
-        $_SESSION['AlertMessage'] = "The definitions are up to date.";
-
-        foreach ($_POST as $k => $v) {
-            if ($_POST['Update'] === $v) {
-                continue;
-            }
-            $vals[] = "`" . $k . "` = '" . $v . "'";
-        }
-        $vupdates = implode(", ", $vals);
-        $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
-        if ($conn->query($update) === TRUE) {
-            $_SESSION['SuccessMessage'] = "The configuration definitions file has been created ";
-
-                    $_SESSION['StepInstall'] = 4;
-                    header("Location: install.php?step=4");
-                    exit;
         } else {
             $_SESSION['ErrorMessage'] = 'Error Updating configutations.';
         }
@@ -614,6 +622,9 @@ session_destroy();
         <?php
         $conn->close();
     } elseif ($step == 5 || $_SESSION['StepInstall'] == 5) {
+        require $definefiles;
+        $_SESSION['SECURE_HASH'] = SECURE_HASH;
+        $_SESSION['SECURE_TOKEN'] = SECURE_TOKEN;
         ?>
                                                                         <div class="alert alert-success" role="alert">
                                                                             <h5>Admin registration </h5>

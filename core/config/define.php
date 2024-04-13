@@ -35,5 +35,6 @@ define('DOMAIN_SITE','http://www.pepiuox.net');
  define('SUPERADMIN_LEVEL','9');
  define('ADMIN_NAME','Admin');
  define('ADMIN_LEVEL','5');
- define('SECURE_HASH','6be6501413cbf5e9e69c9db0b5f432d635d5d49db7d7505596bef4e902f9605c');
- define('SECURE_TOKEN',')H7Q&C[zSQ[P0HZTNdQyR25P9pRKo5iXs$3Y86zN8cIZQpoUlK4RDQAkLLD2h7cRQ3&d)[Js7M)OInozQeICXa{(7&6K2sj%ziCYeAoKON)5p(1n5OK%1D2vexjl{JO6');?>
+define('SECURE_HASH','404f1899dbec35694922dbc7e51d921e69d84c9ba3b1b45c7aa33cb882be399e');
+ define('SECURE_TOKEN','6NkTx64snRiUX}ojCWU1vWIx#snx]Eux3#2AOzB8(GjUt%MwZ7LgtDFvMlrDOXFCwGmw}eLvikWpWd3crnZ@h4K(Ki[uzAW6Zo8}g0e@CPC7OQF7}nj$yc{kYGCddycr');
+ ?>

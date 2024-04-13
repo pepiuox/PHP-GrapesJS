@@ -31,9 +31,9 @@ class installUser {
         $this->ip = $this->getUserIP();
         $this->dt = new DateTime();
         $this->time = $this->dt->format("Y-m-d H:i:s");
-        
+
         $this->pathapp = dirname(__DIR__, 3);
-        $this->source = str_replace('\\', '/', $path_app);
+        $this->source = str_replace('\\', '/', $this->pathapp);
         $this->protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") || $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
         $this->baseurl = $this->protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
         /* If registration data is posted call createUser function. */
@@ -50,9 +50,9 @@ class installUser {
     }
 
     private function includes() {
-        require_once $this->source."/core/PHPMailer/src/Exception.php";
-        require_once $this->source."/core/PHPMailer/src/PHPMailer.php";
-        require_once $this->source."/core/PHPMailer/src/SMTP.php";
+        require_once $this->source . "/core/PHPMailer/src/Exception.php";
+        require_once $this->source . "/core/PHPMailer/src/PHPMailer.php";
+        require_once $this->source . "/core/PHPMailer/src/SMTP.php";
     }
 
 // This function check that they do not have html symbols 
@@ -90,16 +90,16 @@ class installUser {
         $pattern = '/^(?=.*[!@#$%^&*()\-_=+`~\[\]{}?])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,30}$/';
         return preg_match($pattern, $str);
     }
-    
+
 // This function check if username exists
     private function checkUsername($username) {
         $user = $this->gc->ende_crypter(
             "encrypt",
             $username,
-            SECURE_TOKEN,
-            SECURE_HASH
+            $_SESSION['SECURE_TOKEN'],
+            $_SESSION['SECURE_HASH']
         );
-        $query = $this->conn->prepare(
+        $query = $this->connection->prepare(
             "SELECT username FROM uverify WHERE username=?"
         );
         $query->bind_param("s", $user);
@@ -114,10 +114,10 @@ class installUser {
         $mail = $this->gc->ende_crypter(
             "encrypt",
             $email,
-            SECURE_TOKEN,
-            SECURE_HASH
+            $_SESSION['SECURE_TOKEN'],
+            $_SESSION['SECURE_HASH']
         );
-        $query = $this->conn->prepare(
+        $query = $this->connection->prepare(
             "SELECT email FROM uverify WHERE email=?"
         );
         $query->bind_param("s", $mail);
@@ -226,7 +226,8 @@ class installUser {
      * Data is taken from registration form, converted to prevent SQL injection and
      * checked that values are filled, if all is correct data is entered to user database.
      */
-  private function RegisterAdmin() {
+
+    private function RegisterAdmin() {
         if (isset($_POST["register"])) {
             $firstname = $this->procheck($_POST['firstname']);
             $lastname = $this->procheck($_POST['lastname']);
@@ -269,14 +270,14 @@ class installUser {
                     $user = $this->gc->ende_crypter(
                         "encrypt",
                         $username,
-                        SECURE_TOKEN,
-                        SECURE_HASH
+                        $_SESSION['SECURE_TOKEN'],
+                        $_SESSION['SECURE_HASH']
                     );
                     $uml = $this->gc->ende_crypter(
                         "encrypt",
                         $email,
-                        SECURE_TOKEN,
-                        SECURE_HASH
+                        $_SESSION['SECURE_TOKEN'],
+                        $_SESSION['SECURE_HASH']
                     );
 
                     $newid = $this->gc->getRandCode();
@@ -302,15 +303,15 @@ class installUser {
                     $mp = $this->gc->ende_crypter(
                         "encrypt",
                         $pin,
-                        SECURE_TOKEN,
-                        SECURE_HASH
+                        $_SESSION['SECURE_TOKEN'],
+                        $_SESSION['SECURE_HASH']
                     );
 
                     $usrcod = $this->gc->getRandomCode();
                     $code = $this->gc->getIdCode();
-                    
+
                     $lvl = 'Super Admin';
-                                 
+
                     $status = 0;
                     $dvd = 0;
                     $mvd = 0;
@@ -320,7 +321,7 @@ class installUser {
                     $action = "validation";
 
                     // adding data in table uverify
-                    $stmt1 = $this->conn->prepare(
+                    $stmt1 = $this->connection->prepare(
                         "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,level,is_activated,verified,banned) " .
                         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
@@ -345,7 +346,7 @@ class installUser {
                     $stmt1->close();
 
                     // adding data in table users
-                    $stmt = $this->conn->prepare(
+                    $stmt = $this->connection->prepare(
                         "INSERT INTO users (idUser,usercode,username,email,password,status,ip,signup_time,email_verified,document_verified,mobile_verified,mkpin) " .
                         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
@@ -369,7 +370,7 @@ class installUser {
                     $stmt->close();
 
                     // adding data in table profile
-                    $prof = $this->conn->prepare(
+                    $prof = $this->connection->prepare(
                         "INSERT INTO users_profiles(idp,usercode,mkhash) VALUES (?,?,?)"
                     );
                     $prof->bind_param("sss", $newid, $usrcod, $enck);
@@ -378,16 +379,16 @@ class installUser {
                     $prof->close();
 
                     // adding data in table info
-                    $info = $this->conn->prepare(
-                        "INSERT INTO users_info(userid,usercode) VALUES (?,?,?,?)"
+                    $info = $this->connection->prepare(
+                        "INSERT INTO users_info(userid,usercode,firstname,lastname) VALUES (?,?,?,?)"
                     );
-                    $info->bind_param("ssss", $newid, $usrcod, $firstname,$lastname);
+                    $info->bind_param("ssss", $newid, $usrcod, $firstname, $lastname);
                     $info->execute();
                     $inst4 = $info->affected_rows;
                     $info->close();
 
                     // adding data in table info
-                    $uact = $this->conn->prepare(
+                    $uact = $this->connection->prepare(
                         "INSERT INTO users_actions(usercode, action, validation) VALUES (?,?,?)"
                     );
                     $uact->bind_param("sss", $usrcod, $action, $code);
@@ -405,7 +406,7 @@ class installUser {
                         $inst5 === 1
                     ) {
                         // message for PIN save
-                        $query = $this->conn->prepare(
+                        $query = $this->connection->prepare(
                             "SELECT iduv, mkpin FROM uverify WHERE username=? AND email=? AND password=?"
                         );
                         $query->bind_param("sss", $user, $uml, $pass);
@@ -415,11 +416,11 @@ class installUser {
 
                         if ($result->num_rows === 1) {
                             $_SESSION['FullSuccess'] = 'Please remember! Save this, your PIN code is: <h2>' . $pin . '</h2> Thank you for registering. ' . "\n";
-                        $_SESSION['SuccessMessage'] = "Admin successfully added.";
+                            $_SESSION['SuccessMessage'] = "Admin successfully added.";
 
-                        $_SESSION['StepInstall'] = 6;
-                        header("Location: install.php?step=6");
-                        exit;
+                            $_SESSION['StepInstall'] = 6;
+                            header("Location: install.php?step=6");
+                            exit;
                         } else {
                             $_SESSION["ErrorMessage"] = "Security log could not be completed, see technical support .";
                         }
@@ -429,10 +430,9 @@ class installUser {
                 }
             }
         }
-        $this->conn->close();
+        $this->connection->close();
     }
 
-  
     public function generateRandStr($length) {
         $randstr = "";
         for ($i = 0; $i < $length; $i++) {
