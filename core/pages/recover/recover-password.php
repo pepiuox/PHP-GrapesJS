@@ -1,18 +1,24 @@
 <?php
-        $login = new UserClass();
-    $forgotpass = new userForgot();
-    if ($login->isLoggedIn() === true) {
-        header('Location: ../users/profile.php');
-        exit;
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+$login = new UsersClass();
+$forgotpass = new userForgot();
+    if ($login->isLoggedIn() === true) {   
+        ?>
+ <script>
+    window.location.replace("<?php echo SITE_PATH; ?>profile/user-profile");
+        </script>
+<?php
     } else {
         ?>
 
-        <?php
-        include '../elements/alerts.php';
-        ?>
         <div class="login-box">
             <div class="login-logo">
-                <a href="<?php echo SITE_PATH; ?>index2.php"><b><?php echo SITE_NAME; ?></b></a>
+                <a href="<?php echo SITE_PATH; ?>"><b><?php echo SITE_NAME; ?></b></a>
             </div>
             <!-- /.login-logo -->
             <div class="card">

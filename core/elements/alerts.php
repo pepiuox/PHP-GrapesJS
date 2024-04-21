@@ -43,7 +43,7 @@
             <div class="alert alert-success alert-container" id="alert">
                 <strong><center><?php echo $_SESSION['success']; ?></center></strong>
                 <?php unset($_SESSION['success']); ?>
-                <meta http-equiv="Refresh" content="3; url='<?php echo $alertpg; ?>'" />
+                <meta http-equiv="Refresh" content="5; url='<?php echo $alertpg; ?>'" />
             </div>                
         <?php } ?>
         <?php

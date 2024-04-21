@@ -4,8 +4,11 @@
     $forgotpass = new userForgot();
     $menu = 1;
     if ($login->isLoggedIn() === true) {
-        header('Location: ../users/profile.php');
-        exit;
+         ?>
+ <script>
+    window.location.replace("<?php echo SITE_PATH; ?>profile/user-profile");
+        </script>
+<?php
     } else {
 
        include_once 'views/recoverPassword.php';    

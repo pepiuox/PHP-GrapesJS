@@ -1,6 +1,4 @@
 <?php
-// Below is optional, remove if you have already connected to your database.
-$mysqli = mysqli_connect('localhost', 'root', '', 'pagination');
 
 // Get the total number of records from our table "students".
 $total_pages = $mysqli->query('SELECT * FROM students')->num_rows;
@@ -19,11 +17,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM students ORDER BY name LIMIT ?,?')) 
     // Get the results...
     $result = $stmt->get_result();
     ?>
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>PHP & MySQL Pagination by CodeShack</title>
-            <meta charset="utf-8">
+   
             <style>
                 html {
                     font-family: Tahoma, Geneva, sans-serif;
@@ -90,8 +84,6 @@ if ($stmt = $mysqli->prepare('SELECT * FROM students ORDER BY name LIMIT ?,?')) 
                     background-color: #518acb;
                 }
             </style>
-        </head>
-        <body>
             <table>
                 <tr>
                     <th>Name</th>
@@ -135,8 +127,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM students ORDER BY name LIMIT ?,?')) 
                     <?php endif; ?>
                 </ul>
             <?php endif; ?>
-        </body>
-    </html>
+
     <?php
     $stmt->close();
 }

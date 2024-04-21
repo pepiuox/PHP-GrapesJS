@@ -1,15 +1,26 @@
-<div class="hold-transition login-page">
-    <?php
+<?php
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
         $login = new UsersClass();
     $forgotpass = new UsersForgot();
     $menu = 1;
     if ($login->isLoggedIn() === true) {
-        header('Location: ../users/profile.php');
-        exit;
+         ?>
+ <script>
+    window.location.replace("<?php echo SITE_PATH; ?>profile/user-profile");
+        </script>
+<?php
     } else {
 
-        include_once '../../elements/footer.php';
+       ?>
+<div class="hold-transition login-page">
+    </div>
+           <?php
     }
     ?>
-    </div>
+
     

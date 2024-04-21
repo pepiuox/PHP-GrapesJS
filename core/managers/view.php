@@ -6,7 +6,7 @@
 //  Email      : contact@pepiuox.net
 //
 
-require_once $source."/core/config/loader.php";
+
 
 $pages = new Routers();
 $visitor = new GetVisitor();
@@ -52,7 +52,7 @@ $visitor->pageViews($title);
 
 $language = $_SESSION["language"] = $lng;
 
-require_once "elements/top.php";
+require_once $source."/core/components/elements/top.php";
 ?>
 
 </head>
@@ -67,7 +67,7 @@ require_once "elements/top.php";
             $login = new UsersClass(); ?>
         <div class='container-fluid' id="content-page">
             <?php
-            include "elements/alerts.php";
+            require_once $source."/core/components/elements/alerts.php";
             $string = decodeContent($content);
             if (!empty($content)) {
                 $string = str_replace("<body>", "", $string);

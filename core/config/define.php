@@ -2,11 +2,11 @@
 define('DOMAIN_SITE','//www.esrapi.com');
  define('SITE_NAME','ESRAPI');
  define('SITE_BRAND_IMG','icon-pepiuox.png');
- define('SITE_PATH','//localhost:130/');
+ define('SITE_PATH','http://localhost:180/');
  define('SITE_DESCRIPTION','Your description for your domains');
  define('SITE_KEYWORDS','Your keywords for your domains');
  define('SITE_CLASSIFICATION','Your classification for your domains');
- define('SITE_EMAIL','info@phpgrapesjs.com');
+ define('SITE_EMAIL','contact@pepiuox.net');
  define('SITE_IMAGE','dashboard');
  define('SITE_ADMIN','dashboard');
  define('SITE_CONTROL','users');
@@ -28,7 +28,7 @@ define('DOMAIN_SITE','//www.esrapi.com');
  define('TELEGRAM','pepiuox');
  define('WHATSAPP','+51 999063645');
  define('created','2022-01-08 08:42:41');
- define('updated','2023-12-22 23:33:14');
+ define('updated','2024-04-14 02:19:34');
 define('MAILSERVER','smtp.hostinger.com');
  define('PORTSERVER','461');
  define('USEREMAIL','YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=');
@@ -37,5 +37,5 @@ define('MAILSERVER','smtp.hostinger.com');
  define('SUPERADMIN_LEVEL','9');
  define('ADMIN_NAME','Admin');
  define('ADMIN_LEVEL','5');
- define('SECURE_HASH','b5771f3c6b6f65fd39b059d34d294116ab321bc88abe2c6411036654d9c6a50d');
- define('SECURE_TOKEN','o]ZmhBH8g{#qmt4ndEAe[[$}[EcszyYYkX25E&db0Bz&E4e&]R2S5$AVb{%PyB{vxmVb$FM4d4wtw]3Prd((wnDzZaG7}{gCqLko$z#y5mj(wX({IRgu&Dd@xvd1wxwf');?>
+ define('SECURE_HASH','e38ea8bcfb3a569a9461246217027a5e1a67e5fc2e9dbebba2f3f45520307f35');
+ define('SECURE_TOKEN','cd34Mzh%%3aB]z]cP)nLG&]y9b2x[PFHvBwhOt2DsnNr#dDm32PZ$KDVyrTp#&)4V5udB]ql#hJ$Yss#i$c4S6psFBq$3RnnjQ0{9dhHUV)5YoPGJ)StMkaYPE7u696j');?>

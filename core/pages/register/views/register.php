@@ -20,7 +20,7 @@
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fa-solid fa-flag">
-                </spam>
+                </span>
             </div>
           </div>
         </div>

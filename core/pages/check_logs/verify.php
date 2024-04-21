@@ -1,11 +1,19 @@
-
-    <?php
+<?php
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+$login = new UsersClass();
     $verify = new UserVerify();
     if ($login->isLoggedIn() === true) {
-        header('Location: ../users/profile.php');
-        exit;
+         ?>
+ <script>
+    window.location.replace("<?php echo SITE_PATH; ?>profile/user-profile");
+        </script>
+<?php
     } else {
-          
         ?>
         <div class="container">
             <div class="row">

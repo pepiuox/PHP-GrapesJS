@@ -14,7 +14,8 @@
 
 class UsersClass
 {
-    public $system;
+    public $syst;
+    public $logp;
     public $baseurl;
     protected $conn;
     private $ip;
@@ -22,6 +23,7 @@ class UsersClass
     private $expiry;
     public $date;
     private $userlevel;
+    private $uca;
     public $gc;
 
     /*
@@ -33,8 +35,9 @@ class UsersClass
     {
         global $conn;
         $this->conn = $conn;
-        $this->system = SITE_PATH;
-
+        $this->syst = SITE_PATH;
+        $this->logp = $this->syst . "/signin/login";
+        $this->uca = new UsersCodeAccess();
         $this->gc = new GetCodeDeEncrypt();
         $this->expiry = time() + 3600;
         $this->ip = $this->getUserIP();
@@ -84,7 +87,8 @@ class UsersClass
 
         return $ip;
     }
-public function isValidUsername($username)
+
+    public function isValidUsername($username)
     {
         if (strlen($username) < 7) {
             return false;
@@ -100,6 +104,7 @@ public function isValidUsername($username)
 
         return true;
     }
+
     /*
      * Function Login()
      * Function that validates user login data, cross-checks with database.
@@ -185,20 +190,20 @@ public function isValidUsername($username)
                             if (!empty($urw["password_key"])) {
                                 $_SESSION["ErrorMessage"] =
                                     "Your account is not active by request for password recovery, check your email or please contact support";
-                                header("Location: login.php");
-                                exit;
+                                header("Location: $this->logp");
+                                exit();
                             }
                             if (!empty($urw["pin_key"])) {
                                 $_SESSION["ErrorMessage"] =
                                     "Your account is not active by request for PIN recovery, check your email or please contact support.";
-                                header("Location: login.php");
-                                exit;
+                                header("Location: $this->logp");
+                                exit();
                             }
                             if ($urw["banned"] === 1) {
                                 $_SESSION["ErrorMessage"] =
                                     "Access could not be completed, account may be blocked, please contact support.";
-                                header("Location: login.php");
-                                exit;
+                                header("Location: $this->logp");
+                                exit();
                             }
                             $ucode = $urw["usercode"];
 
@@ -281,7 +286,8 @@ public function isValidUsername($username)
                                         if ($sqr->num_rows === 0) {
                                             $_SESSION["ErrorMessage"] =
                                                 "The data is wrong.";
-                                            //header('Location: login.php');
+                                            header("Location: $this->logp");
+                                            exit();
                                         }
                                         $row = $sqr->fetch_assoc();
 
@@ -362,27 +368,27 @@ public function isValidUsername($username)
                                         }
                                     } else {
                                         $this->nAttempt($useremail);
-                                        header("Location: login.php");
-                                        exit;
+                                        header("Location: $this->logp");
+                                        exit();
                                     }
                                 } else {
                                     $_SESSION["ErrorMessage"] =
                                         "Your account is not active, some process is incomplete, please contact support.";
-                                    header("Location: login.php");
-                                    exit;
+                                    header("Location: $this->logp");
+                                    exit();
                                 }
                             } else {
                                 $_SESSION["ErrorMessage"] =
                                     "Your account is not active, some process is incomplete, please contact support.";
-                                header("Location: login.php");
-                                exit;
+                                header("Location: $this->logp");
+                                exit();
                             }
                         }
                     } else {
                         $_SESSION["ErrorMessage"] =
                             "The PIN is not numeric or is not complete.";
-                        header("Location: login.php");
-                        exit;
+                        header("Location: $this->logp");
+                        exit();
                     }
                 }
             }
@@ -460,7 +466,7 @@ public function isValidUsername($username)
                 if ($result->num_rows === 0) {
                     $_SESSION["ErrorMessage"] = "The data is wrong.";
                     header("Location: login.php");
-                    exit;
+                    exit();
                 } else {
                     $urw = $result->fetch_assoc();
                     if ($urw["is_activated"] === 1 && $urw["banned"] === 0) {
@@ -509,18 +515,18 @@ public function isValidUsername($username)
                                 $_SESSION["SuccessMessage"] =
                                     "Congratulations you now have access!";
                                 header("Location: login.php");
-                                exit;
+                                exit();
                             }
                         } else {
                             $_SESSION["ErrorMessage"] = "Password incorrect.";
                             header("Location: login.php");
-                            exit;
+                            exit();
                         }
                     } else {
                         $_SESSION["ErrorMessage"] =
                             "Invalid username or password incorrect.";
                         header("Location: login.php");
-                        exit;
+                        exit();
                     }
                 }
             }
@@ -553,7 +559,7 @@ public function isValidUsername($username)
                 $_SESSION["ErrorMessage"] =
                     "You have the account blocked for more than 3 failed access attempts.";
                 header("Location: login.php");
-                exit;
+                exit();
             }
         }
     }
@@ -620,12 +626,12 @@ public function isValidUsername($username)
                 $_SESSION["error"] =
                     "Your are allowed 3 attempts in 10 minutes";
                 header("Location: login.php");
-                exit;
+                exit();
             } else {
                 $_SESSION["ErrorMessage"] =
                     "Invalid email, password or PIN incorrect.";
                 header("Location: login.php");
-                exit;
+                exit();
             }
         }
     }
@@ -668,19 +674,19 @@ public function isValidUsername($username)
                 }
                 $_SESSION = [];
                 /* Unset PHP session variables */
-				unset($_SESSION["access_id"]);
+                unset($_SESSION["access_id"]);
                 unset($_SESSION["username"]);
                 unset($_SESSION["user_id"]);
                 unset($_SESSION["level"]);
                 unset($_SESSION["hash"]);
                 unset($_SESSION);
                 session_destroy(); // Destroy all session data.
-                header("Location: " . $this->system . "signin/login.php");
-                exit;
+                header("Location: " . $this->syst . "signin/login.php");
+                exit();
             }
         } else {
-            header("Location: " . $this->system . "index.php");
-            exit;
+            header("Location: " . $this->syst . "index.php");
+            exit();
         }
     }
 
@@ -709,8 +715,8 @@ public function isValidUsername($username)
     public function Profile()
     {
         if (isset($_POST["profile"])) {
-            header("Location: " . $this->system . "users/profile.php");
-            exit;
+            header("Location: " . $this->syst . "users/profile.php");
+            exit();
         }
     }
 
@@ -751,8 +757,8 @@ public function isValidUsername($username)
         if ($_SESSION["last_activity"] < time() - $_SESSION["expire_time"]) {
             //have we expired?
             //redirect to logout.php
-            header("Location: " . $this->system . "signin/logout.php"); //change yoursite.com to the name of you site!
-            exit;
+            header("Location: " . $this->syst . "signin/logout"); //change yoursite.com to the name of you site!
+            exit();
         } else {
             //if we haven't expired:
             $_SESSION["last_activity"] = time(); //this was the moment of last activity.
@@ -771,8 +777,6 @@ public function isValidUsername($username)
             echo "You are uptodate";
         }
     }
-
-    
 
     /*
      * Function newPassword()
@@ -843,7 +847,7 @@ public function isValidUsername($username)
                     $_SESSION["ErrorMessage"] =
                         "Please insert the correct email.";
                     header("Location: registration.php");
-                    exit;
+                    exit();
                 }
 
                 // If username or email is taken.
@@ -852,7 +856,7 @@ public function isValidUsername($username)
                     $_SESSION["ErrorMessage"] =
                         "Firstname is taken from user or email!";
                     header("Location: registration.php");
-                    exit;
+                    exit();
                 } else {
                     // Insert data into database
                     $code = $this->gc->getIdCode();
@@ -899,18 +903,18 @@ public function isValidUsername($username)
                     // If registration is successful return user to registration.php and promt user success pop-up.
                     $_SESSION["ErrorMessage"] = "The user has been created!";
                     header("Location: register.php");
-                    exit;
+                    exit();
                 }
             } else {
                 // If registration fails return user to registration.php and promt user failure error.
                 $_SESSION["ErrorMessage"] = "Please complete all fields!";
                 header("Location: register.php");
-                exit;
+                exit();
             }
         } else {
             $_SESSION["ErrorMessage"] = "Passwords do not match!";
             header("Location: register.php");
-            exit;
+            exit();
         }
         $this->conn->close();
     }

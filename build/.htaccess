@@ -33,6 +33,7 @@
 	Redirect 301 "/inicio" "/"
         Redirect 301 "/system" "/admin"
         Redirect 301 "/login" "/signin"
+        Redirect 301 "/user" "/profile"
 </IfModule>
 <IfModule mod_headers.c>
         # Make sure proxies don't deliver the wrong content

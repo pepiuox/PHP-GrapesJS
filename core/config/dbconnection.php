@@ -16,7 +16,6 @@ if (!empty(SITE_PATH)) {
 } else {
     $base = $protocol . $_SERVER['HTTP_HOST'] . '/';
 }
-
 $fname = basename($_SERVER['REQUEST_URI']);
 $rname = $fname . '.php';
 $alertpg = $_SERVER['REQUEST_URI'];

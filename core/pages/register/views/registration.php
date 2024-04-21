@@ -54,9 +54,9 @@
                     <!-- /.col -->
                 </div>
             </form>
-	    <?php
-include_once 'options.php';
-?>	 
+	    
+<?php include_once $source.'/core/pages/options.php'; ?>
+	 
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->

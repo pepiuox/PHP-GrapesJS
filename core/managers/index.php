@@ -8,7 +8,7 @@ if (file_exists($connfile)) {
     require_once '../config/dbconnection.php';
     require_once 'Autoload.php';
 
-    $login = new UserClass();
+    $login = new UsersClass();
     $level = new AccessLevel();
 
     if ($login->isLoggedIn() === true) {
