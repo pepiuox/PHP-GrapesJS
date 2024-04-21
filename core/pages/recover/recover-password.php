@@ -7,15 +7,14 @@
 //
 $login = new UsersClass();
 $forgotpass = new userForgot();
-    if ($login->isLoggedIn() === true) {   
-        ?>
+if ($login->isLoggedIn() === true) {   
+?>
  <script>
     window.location.replace("<?php echo SITE_PATH; ?>profile/user-profile");
         </script>
 <?php
     } else {
         ?>
-
         <div class="login-box">
             <div class="login-logo">
                 <a href="<?php echo SITE_PATH; ?>"><b><?php echo SITE_NAME; ?></b></a>

@@ -27,7 +27,7 @@ class SessionClass {
                 "`ssID` VARCHAR(128), " .
                 "`data` MEDIUMBLOB, " .
                 "`timestamp` INT, " .
-                "`ip` VARCHAR(15), " .
+                "`ip` VARCHAR(20), " .
                 "PRIMARY KEY (`ssID` ), " .
                 "KEY (`timestamp`, `ssID`))";
 
