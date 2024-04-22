@@ -1,11 +1,12 @@
-<?php $changepass = new ChangePass(); ?>
+<?php
+$changepass = new ChangePass(); 
+?>
 <div class="container">
     <div class="row">
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body ">
                 <p class="login-box-msg">You are only one step a way from your new password</p>
-
                 <form method="post">
                     <label class="form-label" for="recoveryphrase">Enter your Recover phrase <span class="red">*</span>:</label>
                     <div class="input-group mb-3">

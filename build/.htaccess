@@ -46,7 +46,7 @@
         # // This is the Xss header you are looking for
         Header set X-XSS-Protection "1; mode=block"       
         Header set X-Content-Type-Options nosniff
-        Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+        Header set Content-Security-Policy "default-src 'self'; img-src https://*; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
         Header set Access-Control-Allow-Origin "*"
         IndexIgnore *.zip *.css *.js *.pyt    
         Options -MultiViews -Indexes        

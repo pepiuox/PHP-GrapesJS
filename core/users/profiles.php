@@ -44,15 +44,14 @@
 <?php
 include_once '../elements/alerts.php';
 $userid = $_SESSION['user_id'];
-                    $hash = $_SESSION['hash'];
-                    
-                    $respro = $uconn->prepare("SELECT * FROM users_profiles p LEFT JOIN users_info i ON p.usercode = i.usercode WHERE p.idp = ? AND p.mkhash = ? ");
-                    $respro->bind_param("ss", $userid, $hash);
-                    $respro->execute();
-                    $prof = $respro->get_result();
-                    $rpro = $prof->fetch_assoc();
-                    $respro->close();
+$hash = $_SESSION['hash'];
 
+$respro = $uconn->prepare("SELECT * FROM users_profiles p LEFT JOIN users_info i ON p.usercode = i.usercode WHERE p.idp = ? AND p.mkhash = ? ");
+$respro->bind_param("ss", $userid, $hash);
+$respro->execute();
+$prof = $respro->get_result();
+$rpro = $prof->fetch_assoc();
+$respro->close();
 ?>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">

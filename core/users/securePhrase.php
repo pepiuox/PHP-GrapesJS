@@ -1,6 +1,6 @@
-<?php $recoveryphrase = new RecoveryPhrase;
+<?php 
+$recoveryphrase = new RecoveryPhrase;
 ?>
-
 <div class="container">
     <div class="row pt-2">
         <div class="card">
