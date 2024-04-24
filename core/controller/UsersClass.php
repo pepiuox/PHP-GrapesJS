@@ -12,8 +12,8 @@
  * @author PePiuoX
  */
 
-class UsersClass
-{
+class UsersClass {
+
     public $syst;
     public $logp;
     public $baseurl;
@@ -32,8 +32,7 @@ class UsersClass
      * Constructor will be called every time Login class is called ($login = new Login())
      */
 
-    public function __construct()
-    {
+    public function __construct() {
         global $conn;
         $this->conn = $conn;
         $this->syst = SITE_PATH;
@@ -67,8 +66,7 @@ class UsersClass
 
     /* End __constructor() */
 
-    public function getUserIP()
-    {
+    public function getUserIP() {
         // Get real visitor IP behind CloudFlare network
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
             $_SERVER["REMOTE_ADDR"] = $_SERVER["HTTP_CF_CONNECTING_IP"];
@@ -89,8 +87,7 @@ class UsersClass
         return $ip;
     }
 
-    public function isValidUsername($username)
-    {
+    public function isValidUsername($username) {
         if (strlen($username) < 7) {
             return false;
         }
@@ -112,8 +109,7 @@ class UsersClass
      * If data is valid user is logged in, session variables are set.
      */
 
-    private function Login()
-    {
+    private function Login() {
         if (isset($_POST["signin"])) {
             //set login attempt if not set
             if (!isset($_SESSION["attempt"])) {
@@ -125,15 +121,13 @@ class UsersClass
             if (empty($_POST["email"])) {
                 $_SESSION["ErrorMessage"] = "Please fill in the email field.";
             } elseif (empty($_POST["password"])) {
-                $_SESSION["ErrorMessage"] =
-                    "Please fill in the Password field.";
+                $_SESSION["ErrorMessage"] = "Please fill in the Password field.";
             } elseif (empty($_POST["PIN"])) {
                 $_SESSION["ErrorMessage"] = "Please fill in the PIN field.";
             } else {
                 //check if there are 3 attempts already
                 if ($_SESSION["attempt_again"] >= 3) {
-                    $_SESSION["error"] =
-                        "Your are allowed 3 attempts in 10 minutes";
+                    $_SESSION["error"] = "Your are allowed 3 attempts in 10 minutes";
                 } else {
                     // User input from Login Form(loginForm.php).
                     $useremail = trim($_POST["email"]);
@@ -189,21 +183,18 @@ class UsersClass
                             $urw = $result->fetch_assoc();
 
                             if (!empty($urw["password_key"])) {
-                                $_SESSION["ErrorMessage"] =
-                                    "Your account is not active by request for password recovery, check your email or please contact support";
-                                header("Location: $this->logp");
+                                $_SESSION["ErrorMessage"] = "Your account is not active by request for password recovery, check your email or please contact support";
+                                header('Location: ' . $this->logp);
                                 exit();
                             }
                             if (!empty($urw["pin_key"])) {
-                                $_SESSION["ErrorMessage"] =
-                                    "Your account is not active by request for PIN recovery, check your email or please contact support.";
-                                header("Location: $this->logp");
+                                $_SESSION["ErrorMessage"] = "Your account is not active by request for PIN recovery, check your email or please contact support.";
+                                header('Location: ' . $this->logp);
                                 exit();
                             }
                             if ($urw["banned"] === 1) {
-                                $_SESSION["ErrorMessage"] =
-                                    "Access could not be completed, account may be blocked, please contact support.";
-                                header("Location: $this->logp");
+                                $_SESSION["ErrorMessage"] = "Access could not be completed, account may be blocked, please contact support.";
+                                header('Location: ' . $this->logp);
                                 exit();
                             }
                             $ucode = $urw["usercode"];
@@ -264,8 +255,7 @@ class UsersClass
 
                                     if ($userpsw === $pass) {
                                         if ($rpa === 0) {
-                                            $_SESSION["AlertMessage"] =
-                                                "Recovery phrase needs to be created for your safety.";
+                                            $_SESSION["AlertMessage"] = "Recovery phrase needs to be created for your safety.";
                                             $_SESSION["RecoveryMessage"] = 1;
                                         }
 
@@ -285,9 +275,8 @@ class UsersClass
                                         $stmt1->close();
 
                                         if ($sqr->num_rows === 0) {
-                                            $_SESSION["ErrorMessage"] =
-                                                "The data is wrong.";
-                                            header("Location: $this->logp");
+                                            $_SESSION["ErrorMessage"] = "The data is wrong.";
+                                            header('Location: ' . $this->logp);
                                             exit();
                                         }
                                         $row = $sqr->fetch_assoc();
@@ -355,8 +344,7 @@ class UsersClass
                                                 time() + $this->expiry,
                                                 "/"
                                             );
-                                            $_SESSION["SuccessMessage"] =
-                                                "Congratulations you now have access!";
+                                            $_SESSION["SuccessMessage"] = "Congratulations you now have access!";
                                             unset($_SESSION["attempt"]);
                                             unset($_SESSION["attempt_again"]);
                                             unset(
@@ -364,31 +352,27 @@ class UsersClass
                                             );
                                         } else {
                                             session_destroy();
-                                            $_SESSION["ErrorMessage"] =
-                                                "Access error!";
+                                            $_SESSION["ErrorMessage"] = "Access error!";
                                         }
                                     } else {
                                         $this->nAttempt($useremail);
-                                        header("Location: $this->logp");
+                                        header('Location: ' . $this->logp);
                                         exit();
                                     }
                                 } else {
-                                    $_SESSION["ErrorMessage"] =
-                                        "Your account is not active, some process is incomplete, please contact support.";
-                                    header("Location: $this->logp");
+                                    $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
+                                    header('Location: ' . $this->logp);
                                     exit();
                                 }
                             } else {
-                                $_SESSION["ErrorMessage"] =
-                                    "Your account is not active, some process is incomplete, please contact support.";
-                                header("Location: $this->logp");
+                                $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
+                                header('Location: ' . $this->logp);
                                 exit();
                             }
                         }
                     } else {
-                        $_SESSION["ErrorMessage"] =
-                            "The PIN is not numeric or is not complete.";
-                        header("Location: $this->logp");
+                        $_SESSION["ErrorMessage"] = "The PIN is not numeric or is not complete.";
+                        header('Location: ' . $this->logp);
                         exit();
                     }
                 }
@@ -402,8 +386,7 @@ class UsersClass
      * Verifies if the existence of records of user in the table login_attempts
      */
 
-    private function viewLogAttempts($id, $udt)
-    {
+    private function viewLogAttempts($id, $udt) {
         $result = $this->conn->prepare(
             "SELECT id_session, user_data FROM login_attempts WHERE id_session= ? AND user_data = ?"
         );
@@ -428,15 +411,12 @@ class UsersClass
      * Create a failed login session , destroys all attempts session data.
      */
 
-    private function CheckAttempts()
-    {
+    private function CheckAttempts() {
         if (isset($_POST["attempts"])) {
             if (empty($_POST["username"])) {
-                $_SESSION["ErrorMessage"] =
-                    "Please fill in the username field.";
+                $_SESSION["ErrorMessage"] = "Please fill in the username field.";
             } elseif (empty($_POST["password"])) {
-                $_SESSION["ErrorMessage"] =
-                    "Please fill in the Password field.";
+                $_SESSION["ErrorMessage"] = "Please fill in the Password field.";
             } elseif (empty($_POST["PIN"])) {
                 $_SESSION["ErrorMessage"] = "Please fill in the PIN field.";
             } else {
@@ -466,7 +446,7 @@ class UsersClass
 
                 if ($result->num_rows === 0) {
                     $_SESSION["ErrorMessage"] = "The data is wrong.";
-                    header("Location: login.php");
+                    header('Location: ' . $this->logp);
                     exit();
                 } else {
                     $urw = $result->fetch_assoc();
@@ -513,20 +493,18 @@ class UsersClass
                                 unset($_SESSION["attempt"]);
                                 unset($_SESSION["attempt_again"]);
                                 unset($_SESSION["id_session_attempt"]);
-                                $_SESSION["SuccessMessage"] =
-                                    "Congratulations you now have access!";
-                                header("Location: login.php");
+                                $_SESSION["SuccessMessage"] = "Congratulations you now have access!";
+                                header('Location: ' . $this->logp);
                                 exit();
                             }
                         } else {
                             $_SESSION["ErrorMessage"] = "Password incorrect.";
-                            header("Location: login.php");
+                            header('Location: ' . $this->logp);
                             exit();
                         }
                     } else {
-                        $_SESSION["ErrorMessage"] =
-                            "Invalid username or password incorrect.";
-                        header("Location: login.php");
+                        $_SESSION["ErrorMessage"] = "Invalid username or password incorrect.";
+                        header('Location: ' . $this->logp);
                         exit();
                     }
                 }
@@ -539,8 +517,7 @@ class UsersClass
      * Show a failed login session  for more that 3 attempts and block the access.
      */
 
-    private function verifyAttempts($udata)
-    {
+    private function verifyAttempts($udata) {
         $result = $this->conn->prepare(
             "SELECT id_session, user_data FROM ip WHERE user_data = ? GROUP BY id_session"
         );
@@ -557,9 +534,8 @@ class UsersClass
             // Call function nAttempt();
 
             if ($_SESSION["attempt_again"] >= 3) {
-                $_SESSION["ErrorMessage"] =
-                    "You have the account blocked for more than 3 failed access attempts.";
-                header("Location: login.php");
+                $_SESSION["ErrorMessage"] = "You have the account blocked for more than 3 failed access attempts.";
+                header('Location: ' . $this->logp);
                 exit();
             }
         }
@@ -570,8 +546,7 @@ class UsersClass
      * Create a failed login session , destroys all attempts session data.
      */
 
-    private function nAttempt($useremail)
-    {
+    private function nAttempt($useremail) {
         //Create id session attempts
         if (!isset($_SESSION["id_session_attempt"])) {
             $idattempt = $this->gc->randHash();
@@ -591,8 +566,7 @@ class UsersClass
      * Create a failed login session , destroys all session data.
      */
 
-    private function Attempts($idatt, $udata)
-    {
+    private function Attempts($idatt, $udata) {
         if (isset($_SESSION["attempt_again"])) {
             $stmt = $this->conn->prepare(
                 "INSERT INTO `ip` (`id_session`, `user_data`, `address`)VALUES (?,?,?)"
@@ -624,21 +598,18 @@ class UsersClass
                 //note 10*60 = 5mins, 60*60 = 1hr, to set to 2hrs change it to 2*60*60
             }
             if ($_SESSION["attempt_again"] >= 3) {
-                $_SESSION["error"] =
-                    "Your are allowed 3 attempts in 10 minutes";
-                header("Location: login.php");
+                $_SESSION["error"] = "Your are allowed 3 attempts in 10 minutes";
+                header('Location: ' . $this->logp);
                 exit();
             } else {
-                $_SESSION["ErrorMessage"] =
-                    "Invalid email, password or PIN incorrect.";
-                header("Location: login.php");
+                $_SESSION["ErrorMessage"] = "Invalid email, password or PIN incorrect.";
+                header('Location: ' . $this->logp);
                 exit();
             }
         }
     }
 
-    public function activeAttempts()
-    {
+    public function activeAttempts() {
         $tnow = time();
         $lastlogs = strtotime($this->timestamp);
         return round(abs($tnow - $lastlogs) / 60);
@@ -648,8 +619,7 @@ class UsersClass
      * Find the difference between two dates.
      */
 
-    private function DiffTime($start, $end, $returnType = 1)
-    {
+    private function DiffTime($start, $end, $returnType = 1) {
         $seconds_diff = $end - $start;
         if ($returnType == 1) {
             return round($seconds_diff / 60); // minutes
@@ -665,8 +635,7 @@ class UsersClass
      * Logs user out, destroys all session data.
      */
 
-    public function logout()
-    {
+    public function logout() {
         if (isset($_POST["logout"])) {
             if (!empty($_SESSION["user_id"])) {
                 if (isset($_COOKIE["cookname"]) && isset($_COOKIE["cookid"])) {
@@ -682,7 +651,7 @@ class UsersClass
                 unset($_SESSION["hash"]);
                 unset($_SESSION);
                 session_destroy(); // Destroy all session data.
-                header("Location: " . $this->syst . "signin/login.php");
+                header('Location: ' . $this->logp);
                 exit();
             }
         } else {
@@ -698,9 +667,8 @@ class UsersClass
      * Check if user is already logged in, if not then prompt login form.
      */
 
-    public function isLoggedIn()
-    {
-        if (!empty($_SESSION["user_id"]) || isset($_SESSION["user_id"])) {
+    public function isLoggedIn() {
+        if (isset($_SESSION["user_id"]) && !empty($_SESSION["user_id"]) ) {
             return true;
         } else {
             return false;
@@ -713,8 +681,7 @@ class UsersClass
      * Redirect to profile page
      */
 
-    public function Profile()
-    {
+    public function Profile() {
         if (isset($_POST["profile"])) {
             header("Location: " . $this->syst . "profile/user-profile");
             exit();
@@ -723,8 +690,7 @@ class UsersClass
 
     /* End Profile() */
 
-    private function LastSession()
-    {
+    private function LastSession() {
         $time = $_SERVER["REQUEST_TIME"];
 
         /**
@@ -753,8 +719,7 @@ class UsersClass
         $_SESSION["last_activity"] = $time;
     }
 
-    private function SessionActivity()
-    {
+    private function SessionActivity() {
         if ($_SESSION["last_activity"] < time() - $_SESSION["expire_time"]) {
             //have we expired?
             //redirect to logout.php
@@ -787,8 +752,7 @@ class UsersClass
      * This is the second step of password reset.
      */
 
-    private function newPassword()
-    {
+    private function newPassword() {
         // Values from password_reset.php URL.
         $email = htmlspecialchars($_GET["email"]);
         $forgot_password_key = htmlspecialchars($_GET["key"]);
@@ -806,16 +770,14 @@ class UsersClass
         if ($result->num_rows > 0) {
             include "views/passwordResetForm.php";
         } else {
-            $_SESSION["ErrorMessage"] =
-                "Please contact support at contact@labemotion.net";
+            $_SESSION["ErrorMessage"] = "Please contact support at contact@labemotion.net";
         }
         $this->conn->close();
     }
 
     /* End newPassword() */
 
-    private function updateUserField($username, $field, $value)
-    {
+    private function updateUserField($username, $field, $value) {
         $stmt = $this->conn->prepare(
             "UPDATE uverify SET ? = ? WHERE username = ?"
         );
@@ -824,28 +786,23 @@ class UsersClass
         $stmt->close();
     }
 
-    public function isSuperdmin()
-    {
+    public function isSuperdmin() {
         return $this->userlevel == SUPERADMIN_LEVEL;
     }
 
-    public function isAdmin()
-    {
+    public function isAdmin() {
         return $this->userlevel == ADMIN_LEVEL;
     }
 
-    public function isMaster()
-    {
+    public function isMaster() {
         return $this->userlevel == MASTER_LEVEL;
     }
 
-    public function isAgent()
-    {
+    public function isAgent() {
         return $this->userlevel == AGENT_LEVEL;
     }
 
-    public function isMember()
-    {
+    public function isMember() {
         return $this->userlevel == AGENT_MEMBER_LEVEL;
     }
 }

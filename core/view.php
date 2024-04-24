@@ -54,6 +54,7 @@ $visitor->pageViews($title);
 
 $language = $_SESSION["language"] = $lng;
 $request = $_SERVER["REQUEST_URI"];
+
 if ($viewpg === "public") {
 
     require_once "elements/top.php";

@@ -9,12 +9,6 @@ $login = new UsersClass();
 $check = new CheckValidUser();
 $level = new AccessLevel();
 
-if (isset($_GET['cms']) && !empty($_GET['cms'])) {
-    $cms = $_GET['cms'];
-} else {
-    $cms = '';
-}
-
 if (isset($_GET['user']) && !empty($_GET['user'])) {
     $user = $_GET['user'];
 } else {
