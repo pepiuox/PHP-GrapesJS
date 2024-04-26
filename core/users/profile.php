@@ -39,7 +39,7 @@ if ($login->isLoggedIn() === true) {
                                 <!-- Sidebar -->
                                 <div class="sidebar">                   
                                     <!-- Sidebar Menu -->
-    <?php include $source . '/coreelements/sidenav.php'; ?>
+    <?php include $source . '/core/elements/sidenav.php'; ?>
                                     <!-- /.sidebar-menu -->
                                 </div>
                                 <!-- /.sidebar -->

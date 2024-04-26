@@ -1,33 +1,32 @@
 <?php
 
-class GetVisitor {
+class Visitors {
+
     protected $getip;
     public $baseurl;
-    protected $conn;
+    protected $connection;
     private $timestamp;
     public $date;
     protected $hash;
     protected $token;
     private $session;
-    public $gc;
 
     public function __construct() {
         global $conn;
-        $this->conn = $conn;
+        $this->connection = $conn;
         $this->date = new DateTime();
         $this->timestamp = $this->date->format('Y-m-d H:i:s');
         $this->hash = SECURE_HASH;
         $this->token = SECURE_TOKEN;
-        $this->gc = new GetCodeDeEncrypt();
         $this->getip = $this->getUserIP();
 
-        $_SESSION['session_visit'] = $this->gc->ende_crypter('encrypt', $this->getip, $this->hash, $this->token);
+        $_SESSION['session_visit'] = $this->ende_crypter('encrypt', $this->getip, $this->hash, $this->token);
         $this->session = $_SESSION['session_visit'];
 
         $this->VisitUpdate($this->getip);
 
         if (!empty($this->session)) {
-            $this->guest_online();
+            $this->guestOnline();
         }
     }
 
@@ -35,9 +34,42 @@ class GetVisitor {
      * 
      */
 
-    public function numpages() {
+    public function numPages() {
 
-        return $this->conn->query("SELECT id FROM page")->num_rows;
+        return $this->connection->query("SELECT id FROM page")->num_rows;
+    }
+
+    /* get number of visitor
+     * 
+     */
+
+    public function numVisitor() {
+
+        return $this->connection->query("SELECT ip FROM active_guests")->num_rows;
+    }
+
+    /* get number of users
+     * 
+     */
+
+    public function numUsers() {
+
+        return $this->connection->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
+    }
+
+    private function ende_crypter($action, $string, $secret_key, $secret_iv) {
+        $output = false;
+        $encrypt_method = 'AES-256-CBC';
+// hash
+        $key = hash('sha256', $secret_key);
+// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        if ($action == 'encrypt') {
+            $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
+        } else if ($action == 'decrypt') {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        return $output;
     }
 
     public function checkUserIP($ip) {
@@ -46,7 +78,7 @@ class GetVisitor {
     }
 
     public function findUserIP($ip) {
-        $stmt = $this->conn->prepare('SELECT * FROM visitor WHERE ip = ? ORDER BY updated DESC LIMIT 0,1');
+        $stmt = $this->connection->prepare('SELECT * FROM visitor WHERE ip = ? ORDER BY updated DESC LIMIT 0,1');
         $stmt->bind_param('s', $ip);
         $stmt->execute();
         return $stmt->get_result();
@@ -61,23 +93,23 @@ class GetVisitor {
             $enddate = $this->timestamp;
             $dif = $this->differenceInHours($startdate, $enddate);
             if ($dif >= 24) {
-                $stmt = $this->conn->prepare("INSERT INTO visitor (ip) VALUES (?)");
-                $stmt->bind_param("s", $this->getip);
+                $stmt = $this->connection->prepare("INSERT INTO visitor (ip) VALUES (?)");
+                $stmt->bind_param("s", $ip);
                 $stmt->execute();
 
                 $this->CounterVisitor();
             } else {
-                $stmt = $this->conn->prepare("UPDATE visitor SET updated = ? WHERE ip = ? AND updated = ?");
-                $stmt->bind_param('sss', $enddate, $this->getip, $startdate);
+                $stmt = $this->connection->prepare("UPDATE visitor SET updated = ? WHERE ip = ? AND updated = ?");
+                $stmt->bind_param('sss', $enddate, $ip, $startdate);
                 $stmt->execute();
             }
         } else {
-            $stmt = $this->conn->prepare("INSERT INTO visitor (ip) VALUES (?)");
-            $stmt->bind_param("s", $this->getip);
+            $stmt = $this->connection->prepare("INSERT INTO visitor (ip) VALUES (?)");
+            $stmt->bind_param("s", $ip);
             $stmt->execute();
 
-            $stmt1 = $this->conn->prepare("INSERT INTO active_guests (ip) VALUES (?)");
-            $stmt1->bind_param("s", $this->getip);
+            $stmt1 = $this->connection->prepare("INSERT INTO active_guests (ip) VALUES (?)");
+            $stmt1->bind_param("s", $ip);
             $stmt1->execute();
 
             $this->CounterVisitor();
@@ -105,7 +137,7 @@ class GetVisitor {
     }
 
     public function CounterVisitor() {
-        $this->conn->query("UPDATE counter SET counter = counter + 1");
+        $this->connection->query("UPDATE counter SET counter = counter + 1");
     }
 
 // Calculate the time between two hours
@@ -119,7 +151,7 @@ class GetVisitor {
 // Insert the IP and title of the page visited during the day
     public function pageViews($title) {
 
-        $stmt = $this->conn->prepare('SELECT * FROM pageviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
+        $stmt = $this->connection->prepare('SELECT * FROM pageviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
         $stmt->bind_param('ss', $title, $this->getip);
         $stmt->execute();
         $rows = $stmt->get_result();
@@ -129,33 +161,33 @@ class GetVisitor {
             $enddate = $this->timestamp;
             $dif = $this->differenceInHours($startdate, $enddate);
             if ($dif >= 24) {
-                $stmt = $this->conn->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
+                $stmt = $this->connection->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
                 $stmt->bind_param('ss', $title, $this->getip);
                 $stmt->execute();
             }
         } else {
-            $stmt = $this->conn->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
+            $stmt = $this->connection->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
             $stmt->bind_param('ss', $title, $this->getip);
             $stmt->execute();
         }
     }
 
-    public function guest_online() {
+    public function guestOnline() {
 
         $current_time = $this->timestamp;
 
-        $stmt = $this->conn->prepare("SELECT session FROM total_visitors WHERE session = ?");
+        $stmt = $this->connection->prepare("SELECT session FROM total_visitors WHERE session = ?");
         $stmt->bind_param('s', $this->session);
         $stmt->execute();
         $session_exist = $stmt->get_result();
         $session_check = $session_exist->num_rows;
 
         if ($session_check == 0 && $this->session != "") {
-            $stmt = $this->conn->prepare("INSERT INTO total_visitors (session, time) VALUES (?,?)");
+            $stmt = $this->connection->prepare("INSERT INTO total_visitors (session, time) VALUES (?,?)");
             $stmt->bind_param('ss', $this->session, $current_time);
             $stmt->execute();
         } else {
-            $stmt = $this->conn->prepare("UPDATE total_visitors SET time = ? WHERE session = ?");
+            $stmt = $this->connection->prepare("UPDATE total_visitors SET time = ? WHERE session = ?");
             $stmt->bind_param('ss', $current_time, $this->session);
             $stmt->execute();
         }
@@ -167,7 +199,7 @@ class GetVisitor {
         $tim = $time - (60 * 60); //one hour
         $timeout = date("Y-m-d H:i:s", $tim);
 
-        $stmt = $this->conn->prepare("SELECT * FROM total_visitors WHERE time >= ?");
+        $stmt = $this->connection->prepare("SELECT * FROM total_visitors WHERE time>= ?");
         $stmt->bind_param('s', $timeout);
         $stmt->execute();
         $select_total = $stmt->get_result();

@@ -6,7 +6,7 @@
             <div class="small-box bg-info">
                 <div class="inner">
                     <?php
-                    echo '<h3>' . $visitor->numusers() . '</h3>';
+                    echo '<h3>' . $visitors->numUsers() . '</h3>';
                     ?>
                     <p>User Registrations</p>
                 </div>
@@ -21,7 +21,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3><?php echo $visitor->total_online(); ?></h3>
+                    <h3><?php echo $visitors->totalOnline(); ?></h3>
                     <p>Total Online</p>
                 </div>
                 <div class="icon">
@@ -36,7 +36,7 @@
             <div class="small-box bg-warning">
                 <div class="inner">
                     <?php
-                    echo '<h3>' . $visitor->numpages() . '</h3>';
+                    echo '<h3>' . $visitors->numPages() . '</h3>';
                     ?>
                     <p>Number of pages and Contents </p>
                 </div>
@@ -52,7 +52,7 @@
             <div class="small-box bg-danger">
                 <div class="inner">
                     <?php
-                    echo '<h3>' . $visitor->numvisitor() . '</h3>';
+                    echo '<h3>' . $visitors->numVisitor() . '</h3>';
                     ?>
                     <p>Unique Visitors</p>
                 </div>

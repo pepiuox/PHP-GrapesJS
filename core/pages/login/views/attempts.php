@@ -7,7 +7,7 @@
         <div class="card-body login-card-body">
             <h4 class="text-center"><?php echo $lang[$fname]['attempts']; ?></h4>
             <p class="login-box-msg"><?php echo $lang[$fname]['att_msg']; ?></p>
-            <form action="login.php" method="post" class="form-inline d-flex justify-content-center">
+            <form action="" method="post" class="form-inline d-flex justify-content-center">
 
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" autocomplete="off"
