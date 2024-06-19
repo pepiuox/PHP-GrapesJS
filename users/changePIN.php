@@ -1,4 +1,4 @@
-<?php $changePIN = new changePIN();
+<?php $changePIN = new ChangePIN();
 ?>
 <div class="container">
     <div class="row">

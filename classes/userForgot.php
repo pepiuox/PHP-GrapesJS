@@ -5,7 +5,7 @@
  *
  * @author PePiuoX
  */
-class userForgot {
+class UserForgot {
 
     public $baseurl;
     protected $connection;

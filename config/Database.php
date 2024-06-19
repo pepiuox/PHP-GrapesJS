@@ -28,48 +28,9 @@ class Database {
         $this->socket = "";
     }
 
-    public function PdoConnection($con = '') {
-
-        if (empty($con)) {
-            $default = $this->config['default-connection'];
-        } else {
-            $default = $con;
-        }
-
-        $data = $this->config["connections"][$default];
-
-        $this->host = $data['server'];
-        $this->dbnm = $data['database'];
-        $this->user = $data['username'];
-        $this->pass = $data['password'];
-        $this->port = $data['port'];
-        $this->charset = $data['charset'];
-
-        define('DBHOST', $this->host);
-        define('DBUSER', $this->user);
-        define('DBPASS', $this->pass);
-        define('DBNAME', $this->dbnm);
-
-        if (is_array($this->config['connections'])) {
-            $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
-
-            try {
-                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-            } catch (PDOException $e) {
-                throw new PDOException($e->getMessage(), (int) $e->getCode());
-            }
-            return $this->db;
-        }
-    }
-
-//get the db connection
-    public function MysqliConnection($con = '') {
-        if (empty($con)) {
-            $default = $this->config['default-connection'];
-        } else {
-            $default = $con;
-        }
-
+    //get the db mysqli connection
+    public function MysqliConnection($default) {
+        
         $data = $this->config["connections"][$default];
 
         $this->host = $data['server'];
@@ -94,5 +55,29 @@ class Database {
         }
         $this->conn->set_charset($this->charset);
         return $this->conn;
+    }
+
+//get the db pdo connection    
+    public function PdoConnection($default) {
+
+        $data = $this->config["connections"][$default];
+
+        $this->host = $data['server'];
+        $this->dbnm = $data['database'];
+        $this->user = $data['username'];
+        $this->pass = $data['password'];
+        $this->port = $data['port'];
+        $this->charset = $data['charset'];
+
+        if (is_array($this->config['connections'])) {
+            $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
+
+            try {
+                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);
+            } catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int) $e->getCode());
+            }
+            return $this->db;
+        }
     }
 }

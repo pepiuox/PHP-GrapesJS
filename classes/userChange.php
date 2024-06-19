@@ -5,7 +5,7 @@
  *
  * @author PePiuoX
  */
-class userChange {
+class UserChange {
 
     public $baseurl;
     protected $connection;

@@ -1,22 +1,22 @@
 <?php
 
-function getUserIpAddr()
-{
-  if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-    //ip from share internet
-    $ip = $_SERVER['HTTP_CLIENT_IP'];
-  } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    //ip pass from proxy
-    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-  } else {
-    $ip = $_SERVER['REMOTE_ADDR'];
-  }
-  return $ip;
+function getUserIpAddr() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        //ip from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        //ip pass from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
 }
 
 echo 'User Real IP - ' . getUserIpAddr();
-class RemoteAddress
-{
+
+class RemoteAddress {
+
     /**
      * Whether to use proxy addresses or not.
      *
@@ -50,8 +50,7 @@ class RemoteAddress
      *
      * @return string IP address.
      */
-    public function getIpAddress()
-    {
+    public function getIpAddress() {
         $ip = $this->getIpAddressFromProxy();
         if ($ip) {
             return $ip;
@@ -71,10 +70,8 @@ class RemoteAddress
      * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
      * @return false|string
      */
-    protected function getIpAddressFromProxy()
-    {
-        if (!$this->useProxy
-            || (isset($_SERVER['REMOTE_ADDR']) && !in_array($_SERVER['REMOTE_ADDR'], $this->trustedProxies))
+    protected function getIpAddressFromProxy() {
+        if (!$this->useProxy || (isset($_SERVER['REMOTE_ADDR']) && !in_array($_SERVER['REMOTE_ADDR'], $this->trustedProxies))
         ) {
             return false;
         }
@@ -107,4 +104,3 @@ class RemoteAddress
 
     // [...]
 }
-

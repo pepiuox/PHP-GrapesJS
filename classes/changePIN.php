@@ -1,6 +1,6 @@
 <?php
 
-class changePIN {
+class ChangePIN {
 
     public $baseurl;
     protected $connection;

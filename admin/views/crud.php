@@ -3,7 +3,7 @@ $p = new Protect();
 if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $p->secureStr($_GET['w']);
 }
-$set = new tableSettings();
+$set = new TableSettings();
 $c = new MyCRUD();
 
 if ($w == "select") {

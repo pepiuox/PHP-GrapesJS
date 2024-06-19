@@ -10,7 +10,7 @@ if (file_exists($connfile)) {
 
     $login = new UserClass();
     $level = new AccessLevel();
-    $newuser = new newUser();
+    $newuser = new NewUser();
 } else {
     header('Location: ../installer/install.php');
     exit();

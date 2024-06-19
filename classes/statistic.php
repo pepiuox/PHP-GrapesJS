@@ -1,6 +1,6 @@
 <?php
 
-class statistic {
+class Statistic {
 
     public function __contruct() {
 

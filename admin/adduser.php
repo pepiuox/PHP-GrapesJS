@@ -2,7 +2,7 @@
     <div class="row">
         <?php
         $form = new Form();
-        $newuser = new newUser();
+        $newuser = new NewUser();
         if (isset($_SESSION['regsuccess'])) {
             /* Registration was successful */
             if ($_SESSION['regsuccess']) {

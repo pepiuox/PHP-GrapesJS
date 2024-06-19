@@ -9,7 +9,7 @@ require_once '../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-class newUser {
+class NewUser {
 
     public $baseurl;
     protected $connection;

@@ -7,7 +7,7 @@ if (file_exists($connfile)) {
     require_once '../config/dbconnection.php';
     require_once 'Autoload.php';
     $login = new UserClass();
-    $forgotpass = new userForgot();
+    $forgotpass = new UserForgot();
 } else {
     header('Location: ../installer/install.php');
     exit();
