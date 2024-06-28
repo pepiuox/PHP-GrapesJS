@@ -326,7 +326,7 @@ include_once 'define.php';" . "\n\n";
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content="5; url=../signin/login.php" />
+    <meta http-equiv="refresh" content="20; url=../signin/login.php" />
     <title>PHP GrapesJS</title>
 
     <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
