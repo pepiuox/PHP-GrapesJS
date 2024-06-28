@@ -239,27 +239,27 @@ if (!file_exists($file)) {
 
         $svcontent = '';
         $svcontent .= '<?php' . "\n\n";
-        $svcontent .= "\$settings = array(
+        $svcontent .= "return [
     'default-connection' => 'cms',
-    'connections' => array(
-        'cms' => array(
+    'connections' => [
+        'cms' => [
             'server' => '" . $_SESSION['DBHOST'] . "',
             'database' => '" . $_SESSION['DBNAME'] . "',
             'username' => '" . $_SESSION['DBUSER'] . "',
             'password' => '" . $_SESSION['DBPASSWORD'] . "',
             'charset' => 'utf8',
             'port' => '3306',
-        ),// use different connection for another DB in this app, and change values.
-         'ecommerce' => array(
+        ], // use different connection for another DB in this app, and change values.
+         'ecommerce' => [
             'server' => 'localhost',
             'database' => 'ecommerce',
             'username' => 'user',
             'password' => 'password',
             'charset' => 'utf8',
             'port' => '3306',
-        ),
-    ),
-);
+        ]
+    ]
+];
 ?>";
 
         file_put_contents($serverfile, $svcontent, FILE_APPEND | LOCK_EX);
