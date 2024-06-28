@@ -21,17 +21,19 @@ class Database {
     ];
     private $db;
     private $dsn;
+    public $default_db_table;
 
     public function __construct() {
-        include_once 'server.php';
+        $settings = require 'server.php';
         $this->config = $settings;
         $this->socket = "";
+        $this->default_db_table = 'cms';
     }
 
     //get the db mysqli connection
-    public function MysqliConnection($default) {
-        
-        $data = $this->config["connections"][$default];
+    public function MysqliConnection($default='') {
+        $de = $default == '' ? $this->default_db_table : $default;
+        $data = $this->config["connections"][$de];
 
         $this->host = $data['server'];
         $this->dbnm = $data['database'];
@@ -57,7 +59,7 @@ class Database {
         return $this->conn;
     }
 
-//get the db pdo connection    
+//get the db pdo connection
     public function PdoConnection($default) {
 
         $data = $this->config["connections"][$default];

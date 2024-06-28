@@ -37,11 +37,6 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table grapesjs.active_guests: ~2 rows (approximately)
-INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
-	('127.0.0.1', '2024-04-05 07:28:01'),
-	('::1', '2024-04-05 17:08:49');
-
 -- Dumping structure for table grapesjs.active_sessions
 DROP TABLE IF EXISTS `active_sessions`;
 CREATE TABLE IF NOT EXISTS `active_sessions` (
@@ -603,10 +598,6 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table grapesjs.ip: ~0 rows (approximately)
-INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
-	('066343939e5e060dd838f97dbd03b5787302d722', 'contact@labemotion.net', '127.0.0.1', '2024-04-05 17:15:26');
-
 -- Dumping structure for table grapesjs.items
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
@@ -886,14 +877,6 @@ CREATE TABLE IF NOT EXISTS `pageviews` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table grapesjs.pageviews: ~5 rows (approximately)
-INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
-	(1, 'Home', '127.0.0.1', '2024-04-05 07:28:11'),
-	(2, 'Home', '::1', '2024-04-05 17:08:49'),
-	(3, 'Abous Us', '::1', '2024-04-05 17:09:36'),
-	(4, 'Retreats', '::1', '2024-04-05 17:10:42'),
-	(5, 'Home', '127.0.0.1', '2024-04-14 01:33:12');
-
 -- Dumping structure for table grapesjs.page_menu
 DROP TABLE IF EXISTS `page_menu`;
 CREATE TABLE IF NOT EXISTS `page_menu` (
@@ -1065,10 +1048,6 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table grapesjs.profiles: ~0 rows (approximately)
-INSERT INTO `profiles` (`idp`, `mkhash`, `firstname`, `lastname`, `gender`, `age`, `avatar`, `birthday`, `phone`, `website`, `social_media`, `profession`, `occupation`, `public_email`, `address`, `followers_count`, `profile_image`, `profile_cover`, `profile_bio`, `language`, `active`, `banned`, `date`, `update`) VALUES
-	('1768770676660fa7f610b8e', '7d89d1d7b2e60f2f4d66cf2eb396c9e116990ffc', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2024-04-05 07:27:50', '2024-04-14 01:42:56');
-
 -- Dumping structure for table grapesjs.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE IF NOT EXISTS `role_permissions` (
@@ -1198,10 +1177,6 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   `UPDATED` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- Dumping data for table grapesjs.site_configuration: ~0 rows (approximately)
-INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `MAILSERVER`, `PORTSERVER`, `USEREMAIL`, `PASSMAIL`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `CREATE`, `UPDATED`) VALUES
-	(1, 'http://www.pepiuox.net', 'PEPIUOX', 'icon-pepiuox.png', 'http://localhost:180/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'info@phpgrapesjs.com', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', 'smtp.hostinger.com', '461', 'contact@pepiuox.net', 'truelove', 'Super Admin', 9, 'Admin', 5, 'ab6e7b43c06ecbb7021355026796265875c1da0006c7cdd261079f3cccf769e6', 'ckJ6w2S5Clja}ADs4kskWlorTE3jbk9ZizF6JJAL]Yr9xSHB3}F@No0(akJseo]caxZact$$YhP09&h8GZYsICC&kC44xi2$8@EfRutbmqS]ihvdx68BYYS(1$96R3ZZ', '2022-01-08 13:42:41', '2024-04-05 07:26:39');
 
 -- Dumping structure for table grapesjs.slideshow
 DROP TABLE IF EXISTS `slideshow`;
@@ -1580,11 +1555,6 @@ CREATE TABLE IF NOT EXISTS `total_visitors` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table grapesjs.total_visitors: ~2 rows (approximately)
-INSERT INTO `total_visitors` (`id`, `session`, `time`) VALUES
-	(1, 'ZGVXS0Q0UDF6dFVkdFhsUXo0ODlLdz09', '2024-04-14 08:43:01'),
-	(2, 'cFpGeHdIcmd1aGZYZ215UTdZYTg2Zz09', '2024-04-06 00:13:20');
-
 -- Dumping structure for table grapesjs.type_blocks
 DROP TABLE IF EXISTS `type_blocks`;
 CREATE TABLE IF NOT EXISTS `type_blocks` (
@@ -1650,10 +1620,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `email` (`email`),
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- Dumping data for table grapesjs.users: ~1 rows (approximately)
-INSERT INTO `users` (`idUser`, `username`, `email`, `password`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`, `deleted_user`, `last_login`) VALUES
-	('1768770676660fa7f610b8e', 'ZXVsdUdaeHFTaXlQWUJ0ckNrcGsvdz09', 'N2hYZGpaaVhsVFhxVE5ncTdWL1k4eUtiSVhjSGF4YkkzMXQ5RnF1MzFXcz0=', 'K3luRnViVUUveHg0TmJzbUhYZEM2Zz09', 1, 0, '127.0.0.1', '2024-04-05 14:27:50', NULL, 0, 0, '665970', '2024-04-05 07:27:50', '2024-04-05 07:27:50', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- Dumping structure for table grapesjs.users_roles
 DROP TABLE IF EXISTS `users_roles`;
@@ -1822,10 +1788,6 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table grapesjs.uverify: ~0 rows (approximately)
-INSERT INTO `uverify` (`iduv`, `username`, `email`, `password`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1768770676660fa7f610b8e', 'pepiuox', 'contact@labemotion.net', 'K3luRnViVUUveHg0TmJzbUhYZEM2Zz09', '5014056631b21995f7bbec118e290c7b602c3f97', '4382e79d966262a9c98b8029ede60da4a4f9ed67', '7d89d1d7b2e60f2f4d66cf2eb396c9e116990ffc', '665970', 'Super Admin', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2024-04-14 01:42:56');
-
 -- Dumping structure for table grapesjs.videos
 DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
@@ -1865,12 +1827,6 @@ CREATE TABLE IF NOT EXISTS `visitor` (
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- Dumping data for table grapesjs.visitor: ~3 rows (approximately)
-INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
-	('127.0.0.1', '2024-04-05 07:28:01', '2024-04-06 00:15:33'),
-	('::1', '2024-04-05 17:08:49', '2024-04-06 00:13:20'),
-	('127.0.0.1', '2024-04-14 01:33:12', '2024-04-14 08:43:01');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

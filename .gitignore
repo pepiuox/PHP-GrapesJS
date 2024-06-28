@@ -20,3 +20,10 @@ bower_components/
 grapesjs-*.tgz
 _index.html
 docs/.vuepress/dist
+
+/config/server.php
+/installer
+config/define.php
+.vscode/settings.json
+installer/installUser.php
+installer/install.php

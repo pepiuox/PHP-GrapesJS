@@ -175,6 +175,9 @@ if (!file_exists($file)) {
             if ($_POST['Update'] === $v) {
                 continue;
             }
+            if($k == 'DOMAIN_SITE' || $k == 'SITE_PATH'){
+                $v .= '/';
+            }
             $vals[] = "`" . $k . "` = '" . $v . "'";
         }
         $vupdates = implode(", ", $vals);
@@ -239,27 +242,27 @@ if (!file_exists($file)) {
 
         $svcontent = '';
         $svcontent .= '<?php' . "\n\n";
-        $svcontent .= "\$settings = array(
+        $svcontent .= "return [
     'default-connection' => 'cms',
-    'connections' => array(
-        'cms' => array(
+    'connections' => [
+        'cms' => [
             'server' => '" . $_SESSION['DBHOST'] . "',
             'database' => '" . $_SESSION['DBNAME'] . "',
             'username' => '" . $_SESSION['DBUSER'] . "',
             'password' => '" . $_SESSION['DBPASSWORD'] . "',
             'charset' => 'utf8',
             'port' => '3306',
-        ),// use different connection for another DB in this app, and change values.
-         'ecommerce' => array(
+        ], // use different connection for another DB in this app, and change values.
+         'ecommerce' => [
             'server' => 'localhost',
             'database' => 'ecommerce',
             'username' => 'user',
             'password' => 'password',
             'charset' => 'utf8',
             'port' => '3306',
-        ),
-    ),
-);
+        ]
+    ]
+];
 ?>";
 
         file_put_contents($serverfile, $svcontent, FILE_APPEND | LOCK_EX);
@@ -315,10 +318,10 @@ include_once 'define.php';" . "\n\n";
         \$nu = randHash(30) . '.php';
         rename('install.php', \$nf);
         rename('installUser.php', \$nu);
-        
+
             " . "\n";
-            $lastcontent .= '           
-            $rname = $_SERVER["REQUEST_URI"]; 
+            $lastcontent .= '
+            $rname = $_SERVER["REQUEST_URI"];
             ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -326,7 +329,7 @@ include_once 'define.php';" . "\n\n";
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content="5; url=../signin/login.php" />
+    <meta http-equiv="refresh" content="20; url=../signin/login.php" />
     <title>PHP GrapesJS</title>
 
     <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />

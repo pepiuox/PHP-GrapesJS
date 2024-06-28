@@ -6,7 +6,7 @@
  * Logout - logOut()
  * Password recovery - forgotPassword(), newPassword(), updatePassword()
  * User creation - Registration()
- * 
+ *
  * Description of Register
  *
  * @author PePiuoX
@@ -209,15 +209,15 @@ class UserClass {
                                         $_SESSION['RecoveryMessage'] = 1;
                                     }
 
-                                    $stmt1 = $this->connection->prepare("SELECT * FROM users WHERE username = ? AND email = ? AND password = ? AND mkpin = ?");
+                                    $stmt1 = $this->connection->prepare("SELECT * FROM users WHERE username = ?
+                                                                AND email = ? AND password = ? AND mkpin = ?");
                                     $stmt1->bind_param("ssss", $cus, $mail, $passw, $userpin);
                                     $stmt1->execute();
-//fetching result would go here, but will be covered later
+                                    //fetching result would go here, but will be covered later
                                     $sqr = $stmt1->get_result();
                                     if ($sqr->num_rows === 0) {
-
                                         $_SESSION['ErrorMessage'] = 'The data is wrong.';
-//header('Location: login.php');
+                                    //header('Location: login.php');
                                     }
                                     $row = $sqr->fetch_assoc();
                                     $stmt1->close();
@@ -234,10 +234,9 @@ class UserClass {
                                     if ($inst1 === 1) {
                                         $_SESSION['username'] = $user;
                                         $_SESSION['user_id'] = $iduv;
-                                        //$_SESSION['language'] = $row['language'];
+                                        //$_SESSION['language'] = $sqr['language']; // this is in the profiles table, not users table
                                         $_SESSION['levels'] = $level;
                                         $_SESSION['hash'] = $enck;
-
                                         $pro = $this->connection->prepare("UPDATE profiles SET mkhash = ? WHERE idp = ? AND mkhash = ?");
                                         $pro->bind_param("sss", $enck, $iduv, $secret_hs);
                                         $pro->execute();
@@ -282,7 +281,7 @@ class UserClass {
     /* End Login() */
     /*
      * Function VieLogAttempts()
-     * Verifies if the existence of records of user in the table login_attempts 
+     * Verifies if the existence of records of user in the table login_attempts
      */
 
     private function viewLogAttempts($id, $udt) {
@@ -377,7 +376,8 @@ class UserClass {
      */
 
     private function verifyAttempts($udata) {
-        $result = $this->connection->prepare("SELECT id_session, user_data FROM `ip` WHERE `user_data` = ? GROUP BY id_session");
+        $result = $this->connection->prepare("SELECT `id_session`, `user_data`
+                FROM `ip` WHERE `user_data` = ?"); // GROUP BY id_session
         $result->bind_param("s", $udata);
         $result->execute();
         $num = $result->get_result();
@@ -414,7 +414,7 @@ class UserClass {
         //this is where we put our 3 attempt limit
         $_SESSION['attempt'] += 1;
         //set the time to allow login if third attempt is reach
-        // Call class attempts for record logs 
+        // Call class attempts for record logs
         $this->Attempts($idattempt, $useremail);
     }
 
@@ -463,7 +463,7 @@ class UserClass {
     }
 
     /* Function DiffTime()
-     * Find the difference between two dates. 
+     * Find the difference between two dates.
      */
 
     private function DiffTime($start, $end, $returnType = 1) {
