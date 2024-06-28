@@ -1,5 +1,6 @@
         <?php
 include '../elements/alerts.php';
+
 ?>
 <div class="login-box">
     <div class="login-logo">

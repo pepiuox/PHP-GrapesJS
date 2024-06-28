@@ -175,6 +175,9 @@ if (!file_exists($file)) {
             if ($_POST['Update'] === $v) {
                 continue;
             }
+            if($k == 'DOMAIN_SITE' || $k == 'SITE_PATH'){
+                $v .= '/';
+            }
             $vals[] = "`" . $k . "` = '" . $v . "'";
         }
         $vupdates = implode(", ", $vals);
@@ -315,10 +318,10 @@ include_once 'define.php';" . "\n\n";
         \$nu = randHash(30) . '.php';
         rename('install.php', \$nf);
         rename('installUser.php', \$nu);
-        
+
             " . "\n";
-            $lastcontent .= '           
-            $rname = $_SERVER["REQUEST_URI"]; 
+            $lastcontent .= '
+            $rname = $_SERVER["REQUEST_URI"];
             ?>
 <!DOCTYPE html>
 <html lang="en">
