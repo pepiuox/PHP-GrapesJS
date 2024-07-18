@@ -8,7 +8,7 @@ class Multisite {
     public function __construct() {
         $this->domain = $_SERVER['HTTP_HOST'];
 
-        include_once 'domains.php';
+        $websites = require 'domains.php';
         $this->sites = $websites;
     }
 

@@ -253,13 +253,8 @@ class installUser {
                     $pass = $this->ende_crypter('encrypt', $password, $ekey, $eiv);
                     $cml = $this->ende_crypter('encrypt', $email, $ekey, $eiv);
                     $eusr = $this->ende_crypter('encrypt', $username, $ekey, $eiv);
-                    $cpin = random_int(000000, 999999);
-                    if (strlen($cpin) === 6) {
-                        $pin = $cpin;
-                    } else {
-                        $pin = random_int(000000, 999999);
-                    }
-
+                    $pin = random_int(100000, 999999);
+                    
                     $lvl = 'Super Admin';
 
                     $status = 0;
