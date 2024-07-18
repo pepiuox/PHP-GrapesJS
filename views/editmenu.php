@@ -57,7 +57,7 @@ if (isset($_POST["submit"])) {
             function mmenu($parent) {
                 global $database;
                 $menu = "";
-                $result = $conn->query("SELECT id, language, pos, title, link, image, parent, sort FROM page WHERE parent='$parent' ORDER BY pos");
+                $result = $conn->query("SELECT id, language, pos, title, link, image, parent, sort FROM pages WHERE parent='$parent' ORDER BY pos");
                 while ($rmen = $result->fetch_array()) {
                     $menu .= "  <li name='mast' id='{$rmen['id']}'><a href='dashboard.php?cms=pages&w=edit&id={$rmen['id']}&lng={$rmen['language']}'>" . $rmen['title'] . "</a>\n";
                     //if ($rmen['sort'] == 1) {

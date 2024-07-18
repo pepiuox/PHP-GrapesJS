@@ -75,18 +75,18 @@ if ($rmopt['color'] === 'light') {
 
                 function getLink($mid) {
                     global $conn;
-                    $result = $conn->query("SELECT * FROM page WHERE id='$mid'");
+                    $result = $conn->query("SELECT * FROM pages WHERE id='$mid'");
                     $row = $result->fetch_assoc();
                     return 'builder.php?id=' . $row['id'];
                 }
 
                 function dropdown() {
                     global $conn;
-                    $mresult = $conn->query("SELECT * FROM page");
+                    $mresult = $conn->query("SELECT * FROM pages");
                     while ($mrow = $mresult->fetch_array()) {
                         $parents[] = $mrow['parent'];
                     }
-                    $result = $conn->query("SELECT * FROM page WHERE parent=0");
+                    $result = $conn->query("SELECT * FROM pages WHERE parent=0");
                     while ($row = $result->fetch_array()) {
                         $mid = $row['id'];
                         $plink = SITE_PATH . $row['link'];
@@ -104,11 +104,11 @@ if ($rmopt['color'] === 'light') {
 
                 function second($mid, $plink) {
                     global $conn;
-                    $result = $conn->query("SELECT * FROM page");
+                    $result = $conn->query("SELECT * FROM pages");
                     while ($mrow = $result->fetch_array()) {
                         $parents[] = $mrow['parent'];
                     }
-                    $mresult = $conn->query("SELECT * FROM page WHERE parent='$mid'");
+                    $mresult = $conn->query("SELECT * FROM pages WHERE parent='$mid'");
                     echo '<ul class="dropdown-menu">' . "\n";
                     while ($row = $mresult->fetch_array()) {
                         $sid = $row['id'];
@@ -127,11 +127,11 @@ if ($rmopt['color'] === 'light') {
 
                 function third($sid, $plink) {
                     global $conn;
-                    $result = $conn->query("SELECT * FROM page");
+                    $result = $conn->query("SELECT * FROM pages");
                     while ($mrow = $result->fetch_array()) {
                         $parents[] = $mrow['parent'];
                     }
-                    $mresult = $conn->query("SELECT * FROM page WHERE parent='$sid'");
+                    $mresult = $conn->query("SELECT * FROM pages WHERE parent='$sid'");
                     echo '<ul class="dropdown-menu dropdown-submenu">' . "\n";
                     while ($row = $mresult->fetch_array()) {
                         $sbid = $row['id'];

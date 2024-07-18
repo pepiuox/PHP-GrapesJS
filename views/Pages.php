@@ -23,7 +23,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo "</tr>" . "\n";
                 echo "</thead>" . "\n";
                 echo "<tbody>" . "\n";
-                $result = $conn->query("SELECT * FROM page LEFT JOIN (SELECT id AS idt, type_page FROM type_page) type_page ON page.type = type_page.idt") or trigger_error($conn->error);
+                $result = $conn->query("SELECT * FROM pages LEFT JOIN (SELECT id AS idt, type_page FROM type_page) type_page ON page.type = type_page.idt") or trigger_error($conn->error);
                 while ($row = $result->fetch_array()) {
                     echo "<tr>" . "\n";
                     echo "<td valign='top'><b>" . $row['title'] . "</b> - <a class='button' href='dashboard.php?cms=pages&w=addsubp&id={$row['id']}'>Agregar Sub Página</a></td>" . "\n";
@@ -85,7 +85,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <?php
                 if (isset($_POST['submitted'])) {
                     if ($_POST['startpage'] === 1) {
-                        //$qr = mysqli_fetch_array($conn->query("SELECT * FROM page WHERE startpage = '1' "));
+                        //$qr = mysqli_fetch_array($conn->query("SELECT * FROM pages WHERE startpage = '1' "));
 
                         $st = "UPDATE page SET startpage = '0' WHERE startpage = '1'";
                         $conn->query($st) or die($conn->error);
@@ -283,7 +283,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                         </div>
                         <div class='col-md-6'><label class="form-label">Página padre:</label>
                             <?php
-                            $sqp1 = "SELECT * FROM page";
+                            $sqp1 = "SELECT * FROM pages";
                             $queryp1 = $conn->query($sqp1);
                             ?> 
                             <select class="form-select" name='parent' id='parent'>                            
@@ -580,7 +580,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                                 </select> </div> 
                             <div class='col-md-6'><label class="form-label">Página padre:</label>
                                 <?php
-                                $sqp1 = "SELECT * FROM page";
+                                $sqp1 = "SELECT * FROM pages";
                                 $queryp1 = $conn->query($sqp1);
                                 ?> 
                                 <select class="form-select" name='parent' id='parent'>                            

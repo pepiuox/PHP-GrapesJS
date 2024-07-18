@@ -439,7 +439,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <?php
-                $pages = $conn->query("SELECT * FROM page");
+                $pages = $conn->query("SELECT * FROM pages");
                 while ($page = $pages->fetch_array()) {
                     $plink = $page['link'];
                     $ptitle = $page['title'];

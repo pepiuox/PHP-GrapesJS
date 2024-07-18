@@ -234,7 +234,6 @@ class UserClass {
                                     if ($inst1 === 1) {
                                         $_SESSION['username'] = $user;
                                         $_SESSION['user_id'] = $iduv;
-                                        //$_SESSION['language'] = $row['language'];
                                         $_SESSION['levels'] = $level;
                                         $_SESSION['hash'] = $enck;
 
@@ -550,7 +549,7 @@ class UserClass {
          * blow away any previous $_SESSION data and start a new one.
          */
         if (isset($_SESSION['LAST_ACTIVITY']) &&
-                ($time - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+            ($time - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
             session_unset();
             session_destroy();
             session_start();

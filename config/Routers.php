@@ -34,7 +34,7 @@ class Routers
     public function Pages($plink)
     {
         $pg = $this->conn->prepare(
-            "SELECT link, parent, active FROM page WHERE link = ? AND active = ? "
+            "SELECT link, parent, active FROM pages WHERE link = ? AND active = ? "
         );
         $pg->bind_param("si", $plink, $this->active);
         $pg->execute();
@@ -57,7 +57,7 @@ class Routers
     public function GetParent($parent)
     {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM page WHERE id = ? AND active = ? "
+            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();
@@ -75,7 +75,7 @@ class Routers
     public function GetSecondParent($parent)
     {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM page WHERE id = ? AND active = ? "
+            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();
@@ -93,7 +93,7 @@ class Routers
     public function GetThirdParent($parent)
     {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM page WHERE id = ? AND active = ? "
+            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();

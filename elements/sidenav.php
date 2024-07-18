@@ -158,14 +158,14 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <?php
-                            $pages = $conn->query("SELECT * FROM page");
+                            $pages = $conn->query("SELECT * FROM pages");
                             while ($page = $pages->fetch_array()) {
                                 $plink = $page['link'];
                                 $ptitle = $page['title'];
                                 $pparent = $page['parent'];
                                 echo'<li class="nav-item">';
                                 if ($pparent > 0) {
-                                    $parent = $conn->query("SELECT * FROM page where id=$pparent");
+                                    $parent = $conn->query("SELECT * FROM pages where id=$pparent");
                                     $pagep = $parent->fetch_assoc();
                                     echo '<a href="' . SITE_PATH . $pagep['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
                                 } else {

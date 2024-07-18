@@ -24,7 +24,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM page) `page` ON videos.idVd=page.id") or trigger_error($conn->error);
+            $result = $conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM pages) `page` ON videos.idVd=page.id") or trigger_error($conn->error);
             while ($row = $result->fetch_array()) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
@@ -116,7 +116,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <div class='col-md-6'>
                     <div class="container"><label class="form-label">Paginá:</label>
                         <?php
-                        $stp1 = "SELECT * FROM page";
+                        $stp1 = "SELECT * FROM pages";
                         $quertp1 = $conn->query($stp1);
                         ?> 
                         <select class="form-select" name='pageId' id='pageId'/>                             
@@ -229,7 +229,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     <div class='col-md-6'>
                         <div class="container"><label class="form-label">Paginá:</label>
                             <?php
-                            $sqp1 = "SELECT * FROM page";
+                            $sqp1 = "SELECT * FROM pages";
                             $queryp1 = $conn->query($sqp1);
                             ?> 
                             <select class="form-select" name='pageId' id='pageId'>                            

@@ -28,7 +28,7 @@ function decodeContent($str) {
 
 function nparent() {
     global $conn;
-    $result = $conn->query("SELECT * FROM page");
+    $result = $conn->query("SELECT * FROM pages");
     $numr = $result->num_rows;
     $sp = "";
     if ($numr > 0) {
@@ -50,7 +50,7 @@ function nparent() {
 function vwparent($parent) {
     global $conn;
     if ($parent > 0) {
-        $result = $conn->query("SELECT * FROM page WHERE id='$parent'");
+        $result = $conn->query("SELECT * FROM pages WHERE id='$parent'");
         $row = $result->fetch_assoc();
         echo $row['title'];
     }
@@ -59,7 +59,7 @@ function vwparent($parent) {
 function sparent($parent) {
     global $conn;
 
-    $result = $conn->query("SELECT * FROM page");
+    $result = $conn->query("SELECT * FROM pages");
     $sp = "";
     $sp .= '<select class="form-select" name="parent" id="parent">';
     $sp .= '<option>Select a parent</option>';
@@ -73,7 +73,7 @@ function sparent($parent) {
 
 function pparent($parent) {
     global $conn;
-    $result = $conn->query("SELECT * FROM page");
+    $result = $conn->query("SELECT * FROM pages");
     echo '<select class="form-select" name="parent" id="parent">' . "\n";
     echo '<option>Select a parent</option>' . "\n";
     while ($row = $result->fetch_array()) {

@@ -38,7 +38,7 @@ class GetVisitor {
 
     public function numpages() {
 
-        return $this->connection->query("SELECT id FROM page")->num_rows;
+        return $this->connection->query("SELECT id FROM pages")->num_rows;
     }
 
     /* get number of visitor

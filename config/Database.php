@@ -23,7 +23,7 @@ class Database {
     private $dsn;
 
     public function __construct() {
-        include_once 'server.php';
+        $settings = require 'server.php';
         $this->config = $settings;
         $this->socket = "";
     }

@@ -31,7 +31,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         </thead>
                         <tbody>
                             <?php
-                            $presult = $conn->query("SELECT * FROM page");
+                            $presult = $conn->query("SELECT * FROM pages");
                             $pnumr = $presult->num_rows;
                             if ($pnumr > 0) {
                                 while ($prow = $presult->fetch_array()) {
@@ -126,7 +126,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $change = 0;
 
             if ($startpage === 1) {
-                $qlv1 = $conn->prepare("SELECT id, startpage FROM page WHERE startpage=?");
+                $qlv1 = $conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
                 $qlv1->bind_param("i", $startpage);
                 $qlv1->execute();
                 $presult = $qlv1->get_result();
@@ -355,7 +355,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $active = protect($_POST['active']);
 
                 if ($startpage === 1) {
-                    $qlv1 = $conn->prepare("SELECT id, startpage FROM page WHERE startpage=?");
+                    $qlv1 = $conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
                     $qlv1->bind_param("i", $startpage);
                     $qlv1->execute();
                     $presult = $qlv1->get_result();
@@ -407,7 +407,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <?php
                             if (isset($_GET['id']) && !empty($_GET['id'])) {
                                 $id = $_GET['id'];
-                                $qlv2 = $conn->prepare("SELECT * FROM page WHERE id = ?");
+                                $qlv2 = $conn->prepare("SELECT * FROM pages WHERE id = ?");
                                 $qlv2->bind_param("i", $id);
                                 $qlv2->execute();
                                 $presult = $qlv2->get_result();
@@ -522,7 +522,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     } elseif ($cms == "delete_page") {
 
         if (isset($_POST['submit'])) {
-            $sql = "DELETE FROM page WHERE id='$id'";
+            $sql = "DELETE FROM pages WHERE id='$id'";
             if ($conn->query($sql) === TRUE) {
                 echo '<div class="alert alert-primary" role="alert">';
                 echo "<h4>Record deleted successfully</h4>";

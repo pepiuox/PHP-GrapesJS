@@ -27,7 +27,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `galleries` LEFT JOIN `type_gallery` ON galleries.type=type_gallery.idTG  LEFT JOIN (SELECT id, title AS npage FROM page)`page`  ON galleries.pageID=page.id") or trigger_error($conn->error);
+            $result = $conn->query("SELECT * FROM `galleries` LEFT JOIN `type_gallery` ON galleries.type=type_gallery.idTG  LEFT JOIN (SELECT id, title AS npage FROM pages)`page`  ON galleries.pageID=page.id") or trigger_error($conn->error);
             while ($row = $result->fetch_array()) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
@@ -135,7 +135,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 </div>           
                 <div class="container"><label class="form-label">Página de visualización:</label>                    
                     <?php
-                    $sqp1 = "SELECT * FROM page";
+                    $sqp1 = "SELECT * FROM pages";
                     $queryp1 = $conn->query($sqp1);
                     ?> 
                     <select class="form-select" name='pageId' id='pageId'>                            
@@ -232,7 +232,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     </div> 
                     <div class="container"><label class="form-label">Página de visualización:</label>                    
                         <?php
-                        $sqp1 = "SELECT * FROM page";
+                        $sqp1 = "SELECT * FROM pages";
                         $queryp1 = $conn->query($sqp1);
                         ?> 
                         <select class="form-select" name='pageId' id='pageId'>                            

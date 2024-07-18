@@ -198,7 +198,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		This sample is not maintained anymore. Check out its <a href="https://ckeditor.com/docs/ckeditor4/latest/examples/inline.html">brand new version in CKEditor Examples</a>.
 	</div>
 	<div class="description">
-		<p>This sample page demonstrates the inline editing feature - CKEditor instances will be created automatically from page elements with <strong>contentEditable</strong> attribute set to value <strong>true</strong>:</p>
+		<p>This sample page demonstrates the inline editing feature - CKEditor instances will be created automatically FROM pages elements with <strong>contentEditable</strong> attribute set to value <strong>true</strong>:</p>
 		<pre class="samples">&lt;div <strong>contenteditable="true</strong>" &gt; ... &lt;/div&gt;</pre>
 		<p>Click inside of any element below to start editing.</p>
 	</div>

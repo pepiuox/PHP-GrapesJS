@@ -180,7 +180,7 @@ class NewUser {
                     $pass = $this->ende_crypter('encrypt', $password, $ekey, $eiv);
                     $cml = $this->ende_crypter('encrypt', $email, $ekey, $eiv);
                     $eusr = $this->ende_crypter('encrypt', $username, $ekey, $eiv);
-                    $pin = rand(000000, 999999);
+                    $pin = rand(100000, 999999);
                     $code = $this->randkey();
                     $status = 0;
                     $dvd = 0;
