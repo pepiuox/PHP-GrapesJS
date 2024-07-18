@@ -34,8 +34,8 @@
     }],
     "support": {},
     "require": {
-        "composer/composer": "2.6.4",
-        "phpmailer/phpmailer": "^6.8.0"
+        "composer/composer": "2.7.7",
+        "phpmailer/phpmailer": "^6.9.1"
     },
     "autoload": {
         "psr-4": {
