@@ -237,9 +237,7 @@ class installUser {
             $repassword = $this->procheck($_POST["password2"]);
             $agree = $this->procheck($_POST["agreeTerms"]);
             if ($agree != "agree") {
-                $_SESSION["ErrorMessage"] = "You need to accept the terms and conditions, to register your account!";
-                header("Location: register.php");
-                exit;
+                $_SESSION["ErrorMessage"] = "You need to accept the terms and conditions, to register your account!";             
             }
 
             // message for incomplete field or actions

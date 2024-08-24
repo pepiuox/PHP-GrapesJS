@@ -19,7 +19,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `blocks` LEFT JOIN `type_blocks` ON blocks.blockId = type_blocks.id LEFT JOIN (SELECT id AS npage , title FROM page)`page` ON blocks.pageId=page.npage");
+            $result = $conn->query("SELECT * FROM `blocks` LEFT JOIN `type_blocks` ON blocks.blockId = type_blocks.id LEFT JOIN (SELECT id AS npage , title FROM pages)`page` ON blocks.pageId=page.npage");
             while ($row = $result->fetch_array()) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
@@ -96,7 +96,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <div class="container">
                     <label class="form-label">Página:</label>
                     <?php
-                    $sqp1 = "SELECT * FROM page";
+                    $sqp1 = "SELECT * FROM pages";
                     $queryp1 = $conn->query($sqp1);
                     ?> 
                     <select class="form-select" name='pageId' id='pageId'>                            
@@ -184,7 +184,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     </div> 
                     <div class="container"><label class="form-label">Página:</label>
                         <?php
-                        $sqp1 = "SELECT * FROM page";
+                        $sqp1 = "SELECT * FROM pages";
                         $queryp1 = $conn->query($sqp1);
                         ?> 
                         <select class="form-select" name='pageId' id='pageId'>                            

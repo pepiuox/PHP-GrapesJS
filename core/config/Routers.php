@@ -44,7 +44,7 @@ class Routers
     public function InitPage()
     {
         $stmt = $this->conn->prepare(
-            "SELECT * FROM page WHERE startpage = ? AND active = ? "
+            "SELECT * FROM pages WHERE startpage = ? AND active = ? "
         );
         $stmt->bind_param("ii", $this->startpage, $this->active);
         $stmt->execute();
@@ -59,7 +59,7 @@ class Routers
     public function PageDataWeb($basename)
     {
         $stmt = $this->conn->prepare(
-            "SELECT * FROM page WHERE link = ? AND active = ? "
+            "SELECT * FROM pages WHERE link = ? AND active = ? "
         );
         $stmt->bind_param("si", $basename, $this->active);
         $stmt->execute();
@@ -77,7 +77,7 @@ class Routers
     public function Pages($plink)
     {
         $pg = $this->conn->prepare(
-            "SELECT system_path, link, startpage, type, path_file, parent, active FROM page WHERE link = ? AND active = ? "
+            "SELECT system_path, link, startpage, type, path_file, parent, active FROM pages WHERE link = ? AND active = ? "
         );
         $pg->bind_param("si", $plink, $this->active);
         $pg->execute();
@@ -106,7 +106,7 @@ class Routers
     public function GetParent($parent)
     {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM page WHERE id = ? AND active = ? "
+            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();
@@ -124,7 +124,7 @@ class Routers
     public function GetSecondParent($parent)
     {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM page WHERE id = ? AND active = ? "
+            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();
@@ -142,7 +142,7 @@ class Routers
     public function GetThirdParent($parent)
     {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM page WHERE id = ? AND active = ? "
+            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();

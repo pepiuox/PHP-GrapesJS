@@ -36,7 +36,7 @@ class Visitors {
 
     public function numPages() {
 
-        return $this->connection->query("SELECT id FROM page")->num_rows;
+        return $this->connection->query("SELECT id FROM pages")->num_rows;
     }
 
     /* get number of visitor
@@ -151,7 +151,7 @@ class Visitors {
 // Insert the IP and title of the page visited during the day
     public function pageViews($title) {
 
-        $stmt = $this->connection->prepare('SELECT * FROM pageviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
+        $stmt = $this->connection->prepare('SELECT * FROM pagesviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
         $stmt->bind_param('ss', $title, $this->getip);
         $stmt->execute();
         $rows = $stmt->get_result();

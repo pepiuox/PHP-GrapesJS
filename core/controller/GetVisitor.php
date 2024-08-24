@@ -37,7 +37,7 @@ class GetVisitor {
 
     public function numpages() {
 
-        return $this->conn->query("SELECT id FROM page")->num_rows;
+        return $this->conn->query("SELECT id FROM pages")->num_rows;
     }
 
     public function checkUserIP($ip) {

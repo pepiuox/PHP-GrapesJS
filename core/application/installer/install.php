@@ -230,6 +230,9 @@ if (!file_exists($file)) {
             if ($_POST["UpdateCode"] === $v) {
                 continue;
             }
+            if($k == 'DOMAIN_SITE' || $k == 'SITE_PATH'){
+                $v .= '/';
+            }
             $vals[] = "`" . $k . "`='" . $v . "'";
         }
         $vupdates = implode(", ", $vals);

@@ -3,7 +3,7 @@
 function getLink($mid)
 {
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM page WHERE id=?");
+    $stmt = $conn->prepare("SELECT * FROM pages WHERE id=?");
     $stmt->bind_param("i", $mid);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -17,7 +17,7 @@ function dropdown()
     global $conn;
     $active = 1;
     $parent = 0;
-    $stmt = $conn->prepare("SELECT * FROM page WHERE active=?");
+    $stmt = $conn->prepare("SELECT * FROM pages WHERE active=?");
     $stmt->bind_param("i", $active);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -26,7 +26,7 @@ function dropdown()
         $parents[] = $mrow["parent"];
     }
     $stmt1 = $conn->prepare(
-        "SELECT id, title, link, type, parent FROM page WHERE parent=? AND active=?"
+        "SELECT id, title, link, type, parent FROM pages WHERE parent=? AND active=?"
     );
     $stmt1->bind_param("ii", $parent, $active);
     $stmt1->execute();
@@ -67,7 +67,7 @@ function second($mid, $plink)
     global $conn;
     $active = 1;
 
-    $stmt = $conn->prepare("SELECT * FROM page WHERE active=?");
+    $stmt = $conn->prepare("SELECT * FROM pages WHERE active=?");
     $stmt->bind_param("i", $active);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -77,7 +77,7 @@ function second($mid, $plink)
     }
 
     $stmt1 = $conn->prepare(
-        "SELECT id, title, link, parent FROM page WHERE parent=? AND active=?"
+        "SELECT id, title, link, parent FROM pages WHERE parent=? AND active=?"
     );
     $stmt1->bind_param("ii", $mid, $active);
     $stmt1->execute();
@@ -113,7 +113,7 @@ function third($sid, $plink)
     global $conn;
     $active = 1;
 
-    $stmt = $conn->prepare("SELECT * FROM page WHERE active=?");
+    $stmt = $conn->prepare("SELECT * FROM pages WHERE active=?");
     $stmt->bind_param("i", $active);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -122,7 +122,7 @@ function third($sid, $plink)
         $parents[] = $mrow["parent"];
     }
     $stmt1 = $conn->prepare(
-        "SELECT id, title, link, parent FROM page WHERE parent=? AND active=?"
+        "SELECT id, title, link, parent FROM pages WHERE parent=? AND active=?"
     );
     $stmt1->bind_param("ii", $sid, $active);
     $stmt1->execute();
