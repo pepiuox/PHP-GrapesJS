@@ -15,6 +15,6 @@ table.dataTable.fixedHeader-locked {
 
 @media print {
   table.fixedHeader-floating {
-    display: none;
+	display: none;
   }
 }

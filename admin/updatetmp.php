@@ -1,6 +1,6 @@
 <?php
 //This is temporal file only for add new row
-if (isset($_POST['editrow'])) { 
+if (isset($_POST['editrow'])) {
 $sort  = $_POST['sort'];
 $page_id  = $_POST['page_id'];
 $title_page  = $_POST['title_page'];
@@ -15,8 +15,8 @@ $stmt->close();
 $_SESSION["success"] = "The data was updated correctly.";
 echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=table_crud&w=list&tbl=menu';
+	location.href = 'dashboard.php?cms=table_crud&w=list&tbl=menu';
 }
 </script>";
-} 
-?> 
+}
+?>

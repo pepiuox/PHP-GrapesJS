@@ -39,19 +39,19 @@ function sendData2Master()
 }
 
 function OnMessage (event) {
-	        var message = event.data;
-	        var destination = window.parent.parent;
-	        destination.XDTMaster.read( [ 'end', message, 'fpm' ] ) ;
+			var message = event.data;
+			var destination = window.parent.parent;
+			destination.XDTMaster.read( [ 'end', message, 'fpm' ] ) ;
 }
 
 function listenPostMessage() {
-    if (window.addEventListener) { // all browsers except IE before version 9
-            window.addEventListener ("message", OnMessage, false);
-    }else {
-            if (window.attachEvent) { // IE before version 9
-                        window.attachEvent("onmessage", OnMessage);
-                }
-        }
+	if (window.addEventListener) { // all browsers except IE before version 9
+			window.addEventListener ("message", OnMessage, false);
+	}else {
+			if (window.attachEvent) { // IE before version 9
+						window.attachEvent("onmessage", OnMessage);
+				}
+		}
 }
 
 function onLoad()

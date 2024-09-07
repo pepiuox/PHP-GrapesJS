@@ -1,30 +1,30 @@
 @keyframes dtb-spinner {
   100% {
-    transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 @-o-keyframes dtb-spinner {
   100% {
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
+	-o-transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 @-ms-keyframes dtb-spinner {
   100% {
-    -ms-transform: rotate(360deg);
-    transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 @-webkit-keyframes dtb-spinner {
   100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 @-moz-keyframes dtb-spinner {
   100% {
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
+	-moz-transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 div.dt-button-info {
@@ -157,13 +157,13 @@ div.dt-button-background {
 
 @media screen and (max-width: 767px) {
   div.dt-buttons {
-    float: none;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 0.5em;
+	float: none;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 0.5em;
   }
   div.dt-buttons a.btn {
-    float: none;
+	float: none;
   }
 }
 div.dt-buttons button.btn.processing,

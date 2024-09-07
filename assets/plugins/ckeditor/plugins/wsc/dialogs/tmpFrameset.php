@@ -44,9 +44,9 @@ function tryLoad()
 </head>
 
 <frameset id="itFrameset" onload="tryLoad();" border="0" rows="30,*,*,0">
-    <frame scrolling="no" framespacing="0" frameborder="0" noresize="noresize" marginheight="0" marginwidth="2" src="" name="navbar"></frame>
-    <frame scrolling="auto" framespacing="0" frameborder="0" noresize="noresize" marginheight="0" marginwidth="0" src="" name="mid"></frame>
-    <frame scrolling="no" framespacing="0" frameborder="0" noresize="noresize" marginheight="1" marginwidth="1" src="" name="bot"></frame>
-    <frame scrolling="no" framespacing="0" frameborder="0" noresize="noresize" marginheight="1" marginwidth="1" src="" name="spellsuggestall"></frame>
+	<frame scrolling="no" framespacing="0" frameborder="0" noresize="noresize" marginheight="0" marginwidth="2" src="" name="navbar"></frame>
+	<frame scrolling="auto" framespacing="0" frameborder="0" noresize="noresize" marginheight="0" marginwidth="0" src="" name="mid"></frame>
+	<frame scrolling="no" framespacing="0" frameborder="0" noresize="noresize" marginheight="1" marginwidth="1" src="" name="bot"></frame>
+	<frame scrolling="no" framespacing="0" frameborder="0" noresize="noresize" marginheight="1" marginwidth="1" src="" name="spellsuggestall"></frame>
 </frameset>
 </html>

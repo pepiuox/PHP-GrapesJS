@@ -1,230 +1,230 @@
 <?php
 if (isset($_GET['w']) && !empty($_GET['w'])) {
-    $w = protect($_GET['w']);
+	= protect($_GET['w']);
 } else {
-    ?>
-    <meta http-equiv="Refresh" content="0; url='dashboard.php?cms=theme_template&w=list'" />
-    <?php
+
+	ta http-equiv="Refresh" content="0; url='dashboard.php?cms=theme_template&w=list'" />
+	hp
 }
 if ($w == "list") {
-    ?>
-    <div class="container">
-        <div class="row pt-3">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>                      
-                        <th>Theme name</th>
-                        <th>Theme bootstrap</th>
-                        <th>Base default</th>
-                        <th>Active theme</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $result = $conn->query("SELECT * FROM themes ");
-                    $numr = $result->num_rows;
-                    if ($numr > 0) {
-                        while ($prow = $result->fetch_array()) {
-                            echo '<tr>
-                        <td><!--Button -->
-                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=theme_template&amp;w=edit&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
-                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=theme_template&amp;w=delete&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
-                        </td>                        
-                        <td>' . $prow['theme_name'] . '</td>
-                            <td>' . $prow['theme_bootstrap'] . '</td>
-                        <td>' . $prow['base_default'] . '</td>
-                        <td>' . $prow['active_theme'] . '</td>
-                        </tr>';
-                        }
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <?php
+
+	v class="container">
+		lass="row pt-3">
+			ass="table">
+
+
+						 name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
+						>
+						p</th>
+						th>
+						th>
+
+
+
+
+					->query("SELECT * FROM themes ");
+					->num_rows;
+					{
+						sult->fetch_array()) {
+
+
+							"editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=theme_template&amp;w=edit&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
+							e="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=theme_template&amp;w=delete&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
+
+						me_name'] . '</td>
+							bootstrap'] . '</td>
+						e_default'] . '</td>
+						ive_theme'] . '</td>
+
+
+
+
+
+
+
+	iv>
+	hp
 } elseif ($w == "add") {
 
-    $log_directory = '../themes';
-    $results_array = array();
+	g_directory = '../themes';
+	sults_array = array();
 
-    if (is_dir($log_directory)) {
-        if ($handle = opendir($log_directory)) {
-            //Notice the parentheses I added:
-            while (($file = readdir($handle)) !== FALSE) {
-                $results_array[] = $file;
-            }
-            closedir($handle);
-        }
-    }
+	(is_dir($log_directory)) {
+		andle = opendir($log_directory)) {
+			the parentheses I added:
+			file = readdir($handle)) !== FALSE) {
+				ay[] = $file;
 
-    if (isset($_POST['addtheme'])) {
-        $idtheme = uniqid(rand(), false);
+			$handle);
 
-        $theme_name = $_POST['theme_name'];
-        $theme = $_POST['theme'];
-        $base_default = $_POST['base_default'];
-        $active_theme = $_POST['active_theme'];
 
-        $stmt = $conn->prepare("INSERT INTO themes (theme_id, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?)");
-        $stmt->bind_param("sssss", $idtheme, $theme_name, $theme, $base_default, $active_theme);
-        $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+	(isset($_POST['addtheme'])) {
+		me = uniqid(rand(), false);
 
-        $stmt = $conn->prepare("INSERT INTO theme_base_font (idtbf) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+		_name = $_POST['theme_name'];
+		 = $_POST['theme'];
+		default = $_POST['base_default'];
+		e_theme = $_POST['active_theme'];
 
-        $stmt = $conn->prepare("INSERT INTO theme_headings_font (idthf) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+		= $conn->prepare("INSERT INTO themes (theme_id, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?)");
+		>bind_param("sssss", $idtheme, $theme_name, $theme, $base_default, $active_theme);
+		>execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_lead_font (idtlf) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+		= $conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
+		>bind_param("s", $idtheme);
+		>execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_palette (idtp) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+		= $conn->prepare("INSERT INTO theme_base_font (idtbf) VALUES (?)");
+		>bind_param("s", $idtheme);
+		>execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_settings (idts) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
-        $stmt->close();
-    }
-    ?>
-    <div class="container">
-        <div class="row pt-3">
+		= $conn->prepare("INSERT INTO theme_headings_font (idthf) VALUES (?)");
+		>bind_param("s", $idtheme);
+		>execute();
 
-            <form method="post" class="row form-horizontal" role="form" id="add_themes" enctype="multipart/form-data">
+		= $conn->prepare("INSERT INTO theme_lead_font (idtlf) VALUES (?)");
+		>bind_param("s", $idtheme);
+		>execute();
 
-                <div class="form-group">
-                    <label for="theme_name">Theme name:</label>
-                    <input type="text" class="form-control" id="theme_name" name="theme_name">
-                </div>
-                <div class="form-group">
-                    <label for="theme_bootstrap">Select theme bootstrap </label>
-                    <select name="theme_bootstrap" id="theme_bootstrap" class="form-select" aria-label="select">
-                        <option>Select theme bootstrap</option>
-                        <?php
-                        //Output findings
-                        foreach ($results_array as $value) {
-                            if ($value === '.' || $value === '..') {
-                                continue;
-                            }
-                            echo '<option value="' . $value . '">' . ucfirst($value) . '</option>';
-                        }
-                        ?>
-                    </select> 
-                </div>
-                <div class="form-group">
-                    <label for="base_default">Base default:</label>
-                    <select type="text" class="form-select" id="base_default" name="base_default" >
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="active_theme">Active theme:</label>
-                    <select type="text" class="form-select" id="active_theme" name="active_theme" >
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button type="submit" id="addtheme" name="addtheme" class="btn btn-primary"><span class="fas fa-plus-square"></span> Add theme</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <?php
+		= $conn->prepare("INSERT INTO theme_palette (idtp) VALUES (?)");
+		>bind_param("s", $idtheme);
+		>execute();
+
+		= $conn->prepare("INSERT INTO theme_settings (idts) VALUES (?)");
+		>bind_param("s", $idtheme);
+		>execute();
+		>close();
+
+
+	v class="container">
+		lass="row pt-3">
+
+			hod="post" class="row form-horizontal" role="form" id="add_themes" enctype="multipart/form-data">
+
+				form-group">
+					me_name">Theme name:</label>
+					xt" class="form-control" id="theme_name" name="theme_name">
+
+				form-group">
+					me_bootstrap">Select theme bootstrap </label>
+					heme_bootstrap" id="theme_bootstrap" class="form-select" aria-label="select">
+						me bootstrap</option>
+
+
+						array as $value) {
+							 $value === '..') {
+
+
+							' . $value . '">' . ucfirst($value) . '</option>';
+
+
+
+
+				form-group">
+					e_default">Base default:</label>
+					ext" class="form-select" id="base_default" name="base_default" >
+						">Yes</option>
+						>No</option>
+
+
+				form-group">
+					ive_theme">Active theme:</label>
+					ext" class="form-select" id="active_theme" name="active_theme" >
+						">Yes</option>
+						>No</option>
+
+
+				form-group">
+					ubmit" id="addtheme" name="addtheme" class="btn btn-primary"><span class="fas fa-plus-square"></span> Add theme</button>
+
+
+
+	iv>
+	hp
 } elseif ($w == "edit") {
-    if (isset($_GET["id"])) {
-        $id = $_GET["id"];
+	(isset($_GET["id"])) {
+		$_GET["id"];
 
-        $log_directory = '../themes';
-        $results_array = array();
+		irectory = '../themes';
+		ts_array = array();
 
-        if (is_dir($log_directory)) {
-            if ($handle = opendir($log_directory)) {
-                //Notice the parentheses I added:
-                while (($file = readdir($handle)) !== FALSE) {
-                    $results_array[] = $file;
-                }
-                closedir($handle);
-            }
-        }
+		_dir($log_directory)) {
+			le = opendir($log_directory)) {
+				 parentheses I added:
+				e = readdir($handle)) !== FALSE) {
+					] = $file;
+
+				ndle);
+
+
 
 //This is temporal file only for add new row
-        if (isset($_POST['editrow'])) {
+		set($_POST['editrow'])) {
 
-            $theme_name = $_POST["theme_name"];
-            $theme_bootstrap = $_POST["theme_bootstrap"];
-            $base_default = $_POST["base_default"];
-            $active_theme = $_POST["active_theme"];
+			me = $_POST["theme_name"];
+			otstrap = $_POST["theme_bootstrap"];
+			ault = $_POST["base_default"];
+			heme = $_POST["active_theme"];
 
-            $query = "UPDATE themes SET theme_name = '$theme_name', theme_bootstrap = '$theme_bootstrap', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
-            if ($conn->query($query) === TRUE) {
-                $_SESSION["success"] = "The data was updated correctly.";
+			"UPDATE themes SET theme_name = '$theme_name', theme_bootstrap = '$theme_bootstrap', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
+			->query($query) === TRUE) {
+				uccess"] = "The data was updated correctly.";
 
-                echo "<script>
+				t>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=table_crud&w=list&tbl=themes';
+	ation.href = 'dashboard.php?cms=table_crud&w=list&tbl=themes';
 }
 </script>";
-            } else {
-                $_SESSION["error"] = "Error updating data: " . $conn->error;
-            }
-        }
-        $rtt = $conn->query("SELECT * FROM themes WHERE theme_id='$id'");
-        $tt = $rtt->fetch_assoc();
-        ?> 
-        <div class="container">
-            <div class="row">
-                <form role="form" id="edit_themes" method="POST">
 
-                    <div class="form-group">
-                        <label for="theme_name" class ="control-label col-sm-3">Theme name:</label>
-                        <input type="text" class="form-control" id="theme_name" name="theme_name" value="<?php echo $tt['theme_name']; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="theme_bootstrap" class ="control-label col-sm-3">Theme bootstrap:</label>
-                        <select name="theme_bootstrap" id="theme_bootstrap" class="form-select" aria-label="select">
-                            <option>Select theme bootstrap</option>
-                            <?php
-                            $thmbt = $tt['theme_bootstrap'];
-                            //Output findings
-                            foreach ($results_array as $value) {
-                                if ($value === '.' || $value === '..') {
-                                    continue;
-                                }
-                                if ($value == $thmbt) {
-                                    echo '<option value="' . $value . '" selected>' . ucfirst($value) . '</option>';
-                                } else {
-                                    echo '<option value="' . $value . '">' . ucfirst($value) . '</option>';
-                                }
-                            }
-                            ?>
-                        </select> 
-                    </div>
-                    <?php enum_values('themes', 'base_default', $tt['base_default']); ?>
-                    <?php enum_values('themes', 'active_theme', $tt['active_theme']); ?>
-
-                    <div class="form-group">
-                        <button type="submit" id="editrow" name="editrow" class="btn btn-primary"><span class = "fas fa-edit"></span> Edit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+				rror"] = "Error updating data: " . $conn->error;
 
 
-        <?php
-    }
+		 $conn->query("SELECT * FROM themes WHERE theme_id='$id'");
+		$rtt->fetch_assoc();
+
+		lass="container">
+			s="row">
+				form" id="edit_themes" method="POST">
+
+					m-group">
+						name" class ="control-label col-sm-3">Theme name:</label>
+						 class="form-control" id="theme_name" name="theme_name" value="<?php echo $tt['theme_name']; ?>">
+
+					m-group">
+						bootstrap" class ="control-label col-sm-3">Theme bootstrap:</label>
+						e_bootstrap" id="theme_bootstrap" class="form-select" aria-label="select">
+							bootstrap</option>
+
+							ootstrap'];
+
+							ay as $value) {
+								alue === '..') {
+
+
+
+									alue . '" selected>' . ucfirst($value) . '</option>';
+
+									alue . '">' . ucfirst($value) . '</option>';
+
+
+
+
+
+					es('themes', 'base_default', $tt['base_default']); ?>
+					es('themes', 'active_theme', $tt['active_theme']); ?>
+
+					m-group">
+						it" id="editrow" name="editrow" class="btn btn-primary"><span class = "fas fa-edit"></span> Edit</button>
+
+
+
+
+
+
+
+
 } elseif ($w == "delete") {
-    
+
 }
 ?>

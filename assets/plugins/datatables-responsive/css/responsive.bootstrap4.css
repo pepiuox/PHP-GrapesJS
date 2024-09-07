@@ -177,7 +177,7 @@ div.dtr-modal div.dtr-modal-background {
 
 @media screen and (max-width: 767px) {
   div.dtr-modal div.dtr-modal-display {
-    width: 95%;
+	width: 95%;
   }
 }
 div.dtr-bs-modal table.table tr:first-child td {
