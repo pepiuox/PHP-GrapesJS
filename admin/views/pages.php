@@ -1,201 +1,201 @@
 <?php
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
-
-	p = new Protect();
-	w = '';
-	f (isset($_GET['w']) && !empty($_GET['w'])) {
-	w = $p->secureStr($_GET['w']);
-	else{
-	eader('Location: dashboard.php?cms=list_pages&w=list');
-	xit();
-
-
-	($cms == "list_pages") {
-
-		lass='container-fluid'>
-			s="row">
-				col-md-12 py-3">
-					echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="btn btn-primary" > Add new page</a>
-					able">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-							ry("SELECT * FROM page");
-							m_rows;
-
-								>fetch_array()) {
-
-									H . $prow['link'] . '" target="_blank"><i class="fas fa-eye" aria-hidden="true"></i></a>';
-
-
-
-									nk']);
-
-
-
-
-
-									p?cms=edit_page&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
-
-									build=page&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
-
-									p?cms=delete_page&&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
-
-
-
-								" rowspan="1" style="vertical-align: top;">';
-								eated a page yet.</h3>";
-
-
-
-
-
-
-
-
-
-	lseif ($cms == "add_page") {
-		set($_POST['submit'])) {
-			e = '';
-			y($_FILES['image']['name'])) {
-				ray();
-				 $_FILES['image']['name'];
-				 $_FILES['image']['size'];
-				$_FILES['image']['tmp_name'];
-				 $_FILES['image']['type'];
-				pathinfo($file_name, PATHINFO_EXTENSION);
-				 = strtolower(end(explode('.', $_FILES['image']['name'])));
-
-				= array(
-
-
-
-
-
-
-				($file_ext, $extensions)) {
-					("../uploads/" . $file_name)) {
-						name . " is already exists.";
-
-						($file_tmp, "../uploads/" . $file_name);
-
-						'] = "Your file was uploaded successfully.";
-
-
-					tension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
-
-
-				ze > 4000000) {
-					le size must be excately 4 MB';
-
-
-				rrors) === true) {
-					s="alert alert-success" role="alert">';
-					ess'] = "Success";
-
-
-					s as $key => $item) {
-						alert alert-danger" role="alert">';
-
-
-
-
-
-				rror'] = "It is necessary to add an image that relates the page";
-
-
-			protect($_POST['title']); // Page name
-			rotect(strtolower(str_replace(" ", "-", $_POST['link']))); // Page link
-			= protect($_POST['keyword']);
-			cation = protect($_POST['classification']);
-			ion = protect($_POST['description']);
-			e = protect($_POST['startpage']);
-			 protect($_POST['parent']);
-			 protect($_POST['active']);
-			 0;
-
-			tpage === 1) {
-				n->prepare("SELECT id, startpage FROM page WHERE startpage=?");
-				param("i", $startpage);
-				te();
-				qlv1->get_result();
-				();
-				->num_rows > 0) {
-					>fetch_assoc();
-					'];
-					prepare("UPDATE page SET startpage=? WHERE id=?");
-					am("ii", $change, $idsp);
-					);
-
-
-
-
-			if parent exist or is empty
-			nt($parent) || empty($parent)) {
-
-
-
-			 info in table PAGE
-			NSERT INTO page (title, link, keyword, classification, description, image, startpage, parent, active) "
-					?,?,?,?,?,?,?)";
-			conn->prepare($sql);
-			nd_param("ssssssiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active);
-			ecute();
-			= $conn->insert_id;
-			ose();
-
-			y($last_id)) {
-
-				fo in table MENU
-				ERT INTO menu (page_id, title_page, link_page, parent_id) "
-						, ?)";
-				nn->prepare($sqlm);
-				_param("issi", $last_id, $title, $link, $parent);
-				ute();
-				$conn->insert_id;
-				e();
-				last_idm)) {
-					essMessage'] = "Page " . $title . " : Created ";
-
-					rMessage'] = "Failed: The page was not added to the menu";
-
-
-				rrorMessage'] = "Failed: The page has not been created";
-
-			ript> window.location.replace("builder.php?build=page&id=' . $last_id . '"); </script>';
-
-
-		lass="container">
-			s="row">
-				card py-3">
-					d-body">
-
-						h3>
-						" enctype="multipart/form-data">
-							 class="col-md-6">
-
-										l>
-										-control" id="title" name="title">
-
-								-6">
-
-
-										-control" id="link" name="link">
-
-								form-group">
-								word</label>
-							" class="form-control" id="keyword" name="keyword">
+	/*
+	  $p = new Protect();
+	  $w = '';
+	  if (isset($_GET['w']) && !empty($_GET['w'])) {
+	  $w = $p->secureStr($_GET['w']);
+	  }else{
+	  header('Location: dashboard.php?cms=list_pages&w=list');
+	  exit();
+	  }
+	 */
+	if ($cms == "list_pages") {
+		?>
+		<div class='container-fluid'>
+			<div class="row">
+				<div class="col-md-12 py-3">
+					<a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="btn btn-primary" > Add new page</a>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>View</th>
+								<th>Title</th>
+								<th>Link</th>
+								<th>Parent</th>
+								<th>Active</th>
+								<th>Edit</th>
+								<th>Build</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$presult = $conn->query("SELECT * FROM page");
+							$pnumr = $presult->num_rows;
+							if ($pnumr > 0) {
+								while ($prow = $presult->fetch_array()) {
+									echo '<tr><td>';
+									echo '<a href="' . SITE_PATH . $prow['link'] . '" target="_blank"><i class="fas fa-eye" aria-hidden="true"></i></a>';
+									echo '</td><td>' . "\n";
+									echo $prow['title'];
+									echo '</td><td>' . "\n";
+									echo clean_string($prow['link']);
+									echo '</td><td>' . "\n";
+									vwparent($prow['parent']);
+									echo '</td><td>' . "\n";
+									vwaction($prow['active']);
+									echo '</td><td>' . "\n";
+									echo '<a href="dashboard.php?cms=edit_page&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
+									echo '</td><td>' . "\n";
+									echo '<a href="builder.php?build=page&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
+									echo '</td><td>' . "\n";
+									echo '<a href="dashboard.php?cms=delete_page&&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+									echo '</td></tr>';
+								}
+							} else {
+								echo '<tr><td colspan="8" rowspan="1" style="vertical-align: top;">';
+								echo "<h3>You haven't created a page yet.</h3>";
+								echo '</td></tr>';
+							}
+							?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<?php
+	} elseif ($cms == "add_page") {
+		if (isset($_POST['submit'])) {
+			$file_name = '';
+			if (!empty($_FILES['image']['name'])) {
+				$errors = array();
+				$file_name = $_FILES['image']['name'];
+				$file_size = $_FILES['image']['size'];
+				$file_tmp = $_FILES['image']['tmp_name'];
+				$file_type = $_FILES['image']['type'];
+				$file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+				// $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
+
+				$extensions = array(
+					"jpeg",
+					"jpg",
+					"png",
+					"gif"
+				);
+
+				if (in_array($file_ext, $extensions)) {
+					if (file_exists("../uploads/" . $file_name)) {
+						$errors[] = $file_name . " is already exists.";
+					} else {
+						move_uploaded_file($file_tmp, "../uploads/" . $file_name);
+
+						$_SESSION['success'] = "Your file was uploaded successfully.";
+					}
+				} else {
+					$errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
+				}
+
+				if ($file_size > 4000000) {
+					$errors[] = 'File size must be excately 4 MB';
+				}
+
+				if (empty($errors) === true) {
+					echo '<div class="alert alert-success" role="alert">';
+					$_SESSION['success'] = "Success";
+					echo '</div>';
+				} else {
+					foreach ($errors as $key => $item) {
+						echo '<div class="alert alert-danger" role="alert">';
+						echo "$item <br>";
+						echo '</div>';
+					}
+				}
+			} else {
+				$_SESSION['error'] = "It is necessary to add an image that relates the page";
+			}
+
+			$title = protect($_POST['title']); // Page name
+			$link = protect(strtolower(str_replace(" ", "-", $_POST['link']))); // Page link
+			$keyword = protect($_POST['keyword']);
+			$classification = protect($_POST['classification']);
+			$description = protect($_POST['description']);
+			$startpage = protect($_POST['startpage']);
+			$parent = protect($_POST['parent']);
+			$active = protect($_POST['active']);
+			$change = 0;
+
+			if ($startpage === 1) {
+				$qlv1 = $conn->prepare("SELECT id, startpage FROM page WHERE startpage=?");
+				$qlv1->bind_param("i", $startpage);
+				$qlv1->execute();
+				$presult = $qlv1->get_result();
+				$qlv1->close();
+				if ($presult->num_rows > 0) {
+					$dt = $presult->fetch_assoc();
+					$idsp = $dt['id'];
+					$updp = $conn->prepare("UPDATE page SET startpage=? WHERE id=?");
+					$updp->bind_param("ii", $change, $idsp);
+					$updp->execute();
+					$updp->close();
+				}
+			}
+
+			// Check if parent exist or is empty
+			if (!is_int($parent) || empty($parent)) {
+				$parent = 0;
+			}
+
+			// Insert info in table PAGE
+			$sql = "INSERT INTO page (title, link, keyword, classification, description, image, startpage, parent, active) "
+					. "VALUES (?,?,?,?,?,?,?,?,?)";
+			$updp = $conn->prepare($sql);
+			$updp->bind_param("ssssssiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active);
+			$updp->execute();
+			$last_id = $conn->insert_id;
+			$updp->close();
+
+			if (!empty($last_id)) {
+
+				// Insert info in table MENU
+				$sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) "
+						. "VALUES (?, ?, ?, ?)";
+				$updpm = $conn->prepare($sqlm);
+				$updpm->bind_param("issi", $last_id, $title, $link, $parent);
+				$updpm->execute();
+				$last_idm = $conn->insert_id;
+				$updpm->close();
+				if (!empty($last_idm)) {
+					$_SESSION['SuccessMessage'] = "Page " . $title . " : Created ";
+				} else {
+					$_SESSION['ErrorMessage'] = "Failed: The page was not added to the menu";
+				}
+			} else {
+				$_SESSION['ErrorMessage'] = "Failed: The page has not been created";
+			}
+			echo '<script> window.location.replace("builder.php?build=page&id=' . $last_id . '"); </script>';
+		}
+		?>
+		<div class="container">
+			<div class="row">
+				<div class="card py-3">
+					<div class="card-body">
+
+						<h3>Add new page</h3>
+						<form method="post" enctype="multipart/form-data">
+							<div class="row"><div class="col-md-6">
+									<div class="form-group">
+										<label for="title">Title</label>
+										<input type="text" class="form-control" id="title" name="title">
+									</div>
+								</div><div class="col-md-6">
+									<div class="form-group">
+										<label for="link">Link</label>
+										<input type="text" class="form-control" id="link" name="link">
+									</div>
+								</div></div><div class="form-group">
+								<label for="keyword">Keyword</label>
+								<input type="text" class="form-control" id="keyword" name="keyword">
 							</div>
 							<div class="form-group">
 								<label for="classification">Classification</label>

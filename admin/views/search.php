@@ -1,167 +1,167 @@
 <?php
 $p = new Protect();
 if (isset($_GET['w']) && !empty($_GET['w'])) {
-	= $p->secureStr($_GET['w']);
+	$w = $p->secureStr($_GET['w']);
 } else {
-
-	ta http-equiv="Refresh" content="0; url='dashboard.php?cms=search&w=select'" />
-	hp
+	?>
+	<meta http-equiv="Refresh" content="0; url='dashboard.php?cms=search&w=select'" />
+	<?php
 }
 
 $c = new MyCRUD();
 ?>
 <style>
-	gination {
-		tyle-type: none;
-		: 0 auto;
-		g: 10px 0;
-		y: inline-flex;
-		y-content: space-between;
-		zing: border-box;
-
-	gination li {
-		zing: border-box;
-		g-right: 10px;
-
-	gination li a {
-		zing: border-box;
-		ound-color: #e2e6e6;
-		g: 8px;
-		ecoration: none;
-		ize: 12px;
-		eight: bold;
-		 #616872;
-		-radius: 4px;
-
-	gination li a:hover {
-		ound-color: #d4dada;
-
-	gination .next a, .pagination .prev a {
-		ransform: uppercase;
-		ize: 12px;
-
-	gination .currentpage a {
-		ound-color: #518acb;
-		 #fff;
-
-	gination .currentpage a:hover {
-		ound-color: #518acb;
-
+	.pagination {
+		list-style-type: none;
+		margin: 0 auto;
+		padding: 10px 0;
+		display: inline-flex;
+		justify-content: space-between;
+		box-sizing: border-box;
+	}
+	.pagination li {
+		box-sizing: border-box;
+		padding-right: 10px;
+	}
+	.pagination li a {
+		box-sizing: border-box;
+		background-color: #e2e6e6;
+		padding: 8px;
+		text-decoration: none;
+		font-size: 12px;
+		font-weight: bold;
+		color: #616872;
+		border-radius: 4px;
+	}
+	.pagination li a:hover {
+		background-color: #d4dada;
+	}
+	.pagination .next a, .pagination .prev a {
+		text-transform: uppercase;
+		font-size: 12px;
+	}
+	.pagination .currentpage a {
+		background-color: #518acb;
+		color: #fff;
+	}
+	.pagination .currentpage a:hover {
+		background-color: #518acb;
+	}
 </style>
 <?php
 if ($w == "select") {
 
-	($result = $c->selectData("SELECT * FROM table_config")) {
-		_found = $result->num_rows;
+	if ($result = $c->selectData("SELECT * FROM table_config")) {
+		$total_found = $result->num_rows;
 
-		otal_found > 0) {
-			esult->fetch_assoc();
-			es = explode(',', $row['table_name']);
+		if ($total_found > 0) {
+			$row = $result->fetch_assoc();
+			$tableNames = explode(',', $row['table_name']);
+		}
+	}
+	?>
 
-
-
-
-	cript>
-	v class="container">
-		lass="row pt-3">
-			s="col-md-6">
-				">Select Table</h3>
-
-			s="col-md-6">
-				form-group">
-					ecttb" name="selecttb" class="form-control">
-						elect Table</option>
-
-						ames)) {
-							as $tname) {
-								 " ", $tname);
-								 $tname . '">' . ucfirst($remp) . '</option>' . "\n";
-
-
-
-
-
-						ent.querySelector('#selecttb');
-						tener('change', function () {
-							php?cms=search&w=find&tbl=' + this.value;
-							ce(url);
-
-
-
-
-
-	iv>
-	hp
+	</script>
+	<div class="container">
+		<div class="row pt-3">
+			<div class="col-md-6">
+				<h3 id="fttl">Select Table</h3>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<select id="selecttb" name="selecttb" class="form-control">
+						<option value="">Select Table</option>
+						<?php
+						if (!empty($tableNames)) {
+							foreach ($tableNames as $tname) {
+								$remp = str_replace("_", " ", $tname);
+								echo '<option value="' . $tname . '">' . ucfirst($remp) . '</option>' . "\n";
+							}
+						}
+						?>
+					</select>
+					<script>
+						let select = document.querySelector('#selecttb');
+						select.addEventListener('change', function () {
+							let url = 'dashboard.php?cms=search&w=find&tbl=' + this.value;
+							window.location.replace(url);
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
 } elseif ($w == "find") {
-	le = protect($_GET['tbl']);
-	tl = ucfirst(str_replace("_", " ", $tble));
-	lmns = $c->viewColumns($tble);
-	ol = $c->getID($tble);
+	$tble = protect($_GET['tbl']);
+	$titl = ucfirst(str_replace("_", " ", $tble));
+	$colmns = $c->viewColumns($tble);
+	$ncol = $c->getID($tble);
+	?>
+	<div class="container">
+		<div class="row pt-3">
+			<div class="col-md-3">
+				<a class="btn btn-secondary" href="search.php?w=select">Select another table</a>
+			</div>
+			<div class="col-md-9">
+				<h2 class="text-primary">Search Data in <?php echo $titl; ?></h2>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<?php include_once 'searchData.php'; ?>
+		<form method="post">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-md-2">
+							<label>Find content: </label>
+						</div>
+						<div class="col-md-3">
+							<input type="text" id="frase" name="frase"
+								   class="form-control search-slt"
+								   placeholder="Contenido o frase a search">
+						</div>
+						<div class="col-md-4">
+							<select class="form-control search-slt" id="columna"
+									name="columna">
+								<option>Search in the column</option>
+								<?php
+								foreach ($colmns as $colmn) {
+									$cnme = ucfirst(str_replace("_", " ", $colmn->name));
+									if ($colmn->name === $ncol) {
+										continue;
+									}
+									echo '<option value="' . $colmn->name . '">' . $cnme . '</option>';
+								}
+								?>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<input type="submit" id="search" name="search" class="btn btn-danger wrn-btn" value="Enviar consulta">
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 
-	v class="container">
-		lass="row pt-3">
-			s="col-md-3">
-				n btn-secondary" href="search.php?w=select">Select another table</a>
-
-			s="col-md-9">
-				ext-primary">Search Data in <?php echo $titl; ?></h2>
-
-
-	iv>
-	v class="container">
-		include_once 'searchData.php'; ?>
-		method="post">
-			s="row">
-				col-lg-12">
-					">
-						-2">
-							</label>
-
-						-3">
-							="frase" name="frase"
-								earch-slt"
-								o o frase a search">
-
-						-4">
-							ontrol search-slt" id="columna"
-
-								lumn</option>
-
-								mn) {
-									("_", " ", $colmn->name));
-									 {
-
-
-									olmn->name . '">' . $cnme . '</option>';
-
-
-
-
-						-3">
-							id="search" name="search" class="btn btn-danger wrn-btn" value="Enviar consulta">
-
-
-
-
-		>
-	iv>
-
-	v class="container-fluid pt-3">
-		lass="row">
-
-			($_POST['search'])) {
-				OST['frase'];
-				_POST['columna'];
-				tble, $columna, $frase);
-
-				GET['id'])) {
-					'];
-					e, $ncol, $id);
-
-
-
-
-	iv>
-	hp
+	<div class="container-fluid pt-3">
+		<div class="row">
+			<?php
+			if (isset($_POST['search'])) {
+				$frase = $_POST['frase'];
+				$columna = $_POST['columna'];
+				searchData($tble, $columna, $frase);
+			} else {
+				if (isset($_GET['id'])) {
+					$id = $_GET['id'];
+					searchData($tble, $ncol, $id);
+				}
+			}
+			?>
+		</div>
+	</div>
+	<?php
 }
 ?>
