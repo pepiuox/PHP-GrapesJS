@@ -14,139 +14,139 @@
 
 class UserClass {
 
-    public $system;
-    public $baseurl;
-    protected $connection;
-    private $ip;
-    public $timestamp;
-    private $expiry;
+	public $system;
+	public $baseurl;
+	protected $connection;
+	private $ip;
+	public $timestamp;
+	private $expiry;
 
-    /*
-     * __constructor()
-     * Constructor will be called every time Login class is called ($login = new Login())
-     */
+	/*
+	 * __constructor()
+	 * Constructor will be called every time Login class is called ($login = new Login())
+	 */
 
-    public function __construct() {
-        global $conn;
-        $this->system = SITE_PATH;
-        $this->connection = $conn;
-        $this->expiry = time() + 3600;
-        $this->ip = $this->getUserIP();
-        $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
-        $date = new DateTime();
-        $this->timestamp = $date->getTimestamp();
+	public function __construct() {
+		global $conn;
+		$this->system = SITE_PATH;
+		$this->connection = $conn;
+		$this->expiry = time() + 3600;
+		$this->ip = $this->getUserIP();
+		$this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+		$date = new DateTime();
+		$this->timestamp = $date->getTimestamp();
 
-        /* If login data is posted call validation function. */
-        if (isset($_POST["signin"])) {
-            $this->Login();
-        }
-        if (isset($_POST["attempts"])) {
-            $this->CheckAttempts();
-        }
-        if (isset($_POST['profile'])) {
-            $this->Profile();
-        }
-        if (isset($_POST["logout"])) {
-            $this->Logout();
-        }
-        if (isset($_POST["updatePassword"])) {
-            $this->updatePassword();
-        }
-    }
+		/* If login data is posted call validation function. */
+		if (isset($_POST["signin"])) {
+			$this->Login();
+		}
+		if (isset($_POST["attempts"])) {
+			$this->CheckAttempts();
+		}
+		if (isset($_POST['profile'])) {
+			$this->Profile();
+		}
+		if (isset($_POST["logout"])) {
+			$this->Logout();
+		}
+		if (isset($_POST["updatePassword"])) {
+			$this->updatePassword();
+		}
+	}
 
-    /* End __constructor() */
+	/* End __constructor() */
 
 // generateRandStr(64);
-    private function generateRandStr($length) {
-        $randstr = "";
-        for ($i = 0; $i < $length; $i++) {
-            $randnum = mt_rand(0, 61);
-            if ($randnum < 10) {
-                $randstr .= chr($randnum + 53);
-            } else if ($randnum < 36) {
-                $randstr .= chr($randnum + 49);
-            } else {
-                $randstr .= chr($randnum + 61);
-            }
-        }
-        return $randstr;
-    }
+	private function generateRandStr($length) {
+		$randstr = "";
+		for ($i = 0; $i < $length; $i++) {
+			$randnum = mt_rand(0, 61);
+			if ($randnum < 10) {
+				$randstr .= chr($randnum + 53);
+			} else if ($randnum < 36) {
+				$randstr .= chr($randnum + 49);
+			} else {
+				$randstr .= chr($randnum + 61);
+			}
+		}
+		return $randstr;
+	}
 
-    private function ende_crypter($action, $string, $secret_key, $secret_iv) {
-        $output = false;
-        $encrypt_method = 'AES-256-CBC';
+	private function ende_crypter($action, $string, $secret_key, $secret_iv) {
+		$output = false;
+		$encrypt_method = 'AES-256-CBC';
 // hash
-        $key = hash('sha256', $secret_key);
+		$key = hash('sha256', $secret_key);
 // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
-        $iv = substr(hash('sha256', $secret_iv), 0, 16);
-        if ($action == 'encrypt') {
-            $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
-        } else if ($action == 'decrypt') {
-            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-        }
-        return $output;
-    }
+		$iv = substr(hash('sha256', $secret_iv), 0, 16);
+		if ($action == 'encrypt') {
+			$output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
+		} else if ($action == 'decrypt') {
+			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+		}
+		return $output;
+	}
 
-    public function getUserIP() {
-        // Get real visitor IP behind CloudFlare network
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        }
-        $client = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote = $_SERVER['REMOTE_ADDR'];
+	public function getUserIP() {
+		// Get real visitor IP behind CloudFlare network
+		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+			$_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+		}
+		$client = @$_SERVER['HTTP_CLIENT_IP'];
+		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+		$remote = $_SERVER['REMOTE_ADDR'];
 
-        if (filter_var($client, FILTER_VALIDATE_IP)) {
-            $ip = $client;
-        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-            $ip = $forward;
-        } else {
-            $ip = $remote;
-        }
+		if (filter_var($client, FILTER_VALIDATE_IP)) {
+			$ip = $client;
+		} elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+			$ip = $forward;
+		} else {
+			$ip = $remote;
+		}
 
-        return $ip;
-    }
+		return $ip;
+	}
 
 // Create Hash - Function randHash
-    private function randHash($len = 64) {
-        return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
-    }
+	private function randHash($len = 64) {
+		return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
+	}
 
-    /*
-     * Function Login()
-     * Function that validates user login data, cross-checks with database.
-     * If data is valid user is logged in, session variables are set.
-     */
+	/*
+	 * Function Login()
+	 * Function that validates user login data, cross-checks with database.
+	 * If data is valid user is logged in, session variables are set.
+	 */
 
-    private function Login() {
-        if (isset($_POST['signin'])) {
+	private function Login() {
+		if (isset($_POST['signin'])) {
 
-            //set login attempt if not set
-            if (!isset($_SESSION['attempt'])) {
-                $_SESSION['attempt'] = 0;
-                $_SESSION['attempt_again'] = 0;
-            }
-            // Check that data has been submited.
-            // Check that both username and password fields are filled with values.
-            if (empty($_POST['email'])) {
-                $_SESSION['ErrorMessage'] = 'Please fill in the email field.';
-            } elseif (empty($_POST['password'])) {
-                $_SESSION['ErrorMessage'] = 'Please fill in the Password field.';
-            } elseif (empty($_POST['PIN'])) {
-                $_SESSION['ErrorMessage'] = 'Please fill in the PIN field.';
-            } else {
-                //check if there are 3 attempts already
-                if ($_SESSION['attempt_again'] >= 3) {
-                    $_SESSION['error'] = 'Your are allowed 3 attempts in 10 minutes';
-                } else {
-                    // User input from Login Form(loginForm.php).
-                    $useremail = trim($_POST['email']);
+			//set login attempt if not set
+			if (!isset($_SESSION['attempt'])) {
+				$_SESSION['attempt'] = 0;
+				$_SESSION['attempt_again'] = 0;
+			}
+			// Check that data has been submited.
+			// Check that both username and password fields are filled with values.
+			if (empty($_POST['email'])) {
+				$_SESSION['ErrorMessage'] = 'Please fill in the email field.';
+			} elseif (empty($_POST['password'])) {
+				$_SESSION['ErrorMessage'] = 'Please fill in the Password field.';
+			} elseif (empty($_POST['PIN'])) {
+				$_SESSION['ErrorMessage'] = 'Please fill in the PIN field.';
+			} else {
+				//check if there are 3 attempts already
+				if ($_SESSION['attempt_again'] >= 3) {
+					$_SESSION['error'] = 'Your are allowed 3 attempts in 10 minutes';
+				} else {
+					// User input from Login Form(loginForm.php).
+					$useremail = trim($_POST['email']);
 
-                    $this->verifyAttempts($useremail);
+					$this->verifyAttempts($useremail);
 
-                    // verify if PIN is numeric
-                    if (is_numeric($_POST['PIN']) && strlen($_POST['PIN']) === 6) {
+					// verify if PIN is numeric
+			        if (is_numeric($_POST['PIN']) && strlen($_POST['PIN']) === 6) {
                         $userpsw = trim($_POST['password']);
                         $userpin = trim($_POST['PIN']);
                         if (!empty($_POST['remember'])) {
@@ -744,4 +744,3 @@ class UserClass {
 }
 
 /* End class UserClass */
-

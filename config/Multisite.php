@@ -2,27 +2,27 @@
 
 class Multisite {
 
-    private $domain;
-    private $sites;
+	private $domain;
+	private $sites;
 
-    public function __construct() {
-        $this->domain = $_SERVER['HTTP_HOST'];
+	public function __construct() {
+		$this->domain = $_SERVER['HTTP_HOST'];
 
-        include_once 'domains.php';
-        $this->sites = $websites;
-    }
+		include_once 'domains.php';
+		$this->sites = $websites;
+	}
 
-    public function DomainConnection() {
-        $local = 'localhost';
-       
-        if (str_contains($this->domain, $local)) {
-            $sitenm = str_replace(":", "_", $this->domain);
-        } else {
-            $sitenm = str_replace(".", "_", $this->domain);
-        }
+	public function DomainConnection() {
+		$local = 'localhost';
 
-        $site = $this->sites["domains"][$sitenm];
+		if (str_contains($this->domain, $local)) {
+			$sitenm = str_replace(":", "_", $this->domain);
+		} else {
+			$sitenm = str_replace(".", "_", $this->domain);
+		}
 
-        return $site['dataserver'];
-    }
+		$site = $this->sites["domains"][$sitenm];
+
+		return $site['dataserver'];
+	}
 }
