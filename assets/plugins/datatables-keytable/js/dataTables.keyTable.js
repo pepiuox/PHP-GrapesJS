@@ -3,12 +3,12 @@
  */
 
 /**
- * @summary     KeyTable
+ * @summary	 KeyTable
  * @description Spreadsheet like keyboard navigation for DataTables
- * @version     2.6.1
- * @file        dataTables.keyTable.js
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @contact     www.sprymedia.co.uk/contact
+ * @version	 2.6.1
+ * @file		dataTables.keyTable.js
+ * @author	  SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact	 www.sprymedia.co.uk/contact
  * @copyright   Copyright 2009-2021 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
@@ -140,7 +140,7 @@ $.extend( KeyTable.prototype, {
 
 	/**
 	 * Focus on a cell
-	 * @param  {integer} row    Row index
+	 * @param  {integer} row	Row index
 	 * @param  {integer} column Column index
 	 */
 	focus: function ( row, column )
@@ -233,7 +233,7 @@ $.extend( KeyTable.prototype, {
 				// Or an Editor date input
 				if (
 					$(e.target).parents('div.editor-datetime').length ||
-					$(e.target).parents('div.dt-datetime').length 
+					$(e.target).parents('div.dt-datetime').length
 				) {
 					return;
 				}
@@ -520,7 +520,7 @@ $.extend( KeyTable.prototype, {
 	{
 		// If nothing focused, we can't take any action
 		if (! this.s.lastFocus) {
-			return;	
+			return;
 		}
 
 		// DataTables draw event
@@ -690,7 +690,7 @@ $.extend( KeyTable.prototype, {
 				.rows( { filter: 'applied', order: 'applied' } )
 				.indexes()
 				.indexOf( index.row );
-			
+
 			// Don't focus rows that were filtered out.
 			if ( row < 0 ) {
 				return;
@@ -930,8 +930,8 @@ $.extend( KeyTable.prototype, {
 	 *
 	 * @param  {jQuery} container Scrolling container
 	 * @param  {jQuery} scroller  Item being scrolled
-	 * @param  {jQuery} cell      Cell in the scroller
-	 * @param  {string} posOff    `position` or `offset` - which to use for the
+	 * @param  {jQuery} cell	  Cell in the scroller
+	 * @param  {string} posOff	`position` or `offset` - which to use for the
 	 *   calculation. `offset` for the document, otherwise `position`
 	 * @private
 	 */
@@ -978,7 +978,7 @@ $.extend( KeyTable.prototype, {
 	 * Calculate a single offset movement in the table - up, down, left and
 	 * right and then perform the focus if possible
 	 *
-	 * @param  {object}  e           Event object
+	 * @param  {object}  e		   Event object
 	 * @param  {string}  direction   Movement direction
 	 * @param  {boolean} keyBlurable `true` if the key press can result in the
 	 *   table being blurred. This is so arrow keys won't blur the table, but
@@ -987,16 +987,16 @@ $.extend( KeyTable.prototype, {
 	 */
 	_shift: function ( e, direction, keyBlurable )
 	{
-		var that      = this;
-		var dt        = this.s.dt;
+		var that	  = this;
+		var dt		= this.s.dt;
 		var pageInfo  = dt.page.info();
-		var rows      = pageInfo.recordsDisplay;
+		var rows	  = pageInfo.recordsDisplay;
 		var columns   = this._columns();
-		var last      = this.s.lastFocus;
+		var last	  = this.s.lastFocus;
 		if ( ! last ) {
 			return;
 		}
-	
+
 		var currentCell  = last.cell;
 		if ( ! currentCell ) {
 			return;
@@ -1098,7 +1098,7 @@ $.extend( KeyTable.prototype, {
 
 			div.children().on( 'focus', function (e) {
 				var cell = dt.cell(':eq(0)', that._columns(), {page: 'current'});
-	
+
 				if ( cell.any() ) {
 					that._focus( cell, null, true, e );
 				}

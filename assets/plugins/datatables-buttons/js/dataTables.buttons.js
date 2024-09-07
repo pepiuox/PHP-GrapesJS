@@ -65,7 +65,7 @@ function _fadeOut(el, duration, fn) {
 	}
 	else {
 		el.css('display', 'none');
-		
+
 		if (fn) {
 			fn.call(el);
 		}
@@ -90,9 +90,9 @@ var Buttons = function( dt, config )
 
 	// If there is no config set it to an empty object
 	if ( typeof( config ) === 'undefined' ) {
-		config = {};	
+		config = {};
 	}
-	
+
 	// Allow a boolean true for defaults
 	if ( config === true ) {
 		config = {};
@@ -241,7 +241,7 @@ $.extend( Buttons.prototype, {
 		// needed). Take a copy as the array is modified by `remove`
 		var buttons = this.s.buttons.slice();
 		var i, ien;
-		
+
 		for ( i=0, ien=buttons.length ; i<ien ; i++ ) {
 			this.remove( buttons[i].node );
 		}
@@ -559,7 +559,7 @@ $.extend( Buttons.prototype, {
 
 	/**
 	 * Create an individual button
-	 * @param  {object} config            Resolved button configuration
+	 * @param  {object} config			Resolved button configuration
 	 * @param  {boolean} inCollection `true` if a collection button
 	 * @return {jQuery} Created button node (jQuery)
 	 * @private
@@ -594,7 +594,7 @@ $.extend( Buttons.prototype, {
 			config.action.call( dt.button( button ), e, dt, button, config );
 
 			$(dt.table().node()).triggerHandler( 'buttons-action.dt', [
-				dt.button( button ), dt, button, config 
+				dt.button( button ), dt, button, config
 			] );
 		};
 
@@ -688,10 +688,10 @@ $.extend( Buttons.prototype, {
 		}
 
 		return {
-			conf:         config,
-			node:         button.get(0),
-			inserter:     inserter,
-			buttons:      [],
+			conf:		 config,
+			node:		 button.get(0),
+			inserter:	 inserter,
+			buttons:	  [],
 			inCollection: inCollection,
 			collection:   null
 		};
@@ -1088,7 +1088,7 @@ $.extend( Buttons.prototype, {
 			var buttonsLeft = hostNode.offset().left;
 			var buttonsWidth = hostNode.outerWidth()
 			var buttonsRight = buttonsLeft + buttonsWidth;
-			
+
 			// You've then got all the numbers you need to do some calculations and if statements,
 			//  so we can do some quick JS maths and apply it only once
 			// If it has the right align class OR the buttons are right aligned OR the button container is floated right,
@@ -1101,9 +1101,9 @@ $.extend( Buttons.prototype, {
 				if(tableLeft > (popoverLeft + popoverShuffle)){
 					var leftGap = tableLeft - (popoverLeft + popoverShuffle);
 					var rightGap = tableRight - (popoverRight + popoverShuffle);
-	
+
 					if(leftGap > rightGap){
-						popoverShuffle += rightGap; 
+						popoverShuffle += rightGap;
 					}
 					else {
 						popoverShuffle += leftGap;
@@ -1130,7 +1130,7 @@ $.extend( Buttons.prototype, {
 			}
 
 			display.css('left', display.position().left + popoverShuffle);
-			
+
 		}
 		else if (position === 'absolute') {
 			// Align relative to the host button
@@ -1236,7 +1236,7 @@ $.extend( Buttons.prototype, {
 /**
  * Show / hide a background layer behind a collection
  * @param  {boolean} Flag to indicate if the background should be shown or
- *   hidden 
+ *   hidden
  * @param  {string} Class to assign to the background
  * @static
  */
@@ -1322,7 +1322,7 @@ Buttons.instanceSelector = function ( group, buttons )
 			ret.push( buttons[ input ].inst );
 		}
 	};
-	
+
 	process( group );
 
 	return ret;
@@ -1591,7 +1591,7 @@ $.extend( _dtButtons, {
 		var text = function ( dt ) {
 			return dt.i18n( 'buttons.pageLength', {
 				"-1": 'Show all rows',
-				_:    'Show %d rows'
+				_:	'Show %d rows'
 			}, dt.page.len() );
 		};
 
@@ -2022,18 +2022,18 @@ var _exportTextarea = $('<textarea/>')[0];
 var _exportData = function ( dt, inOpts )
 {
 	var config = $.extend( true, {}, {
-		rows:           null,
-		columns:        '',
-		modifier:       {
+		rows:		   null,
+		columns:		'',
+		modifier:	   {
 			search: 'applied',
 			order:  'applied'
 		},
-		orthogonal:     'display',
-		stripHtml:      true,
+		orthogonal:	 'display',
+		stripHtml:	  true,
 		stripNewlines:  true,
 		decodeEntities: true,
-		trim:           true,
-		format:         {
+		trim:		   true,
+		format:		 {
 			header: function ( d ) {
 				return Buttons.stripData( d, config );
 			},
@@ -2058,7 +2058,7 @@ var _exportData = function ( dt, inOpts )
 			return config.format.footer( el ? el.innerHTML : '', idx, el );
 		} ).toArray() :
 		null;
-	
+
 	// If Select is available on this table, and any rows are selected, limit the export
 	// to the selected rows. If no rows are selected, all rows will be exported. Specify
 	// a `selected` modifier to control directly.

@@ -16,7 +16,7 @@ return /******/ (function() { // webpackBootstrap
 
 module.exports = function (it) {
   if (typeof it != 'function') {
-    throw TypeError(String(it) + ' is not a function');
+	throw TypeError(String(it) + ' is not a function');
   } return it;
 };
 
@@ -30,7 +30,7 @@ var isObject = __webpack_require__(111);
 
 module.exports = function (it) {
   if (!isObject(it) && it !== null) {
-    throw TypeError("Can't set " + String(it) + ' as a prototype');
+	throw TypeError("Can't set " + String(it) + ' as a prototype');
   } return it;
 };
 
@@ -51,8 +51,8 @@ var ArrayPrototype = Array.prototype;
 // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 if (ArrayPrototype[UNSCOPABLES] == undefined) {
   definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
-    configurable: true,
-    value: create(null)
+	configurable: true,
+	value: create(null)
   });
 }
 
@@ -85,7 +85,7 @@ module.exports = function (S, index, unicode) {
 
 module.exports = function (it, Constructor, name) {
   if (!(it instanceof Constructor)) {
-    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
+	throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
   } return it;
 };
 
@@ -99,7 +99,7 @@ var isObject = __webpack_require__(111);
 
 module.exports = function (it) {
   if (!isObject(it)) {
-    throw TypeError(String(it) + ' is not an object');
+	throw TypeError(String(it) + ' is not an object');
   } return it;
 };
 
@@ -170,15 +170,15 @@ var isView = function isView(it) {
   if (!isObject(it)) return false;
   var klass = classof(it);
   return klass === 'DataView'
-    || has(TypedArrayConstructorsList, klass)
-    || has(BigIntArrayConstructorsList, klass);
+	|| has(TypedArrayConstructorsList, klass)
+	|| has(BigIntArrayConstructorsList, klass);
 };
 
 var isTypedArray = function (it) {
   if (!isObject(it)) return false;
   var klass = classof(it);
   return has(TypedArrayConstructorsList, klass)
-    || has(BigIntArrayConstructorsList, klass);
+	|| has(BigIntArrayConstructorsList, klass);
 };
 
 var aTypedArray = function (it) {
@@ -188,26 +188,26 @@ var aTypedArray = function (it) {
 
 var aTypedArrayConstructor = function (C) {
   if (setPrototypeOf) {
-    if (isPrototypeOf.call(TypedArray, C)) return C;
+	if (isPrototypeOf.call(TypedArray, C)) return C;
   } else for (var ARRAY in TypedArrayConstructorsList) if (has(TypedArrayConstructorsList, NAME)) {
-    var TypedArrayConstructor = global[ARRAY];
-    if (TypedArrayConstructor && (C === TypedArrayConstructor || isPrototypeOf.call(TypedArrayConstructor, C))) {
-      return C;
-    }
+	var TypedArrayConstructor = global[ARRAY];
+	if (TypedArrayConstructor && (C === TypedArrayConstructor || isPrototypeOf.call(TypedArrayConstructor, C))) {
+	  return C;
+	}
   } throw TypeError('Target is not a typed array constructor');
 };
 
 var exportTypedArrayMethod = function (KEY, property, forced) {
   if (!DESCRIPTORS) return;
   if (forced) for (var ARRAY in TypedArrayConstructorsList) {
-    var TypedArrayConstructor = global[ARRAY];
-    if (TypedArrayConstructor && has(TypedArrayConstructor.prototype, KEY)) {
-      delete TypedArrayConstructor.prototype[KEY];
-    }
+	var TypedArrayConstructor = global[ARRAY];
+	if (TypedArrayConstructor && has(TypedArrayConstructor.prototype, KEY)) {
+	  delete TypedArrayConstructor.prototype[KEY];
+	}
   }
   if (!TypedArrayPrototype[KEY] || forced) {
-    redefine(TypedArrayPrototype, KEY, forced ? property
-      : NATIVE_ARRAY_BUFFER_VIEWS && Int8ArrayPrototype[KEY] || property);
+	redefine(TypedArrayPrototype, KEY, forced ? property
+	  : NATIVE_ARRAY_BUFFER_VIEWS && Int8ArrayPrototype[KEY] || property);
   }
 };
 
@@ -215,24 +215,24 @@ var exportTypedArrayStaticMethod = function (KEY, property, forced) {
   var ARRAY, TypedArrayConstructor;
   if (!DESCRIPTORS) return;
   if (setPrototypeOf) {
-    if (forced) for (ARRAY in TypedArrayConstructorsList) {
-      TypedArrayConstructor = global[ARRAY];
-      if (TypedArrayConstructor && has(TypedArrayConstructor, KEY)) {
-        delete TypedArrayConstructor[KEY];
-      }
-    }
-    if (!TypedArray[KEY] || forced) {
-      // V8 ~ Chrome 49-50 `%TypedArray%` methods are non-writable non-configurable
-      try {
-        return redefine(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && Int8Array[KEY] || property);
-      } catch (error) { /* empty */ }
-    } else return;
+	if (forced) for (ARRAY in TypedArrayConstructorsList) {
+	  TypedArrayConstructor = global[ARRAY];
+	  if (TypedArrayConstructor && has(TypedArrayConstructor, KEY)) {
+		delete TypedArrayConstructor[KEY];
+	  }
+	}
+	if (!TypedArray[KEY] || forced) {
+	  // V8 ~ Chrome 49-50 `%TypedArray%` methods are non-writable non-configurable
+	  try {
+		return redefine(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && Int8Array[KEY] || property);
+	  } catch (error) { /* empty */ }
+	} else return;
   }
   for (ARRAY in TypedArrayConstructorsList) {
-    TypedArrayConstructor = global[ARRAY];
-    if (TypedArrayConstructor && (!TypedArrayConstructor[KEY] || forced)) {
-      redefine(TypedArrayConstructor, KEY, property);
-    }
+	TypedArrayConstructor = global[ARRAY];
+	if (TypedArrayConstructor && (!TypedArrayConstructor[KEY] || forced)) {
+	  redefine(TypedArrayConstructor, KEY, property);
+	}
   }
 };
 
@@ -244,17 +244,17 @@ for (NAME in TypedArrayConstructorsList) {
 if (!NATIVE_ARRAY_BUFFER_VIEWS || typeof TypedArray != 'function' || TypedArray === Function.prototype) {
   // eslint-disable-next-line no-shadow -- safe
   TypedArray = function TypedArray() {
-    throw TypeError('Incorrect invocation');
+	throw TypeError('Incorrect invocation');
   };
   if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME in TypedArrayConstructorsList) {
-    if (global[NAME]) setPrototypeOf(global[NAME], TypedArray);
+	if (global[NAME]) setPrototypeOf(global[NAME], TypedArray);
   }
 }
 
 if (!NATIVE_ARRAY_BUFFER_VIEWS || !TypedArrayPrototype || TypedArrayPrototype === ObjectPrototype) {
   TypedArrayPrototype = TypedArray.prototype;
   if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME in TypedArrayConstructorsList) {
-    if (global[NAME]) setPrototypeOf(global[NAME].prototype, TypedArrayPrototype);
+	if (global[NAME]) setPrototypeOf(global[NAME].prototype, TypedArrayPrototype);
   }
 }
 
@@ -266,10 +266,10 @@ if (NATIVE_ARRAY_BUFFER_VIEWS && getPrototypeOf(Uint8ClampedArrayPrototype) !== 
 if (DESCRIPTORS && !has(TypedArrayPrototype, TO_STRING_TAG)) {
   TYPED_ARRAY_TAG_REQIRED = true;
   defineProperty(TypedArrayPrototype, TO_STRING_TAG, { get: function () {
-    return isObject(this) ? this[TYPED_ARRAY_TAG] : undefined;
+	return isObject(this) ? this[TYPED_ARRAY_TAG] : undefined;
   } });
   for (NAME in TypedArrayConstructorsList) if (global[NAME]) {
-    createNonEnumerableProperty(global[NAME], TYPED_ARRAY_TAG, NAME);
+	createNonEnumerableProperty(global[NAME], TYPED_ARRAY_TAG, NAME);
   }
 }
 
@@ -380,123 +380,123 @@ var set = function (view, count, index, conversion, value, isLittleEndian) {
 
 if (!NATIVE_ARRAY_BUFFER) {
   $ArrayBuffer = function ArrayBuffer(length) {
-    anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
-    var byteLength = toIndex(length);
-    setInternalState(this, {
-      bytes: arrayFill.call(new Array(byteLength), 0),
-      byteLength: byteLength
-    });
-    if (!DESCRIPTORS) this.byteLength = byteLength;
+	anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
+	var byteLength = toIndex(length);
+	setInternalState(this, {
+	  bytes: arrayFill.call(new Array(byteLength), 0),
+	  byteLength: byteLength
+	});
+	if (!DESCRIPTORS) this.byteLength = byteLength;
   };
 
   $DataView = function DataView(buffer, byteOffset, byteLength) {
-    anInstance(this, $DataView, DATA_VIEW);
-    anInstance(buffer, $ArrayBuffer, DATA_VIEW);
-    var bufferLength = getInternalState(buffer).byteLength;
-    var offset = toInteger(byteOffset);
-    if (offset < 0 || offset > bufferLength) throw RangeError('Wrong offset');
-    byteLength = byteLength === undefined ? bufferLength - offset : toLength(byteLength);
-    if (offset + byteLength > bufferLength) throw RangeError(WRONG_LENGTH);
-    setInternalState(this, {
-      buffer: buffer,
-      byteLength: byteLength,
-      byteOffset: offset
-    });
-    if (!DESCRIPTORS) {
-      this.buffer = buffer;
-      this.byteLength = byteLength;
-      this.byteOffset = offset;
-    }
+	anInstance(this, $DataView, DATA_VIEW);
+	anInstance(buffer, $ArrayBuffer, DATA_VIEW);
+	var bufferLength = getInternalState(buffer).byteLength;
+	var offset = toInteger(byteOffset);
+	if (offset < 0 || offset > bufferLength) throw RangeError('Wrong offset');
+	byteLength = byteLength === undefined ? bufferLength - offset : toLength(byteLength);
+	if (offset + byteLength > bufferLength) throw RangeError(WRONG_LENGTH);
+	setInternalState(this, {
+	  buffer: buffer,
+	  byteLength: byteLength,
+	  byteOffset: offset
+	});
+	if (!DESCRIPTORS) {
+	  this.buffer = buffer;
+	  this.byteLength = byteLength;
+	  this.byteOffset = offset;
+	}
   };
 
   if (DESCRIPTORS) {
-    addGetter($ArrayBuffer, 'byteLength');
-    addGetter($DataView, 'buffer');
-    addGetter($DataView, 'byteLength');
-    addGetter($DataView, 'byteOffset');
+	addGetter($ArrayBuffer, 'byteLength');
+	addGetter($DataView, 'buffer');
+	addGetter($DataView, 'byteLength');
+	addGetter($DataView, 'byteOffset');
   }
 
   redefineAll($DataView[PROTOTYPE], {
-    getInt8: function getInt8(byteOffset) {
-      return get(this, 1, byteOffset)[0] << 24 >> 24;
-    },
-    getUint8: function getUint8(byteOffset) {
-      return get(this, 1, byteOffset)[0];
-    },
-    getInt16: function getInt16(byteOffset /* , littleEndian */) {
-      var bytes = get(this, 2, byteOffset, arguments.length > 1 ? arguments[1] : undefined);
-      return (bytes[1] << 8 | bytes[0]) << 16 >> 16;
-    },
-    getUint16: function getUint16(byteOffset /* , littleEndian */) {
-      var bytes = get(this, 2, byteOffset, arguments.length > 1 ? arguments[1] : undefined);
-      return bytes[1] << 8 | bytes[0];
-    },
-    getInt32: function getInt32(byteOffset /* , littleEndian */) {
-      return unpackInt32(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined));
-    },
-    getUint32: function getUint32(byteOffset /* , littleEndian */) {
-      return unpackInt32(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined)) >>> 0;
-    },
-    getFloat32: function getFloat32(byteOffset /* , littleEndian */) {
-      return unpackIEEE754(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 23);
-    },
-    getFloat64: function getFloat64(byteOffset /* , littleEndian */) {
-      return unpackIEEE754(get(this, 8, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 52);
-    },
-    setInt8: function setInt8(byteOffset, value) {
-      set(this, 1, byteOffset, packInt8, value);
-    },
-    setUint8: function setUint8(byteOffset, value) {
-      set(this, 1, byteOffset, packInt8, value);
-    },
-    setInt16: function setInt16(byteOffset, value /* , littleEndian */) {
-      set(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
-    },
-    setUint16: function setUint16(byteOffset, value /* , littleEndian */) {
-      set(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
-    },
-    setInt32: function setInt32(byteOffset, value /* , littleEndian */) {
-      set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
-    },
-    setUint32: function setUint32(byteOffset, value /* , littleEndian */) {
-      set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
-    },
-    setFloat32: function setFloat32(byteOffset, value /* , littleEndian */) {
-      set(this, 4, byteOffset, packFloat32, value, arguments.length > 2 ? arguments[2] : undefined);
-    },
-    setFloat64: function setFloat64(byteOffset, value /* , littleEndian */) {
-      set(this, 8, byteOffset, packFloat64, value, arguments.length > 2 ? arguments[2] : undefined);
-    }
+	getInt8: function getInt8(byteOffset) {
+	  return get(this, 1, byteOffset)[0] << 24 >> 24;
+	},
+	getUint8: function getUint8(byteOffset) {
+	  return get(this, 1, byteOffset)[0];
+	},
+	getInt16: function getInt16(byteOffset /* , littleEndian */) {
+	  var bytes = get(this, 2, byteOffset, arguments.length > 1 ? arguments[1] : undefined);
+	  return (bytes[1] << 8 | bytes[0]) << 16 >> 16;
+	},
+	getUint16: function getUint16(byteOffset /* , littleEndian */) {
+	  var bytes = get(this, 2, byteOffset, arguments.length > 1 ? arguments[1] : undefined);
+	  return bytes[1] << 8 | bytes[0];
+	},
+	getInt32: function getInt32(byteOffset /* , littleEndian */) {
+	  return unpackInt32(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined));
+	},
+	getUint32: function getUint32(byteOffset /* , littleEndian */) {
+	  return unpackInt32(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined)) >>> 0;
+	},
+	getFloat32: function getFloat32(byteOffset /* , littleEndian */) {
+	  return unpackIEEE754(get(this, 4, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 23);
+	},
+	getFloat64: function getFloat64(byteOffset /* , littleEndian */) {
+	  return unpackIEEE754(get(this, 8, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 52);
+	},
+	setInt8: function setInt8(byteOffset, value) {
+	  set(this, 1, byteOffset, packInt8, value);
+	},
+	setUint8: function setUint8(byteOffset, value) {
+	  set(this, 1, byteOffset, packInt8, value);
+	},
+	setInt16: function setInt16(byteOffset, value /* , littleEndian */) {
+	  set(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
+	},
+	setUint16: function setUint16(byteOffset, value /* , littleEndian */) {
+	  set(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
+	},
+	setInt32: function setInt32(byteOffset, value /* , littleEndian */) {
+	  set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
+	},
+	setUint32: function setUint32(byteOffset, value /* , littleEndian */) {
+	  set(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
+	},
+	setFloat32: function setFloat32(byteOffset, value /* , littleEndian */) {
+	  set(this, 4, byteOffset, packFloat32, value, arguments.length > 2 ? arguments[2] : undefined);
+	},
+	setFloat64: function setFloat64(byteOffset, value /* , littleEndian */) {
+	  set(this, 8, byteOffset, packFloat64, value, arguments.length > 2 ? arguments[2] : undefined);
+	}
   });
 } else {
   /* eslint-disable no-new -- required for testing */
   if (!fails(function () {
-    NativeArrayBuffer(1);
+	NativeArrayBuffer(1);
   }) || !fails(function () {
-    new NativeArrayBuffer(-1);
+	new NativeArrayBuffer(-1);
   }) || fails(function () {
-    new NativeArrayBuffer();
-    new NativeArrayBuffer(1.5);
-    new NativeArrayBuffer(NaN);
-    return NativeArrayBuffer.name != ARRAY_BUFFER;
+	new NativeArrayBuffer();
+	new NativeArrayBuffer(1.5);
+	new NativeArrayBuffer(NaN);
+	return NativeArrayBuffer.name != ARRAY_BUFFER;
   })) {
   /* eslint-enable no-new -- required for testing */
-    $ArrayBuffer = function ArrayBuffer(length) {
-      anInstance(this, $ArrayBuffer);
-      return new NativeArrayBuffer(toIndex(length));
-    };
-    var ArrayBufferPrototype = $ArrayBuffer[PROTOTYPE] = NativeArrayBuffer[PROTOTYPE];
-    for (var keys = getOwnPropertyNames(NativeArrayBuffer), j = 0, key; keys.length > j;) {
-      if (!((key = keys[j++]) in $ArrayBuffer)) {
-        createNonEnumerableProperty($ArrayBuffer, key, NativeArrayBuffer[key]);
-      }
-    }
-    ArrayBufferPrototype.constructor = $ArrayBuffer;
+	$ArrayBuffer = function ArrayBuffer(length) {
+	  anInstance(this, $ArrayBuffer);
+	  return new NativeArrayBuffer(toIndex(length));
+	};
+	var ArrayBufferPrototype = $ArrayBuffer[PROTOTYPE] = NativeArrayBuffer[PROTOTYPE];
+	for (var keys = getOwnPropertyNames(NativeArrayBuffer), j = 0, key; keys.length > j;) {
+	  if (!((key = keys[j++]) in $ArrayBuffer)) {
+		createNonEnumerableProperty($ArrayBuffer, key, NativeArrayBuffer[key]);
+	  }
+	}
+	ArrayBufferPrototype.constructor = $ArrayBuffer;
   }
 
   // WebKit bug - the same parent prototype for typed arrays and data view
   if (setPrototypeOf && getPrototypeOf($DataViewPrototype) !== ObjectPrototype) {
-    setPrototypeOf($DataViewPrototype, ObjectPrototype);
+	setPrototypeOf($DataViewPrototype, ObjectPrototype);
   }
 
   // iOS Safari 7.x bug
@@ -505,12 +505,12 @@ if (!NATIVE_ARRAY_BUFFER) {
   testView.setInt8(0, 2147483648);
   testView.setInt8(1, 2147483649);
   if (testView.getInt8(0) || !testView.getInt8(1)) redefineAll($DataViewPrototype, {
-    setInt8: function setInt8(byteOffset, value) {
-      nativeSetInt8.call(this, byteOffset, value << 24 >> 24);
-    },
-    setUint8: function setUint8(byteOffset, value) {
-      nativeSetInt8.call(this, byteOffset, value << 24 >> 24);
-    }
+	setInt8: function setInt8(byteOffset, value) {
+	  nativeSetInt8.call(this, byteOffset, value << 24 >> 24);
+	},
+	setUint8: function setUint8(byteOffset, value) {
+	  nativeSetInt8.call(this, byteOffset, value << 24 >> 24);
+	}
   }, { unsafe: true });
 }
 
@@ -547,15 +547,15 @@ module.exports = [].copyWithin || function copyWithin(target /* = 0 */, start /*
   var count = min((end === undefined ? len : toAbsoluteIndex(end, len)) - from, len - to);
   var inc = 1;
   if (from < to && to < from + count) {
-    inc = -1;
-    from += count - 1;
-    to += count - 1;
+	inc = -1;
+	from += count - 1;
+	to += count - 1;
   }
   while (count-- > 0) {
-    if (from in O) O[to] = O[from];
-    else delete O[to];
-    to += inc;
-    from += inc;
+	if (from in O) O[to] = O[from];
+	else delete O[to];
+	to += inc;
+	from += inc;
   } return O;
 };
 
@@ -633,20 +633,20 @@ module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undef
   if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
   // if the target is not iterable or it's an array with the default iterator - use a simple case
   if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
-    iterator = iteratorMethod.call(O);
-    next = iterator.next;
-    result = new C();
-    for (;!(step = next.call(iterator)).done; index++) {
-      value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
-      createProperty(result, index, value);
-    }
+	iterator = iteratorMethod.call(O);
+	next = iterator.next;
+	result = new C();
+	for (;!(step = next.call(iterator)).done; index++) {
+	  value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
+	  createProperty(result, index, value);
+	}
   } else {
-    length = toLength(O.length);
-    result = new C(length);
-    for (;length > index; index++) {
-      value = mapping ? mapfn(O[index], index) : O[index];
-      createProperty(result, index, value);
-    }
+	length = toLength(O.length);
+	result = new C(length);
+	for (;length > index; index++) {
+	  value = mapping ? mapfn(O[index], index) : O[index];
+	  createProperty(result, index, value);
+	}
   }
   result.length = index;
   return result;
@@ -665,20 +665,20 @@ var toAbsoluteIndex = __webpack_require__(1400);
 // `Array.prototype.{ indexOf, includes }` methods implementation
 var createMethod = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
-    var O = toIndexedObject($this);
-    var length = toLength(O.length);
-    var index = toAbsoluteIndex(fromIndex, length);
-    var value;
-    // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare -- NaN check
-    if (IS_INCLUDES && el != el) while (length > index) {
-      value = O[index++];
-      // eslint-disable-next-line no-self-compare -- NaN check
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) {
-      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
+	var O = toIndexedObject($this);
+	var length = toLength(O.length);
+	var index = toAbsoluteIndex(fromIndex, length);
+	var value;
+	// Array#includes uses SameValueZero equality algorithm
+	// eslint-disable-next-line no-self-compare -- NaN check
+	if (IS_INCLUDES && el != el) while (length > index) {
+	  value = O[index++];
+	  // eslint-disable-next-line no-self-compare -- NaN check
+	  if (value != value) return true;
+	// Array#indexOf ignores holes, Array#includes - not
+	} else for (;length > index; index++) {
+	  if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+	} return !IS_INCLUDES && -1;
   };
 };
 
@@ -715,31 +715,31 @@ var createMethod = function (TYPE) {
   var IS_FILTER_OUT = TYPE == 7;
   var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
   return function ($this, callbackfn, that, specificCreate) {
-    var O = toObject($this);
-    var self = IndexedObject(O);
-    var boundFunction = bind(callbackfn, that, 3);
-    var length = toLength(self.length);
-    var index = 0;
-    var create = specificCreate || arraySpeciesCreate;
-    var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_OUT ? create($this, 0) : undefined;
-    var value, result;
-    for (;length > index; index++) if (NO_HOLES || index in self) {
-      value = self[index];
-      result = boundFunction(value, index, O);
-      if (TYPE) {
-        if (IS_MAP) target[index] = result; // map
-        else if (result) switch (TYPE) {
-          case 3: return true;              // some
-          case 5: return value;             // find
-          case 6: return index;             // findIndex
-          case 2: push.call(target, value); // filter
-        } else switch (TYPE) {
-          case 4: return false;             // every
-          case 7: push.call(target, value); // filterOut
-        }
-      }
-    }
-    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
+	var O = toObject($this);
+	var self = IndexedObject(O);
+	var boundFunction = bind(callbackfn, that, 3);
+	var length = toLength(self.length);
+	var index = 0;
+	var create = specificCreate || arraySpeciesCreate;
+	var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_OUT ? create($this, 0) : undefined;
+	var value, result;
+	for (;length > index; index++) if (NO_HOLES || index in self) {
+	  value = self[index];
+	  result = boundFunction(value, index, O);
+	  if (TYPE) {
+		if (IS_MAP) target[index] = result; // map
+		else if (result) switch (TYPE) {
+		  case 3: return true;			  // some
+		  case 5: return value;			 // find
+		  case 6: return index;			 // findIndex
+		  case 2: push.call(target, value); // filter
+		} else switch (TYPE) {
+		  case 4: return false;			 // every
+		  case 7: push.call(target, value); // filterOut
+		}
+	  }
+	}
+	return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
   };
 };
 
@@ -820,12 +820,12 @@ module.exports = function (METHOD_NAME) {
   // deoptimization and serious performance degradation
   // https://github.com/zloirock/core-js/issues/677
   return V8_VERSION >= 51 || !fails(function () {
-    var array = [];
-    var constructor = array.constructor = {};
-    constructor[SPECIES] = function () {
-      return { foo: 1 };
-    };
-    return array[METHOD_NAME](Boolean).foo !== 1;
+	var array = [];
+	var constructor = array.constructor = {};
+	constructor[SPECIES] = function () {
+	  return { foo: 1 };
+	};
+	return array[METHOD_NAME](Boolean).foo !== 1;
   });
 };
 
@@ -842,8 +842,8 @@ var fails = __webpack_require__(7293);
 module.exports = function (METHOD_NAME, argument) {
   var method = [][METHOD_NAME];
   return !!method && fails(function () {
-    // eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
-    method.call(null, argument || function () { throw 1; }, 1);
+	// eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
+	method.call(null, argument || function () { throw 1; }, 1);
   });
 };
 
@@ -861,27 +861,27 @@ var toLength = __webpack_require__(7466);
 // `Array.prototype.{ reduce, reduceRight }` methods implementation
 var createMethod = function (IS_RIGHT) {
   return function (that, callbackfn, argumentsLength, memo) {
-    aFunction(callbackfn);
-    var O = toObject(that);
-    var self = IndexedObject(O);
-    var length = toLength(O.length);
-    var index = IS_RIGHT ? length - 1 : 0;
-    var i = IS_RIGHT ? -1 : 1;
-    if (argumentsLength < 2) while (true) {
-      if (index in self) {
-        memo = self[index];
-        index += i;
-        break;
-      }
-      index += i;
-      if (IS_RIGHT ? index < 0 : length <= index) {
-        throw TypeError('Reduce of empty array with no initial value');
-      }
-    }
-    for (;IS_RIGHT ? index >= 0 : length > index; index += i) if (index in self) {
-      memo = callbackfn(memo, self[index], index, O);
-    }
-    return memo;
+	aFunction(callbackfn);
+	var O = toObject(that);
+	var self = IndexedObject(O);
+	var length = toLength(O.length);
+	var index = IS_RIGHT ? length - 1 : 0;
+	var i = IS_RIGHT ? -1 : 1;
+	if (argumentsLength < 2) while (true) {
+	  if (index in self) {
+		memo = self[index];
+		index += i;
+		break;
+	  }
+	  index += i;
+	  if (IS_RIGHT ? index < 0 : length <= index) {
+		throw TypeError('Reduce of empty array with no initial value');
+	  }
+	}
+	for (;IS_RIGHT ? index >= 0 : length > index; index += i) if (index in self) {
+	  memo = callbackfn(memo, self[index], index, O);
+	}
+	return memo;
   };
 };
 
@@ -911,13 +911,13 @@ var SPECIES = wellKnownSymbol('species');
 module.exports = function (originalArray, length) {
   var C;
   if (isArray(originalArray)) {
-    C = originalArray.constructor;
-    // cross-realm fallback
-    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-    else if (isObject(C)) {
-      C = C[SPECIES];
-      if (C === null) C = undefined;
-    }
+	C = originalArray.constructor;
+	// cross-realm fallback
+	if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+	else if (isObject(C)) {
+	  C = C[SPECIES];
+	  if (C === null) C = undefined;
+	}
   } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
 };
 
@@ -933,11 +933,11 @@ var iteratorClose = __webpack_require__(9212);
 // call something on iterator step with safe closing on error
 module.exports = function (iterator, fn, value, ENTRIES) {
   try {
-    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
+	return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
   // 7.4.6 IteratorClose(iterator, completion)
   } catch (error) {
-    iteratorClose(iterator);
-    throw error;
+	iteratorClose(iterator);
+	throw error;
   }
 };
 
@@ -955,15 +955,15 @@ var SAFE_CLOSING = false;
 try {
   var called = 0;
   var iteratorWithReturn = {
-    next: function () {
-      return { done: !!called++ };
-    },
-    'return': function () {
-      SAFE_CLOSING = true;
-    }
+	next: function () {
+	  return { done: !!called++ };
+	},
+	'return': function () {
+	  SAFE_CLOSING = true;
+	}
   };
   iteratorWithReturn[ITERATOR] = function () {
-    return this;
+	return this;
   };
   // eslint-disable-next-line no-throw-literal -- required for testing
   Array.from(iteratorWithReturn, function () { throw 2; });
@@ -973,15 +973,15 @@ module.exports = function (exec, SKIP_CLOSING) {
   if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
   var ITERATION_SUPPORT = false;
   try {
-    var object = {};
-    object[ITERATOR] = function () {
-      return {
-        next: function () {
-          return { done: ITERATION_SUPPORT = true };
-        }
-      };
-    };
-    exec(object);
+	var object = {};
+	object[ITERATOR] = function () {
+	  return {
+		next: function () {
+		  return { done: ITERATION_SUPPORT = true };
+		}
+	  };
+	};
+	exec(object);
   } catch (error) { /* empty */ }
   return ITERATION_SUPPORT;
 };
@@ -1015,7 +1015,7 @@ var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Argu
 // fallback for IE11 Script Access Denied error
 var tryGet = function (it, key) {
   try {
-    return it[key];
+	return it[key];
   } catch (error) { /* empty */ }
 };
 
@@ -1023,12 +1023,12 @@ var tryGet = function (it, key) {
 module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
   var O, tag, result;
   return it === undefined ? 'Undefined' : it === null ? 'Null'
-    // @@toStringTag case
-    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
-    // builtinTag case
-    : CORRECT_ARGUMENTS ? classofRaw(O)
-    // ES3 arguments fallback
-    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
+	// @@toStringTag case
+	: typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
+	// builtinTag case
+	: CORRECT_ARGUMENTS ? classofRaw(O)
+	// ES3 arguments fallback
+	: (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
 };
 
 
@@ -1047,8 +1047,8 @@ module.exports = function (target, source) {
   var defineProperty = definePropertyModule.f;
   var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
   for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+	var key = keys[i];
+	if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
   }
 };
 
@@ -1115,10 +1115,10 @@ module.exports = DESCRIPTORS ? function (object, key, value) {
 
 module.exports = function (bitmap, value) {
   return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
+	enumerable: !(bitmap & 1),
+	configurable: !(bitmap & 2),
+	writable: !(bitmap & 4),
+	value: value
   };
 };
 
@@ -1173,66 +1173,66 @@ module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, I
   createIteratorConstructor(IteratorConstructor, NAME, next);
 
   var getIterationMethod = function (KIND) {
-    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
-    switch (KIND) {
-      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
-      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
-      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-    } return function () { return new IteratorConstructor(this); };
+	if (KIND === DEFAULT && defaultIterator) return defaultIterator;
+	if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
+	switch (KIND) {
+	  case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+	  case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+	  case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
+	} return function () { return new IteratorConstructor(this); };
   };
 
   var TO_STRING_TAG = NAME + ' Iterator';
   var INCORRECT_VALUES_NAME = false;
   var IterablePrototype = Iterable.prototype;
   var nativeIterator = IterablePrototype[ITERATOR]
-    || IterablePrototype['@@iterator']
-    || DEFAULT && IterablePrototype[DEFAULT];
+	|| IterablePrototype['@@iterator']
+	|| DEFAULT && IterablePrototype[DEFAULT];
   var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
   var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
   var CurrentIteratorPrototype, methods, KEY;
 
   // fix native
   if (anyNativeIterator) {
-    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
-    if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
-      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
-        if (setPrototypeOf) {
-          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
-        } else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {
-          createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);
-        }
-      }
-      // Set @@toStringTag to native iterators
-      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
-      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
-    }
+	CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
+	if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
+	  if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
+		if (setPrototypeOf) {
+		  setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
+		} else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {
+		  createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);
+		}
+	  }
+	  // Set @@toStringTag to native iterators
+	  setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
+	  if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
+	}
   }
 
   // fix Array#{values, @@iterator}.name in V8 / FF
   if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
-    INCORRECT_VALUES_NAME = true;
-    defaultIterator = function values() { return nativeIterator.call(this); };
+	INCORRECT_VALUES_NAME = true;
+	defaultIterator = function values() { return nativeIterator.call(this); };
   }
 
   // define iterator
   if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
-    createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);
+	createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);
   }
   Iterators[NAME] = defaultIterator;
 
   // export additional methods
   if (DEFAULT) {
-    methods = {
-      values: getIterationMethod(VALUES),
-      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
-      entries: getIterationMethod(ENTRIES)
-    };
-    if (FORCED) for (KEY in methods) {
-      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-        redefine(IterablePrototype, KEY, methods[KEY]);
-      }
-    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+	methods = {
+	  values: getIterationMethod(VALUES),
+	  keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+	  entries: getIterationMethod(ENTRIES)
+	};
+	if (FORCED) for (KEY in methods) {
+	  if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+		redefine(IterablePrototype, KEY, methods[KEY]);
+	  }
+	} else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
   }
 
   return methods;
@@ -1340,8 +1340,8 @@ if (v8) {
 } else if (userAgent) {
   match = userAgent.match(/Edge\/(\d+)/);
   if (!match || match[1] >= 74) {
-    match = userAgent.match(/Chrome\/(\d+)/);
-    if (match) version = match[1];
+	match = userAgent.match(/Chrome\/(\d+)/);
+	if (match) version = match[1];
   }
 }
 
@@ -1379,16 +1379,16 @@ var copyConstructorProperties = __webpack_require__(9920);
 var isForced = __webpack_require__(4705);
 
 /*
-  options.target      - name of the target object
-  options.global      - target is the global object
-  options.stat        - export as static methods of target
-  options.proto       - export as prototype methods of target
-  options.real        - real prototype method for the `pure` version
-  options.forced      - export even if the native feature is available
-  options.bind        - bind methods to the target, required for the `pure` version
-  options.wrap        - wrap constructors to preventing global pollution, required for the `pure` version
-  options.unsafe      - use the simple assignment of property instead of delete + defineProperty
-  options.sham        - add a flag to not completely full polyfills
+  options.target	  - name of the target object
+  options.global	  - target is the global object
+  options.stat		- export as static methods of target
+  options.proto	   - export as prototype methods of target
+  options.real		- real prototype method for the `pure` version
+  options.forced	  - export even if the native feature is available
+  options.bind		- bind methods to the target, required for the `pure` version
+  options.wrap		- wrap constructors to preventing global pollution, required for the `pure` version
+  options.unsafe	  - use the simple assignment of property instead of delete + defineProperty
+  options.sham		- add a flag to not completely full polyfills
   options.enumerable  - export as enumerable property
   options.noTargetGet - prevent calling a getter on target
 */
@@ -1398,30 +1398,30 @@ module.exports = function (options, source) {
   var STATIC = options.stat;
   var FORCED, target, key, targetProperty, sourceProperty, descriptor;
   if (GLOBAL) {
-    target = global;
+	target = global;
   } else if (STATIC) {
-    target = global[TARGET] || setGlobal(TARGET, {});
+	target = global[TARGET] || setGlobal(TARGET, {});
   } else {
-    target = (global[TARGET] || {}).prototype;
+	target = (global[TARGET] || {}).prototype;
   }
   if (target) for (key in source) {
-    sourceProperty = source[key];
-    if (options.noTargetGet) {
-      descriptor = getOwnPropertyDescriptor(target, key);
-      targetProperty = descriptor && descriptor.value;
-    } else targetProperty = target[key];
-    FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
-    // contained in target
-    if (!FORCED && targetProperty !== undefined) {
-      if (typeof sourceProperty === typeof targetProperty) continue;
-      copyConstructorProperties(sourceProperty, targetProperty);
-    }
-    // add a flag to not completely full polyfills
-    if (options.sham || (targetProperty && targetProperty.sham)) {
-      createNonEnumerableProperty(sourceProperty, 'sham', true);
-    }
-    // extend global
-    redefine(target, key, sourceProperty, options);
+	sourceProperty = source[key];
+	if (options.noTargetGet) {
+	  descriptor = getOwnPropertyDescriptor(target, key);
+	  targetProperty = descriptor && descriptor.value;
+	} else targetProperty = target[key];
+	FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
+	// contained in target
+	if (!FORCED && targetProperty !== undefined) {
+	  if (typeof sourceProperty === typeof targetProperty) continue;
+	  copyConstructorProperties(sourceProperty, targetProperty);
+	}
+	// add a flag to not completely full polyfills
+	if (options.sham || (targetProperty && targetProperty.sham)) {
+	  createNonEnumerableProperty(sourceProperty, 'sham', true);
+	}
+	// extend global
+	redefine(target, key, sourceProperty, options);
   }
 };
 
@@ -1433,9 +1433,9 @@ module.exports = function (options, source) {
 
 module.exports = function (exec) {
   try {
-    return !!exec();
+	return !!exec();
   } catch (error) {
-    return true;
+	return true;
   }
 };
 
@@ -1463,9 +1463,9 @@ var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
   // a "grops" property.
   var re = /./;
   re.exec = function () {
-    var result = [];
-    result.groups = { a: '7' };
-    return result;
+	var result = [];
+	result.groups = { a: '7' };
+	return result;
   };
   return ''.replace(re, '$<a>') !== '7';
 });
@@ -1480,7 +1480,7 @@ var REPLACE = wellKnownSymbol('replace');
 // Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
 var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
   if (/./[REPLACE]) {
-    return /./[REPLACE]('a', '$0') === '';
+	return /./[REPLACE]('a', '$0') === '';
   }
   return false;
 })();
@@ -1500,74 +1500,74 @@ module.exports = function (KEY, length, exec, sham) {
   var SYMBOL = wellKnownSymbol(KEY);
 
   var DELEGATES_TO_SYMBOL = !fails(function () {
-    // String methods call symbol-named RegEp methods
-    var O = {};
-    O[SYMBOL] = function () { return 7; };
-    return ''[KEY](O) != 7;
+	// String methods call symbol-named RegEp methods
+	var O = {};
+	O[SYMBOL] = function () { return 7; };
+	return ''[KEY](O) != 7;
   });
 
   var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
-    // Symbol-named RegExp methods call .exec
-    var execCalled = false;
-    var re = /a/;
+	// Symbol-named RegExp methods call .exec
+	var execCalled = false;
+	var re = /a/;
 
-    if (KEY === 'split') {
-      // We can't use real regex here since it causes deoptimization
-      // and serious performance degradation in V8
-      // https://github.com/zloirock/core-js/issues/306
-      re = {};
-      // RegExp[@@split] doesn't call the regex's exec method, but first creates
-      // a new one. We need to return the patched regex when creating the new one.
-      re.constructor = {};
-      re.constructor[SPECIES] = function () { return re; };
-      re.flags = '';
-      re[SYMBOL] = /./[SYMBOL];
-    }
+	if (KEY === 'split') {
+	  // We can't use real regex here since it causes deoptimization
+	  // and serious performance degradation in V8
+	  // https://github.com/zloirock/core-js/issues/306
+	  re = {};
+	  // RegExp[@@split] doesn't call the regex's exec method, but first creates
+	  // a new one. We need to return the patched regex when creating the new one.
+	  re.constructor = {};
+	  re.constructor[SPECIES] = function () { return re; };
+	  re.flags = '';
+	  re[SYMBOL] = /./[SYMBOL];
+	}
 
-    re.exec = function () { execCalled = true; return null; };
+	re.exec = function () { execCalled = true; return null; };
 
-    re[SYMBOL]('');
-    return !execCalled;
+	re[SYMBOL]('');
+	return !execCalled;
   });
 
   if (
-    !DELEGATES_TO_SYMBOL ||
-    !DELEGATES_TO_EXEC ||
-    (KEY === 'replace' && !(
-      REPLACE_SUPPORTS_NAMED_GROUPS &&
-      REPLACE_KEEPS_$0 &&
-      !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    )) ||
-    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+	!DELEGATES_TO_SYMBOL ||
+	!DELEGATES_TO_EXEC ||
+	(KEY === 'replace' && !(
+	  REPLACE_SUPPORTS_NAMED_GROUPS &&
+	  REPLACE_KEEPS_$0 &&
+	  !REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+	)) ||
+	(KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
   ) {
-    var nativeRegExpMethod = /./[SYMBOL];
-    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-      if (regexp.exec === regexpExec) {
-        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
-          // The native String method already delegates to @@method (this
-          // polyfilled function), leasing to infinite recursion.
-          // We avoid it by directly calling the native @@method method.
-          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
-        }
-        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
-      }
-      return { done: false };
-    }, {
-      REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
-      REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
-    });
-    var stringMethod = methods[0];
-    var regexMethod = methods[1];
+	var nativeRegExpMethod = /./[SYMBOL];
+	var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
+	  if (regexp.exec === regexpExec) {
+		if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+		  // The native String method already delegates to @@method (this
+		  // polyfilled function), leasing to infinite recursion.
+		  // We avoid it by directly calling the native @@method method.
+		  return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+		}
+		return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+	  }
+	  return { done: false };
+	}, {
+	  REPLACE_KEEPS_$0: REPLACE_KEEPS_$0,
+	  REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE: REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE
+	});
+	var stringMethod = methods[0];
+	var regexMethod = methods[1];
 
-    redefine(String.prototype, KEY, stringMethod);
-    redefine(RegExp.prototype, SYMBOL, length == 2
-      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
-      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
-      ? function (string, arg) { return regexMethod.call(string, this, arg); }
-      // 21.2.5.6 RegExp.prototype[@@match](string)
-      // 21.2.5.9 RegExp.prototype[@@search](string)
-      : function (string) { return regexMethod.call(string, this); }
-    );
+	redefine(String.prototype, KEY, stringMethod);
+	redefine(RegExp.prototype, SYMBOL, length == 2
+	  // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+	  // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+	  ? function (string, arg) { return regexMethod.call(string, this, arg); }
+	  // 21.2.5.6 RegExp.prototype[@@match](string)
+	  // 21.2.5.9 RegExp.prototype[@@search](string)
+	  : function (string) { return regexMethod.call(string, this); }
+	);
   }
 
   if (sham) createNonEnumerableProperty(RegExp.prototype[SYMBOL], 'sham', true);
@@ -1586,21 +1586,21 @@ module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
   switch (length) {
-    case 0: return function () {
-      return fn.call(that);
-    };
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
+	case 0: return function () {
+	  return fn.call(that);
+	};
+	case 1: return function (a) {
+	  return fn.call(that, a);
+	};
+	case 2: return function (a, b) {
+	  return fn.call(that, a, b);
+	};
+	case 3: return function (a, b, c) {
+	  return fn.call(that, a, b, c);
+	};
   }
   return function (/* ...args */) {
-    return fn.apply(that, arguments);
+	return fn.apply(that, arguments);
   };
 };
 
@@ -1619,7 +1619,7 @@ var aFunction = function (variable) {
 
 module.exports = function (namespace, method) {
   return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
-    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
+	: path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
 };
 
 
@@ -1636,8 +1636,8 @@ var ITERATOR = wellKnownSymbol('iterator');
 
 module.exports = function (it) {
   if (it != undefined) return it[ITERATOR]
-    || it['@@iterator']
-    || Iterators[classof(it)];
+	|| it['@@iterator']
+	|| Iterators[classof(it)];
 };
 
 
@@ -1652,7 +1652,7 @@ var getIteratorMethod = __webpack_require__(1246);
 module.exports = function (it) {
   var iteratorMethod = getIteratorMethod(it);
   if (typeof iteratorMethod != 'function') {
-    throw TypeError(String(it) + ' is not iterable');
+	throw TypeError(String(it) + ' is not iterable');
   } return anObject(iteratorMethod.call(it));
 };
 
@@ -1675,31 +1675,31 @@ module.exports = function (matched, str, position, captures, namedCaptures, repl
   var m = captures.length;
   var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
   if (namedCaptures !== undefined) {
-    namedCaptures = toObject(namedCaptures);
-    symbols = SUBSTITUTION_SYMBOLS;
+	namedCaptures = toObject(namedCaptures);
+	symbols = SUBSTITUTION_SYMBOLS;
   }
   return replace.call(replacement, symbols, function (match, ch) {
-    var capture;
-    switch (ch.charAt(0)) {
-      case '$': return '$';
-      case '&': return matched;
-      case '`': return str.slice(0, position);
-      case "'": return str.slice(tailPos);
-      case '<':
-        capture = namedCaptures[ch.slice(1, -1)];
-        break;
-      default: // \d\d?
-        var n = +ch;
-        if (n === 0) return match;
-        if (n > m) {
-          var f = floor(n / 10);
-          if (f === 0) return match;
-          if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
-          return match;
-        }
-        capture = captures[n - 1];
-    }
-    return capture === undefined ? '' : capture;
+	var capture;
+	switch (ch.charAt(0)) {
+	  case '$': return '$';
+	  case '&': return matched;
+	  case '`': return str.slice(0, position);
+	  case "'": return str.slice(tailPos);
+	  case '<':
+		capture = namedCaptures[ch.slice(1, -1)];
+		break;
+	  default: // \d\d?
+		var n = +ch;
+		if (n === 0) return match;
+		if (n > m) {
+		  var f = floor(n / 10);
+		  if (f === 0) return match;
+		  if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+		  return match;
+		}
+		capture = captures[n - 1];
+	}
+	return capture === undefined ? '' : capture;
   });
 };
 
@@ -1766,7 +1766,7 @@ var createElement = __webpack_require__(317);
 // Thank's IE8 for his funny defineProperty
 module.exports = !DESCRIPTORS && !fails(function () {
   return Object.defineProperty(createElement('div'), 'a', {
-    get: function () { return 7; }
+	get: function () { return 7; }
   }).a != 7;
 });
 
@@ -1795,34 +1795,34 @@ var pack = function (number, mantissaLength, bytes) {
   number = abs(number);
   // eslint-disable-next-line no-self-compare -- NaN check
   if (number != number || number === Infinity) {
-    // eslint-disable-next-line no-self-compare -- NaN check
-    mantissa = number != number ? 1 : 0;
-    exponent = eMax;
+	// eslint-disable-next-line no-self-compare -- NaN check
+	mantissa = number != number ? 1 : 0;
+	exponent = eMax;
   } else {
-    exponent = floor(log(number) / LN2);
-    if (number * (c = pow(2, -exponent)) < 1) {
-      exponent--;
-      c *= 2;
-    }
-    if (exponent + eBias >= 1) {
-      number += rt / c;
-    } else {
-      number += rt * pow(2, 1 - eBias);
-    }
-    if (number * c >= 2) {
-      exponent++;
-      c /= 2;
-    }
-    if (exponent + eBias >= eMax) {
-      mantissa = 0;
-      exponent = eMax;
-    } else if (exponent + eBias >= 1) {
-      mantissa = (number * c - 1) * pow(2, mantissaLength);
-      exponent = exponent + eBias;
-    } else {
-      mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength);
-      exponent = 0;
-    }
+	exponent = floor(log(number) / LN2);
+	if (number * (c = pow(2, -exponent)) < 1) {
+	  exponent--;
+	  c *= 2;
+	}
+	if (exponent + eBias >= 1) {
+	  number += rt / c;
+	} else {
+	  number += rt * pow(2, 1 - eBias);
+	}
+	if (number * c >= 2) {
+	  exponent++;
+	  c /= 2;
+	}
+	if (exponent + eBias >= eMax) {
+	  mantissa = 0;
+	  exponent = eMax;
+	} else if (exponent + eBias >= 1) {
+	  mantissa = (number * c - 1) * pow(2, mantissaLength);
+	  exponent = exponent + eBias;
+	} else {
+	  mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength);
+	  exponent = 0;
+	}
   }
   for (; mantissaLength >= 8; buffer[index++] = mantissa & 255, mantissa /= 256, mantissaLength -= 8);
   exponent = exponent << mantissaLength | mantissa;
@@ -1849,12 +1849,12 @@ var unpack = function (buffer, mantissaLength) {
   nBits += mantissaLength;
   for (; nBits > 0; mantissa = mantissa * 256 + buffer[index], index--, nBits -= 8);
   if (exponent === 0) {
-    exponent = 1 - eBias;
+	exponent = 1 - eBias;
   } else if (exponent === eMax) {
-    return mantissa ? NaN : sign ? -Infinity : Infinity;
+	return mantissa ? NaN : sign ? -Infinity : Infinity;
   } else {
-    mantissa = mantissa + pow(2, mantissaLength);
-    exponent = exponent - eBias;
+	mantissa = mantissa + pow(2, mantissaLength);
+	exponent = exponent - eBias;
   } return (sign ? -1 : 1) * mantissa * pow(2, exponent - mantissaLength);
 };
 
@@ -1896,13 +1896,13 @@ var setPrototypeOf = __webpack_require__(7674);
 module.exports = function ($this, dummy, Wrapper) {
   var NewTarget, NewTargetPrototype;
   if (
-    // it can work only with native `setPrototypeOf`
-    setPrototypeOf &&
-    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
-    typeof (NewTarget = dummy.constructor) == 'function' &&
-    NewTarget !== Wrapper &&
-    isObject(NewTargetPrototype = NewTarget.prototype) &&
-    NewTargetPrototype !== Wrapper.prototype
+	// it can work only with native `setPrototypeOf`
+	setPrototypeOf &&
+	// we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+	typeof (NewTarget = dummy.constructor) == 'function' &&
+	NewTarget !== Wrapper &&
+	isObject(NewTargetPrototype = NewTarget.prototype) &&
+	NewTargetPrototype !== Wrapper.prototype
   ) setPrototypeOf($this, NewTargetPrototype);
   return $this;
 };
@@ -1920,7 +1920,7 @@ var functionToString = Function.toString;
 // this helper broken in `3.4.1-3.4.4`, so we can't use `shared` helper
 if (typeof store.inspectSource != 'function') {
   store.inspectSource = function (it) {
-    return functionToString.call(it);
+	return functionToString.call(it);
   };
 }
 
@@ -1950,10 +1950,10 @@ var enforce = function (it) {
 
 var getterFor = function (TYPE) {
   return function (it) {
-    var state;
-    if (!isObject(it) || (state = get(it)).type !== TYPE) {
-      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
-    } return state;
+	var state;
+	if (!isObject(it) || (state = get(it)).type !== TYPE) {
+	  throw TypeError('Incompatible receiver, ' + TYPE + ' required');
+	} return state;
   };
 };
 
@@ -1963,29 +1963,29 @@ if (NATIVE_WEAK_MAP) {
   var wmhas = store.has;
   var wmset = store.set;
   set = function (it, metadata) {
-    metadata.facade = it;
-    wmset.call(store, it, metadata);
-    return metadata;
+	metadata.facade = it;
+	wmset.call(store, it, metadata);
+	return metadata;
   };
   get = function (it) {
-    return wmget.call(store, it) || {};
+	return wmget.call(store, it) || {};
   };
   has = function (it) {
-    return wmhas.call(store, it);
+	return wmhas.call(store, it);
   };
 } else {
   var STATE = sharedKey('state');
   hiddenKeys[STATE] = true;
   set = function (it, metadata) {
-    metadata.facade = it;
-    createNonEnumerableProperty(it, STATE, metadata);
-    return metadata;
+	metadata.facade = it;
+	createNonEnumerableProperty(it, STATE, metadata);
+	return metadata;
   };
   get = function (it) {
-    return objectHas(it, STATE) ? it[STATE] : {};
+	return objectHas(it, STATE) ? it[STATE] : {};
   };
   has = function (it) {
-    return objectHas(it, STATE);
+	return objectHas(it, STATE);
   };
 }
 
@@ -2041,9 +2041,9 @@ var replacement = /#|\.prototype\./;
 var isForced = function (feature, detection) {
   var value = data[normalize(feature)];
   return value == POLYFILL ? true
-    : value == NATIVE ? false
-    : typeof detection == 'function' ? fails(detection)
-    : !!detection;
+	: value == NATIVE ? false
+	: typeof detection == 'function' ? fails(detection)
+	: !!detection;
 };
 
 var normalize = isForced.normalize = function (string) {
@@ -2104,7 +2104,7 @@ var anObject = __webpack_require__(9670);
 module.exports = function (iterator) {
   var returnMethod = iterator['return'];
   if (returnMethod !== undefined) {
-    return anObject(returnMethod.call(iterator)).value;
+	return anObject(returnMethod.call(iterator)).value;
   }
 };
 
@@ -2137,8 +2137,8 @@ if ([].keys) {
   // Safari 8 has buggy iterators w/o `next`
   if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
   else {
-    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
-    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
+	PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
+	if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
   }
 }
 
@@ -2200,26 +2200,26 @@ module.exports = !fails(function () {
   var result = '';
   url.pathname = 'c%20d';
   searchParams.forEach(function (value, key) {
-    searchParams['delete']('b');
-    result += key + value;
+	searchParams['delete']('b');
+	result += key + value;
   });
   return (IS_PURE && !url.toJSON)
-    || !searchParams.sort
-    || url.href !== 'http://a/c%20d?a=1&c=3'
-    || searchParams.get('c') !== '3'
-    || String(new URLSearchParams('?a=1')) !== 'a=1'
-    || !searchParams[ITERATOR]
-    // throws in Edge
-    || new URL('https://a@b').username !== 'a'
-    || new URLSearchParams(new URLSearchParams('a=b')).get('a') !== 'b'
-    // not punycoded in Edge
-    || new URL('http://тест').host !== 'xn--e1aybc'
-    // not escaped in Chrome 62-
-    || new URL('http://a#б').hash !== '#%D0%B1'
-    // fails in Chrome 66-
-    || result !== 'a1c3'
-    // throws in Safari
-    || new URL('http://x', undefined).host !== 'x';
+	|| !searchParams.sort
+	|| url.href !== 'http://a/c%20d?a=1&c=3'
+	|| searchParams.get('c') !== '3'
+	|| String(new URLSearchParams('?a=1')) !== 'a=1'
+	|| !searchParams[ITERATOR]
+	// throws in Edge
+	|| new URL('https://a@b').username !== 'a'
+	|| new URLSearchParams(new URLSearchParams('a=b')).get('a') !== 'b'
+	// not punycoded in Edge
+	|| new URL('http://тест').host !== 'xn--e1aybc'
+	// not escaped in Chrome 62-
+	|| new URL('http://a#б').hash !== '#%D0%B1'
+	// fails in Chrome 66-
+	|| result !== 'a1c3'
+	// throws in Safari
+	|| new URL('http://x', undefined).host !== 'x';
 });
 
 
@@ -2259,13 +2259,13 @@ var defineProperty = Object.defineProperty;
 module.exports = !nativeAssign || fails(function () {
   // should have correct order of operations (Edge bug)
   if (DESCRIPTORS && nativeAssign({ b: 1 }, nativeAssign(defineProperty({}, 'a', {
-    enumerable: true,
-    get: function () {
-      defineProperty(this, 'b', {
-        value: 3,
-        enumerable: false
-      });
-    }
+	enumerable: true,
+	get: function () {
+	  defineProperty(this, 'b', {
+		value: 3,
+		enumerable: false
+	  });
+	}
   }), { b: 2 })).b !== 1) return true;
   // should work with symbols and should have deterministic property order (V8 bug)
   var A = {};
@@ -2283,15 +2283,15 @@ module.exports = !nativeAssign || fails(function () {
   var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
   var propertyIsEnumerable = propertyIsEnumerableModule.f;
   while (argumentsLength > index) {
-    var S = IndexedObject(arguments[index++]);
-    var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
-    var length = keys.length;
-    var j = 0;
-    var key;
-    while (length > j) {
-      key = keys[j++];
-      if (!DESCRIPTORS || propertyIsEnumerable.call(S, key)) T[key] = S[key];
-    }
+	var S = IndexedObject(arguments[index++]);
+	var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
+	var length = keys.length;
+	var j = 0;
+	var key;
+	while (length > j) {
+	  key = keys[j++];
+	  if (!DESCRIPTORS || propertyIsEnumerable.call(S, key)) T[key] = S[key];
+	}
   } return T;
 } : nativeAssign;
 
@@ -2355,8 +2355,8 @@ var NullProtoObjectViaIFrame = function () {
 var activeXDocument;
 var NullProtoObject = function () {
   try {
-    /* global ActiveXObject -- old IE */
-    activeXDocument = document.domain && new ActiveXObject('htmlfile');
+	/* global ActiveXObject -- old IE */
+	activeXDocument = document.domain && new ActiveXObject('htmlfile');
   } catch (error) { /* ignore */ }
   NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
   var length = enumBugKeys.length;
@@ -2371,11 +2371,11 @@ hiddenKeys[IE_PROTO] = true;
 module.exports = Object.create || function create(O, Properties) {
   var result;
   if (O !== null) {
-    EmptyConstructor[PROTOTYPE] = anObject(O);
-    result = new EmptyConstructor();
-    EmptyConstructor[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
+	EmptyConstructor[PROTOTYPE] = anObject(O);
+	result = new EmptyConstructor();
+	EmptyConstructor[PROTOTYPE] = null;
+	// add "__proto__" for Object.getPrototypeOf polyfill
+	result[IE_PROTO] = O;
   } else result = NullProtoObject();
   return Properties === undefined ? result : defineProperties(result, Properties);
 };
@@ -2423,7 +2423,7 @@ exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, A
   P = toPrimitive(P, true);
   anObject(Attributes);
   if (IE8_DOM_DEFINE) try {
-    return nativeDefineProperty(O, P, Attributes);
+	return nativeDefineProperty(O, P, Attributes);
   } catch (error) { /* empty */ }
   if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
   if ('value' in Attributes) O[P] = Attributes.value;
@@ -2452,7 +2452,7 @@ exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnProper
   O = toIndexedObject(O);
   P = toPrimitive(P, true);
   if (IE8_DOM_DEFINE) try {
-    return nativeGetOwnPropertyDescriptor(O, P);
+	return nativeGetOwnPropertyDescriptor(O, P);
   } catch (error) { /* empty */ }
   if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
 };
@@ -2502,7 +2502,7 @@ module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O)
   O = toObject(O);
   if (has(O, IE_PROTO)) return O[IE_PROTO];
   if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
+	return O.constructor.prototype;
   } return O instanceof Object ? ObjectPrototype : null;
 };
 
@@ -2525,7 +2525,7 @@ module.exports = function (object, names) {
   for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
   // Don't enum bug & hidden keys
   while (names.length > i) if (has(O, key = names[i++])) {
-    ~indexOf(result, key) || result.push(key);
+	~indexOf(result, key) || result.push(key);
   }
   return result;
 };
@@ -2584,16 +2584,16 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
   var test = {};
   var setter;
   try {
-    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
-    setter.call(test, []);
-    CORRECT_SETTER = test instanceof Array;
+	setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+	setter.call(test, []);
+	CORRECT_SETTER = test instanceof Array;
   } catch (error) { /* empty */ }
   return function setPrototypeOf(O, proto) {
-    anObject(O);
-    aPossiblePrototype(proto);
-    if (CORRECT_SETTER) setter.call(O, proto);
-    else O.__proto__ = proto;
-    return O;
+	anObject(O);
+	aPossiblePrototype(proto);
+	if (CORRECT_SETTER) setter.call(O, proto);
+	else O.__proto__ = proto;
+	return O;
   };
 }() : undefined);
 
@@ -2678,22 +2678,22 @@ var TEMPLATE = String(String).split('String');
   var noTargetGet = options ? !!options.noTargetGet : false;
   var state;
   if (typeof value == 'function') {
-    if (typeof key == 'string' && !has(value, 'name')) {
-      createNonEnumerableProperty(value, 'name', key);
-    }
-    state = enforceInternalState(value);
-    if (!state.source) {
-      state.source = TEMPLATE.join(typeof key == 'string' ? key : '');
-    }
+	if (typeof key == 'string' && !has(value, 'name')) {
+	  createNonEnumerableProperty(value, 'name', key);
+	}
+	state = enforceInternalState(value);
+	if (!state.source) {
+	  state.source = TEMPLATE.join(typeof key == 'string' ? key : '');
+	}
   }
   if (O === global) {
-    if (simple) O[key] = value;
-    else setGlobal(key, value);
-    return;
+	if (simple) O[key] = value;
+	else setGlobal(key, value);
+	return;
   } else if (!unsafe) {
-    delete O[key];
+	delete O[key];
   } else if (!noTargetGet && O[key]) {
-    simple = true;
+	simple = true;
   }
   if (simple) O[key] = value;
   else createNonEnumerableProperty(O, key, value);
@@ -2716,15 +2716,15 @@ var regexpExec = __webpack_require__(2261);
 module.exports = function (R, S) {
   var exec = R.exec;
   if (typeof exec === 'function') {
-    var result = exec.call(R, S);
-    if (typeof result !== 'object') {
-      throw TypeError('RegExp exec method returned something other than an Object or null');
-    }
-    return result;
+	var result = exec.call(R, S);
+	if (typeof result !== 'object') {
+	  throw TypeError('RegExp exec method returned something other than an Object or null');
+	}
+	return result;
   }
 
   if (classof(R) !== 'RegExp') {
-    throw TypeError('RegExp#exec called on incompatible receiver');
+	throw TypeError('RegExp#exec called on incompatible receiver');
   }
 
   return regexpExec.call(R, S);
@@ -2768,60 +2768,60 @@ var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y;
 
 if (PATCH) {
   patchedExec = function exec(str) {
-    var re = this;
-    var lastIndex, reCopy, match, i;
-    var sticky = UNSUPPORTED_Y && re.sticky;
-    var flags = regexpFlags.call(re);
-    var source = re.source;
-    var charsAdded = 0;
-    var strCopy = str;
+	var re = this;
+	var lastIndex, reCopy, match, i;
+	var sticky = UNSUPPORTED_Y && re.sticky;
+	var flags = regexpFlags.call(re);
+	var source = re.source;
+	var charsAdded = 0;
+	var strCopy = str;
 
-    if (sticky) {
-      flags = flags.replace('y', '');
-      if (flags.indexOf('g') === -1) {
-        flags += 'g';
-      }
+	if (sticky) {
+	  flags = flags.replace('y', '');
+	  if (flags.indexOf('g') === -1) {
+		flags += 'g';
+	  }
 
-      strCopy = String(str).slice(re.lastIndex);
-      // Support anchored sticky behavior.
-      if (re.lastIndex > 0 && (!re.multiline || re.multiline && str[re.lastIndex - 1] !== '\n')) {
-        source = '(?: ' + source + ')';
-        strCopy = ' ' + strCopy;
-        charsAdded++;
-      }
-      // ^(? + rx + ) is needed, in combination with some str slicing, to
-      // simulate the 'y' flag.
-      reCopy = new RegExp('^(?:' + source + ')', flags);
-    }
+	  strCopy = String(str).slice(re.lastIndex);
+	  // Support anchored sticky behavior.
+	  if (re.lastIndex > 0 && (!re.multiline || re.multiline && str[re.lastIndex - 1] !== '\n')) {
+		source = '(?: ' + source + ')';
+		strCopy = ' ' + strCopy;
+		charsAdded++;
+	  }
+	  // ^(? + rx + ) is needed, in combination with some str slicing, to
+	  // simulate the 'y' flag.
+	  reCopy = new RegExp('^(?:' + source + ')', flags);
+	}
 
-    if (NPCG_INCLUDED) {
-      reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
-    }
-    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
+	if (NPCG_INCLUDED) {
+	  reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
+	}
+	if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
 
-    match = nativeExec.call(sticky ? reCopy : re, strCopy);
+	match = nativeExec.call(sticky ? reCopy : re, strCopy);
 
-    if (sticky) {
-      if (match) {
-        match.input = match.input.slice(charsAdded);
-        match[0] = match[0].slice(charsAdded);
-        match.index = re.lastIndex;
-        re.lastIndex += match[0].length;
-      } else re.lastIndex = 0;
-    } else if (UPDATES_LAST_INDEX_WRONG && match) {
-      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
-    }
-    if (NPCG_INCLUDED && match && match.length > 1) {
-      // Fix browsers whose `exec` methods don't consistently return `undefined`
-      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
-      nativeReplace.call(match[0], reCopy, function () {
-        for (i = 1; i < arguments.length - 2; i++) {
-          if (arguments[i] === undefined) match[i] = undefined;
-        }
-      });
-    }
+	if (sticky) {
+	  if (match) {
+		match.input = match.input.slice(charsAdded);
+		match[0] = match[0].slice(charsAdded);
+		match.index = re.lastIndex;
+		re.lastIndex += match[0].length;
+	  } else re.lastIndex = 0;
+	} else if (UPDATES_LAST_INDEX_WRONG && match) {
+	  re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
+	}
+	if (NPCG_INCLUDED && match && match.length > 1) {
+	  // Fix browsers whose `exec` methods don't consistently return `undefined`
+	  // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+	  nativeReplace.call(match[0], reCopy, function () {
+		for (i = 1; i < arguments.length - 2; i++) {
+		  if (arguments[i] === undefined) match[i] = undefined;
+		}
+	  });
+	}
 
-    return match;
+	return match;
   };
 }
 
@@ -2906,9 +2906,9 @@ var createNonEnumerableProperty = __webpack_require__(8880);
 
 module.exports = function (key, value) {
   try {
-    createNonEnumerableProperty(global, key, value);
+	createNonEnumerableProperty(global, key, value);
   } catch (error) {
-    global[key] = value;
+	global[key] = value;
   } return value;
 };
 
@@ -2932,10 +2932,10 @@ module.exports = function (CONSTRUCTOR_NAME) {
   var defineProperty = definePropertyModule.f;
 
   if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
-    defineProperty(Constructor, SPECIES, {
-      configurable: true,
-      get: function () { return this; }
-    });
+	defineProperty(Constructor, SPECIES, {
+	  configurable: true,
+	  get: function () { return this; }
+	});
   }
 };
 
@@ -2953,7 +2953,7 @@ var TO_STRING_TAG = wellKnownSymbol('toStringTag');
 
 module.exports = function (it, TAG, STATIC) {
   if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
-    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
+	defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
   }
 };
 
@@ -3035,16 +3035,16 @@ var requireObjectCoercible = __webpack_require__(4488);
 // `String.prototype.{ codePointAt, at }` methods implementation
 var createMethod = function (CONVERT_TO_STRING) {
   return function ($this, pos) {
-    var S = String(requireObjectCoercible($this));
-    var position = toInteger(pos);
-    var size = S.length;
-    var first, second;
-    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-    first = S.charCodeAt(position);
-    return first < 0xD800 || first > 0xDBFF || position + 1 === size
-      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
-        ? CONVERT_TO_STRING ? S.charAt(position) : first
-        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
+	var S = String(requireObjectCoercible($this));
+	var position = toInteger(pos);
+	var size = S.length;
+	var first, second;
+	if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
+	first = S.charCodeAt(position);
+	return first < 0xD800 || first > 0xDBFF || position + 1 === size
+	  || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
+		? CONVERT_TO_STRING ? S.charAt(position) : first
+		: CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
   };
 };
 
@@ -3094,21 +3094,21 @@ var ucs2decode = function (string) {
   var counter = 0;
   var length = string.length;
   while (counter < length) {
-    var value = string.charCodeAt(counter++);
-    if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-      // It's a high surrogate, and there is a next character.
-      var extra = string.charCodeAt(counter++);
-      if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
-        output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-      } else {
-        // It's an unmatched surrogate; only append this code unit, in case the
-        // next code unit is the high surrogate of a surrogate pair.
-        output.push(value);
-        counter--;
-      }
-    } else {
-      output.push(value);
-    }
+	var value = string.charCodeAt(counter++);
+	if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+	  // It's a high surrogate, and there is a next character.
+	  var extra = string.charCodeAt(counter++);
+	  if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
+		output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+	  } else {
+		// It's an unmatched surrogate; only append this code unit, in case the
+		// next code unit is the high surrogate of a surrogate pair.
+		output.push(value);
+		counter--;
+	  }
+	} else {
+	  output.push(value);
+	}
   }
   return output;
 };
@@ -3131,7 +3131,7 @@ var adapt = function (delta, numPoints, firstTime) {
   delta = firstTime ? floor(delta / damp) : delta >> 1;
   delta += floor(delta / numPoints);
   for (; delta > baseMinusTMin * tMax >> 1; k += base) {
-    delta = floor(delta / baseMinusTMin);
+	delta = floor(delta / baseMinusTMin);
   }
   return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
 };
@@ -3158,10 +3158,10 @@ var encode = function (input) {
 
   // Handle the basic code points.
   for (i = 0; i < input.length; i++) {
-    currentValue = input[i];
-    if (currentValue < 0x80) {
-      output.push(stringFromCharCode(currentValue));
-    }
+	currentValue = input[i];
+	if (currentValue < 0x80) {
+	  output.push(stringFromCharCode(currentValue));
+	}
   }
 
   var basicLength = output.length; // number of basic code points.
@@ -3169,55 +3169,55 @@ var encode = function (input) {
 
   // Finish the basic string with a delimiter unless it's empty.
   if (basicLength) {
-    output.push(delimiter);
+	output.push(delimiter);
   }
 
   // Main encoding loop:
   while (handledCPCount < inputLength) {
-    // All non-basic code points < n have been handled already. Find the next larger one:
-    var m = maxInt;
-    for (i = 0; i < input.length; i++) {
-      currentValue = input[i];
-      if (currentValue >= n && currentValue < m) {
-        m = currentValue;
-      }
-    }
+	// All non-basic code points < n have been handled already. Find the next larger one:
+	var m = maxInt;
+	for (i = 0; i < input.length; i++) {
+	  currentValue = input[i];
+	  if (currentValue >= n && currentValue < m) {
+		m = currentValue;
+	  }
+	}
 
-    // Increase `delta` enough to advance the decoder's <n,i> state to <m,0>, but guard against overflow.
-    var handledCPCountPlusOne = handledCPCount + 1;
-    if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-      throw RangeError(OVERFLOW_ERROR);
-    }
+	// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>, but guard against overflow.
+	var handledCPCountPlusOne = handledCPCount + 1;
+	if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+	  throw RangeError(OVERFLOW_ERROR);
+	}
 
-    delta += (m - n) * handledCPCountPlusOne;
-    n = m;
+	delta += (m - n) * handledCPCountPlusOne;
+	n = m;
 
-    for (i = 0; i < input.length; i++) {
-      currentValue = input[i];
-      if (currentValue < n && ++delta > maxInt) {
-        throw RangeError(OVERFLOW_ERROR);
-      }
-      if (currentValue == n) {
-        // Represent delta as a generalized variable-length integer.
-        var q = delta;
-        for (var k = base; /* no condition */; k += base) {
-          var t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-          if (q < t) break;
-          var qMinusT = q - t;
-          var baseMinusT = base - t;
-          output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT)));
-          q = floor(qMinusT / baseMinusT);
-        }
+	for (i = 0; i < input.length; i++) {
+	  currentValue = input[i];
+	  if (currentValue < n && ++delta > maxInt) {
+		throw RangeError(OVERFLOW_ERROR);
+	  }
+	  if (currentValue == n) {
+		// Represent delta as a generalized variable-length integer.
+		var q = delta;
+		for (var k = base; /* no condition */; k += base) {
+		  var t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+		  if (q < t) break;
+		  var qMinusT = q - t;
+		  var baseMinusT = base - t;
+		  output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT)));
+		  q = floor(qMinusT / baseMinusT);
+		}
 
-        output.push(stringFromCharCode(digitToBasic(q)));
-        bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-        delta = 0;
-        ++handledCPCount;
-      }
-    }
+		output.push(stringFromCharCode(digitToBasic(q)));
+		bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+		delta = 0;
+		++handledCPCount;
+	  }
+	}
 
-    ++delta;
-    ++n;
+	++delta;
+	++n;
   }
   return output.join('');
 };
@@ -3227,8 +3227,8 @@ module.exports = function (input) {
   var labels = input.toLowerCase().replace(regexSeparators, '\u002E').split('.');
   var i, label;
   for (i = 0; i < labels.length; i++) {
-    label = labels[i];
-    encoded.push(regexNonASCII.test(label) ? 'xn--' + encode(label) : label);
+	label = labels[i];
+	encoded.push(regexNonASCII.test(label) ? 'xn--' + encode(label) : label);
   }
   return encoded.join('.');
 };
@@ -3248,7 +3248,7 @@ var non = '\u200B\u0085\u180E';
 // of whitespaces and has a correct name
 module.exports = function (METHOD_NAME) {
   return fails(function () {
-    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+	return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
   });
 };
 
@@ -3268,10 +3268,10 @@ var rtrim = RegExp(whitespace + whitespace + '*$');
 // `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
 var createMethod = function (TYPE) {
   return function ($this) {
-    var string = String(requireObjectCoercible($this));
-    if (TYPE & 1) string = string.replace(ltrim, '');
-    if (TYPE & 2) string = string.replace(rtrim, '');
-    return string;
+	var string = String(requireObjectCoercible($this));
+	if (TYPE & 1) string = string.replace(ltrim, '');
+	if (TYPE & 2) string = string.replace(rtrim, '');
+	return string;
   };
 };
 
@@ -3510,7 +3510,7 @@ var fromList = function (C, list) {
 
 var addGetter = function (it, key) {
   nativeDefineProperty(it, key, { get: function () {
-    return getInternalState(this)[key];
+	return getInternalState(this)[key];
   } });
 };
 
@@ -3521,168 +3521,168 @@ var isArrayBuffer = function (it) {
 
 var isTypedArrayIndex = function (target, key) {
   return isTypedArray(target)
-    && typeof key != 'symbol'
-    && key in target
-    && String(+key) == String(key);
+	&& typeof key != 'symbol'
+	&& key in target
+	&& String(+key) == String(key);
 };
 
 var wrappedGetOwnPropertyDescriptor = function getOwnPropertyDescriptor(target, key) {
   return isTypedArrayIndex(target, key = toPrimitive(key, true))
-    ? createPropertyDescriptor(2, target[key])
-    : nativeGetOwnPropertyDescriptor(target, key);
+	? createPropertyDescriptor(2, target[key])
+	: nativeGetOwnPropertyDescriptor(target, key);
 };
 
 var wrappedDefineProperty = function defineProperty(target, key, descriptor) {
   if (isTypedArrayIndex(target, key = toPrimitive(key, true))
-    && isObject(descriptor)
-    && has(descriptor, 'value')
-    && !has(descriptor, 'get')
-    && !has(descriptor, 'set')
-    // TODO: add validation descriptor w/o calling accessors
-    && !descriptor.configurable
-    && (!has(descriptor, 'writable') || descriptor.writable)
-    && (!has(descriptor, 'enumerable') || descriptor.enumerable)
+	&& isObject(descriptor)
+	&& has(descriptor, 'value')
+	&& !has(descriptor, 'get')
+	&& !has(descriptor, 'set')
+	// TODO: add validation descriptor w/o calling accessors
+	&& !descriptor.configurable
+	&& (!has(descriptor, 'writable') || descriptor.writable)
+	&& (!has(descriptor, 'enumerable') || descriptor.enumerable)
   ) {
-    target[key] = descriptor.value;
-    return target;
+	target[key] = descriptor.value;
+	return target;
   } return nativeDefineProperty(target, key, descriptor);
 };
 
 if (DESCRIPTORS) {
   if (!NATIVE_ARRAY_BUFFER_VIEWS) {
-    getOwnPropertyDescriptorModule.f = wrappedGetOwnPropertyDescriptor;
-    definePropertyModule.f = wrappedDefineProperty;
-    addGetter(TypedArrayPrototype, 'buffer');
-    addGetter(TypedArrayPrototype, 'byteOffset');
-    addGetter(TypedArrayPrototype, 'byteLength');
-    addGetter(TypedArrayPrototype, 'length');
+	getOwnPropertyDescriptorModule.f = wrappedGetOwnPropertyDescriptor;
+	definePropertyModule.f = wrappedDefineProperty;
+	addGetter(TypedArrayPrototype, 'buffer');
+	addGetter(TypedArrayPrototype, 'byteOffset');
+	addGetter(TypedArrayPrototype, 'byteLength');
+	addGetter(TypedArrayPrototype, 'length');
   }
 
   $({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {
-    getOwnPropertyDescriptor: wrappedGetOwnPropertyDescriptor,
-    defineProperty: wrappedDefineProperty
+	getOwnPropertyDescriptor: wrappedGetOwnPropertyDescriptor,
+	defineProperty: wrappedDefineProperty
   });
 
   module.exports = function (TYPE, wrapper, CLAMPED) {
-    var BYTES = TYPE.match(/\d+$/)[0] / 8;
-    var CONSTRUCTOR_NAME = TYPE + (CLAMPED ? 'Clamped' : '') + 'Array';
-    var GETTER = 'get' + TYPE;
-    var SETTER = 'set' + TYPE;
-    var NativeTypedArrayConstructor = global[CONSTRUCTOR_NAME];
-    var TypedArrayConstructor = NativeTypedArrayConstructor;
-    var TypedArrayConstructorPrototype = TypedArrayConstructor && TypedArrayConstructor.prototype;
-    var exported = {};
+	var BYTES = TYPE.match(/\d+$/)[0] / 8;
+	var CONSTRUCTOR_NAME = TYPE + (CLAMPED ? 'Clamped' : '') + 'Array';
+	var GETTER = 'get' + TYPE;
+	var SETTER = 'set' + TYPE;
+	var NativeTypedArrayConstructor = global[CONSTRUCTOR_NAME];
+	var TypedArrayConstructor = NativeTypedArrayConstructor;
+	var TypedArrayConstructorPrototype = TypedArrayConstructor && TypedArrayConstructor.prototype;
+	var exported = {};
 
-    var getter = function (that, index) {
-      var data = getInternalState(that);
-      return data.view[GETTER](index * BYTES + data.byteOffset, true);
-    };
+	var getter = function (that, index) {
+	  var data = getInternalState(that);
+	  return data.view[GETTER](index * BYTES + data.byteOffset, true);
+	};
 
-    var setter = function (that, index, value) {
-      var data = getInternalState(that);
-      if (CLAMPED) value = (value = round(value)) < 0 ? 0 : value > 0xFF ? 0xFF : value & 0xFF;
-      data.view[SETTER](index * BYTES + data.byteOffset, value, true);
-    };
+	var setter = function (that, index, value) {
+	  var data = getInternalState(that);
+	  if (CLAMPED) value = (value = round(value)) < 0 ? 0 : value > 0xFF ? 0xFF : value & 0xFF;
+	  data.view[SETTER](index * BYTES + data.byteOffset, value, true);
+	};
 
-    var addElement = function (that, index) {
-      nativeDefineProperty(that, index, {
-        get: function () {
-          return getter(this, index);
-        },
-        set: function (value) {
-          return setter(this, index, value);
-        },
-        enumerable: true
-      });
-    };
+	var addElement = function (that, index) {
+	  nativeDefineProperty(that, index, {
+		get: function () {
+		  return getter(this, index);
+		},
+		set: function (value) {
+		  return setter(this, index, value);
+		},
+		enumerable: true
+	  });
+	};
 
-    if (!NATIVE_ARRAY_BUFFER_VIEWS) {
-      TypedArrayConstructor = wrapper(function (that, data, offset, $length) {
-        anInstance(that, TypedArrayConstructor, CONSTRUCTOR_NAME);
-        var index = 0;
-        var byteOffset = 0;
-        var buffer, byteLength, length;
-        if (!isObject(data)) {
-          length = toIndex(data);
-          byteLength = length * BYTES;
-          buffer = new ArrayBuffer(byteLength);
-        } else if (isArrayBuffer(data)) {
-          buffer = data;
-          byteOffset = toOffset(offset, BYTES);
-          var $len = data.byteLength;
-          if ($length === undefined) {
-            if ($len % BYTES) throw RangeError(WRONG_LENGTH);
-            byteLength = $len - byteOffset;
-            if (byteLength < 0) throw RangeError(WRONG_LENGTH);
-          } else {
-            byteLength = toLength($length) * BYTES;
-            if (byteLength + byteOffset > $len) throw RangeError(WRONG_LENGTH);
-          }
-          length = byteLength / BYTES;
-        } else if (isTypedArray(data)) {
-          return fromList(TypedArrayConstructor, data);
-        } else {
-          return typedArrayFrom.call(TypedArrayConstructor, data);
-        }
-        setInternalState(that, {
-          buffer: buffer,
-          byteOffset: byteOffset,
-          byteLength: byteLength,
-          length: length,
-          view: new DataView(buffer)
-        });
-        while (index < length) addElement(that, index++);
-      });
+	if (!NATIVE_ARRAY_BUFFER_VIEWS) {
+	  TypedArrayConstructor = wrapper(function (that, data, offset, $length) {
+		anInstance(that, TypedArrayConstructor, CONSTRUCTOR_NAME);
+		var index = 0;
+		var byteOffset = 0;
+		var buffer, byteLength, length;
+		if (!isObject(data)) {
+		  length = toIndex(data);
+		  byteLength = length * BYTES;
+		  buffer = new ArrayBuffer(byteLength);
+		} else if (isArrayBuffer(data)) {
+		  buffer = data;
+		  byteOffset = toOffset(offset, BYTES);
+		  var $len = data.byteLength;
+		  if ($length === undefined) {
+			if ($len % BYTES) throw RangeError(WRONG_LENGTH);
+			byteLength = $len - byteOffset;
+			if (byteLength < 0) throw RangeError(WRONG_LENGTH);
+		  } else {
+			byteLength = toLength($length) * BYTES;
+			if (byteLength + byteOffset > $len) throw RangeError(WRONG_LENGTH);
+		  }
+		  length = byteLength / BYTES;
+		} else if (isTypedArray(data)) {
+		  return fromList(TypedArrayConstructor, data);
+		} else {
+		  return typedArrayFrom.call(TypedArrayConstructor, data);
+		}
+		setInternalState(that, {
+		  buffer: buffer,
+		  byteOffset: byteOffset,
+		  byteLength: byteLength,
+		  length: length,
+		  view: new DataView(buffer)
+		});
+		while (index < length) addElement(that, index++);
+	  });
 
-      if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
-      TypedArrayConstructorPrototype = TypedArrayConstructor.prototype = create(TypedArrayPrototype);
-    } else if (TYPED_ARRAYS_CONSTRUCTORS_REQUIRES_WRAPPERS) {
-      TypedArrayConstructor = wrapper(function (dummy, data, typedArrayOffset, $length) {
-        anInstance(dummy, TypedArrayConstructor, CONSTRUCTOR_NAME);
-        return inheritIfRequired(function () {
-          if (!isObject(data)) return new NativeTypedArrayConstructor(toIndex(data));
-          if (isArrayBuffer(data)) return $length !== undefined
-            ? new NativeTypedArrayConstructor(data, toOffset(typedArrayOffset, BYTES), $length)
-            : typedArrayOffset !== undefined
-              ? new NativeTypedArrayConstructor(data, toOffset(typedArrayOffset, BYTES))
-              : new NativeTypedArrayConstructor(data);
-          if (isTypedArray(data)) return fromList(TypedArrayConstructor, data);
-          return typedArrayFrom.call(TypedArrayConstructor, data);
-        }(), dummy, TypedArrayConstructor);
-      });
+	  if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
+	  TypedArrayConstructorPrototype = TypedArrayConstructor.prototype = create(TypedArrayPrototype);
+	} else if (TYPED_ARRAYS_CONSTRUCTORS_REQUIRES_WRAPPERS) {
+	  TypedArrayConstructor = wrapper(function (dummy, data, typedArrayOffset, $length) {
+		anInstance(dummy, TypedArrayConstructor, CONSTRUCTOR_NAME);
+		return inheritIfRequired(function () {
+		  if (!isObject(data)) return new NativeTypedArrayConstructor(toIndex(data));
+		  if (isArrayBuffer(data)) return $length !== undefined
+			? new NativeTypedArrayConstructor(data, toOffset(typedArrayOffset, BYTES), $length)
+			: typedArrayOffset !== undefined
+			  ? new NativeTypedArrayConstructor(data, toOffset(typedArrayOffset, BYTES))
+			  : new NativeTypedArrayConstructor(data);
+		  if (isTypedArray(data)) return fromList(TypedArrayConstructor, data);
+		  return typedArrayFrom.call(TypedArrayConstructor, data);
+		}(), dummy, TypedArrayConstructor);
+	  });
 
-      if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
-      forEach(getOwnPropertyNames(NativeTypedArrayConstructor), function (key) {
-        if (!(key in TypedArrayConstructor)) {
-          createNonEnumerableProperty(TypedArrayConstructor, key, NativeTypedArrayConstructor[key]);
-        }
-      });
-      TypedArrayConstructor.prototype = TypedArrayConstructorPrototype;
-    }
+	  if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
+	  forEach(getOwnPropertyNames(NativeTypedArrayConstructor), function (key) {
+		if (!(key in TypedArrayConstructor)) {
+		  createNonEnumerableProperty(TypedArrayConstructor, key, NativeTypedArrayConstructor[key]);
+		}
+	  });
+	  TypedArrayConstructor.prototype = TypedArrayConstructorPrototype;
+	}
 
-    if (TypedArrayConstructorPrototype.constructor !== TypedArrayConstructor) {
-      createNonEnumerableProperty(TypedArrayConstructorPrototype, 'constructor', TypedArrayConstructor);
-    }
+	if (TypedArrayConstructorPrototype.constructor !== TypedArrayConstructor) {
+	  createNonEnumerableProperty(TypedArrayConstructorPrototype, 'constructor', TypedArrayConstructor);
+	}
 
-    if (TYPED_ARRAY_TAG) {
-      createNonEnumerableProperty(TypedArrayConstructorPrototype, TYPED_ARRAY_TAG, CONSTRUCTOR_NAME);
-    }
+	if (TYPED_ARRAY_TAG) {
+	  createNonEnumerableProperty(TypedArrayConstructorPrototype, TYPED_ARRAY_TAG, CONSTRUCTOR_NAME);
+	}
 
-    exported[CONSTRUCTOR_NAME] = TypedArrayConstructor;
+	exported[CONSTRUCTOR_NAME] = TypedArrayConstructor;
 
-    $({
-      global: true, forced: TypedArrayConstructor != NativeTypedArrayConstructor, sham: !NATIVE_ARRAY_BUFFER_VIEWS
-    }, exported);
+	$({
+	  global: true, forced: TypedArrayConstructor != NativeTypedArrayConstructor, sham: !NATIVE_ARRAY_BUFFER_VIEWS
+	}, exported);
 
-    if (!(BYTES_PER_ELEMENT in TypedArrayConstructor)) {
-      createNonEnumerableProperty(TypedArrayConstructor, BYTES_PER_ELEMENT, BYTES);
-    }
+	if (!(BYTES_PER_ELEMENT in TypedArrayConstructor)) {
+	  createNonEnumerableProperty(TypedArrayConstructor, BYTES_PER_ELEMENT, BYTES);
+	}
 
-    if (!(BYTES_PER_ELEMENT in TypedArrayConstructorPrototype)) {
-      createNonEnumerableProperty(TypedArrayConstructorPrototype, BYTES_PER_ELEMENT, BYTES);
-    }
+	if (!(BYTES_PER_ELEMENT in TypedArrayConstructorPrototype)) {
+	  createNonEnumerableProperty(TypedArrayConstructorPrototype, BYTES_PER_ELEMENT, BYTES);
+	}
 
-    setSpecies(CONSTRUCTOR_NAME);
+	setSpecies(CONSTRUCTOR_NAME);
   };
 } else module.exports = function () { /* empty */ };
 
@@ -3754,20 +3754,20 @@ module.exports = function from(source /* , mapfn, thisArg */) {
   var iteratorMethod = getIteratorMethod(O);
   var i, length, result, step, iterator, next;
   if (iteratorMethod != undefined && !isArrayIteratorMethod(iteratorMethod)) {
-    iterator = iteratorMethod.call(O);
-    next = iterator.next;
-    O = [];
-    while (!(step = next.call(iterator)).done) {
-      O.push(step.value);
-    }
+	iterator = iteratorMethod.call(O);
+	next = iterator.next;
+	O = [];
+	while (!(step = next.call(iterator)).done) {
+	  O.push(step.value);
+	}
   }
   if (mapping && argumentsLength > 2) {
-    mapfn = bind(mapfn, arguments[2], 2);
+	mapfn = bind(mapfn, arguments[2], 2);
   }
   length = toLength(O.length);
   result = new (aTypedArrayConstructor(this))(length);
   for (i = 0; length > i; i++) {
-    result[i] = mapping ? mapfn(O[i], i) : O[i];
+	result[i] = mapping ? mapfn(O[i], i) : O[i];
   }
   return result;
 };
@@ -3817,8 +3817,8 @@ var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol : Symbol && Symbol.withou
 
 module.exports = function (name) {
   if (!has(WellKnownSymbolsStore, name)) {
-    if (NATIVE_SYMBOL && has(Symbol, name)) WellKnownSymbolsStore[name] = Symbol[name];
-    else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
+	if (NATIVE_SYMBOL && has(Symbol, name)) WellKnownSymbolsStore[name] = Symbol[name];
+	else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
   } return WellKnownSymbolsStore[name];
 };
 
@@ -3906,23 +3906,23 @@ var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
 $({ target: 'Array', proto: true, forced: FORCED }, {
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   concat: function concat(arg) {
-    var O = toObject(this);
-    var A = arraySpeciesCreate(O, 0);
-    var n = 0;
-    var i, k, length, len, E;
-    for (i = -1, length = arguments.length; i < length; i++) {
-      E = i === -1 ? O : arguments[i];
-      if (isConcatSpreadable(E)) {
-        len = toLength(E.length);
-        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
-      } else {
-        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-        createProperty(A, n++, E);
-      }
-    }
-    A.length = n;
-    return A;
+	var O = toObject(this);
+	var A = arraySpeciesCreate(O, 0);
+	var n = 0;
+	var i, k, length, len, E;
+	for (i = -1, length = arguments.length; i < length; i++) {
+	  E = i === -1 ? O : arguments[i];
+	  if (isConcatSpreadable(E)) {
+		len = toLength(E.length);
+		if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+		for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
+	  } else {
+		if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+		createProperty(A, n++, E);
+	  }
+	}
+	A.length = n;
+	return A;
   }
 });
 
@@ -3945,7 +3945,7 @@ var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('filter');
 // with adding support of @@species
 $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
   filter: function filter(callbackfn /* , thisArg */) {
-    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
   }
 });
 
@@ -3970,10 +3970,10 @@ var STRICT_METHOD = arrayMethodIsStrict('indexOf');
 // https://tc39.es/ecma262/#sec-array.prototype.indexof
 $({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD }, {
   indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
-    return NEGATIVE_ZERO
-      // convert -0 to +0
-      ? nativeIndexOf.apply(this, arguments) || 0
-      : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
+	return NEGATIVE_ZERO
+	  // convert -0 to +0
+	  ? nativeIndexOf.apply(this, arguments) || 0
+	  : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
   }
 });
 
@@ -4007,10 +4007,10 @@ var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
 // https://tc39.es/ecma262/#sec-createarrayiterator
 module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
   setInternalState(this, {
-    type: ARRAY_ITERATOR,
-    target: toIndexedObject(iterated), // target
-    index: 0,                          // next index
-    kind: kind                         // kind
+	type: ARRAY_ITERATOR,
+	target: toIndexedObject(iterated), // target
+	index: 0,						  // next index
+	kind: kind						 // kind
   });
 // `%ArrayIteratorPrototype%.next` method
 // https://tc39.es/ecma262/#sec-%arrayiteratorprototype%.next
@@ -4020,8 +4020,8 @@ module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
   var kind = state.kind;
   var index = state.index++;
   if (!target || index >= target.length) {
-    state.target = undefined;
-    return { value: undefined, done: true };
+	state.target = undefined;
+	return { value: undefined, done: true };
   }
   if (kind == 'keys') return { value: index, done: false };
   if (kind == 'values') return { value: target[index], done: false };
@@ -4057,7 +4057,7 @@ var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('map');
 // with adding support of @@species
 $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
   map: function map(callbackfn /* , thisArg */) {
-    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
   }
 });
 
@@ -4090,29 +4090,29 @@ var max = Math.max;
 // fallback for not array-like ES3 strings and DOM objects
 $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
   slice: function slice(start, end) {
-    var O = toIndexedObject(this);
-    var length = toLength(O.length);
-    var k = toAbsoluteIndex(start, length);
-    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
-    var Constructor, result, n;
-    if (isArray(O)) {
-      Constructor = O.constructor;
-      // cross-realm fallback
-      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
-        Constructor = undefined;
-      } else if (isObject(Constructor)) {
-        Constructor = Constructor[SPECIES];
-        if (Constructor === null) Constructor = undefined;
-      }
-      if (Constructor === Array || Constructor === undefined) {
-        return nativeSlice.call(O, k, fin);
-      }
-    }
-    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
-    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
-    result.length = n;
-    return result;
+	var O = toIndexedObject(this);
+	var length = toLength(O.length);
+	var k = toAbsoluteIndex(start, length);
+	var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+	// inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+	var Constructor, result, n;
+	if (isArray(O)) {
+	  Constructor = O.constructor;
+	  // cross-realm fallback
+	  if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
+		Constructor = undefined;
+	  } else if (isObject(Constructor)) {
+		Constructor = Constructor[SPECIES];
+		if (Constructor === null) Constructor = undefined;
+	  }
+	  if (Constructor === Array || Constructor === undefined) {
+		return nativeSlice.call(O, k, fin);
+	  }
+	}
+	result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
+	for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
+	result.length = n;
+	return result;
   }
 });
 
@@ -4145,50 +4145,50 @@ var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
 // with adding support of @@species
 $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
   splice: function splice(start, deleteCount /* , ...items */) {
-    var O = toObject(this);
-    var len = toLength(O.length);
-    var actualStart = toAbsoluteIndex(start, len);
-    var argumentsLength = arguments.length;
-    var insertCount, actualDeleteCount, A, k, from, to;
-    if (argumentsLength === 0) {
-      insertCount = actualDeleteCount = 0;
-    } else if (argumentsLength === 1) {
-      insertCount = 0;
-      actualDeleteCount = len - actualStart;
-    } else {
-      insertCount = argumentsLength - 2;
-      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
-    }
-    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
-      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
-    }
-    A = arraySpeciesCreate(O, actualDeleteCount);
-    for (k = 0; k < actualDeleteCount; k++) {
-      from = actualStart + k;
-      if (from in O) createProperty(A, k, O[from]);
-    }
-    A.length = actualDeleteCount;
-    if (insertCount < actualDeleteCount) {
-      for (k = actualStart; k < len - actualDeleteCount; k++) {
-        from = k + actualDeleteCount;
-        to = k + insertCount;
-        if (from in O) O[to] = O[from];
-        else delete O[to];
-      }
-      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
-    } else if (insertCount > actualDeleteCount) {
-      for (k = len - actualDeleteCount; k > actualStart; k--) {
-        from = k + actualDeleteCount - 1;
-        to = k + insertCount - 1;
-        if (from in O) O[to] = O[from];
-        else delete O[to];
-      }
-    }
-    for (k = 0; k < insertCount; k++) {
-      O[k + actualStart] = arguments[k + 2];
-    }
-    O.length = len - actualDeleteCount + insertCount;
-    return A;
+	var O = toObject(this);
+	var len = toLength(O.length);
+	var actualStart = toAbsoluteIndex(start, len);
+	var argumentsLength = arguments.length;
+	var insertCount, actualDeleteCount, A, k, from, to;
+	if (argumentsLength === 0) {
+	  insertCount = actualDeleteCount = 0;
+	} else if (argumentsLength === 1) {
+	  insertCount = 0;
+	  actualDeleteCount = len - actualStart;
+	} else {
+	  insertCount = argumentsLength - 2;
+	  actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
+	}
+	if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
+	  throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+	}
+	A = arraySpeciesCreate(O, actualDeleteCount);
+	for (k = 0; k < actualDeleteCount; k++) {
+	  from = actualStart + k;
+	  if (from in O) createProperty(A, k, O[from]);
+	}
+	A.length = actualDeleteCount;
+	if (insertCount < actualDeleteCount) {
+	  for (k = actualStart; k < len - actualDeleteCount; k++) {
+		from = k + actualDeleteCount;
+		to = k + insertCount;
+		if (from in O) O[to] = O[from];
+		else delete O[to];
+	  }
+	  for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+	} else if (insertCount > actualDeleteCount) {
+	  for (k = len - actualDeleteCount; k > actualStart; k--) {
+		from = k + actualDeleteCount - 1;
+		to = k + insertCount - 1;
+		if (from in O) O[to] = O[from];
+		else delete O[to];
+	  }
+	}
+	for (k = 0; k < insertCount; k++) {
+	  O[k + actualStart] = arguments[k + 2];
+	}
+	O.length = len - actualDeleteCount + insertCount;
+	return A;
   }
 });
 
@@ -4210,14 +4210,14 @@ var NAME = 'name';
 // https://tc39.es/ecma262/#sec-function-instances-name
 if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
   defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
-    }
+	configurable: true,
+	get: function () {
+	  try {
+		return FunctionPrototypeToString.call(this).match(nameRE)[1];
+	  } catch (error) {
+		return '';
+	  }
+	}
   });
 }
 
@@ -4239,7 +4239,7 @@ var FAILS_ON_PRIMITIVES = fails(function () { nativeGetPrototypeOf(1); });
 // https://tc39.es/ecma262/#sec-object.getprototypeof
 $({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !CORRECT_PROTOTYPE_GETTER }, {
   getPrototypeOf: function getPrototypeOf(it) {
-    return nativeGetPrototypeOf(toObject(it));
+	return nativeGetPrototypeOf(toObject(it));
   }
 });
 
@@ -4302,11 +4302,11 @@ var INCORRECT_NAME = nativeToString.name != TO_STRING;
 // https://tc39.es/ecma262/#sec-regexp.prototype.tostring
 if (NOT_GENERIC || INCORRECT_NAME) {
   redefine(RegExp.prototype, TO_STRING, function toString() {
-    var R = anObject(this);
-    var p = String(R.source);
-    var rf = R.flags;
-    var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
-    return '/' + p + '/' + f;
+	var R = anObject(this);
+	var p = String(R.source);
+	var rf = R.flags;
+	var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
+	return '/' + p + '/' + f;
   }, { unsafe: true });
 }
 
@@ -4330,9 +4330,9 @@ var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
 // https://tc39.es/ecma262/#sec-string.prototype-@@iterator
 defineIterator(String, 'String', function (iterated) {
   setInternalState(this, {
-    type: STRING_ITERATOR,
-    string: String(iterated),
-    index: 0
+	type: STRING_ITERATOR,
+	string: String(iterated),
+	index: 0
   });
 // `%StringIteratorPrototype%.next` method
 // https://tc39.es/ecma262/#sec-%stringiteratorprototype%.next
@@ -4365,37 +4365,37 @@ var regExpExec = __webpack_require__(7651);
 // @@match logic
 fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
   return [
-    // `String.prototype.match` method
-    // https://tc39.es/ecma262/#sec-string.prototype.match
-    function match(regexp) {
-      var O = requireObjectCoercible(this);
-      var matcher = regexp == undefined ? undefined : regexp[MATCH];
-      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
-    },
-    // `RegExp.prototype[@@match]` method
-    // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
-    function (regexp) {
-      var res = maybeCallNative(nativeMatch, regexp, this);
-      if (res.done) return res.value;
+	// `String.prototype.match` method
+	// https://tc39.es/ecma262/#sec-string.prototype.match
+	function match(regexp) {
+	  var O = requireObjectCoercible(this);
+	  var matcher = regexp == undefined ? undefined : regexp[MATCH];
+	  return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+	},
+	// `RegExp.prototype[@@match]` method
+	// https://tc39.es/ecma262/#sec-regexp.prototype-@@match
+	function (regexp) {
+	  var res = maybeCallNative(nativeMatch, regexp, this);
+	  if (res.done) return res.value;
 
-      var rx = anObject(regexp);
-      var S = String(this);
+	  var rx = anObject(regexp);
+	  var S = String(this);
 
-      if (!rx.global) return regExpExec(rx, S);
+	  if (!rx.global) return regExpExec(rx, S);
 
-      var fullUnicode = rx.unicode;
-      rx.lastIndex = 0;
-      var A = [];
-      var n = 0;
-      var result;
-      while ((result = regExpExec(rx, S)) !== null) {
-        var matchStr = String(result[0]);
-        A[n] = matchStr;
-        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-        n++;
-      }
-      return n === 0 ? null : A;
-    }
+	  var fullUnicode = rx.unicode;
+	  rx.lastIndex = 0;
+	  var A = [];
+	  var n = 0;
+	  var result;
+	  while ((result = regExpExec(rx, S)) !== null) {
+		var matchStr = String(result[0]);
+		A[n] = matchStr;
+		if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+		n++;
+	  }
+	  return n === 0 ? null : A;
+	}
   ];
 });
 
@@ -4430,78 +4430,78 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
   var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
 
   return [
-    // `String.prototype.replace` method
-    // https://tc39.es/ecma262/#sec-string.prototype.replace
-    function replace(searchValue, replaceValue) {
-      var O = requireObjectCoercible(this);
-      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
-      return replacer !== undefined
-        ? replacer.call(searchValue, O, replaceValue)
-        : nativeReplace.call(String(O), searchValue, replaceValue);
-    },
-    // `RegExp.prototype[@@replace]` method
-    // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
-    function (regexp, replaceValue) {
-      if (
-        (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
-        (typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
-      ) {
-        var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
-        if (res.done) return res.value;
-      }
+	// `String.prototype.replace` method
+	// https://tc39.es/ecma262/#sec-string.prototype.replace
+	function replace(searchValue, replaceValue) {
+	  var O = requireObjectCoercible(this);
+	  var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
+	  return replacer !== undefined
+		? replacer.call(searchValue, O, replaceValue)
+		: nativeReplace.call(String(O), searchValue, replaceValue);
+	},
+	// `RegExp.prototype[@@replace]` method
+	// https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
+	function (regexp, replaceValue) {
+	  if (
+		(!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
+		(typeof replaceValue === 'string' && replaceValue.indexOf(UNSAFE_SUBSTITUTE) === -1)
+	  ) {
+		var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+		if (res.done) return res.value;
+	  }
 
-      var rx = anObject(regexp);
-      var S = String(this);
+	  var rx = anObject(regexp);
+	  var S = String(this);
 
-      var functionalReplace = typeof replaceValue === 'function';
-      if (!functionalReplace) replaceValue = String(replaceValue);
+	  var functionalReplace = typeof replaceValue === 'function';
+	  if (!functionalReplace) replaceValue = String(replaceValue);
 
-      var global = rx.global;
-      if (global) {
-        var fullUnicode = rx.unicode;
-        rx.lastIndex = 0;
-      }
-      var results = [];
-      while (true) {
-        var result = regExpExec(rx, S);
-        if (result === null) break;
+	  var global = rx.global;
+	  if (global) {
+		var fullUnicode = rx.unicode;
+		rx.lastIndex = 0;
+	  }
+	  var results = [];
+	  while (true) {
+		var result = regExpExec(rx, S);
+		if (result === null) break;
 
-        results.push(result);
-        if (!global) break;
+		results.push(result);
+		if (!global) break;
 
-        var matchStr = String(result[0]);
-        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-      }
+		var matchStr = String(result[0]);
+		if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+	  }
 
-      var accumulatedResult = '';
-      var nextSourcePosition = 0;
-      for (var i = 0; i < results.length; i++) {
-        result = results[i];
+	  var accumulatedResult = '';
+	  var nextSourcePosition = 0;
+	  for (var i = 0; i < results.length; i++) {
+		result = results[i];
 
-        var matched = String(result[0]);
-        var position = max(min(toInteger(result.index), S.length), 0);
-        var captures = [];
-        // NOTE: This is equivalent to
-        //   captures = result.slice(1).map(maybeToString)
-        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
-        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
-        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
-        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
-        var namedCaptures = result.groups;
-        if (functionalReplace) {
-          var replacerArgs = [matched].concat(captures, position, S);
-          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
-          var replacement = String(replaceValue.apply(undefined, replacerArgs));
-        } else {
-          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
-        }
-        if (position >= nextSourcePosition) {
-          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
-          nextSourcePosition = position + matched.length;
-        }
-      }
-      return accumulatedResult + S.slice(nextSourcePosition);
-    }
+		var matched = String(result[0]);
+		var position = max(min(toInteger(result.index), S.length), 0);
+		var captures = [];
+		// NOTE: This is equivalent to
+		//   captures = result.slice(1).map(maybeToString)
+		// but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+		// the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+		// causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+		for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
+		var namedCaptures = result.groups;
+		if (functionalReplace) {
+		  var replacerArgs = [matched].concat(captures, position, S);
+		  if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
+		  var replacement = String(replaceValue.apply(undefined, replacerArgs));
+		} else {
+		  replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+		}
+		if (position >= nextSourcePosition) {
+		  accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
+		  nextSourcePosition = position + matched.length;
+		}
+	  }
+	  return accumulatedResult + S.slice(nextSourcePosition);
+	}
   ];
 });
 
@@ -4535,117 +4535,117 @@ var SUPPORTS_Y = !fails(function () { return !RegExp(MAX_UINT32, 'y'); });
 fixRegExpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCallNative) {
   var internalSplit;
   if (
-    'abbc'.split(/(b)*/)[1] == 'c' ||
-    // eslint-disable-next-line regexp/no-empty-group -- required for testing
-    'test'.split(/(?:)/, -1).length != 4 ||
-    'ab'.split(/(?:ab)*/).length != 2 ||
-    '.'.split(/(.?)(.?)/).length != 4 ||
-    // eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
-    '.'.split(/()()/).length > 1 ||
-    ''.split(/.?/).length
+	'abbc'.split(/(b)*/)[1] == 'c' ||
+	// eslint-disable-next-line regexp/no-empty-group -- required for testing
+	'test'.split(/(?:)/, -1).length != 4 ||
+	'ab'.split(/(?:ab)*/).length != 2 ||
+	'.'.split(/(.?)(.?)/).length != 4 ||
+	// eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
+	'.'.split(/()()/).length > 1 ||
+	''.split(/.?/).length
   ) {
-    // based on es5-shim implementation, need to rework it
-    internalSplit = function (separator, limit) {
-      var string = String(requireObjectCoercible(this));
-      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-      if (lim === 0) return [];
-      if (separator === undefined) return [string];
-      // If `separator` is not a regex, use native split
-      if (!isRegExp(separator)) {
-        return nativeSplit.call(string, separator, lim);
-      }
-      var output = [];
-      var flags = (separator.ignoreCase ? 'i' : '') +
-                  (separator.multiline ? 'm' : '') +
-                  (separator.unicode ? 'u' : '') +
-                  (separator.sticky ? 'y' : '');
-      var lastLastIndex = 0;
-      // Make `global` and avoid `lastIndex` issues by working with a copy
-      var separatorCopy = new RegExp(separator.source, flags + 'g');
-      var match, lastIndex, lastLength;
-      while (match = regexpExec.call(separatorCopy, string)) {
-        lastIndex = separatorCopy.lastIndex;
-        if (lastIndex > lastLastIndex) {
-          output.push(string.slice(lastLastIndex, match.index));
-          if (match.length > 1 && match.index < string.length) arrayPush.apply(output, match.slice(1));
-          lastLength = match[0].length;
-          lastLastIndex = lastIndex;
-          if (output.length >= lim) break;
-        }
-        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
-      }
-      if (lastLastIndex === string.length) {
-        if (lastLength || !separatorCopy.test('')) output.push('');
-      } else output.push(string.slice(lastLastIndex));
-      return output.length > lim ? output.slice(0, lim) : output;
-    };
+	// based on es5-shim implementation, need to rework it
+	internalSplit = function (separator, limit) {
+	  var string = String(requireObjectCoercible(this));
+	  var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+	  if (lim === 0) return [];
+	  if (separator === undefined) return [string];
+	  // If `separator` is not a regex, use native split
+	  if (!isRegExp(separator)) {
+		return nativeSplit.call(string, separator, lim);
+	  }
+	  var output = [];
+	  var flags = (separator.ignoreCase ? 'i' : '') +
+				  (separator.multiline ? 'm' : '') +
+				  (separator.unicode ? 'u' : '') +
+				  (separator.sticky ? 'y' : '');
+	  var lastLastIndex = 0;
+	  // Make `global` and avoid `lastIndex` issues by working with a copy
+	  var separatorCopy = new RegExp(separator.source, flags + 'g');
+	  var match, lastIndex, lastLength;
+	  while (match = regexpExec.call(separatorCopy, string)) {
+		lastIndex = separatorCopy.lastIndex;
+		if (lastIndex > lastLastIndex) {
+		  output.push(string.slice(lastLastIndex, match.index));
+		  if (match.length > 1 && match.index < string.length) arrayPush.apply(output, match.slice(1));
+		  lastLength = match[0].length;
+		  lastLastIndex = lastIndex;
+		  if (output.length >= lim) break;
+		}
+		if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
+	  }
+	  if (lastLastIndex === string.length) {
+		if (lastLength || !separatorCopy.test('')) output.push('');
+	  } else output.push(string.slice(lastLastIndex));
+	  return output.length > lim ? output.slice(0, lim) : output;
+	};
   // Chakra, V8
   } else if ('0'.split(undefined, 0).length) {
-    internalSplit = function (separator, limit) {
-      return separator === undefined && limit === 0 ? [] : nativeSplit.call(this, separator, limit);
-    };
+	internalSplit = function (separator, limit) {
+	  return separator === undefined && limit === 0 ? [] : nativeSplit.call(this, separator, limit);
+	};
   } else internalSplit = nativeSplit;
 
   return [
-    // `String.prototype.split` method
-    // https://tc39.es/ecma262/#sec-string.prototype.split
-    function split(separator, limit) {
-      var O = requireObjectCoercible(this);
-      var splitter = separator == undefined ? undefined : separator[SPLIT];
-      return splitter !== undefined
-        ? splitter.call(separator, O, limit)
-        : internalSplit.call(String(O), separator, limit);
-    },
-    // `RegExp.prototype[@@split]` method
-    // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
-    //
-    // NOTE: This cannot be properly polyfilled in engines that don't support
-    // the 'y' flag.
-    function (regexp, limit) {
-      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== nativeSplit);
-      if (res.done) return res.value;
+	// `String.prototype.split` method
+	// https://tc39.es/ecma262/#sec-string.prototype.split
+	function split(separator, limit) {
+	  var O = requireObjectCoercible(this);
+	  var splitter = separator == undefined ? undefined : separator[SPLIT];
+	  return splitter !== undefined
+		? splitter.call(separator, O, limit)
+		: internalSplit.call(String(O), separator, limit);
+	},
+	// `RegExp.prototype[@@split]` method
+	// https://tc39.es/ecma262/#sec-regexp.prototype-@@split
+	//
+	// NOTE: This cannot be properly polyfilled in engines that don't support
+	// the 'y' flag.
+	function (regexp, limit) {
+	  var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== nativeSplit);
+	  if (res.done) return res.value;
 
-      var rx = anObject(regexp);
-      var S = String(this);
-      var C = speciesConstructor(rx, RegExp);
+	  var rx = anObject(regexp);
+	  var S = String(this);
+	  var C = speciesConstructor(rx, RegExp);
 
-      var unicodeMatching = rx.unicode;
-      var flags = (rx.ignoreCase ? 'i' : '') +
-                  (rx.multiline ? 'm' : '') +
-                  (rx.unicode ? 'u' : '') +
-                  (SUPPORTS_Y ? 'y' : 'g');
+	  var unicodeMatching = rx.unicode;
+	  var flags = (rx.ignoreCase ? 'i' : '') +
+				  (rx.multiline ? 'm' : '') +
+				  (rx.unicode ? 'u' : '') +
+				  (SUPPORTS_Y ? 'y' : 'g');
 
-      // ^(? + rx + ) is needed, in combination with some S slicing, to
-      // simulate the 'y' flag.
-      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
-      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-      if (lim === 0) return [];
-      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
-      var p = 0;
-      var q = 0;
-      var A = [];
-      while (q < S.length) {
-        splitter.lastIndex = SUPPORTS_Y ? q : 0;
-        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
-        var e;
-        if (
-          z === null ||
-          (e = min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
-        ) {
-          q = advanceStringIndex(S, q, unicodeMatching);
-        } else {
-          A.push(S.slice(p, q));
-          if (A.length === lim) return A;
-          for (var i = 1; i <= z.length - 1; i++) {
-            A.push(z[i]);
-            if (A.length === lim) return A;
-          }
-          q = p = e;
-        }
-      }
-      A.push(S.slice(p));
-      return A;
-    }
+	  // ^(? + rx + ) is needed, in combination with some S slicing, to
+	  // simulate the 'y' flag.
+	  var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
+	  var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+	  if (lim === 0) return [];
+	  if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
+	  var p = 0;
+	  var q = 0;
+	  var A = [];
+	  while (q < S.length) {
+		splitter.lastIndex = SUPPORTS_Y ? q : 0;
+		var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
+		var e;
+		if (
+		  z === null ||
+		  (e = min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+		) {
+		  q = advanceStringIndex(S, q, unicodeMatching);
+		} else {
+		  A.push(S.slice(p, q));
+		  if (A.length === lim) return A;
+		  for (var i = 1; i <= z.length - 1; i++) {
+			A.push(z[i]);
+			if (A.length === lim) return A;
+		  }
+		  q = p = e;
+		}
+	  }
+	  A.push(S.slice(p));
+	  return A;
+	}
   ];
 }, !SUPPORTS_Y);
 
@@ -4665,7 +4665,7 @@ var forcedStringTrimMethod = __webpack_require__(6091);
 // https://tc39.es/ecma262/#sec-string.prototype.trim
 $({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
   trim: function trim() {
-    return $trim(this);
+	return $trim(this);
   }
 });
 
@@ -4960,7 +4960,7 @@ var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
 // https://tc39.es/ecma262/#sec-%typedarray%.prototype.map
 exportTypedArrayMethod('map', function map(mapfn /* , thisArg */) {
   return $map(aTypedArray(this), mapfn, arguments.length > 1 ? arguments[1] : undefined, function (O, length) {
-    return new (aTypedArrayConstructor(speciesConstructor(O, O.constructor)))(length);
+	return new (aTypedArrayConstructor(speciesConstructor(O, O.constructor)))(length);
   });
 });
 
@@ -5027,9 +5027,9 @@ exportTypedArrayMethod('reverse', function reverse() {
   var index = 0;
   var value;
   while (index < middle) {
-    value = that[index];
-    that[index++] = that[--length];
-    that[length] = value;
+	value = that[index];
+	that[index++] = that[--length];
+	that[length] = value;
   } return that;
 });
 
@@ -5165,9 +5165,9 @@ exportTypedArrayMethod('subarray', function subarray(begin, end) {
   var length = O.length;
   var beginIndex = toAbsoluteIndex(begin, length);
   return new (speciesConstructor(O, O.constructor))(
-    O.buffer,
-    O.byteOffset + beginIndex * O.BYTES_PER_ELEMENT,
-    toLength((end === undefined ? length : toAbsoluteIndex(end, length)) - beginIndex)
+	O.buffer,
+	O.byteOffset + beginIndex * O.BYTES_PER_ELEMENT,
+	toLength((end === undefined ? length : toAbsoluteIndex(end, length)) - beginIndex)
   );
 });
 
@@ -5225,7 +5225,7 @@ var arrayJoin = [].join;
 
 if (fails(function () { arrayToString.call({}); })) {
   arrayToString = function toString() {
-    return arrayJoin.call(this);
+	return arrayJoin.call(this);
   };
 }
 
@@ -5247,7 +5247,7 @@ var createTypedArrayConstructor = __webpack_require__(9843);
 // https://tc39.es/ecma262/#sec-typedarray-objects
 createTypedArrayConstructor('Uint8', function (init) {
   return function Uint8Array(data, byteOffset, length) {
-    return init(this, data, byteOffset, length);
+	return init(this, data, byteOffset, length);
   };
 });
 
@@ -5267,9 +5267,9 @@ for (var COLLECTION_NAME in DOMIterables) {
   var CollectionPrototype = Collection && Collection.prototype;
   // some Chrome versions have non-configurable methods on DOMTokenList
   if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
-    createNonEnumerableProperty(CollectionPrototype, 'forEach', forEach);
+	createNonEnumerableProperty(CollectionPrototype, 'forEach', forEach);
   } catch (error) {
-    CollectionPrototype.forEach = forEach;
+	CollectionPrototype.forEach = forEach;
   }
 }
 
@@ -5293,23 +5293,23 @@ for (var COLLECTION_NAME in DOMIterables) {
   var Collection = global[COLLECTION_NAME];
   var CollectionPrototype = Collection && Collection.prototype;
   if (CollectionPrototype) {
-    // some Chrome versions have non-configurable methods on DOMTokenList
-    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
-      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
-    } catch (error) {
-      CollectionPrototype[ITERATOR] = ArrayValues;
-    }
-    if (!CollectionPrototype[TO_STRING_TAG]) {
-      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
-    }
-    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
-      // some Chrome versions have non-configurable methods on DOMTokenList
-      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
-        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
-      } catch (error) {
-        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
-      }
-    }
+	// some Chrome versions have non-configurable methods on DOMTokenList
+	if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
+	  createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
+	} catch (error) {
+	  CollectionPrototype[ITERATOR] = ArrayValues;
+	}
+	if (!CollectionPrototype[TO_STRING_TAG]) {
+	  createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
+	}
+	if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
+	  // some Chrome versions have non-configurable methods on DOMTokenList
+	  if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
+		createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
+	  } catch (error) {
+		CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
+	  }
+	}
   }
 }
 
@@ -5361,9 +5361,9 @@ var percentSequence = function (bytes) {
 
 var percentDecode = function (sequence) {
   try {
-    return decodeURIComponent(sequence);
+	return decodeURIComponent(sequence);
   } catch (error) {
-    return sequence;
+	return sequence;
   }
 };
 
@@ -5371,12 +5371,12 @@ var deserialize = function (it) {
   var result = it.replace(plus, ' ');
   var bytes = 4;
   try {
-    return decodeURIComponent(result);
+	return decodeURIComponent(result);
   } catch (error) {
-    while (bytes) {
-      result = result.replace(percentSequence(bytes--), percentDecode);
-    }
-    return result;
+	while (bytes) {
+	  result = result.replace(percentSequence(bytes--), percentDecode);
+	}
+	return result;
   }
 };
 
@@ -5401,19 +5401,19 @@ var serialize = function (it) {
 
 var parseSearchParams = function (result, query) {
   if (query) {
-    var attributes = query.split('&');
-    var index = 0;
-    var attribute, entry;
-    while (index < attributes.length) {
-      attribute = attributes[index++];
-      if (attribute.length) {
-        entry = attribute.split('=');
-        result.push({
-          key: deserialize(entry.shift()),
-          value: deserialize(entry.join('='))
-        });
-      }
-    }
+	var attributes = query.split('&');
+	var index = 0;
+	var attribute, entry;
+	while (index < attributes.length) {
+	  attribute = attributes[index++];
+	  if (attribute.length) {
+		entry = attribute.split('=');
+		result.push({
+		  key: deserialize(entry.shift()),
+		  value: deserialize(entry.join('='))
+		});
+	  }
+	}
   }
 };
 
@@ -5428,9 +5428,9 @@ var validateArgumentsLength = function (passed, required) {
 
 var URLSearchParamsIterator = createIteratorConstructor(function Iterator(params, kind) {
   setInternalState(this, {
-    type: URL_SEARCH_PARAMS_ITERATOR,
-    iterator: getIterator(getInternalParamsState(params).entries),
-    kind: kind
+	type: URL_SEARCH_PARAMS_ITERATOR,
+	iterator: getIterator(getInternalParamsState(params).entries),
+	kind: kind
   });
 }, 'Iterator', function next() {
   var state = getInternalIteratorState(this);
@@ -5438,7 +5438,7 @@ var URLSearchParamsIterator = createIteratorConstructor(function Iterator(params
   var step = state.iterator.next();
   var entry = step.value;
   if (!step.done) {
-    step.value = kind === 'keys' ? entry.key : kind === 'values' ? entry.value : [entry.key, entry.value];
+	step.value = kind === 'keys' ? entry.key : kind === 'values' ? entry.value : [entry.key, entry.value];
   } return step;
 });
 
@@ -5452,32 +5452,32 @@ var URLSearchParamsConstructor = function URLSearchParams(/* init */) {
   var iteratorMethod, iterator, next, step, entryIterator, entryNext, first, second, key;
 
   setInternalState(that, {
-    type: URL_SEARCH_PARAMS,
-    entries: entries,
-    updateURL: function () { /* empty */ },
-    updateSearchParams: updateSearchParams
+	type: URL_SEARCH_PARAMS,
+	entries: entries,
+	updateURL: function () { /* empty */ },
+	updateSearchParams: updateSearchParams
   });
 
   if (init !== undefined) {
-    if (isObject(init)) {
-      iteratorMethod = getIteratorMethod(init);
-      if (typeof iteratorMethod === 'function') {
-        iterator = iteratorMethod.call(init);
-        next = iterator.next;
-        while (!(step = next.call(iterator)).done) {
-          entryIterator = getIterator(anObject(step.value));
-          entryNext = entryIterator.next;
-          if (
-            (first = entryNext.call(entryIterator)).done ||
-            (second = entryNext.call(entryIterator)).done ||
-            !entryNext.call(entryIterator).done
-          ) throw TypeError('Expected sequence with length 2');
-          entries.push({ key: first.value + '', value: second.value + '' });
-        }
-      } else for (key in init) if (hasOwn(init, key)) entries.push({ key: key, value: init[key] + '' });
-    } else {
-      parseSearchParams(entries, typeof init === 'string' ? init.charAt(0) === '?' ? init.slice(1) : init : init + '');
-    }
+	if (isObject(init)) {
+	  iteratorMethod = getIteratorMethod(init);
+	  if (typeof iteratorMethod === 'function') {
+		iterator = iteratorMethod.call(init);
+		next = iterator.next;
+		while (!(step = next.call(iterator)).done) {
+		  entryIterator = getIterator(anObject(step.value));
+		  entryNext = entryIterator.next;
+		  if (
+			(first = entryNext.call(entryIterator)).done ||
+			(second = entryNext.call(entryIterator)).done ||
+			!entryNext.call(entryIterator).done
+		  ) throw TypeError('Expected sequence with length 2');
+		  entries.push({ key: first.value + '', value: second.value + '' });
+		}
+	  } else for (key in init) if (hasOwn(init, key)) entries.push({ key: key, value: init[key] + '' });
+	} else {
+	  parseSearchParams(entries, typeof init === 'string' ? init.charAt(0) === '?' ? init.slice(1) : init : init + '');
+	}
   }
 };
 
@@ -5487,129 +5487,129 @@ redefineAll(URLSearchParamsPrototype, {
   // `URLSearchParams.prototype.append` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-append
   append: function append(name, value) {
-    validateArgumentsLength(arguments.length, 2);
-    var state = getInternalParamsState(this);
-    state.entries.push({ key: name + '', value: value + '' });
-    state.updateURL();
+	validateArgumentsLength(arguments.length, 2);
+	var state = getInternalParamsState(this);
+	state.entries.push({ key: name + '', value: value + '' });
+	state.updateURL();
   },
   // `URLSearchParams.prototype.delete` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-delete
   'delete': function (name) {
-    validateArgumentsLength(arguments.length, 1);
-    var state = getInternalParamsState(this);
-    var entries = state.entries;
-    var key = name + '';
-    var index = 0;
-    while (index < entries.length) {
-      if (entries[index].key === key) entries.splice(index, 1);
-      else index++;
-    }
-    state.updateURL();
+	validateArgumentsLength(arguments.length, 1);
+	var state = getInternalParamsState(this);
+	var entries = state.entries;
+	var key = name + '';
+	var index = 0;
+	while (index < entries.length) {
+	  if (entries[index].key === key) entries.splice(index, 1);
+	  else index++;
+	}
+	state.updateURL();
   },
   // `URLSearchParams.prototype.get` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-get
   get: function get(name) {
-    validateArgumentsLength(arguments.length, 1);
-    var entries = getInternalParamsState(this).entries;
-    var key = name + '';
-    var index = 0;
-    for (; index < entries.length; index++) {
-      if (entries[index].key === key) return entries[index].value;
-    }
-    return null;
+	validateArgumentsLength(arguments.length, 1);
+	var entries = getInternalParamsState(this).entries;
+	var key = name + '';
+	var index = 0;
+	for (; index < entries.length; index++) {
+	  if (entries[index].key === key) return entries[index].value;
+	}
+	return null;
   },
   // `URLSearchParams.prototype.getAll` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-getall
   getAll: function getAll(name) {
-    validateArgumentsLength(arguments.length, 1);
-    var entries = getInternalParamsState(this).entries;
-    var key = name + '';
-    var result = [];
-    var index = 0;
-    for (; index < entries.length; index++) {
-      if (entries[index].key === key) result.push(entries[index].value);
-    }
-    return result;
+	validateArgumentsLength(arguments.length, 1);
+	var entries = getInternalParamsState(this).entries;
+	var key = name + '';
+	var result = [];
+	var index = 0;
+	for (; index < entries.length; index++) {
+	  if (entries[index].key === key) result.push(entries[index].value);
+	}
+	return result;
   },
   // `URLSearchParams.prototype.has` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-has
   has: function has(name) {
-    validateArgumentsLength(arguments.length, 1);
-    var entries = getInternalParamsState(this).entries;
-    var key = name + '';
-    var index = 0;
-    while (index < entries.length) {
-      if (entries[index++].key === key) return true;
-    }
-    return false;
+	validateArgumentsLength(arguments.length, 1);
+	var entries = getInternalParamsState(this).entries;
+	var key = name + '';
+	var index = 0;
+	while (index < entries.length) {
+	  if (entries[index++].key === key) return true;
+	}
+	return false;
   },
   // `URLSearchParams.prototype.set` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-set
   set: function set(name, value) {
-    validateArgumentsLength(arguments.length, 1);
-    var state = getInternalParamsState(this);
-    var entries = state.entries;
-    var found = false;
-    var key = name + '';
-    var val = value + '';
-    var index = 0;
-    var entry;
-    for (; index < entries.length; index++) {
-      entry = entries[index];
-      if (entry.key === key) {
-        if (found) entries.splice(index--, 1);
-        else {
-          found = true;
-          entry.value = val;
-        }
-      }
-    }
-    if (!found) entries.push({ key: key, value: val });
-    state.updateURL();
+	validateArgumentsLength(arguments.length, 1);
+	var state = getInternalParamsState(this);
+	var entries = state.entries;
+	var found = false;
+	var key = name + '';
+	var val = value + '';
+	var index = 0;
+	var entry;
+	for (; index < entries.length; index++) {
+	  entry = entries[index];
+	  if (entry.key === key) {
+		if (found) entries.splice(index--, 1);
+		else {
+		  found = true;
+		  entry.value = val;
+		}
+	  }
+	}
+	if (!found) entries.push({ key: key, value: val });
+	state.updateURL();
   },
   // `URLSearchParams.prototype.sort` method
   // https://url.spec.whatwg.org/#dom-urlsearchparams-sort
   sort: function sort() {
-    var state = getInternalParamsState(this);
-    var entries = state.entries;
-    // Array#sort is not stable in some engines
-    var slice = entries.slice();
-    var entry, entriesIndex, sliceIndex;
-    entries.length = 0;
-    for (sliceIndex = 0; sliceIndex < slice.length; sliceIndex++) {
-      entry = slice[sliceIndex];
-      for (entriesIndex = 0; entriesIndex < sliceIndex; entriesIndex++) {
-        if (entries[entriesIndex].key > entry.key) {
-          entries.splice(entriesIndex, 0, entry);
-          break;
-        }
-      }
-      if (entriesIndex === sliceIndex) entries.push(entry);
-    }
-    state.updateURL();
+	var state = getInternalParamsState(this);
+	var entries = state.entries;
+	// Array#sort is not stable in some engines
+	var slice = entries.slice();
+	var entry, entriesIndex, sliceIndex;
+	entries.length = 0;
+	for (sliceIndex = 0; sliceIndex < slice.length; sliceIndex++) {
+	  entry = slice[sliceIndex];
+	  for (entriesIndex = 0; entriesIndex < sliceIndex; entriesIndex++) {
+		if (entries[entriesIndex].key > entry.key) {
+		  entries.splice(entriesIndex, 0, entry);
+		  break;
+		}
+	  }
+	  if (entriesIndex === sliceIndex) entries.push(entry);
+	}
+	state.updateURL();
   },
   // `URLSearchParams.prototype.forEach` method
   forEach: function forEach(callback /* , thisArg */) {
-    var entries = getInternalParamsState(this).entries;
-    var boundFunction = bind(callback, arguments.length > 1 ? arguments[1] : undefined, 3);
-    var index = 0;
-    var entry;
-    while (index < entries.length) {
-      entry = entries[index++];
-      boundFunction(entry.value, entry.key, this);
-    }
+	var entries = getInternalParamsState(this).entries;
+	var boundFunction = bind(callback, arguments.length > 1 ? arguments[1] : undefined, 3);
+	var index = 0;
+	var entry;
+	while (index < entries.length) {
+	  entry = entries[index++];
+	  boundFunction(entry.value, entry.key, this);
+	}
   },
   // `URLSearchParams.prototype.keys` method
   keys: function keys() {
-    return new URLSearchParamsIterator(this, 'keys');
+	return new URLSearchParamsIterator(this, 'keys');
   },
   // `URLSearchParams.prototype.values` method
   values: function values() {
-    return new URLSearchParamsIterator(this, 'values');
+	return new URLSearchParamsIterator(this, 'values');
   },
   // `URLSearchParams.prototype.entries` method
   entries: function entries() {
-    return new URLSearchParamsIterator(this, 'entries');
+	return new URLSearchParamsIterator(this, 'entries');
   }
 }, { enumerable: true });
 
@@ -5624,8 +5624,8 @@ redefine(URLSearchParamsPrototype, 'toString', function toString() {
   var index = 0;
   var entry;
   while (index < entries.length) {
-    entry = entries[index++];
-    result.push(serialize(entry.key) + '=' + serialize(entry.value));
+	entry = entries[index++];
+	result.push(serialize(entry.key) + '=' + serialize(entry.value));
   } return result.join('&');
 }, { enumerable: true });
 
@@ -5639,27 +5639,27 @@ $({ global: true, forced: !USE_NATIVE_URL }, {
 // https://github.com/zloirock/core-js/issues/674
 if (!USE_NATIVE_URL && typeof $fetch == 'function' && typeof Headers == 'function') {
   $({ global: true, enumerable: true, forced: true }, {
-    fetch: function fetch(input /* , init */) {
-      var args = [input];
-      var init, body, headers;
-      if (arguments.length > 1) {
-        init = arguments[1];
-        if (isObject(init)) {
-          body = init.body;
-          if (classof(body) === URL_SEARCH_PARAMS) {
-            headers = init.headers ? new Headers(init.headers) : new Headers();
-            if (!headers.has('content-type')) {
-              headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-            }
-            init = create(init, {
-              body: createPropertyDescriptor(0, String(body)),
-              headers: createPropertyDescriptor(0, headers)
-            });
-          }
-        }
-        args.push(init);
-      } return $fetch.apply(this, args);
-    }
+	fetch: function fetch(input /* , init */) {
+	  var args = [input];
+	  var init, body, headers;
+	  if (arguments.length > 1) {
+		init = arguments[1];
+		if (isObject(init)) {
+		  body = init.body;
+		  if (classof(body) === URL_SEARCH_PARAMS) {
+			headers = init.headers ? new Headers(init.headers) : new Headers();
+			if (!headers.has('content-type')) {
+			  headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+			}
+			init = create(init, {
+			  body: createPropertyDescriptor(0, String(body)),
+			  headers: createPropertyDescriptor(0, headers)
+			});
+		  }
+		}
+		args.push(init);
+	  } return $fetch.apply(this, args);
+	}
   });
 }
 
@@ -5725,25 +5725,25 @@ var EOF;
 var parseHost = function (url, input) {
   var result, codePoints, index;
   if (input.charAt(0) == '[') {
-    if (input.charAt(input.length - 1) != ']') return INVALID_HOST;
-    result = parseIPv6(input.slice(1, -1));
-    if (!result) return INVALID_HOST;
-    url.host = result;
+	if (input.charAt(input.length - 1) != ']') return INVALID_HOST;
+	result = parseIPv6(input.slice(1, -1));
+	if (!result) return INVALID_HOST;
+	url.host = result;
   // opaque host
   } else if (!isSpecial(url)) {
-    if (FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT.test(input)) return INVALID_HOST;
-    result = '';
-    codePoints = arrayFrom(input);
-    for (index = 0; index < codePoints.length; index++) {
-      result += percentEncode(codePoints[index], C0ControlPercentEncodeSet);
-    }
-    url.host = result;
+	if (FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT.test(input)) return INVALID_HOST;
+	result = '';
+	codePoints = arrayFrom(input);
+	for (index = 0; index < codePoints.length; index++) {
+	  result += percentEncode(codePoints[index], C0ControlPercentEncodeSet);
+	}
+	url.host = result;
   } else {
-    input = toASCII(input);
-    if (FORBIDDEN_HOST_CODE_POINT.test(input)) return INVALID_HOST;
-    result = parseIPv4(input);
-    if (result === null) return INVALID_HOST;
-    url.host = result;
+	input = toASCII(input);
+	if (FORBIDDEN_HOST_CODE_POINT.test(input)) return INVALID_HOST;
+	result = parseIPv4(input);
+	if (result === null) return INVALID_HOST;
+	url.host = result;
   }
 };
 
@@ -5751,36 +5751,36 @@ var parseIPv4 = function (input) {
   var parts = input.split('.');
   var partsLength, numbers, index, part, radix, number, ipv4;
   if (parts.length && parts[parts.length - 1] == '') {
-    parts.pop();
+	parts.pop();
   }
   partsLength = parts.length;
   if (partsLength > 4) return input;
   numbers = [];
   for (index = 0; index < partsLength; index++) {
-    part = parts[index];
-    if (part == '') return input;
-    radix = 10;
-    if (part.length > 1 && part.charAt(0) == '0') {
-      radix = HEX_START.test(part) ? 16 : 8;
-      part = part.slice(radix == 8 ? 1 : 2);
-    }
-    if (part === '') {
-      number = 0;
-    } else {
-      if (!(radix == 10 ? DEC : radix == 8 ? OCT : HEX).test(part)) return input;
-      number = parseInt(part, radix);
-    }
-    numbers.push(number);
+	part = parts[index];
+	if (part == '') return input;
+	radix = 10;
+	if (part.length > 1 && part.charAt(0) == '0') {
+	  radix = HEX_START.test(part) ? 16 : 8;
+	  part = part.slice(radix == 8 ? 1 : 2);
+	}
+	if (part === '') {
+	  number = 0;
+	} else {
+	  if (!(radix == 10 ? DEC : radix == 8 ? OCT : HEX).test(part)) return input;
+	  number = parseInt(part, radix);
+	}
+	numbers.push(number);
   }
   for (index = 0; index < partsLength; index++) {
-    number = numbers[index];
-    if (index == partsLength - 1) {
-      if (number >= pow(256, 5 - partsLength)) return null;
-    } else if (number > 255) return null;
+	number = numbers[index];
+	if (index == partsLength - 1) {
+	  if (number >= pow(256, 5 - partsLength)) return null;
+	} else if (number > 255) return null;
   }
   ipv4 = numbers.pop();
   for (index = 0; index < numbers.length; index++) {
-    ipv4 += numbers[index] * pow(256, 3 - index);
+	ipv4 += numbers[index] * pow(256, 3 - index);
   }
   return ipv4;
 };
@@ -5794,70 +5794,70 @@ var parseIPv6 = function (input) {
   var value, length, numbersSeen, ipv4Piece, number, swaps, swap;
 
   var char = function () {
-    return input.charAt(pointer);
+	return input.charAt(pointer);
   };
 
   if (char() == ':') {
-    if (input.charAt(1) != ':') return;
-    pointer += 2;
-    pieceIndex++;
-    compress = pieceIndex;
+	if (input.charAt(1) != ':') return;
+	pointer += 2;
+	pieceIndex++;
+	compress = pieceIndex;
   }
   while (char()) {
-    if (pieceIndex == 8) return;
-    if (char() == ':') {
-      if (compress !== null) return;
-      pointer++;
-      pieceIndex++;
-      compress = pieceIndex;
-      continue;
-    }
-    value = length = 0;
-    while (length < 4 && HEX.test(char())) {
-      value = value * 16 + parseInt(char(), 16);
-      pointer++;
-      length++;
-    }
-    if (char() == '.') {
-      if (length == 0) return;
-      pointer -= length;
-      if (pieceIndex > 6) return;
-      numbersSeen = 0;
-      while (char()) {
-        ipv4Piece = null;
-        if (numbersSeen > 0) {
-          if (char() == '.' && numbersSeen < 4) pointer++;
-          else return;
-        }
-        if (!DIGIT.test(char())) return;
-        while (DIGIT.test(char())) {
-          number = parseInt(char(), 10);
-          if (ipv4Piece === null) ipv4Piece = number;
-          else if (ipv4Piece == 0) return;
-          else ipv4Piece = ipv4Piece * 10 + number;
-          if (ipv4Piece > 255) return;
-          pointer++;
-        }
-        address[pieceIndex] = address[pieceIndex] * 256 + ipv4Piece;
-        numbersSeen++;
-        if (numbersSeen == 2 || numbersSeen == 4) pieceIndex++;
-      }
-      if (numbersSeen != 4) return;
-      break;
-    } else if (char() == ':') {
-      pointer++;
-      if (!char()) return;
-    } else if (char()) return;
-    address[pieceIndex++] = value;
+	if (pieceIndex == 8) return;
+	if (char() == ':') {
+	  if (compress !== null) return;
+	  pointer++;
+	  pieceIndex++;
+	  compress = pieceIndex;
+	  continue;
+	}
+	value = length = 0;
+	while (length < 4 && HEX.test(char())) {
+	  value = value * 16 + parseInt(char(), 16);
+	  pointer++;
+	  length++;
+	}
+	if (char() == '.') {
+	  if (length == 0) return;
+	  pointer -= length;
+	  if (pieceIndex > 6) return;
+	  numbersSeen = 0;
+	  while (char()) {
+		ipv4Piece = null;
+		if (numbersSeen > 0) {
+		  if (char() == '.' && numbersSeen < 4) pointer++;
+		  else return;
+		}
+		if (!DIGIT.test(char())) return;
+		while (DIGIT.test(char())) {
+		  number = parseInt(char(), 10);
+		  if (ipv4Piece === null) ipv4Piece = number;
+		  else if (ipv4Piece == 0) return;
+		  else ipv4Piece = ipv4Piece * 10 + number;
+		  if (ipv4Piece > 255) return;
+		  pointer++;
+		}
+		address[pieceIndex] = address[pieceIndex] * 256 + ipv4Piece;
+		numbersSeen++;
+		if (numbersSeen == 2 || numbersSeen == 4) pieceIndex++;
+	  }
+	  if (numbersSeen != 4) return;
+	  break;
+	} else if (char() == ':') {
+	  pointer++;
+	  if (!char()) return;
+	} else if (char()) return;
+	address[pieceIndex++] = value;
   }
   if (compress !== null) {
-    swaps = pieceIndex - compress;
-    pieceIndex = 7;
-    while (pieceIndex != 0 && swaps > 0) {
-      swap = address[pieceIndex];
-      address[pieceIndex--] = address[compress + swaps - 1];
-      address[compress + --swaps] = swap;
-    }
+	swaps = pieceIndex - compress;
+	pieceIndex = 7;
+	while (pieceIndex != 0 && swaps > 0) {
+	  swap = address[pieceIndex];
+	  address[pieceIndex--] = address[compress + swaps - 1];
+	  address[compress + --swaps] = swap;
+	}
   } else if (pieceIndex != 8) return;
   return address;
 };
@@ -5869,21 +5869,21 @@ var findLongestZeroSequence = function (ipv6) {
   var currLength = 0;
   var index = 0;
   for (; index < 8; index++) {
-    if (ipv6[index] !== 0) {
-      if (currLength > maxLength) {
-        maxIndex = currStart;
-        maxLength = currLength;
-      }
-      currStart = null;
-      currLength = 0;
-    } else {
-      if (currStart === null) currStart = index;
-      ++currLength;
-    }
+	if (ipv6[index] !== 0) {
+	  if (currLength > maxLength) {
+		maxIndex = currStart;
+		maxLength = currLength;
+	  }
+	  currStart = null;
+	  currLength = 0;
+	} else {
+	  if (currStart === null) currStart = index;
+	  ++currLength;
+	}
   }
   if (currLength > maxLength) {
-    maxIndex = currStart;
-    maxLength = currLength;
+	maxIndex = currStart;
+	maxLength = currLength;
   }
   return maxIndex;
 };
@@ -5892,27 +5892,27 @@ var serializeHost = function (host) {
   var result, index, compress, ignore0;
   // ipv4
   if (typeof host == 'number') {
-    result = [];
-    for (index = 0; index < 4; index++) {
-      result.unshift(host % 256);
-      host = floor(host / 256);
-    } return result.join('.');
+	result = [];
+	for (index = 0; index < 4; index++) {
+	  result.unshift(host % 256);
+	  host = floor(host / 256);
+	} return result.join('.');
   // ipv6
   } else if (typeof host == 'object') {
-    result = '';
-    compress = findLongestZeroSequence(host);
-    for (index = 0; index < 8; index++) {
-      if (ignore0 && host[index] === 0) continue;
-      if (ignore0) ignore0 = false;
-      if (compress === index) {
-        result += index ? ':' : '::';
-        ignore0 = true;
-      } else {
-        result += host[index].toString(16);
-        if (index < 7) result += ':';
-      }
-    }
-    return '[' + result + ']';
+	result = '';
+	compress = findLongestZeroSequence(host);
+	for (index = 0; index < 8; index++) {
+	  if (ignore0 && host[index] === 0) continue;
+	  if (ignore0) ignore0 = false;
+	  if (compress === index) {
+		result += index ? ':' : '::';
+		ignore0 = true;
+	  } else {
+		result += host[index].toString(16);
+		if (index < 7) result += ':';
+	  }
+	}
+	return '[' + result + ']';
   } return host;
 };
 
@@ -5956,14 +5956,14 @@ var cannotHaveUsernamePasswordPort = function (url) {
 var isWindowsDriveLetter = function (string, normalized) {
   var second;
   return string.length == 2 && ALPHA.test(string.charAt(0))
-    && ((second = string.charAt(1)) == ':' || (!normalized && second == '|'));
+	&& ((second = string.charAt(1)) == ':' || (!normalized && second == '|'));
 };
 
 var startsWithWindowsDriveLetter = function (string) {
   var third;
   return string.length > 1 && isWindowsDriveLetter(string.slice(0, 2)) && (
-    string.length == 2 ||
-    ((third = string.charAt(2)) === '/' || third === '\\' || third === '?' || third === '#')
+	string.length == 2 ||
+	((third = string.charAt(2)) === '/' || third === '\\' || third === '?' || third === '#')
   );
 };
 
@@ -5971,7 +5971,7 @@ var shortenURLsPath = function (url) {
   var path = url.path;
   var pathSize = path.length;
   if (pathSize && (url.scheme != 'file' || pathSize != 1 || !isWindowsDriveLetter(path[0], true))) {
-    path.pop();
+	path.pop();
   }
 };
 
@@ -6018,16 +6018,16 @@ var parseURL = function (url, input, stateOverride, base) {
   var codePoints, char, bufferCodePoints, failure;
 
   if (!stateOverride) {
-    url.scheme = '';
-    url.username = '';
-    url.password = '';
-    url.host = null;
-    url.port = null;
-    url.path = [];
-    url.query = null;
-    url.fragment = null;
-    url.cannotBeABaseURL = false;
-    input = input.replace(LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE, '');
+	url.scheme = '';
+	url.username = '';
+	url.password = '';
+	url.host = null;
+	url.port = null;
+	url.path = [];
+	url.query = null;
+	url.fragment = null;
+	url.cannotBeABaseURL = false;
+	input = input.replace(LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE, '');
   }
 
   input = input.replace(TAB_AND_NEW_LINE, '');
@@ -6035,374 +6035,374 @@ var parseURL = function (url, input, stateOverride, base) {
   codePoints = arrayFrom(input);
 
   while (pointer <= codePoints.length) {
-    char = codePoints[pointer];
-    switch (state) {
-      case SCHEME_START:
-        if (char && ALPHA.test(char)) {
-          buffer += char.toLowerCase();
-          state = SCHEME;
-        } else if (!stateOverride) {
-          state = NO_SCHEME;
-          continue;
-        } else return INVALID_SCHEME;
-        break;
+	char = codePoints[pointer];
+	switch (state) {
+	  case SCHEME_START:
+		if (char && ALPHA.test(char)) {
+		  buffer += char.toLowerCase();
+		  state = SCHEME;
+		} else if (!stateOverride) {
+		  state = NO_SCHEME;
+		  continue;
+		} else return INVALID_SCHEME;
+		break;
 
-      case SCHEME:
-        if (char && (ALPHANUMERIC.test(char) || char == '+' || char == '-' || char == '.')) {
-          buffer += char.toLowerCase();
-        } else if (char == ':') {
-          if (stateOverride && (
-            (isSpecial(url) != has(specialSchemes, buffer)) ||
-            (buffer == 'file' && (includesCredentials(url) || url.port !== null)) ||
-            (url.scheme == 'file' && !url.host)
-          )) return;
-          url.scheme = buffer;
-          if (stateOverride) {
-            if (isSpecial(url) && specialSchemes[url.scheme] == url.port) url.port = null;
-            return;
-          }
-          buffer = '';
-          if (url.scheme == 'file') {
-            state = FILE;
-          } else if (isSpecial(url) && base && base.scheme == url.scheme) {
-            state = SPECIAL_RELATIVE_OR_AUTHORITY;
-          } else if (isSpecial(url)) {
-            state = SPECIAL_AUTHORITY_SLASHES;
-          } else if (codePoints[pointer + 1] == '/') {
-            state = PATH_OR_AUTHORITY;
-            pointer++;
-          } else {
-            url.cannotBeABaseURL = true;
-            url.path.push('');
-            state = CANNOT_BE_A_BASE_URL_PATH;
-          }
-        } else if (!stateOverride) {
-          buffer = '';
-          state = NO_SCHEME;
-          pointer = 0;
-          continue;
-        } else return INVALID_SCHEME;
-        break;
+	  case SCHEME:
+		if (char && (ALPHANUMERIC.test(char) || char == '+' || char == '-' || char == '.')) {
+		  buffer += char.toLowerCase();
+		} else if (char == ':') {
+		  if (stateOverride && (
+			(isSpecial(url) != has(specialSchemes, buffer)) ||
+			(buffer == 'file' && (includesCredentials(url) || url.port !== null)) ||
+			(url.scheme == 'file' && !url.host)
+		  )) return;
+		  url.scheme = buffer;
+		  if (stateOverride) {
+			if (isSpecial(url) && specialSchemes[url.scheme] == url.port) url.port = null;
+			return;
+		  }
+		  buffer = '';
+		  if (url.scheme == 'file') {
+			state = FILE;
+		  } else if (isSpecial(url) && base && base.scheme == url.scheme) {
+			state = SPECIAL_RELATIVE_OR_AUTHORITY;
+		  } else if (isSpecial(url)) {
+			state = SPECIAL_AUTHORITY_SLASHES;
+		  } else if (codePoints[pointer + 1] == '/') {
+			state = PATH_OR_AUTHORITY;
+			pointer++;
+		  } else {
+			url.cannotBeABaseURL = true;
+			url.path.push('');
+			state = CANNOT_BE_A_BASE_URL_PATH;
+		  }
+		} else if (!stateOverride) {
+		  buffer = '';
+		  state = NO_SCHEME;
+		  pointer = 0;
+		  continue;
+		} else return INVALID_SCHEME;
+		break;
 
-      case NO_SCHEME:
-        if (!base || (base.cannotBeABaseURL && char != '#')) return INVALID_SCHEME;
-        if (base.cannotBeABaseURL && char == '#') {
-          url.scheme = base.scheme;
-          url.path = base.path.slice();
-          url.query = base.query;
-          url.fragment = '';
-          url.cannotBeABaseURL = true;
-          state = FRAGMENT;
-          break;
-        }
-        state = base.scheme == 'file' ? FILE : RELATIVE;
-        continue;
+	  case NO_SCHEME:
+		if (!base || (base.cannotBeABaseURL && char != '#')) return INVALID_SCHEME;
+		if (base.cannotBeABaseURL && char == '#') {
+		  url.scheme = base.scheme;
+		  url.path = base.path.slice();
+		  url.query = base.query;
+		  url.fragment = '';
+		  url.cannotBeABaseURL = true;
+		  state = FRAGMENT;
+		  break;
+		}
+		state = base.scheme == 'file' ? FILE : RELATIVE;
+		continue;
 
-      case SPECIAL_RELATIVE_OR_AUTHORITY:
-        if (char == '/' && codePoints[pointer + 1] == '/') {
-          state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
-          pointer++;
-        } else {
-          state = RELATIVE;
-          continue;
-        } break;
+	  case SPECIAL_RELATIVE_OR_AUTHORITY:
+		if (char == '/' && codePoints[pointer + 1] == '/') {
+		  state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
+		  pointer++;
+		} else {
+		  state = RELATIVE;
+		  continue;
+		} break;
 
-      case PATH_OR_AUTHORITY:
-        if (char == '/') {
-          state = AUTHORITY;
-          break;
-        } else {
-          state = PATH;
-          continue;
-        }
+	  case PATH_OR_AUTHORITY:
+		if (char == '/') {
+		  state = AUTHORITY;
+		  break;
+		} else {
+		  state = PATH;
+		  continue;
+		}
 
-      case RELATIVE:
-        url.scheme = base.scheme;
-        if (char == EOF) {
-          url.username = base.username;
-          url.password = base.password;
-          url.host = base.host;
-          url.port = base.port;
-          url.path = base.path.slice();
-          url.query = base.query;
-        } else if (char == '/' || (char == '\\' && isSpecial(url))) {
-          state = RELATIVE_SLASH;
-        } else if (char == '?') {
-          url.username = base.username;
-          url.password = base.password;
-          url.host = base.host;
-          url.port = base.port;
-          url.path = base.path.slice();
-          url.query = '';
-          state = QUERY;
-        } else if (char == '#') {
-          url.username = base.username;
-          url.password = base.password;
-          url.host = base.host;
-          url.port = base.port;
-          url.path = base.path.slice();
-          url.query = base.query;
-          url.fragment = '';
-          state = FRAGMENT;
-        } else {
-          url.username = base.username;
-          url.password = base.password;
-          url.host = base.host;
-          url.port = base.port;
-          url.path = base.path.slice();
-          url.path.pop();
-          state = PATH;
-          continue;
-        } break;
+	  case RELATIVE:
+		url.scheme = base.scheme;
+		if (char == EOF) {
+		  url.username = base.username;
+		  url.password = base.password;
+		  url.host = base.host;
+		  url.port = base.port;
+		  url.path = base.path.slice();
+		  url.query = base.query;
+		} else if (char == '/' || (char == '\\' && isSpecial(url))) {
+		  state = RELATIVE_SLASH;
+		} else if (char == '?') {
+		  url.username = base.username;
+		  url.password = base.password;
+		  url.host = base.host;
+		  url.port = base.port;
+		  url.path = base.path.slice();
+		  url.query = '';
+		  state = QUERY;
+		} else if (char == '#') {
+		  url.username = base.username;
+		  url.password = base.password;
+		  url.host = base.host;
+		  url.port = base.port;
+		  url.path = base.path.slice();
+		  url.query = base.query;
+		  url.fragment = '';
+		  state = FRAGMENT;
+		} else {
+		  url.username = base.username;
+		  url.password = base.password;
+		  url.host = base.host;
+		  url.port = base.port;
+		  url.path = base.path.slice();
+		  url.path.pop();
+		  state = PATH;
+		  continue;
+		} break;
 
-      case RELATIVE_SLASH:
-        if (isSpecial(url) && (char == '/' || char == '\\')) {
-          state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
-        } else if (char == '/') {
-          state = AUTHORITY;
-        } else {
-          url.username = base.username;
-          url.password = base.password;
-          url.host = base.host;
-          url.port = base.port;
-          state = PATH;
-          continue;
-        } break;
+	  case RELATIVE_SLASH:
+		if (isSpecial(url) && (char == '/' || char == '\\')) {
+		  state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
+		} else if (char == '/') {
+		  state = AUTHORITY;
+		} else {
+		  url.username = base.username;
+		  url.password = base.password;
+		  url.host = base.host;
+		  url.port = base.port;
+		  state = PATH;
+		  continue;
+		} break;
 
-      case SPECIAL_AUTHORITY_SLASHES:
-        state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
-        if (char != '/' || buffer.charAt(pointer + 1) != '/') continue;
-        pointer++;
-        break;
+	  case SPECIAL_AUTHORITY_SLASHES:
+		state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
+		if (char != '/' || buffer.charAt(pointer + 1) != '/') continue;
+		pointer++;
+		break;
 
-      case SPECIAL_AUTHORITY_IGNORE_SLASHES:
-        if (char != '/' && char != '\\') {
-          state = AUTHORITY;
-          continue;
-        } break;
+	  case SPECIAL_AUTHORITY_IGNORE_SLASHES:
+		if (char != '/' && char != '\\') {
+		  state = AUTHORITY;
+		  continue;
+		} break;
 
-      case AUTHORITY:
-        if (char == '@') {
-          if (seenAt) buffer = '%40' + buffer;
-          seenAt = true;
-          bufferCodePoints = arrayFrom(buffer);
-          for (var i = 0; i < bufferCodePoints.length; i++) {
-            var codePoint = bufferCodePoints[i];
-            if (codePoint == ':' && !seenPasswordToken) {
-              seenPasswordToken = true;
-              continue;
-            }
-            var encodedCodePoints = percentEncode(codePoint, userinfoPercentEncodeSet);
-            if (seenPasswordToken) url.password += encodedCodePoints;
-            else url.username += encodedCodePoints;
-          }
-          buffer = '';
-        } else if (
-          char == EOF || char == '/' || char == '?' || char == '#' ||
-          (char == '\\' && isSpecial(url))
-        ) {
-          if (seenAt && buffer == '') return INVALID_AUTHORITY;
-          pointer -= arrayFrom(buffer).length + 1;
-          buffer = '';
-          state = HOST;
-        } else buffer += char;
-        break;
+	  case AUTHORITY:
+		if (char == '@') {
+		  if (seenAt) buffer = '%40' + buffer;
+		  seenAt = true;
+		  bufferCodePoints = arrayFrom(buffer);
+		  for (var i = 0; i < bufferCodePoints.length; i++) {
+			var codePoint = bufferCodePoints[i];
+			if (codePoint == ':' && !seenPasswordToken) {
+			  seenPasswordToken = true;
+			  continue;
+			}
+			var encodedCodePoints = percentEncode(codePoint, userinfoPercentEncodeSet);
+			if (seenPasswordToken) url.password += encodedCodePoints;
+			else url.username += encodedCodePoints;
+		  }
+		  buffer = '';
+		} else if (
+		  char == EOF || char == '/' || char == '?' || char == '#' ||
+		  (char == '\\' && isSpecial(url))
+		) {
+		  if (seenAt && buffer == '') return INVALID_AUTHORITY;
+		  pointer -= arrayFrom(buffer).length + 1;
+		  buffer = '';
+		  state = HOST;
+		} else buffer += char;
+		break;
 
-      case HOST:
-      case HOSTNAME:
-        if (stateOverride && url.scheme == 'file') {
-          state = FILE_HOST;
-          continue;
-        } else if (char == ':' && !seenBracket) {
-          if (buffer == '') return INVALID_HOST;
-          failure = parseHost(url, buffer);
-          if (failure) return failure;
-          buffer = '';
-          state = PORT;
-          if (stateOverride == HOSTNAME) return;
-        } else if (
-          char == EOF || char == '/' || char == '?' || char == '#' ||
-          (char == '\\' && isSpecial(url))
-        ) {
-          if (isSpecial(url) && buffer == '') return INVALID_HOST;
-          if (stateOverride && buffer == '' && (includesCredentials(url) || url.port !== null)) return;
-          failure = parseHost(url, buffer);
-          if (failure) return failure;
-          buffer = '';
-          state = PATH_START;
-          if (stateOverride) return;
-          continue;
-        } else {
-          if (char == '[') seenBracket = true;
-          else if (char == ']') seenBracket = false;
-          buffer += char;
-        } break;
+	  case HOST:
+	  case HOSTNAME:
+		if (stateOverride && url.scheme == 'file') {
+		  state = FILE_HOST;
+		  continue;
+		} else if (char == ':' && !seenBracket) {
+		  if (buffer == '') return INVALID_HOST;
+		  failure = parseHost(url, buffer);
+		  if (failure) return failure;
+		  buffer = '';
+		  state = PORT;
+		  if (stateOverride == HOSTNAME) return;
+		} else if (
+		  char == EOF || char == '/' || char == '?' || char == '#' ||
+		  (char == '\\' && isSpecial(url))
+		) {
+		  if (isSpecial(url) && buffer == '') return INVALID_HOST;
+		  if (stateOverride && buffer == '' && (includesCredentials(url) || url.port !== null)) return;
+		  failure = parseHost(url, buffer);
+		  if (failure) return failure;
+		  buffer = '';
+		  state = PATH_START;
+		  if (stateOverride) return;
+		  continue;
+		} else {
+		  if (char == '[') seenBracket = true;
+		  else if (char == ']') seenBracket = false;
+		  buffer += char;
+		} break;
 
-      case PORT:
-        if (DIGIT.test(char)) {
-          buffer += char;
-        } else if (
-          char == EOF || char == '/' || char == '?' || char == '#' ||
-          (char == '\\' && isSpecial(url)) ||
-          stateOverride
-        ) {
-          if (buffer != '') {
-            var port = parseInt(buffer, 10);
-            if (port > 0xFFFF) return INVALID_PORT;
-            url.port = (isSpecial(url) && port === specialSchemes[url.scheme]) ? null : port;
-            buffer = '';
-          }
-          if (stateOverride) return;
-          state = PATH_START;
-          continue;
-        } else return INVALID_PORT;
-        break;
+	  case PORT:
+		if (DIGIT.test(char)) {
+		  buffer += char;
+		} else if (
+		  char == EOF || char == '/' || char == '?' || char == '#' ||
+		  (char == '\\' && isSpecial(url)) ||
+		  stateOverride
+		) {
+		  if (buffer != '') {
+			var port = parseInt(buffer, 10);
+			if (port > 0xFFFF) return INVALID_PORT;
+			url.port = (isSpecial(url) && port === specialSchemes[url.scheme]) ? null : port;
+			buffer = '';
+		  }
+		  if (stateOverride) return;
+		  state = PATH_START;
+		  continue;
+		} else return INVALID_PORT;
+		break;
 
-      case FILE:
-        url.scheme = 'file';
-        if (char == '/' || char == '\\') state = FILE_SLASH;
-        else if (base && base.scheme == 'file') {
-          if (char == EOF) {
-            url.host = base.host;
-            url.path = base.path.slice();
-            url.query = base.query;
-          } else if (char == '?') {
-            url.host = base.host;
-            url.path = base.path.slice();
-            url.query = '';
-            state = QUERY;
-          } else if (char == '#') {
-            url.host = base.host;
-            url.path = base.path.slice();
-            url.query = base.query;
-            url.fragment = '';
-            state = FRAGMENT;
-          } else {
-            if (!startsWithWindowsDriveLetter(codePoints.slice(pointer).join(''))) {
-              url.host = base.host;
-              url.path = base.path.slice();
-              shortenURLsPath(url);
-            }
-            state = PATH;
-            continue;
-          }
-        } else {
-          state = PATH;
-          continue;
-        } break;
+	  case FILE:
+		url.scheme = 'file';
+		if (char == '/' || char == '\\') state = FILE_SLASH;
+		else if (base && base.scheme == 'file') {
+		  if (char == EOF) {
+			url.host = base.host;
+			url.path = base.path.slice();
+			url.query = base.query;
+		  } else if (char == '?') {
+			url.host = base.host;
+			url.path = base.path.slice();
+			url.query = '';
+			state = QUERY;
+		  } else if (char == '#') {
+			url.host = base.host;
+			url.path = base.path.slice();
+			url.query = base.query;
+			url.fragment = '';
+			state = FRAGMENT;
+		  } else {
+			if (!startsWithWindowsDriveLetter(codePoints.slice(pointer).join(''))) {
+			  url.host = base.host;
+			  url.path = base.path.slice();
+			  shortenURLsPath(url);
+			}
+			state = PATH;
+			continue;
+		  }
+		} else {
+		  state = PATH;
+		  continue;
+		} break;
 
-      case FILE_SLASH:
-        if (char == '/' || char == '\\') {
-          state = FILE_HOST;
-          break;
-        }
-        if (base && base.scheme == 'file' && !startsWithWindowsDriveLetter(codePoints.slice(pointer).join(''))) {
-          if (isWindowsDriveLetter(base.path[0], true)) url.path.push(base.path[0]);
-          else url.host = base.host;
-        }
-        state = PATH;
-        continue;
+	  case FILE_SLASH:
+		if (char == '/' || char == '\\') {
+		  state = FILE_HOST;
+		  break;
+		}
+		if (base && base.scheme == 'file' && !startsWithWindowsDriveLetter(codePoints.slice(pointer).join(''))) {
+		  if (isWindowsDriveLetter(base.path[0], true)) url.path.push(base.path[0]);
+		  else url.host = base.host;
+		}
+		state = PATH;
+		continue;
 
-      case FILE_HOST:
-        if (char == EOF || char == '/' || char == '\\' || char == '?' || char == '#') {
-          if (!stateOverride && isWindowsDriveLetter(buffer)) {
-            state = PATH;
-          } else if (buffer == '') {
-            url.host = '';
-            if (stateOverride) return;
-            state = PATH_START;
-          } else {
-            failure = parseHost(url, buffer);
-            if (failure) return failure;
-            if (url.host == 'localhost') url.host = '';
-            if (stateOverride) return;
-            buffer = '';
-            state = PATH_START;
-          } continue;
-        } else buffer += char;
-        break;
+	  case FILE_HOST:
+		if (char == EOF || char == '/' || char == '\\' || char == '?' || char == '#') {
+		  if (!stateOverride && isWindowsDriveLetter(buffer)) {
+			state = PATH;
+		  } else if (buffer == '') {
+			url.host = '';
+			if (stateOverride) return;
+			state = PATH_START;
+		  } else {
+			failure = parseHost(url, buffer);
+			if (failure) return failure;
+			if (url.host == 'localhost') url.host = '';
+			if (stateOverride) return;
+			buffer = '';
+			state = PATH_START;
+		  } continue;
+		} else buffer += char;
+		break;
 
-      case PATH_START:
-        if (isSpecial(url)) {
-          state = PATH;
-          if (char != '/' && char != '\\') continue;
-        } else if (!stateOverride && char == '?') {
-          url.query = '';
-          state = QUERY;
-        } else if (!stateOverride && char == '#') {
-          url.fragment = '';
-          state = FRAGMENT;
-        } else if (char != EOF) {
-          state = PATH;
-          if (char != '/') continue;
-        } break;
+	  case PATH_START:
+		if (isSpecial(url)) {
+		  state = PATH;
+		  if (char != '/' && char != '\\') continue;
+		} else if (!stateOverride && char == '?') {
+		  url.query = '';
+		  state = QUERY;
+		} else if (!stateOverride && char == '#') {
+		  url.fragment = '';
+		  state = FRAGMENT;
+		} else if (char != EOF) {
+		  state = PATH;
+		  if (char != '/') continue;
+		} break;
 
-      case PATH:
-        if (
-          char == EOF || char == '/' ||
-          (char == '\\' && isSpecial(url)) ||
-          (!stateOverride && (char == '?' || char == '#'))
-        ) {
-          if (isDoubleDot(buffer)) {
-            shortenURLsPath(url);
-            if (char != '/' && !(char == '\\' && isSpecial(url))) {
-              url.path.push('');
-            }
-          } else if (isSingleDot(buffer)) {
-            if (char != '/' && !(char == '\\' && isSpecial(url))) {
-              url.path.push('');
-            }
-          } else {
-            if (url.scheme == 'file' && !url.path.length && isWindowsDriveLetter(buffer)) {
-              if (url.host) url.host = '';
-              buffer = buffer.charAt(0) + ':'; // normalize windows drive letter
-            }
-            url.path.push(buffer);
-          }
-          buffer = '';
-          if (url.scheme == 'file' && (char == EOF || char == '?' || char == '#')) {
-            while (url.path.length > 1 && url.path[0] === '') {
-              url.path.shift();
-            }
-          }
-          if (char == '?') {
-            url.query = '';
-            state = QUERY;
-          } else if (char == '#') {
-            url.fragment = '';
-            state = FRAGMENT;
-          }
-        } else {
-          buffer += percentEncode(char, pathPercentEncodeSet);
-        } break;
+	  case PATH:
+		if (
+		  char == EOF || char == '/' ||
+		  (char == '\\' && isSpecial(url)) ||
+		  (!stateOverride && (char == '?' || char == '#'))
+		) {
+		  if (isDoubleDot(buffer)) {
+			shortenURLsPath(url);
+			if (char != '/' && !(char == '\\' && isSpecial(url))) {
+			  url.path.push('');
+			}
+		  } else if (isSingleDot(buffer)) {
+			if (char != '/' && !(char == '\\' && isSpecial(url))) {
+			  url.path.push('');
+			}
+		  } else {
+			if (url.scheme == 'file' && !url.path.length && isWindowsDriveLetter(buffer)) {
+			  if (url.host) url.host = '';
+			  buffer = buffer.charAt(0) + ':'; // normalize windows drive letter
+			}
+			url.path.push(buffer);
+		  }
+		  buffer = '';
+		  if (url.scheme == 'file' && (char == EOF || char == '?' || char == '#')) {
+			while (url.path.length > 1 && url.path[0] === '') {
+			  url.path.shift();
+			}
+		  }
+		  if (char == '?') {
+			url.query = '';
+			state = QUERY;
+		  } else if (char == '#') {
+			url.fragment = '';
+			state = FRAGMENT;
+		  }
+		} else {
+		  buffer += percentEncode(char, pathPercentEncodeSet);
+		} break;
 
-      case CANNOT_BE_A_BASE_URL_PATH:
-        if (char == '?') {
-          url.query = '';
-          state = QUERY;
-        } else if (char == '#') {
-          url.fragment = '';
-          state = FRAGMENT;
-        } else if (char != EOF) {
-          url.path[0] += percentEncode(char, C0ControlPercentEncodeSet);
-        } break;
+	  case CANNOT_BE_A_BASE_URL_PATH:
+		if (char == '?') {
+		  url.query = '';
+		  state = QUERY;
+		} else if (char == '#') {
+		  url.fragment = '';
+		  state = FRAGMENT;
+		} else if (char != EOF) {
+		  url.path[0] += percentEncode(char, C0ControlPercentEncodeSet);
+		} break;
 
-      case QUERY:
-        if (!stateOverride && char == '#') {
-          url.fragment = '';
-          state = FRAGMENT;
-        } else if (char != EOF) {
-          if (char == "'" && isSpecial(url)) url.query += '%27';
-          else if (char == '#') url.query += '%23';
-          else url.query += percentEncode(char, C0ControlPercentEncodeSet);
-        } break;
+	  case QUERY:
+		if (!stateOverride && char == '#') {
+		  url.fragment = '';
+		  state = FRAGMENT;
+		} else if (char != EOF) {
+		  if (char == "'" && isSpecial(url)) url.query += '%27';
+		  else if (char == '#') url.query += '%23';
+		  else url.query += percentEncode(char, C0ControlPercentEncodeSet);
+		} break;
 
-      case FRAGMENT:
-        if (char != EOF) url.fragment += percentEncode(char, fragmentPercentEncodeSet);
-        break;
-    }
+	  case FRAGMENT:
+		if (char != EOF) url.fragment += percentEncode(char, fragmentPercentEncodeSet);
+		break;
+	}
 
-    pointer++;
+	pointer++;
   }
 };
 
@@ -6415,11 +6415,11 @@ var URLConstructor = function URL(url /* , base */) {
   var state = setInternalState(that, { type: 'URL' });
   var baseState, failure;
   if (base !== undefined) {
-    if (base instanceof URLConstructor) baseState = getInternalURLState(base);
-    else {
-      failure = parseURL(baseState = {}, String(base));
-      if (failure) throw TypeError(failure);
-    }
+	if (base instanceof URLConstructor) baseState = getInternalURLState(base);
+	else {
+	  failure = parseURL(baseState = {}, String(base));
+	  if (failure) throw TypeError(failure);
+	}
   }
   failure = parseURL(state, urlString, null, baseState);
   if (failure) throw TypeError(failure);
@@ -6427,21 +6427,21 @@ var URLConstructor = function URL(url /* , base */) {
   var searchParamsState = getInternalSearchParamsState(searchParams);
   searchParamsState.updateSearchParams(state.query);
   searchParamsState.updateURL = function () {
-    state.query = String(searchParams) || null;
+	state.query = String(searchParams) || null;
   };
   if (!DESCRIPTORS) {
-    that.href = serializeURL.call(that);
-    that.origin = getOrigin.call(that);
-    that.protocol = getProtocol.call(that);
-    that.username = getUsername.call(that);
-    that.password = getPassword.call(that);
-    that.host = getHost.call(that);
-    that.hostname = getHostname.call(that);
-    that.port = getPort.call(that);
-    that.pathname = getPathname.call(that);
-    that.search = getSearch.call(that);
-    that.searchParams = getSearchParams.call(that);
-    that.hash = getHash.call(that);
+	that.href = serializeURL.call(that);
+	that.origin = getOrigin.call(that);
+	that.protocol = getProtocol.call(that);
+	that.username = getUsername.call(that);
+	that.password = getPassword.call(that);
+	that.host = getHost.call(that);
+	that.hostname = getHostname.call(that);
+	that.port = getPort.call(that);
+	that.pathname = getPathname.call(that);
+	that.search = getSearch.call(that);
+	that.searchParams = getSearchParams.call(that);
+	that.hash = getHash.call(that);
   }
 };
 
@@ -6459,12 +6459,12 @@ var serializeURL = function () {
   var fragment = url.fragment;
   var output = scheme + ':';
   if (host !== null) {
-    output += '//';
-    if (includesCredentials(url)) {
-      output += username + (password ? ':' + password : '') + '@';
-    }
-    output += serializeHost(host);
-    if (port !== null) output += ':' + port;
+	output += '//';
+	if (includesCredentials(url)) {
+	  output += username + (password ? ':' + password : '') + '@';
+	}
+	output += serializeHost(host);
+	if (port !== null) output += ':' + port;
   } else if (scheme == 'file') output += '//';
   output += url.cannotBeABaseURL ? path[0] : path.length ? '/' + path.join('/') : '';
   if (query !== null) output += '?' + query;
@@ -6477,9 +6477,9 @@ var getOrigin = function () {
   var scheme = url.scheme;
   var port = url.port;
   if (scheme == 'blob') try {
-    return new URL(scheme.path[0]).origin;
+	return new URL(scheme.path[0]).origin;
   } catch (error) {
-    return 'null';
+	return 'null';
   }
   if (scheme == 'file' || !isSpecial(url)) return 'null';
   return scheme + '://' + serializeHost(url.host) + (port !== null ? ':' + port : '');
@@ -6502,8 +6502,8 @@ var getHost = function () {
   var host = url.host;
   var port = url.port;
   return host === null ? ''
-    : port === null ? serializeHost(host)
-    : serializeHost(host) + ':' + port;
+	: port === null ? serializeHost(host)
+	: serializeHost(host) + ':' + port;
 };
 
 var getHostname = function () {
@@ -6542,107 +6542,107 @@ var accessorDescriptor = function (getter, setter) {
 
 if (DESCRIPTORS) {
   defineProperties(URLPrototype, {
-    // `URL.prototype.href` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-href
-    href: accessorDescriptor(serializeURL, function (href) {
-      var url = getInternalURLState(this);
-      var urlString = String(href);
-      var failure = parseURL(url, urlString);
-      if (failure) throw TypeError(failure);
-      getInternalSearchParamsState(url.searchParams).updateSearchParams(url.query);
-    }),
-    // `URL.prototype.origin` getter
-    // https://url.spec.whatwg.org/#dom-url-origin
-    origin: accessorDescriptor(getOrigin),
-    // `URL.prototype.protocol` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-protocol
-    protocol: accessorDescriptor(getProtocol, function (protocol) {
-      var url = getInternalURLState(this);
-      parseURL(url, String(protocol) + ':', SCHEME_START);
-    }),
-    // `URL.prototype.username` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-username
-    username: accessorDescriptor(getUsername, function (username) {
-      var url = getInternalURLState(this);
-      var codePoints = arrayFrom(String(username));
-      if (cannotHaveUsernamePasswordPort(url)) return;
-      url.username = '';
-      for (var i = 0; i < codePoints.length; i++) {
-        url.username += percentEncode(codePoints[i], userinfoPercentEncodeSet);
-      }
-    }),
-    // `URL.prototype.password` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-password
-    password: accessorDescriptor(getPassword, function (password) {
-      var url = getInternalURLState(this);
-      var codePoints = arrayFrom(String(password));
-      if (cannotHaveUsernamePasswordPort(url)) return;
-      url.password = '';
-      for (var i = 0; i < codePoints.length; i++) {
-        url.password += percentEncode(codePoints[i], userinfoPercentEncodeSet);
-      }
-    }),
-    // `URL.prototype.host` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-host
-    host: accessorDescriptor(getHost, function (host) {
-      var url = getInternalURLState(this);
-      if (url.cannotBeABaseURL) return;
-      parseURL(url, String(host), HOST);
-    }),
-    // `URL.prototype.hostname` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-hostname
-    hostname: accessorDescriptor(getHostname, function (hostname) {
-      var url = getInternalURLState(this);
-      if (url.cannotBeABaseURL) return;
-      parseURL(url, String(hostname), HOSTNAME);
-    }),
-    // `URL.prototype.port` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-port
-    port: accessorDescriptor(getPort, function (port) {
-      var url = getInternalURLState(this);
-      if (cannotHaveUsernamePasswordPort(url)) return;
-      port = String(port);
-      if (port == '') url.port = null;
-      else parseURL(url, port, PORT);
-    }),
-    // `URL.prototype.pathname` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-pathname
-    pathname: accessorDescriptor(getPathname, function (pathname) {
-      var url = getInternalURLState(this);
-      if (url.cannotBeABaseURL) return;
-      url.path = [];
-      parseURL(url, pathname + '', PATH_START);
-    }),
-    // `URL.prototype.search` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-search
-    search: accessorDescriptor(getSearch, function (search) {
-      var url = getInternalURLState(this);
-      search = String(search);
-      if (search == '') {
-        url.query = null;
-      } else {
-        if ('?' == search.charAt(0)) search = search.slice(1);
-        url.query = '';
-        parseURL(url, search, QUERY);
-      }
-      getInternalSearchParamsState(url.searchParams).updateSearchParams(url.query);
-    }),
-    // `URL.prototype.searchParams` getter
-    // https://url.spec.whatwg.org/#dom-url-searchparams
-    searchParams: accessorDescriptor(getSearchParams),
-    // `URL.prototype.hash` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-hash
-    hash: accessorDescriptor(getHash, function (hash) {
-      var url = getInternalURLState(this);
-      hash = String(hash);
-      if (hash == '') {
-        url.fragment = null;
-        return;
-      }
-      if ('#' == hash.charAt(0)) hash = hash.slice(1);
-      url.fragment = '';
-      parseURL(url, hash, FRAGMENT);
-    })
+	// `URL.prototype.href` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-href
+	href: accessorDescriptor(serializeURL, function (href) {
+	  var url = getInternalURLState(this);
+	  var urlString = String(href);
+	  var failure = parseURL(url, urlString);
+	  if (failure) throw TypeError(failure);
+	  getInternalSearchParamsState(url.searchParams).updateSearchParams(url.query);
+	}),
+	// `URL.prototype.origin` getter
+	// https://url.spec.whatwg.org/#dom-url-origin
+	origin: accessorDescriptor(getOrigin),
+	// `URL.prototype.protocol` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-protocol
+	protocol: accessorDescriptor(getProtocol, function (protocol) {
+	  var url = getInternalURLState(this);
+	  parseURL(url, String(protocol) + ':', SCHEME_START);
+	}),
+	// `URL.prototype.username` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-username
+	username: accessorDescriptor(getUsername, function (username) {
+	  var url = getInternalURLState(this);
+	  var codePoints = arrayFrom(String(username));
+	  if (cannotHaveUsernamePasswordPort(url)) return;
+	  url.username = '';
+	  for (var i = 0; i < codePoints.length; i++) {
+		url.username += percentEncode(codePoints[i], userinfoPercentEncodeSet);
+	  }
+	}),
+	// `URL.prototype.password` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-password
+	password: accessorDescriptor(getPassword, function (password) {
+	  var url = getInternalURLState(this);
+	  var codePoints = arrayFrom(String(password));
+	  if (cannotHaveUsernamePasswordPort(url)) return;
+	  url.password = '';
+	  for (var i = 0; i < codePoints.length; i++) {
+		url.password += percentEncode(codePoints[i], userinfoPercentEncodeSet);
+	  }
+	}),
+	// `URL.prototype.host` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-host
+	host: accessorDescriptor(getHost, function (host) {
+	  var url = getInternalURLState(this);
+	  if (url.cannotBeABaseURL) return;
+	  parseURL(url, String(host), HOST);
+	}),
+	// `URL.prototype.hostname` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-hostname
+	hostname: accessorDescriptor(getHostname, function (hostname) {
+	  var url = getInternalURLState(this);
+	  if (url.cannotBeABaseURL) return;
+	  parseURL(url, String(hostname), HOSTNAME);
+	}),
+	// `URL.prototype.port` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-port
+	port: accessorDescriptor(getPort, function (port) {
+	  var url = getInternalURLState(this);
+	  if (cannotHaveUsernamePasswordPort(url)) return;
+	  port = String(port);
+	  if (port == '') url.port = null;
+	  else parseURL(url, port, PORT);
+	}),
+	// `URL.prototype.pathname` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-pathname
+	pathname: accessorDescriptor(getPathname, function (pathname) {
+	  var url = getInternalURLState(this);
+	  if (url.cannotBeABaseURL) return;
+	  url.path = [];
+	  parseURL(url, pathname + '', PATH_START);
+	}),
+	// `URL.prototype.search` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-search
+	search: accessorDescriptor(getSearch, function (search) {
+	  var url = getInternalURLState(this);
+	  search = String(search);
+	  if (search == '') {
+		url.query = null;
+	  } else {
+		if ('?' == search.charAt(0)) search = search.slice(1);
+		url.query = '';
+		parseURL(url, search, QUERY);
+	  }
+	  getInternalSearchParamsState(url.searchParams).updateSearchParams(url.query);
+	}),
+	// `URL.prototype.searchParams` getter
+	// https://url.spec.whatwg.org/#dom-url-searchparams
+	searchParams: accessorDescriptor(getSearchParams),
+	// `URL.prototype.hash` accessors pair
+	// https://url.spec.whatwg.org/#dom-url-hash
+	hash: accessorDescriptor(getHash, function (hash) {
+	  var url = getInternalURLState(this);
+	  hash = String(hash);
+	  if (hash == '') {
+		url.fragment = null;
+		return;
+	  }
+	  if ('#' == hash.charAt(0)) hash = hash.slice(1);
+	  url.fragment = '';
+	  parseURL(url, hash, FRAGMENT);
+	})
   });
 }
 
@@ -6665,13 +6665,13 @@ if (NativeURL) {
   // https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   if (nativeCreateObjectURL) redefine(URLConstructor, 'createObjectURL', function createObjectURL(blob) {
-    return nativeCreateObjectURL.apply(NativeURL, arguments);
+	return nativeCreateObjectURL.apply(NativeURL, arguments);
   });
   // `URL.revokeObjectURL` method
   // https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   if (nativeRevokeObjectURL) redefine(URLConstructor, 'revokeObjectURL', function revokeObjectURL(url) {
-    return nativeRevokeObjectURL.apply(NativeURL, arguments);
+	return nativeRevokeObjectURL.apply(NativeURL, arguments);
   });
 }
 
@@ -6688,7 +6688,7 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -6701,14 +6701,14 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
@@ -6721,7 +6721,7 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 /******/ 			}
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/global */
 /******/ 	!function() {
 /******/ 		__webpack_require__.g = (function() {
@@ -6733,12 +6733,12 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 /******/ 			}
 /******/ 		})();
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	!function() {
 /******/ 		// define __esModule on exports
@@ -6749,7 +6749,7 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -6875,113 +6875,113 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // functionality because of the dependency hell with different frameworks.
 var Emitter = /*#__PURE__*/function () {
   function Emitter() {
-    _classCallCheck(this, Emitter);
+	_classCallCheck(this, Emitter);
   }
 
   _createClass(Emitter, [{
-    key: "on",
-    value: // Add an event listener for given event
-    function on(event, fn) {
-      this._callbacks = this._callbacks || {}; // Create namespace for this event
+	key: "on",
+	value: // Add an event listener for given event
+	function on(event, fn) {
+	  this._callbacks = this._callbacks || {}; // Create namespace for this event
 
-      if (!this._callbacks[event]) {
-        this._callbacks[event] = [];
-      }
+	  if (!this._callbacks[event]) {
+		this._callbacks[event] = [];
+	  }
 
-      this._callbacks[event].push(fn);
+	  this._callbacks[event].push(fn);
 
-      return this;
-    }
+	  return this;
+	}
   }, {
-    key: "emit",
-    value: function emit(event) {
-      this._callbacks = this._callbacks || {};
-      var callbacks = this._callbacks[event];
+	key: "emit",
+	value: function emit(event) {
+	  this._callbacks = this._callbacks || {};
+	  var callbacks = this._callbacks[event];
 
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
+	  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		args[_key - 1] = arguments[_key];
+	  }
 
-      if (callbacks) {
-        var _iterator = _createForOfIteratorHelper(callbacks, true),
-            _step;
+	  if (callbacks) {
+		var _iterator = _createForOfIteratorHelper(callbacks, true),
+			_step;
 
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var callback = _step.value;
-            callback.apply(this, args);
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-      } // trigger a corresponding DOM event
+		try {
+		  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+			var callback = _step.value;
+			callback.apply(this, args);
+		  }
+		} catch (err) {
+		  _iterator.e(err);
+		} finally {
+		  _iterator.f();
+		}
+	  } // trigger a corresponding DOM event
 
 
-      if (this.element) {
-        this.element.dispatchEvent(this.makeEvent("dropzone:" + event, {
-          args: args
-        }));
-      }
+	  if (this.element) {
+		this.element.dispatchEvent(this.makeEvent("dropzone:" + event, {
+		  args: args
+		}));
+	  }
 
-      return this;
-    }
+	  return this;
+	}
   }, {
-    key: "makeEvent",
-    value: function makeEvent(eventName, detail) {
-      var params = {
-        bubbles: true,
-        cancelable: true,
-        detail: detail
-      };
+	key: "makeEvent",
+	value: function makeEvent(eventName, detail) {
+	  var params = {
+		bubbles: true,
+		cancelable: true,
+		detail: detail
+	  };
 
-      if (typeof window.CustomEvent === "function") {
-        return new CustomEvent(eventName, params);
-      } else {
-        // IE 11 support
-        // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
-        var evt = document.createEvent("CustomEvent");
-        evt.initCustomEvent(eventName, params.bubbles, params.cancelable, params.detail);
-        return evt;
-      }
-    } // Remove event listener for given event. If fn is not provided, all event
-    // listeners for that event will be removed. If neither is provided, all
-    // event listeners will be removed.
+	  if (typeof window.CustomEvent === "function") {
+		return new CustomEvent(eventName, params);
+	  } else {
+		// IE 11 support
+		// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+		var evt = document.createEvent("CustomEvent");
+		evt.initCustomEvent(eventName, params.bubbles, params.cancelable, params.detail);
+		return evt;
+	  }
+	} // Remove event listener for given event. If fn is not provided, all event
+	// listeners for that event will be removed. If neither is provided, all
+	// event listeners will be removed.
 
   }, {
-    key: "off",
-    value: function off(event, fn) {
-      if (!this._callbacks || arguments.length === 0) {
-        this._callbacks = {};
-        return this;
-      } // specific event
+	key: "off",
+	value: function off(event, fn) {
+	  if (!this._callbacks || arguments.length === 0) {
+		this._callbacks = {};
+		return this;
+	  } // specific event
 
 
-      var callbacks = this._callbacks[event];
+	  var callbacks = this._callbacks[event];
 
-      if (!callbacks) {
-        return this;
-      } // remove all handlers
-
-
-      if (arguments.length === 1) {
-        delete this._callbacks[event];
-        return this;
-      } // remove specific handler
+	  if (!callbacks) {
+		return this;
+	  } // remove all handlers
 
 
-      for (var i = 0; i < callbacks.length; i++) {
-        var callback = callbacks[i];
+	  if (arguments.length === 1) {
+		delete this._callbacks[event];
+		return this;
+	  } // remove specific handler
 
-        if (callback === fn) {
-          callbacks.splice(i, 1);
-          break;
-        }
-      }
 
-      return this;
-    }
+	  for (var i = 0; i < callbacks.length; i++) {
+		var callback = callbacks[i];
+
+		if (callback === fn) {
+		  callbacks.splice(i, 1);
+		  break;
+		}
+	  }
+
+	  return this;
+	}
   }]);
 
   return Emitter;
@@ -7357,11 +7357,11 @@ var defaultOptions = {
    * `b` for bytes.
    */
   dictFileSizeUnits: {
-    tb: "TB",
-    gb: "GB",
-    mb: "MB",
-    kb: "KB",
-    b: "b"
+	tb: "TB",
+	gb: "GB",
+	mb: "MB",
+	kb: "KB",
+	b: "b"
   },
 
   /**
@@ -7381,16 +7381,16 @@ var defaultOptions = {
    * This is the same as adding hidden input fields in the form element.
    */
   params: function params(files, xhr, chunk) {
-    if (chunk) {
-      return {
-        dzuuid: chunk.file.upload.uuid,
-        dzchunkindex: chunk.index,
-        dztotalfilesize: chunk.file.size,
-        dzchunksize: this.options.chunkSize,
-        dztotalchunkcount: chunk.file.upload.totalChunkCount,
-        dzchunkbyteoffset: chunk.index * this.options.chunkSize
-      };
-    }
+	if (chunk) {
+	  return {
+		dzuuid: chunk.file.upload.uuid,
+		dzchunkindex: chunk.index,
+		dztotalfilesize: chunk.file.size,
+		dzchunksize: this.options.chunkSize,
+		dztotalchunkcount: chunk.file.upload.totalChunkCount,
+		dzchunkbyteoffset: chunk.index * this.options.chunkSize
+	  };
+	}
   },
 
   /**
@@ -7403,7 +7403,7 @@ var defaultOptions = {
    * This function will not be called if the file is too big or doesn't match the mime types.
    */
   accept: function accept(file, done) {
-    return done();
+	return done();
   },
 
   /**
@@ -7413,7 +7413,7 @@ var defaultOptions = {
    * needed to finish the upload process is done.
    */
   chunksUploaded: function chunksUploaded(file, done) {
-    done();
+	done();
   },
 
   /**
@@ -7422,46 +7422,46 @@ var defaultOptions = {
    * a text.
    */
   fallback: function fallback() {
-    // This code should pass in IE7... :(
-    var messageElement;
-    this.element.className = "".concat(this.element.className, " dz-browser-not-supported");
+	// This code should pass in IE7... :(
+	var messageElement;
+	this.element.className = "".concat(this.element.className, " dz-browser-not-supported");
 
-    var _iterator = options_createForOfIteratorHelper(this.element.getElementsByTagName("div"), true),
-        _step;
+	var _iterator = options_createForOfIteratorHelper(this.element.getElementsByTagName("div"), true),
+		_step;
 
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var child = _step.value;
+	try {
+	  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+		var child = _step.value;
 
-        if (/(^| )dz-message($| )/.test(child.className)) {
-          messageElement = child;
-          child.className = "dz-message"; // Removes the 'dz-default' class
+		if (/(^| )dz-message($| )/.test(child.className)) {
+		  messageElement = child;
+		  child.className = "dz-message"; // Removes the 'dz-default' class
 
-          break;
-        }
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
+		  break;
+		}
+	  }
+	} catch (err) {
+	  _iterator.e(err);
+	} finally {
+	  _iterator.f();
+	}
 
-    if (!messageElement) {
-      messageElement = Dropzone.createElement('<div class="dz-message"><span></span></div>');
-      this.element.appendChild(messageElement);
-    }
+	if (!messageElement) {
+	  messageElement = Dropzone.createElement('<div class="dz-message"><span></span></div>');
+	  this.element.appendChild(messageElement);
+	}
 
-    var span = messageElement.getElementsByTagName("span")[0];
+	var span = messageElement.getElementsByTagName("span")[0];
 
-    if (span) {
-      if (span.textContent != null) {
-        span.textContent = this.options.dictFallbackMessage;
-      } else if (span.innerText != null) {
-        span.innerText = this.options.dictFallbackMessage;
-      }
-    }
+	if (span) {
+	  if (span.textContent != null) {
+		span.textContent = this.options.dictFallbackMessage;
+	  } else if (span.innerText != null) {
+		span.innerText = this.options.dictFallbackMessage;
+	  }
+	}
 
-    return this.element.appendChild(this.getFallbackForm());
+	return this.element.appendChild(this.getFallbackForm());
   },
 
   /**
@@ -7477,55 +7477,55 @@ var defaultOptions = {
    * Those values are going to be used by `ctx.drawImage()`.
    */
   resize: function resize(file, width, height, resizeMethod) {
-    var info = {
-      srcX: 0,
-      srcY: 0,
-      srcWidth: file.width,
-      srcHeight: file.height
-    };
-    var srcRatio = file.width / file.height; // Automatically calculate dimensions if not specified
+	var info = {
+	  srcX: 0,
+	  srcY: 0,
+	  srcWidth: file.width,
+	  srcHeight: file.height
+	};
+	var srcRatio = file.width / file.height; // Automatically calculate dimensions if not specified
 
-    if (width == null && height == null) {
-      width = info.srcWidth;
-      height = info.srcHeight;
-    } else if (width == null) {
-      width = height * srcRatio;
-    } else if (height == null) {
-      height = width / srcRatio;
-    } // Make sure images aren't upscaled
+	if (width == null && height == null) {
+	  width = info.srcWidth;
+	  height = info.srcHeight;
+	} else if (width == null) {
+	  width = height * srcRatio;
+	} else if (height == null) {
+	  height = width / srcRatio;
+	} // Make sure images aren't upscaled
 
 
-    width = Math.min(width, info.srcWidth);
-    height = Math.min(height, info.srcHeight);
-    var trgRatio = width / height;
+	width = Math.min(width, info.srcWidth);
+	height = Math.min(height, info.srcHeight);
+	var trgRatio = width / height;
 
-    if (info.srcWidth > width || info.srcHeight > height) {
-      // Image is bigger and needs rescaling
-      if (resizeMethod === "crop") {
-        if (srcRatio > trgRatio) {
-          info.srcHeight = file.height;
-          info.srcWidth = info.srcHeight * trgRatio;
-        } else {
-          info.srcWidth = file.width;
-          info.srcHeight = info.srcWidth / trgRatio;
-        }
-      } else if (resizeMethod === "contain") {
-        // Method 'contain'
-        if (srcRatio > trgRatio) {
-          height = width / srcRatio;
-        } else {
-          width = height * srcRatio;
-        }
-      } else {
-        throw new Error("Unknown resizeMethod '".concat(resizeMethod, "'"));
-      }
-    }
+	if (info.srcWidth > width || info.srcHeight > height) {
+	  // Image is bigger and needs rescaling
+	  if (resizeMethod === "crop") {
+		if (srcRatio > trgRatio) {
+		  info.srcHeight = file.height;
+		  info.srcWidth = info.srcHeight * trgRatio;
+		} else {
+		  info.srcWidth = file.width;
+		  info.srcHeight = info.srcWidth / trgRatio;
+		}
+	  } else if (resizeMethod === "contain") {
+		// Method 'contain'
+		if (srcRatio > trgRatio) {
+		  height = width / srcRatio;
+		} else {
+		  width = height * srcRatio;
+		}
+	  } else {
+		throw new Error("Unknown resizeMethod '".concat(resizeMethod, "'"));
+	  }
+	}
 
-    info.srcX = (file.width - info.srcWidth) / 2;
-    info.srcY = (file.height - info.srcHeight) / 2;
-    info.trgWidth = width;
-    info.trgHeight = height;
-    return info;
+	info.srcX = (file.width - info.srcWidth) / 2;
+	info.srcY = (file.height - info.srcHeight) / 2;
+	info.trgWidth = width;
+	info.trgHeight = height;
+	return info;
   },
 
   /**
@@ -7538,11 +7538,11 @@ var defaultOptions = {
    * to be invoked with the file when the transformation is done.
    */
   transformFile: function transformFile(file, done) {
-    if ((this.options.resizeWidth || this.options.resizeHeight) && file.type.match(/image.*/)) {
-      return this.resizeImage(file, this.options.resizeWidth, this.options.resizeHeight, this.options.resizeMethod, done);
-    } else {
-      return done(file);
-    }
+	if ((this.options.resizeWidth || this.options.resizeHeight) && file.type.match(/image.*/)) {
+	  return this.resizeImage(file, this.options.resizeWidth, this.options.resizeHeight, this.options.resizeMethod, done);
+	} else {
+	  return done(file);
+	}
   },
 
   /**
@@ -7554,9 +7554,9 @@ var defaultOptions = {
    * as a config option, you could create a div with the id `tpl`,
    * put the template inside it and provide the element like this:
    *
-   *     document
-   *       .querySelector('#tpl')
-   *       .innerHTML
+   *	 document
+   *	   .querySelector('#tpl')
+   *	   .innerHTML
    *
    */
   previewTemplate: preview_template,
@@ -7571,201 +7571,201 @@ var defaultOptions = {
    */
   // Those are self explanatory and simply concern the DragnDrop.
   drop: function drop(e) {
-    return this.element.classList.remove("dz-drag-hover");
+	return this.element.classList.remove("dz-drag-hover");
   },
   dragstart: function dragstart(e) {},
   dragend: function dragend(e) {
-    return this.element.classList.remove("dz-drag-hover");
+	return this.element.classList.remove("dz-drag-hover");
   },
   dragenter: function dragenter(e) {
-    return this.element.classList.add("dz-drag-hover");
+	return this.element.classList.add("dz-drag-hover");
   },
   dragover: function dragover(e) {
-    return this.element.classList.add("dz-drag-hover");
+	return this.element.classList.add("dz-drag-hover");
   },
   dragleave: function dragleave(e) {
-    return this.element.classList.remove("dz-drag-hover");
+	return this.element.classList.remove("dz-drag-hover");
   },
   paste: function paste(e) {},
   // Called whenever there are no files left in the dropzone anymore, and the
   // dropzone should be displayed as if in the initial state.
   reset: function reset() {
-    return this.element.classList.remove("dz-started");
+	return this.element.classList.remove("dz-started");
   },
   // Called when a file is added to the queue
   // Receives `file`
   addedfile: function addedfile(file) {
-    var _this = this;
+	var _this = this;
 
-    if (this.element === this.previewsContainer) {
-      this.element.classList.add("dz-started");
-    }
+	if (this.element === this.previewsContainer) {
+	  this.element.classList.add("dz-started");
+	}
 
-    if (this.previewsContainer && !this.options.disablePreviews) {
-      file.previewElement = Dropzone.createElement(this.options.previewTemplate.trim());
-      file.previewTemplate = file.previewElement; // Backwards compatibility
+	if (this.previewsContainer && !this.options.disablePreviews) {
+	  file.previewElement = Dropzone.createElement(this.options.previewTemplate.trim());
+	  file.previewTemplate = file.previewElement; // Backwards compatibility
 
-      this.previewsContainer.appendChild(file.previewElement);
+	  this.previewsContainer.appendChild(file.previewElement);
 
-      var _iterator2 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-name]"), true),
-          _step2;
+	  var _iterator2 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-name]"), true),
+		  _step2;
 
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var node = _step2.value;
-          node.textContent = file.name;
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
+	  try {
+		for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+		  var node = _step2.value;
+		  node.textContent = file.name;
+		}
+	  } catch (err) {
+		_iterator2.e(err);
+	  } finally {
+		_iterator2.f();
+	  }
 
-      var _iterator3 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-size]"), true),
-          _step3;
+	  var _iterator3 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-size]"), true),
+		  _step3;
 
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          node = _step3.value;
-          node.innerHTML = this.filesize(file.size);
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
+	  try {
+		for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+		  node = _step3.value;
+		  node.innerHTML = this.filesize(file.size);
+		}
+	  } catch (err) {
+		_iterator3.e(err);
+	  } finally {
+		_iterator3.f();
+	  }
 
-      if (this.options.addRemoveLinks) {
-        file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>".concat(this.options.dictRemoveFile, "</a>"));
-        file.previewElement.appendChild(file._removeLink);
-      }
+	  if (this.options.addRemoveLinks) {
+		file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>".concat(this.options.dictRemoveFile, "</a>"));
+		file.previewElement.appendChild(file._removeLink);
+	  }
 
-      var removeFileEvent = function removeFileEvent(e) {
-        e.preventDefault();
-        e.stopPropagation();
+	  var removeFileEvent = function removeFileEvent(e) {
+		e.preventDefault();
+		e.stopPropagation();
 
-        if (file.status === Dropzone.UPLOADING) {
-          return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function () {
-            return _this.removeFile(file);
-          });
-        } else {
-          if (_this.options.dictRemoveFileConfirmation) {
-            return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function () {
-              return _this.removeFile(file);
-            });
-          } else {
-            return _this.removeFile(file);
-          }
-        }
-      };
+		if (file.status === Dropzone.UPLOADING) {
+		  return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function () {
+			return _this.removeFile(file);
+		  });
+		} else {
+		  if (_this.options.dictRemoveFileConfirmation) {
+			return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function () {
+			  return _this.removeFile(file);
+			});
+		  } else {
+			return _this.removeFile(file);
+		  }
+		}
+	  };
 
-      var _iterator4 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-remove]"), true),
-          _step4;
+	  var _iterator4 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-remove]"), true),
+		  _step4;
 
-      try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var removeLink = _step4.value;
-          removeLink.addEventListener("click", removeFileEvent);
-        }
-      } catch (err) {
-        _iterator4.e(err);
-      } finally {
-        _iterator4.f();
-      }
-    }
+	  try {
+		for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+		  var removeLink = _step4.value;
+		  removeLink.addEventListener("click", removeFileEvent);
+		}
+	  } catch (err) {
+		_iterator4.e(err);
+	  } finally {
+		_iterator4.f();
+	  }
+	}
   },
   // Called whenever a file is removed.
   removedfile: function removedfile(file) {
-    if (file.previewElement != null && file.previewElement.parentNode != null) {
-      file.previewElement.parentNode.removeChild(file.previewElement);
-    }
+	if (file.previewElement != null && file.previewElement.parentNode != null) {
+	  file.previewElement.parentNode.removeChild(file.previewElement);
+	}
 
-    return this._updateMaxFilesReachedClass();
+	return this._updateMaxFilesReachedClass();
   },
   // Called when a thumbnail has been generated
   // Receives `file` and `dataUrl`
   thumbnail: function thumbnail(file, dataUrl) {
-    if (file.previewElement) {
-      file.previewElement.classList.remove("dz-file-preview");
+	if (file.previewElement) {
+	  file.previewElement.classList.remove("dz-file-preview");
 
-      var _iterator5 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-thumbnail]"), true),
-          _step5;
+	  var _iterator5 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-thumbnail]"), true),
+		  _step5;
 
-      try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var thumbnailElement = _step5.value;
-          thumbnailElement.alt = file.name;
-          thumbnailElement.src = dataUrl;
-        }
-      } catch (err) {
-        _iterator5.e(err);
-      } finally {
-        _iterator5.f();
-      }
+	  try {
+		for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+		  var thumbnailElement = _step5.value;
+		  thumbnailElement.alt = file.name;
+		  thumbnailElement.src = dataUrl;
+		}
+	  } catch (err) {
+		_iterator5.e(err);
+	  } finally {
+		_iterator5.f();
+	  }
 
-      return setTimeout(function () {
-        return file.previewElement.classList.add("dz-image-preview");
-      }, 1);
-    }
+	  return setTimeout(function () {
+		return file.previewElement.classList.add("dz-image-preview");
+	  }, 1);
+	}
   },
   // Called whenever an error occurs
   // Receives `file` and `message`
   error: function error(file, message) {
-    if (file.previewElement) {
-      file.previewElement.classList.add("dz-error");
+	if (file.previewElement) {
+	  file.previewElement.classList.add("dz-error");
 
-      if (typeof message !== "string" && message.error) {
-        message = message.error;
-      }
+	  if (typeof message !== "string" && message.error) {
+		message = message.error;
+	  }
 
-      var _iterator6 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-errormessage]"), true),
-          _step6;
+	  var _iterator6 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-errormessage]"), true),
+		  _step6;
 
-      try {
-        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-          var node = _step6.value;
-          node.textContent = message;
-        }
-      } catch (err) {
-        _iterator6.e(err);
-      } finally {
-        _iterator6.f();
-      }
-    }
+	  try {
+		for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+		  var node = _step6.value;
+		  node.textContent = message;
+		}
+	  } catch (err) {
+		_iterator6.e(err);
+	  } finally {
+		_iterator6.f();
+	  }
+	}
   },
   errormultiple: function errormultiple() {},
   // Called when a file gets processed. Since there is a cue, not all added
   // files are processed immediately.
   // Receives `file`
   processing: function processing(file) {
-    if (file.previewElement) {
-      file.previewElement.classList.add("dz-processing");
+	if (file.previewElement) {
+	  file.previewElement.classList.add("dz-processing");
 
-      if (file._removeLink) {
-        return file._removeLink.innerHTML = this.options.dictCancelUpload;
-      }
-    }
+	  if (file._removeLink) {
+		return file._removeLink.innerHTML = this.options.dictCancelUpload;
+	  }
+	}
   },
   processingmultiple: function processingmultiple() {},
   // Called whenever the upload progress gets updated.
   // Receives `file`, `progress` (percentage 0-100) and `bytesSent`.
   // To get the total number of bytes of the file, use `file.size`
   uploadprogress: function uploadprogress(file, progress, bytesSent) {
-    if (file.previewElement) {
-      var _iterator7 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-uploadprogress]"), true),
-          _step7;
+	if (file.previewElement) {
+	  var _iterator7 = options_createForOfIteratorHelper(file.previewElement.querySelectorAll("[data-dz-uploadprogress]"), true),
+		  _step7;
 
-      try {
-        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-          var node = _step7.value;
-          node.nodeName === "PROGRESS" ? node.value = progress : node.style.width = "".concat(progress, "%");
-        }
-      } catch (err) {
-        _iterator7.e(err);
-      } finally {
-        _iterator7.f();
-      }
-    }
+	  try {
+		for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+		  var node = _step7.value;
+		  node.nodeName === "PROGRESS" ? node.value = progress : node.style.width = "".concat(progress, "%");
+		}
+	  } catch (err) {
+		_iterator7.e(err);
+	  } finally {
+		_iterator7.f();
+	  }
+	}
   },
   // Called whenever the total upload progress gets updated.
   // Called with totalUploadProgress (0-100), totalBytes and totalBytesSent
@@ -7778,26 +7778,26 @@ var defaultOptions = {
   // When the complete upload is finished and successful
   // Receives `file`
   success: function success(file) {
-    if (file.previewElement) {
-      return file.previewElement.classList.add("dz-success");
-    }
+	if (file.previewElement) {
+	  return file.previewElement.classList.add("dz-success");
+	}
   },
   successmultiple: function successmultiple() {},
   // When the upload is canceled.
   canceled: function canceled(file) {
-    return this.emit("error", file, this.options.dictUploadCanceled);
+	return this.emit("error", file, this.options.dictUploadCanceled);
   },
   canceledmultiple: function canceledmultiple() {},
   // When the upload is finished, either with success or an error.
   // Receives `file`
   complete: function complete(file) {
-    if (file._removeLink) {
-      file._removeLink.innerHTML = this.options.dictRemoveFile;
-    }
+	if (file._removeLink) {
+	  file._removeLink.innerHTML = this.options.dictRemoveFile;
+	}
 
-    if (file.previewElement) {
-      return file.previewElement.classList.add("dz-complete");
-    }
+	if (file.previewElement) {
+	  return file.previewElement.classList.add("dz-complete");
+	}
   },
   completemultiple: function completemultiple() {},
   maxfilesexceeded: function maxfilesexceeded() {},
@@ -7890,1867 +7890,1867 @@ var Dropzone = /*#__PURE__*/function (_Emitter) {
   var _super = _createSuper(Dropzone);
 
   function Dropzone(el, options) {
-    var _this;
+	var _this;
 
-    dropzone_classCallCheck(this, Dropzone);
+	dropzone_classCallCheck(this, Dropzone);
 
-    _this = _super.call(this);
-    var fallback, left;
-    _this.element = el; // For backwards compatibility since the version was in the prototype previously
+	_this = _super.call(this);
+	var fallback, left;
+	_this.element = el; // For backwards compatibility since the version was in the prototype previously
 
-    _this.version = Dropzone.version;
-    _this.clickableElements = [];
-    _this.listeners = [];
-    _this.files = []; // All files
+	_this.version = Dropzone.version;
+	_this.clickableElements = [];
+	_this.listeners = [];
+	_this.files = []; // All files
 
-    if (typeof _this.element === "string") {
-      _this.element = document.querySelector(_this.element);
-    } // Not checking if instance of HTMLElement or Element since IE9 is extremely weird.
-
-
-    if (!_this.element || _this.element.nodeType == null) {
-      throw new Error("Invalid dropzone element.");
-    }
-
-    if (_this.element.dropzone) {
-      throw new Error("Dropzone already attached.");
-    } // Now add this dropzone to the instances.
+	if (typeof _this.element === "string") {
+	  _this.element = document.querySelector(_this.element);
+	} // Not checking if instance of HTMLElement or Element since IE9 is extremely weird.
 
 
-    Dropzone.instances.push(_assertThisInitialized(_this)); // Put the dropzone inside the element itself.
+	if (!_this.element || _this.element.nodeType == null) {
+	  throw new Error("Invalid dropzone element.");
+	}
 
-    _this.element.dropzone = _assertThisInitialized(_this);
-    var elementOptions = (left = Dropzone.optionsForElement(_this.element)) != null ? left : {};
-    _this.options = Dropzone.extend({}, src_options, elementOptions, options != null ? options : {});
-    _this.options.previewTemplate = _this.options.previewTemplate.replace(/\n*/g, ""); // If the browser failed, just call the fallback and leave
-
-    if (_this.options.forceFallback || !Dropzone.isBrowserSupported()) {
-      return _possibleConstructorReturn(_this, _this.options.fallback.call(_assertThisInitialized(_this)));
-    } // @options.url = @element.getAttribute "action" unless @options.url?
+	if (_this.element.dropzone) {
+	  throw new Error("Dropzone already attached.");
+	} // Now add this dropzone to the instances.
 
 
-    if (_this.options.url == null) {
-      _this.options.url = _this.element.getAttribute("action");
-    }
+	Dropzone.instances.push(_assertThisInitialized(_this)); // Put the dropzone inside the element itself.
 
-    if (!_this.options.url) {
-      throw new Error("No URL provided.");
-    }
+	_this.element.dropzone = _assertThisInitialized(_this);
+	var elementOptions = (left = Dropzone.optionsForElement(_this.element)) != null ? left : {};
+	_this.options = Dropzone.extend({}, src_options, elementOptions, options != null ? options : {});
+	_this.options.previewTemplate = _this.options.previewTemplate.replace(/\n*/g, ""); // If the browser failed, just call the fallback and leave
 
-    if (_this.options.acceptedFiles && _this.options.acceptedMimeTypes) {
-      throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
-    }
-
-    if (_this.options.uploadMultiple && _this.options.chunking) {
-      throw new Error("You cannot set both: uploadMultiple and chunking.");
-    } // Backwards compatibility
+	if (_this.options.forceFallback || !Dropzone.isBrowserSupported()) {
+	  return _possibleConstructorReturn(_this, _this.options.fallback.call(_assertThisInitialized(_this)));
+	} // @options.url = @element.getAttribute "action" unless @options.url?
 
 
-    if (_this.options.acceptedMimeTypes) {
-      _this.options.acceptedFiles = _this.options.acceptedMimeTypes;
-      delete _this.options.acceptedMimeTypes;
-    } // Backwards compatibility
+	if (_this.options.url == null) {
+	  _this.options.url = _this.element.getAttribute("action");
+	}
+
+	if (!_this.options.url) {
+	  throw new Error("No URL provided.");
+	}
+
+	if (_this.options.acceptedFiles && _this.options.acceptedMimeTypes) {
+	  throw new Error("You can't provide both 'acceptedFiles' and 'acceptedMimeTypes'. 'acceptedMimeTypes' is deprecated.");
+	}
+
+	if (_this.options.uploadMultiple && _this.options.chunking) {
+	  throw new Error("You cannot set both: uploadMultiple and chunking.");
+	} // Backwards compatibility
 
 
-    if (_this.options.renameFilename != null) {
-      _this.options.renameFile = function (file) {
-        return _this.options.renameFilename.call(_assertThisInitialized(_this), file.name, file);
-      };
-    }
-
-    if (typeof _this.options.method === "string") {
-      _this.options.method = _this.options.method.toUpperCase();
-    }
-
-    if ((fallback = _this.getExistingFallback()) && fallback.parentNode) {
-      // Remove the fallback
-      fallback.parentNode.removeChild(fallback);
-    } // Display previews in the previewsContainer element or the Dropzone element unless explicitly set to false
+	if (_this.options.acceptedMimeTypes) {
+	  _this.options.acceptedFiles = _this.options.acceptedMimeTypes;
+	  delete _this.options.acceptedMimeTypes;
+	} // Backwards compatibility
 
 
-    if (_this.options.previewsContainer !== false) {
-      if (_this.options.previewsContainer) {
-        _this.previewsContainer = Dropzone.getElement(_this.options.previewsContainer, "previewsContainer");
-      } else {
-        _this.previewsContainer = _this.element;
-      }
-    }
+	if (_this.options.renameFilename != null) {
+	  _this.options.renameFile = function (file) {
+		return _this.options.renameFilename.call(_assertThisInitialized(_this), file.name, file);
+	  };
+	}
 
-    if (_this.options.clickable) {
-      if (_this.options.clickable === true) {
-        _this.clickableElements = [_this.element];
-      } else {
-        _this.clickableElements = Dropzone.getElements(_this.options.clickable, "clickable");
-      }
-    }
+	if (typeof _this.options.method === "string") {
+	  _this.options.method = _this.options.method.toUpperCase();
+	}
 
-    _this.init();
+	if ((fallback = _this.getExistingFallback()) && fallback.parentNode) {
+	  // Remove the fallback
+	  fallback.parentNode.removeChild(fallback);
+	} // Display previews in the previewsContainer element or the Dropzone element unless explicitly set to false
 
-    return _this;
+
+	if (_this.options.previewsContainer !== false) {
+	  if (_this.options.previewsContainer) {
+		_this.previewsContainer = Dropzone.getElement(_this.options.previewsContainer, "previewsContainer");
+	  } else {
+		_this.previewsContainer = _this.element;
+	  }
+	}
+
+	if (_this.options.clickable) {
+	  if (_this.options.clickable === true) {
+		_this.clickableElements = [_this.element];
+	  } else {
+		_this.clickableElements = Dropzone.getElements(_this.options.clickable, "clickable");
+	  }
+	}
+
+	_this.init();
+
+	return _this;
   } // Returns all files that have been accepted
 
 
   dropzone_createClass(Dropzone, [{
-    key: "getAcceptedFiles",
-    value: function getAcceptedFiles() {
-      return this.files.filter(function (file) {
-        return file.accepted;
-      }).map(function (file) {
-        return file;
-      });
-    } // Returns all files that have been rejected
-    // Not sure when that's going to be useful, but added for completeness.
+	key: "getAcceptedFiles",
+	value: function getAcceptedFiles() {
+	  return this.files.filter(function (file) {
+		return file.accepted;
+	  }).map(function (file) {
+		return file;
+	  });
+	} // Returns all files that have been rejected
+	// Not sure when that's going to be useful, but added for completeness.
 
   }, {
-    key: "getRejectedFiles",
-    value: function getRejectedFiles() {
-      return this.files.filter(function (file) {
-        return !file.accepted;
-      }).map(function (file) {
-        return file;
-      });
-    }
+	key: "getRejectedFiles",
+	value: function getRejectedFiles() {
+	  return this.files.filter(function (file) {
+		return !file.accepted;
+	  }).map(function (file) {
+		return file;
+	  });
+	}
   }, {
-    key: "getFilesWithStatus",
-    value: function getFilesWithStatus(status) {
-      return this.files.filter(function (file) {
-        return file.status === status;
-      }).map(function (file) {
-        return file;
-      });
-    } // Returns all files that are in the queue
-
-  }, {
-    key: "getQueuedFiles",
-    value: function getQueuedFiles() {
-      return this.getFilesWithStatus(Dropzone.QUEUED);
-    }
-  }, {
-    key: "getUploadingFiles",
-    value: function getUploadingFiles() {
-      return this.getFilesWithStatus(Dropzone.UPLOADING);
-    }
-  }, {
-    key: "getAddedFiles",
-    value: function getAddedFiles() {
-      return this.getFilesWithStatus(Dropzone.ADDED);
-    } // Files that are either queued or uploading
+	key: "getFilesWithStatus",
+	value: function getFilesWithStatus(status) {
+	  return this.files.filter(function (file) {
+		return file.status === status;
+	  }).map(function (file) {
+		return file;
+	  });
+	} // Returns all files that are in the queue
 
   }, {
-    key: "getActiveFiles",
-    value: function getActiveFiles() {
-      return this.files.filter(function (file) {
-        return file.status === Dropzone.UPLOADING || file.status === Dropzone.QUEUED;
-      }).map(function (file) {
-        return file;
-      });
-    } // The function that gets called when Dropzone is initialized. You
-    // can (and should) setup event listeners inside this function.
+	key: "getQueuedFiles",
+	value: function getQueuedFiles() {
+	  return this.getFilesWithStatus(Dropzone.QUEUED);
+	}
+  }, {
+	key: "getUploadingFiles",
+	value: function getUploadingFiles() {
+	  return this.getFilesWithStatus(Dropzone.UPLOADING);
+	}
+  }, {
+	key: "getAddedFiles",
+	value: function getAddedFiles() {
+	  return this.getFilesWithStatus(Dropzone.ADDED);
+	} // Files that are either queued or uploading
 
   }, {
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      // In case it isn't set already
-      if (this.element.tagName === "form") {
-        this.element.setAttribute("enctype", "multipart/form-data");
-      }
-
-      if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
-        this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><button class=\"dz-button\" type=\"button\">".concat(this.options.dictDefaultMessage, "</button></div>")));
-      }
-
-      if (this.clickableElements.length) {
-        var setupHiddenFileInput = function setupHiddenFileInput() {
-          if (_this2.hiddenFileInput) {
-            _this2.hiddenFileInput.parentNode.removeChild(_this2.hiddenFileInput);
-          }
-
-          _this2.hiddenFileInput = document.createElement("input");
-
-          _this2.hiddenFileInput.setAttribute("type", "file");
-
-          if (_this2.options.maxFiles === null || _this2.options.maxFiles > 1) {
-            _this2.hiddenFileInput.setAttribute("multiple", "multiple");
-          }
-
-          _this2.hiddenFileInput.className = "dz-hidden-input";
-
-          if (_this2.options.acceptedFiles !== null) {
-            _this2.hiddenFileInput.setAttribute("accept", _this2.options.acceptedFiles);
-          }
-
-          if (_this2.options.capture !== null) {
-            _this2.hiddenFileInput.setAttribute("capture", _this2.options.capture);
-          } // Making sure that no one can "tab" into this field.
-
-
-          _this2.hiddenFileInput.setAttribute("tabindex", "-1"); // Not setting `display="none"` because some browsers don't accept clicks
-          // on elements that aren't displayed.
-
-
-          _this2.hiddenFileInput.style.visibility = "hidden";
-          _this2.hiddenFileInput.style.position = "absolute";
-          _this2.hiddenFileInput.style.top = "0";
-          _this2.hiddenFileInput.style.left = "0";
-          _this2.hiddenFileInput.style.height = "0";
-          _this2.hiddenFileInput.style.width = "0";
-          Dropzone.getElement(_this2.options.hiddenInputContainer, "hiddenInputContainer").appendChild(_this2.hiddenFileInput);
-
-          _this2.hiddenFileInput.addEventListener("change", function () {
-            var files = _this2.hiddenFileInput.files;
-
-            if (files.length) {
-              var _iterator = dropzone_createForOfIteratorHelper(files, true),
-                  _step;
-
-              try {
-                for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                  var file = _step.value;
-
-                  _this2.addFile(file);
-                }
-              } catch (err) {
-                _iterator.e(err);
-              } finally {
-                _iterator.f();
-              }
-            }
-
-            _this2.emit("addedfiles", files);
-
-            setupHiddenFileInput();
-          });
-        };
-
-        setupHiddenFileInput();
-      }
-
-      this.URL = window.URL !== null ? window.URL : window.webkitURL; // Setup all event listeners on the Dropzone object itself.
-      // They're not in @setupEventListeners() because they shouldn't be removed
-      // again when the dropzone gets disabled.
-
-      var _iterator2 = dropzone_createForOfIteratorHelper(this.events, true),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var eventName = _step2.value;
-          this.on(eventName, this.options[eventName]);
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      this.on("uploadprogress", function () {
-        return _this2.updateTotalUploadProgress();
-      });
-      this.on("removedfile", function () {
-        return _this2.updateTotalUploadProgress();
-      });
-      this.on("canceled", function (file) {
-        return _this2.emit("complete", file);
-      }); // Emit a `queuecomplete` event if all files finished uploading.
-
-      this.on("complete", function (file) {
-        if (_this2.getAddedFiles().length === 0 && _this2.getUploadingFiles().length === 0 && _this2.getQueuedFiles().length === 0) {
-          // This needs to be deferred so that `queuecomplete` really triggers after `complete`
-          return setTimeout(function () {
-            return _this2.emit("queuecomplete");
-          }, 0);
-        }
-      });
-
-      var containsFiles = function containsFiles(e) {
-        if (e.dataTransfer.types) {
-          // Because e.dataTransfer.types is an Object in
-          // IE, we need to iterate like this instead of
-          // using e.dataTransfer.types.some()
-          for (var i = 0; i < e.dataTransfer.types.length; i++) {
-            if (e.dataTransfer.types[i] === "Files") return true;
-          }
-        }
-
-        return false;
-      };
-
-      var noPropagation = function noPropagation(e) {
-        // If there are no files, we don't want to stop
-        // propagation so we don't interfere with other
-        // drag and drop behaviour.
-        if (!containsFiles(e)) return;
-        e.stopPropagation();
-
-        if (e.preventDefault) {
-          return e.preventDefault();
-        } else {
-          return e.returnValue = false;
-        }
-      }; // Create the listeners
-
-
-      this.listeners = [{
-        element: this.element,
-        events: {
-          dragstart: function dragstart(e) {
-            return _this2.emit("dragstart", e);
-          },
-          dragenter: function dragenter(e) {
-            noPropagation(e);
-            return _this2.emit("dragenter", e);
-          },
-          dragover: function dragover(e) {
-            // Makes it possible to drag files from chrome's download bar
-            // http://stackoverflow.com/questions/19526430/drag-and-drop-file-uploads-from-chrome-downloads-bar
-            // Try is required to prevent bug in Internet Explorer 11 (SCRIPT65535 exception)
-            var efct;
-
-            try {
-              efct = e.dataTransfer.effectAllowed;
-            } catch (error) {}
-
-            e.dataTransfer.dropEffect = "move" === efct || "linkMove" === efct ? "move" : "copy";
-            noPropagation(e);
-            return _this2.emit("dragover", e);
-          },
-          dragleave: function dragleave(e) {
-            return _this2.emit("dragleave", e);
-          },
-          drop: function drop(e) {
-            noPropagation(e);
-            return _this2.drop(e);
-          },
-          dragend: function dragend(e) {
-            return _this2.emit("dragend", e);
-          }
-        } // This is disabled right now, because the browsers don't implement it properly.
-        // "paste": (e) =>
-        //   noPropagation e
-        //   @paste e
-
-      }];
-      this.clickableElements.forEach(function (clickableElement) {
-        return _this2.listeners.push({
-          element: clickableElement,
-          events: {
-            click: function click(evt) {
-              // Only the actual dropzone or the message element should trigger file selection
-              if (clickableElement !== _this2.element || evt.target === _this2.element || Dropzone.elementInside(evt.target, _this2.element.querySelector(".dz-message"))) {
-                _this2.hiddenFileInput.click(); // Forward the click
-
-              }
-
-              return true;
-            }
-          }
-        });
-      });
-      this.enable();
-      return this.options.init.call(this);
-    } // Not fully tested yet
+	key: "getActiveFiles",
+	value: function getActiveFiles() {
+	  return this.files.filter(function (file) {
+		return file.status === Dropzone.UPLOADING || file.status === Dropzone.QUEUED;
+	  }).map(function (file) {
+		return file;
+	  });
+	} // The function that gets called when Dropzone is initialized. You
+	// can (and should) setup event listeners inside this function.
 
   }, {
-    key: "destroy",
-    value: function destroy() {
-      this.disable();
-      this.removeAllFiles(true);
+	key: "init",
+	value: function init() {
+	  var _this2 = this;
 
-      if (this.hiddenFileInput != null ? this.hiddenFileInput.parentNode : undefined) {
-        this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
-        this.hiddenFileInput = null;
-      }
+	  // In case it isn't set already
+	  if (this.element.tagName === "form") {
+		this.element.setAttribute("enctype", "multipart/form-data");
+	  }
 
-      delete this.element.dropzone;
-      return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
-    }
-  }, {
-    key: "updateTotalUploadProgress",
-    value: function updateTotalUploadProgress() {
-      var totalUploadProgress;
-      var totalBytesSent = 0;
-      var totalBytes = 0;
-      var activeFiles = this.getActiveFiles();
+	  if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
+		this.element.appendChild(Dropzone.createElement("<div class=\"dz-default dz-message\"><button class=\"dz-button\" type=\"button\">".concat(this.options.dictDefaultMessage, "</button></div>")));
+	  }
 
-      if (activeFiles.length) {
-        var _iterator3 = dropzone_createForOfIteratorHelper(this.getActiveFiles(), true),
-            _step3;
+	  if (this.clickableElements.length) {
+		var setupHiddenFileInput = function setupHiddenFileInput() {
+		  if (_this2.hiddenFileInput) {
+			_this2.hiddenFileInput.parentNode.removeChild(_this2.hiddenFileInput);
+		  }
 
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var file = _step3.value;
-            totalBytesSent += file.upload.bytesSent;
-            totalBytes += file.upload.total;
-          }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
-        }
+		  _this2.hiddenFileInput = document.createElement("input");
 
-        totalUploadProgress = 100 * totalBytesSent / totalBytes;
-      } else {
-        totalUploadProgress = 100;
-      }
+		  _this2.hiddenFileInput.setAttribute("type", "file");
 
-      return this.emit("totaluploadprogress", totalUploadProgress, totalBytes, totalBytesSent);
-    } // @options.paramName can be a function taking one parameter rather than a string.
-    // A parameter name for a file is obtained simply by calling this with an index number.
+		  if (_this2.options.maxFiles === null || _this2.options.maxFiles > 1) {
+			_this2.hiddenFileInput.setAttribute("multiple", "multiple");
+		  }
 
-  }, {
-    key: "_getParamName",
-    value: function _getParamName(n) {
-      if (typeof this.options.paramName === "function") {
-        return this.options.paramName(n);
-      } else {
-        return "".concat(this.options.paramName).concat(this.options.uploadMultiple ? "[".concat(n, "]") : "");
-      }
-    } // If @options.renameFile is a function,
-    // the function will be used to rename the file.name before appending it to the formData
+		  _this2.hiddenFileInput.className = "dz-hidden-input";
 
-  }, {
-    key: "_renameFile",
-    value: function _renameFile(file) {
-      if (typeof this.options.renameFile !== "function") {
-        return file.name;
-      }
+		  if (_this2.options.acceptedFiles !== null) {
+			_this2.hiddenFileInput.setAttribute("accept", _this2.options.acceptedFiles);
+		  }
 
-      return this.options.renameFile(file);
-    } // Returns a form that can be used as fallback if the browser does not support DragnDrop
-    //
-    // If the dropzone is already a form, only the input field and button are returned. Otherwise a complete form element is provided.
-    // This code has to pass in IE7 :(
+		  if (_this2.options.capture !== null) {
+			_this2.hiddenFileInput.setAttribute("capture", _this2.options.capture);
+		  } // Making sure that no one can "tab" into this field.
 
-  }, {
-    key: "getFallbackForm",
-    value: function getFallbackForm() {
-      var existingFallback, form;
 
-      if (existingFallback = this.getExistingFallback()) {
-        return existingFallback;
-      }
+		  _this2.hiddenFileInput.setAttribute("tabindex", "-1"); // Not setting `display="none"` because some browsers don't accept clicks
+		  // on elements that aren't displayed.
 
-      var fieldsString = '<div class="dz-fallback">';
 
-      if (this.options.dictFallbackText) {
-        fieldsString += "<p>".concat(this.options.dictFallbackText, "</p>");
-      }
+		  _this2.hiddenFileInput.style.visibility = "hidden";
+		  _this2.hiddenFileInput.style.position = "absolute";
+		  _this2.hiddenFileInput.style.top = "0";
+		  _this2.hiddenFileInput.style.left = "0";
+		  _this2.hiddenFileInput.style.height = "0";
+		  _this2.hiddenFileInput.style.width = "0";
+		  Dropzone.getElement(_this2.options.hiddenInputContainer, "hiddenInputContainer").appendChild(_this2.hiddenFileInput);
 
-      fieldsString += "<input type=\"file\" name=\"".concat(this._getParamName(0), "\" ").concat(this.options.uploadMultiple ? 'multiple="multiple"' : undefined, " /><input type=\"submit\" value=\"Upload!\"></div>");
-      var fields = Dropzone.createElement(fieldsString);
+		  _this2.hiddenFileInput.addEventListener("change", function () {
+			var files = _this2.hiddenFileInput.files;
 
-      if (this.element.tagName !== "FORM") {
-        form = Dropzone.createElement("<form action=\"".concat(this.options.url, "\" enctype=\"multipart/form-data\" method=\"").concat(this.options.method, "\"></form>"));
-        form.appendChild(fields);
-      } else {
-        // Make sure that the enctype and method attributes are set properly
-        this.element.setAttribute("enctype", "multipart/form-data");
-        this.element.setAttribute("method", this.options.method);
-      }
+			if (files.length) {
+			  var _iterator = dropzone_createForOfIteratorHelper(files, true),
+				  _step;
 
-      return form != null ? form : fields;
-    } // Returns the fallback elements if they exist already
-    //
-    // This code has to pass in IE7 :(
+			  try {
+				for (_iterator.s(); !(_step = _iterator.n()).done;) {
+				  var file = _step.value;
 
-  }, {
-    key: "getExistingFallback",
-    value: function getExistingFallback() {
-      var getFallback = function getFallback(elements) {
-        var _iterator4 = dropzone_createForOfIteratorHelper(elements, true),
-            _step4;
+				  _this2.addFile(file);
+				}
+			  } catch (err) {
+				_iterator.e(err);
+			  } finally {
+				_iterator.f();
+			  }
+			}
 
-        try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            var el = _step4.value;
+			_this2.emit("addedfiles", files);
 
-            if (/(^| )fallback($| )/.test(el.className)) {
-              return el;
-            }
-          }
-        } catch (err) {
-          _iterator4.e(err);
-        } finally {
-          _iterator4.f();
-        }
-      };
+			setupHiddenFileInput();
+		  });
+		};
 
-      for (var _i = 0, _arr = ["div", "form"]; _i < _arr.length; _i++) {
-        var tagName = _arr[_i];
-        var fallback;
+		setupHiddenFileInput();
+	  }
 
-        if (fallback = getFallback(this.element.getElementsByTagName(tagName))) {
-          return fallback;
-        }
-      }
-    } // Activates all listeners stored in @listeners
+	  this.URL = window.URL !== null ? window.URL : window.webkitURL; // Setup all event listeners on the Dropzone object itself.
+	  // They're not in @setupEventListeners() because they shouldn't be removed
+	  // again when the dropzone gets disabled.
 
-  }, {
-    key: "setupEventListeners",
-    value: function setupEventListeners() {
-      return this.listeners.map(function (elementListeners) {
-        return function () {
-          var result = [];
+	  var _iterator2 = dropzone_createForOfIteratorHelper(this.events, true),
+		  _step2;
 
-          for (var event in elementListeners.events) {
-            var listener = elementListeners.events[event];
-            result.push(elementListeners.element.addEventListener(event, listener, false));
-          }
+	  try {
+		for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+		  var eventName = _step2.value;
+		  this.on(eventName, this.options[eventName]);
+		}
+	  } catch (err) {
+		_iterator2.e(err);
+	  } finally {
+		_iterator2.f();
+	  }
 
-          return result;
-        }();
-      });
-    } // Deactivates all listeners stored in @listeners
+	  this.on("uploadprogress", function () {
+		return _this2.updateTotalUploadProgress();
+	  });
+	  this.on("removedfile", function () {
+		return _this2.updateTotalUploadProgress();
+	  });
+	  this.on("canceled", function (file) {
+		return _this2.emit("complete", file);
+	  }); // Emit a `queuecomplete` event if all files finished uploading.
 
-  }, {
-    key: "removeEventListeners",
-    value: function removeEventListeners() {
-      return this.listeners.map(function (elementListeners) {
-        return function () {
-          var result = [];
+	  this.on("complete", function (file) {
+		if (_this2.getAddedFiles().length === 0 && _this2.getUploadingFiles().length === 0 && _this2.getQueuedFiles().length === 0) {
+		  // This needs to be deferred so that `queuecomplete` really triggers after `complete`
+		  return setTimeout(function () {
+			return _this2.emit("queuecomplete");
+		  }, 0);
+		}
+	  });
 
-          for (var event in elementListeners.events) {
-            var listener = elementListeners.events[event];
-            result.push(elementListeners.element.removeEventListener(event, listener, false));
-          }
+	  var containsFiles = function containsFiles(e) {
+		if (e.dataTransfer.types) {
+		  // Because e.dataTransfer.types is an Object in
+		  // IE, we need to iterate like this instead of
+		  // using e.dataTransfer.types.some()
+		  for (var i = 0; i < e.dataTransfer.types.length; i++) {
+			if (e.dataTransfer.types[i] === "Files") return true;
+		  }
+		}
 
-          return result;
-        }();
-      });
-    } // Removes all event listeners and cancels all files in the queue or being processed.
+		return false;
+	  };
 
-  }, {
-    key: "disable",
-    value: function disable() {
-      var _this3 = this;
+	  var noPropagation = function noPropagation(e) {
+		// If there are no files, we don't want to stop
+		// propagation so we don't interfere with other
+		// drag and drop behaviour.
+		if (!containsFiles(e)) return;
+		e.stopPropagation();
 
-      this.clickableElements.forEach(function (element) {
-        return element.classList.remove("dz-clickable");
-      });
-      this.removeEventListeners();
-      this.disabled = true;
-      return this.files.map(function (file) {
-        return _this3.cancelUpload(file);
-      });
-    }
-  }, {
-    key: "enable",
-    value: function enable() {
-      delete this.disabled;
-      this.clickableElements.forEach(function (element) {
-        return element.classList.add("dz-clickable");
-      });
-      return this.setupEventListeners();
-    } // Returns a nicely formatted filesize
+		if (e.preventDefault) {
+		  return e.preventDefault();
+		} else {
+		  return e.returnValue = false;
+		}
+	  }; // Create the listeners
 
-  }, {
-    key: "filesize",
-    value: function filesize(size) {
-      var selectedSize = 0;
-      var selectedUnit = "b";
 
-      if (size > 0) {
-        var units = ["tb", "gb", "mb", "kb", "b"];
+	  this.listeners = [{
+		element: this.element,
+		events: {
+		  dragstart: function dragstart(e) {
+			return _this2.emit("dragstart", e);
+		  },
+		  dragenter: function dragenter(e) {
+			noPropagation(e);
+			return _this2.emit("dragenter", e);
+		  },
+		  dragover: function dragover(e) {
+			// Makes it possible to drag files from chrome's download bar
+			// http://stackoverflow.com/questions/19526430/drag-and-drop-file-uploads-from-chrome-downloads-bar
+			// Try is required to prevent bug in Internet Explorer 11 (SCRIPT65535 exception)
+			var efct;
 
-        for (var i = 0; i < units.length; i++) {
-          var unit = units[i];
-          var cutoff = Math.pow(this.options.filesizeBase, 4 - i) / 10;
+			try {
+			  efct = e.dataTransfer.effectAllowed;
+			} catch (error) {}
 
-          if (size >= cutoff) {
-            selectedSize = size / Math.pow(this.options.filesizeBase, 4 - i);
-            selectedUnit = unit;
-            break;
-          }
-        }
+			e.dataTransfer.dropEffect = "move" === efct || "linkMove" === efct ? "move" : "copy";
+			noPropagation(e);
+			return _this2.emit("dragover", e);
+		  },
+		  dragleave: function dragleave(e) {
+			return _this2.emit("dragleave", e);
+		  },
+		  drop: function drop(e) {
+			noPropagation(e);
+			return _this2.drop(e);
+		  },
+		  dragend: function dragend(e) {
+			return _this2.emit("dragend", e);
+		  }
+		} // This is disabled right now, because the browsers don't implement it properly.
+		// "paste": (e) =>
+		//   noPropagation e
+		//   @paste e
 
-        selectedSize = Math.round(10 * selectedSize) / 10; // Cutting of digits
-      }
+	  }];
+	  this.clickableElements.forEach(function (clickableElement) {
+		return _this2.listeners.push({
+		  element: clickableElement,
+		  events: {
+			click: function click(evt) {
+			  // Only the actual dropzone or the message element should trigger file selection
+			  if (clickableElement !== _this2.element || evt.target === _this2.element || Dropzone.elementInside(evt.target, _this2.element.querySelector(".dz-message"))) {
+				_this2.hiddenFileInput.click(); // Forward the click
 
-      return "<strong>".concat(selectedSize, "</strong> ").concat(this.options.dictFileSizeUnits[selectedUnit]);
-    } // Adds or removes the `dz-max-files-reached` class from the form.
+			  }
+
+			  return true;
+			}
+		  }
+		});
+	  });
+	  this.enable();
+	  return this.options.init.call(this);
+	} // Not fully tested yet
 
   }, {
-    key: "_updateMaxFilesReachedClass",
-    value: function _updateMaxFilesReachedClass() {
-      if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
-        if (this.getAcceptedFiles().length === this.options.maxFiles) {
-          this.emit("maxfilesreached", this.files);
-        }
+	key: "destroy",
+	value: function destroy() {
+	  this.disable();
+	  this.removeAllFiles(true);
 
-        return this.element.classList.add("dz-max-files-reached");
-      } else {
-        return this.element.classList.remove("dz-max-files-reached");
-      }
-    }
+	  if (this.hiddenFileInput != null ? this.hiddenFileInput.parentNode : undefined) {
+		this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);
+		this.hiddenFileInput = null;
+	  }
+
+	  delete this.element.dropzone;
+	  return Dropzone.instances.splice(Dropzone.instances.indexOf(this), 1);
+	}
   }, {
-    key: "drop",
-    value: function drop(e) {
-      if (!e.dataTransfer) {
-        return;
-      }
+	key: "updateTotalUploadProgress",
+	value: function updateTotalUploadProgress() {
+	  var totalUploadProgress;
+	  var totalBytesSent = 0;
+	  var totalBytes = 0;
+	  var activeFiles = this.getActiveFiles();
 
-      this.emit("drop", e); // Convert the FileList to an Array
-      // This is necessary for IE11
+	  if (activeFiles.length) {
+		var _iterator3 = dropzone_createForOfIteratorHelper(this.getActiveFiles(), true),
+			_step3;
 
-      var files = [];
+		try {
+		  for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+			var file = _step3.value;
+			totalBytesSent += file.upload.bytesSent;
+			totalBytes += file.upload.total;
+		  }
+		} catch (err) {
+		  _iterator3.e(err);
+		} finally {
+		  _iterator3.f();
+		}
 
-      for (var i = 0; i < e.dataTransfer.files.length; i++) {
-        files[i] = e.dataTransfer.files[i];
-      } // Even if it's a folder, files.length will contain the folders.
+		totalUploadProgress = 100 * totalBytesSent / totalBytes;
+	  } else {
+		totalUploadProgress = 100;
+	  }
 
-
-      if (files.length) {
-        var items = e.dataTransfer.items;
-
-        if (items && items.length && items[0].webkitGetAsEntry != null) {
-          // The browser supports dropping of folders, so handle items instead of files
-          this._addFilesFromItems(items);
-        } else {
-          this.handleFiles(files);
-        }
-      }
-
-      this.emit("addedfiles", files);
-    }
-  }, {
-    key: "paste",
-    value: function paste(e) {
-      if (__guard__(e != null ? e.clipboardData : undefined, function (x) {
-        return x.items;
-      }) == null) {
-        return;
-      }
-
-      this.emit("paste", e);
-      var items = e.clipboardData.items;
-
-      if (items.length) {
-        return this._addFilesFromItems(items);
-      }
-    }
-  }, {
-    key: "handleFiles",
-    value: function handleFiles(files) {
-      var _iterator5 = dropzone_createForOfIteratorHelper(files, true),
-          _step5;
-
-      try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var file = _step5.value;
-          this.addFile(file);
-        }
-      } catch (err) {
-        _iterator5.e(err);
-      } finally {
-        _iterator5.f();
-      }
-    } // When a folder is dropped (or files are pasted), items must be handled
-    // instead of files.
+	  return this.emit("totaluploadprogress", totalUploadProgress, totalBytes, totalBytesSent);
+	} // @options.paramName can be a function taking one parameter rather than a string.
+	// A parameter name for a file is obtained simply by calling this with an index number.
 
   }, {
-    key: "_addFilesFromItems",
-    value: function _addFilesFromItems(items) {
-      var _this4 = this;
-
-      return function () {
-        var result = [];
-
-        var _iterator6 = dropzone_createForOfIteratorHelper(items, true),
-            _step6;
-
-        try {
-          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-            var item = _step6.value;
-            var entry;
-
-            if (item.webkitGetAsEntry != null && (entry = item.webkitGetAsEntry())) {
-              if (entry.isFile) {
-                result.push(_this4.addFile(item.getAsFile()));
-              } else if (entry.isDirectory) {
-                // Append all files from that directory to files
-                result.push(_this4._addFilesFromDirectory(entry, entry.name));
-              } else {
-                result.push(undefined);
-              }
-            } else if (item.getAsFile != null) {
-              if (item.kind == null || item.kind === "file") {
-                result.push(_this4.addFile(item.getAsFile()));
-              } else {
-                result.push(undefined);
-              }
-            } else {
-              result.push(undefined);
-            }
-          }
-        } catch (err) {
-          _iterator6.e(err);
-        } finally {
-          _iterator6.f();
-        }
-
-        return result;
-      }();
-    } // Goes through the directory, and adds each file it finds recursively
+	key: "_getParamName",
+	value: function _getParamName(n) {
+	  if (typeof this.options.paramName === "function") {
+		return this.options.paramName(n);
+	  } else {
+		return "".concat(this.options.paramName).concat(this.options.uploadMultiple ? "[".concat(n, "]") : "");
+	  }
+	} // If @options.renameFile is a function,
+	// the function will be used to rename the file.name before appending it to the formData
 
   }, {
-    key: "_addFilesFromDirectory",
-    value: function _addFilesFromDirectory(directory, path) {
-      var _this5 = this;
+	key: "_renameFile",
+	value: function _renameFile(file) {
+	  if (typeof this.options.renameFile !== "function") {
+		return file.name;
+	  }
 
-      var dirReader = directory.createReader();
-
-      var errorHandler = function errorHandler(error) {
-        return __guardMethod__(console, "log", function (o) {
-          return o.log(error);
-        });
-      };
-
-      var readEntries = function readEntries() {
-        return dirReader.readEntries(function (entries) {
-          if (entries.length > 0) {
-            var _iterator7 = dropzone_createForOfIteratorHelper(entries, true),
-                _step7;
-
-            try {
-              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-                var entry = _step7.value;
-
-                if (entry.isFile) {
-                  entry.file(function (file) {
-                    if (_this5.options.ignoreHiddenFiles && file.name.substring(0, 1) === ".") {
-                      return;
-                    }
-
-                    file.fullPath = "".concat(path, "/").concat(file.name);
-                    return _this5.addFile(file);
-                  });
-                } else if (entry.isDirectory) {
-                  _this5._addFilesFromDirectory(entry, "".concat(path, "/").concat(entry.name));
-                }
-              } // Recursively call readEntries() again, since browser only handle
-              // the first 100 entries.
-              // See: https://developer.mozilla.org/en-US/docs/Web/API/DirectoryReader#readEntries
-
-            } catch (err) {
-              _iterator7.e(err);
-            } finally {
-              _iterator7.f();
-            }
-
-            readEntries();
-          }
-
-          return null;
-        }, errorHandler);
-      };
-
-      return readEntries();
-    } // If `done()` is called without argument the file is accepted
-    // If you call it with an error message, the file is rejected
-    // (This allows for asynchronous validation)
-    //
-    // This function checks the filesize, and if the file.type passes the
-    // `acceptedFiles` check.
+	  return this.options.renameFile(file);
+	} // Returns a form that can be used as fallback if the browser does not support DragnDrop
+	//
+	// If the dropzone is already a form, only the input field and button are returned. Otherwise a complete form element is provided.
+	// This code has to pass in IE7 :(
 
   }, {
-    key: "accept",
-    value: function accept(file, done) {
-      if (this.options.maxFilesize && file.size > this.options.maxFilesize * 1024 * 1024) {
-        done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
-      } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
-        done(this.options.dictInvalidFileType);
-      } else if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
-        done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
-        this.emit("maxfilesexceeded", file);
-      } else {
-        this.options.accept.call(this, file, done);
-      }
-    }
-  }, {
-    key: "addFile",
-    value: function addFile(file) {
-      var _this6 = this;
+	key: "getFallbackForm",
+	value: function getFallbackForm() {
+	  var existingFallback, form;
 
-      file.upload = {
-        uuid: Dropzone.uuidv4(),
-        progress: 0,
-        // Setting the total upload size to file.size for the beginning
-        // It's actual different than the size to be transmitted.
-        total: file.size,
-        bytesSent: 0,
-        filename: this._renameFile(file) // Not setting chunking information here, because the acutal data — and
-        // thus the chunks — might change if `options.transformFile` is set
-        // and does something to the data.
+	  if (existingFallback = this.getExistingFallback()) {
+		return existingFallback;
+	  }
 
-      };
-      this.files.push(file);
-      file.status = Dropzone.ADDED;
-      this.emit("addedfile", file);
+	  var fieldsString = '<div class="dz-fallback">';
 
-      this._enqueueThumbnail(file);
+	  if (this.options.dictFallbackText) {
+		fieldsString += "<p>".concat(this.options.dictFallbackText, "</p>");
+	  }
 
-      this.accept(file, function (error) {
-        if (error) {
-          file.accepted = false;
+	  fieldsString += "<input type=\"file\" name=\"".concat(this._getParamName(0), "\" ").concat(this.options.uploadMultiple ? 'multiple="multiple"' : undefined, " /><input type=\"submit\" value=\"Upload!\"></div>");
+	  var fields = Dropzone.createElement(fieldsString);
 
-          _this6._errorProcessing([file], error); // Will set the file.status
+	  if (this.element.tagName !== "FORM") {
+		form = Dropzone.createElement("<form action=\"".concat(this.options.url, "\" enctype=\"multipart/form-data\" method=\"").concat(this.options.method, "\"></form>"));
+		form.appendChild(fields);
+	  } else {
+		// Make sure that the enctype and method attributes are set properly
+		this.element.setAttribute("enctype", "multipart/form-data");
+		this.element.setAttribute("method", this.options.method);
+	  }
 
-        } else {
-          file.accepted = true;
-
-          if (_this6.options.autoQueue) {
-            _this6.enqueueFile(file);
-          } // Will set .accepted = true
-
-        }
-
-        _this6._updateMaxFilesReachedClass();
-      });
-    } // Wrapper for enqueueFile
+	  return form != null ? form : fields;
+	} // Returns the fallback elements if they exist already
+	//
+	// This code has to pass in IE7 :(
 
   }, {
-    key: "enqueueFiles",
-    value: function enqueueFiles(files) {
-      var _iterator8 = dropzone_createForOfIteratorHelper(files, true),
-          _step8;
+	key: "getExistingFallback",
+	value: function getExistingFallback() {
+	  var getFallback = function getFallback(elements) {
+		var _iterator4 = dropzone_createForOfIteratorHelper(elements, true),
+			_step4;
 
-      try {
-        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-          var file = _step8.value;
-          this.enqueueFile(file);
-        }
-      } catch (err) {
-        _iterator8.e(err);
-      } finally {
-        _iterator8.f();
-      }
+		try {
+		  for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+			var el = _step4.value;
 
-      return null;
-    }
-  }, {
-    key: "enqueueFile",
-    value: function enqueueFile(file) {
-      var _this7 = this;
+			if (/(^| )fallback($| )/.test(el.className)) {
+			  return el;
+			}
+		  }
+		} catch (err) {
+		  _iterator4.e(err);
+		} finally {
+		  _iterator4.f();
+		}
+	  };
 
-      if (file.status === Dropzone.ADDED && file.accepted === true) {
-        file.status = Dropzone.QUEUED;
+	  for (var _i = 0, _arr = ["div", "form"]; _i < _arr.length; _i++) {
+		var tagName = _arr[_i];
+		var fallback;
 
-        if (this.options.autoProcessQueue) {
-          return setTimeout(function () {
-            return _this7.processQueue();
-          }, 0); // Deferring the call
-        }
-      } else {
-        throw new Error("This file can't be queued because it has already been processed or was rejected.");
-      }
-    }
-  }, {
-    key: "_enqueueThumbnail",
-    value: function _enqueueThumbnail(file) {
-      var _this8 = this;
-
-      if (this.options.createImageThumbnails && file.type.match(/image.*/) && file.size <= this.options.maxThumbnailFilesize * 1024 * 1024) {
-        this._thumbnailQueue.push(file);
-
-        return setTimeout(function () {
-          return _this8._processThumbnailQueue();
-        }, 0); // Deferring the call
-      }
-    }
-  }, {
-    key: "_processThumbnailQueue",
-    value: function _processThumbnailQueue() {
-      var _this9 = this;
-
-      if (this._processingThumbnail || this._thumbnailQueue.length === 0) {
-        return;
-      }
-
-      this._processingThumbnail = true;
-
-      var file = this._thumbnailQueue.shift();
-
-      return this.createThumbnail(file, this.options.thumbnailWidth, this.options.thumbnailHeight, this.options.thumbnailMethod, true, function (dataUrl) {
-        _this9.emit("thumbnail", file, dataUrl);
-
-        _this9._processingThumbnail = false;
-        return _this9._processThumbnailQueue();
-      });
-    } // Can be called by the user to remove a file
+		if (fallback = getFallback(this.element.getElementsByTagName(tagName))) {
+		  return fallback;
+		}
+	  }
+	} // Activates all listeners stored in @listeners
 
   }, {
-    key: "removeFile",
-    value: function removeFile(file) {
-      if (file.status === Dropzone.UPLOADING) {
-        this.cancelUpload(file);
-      }
+	key: "setupEventListeners",
+	value: function setupEventListeners() {
+	  return this.listeners.map(function (elementListeners) {
+		return function () {
+		  var result = [];
 
-      this.files = without(this.files, file);
-      this.emit("removedfile", file);
+		  for (var event in elementListeners.events) {
+			var listener = elementListeners.events[event];
+			result.push(elementListeners.element.addEventListener(event, listener, false));
+		  }
 
-      if (this.files.length === 0) {
-        return this.emit("reset");
-      }
-    } // Removes all files that aren't currently processed from the list
-
-  }, {
-    key: "removeAllFiles",
-    value: function removeAllFiles(cancelIfNecessary) {
-      // Create a copy of files since removeFile() changes the @files array.
-      if (cancelIfNecessary == null) {
-        cancelIfNecessary = false;
-      }
-
-      var _iterator9 = dropzone_createForOfIteratorHelper(this.files.slice(), true),
-          _step9;
-
-      try {
-        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-          var file = _step9.value;
-
-          if (file.status !== Dropzone.UPLOADING || cancelIfNecessary) {
-            this.removeFile(file);
-          }
-        }
-      } catch (err) {
-        _iterator9.e(err);
-      } finally {
-        _iterator9.f();
-      }
-
-      return null;
-    } // Resizes an image before it gets sent to the server. This function is the default behavior of
-    // `options.transformFile` if `resizeWidth` or `resizeHeight` are set. The callback is invoked with
-    // the resized blob.
+		  return result;
+		}();
+	  });
+	} // Deactivates all listeners stored in @listeners
 
   }, {
-    key: "resizeImage",
-    value: function resizeImage(file, width, height, resizeMethod, callback) {
-      var _this10 = this;
+	key: "removeEventListeners",
+	value: function removeEventListeners() {
+	  return this.listeners.map(function (elementListeners) {
+		return function () {
+		  var result = [];
 
-      return this.createThumbnail(file, width, height, resizeMethod, true, function (dataUrl, canvas) {
-        if (canvas == null) {
-          // The image has not been resized
-          return callback(file);
-        } else {
-          var resizeMimeType = _this10.options.resizeMimeType;
+		  for (var event in elementListeners.events) {
+			var listener = elementListeners.events[event];
+			result.push(elementListeners.element.removeEventListener(event, listener, false));
+		  }
 
-          if (resizeMimeType == null) {
-            resizeMimeType = file.type;
-          }
-
-          var resizedDataURL = canvas.toDataURL(resizeMimeType, _this10.options.resizeQuality);
-
-          if (resizeMimeType === "image/jpeg" || resizeMimeType === "image/jpg") {
-            // Now add the original EXIF information
-            resizedDataURL = ExifRestore.restore(file.dataURL, resizedDataURL);
-          }
-
-          return callback(Dropzone.dataURItoBlob(resizedDataURL));
-        }
-      });
-    }
-  }, {
-    key: "createThumbnail",
-    value: function createThumbnail(file, width, height, resizeMethod, fixOrientation, callback) {
-      var _this11 = this;
-
-      var fileReader = new FileReader();
-
-      fileReader.onload = function () {
-        file.dataURL = fileReader.result; // Don't bother creating a thumbnail for SVG images since they're vector
-
-        if (file.type === "image/svg+xml") {
-          if (callback != null) {
-            callback(fileReader.result);
-          }
-
-          return;
-        }
-
-        _this11.createThumbnailFromUrl(file, width, height, resizeMethod, fixOrientation, callback);
-      };
-
-      fileReader.readAsDataURL(file);
-    } // `mockFile` needs to have these attributes:
-    //
-    //     { name: 'name', size: 12345, imageUrl: '' }
-    //
-    // `callback` will be invoked when the image has been downloaded and displayed.
-    // `crossOrigin` will be added to the `img` tag when accessing the file.
+		  return result;
+		}();
+	  });
+	} // Removes all event listeners and cancels all files in the queue or being processed.
 
   }, {
-    key: "displayExistingFile",
-    value: function displayExistingFile(mockFile, imageUrl, callback, crossOrigin) {
-      var _this12 = this;
+	key: "disable",
+	value: function disable() {
+	  var _this3 = this;
 
-      var resizeThumbnail = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
-      this.emit("addedfile", mockFile);
-      this.emit("complete", mockFile);
-
-      if (!resizeThumbnail) {
-        this.emit("thumbnail", mockFile, imageUrl);
-        if (callback) callback();
-      } else {
-        var onDone = function onDone(thumbnail) {
-          _this12.emit("thumbnail", mockFile, thumbnail);
-
-          if (callback) callback();
-        };
-
-        mockFile.dataURL = imageUrl;
-        this.createThumbnailFromUrl(mockFile, this.options.thumbnailWidth, this.options.thumbnailHeight, this.options.resizeMethod, this.options.fixOrientation, onDone, crossOrigin);
-      }
-    }
+	  this.clickableElements.forEach(function (element) {
+		return element.classList.remove("dz-clickable");
+	  });
+	  this.removeEventListeners();
+	  this.disabled = true;
+	  return this.files.map(function (file) {
+		return _this3.cancelUpload(file);
+	  });
+	}
   }, {
-    key: "createThumbnailFromUrl",
-    value: function createThumbnailFromUrl(file, width, height, resizeMethod, fixOrientation, callback, crossOrigin) {
-      var _this13 = this;
-
-      // Not using `new Image` here because of a bug in latest Chrome versions.
-      // See https://github.com/enyo/dropzone/pull/226
-      var img = document.createElement("img");
-
-      if (crossOrigin) {
-        img.crossOrigin = crossOrigin;
-      } // fixOrientation is not needed anymore with browsers handling imageOrientation
-
-
-      fixOrientation = getComputedStyle(document.body)["imageOrientation"] == "from-image" ? false : fixOrientation;
-
-      img.onload = function () {
-        var loadExif = function loadExif(callback) {
-          return callback(1);
-        };
-
-        if (typeof EXIF !== "undefined" && EXIF !== null && fixOrientation) {
-          loadExif = function loadExif(callback) {
-            return EXIF.getData(img, function () {
-              return callback(EXIF.getTag(this, "Orientation"));
-            });
-          };
-        }
-
-        return loadExif(function (orientation) {
-          file.width = img.width;
-          file.height = img.height;
-
-          var resizeInfo = _this13.options.resize.call(_this13, file, width, height, resizeMethod);
-
-          var canvas = document.createElement("canvas");
-          var ctx = canvas.getContext("2d");
-          canvas.width = resizeInfo.trgWidth;
-          canvas.height = resizeInfo.trgHeight;
-
-          if (orientation > 4) {
-            canvas.width = resizeInfo.trgHeight;
-            canvas.height = resizeInfo.trgWidth;
-          }
-
-          switch (orientation) {
-            case 2:
-              // horizontal flip
-              ctx.translate(canvas.width, 0);
-              ctx.scale(-1, 1);
-              break;
-
-            case 3:
-              // 180° rotate left
-              ctx.translate(canvas.width, canvas.height);
-              ctx.rotate(Math.PI);
-              break;
-
-            case 4:
-              // vertical flip
-              ctx.translate(0, canvas.height);
-              ctx.scale(1, -1);
-              break;
-
-            case 5:
-              // vertical flip + 90 rotate right
-              ctx.rotate(0.5 * Math.PI);
-              ctx.scale(1, -1);
-              break;
-
-            case 6:
-              // 90° rotate right
-              ctx.rotate(0.5 * Math.PI);
-              ctx.translate(0, -canvas.width);
-              break;
-
-            case 7:
-              // horizontal flip + 90 rotate right
-              ctx.rotate(0.5 * Math.PI);
-              ctx.translate(canvas.height, -canvas.width);
-              ctx.scale(-1, 1);
-              break;
-
-            case 8:
-              // 90° rotate left
-              ctx.rotate(-0.5 * Math.PI);
-              ctx.translate(-canvas.height, 0);
-              break;
-          } // This is a bugfix for iOS' scaling bug.
-
-
-          drawImageIOSFix(ctx, img, resizeInfo.srcX != null ? resizeInfo.srcX : 0, resizeInfo.srcY != null ? resizeInfo.srcY : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, resizeInfo.trgX != null ? resizeInfo.trgX : 0, resizeInfo.trgY != null ? resizeInfo.trgY : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
-          var thumbnail = canvas.toDataURL("image/png");
-
-          if (callback != null) {
-            return callback(thumbnail, canvas);
-          }
-        });
-      };
-
-      if (callback != null) {
-        img.onerror = callback;
-      }
-
-      return img.src = file.dataURL;
-    } // Goes through the queue and processes files if there aren't too many already.
+	key: "enable",
+	value: function enable() {
+	  delete this.disabled;
+	  this.clickableElements.forEach(function (element) {
+		return element.classList.add("dz-clickable");
+	  });
+	  return this.setupEventListeners();
+	} // Returns a nicely formatted filesize
 
   }, {
-    key: "processQueue",
-    value: function processQueue() {
-      var parallelUploads = this.options.parallelUploads;
-      var processingLength = this.getUploadingFiles().length;
-      var i = processingLength; // There are already at least as many files uploading than should be
+	key: "filesize",
+	value: function filesize(size) {
+	  var selectedSize = 0;
+	  var selectedUnit = "b";
 
-      if (processingLength >= parallelUploads) {
-        return;
-      }
+	  if (size > 0) {
+		var units = ["tb", "gb", "mb", "kb", "b"];
 
-      var queuedFiles = this.getQueuedFiles();
+		for (var i = 0; i < units.length; i++) {
+		  var unit = units[i];
+		  var cutoff = Math.pow(this.options.filesizeBase, 4 - i) / 10;
 
-      if (!(queuedFiles.length > 0)) {
-        return;
-      }
+		  if (size >= cutoff) {
+			selectedSize = size / Math.pow(this.options.filesizeBase, 4 - i);
+			selectedUnit = unit;
+			break;
+		  }
+		}
 
-      if (this.options.uploadMultiple) {
-        // The files should be uploaded in one request
-        return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
-      } else {
-        while (i < parallelUploads) {
-          if (!queuedFiles.length) {
-            return;
-          } // Nothing left to process
+		selectedSize = Math.round(10 * selectedSize) / 10; // Cutting of digits
+	  }
 
-
-          this.processFile(queuedFiles.shift());
-          i++;
-        }
-      }
-    } // Wrapper for `processFiles`
+	  return "<strong>".concat(selectedSize, "</strong> ").concat(this.options.dictFileSizeUnits[selectedUnit]);
+	} // Adds or removes the `dz-max-files-reached` class from the form.
 
   }, {
-    key: "processFile",
-    value: function processFile(file) {
-      return this.processFiles([file]);
-    } // Loads the file, then calls finishedLoading()
+	key: "_updateMaxFilesReachedClass",
+	value: function _updateMaxFilesReachedClass() {
+	  if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
+		if (this.getAcceptedFiles().length === this.options.maxFiles) {
+		  this.emit("maxfilesreached", this.files);
+		}
+
+		return this.element.classList.add("dz-max-files-reached");
+	  } else {
+		return this.element.classList.remove("dz-max-files-reached");
+	  }
+	}
+  }, {
+	key: "drop",
+	value: function drop(e) {
+	  if (!e.dataTransfer) {
+		return;
+	  }
+
+	  this.emit("drop", e); // Convert the FileList to an Array
+	  // This is necessary for IE11
+
+	  var files = [];
+
+	  for (var i = 0; i < e.dataTransfer.files.length; i++) {
+		files[i] = e.dataTransfer.files[i];
+	  } // Even if it's a folder, files.length will contain the folders.
+
+
+	  if (files.length) {
+		var items = e.dataTransfer.items;
+
+		if (items && items.length && items[0].webkitGetAsEntry != null) {
+		  // The browser supports dropping of folders, so handle items instead of files
+		  this._addFilesFromItems(items);
+		} else {
+		  this.handleFiles(files);
+		}
+	  }
+
+	  this.emit("addedfiles", files);
+	}
+  }, {
+	key: "paste",
+	value: function paste(e) {
+	  if (__guard__(e != null ? e.clipboardData : undefined, function (x) {
+		return x.items;
+	  }) == null) {
+		return;
+	  }
+
+	  this.emit("paste", e);
+	  var items = e.clipboardData.items;
+
+	  if (items.length) {
+		return this._addFilesFromItems(items);
+	  }
+	}
+  }, {
+	key: "handleFiles",
+	value: function handleFiles(files) {
+	  var _iterator5 = dropzone_createForOfIteratorHelper(files, true),
+		  _step5;
+
+	  try {
+		for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+		  var file = _step5.value;
+		  this.addFile(file);
+		}
+	  } catch (err) {
+		_iterator5.e(err);
+	  } finally {
+		_iterator5.f();
+	  }
+	} // When a folder is dropped (or files are pasted), items must be handled
+	// instead of files.
 
   }, {
-    key: "processFiles",
-    value: function processFiles(files) {
-      var _iterator10 = dropzone_createForOfIteratorHelper(files, true),
-          _step10;
+	key: "_addFilesFromItems",
+	value: function _addFilesFromItems(items) {
+	  var _this4 = this;
 
-      try {
-        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-          var file = _step10.value;
-          file.processing = true; // Backwards compatibility
+	  return function () {
+		var result = [];
 
-          file.status = Dropzone.UPLOADING;
-          this.emit("processing", file);
-        }
-      } catch (err) {
-        _iterator10.e(err);
-      } finally {
-        _iterator10.f();
-      }
+		var _iterator6 = dropzone_createForOfIteratorHelper(items, true),
+			_step6;
 
-      if (this.options.uploadMultiple) {
-        this.emit("processingmultiple", files);
-      }
+		try {
+		  for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+			var item = _step6.value;
+			var entry;
 
-      return this.uploadFiles(files);
-    }
-  }, {
-    key: "_getFilesWithXhr",
-    value: function _getFilesWithXhr(xhr) {
-      var files;
-      return files = this.files.filter(function (file) {
-        return file.xhr === xhr;
-      }).map(function (file) {
-        return file;
-      });
-    } // Cancels the file upload and sets the status to CANCELED
-    // **if** the file is actually being uploaded.
-    // If it's still in the queue, the file is being removed from it and the status
-    // set to CANCELED.
+			if (item.webkitGetAsEntry != null && (entry = item.webkitGetAsEntry())) {
+			  if (entry.isFile) {
+				result.push(_this4.addFile(item.getAsFile()));
+			  } else if (entry.isDirectory) {
+				// Append all files from that directory to files
+				result.push(_this4._addFilesFromDirectory(entry, entry.name));
+			  } else {
+				result.push(undefined);
+			  }
+			} else if (item.getAsFile != null) {
+			  if (item.kind == null || item.kind === "file") {
+				result.push(_this4.addFile(item.getAsFile()));
+			  } else {
+				result.push(undefined);
+			  }
+			} else {
+			  result.push(undefined);
+			}
+		  }
+		} catch (err) {
+		  _iterator6.e(err);
+		} finally {
+		  _iterator6.f();
+		}
 
-  }, {
-    key: "cancelUpload",
-    value: function cancelUpload(file) {
-      if (file.status === Dropzone.UPLOADING) {
-        var groupedFiles = this._getFilesWithXhr(file.xhr);
-
-        var _iterator11 = dropzone_createForOfIteratorHelper(groupedFiles, true),
-            _step11;
-
-        try {
-          for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-            var groupedFile = _step11.value;
-            groupedFile.status = Dropzone.CANCELED;
-          }
-        } catch (err) {
-          _iterator11.e(err);
-        } finally {
-          _iterator11.f();
-        }
-
-        if (typeof file.xhr !== "undefined") {
-          file.xhr.abort();
-        }
-
-        var _iterator12 = dropzone_createForOfIteratorHelper(groupedFiles, true),
-            _step12;
-
-        try {
-          for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-            var _groupedFile = _step12.value;
-            this.emit("canceled", _groupedFile);
-          }
-        } catch (err) {
-          _iterator12.e(err);
-        } finally {
-          _iterator12.f();
-        }
-
-        if (this.options.uploadMultiple) {
-          this.emit("canceledmultiple", groupedFiles);
-        }
-      } else if (file.status === Dropzone.ADDED || file.status === Dropzone.QUEUED) {
-        file.status = Dropzone.CANCELED;
-        this.emit("canceled", file);
-
-        if (this.options.uploadMultiple) {
-          this.emit("canceledmultiple", [file]);
-        }
-      }
-
-      if (this.options.autoProcessQueue) {
-        return this.processQueue();
-      }
-    }
-  }, {
-    key: "resolveOption",
-    value: function resolveOption(option) {
-      if (typeof option === "function") {
-        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          args[_key - 1] = arguments[_key];
-        }
-
-        return option.apply(this, args);
-      }
-
-      return option;
-    }
-  }, {
-    key: "uploadFile",
-    value: function uploadFile(file) {
-      return this.uploadFiles([file]);
-    }
-  }, {
-    key: "uploadFiles",
-    value: function uploadFiles(files) {
-      var _this14 = this;
-
-      this._transformFiles(files, function (transformedFiles) {
-        if (_this14.options.chunking) {
-          // Chunking is not allowed to be used with `uploadMultiple` so we know
-          // that there is only __one__file.
-          var transformedFile = transformedFiles[0];
-          files[0].upload.chunked = _this14.options.chunking && (_this14.options.forceChunking || transformedFile.size > _this14.options.chunkSize);
-          files[0].upload.totalChunkCount = Math.ceil(transformedFile.size / _this14.options.chunkSize);
-        }
-
-        if (files[0].upload.chunked) {
-          // This file should be sent in chunks!
-          // If the chunking option is set, we **know** that there can only be **one** file, since
-          // uploadMultiple is not allowed with this option.
-          var file = files[0];
-          var _transformedFile = transformedFiles[0];
-          var startedChunkCount = 0;
-          file.upload.chunks = [];
-
-          var handleNextChunk = function handleNextChunk() {
-            var chunkIndex = 0; // Find the next item in file.upload.chunks that is not defined yet.
-
-            while (file.upload.chunks[chunkIndex] !== undefined) {
-              chunkIndex++;
-            } // This means, that all chunks have already been started.
-
-
-            if (chunkIndex >= file.upload.totalChunkCount) return;
-            startedChunkCount++;
-            var start = chunkIndex * _this14.options.chunkSize;
-            var end = Math.min(start + _this14.options.chunkSize, _transformedFile.size);
-            var dataBlock = {
-              name: _this14._getParamName(0),
-              data: _transformedFile.webkitSlice ? _transformedFile.webkitSlice(start, end) : _transformedFile.slice(start, end),
-              filename: file.upload.filename,
-              chunkIndex: chunkIndex
-            };
-            file.upload.chunks[chunkIndex] = {
-              file: file,
-              index: chunkIndex,
-              dataBlock: dataBlock,
-              // In case we want to retry.
-              status: Dropzone.UPLOADING,
-              progress: 0,
-              retries: 0 // The number of times this block has been retried.
-
-            };
-
-            _this14._uploadData(files, [dataBlock]);
-          };
-
-          file.upload.finishedChunkUpload = function (chunk) {
-            var allFinished = true;
-            chunk.status = Dropzone.SUCCESS; // Clear the data from the chunk
-
-            chunk.dataBlock = null; // Leaving this reference to xhr intact here will cause memory leaks in some browsers
-
-            chunk.xhr = null;
-
-            for (var i = 0; i < file.upload.totalChunkCount; i++) {
-              if (file.upload.chunks[i] === undefined) {
-                return handleNextChunk();
-              }
-
-              if (file.upload.chunks[i].status !== Dropzone.SUCCESS) {
-                allFinished = false;
-              }
-            }
-
-            if (allFinished) {
-              _this14.options.chunksUploaded(file, function () {
-                _this14._finished(files, "", null);
-              });
-            }
-          };
-
-          if (_this14.options.parallelChunkUploads) {
-            for (var i = 0; i < file.upload.totalChunkCount; i++) {
-              handleNextChunk();
-            }
-          } else {
-            handleNextChunk();
-          }
-        } else {
-          var dataBlocks = [];
-
-          for (var _i2 = 0; _i2 < files.length; _i2++) {
-            dataBlocks[_i2] = {
-              name: _this14._getParamName(_i2),
-              data: transformedFiles[_i2],
-              filename: files[_i2].upload.filename
-            };
-          }
-
-          _this14._uploadData(files, dataBlocks);
-        }
-      });
-    } /// Returns the right chunk for given file and xhr
+		return result;
+	  }();
+	} // Goes through the directory, and adds each file it finds recursively
 
   }, {
-    key: "_getChunk",
-    value: function _getChunk(file, xhr) {
-      for (var i = 0; i < file.upload.totalChunkCount; i++) {
-        if (file.upload.chunks[i] !== undefined && file.upload.chunks[i].xhr === xhr) {
-          return file.upload.chunks[i];
-        }
-      }
-    } // This function actually uploads the file(s) to the server.
-    // If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
-    // files, or individual chunks for chunked upload).
+	key: "_addFilesFromDirectory",
+	value: function _addFilesFromDirectory(directory, path) {
+	  var _this5 = this;
+
+	  var dirReader = directory.createReader();
+
+	  var errorHandler = function errorHandler(error) {
+		return __guardMethod__(console, "log", function (o) {
+		  return o.log(error);
+		});
+	  };
+
+	  var readEntries = function readEntries() {
+		return dirReader.readEntries(function (entries) {
+		  if (entries.length > 0) {
+			var _iterator7 = dropzone_createForOfIteratorHelper(entries, true),
+				_step7;
+
+			try {
+			  for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+				var entry = _step7.value;
+
+				if (entry.isFile) {
+				  entry.file(function (file) {
+					if (_this5.options.ignoreHiddenFiles && file.name.substring(0, 1) === ".") {
+					  return;
+					}
+
+					file.fullPath = "".concat(path, "/").concat(file.name);
+					return _this5.addFile(file);
+				  });
+				} else if (entry.isDirectory) {
+				  _this5._addFilesFromDirectory(entry, "".concat(path, "/").concat(entry.name));
+				}
+			  } // Recursively call readEntries() again, since browser only handle
+			  // the first 100 entries.
+			  // See: https://developer.mozilla.org/en-US/docs/Web/API/DirectoryReader#readEntries
+
+			} catch (err) {
+			  _iterator7.e(err);
+			} finally {
+			  _iterator7.f();
+			}
+
+			readEntries();
+		  }
+
+		  return null;
+		}, errorHandler);
+	  };
+
+	  return readEntries();
+	} // If `done()` is called without argument the file is accepted
+	// If you call it with an error message, the file is rejected
+	// (This allows for asynchronous validation)
+	//
+	// This function checks the filesize, and if the file.type passes the
+	// `acceptedFiles` check.
 
   }, {
-    key: "_uploadData",
-    value: function _uploadData(files, dataBlocks) {
-      var _this15 = this;
+	key: "accept",
+	value: function accept(file, done) {
+	  if (this.options.maxFilesize && file.size > this.options.maxFilesize * 1024 * 1024) {
+		done(this.options.dictFileTooBig.replace("{{filesize}}", Math.round(file.size / 1024 / 10.24) / 100).replace("{{maxFilesize}}", this.options.maxFilesize));
+	  } else if (!Dropzone.isValidFile(file, this.options.acceptedFiles)) {
+		done(this.options.dictInvalidFileType);
+	  } else if (this.options.maxFiles != null && this.getAcceptedFiles().length >= this.options.maxFiles) {
+		done(this.options.dictMaxFilesExceeded.replace("{{maxFiles}}", this.options.maxFiles));
+		this.emit("maxfilesexceeded", file);
+	  } else {
+		this.options.accept.call(this, file, done);
+	  }
+	}
+  }, {
+	key: "addFile",
+	value: function addFile(file) {
+	  var _this6 = this;
 
-      var xhr = new XMLHttpRequest(); // Put the xhr object in the file objects to be able to reference it later.
+	  file.upload = {
+		uuid: Dropzone.uuidv4(),
+		progress: 0,
+		// Setting the total upload size to file.size for the beginning
+		// It's actual different than the size to be transmitted.
+		total: file.size,
+		bytesSent: 0,
+		filename: this._renameFile(file) // Not setting chunking information here, because the acutal data — and
+		// thus the chunks — might change if `options.transformFile` is set
+		// and does something to the data.
 
-      var _iterator13 = dropzone_createForOfIteratorHelper(files, true),
-          _step13;
+	  };
+	  this.files.push(file);
+	  file.status = Dropzone.ADDED;
+	  this.emit("addedfile", file);
 
-      try {
-        for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
-          var file = _step13.value;
-          file.xhr = xhr;
-        }
-      } catch (err) {
-        _iterator13.e(err);
-      } finally {
-        _iterator13.f();
-      }
+	  this._enqueueThumbnail(file);
 
-      if (files[0].upload.chunked) {
-        // Put the xhr object in the right chunk object, so it can be associated later, and found with _getChunk
-        files[0].upload.chunks[dataBlocks[0].chunkIndex].xhr = xhr;
-      }
+	  this.accept(file, function (error) {
+		if (error) {
+		  file.accepted = false;
 
-      var method = this.resolveOption(this.options.method, files);
-      var url = this.resolveOption(this.options.url, files);
-      xhr.open(method, url, true); // Setting the timeout after open because of IE11 issue: https://gitlab.com/meno/dropzone/issues/8
+		  _this6._errorProcessing([file], error); // Will set the file.status
 
-      xhr.timeout = this.resolveOption(this.options.timeout, files); // Has to be after `.open()`. See https://github.com/enyo/dropzone/issues/179
+		} else {
+		  file.accepted = true;
 
-      xhr.withCredentials = !!this.options.withCredentials;
+		  if (_this6.options.autoQueue) {
+			_this6.enqueueFile(file);
+		  } // Will set .accepted = true
 
-      xhr.onload = function (e) {
-        _this15._finishedUploading(files, xhr, e);
-      };
+		}
 
-      xhr.ontimeout = function () {
-        _this15._handleUploadError(files, xhr, "Request timedout after ".concat(_this15.options.timeout / 1000, " seconds"));
-      };
-
-      xhr.onerror = function () {
-        _this15._handleUploadError(files, xhr);
-      }; // Some browsers do not have the .upload property
-
-
-      var progressObj = xhr.upload != null ? xhr.upload : xhr;
-
-      progressObj.onprogress = function (e) {
-        return _this15._updateFilesUploadProgress(files, xhr, e);
-      };
-
-      var headers = {
-        Accept: "application/json",
-        "Cache-Control": "no-cache",
-        "X-Requested-With": "XMLHttpRequest"
-      };
-
-      if (this.options.headers) {
-        Dropzone.extend(headers, this.options.headers);
-      }
-
-      for (var headerName in headers) {
-        var headerValue = headers[headerName];
-
-        if (headerValue) {
-          xhr.setRequestHeader(headerName, headerValue);
-        }
-      }
-
-      var formData = new FormData(); // Adding all @options parameters
-
-      if (this.options.params) {
-        var additionalParams = this.options.params;
-
-        if (typeof additionalParams === "function") {
-          additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
-        }
-
-        for (var key in additionalParams) {
-          var value = additionalParams[key];
-
-          if (Array.isArray(value)) {
-            // The additional parameter contains an array,
-            // so lets iterate over it to attach each value
-            // individually.
-            for (var i = 0; i < value.length; i++) {
-              formData.append(key, value[i]);
-            }
-          } else {
-            formData.append(key, value);
-          }
-        }
-      } // Let the user add additional data if necessary
-
-
-      var _iterator14 = dropzone_createForOfIteratorHelper(files, true),
-          _step14;
-
-      try {
-        for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
-          var _file = _step14.value;
-          this.emit("sending", _file, xhr, formData);
-        }
-      } catch (err) {
-        _iterator14.e(err);
-      } finally {
-        _iterator14.f();
-      }
-
-      if (this.options.uploadMultiple) {
-        this.emit("sendingmultiple", files, xhr, formData);
-      }
-
-      this._addFormElementData(formData); // Finally add the files
-      // Has to be last because some servers (eg: S3) expect the file to be the last parameter
-
-
-      for (var _i3 = 0; _i3 < dataBlocks.length; _i3++) {
-        var dataBlock = dataBlocks[_i3];
-        formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
-      }
-
-      this.submitRequest(xhr, formData, files);
-    } // Transforms all files with this.options.transformFile and invokes done with the transformed files when done.
+		_this6._updateMaxFilesReachedClass();
+	  });
+	} // Wrapper for enqueueFile
 
   }, {
-    key: "_transformFiles",
-    value: function _transformFiles(files, done) {
-      var _this16 = this;
+	key: "enqueueFiles",
+	value: function enqueueFiles(files) {
+	  var _iterator8 = dropzone_createForOfIteratorHelper(files, true),
+		  _step8;
 
-      var transformedFiles = []; // Clumsy way of handling asynchronous calls, until I get to add a proper Future library.
+	  try {
+		for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+		  var file = _step8.value;
+		  this.enqueueFile(file);
+		}
+	  } catch (err) {
+		_iterator8.e(err);
+	  } finally {
+		_iterator8.f();
+	  }
 
-      var doneCounter = 0;
+	  return null;
+	}
+  }, {
+	key: "enqueueFile",
+	value: function enqueueFile(file) {
+	  var _this7 = this;
 
-      var _loop = function _loop(i) {
-        _this16.options.transformFile.call(_this16, files[i], function (transformedFile) {
-          transformedFiles[i] = transformedFile;
+	  if (file.status === Dropzone.ADDED && file.accepted === true) {
+		file.status = Dropzone.QUEUED;
 
-          if (++doneCounter === files.length) {
-            done(transformedFiles);
-          }
-        });
-      };
+		if (this.options.autoProcessQueue) {
+		  return setTimeout(function () {
+			return _this7.processQueue();
+		  }, 0); // Deferring the call
+		}
+	  } else {
+		throw new Error("This file can't be queued because it has already been processed or was rejected.");
+	  }
+	}
+  }, {
+	key: "_enqueueThumbnail",
+	value: function _enqueueThumbnail(file) {
+	  var _this8 = this;
 
-      for (var i = 0; i < files.length; i++) {
-        _loop(i);
-      }
-    } // Takes care of adding other input elements of the form to the AJAX request
+	  if (this.options.createImageThumbnails && file.type.match(/image.*/) && file.size <= this.options.maxThumbnailFilesize * 1024 * 1024) {
+		this._thumbnailQueue.push(file);
+
+		return setTimeout(function () {
+		  return _this8._processThumbnailQueue();
+		}, 0); // Deferring the call
+	  }
+	}
+  }, {
+	key: "_processThumbnailQueue",
+	value: function _processThumbnailQueue() {
+	  var _this9 = this;
+
+	  if (this._processingThumbnail || this._thumbnailQueue.length === 0) {
+		return;
+	  }
+
+	  this._processingThumbnail = true;
+
+	  var file = this._thumbnailQueue.shift();
+
+	  return this.createThumbnail(file, this.options.thumbnailWidth, this.options.thumbnailHeight, this.options.thumbnailMethod, true, function (dataUrl) {
+		_this9.emit("thumbnail", file, dataUrl);
+
+		_this9._processingThumbnail = false;
+		return _this9._processThumbnailQueue();
+	  });
+	} // Can be called by the user to remove a file
 
   }, {
-    key: "_addFormElementData",
-    value: function _addFormElementData(formData) {
-      // Take care of other input elements
-      if (this.element.tagName === "FORM") {
-        var _iterator15 = dropzone_createForOfIteratorHelper(this.element.querySelectorAll("input, textarea, select, button"), true),
-            _step15;
+	key: "removeFile",
+	value: function removeFile(file) {
+	  if (file.status === Dropzone.UPLOADING) {
+		this.cancelUpload(file);
+	  }
 
-        try {
-          for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
-            var input = _step15.value;
-            var inputName = input.getAttribute("name");
-            var inputType = input.getAttribute("type");
-            if (inputType) inputType = inputType.toLowerCase(); // If the input doesn't have a name, we can't use it.
+	  this.files = without(this.files, file);
+	  this.emit("removedfile", file);
 
-            if (typeof inputName === "undefined" || inputName === null) continue;
-
-            if (input.tagName === "SELECT" && input.hasAttribute("multiple")) {
-              // Possibly multiple values
-              var _iterator16 = dropzone_createForOfIteratorHelper(input.options, true),
-                  _step16;
-
-              try {
-                for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
-                  var option = _step16.value;
-
-                  if (option.selected) {
-                    formData.append(inputName, option.value);
-                  }
-                }
-              } catch (err) {
-                _iterator16.e(err);
-              } finally {
-                _iterator16.f();
-              }
-            } else if (!inputType || inputType !== "checkbox" && inputType !== "radio" || input.checked) {
-              formData.append(inputName, input.value);
-            }
-          }
-        } catch (err) {
-          _iterator15.e(err);
-        } finally {
-          _iterator15.f();
-        }
-      }
-    } // Invoked when there is new progress information about given files.
-    // If e is not provided, it is assumed that the upload is finished.
+	  if (this.files.length === 0) {
+		return this.emit("reset");
+	  }
+	} // Removes all files that aren't currently processed from the list
 
   }, {
-    key: "_updateFilesUploadProgress",
-    value: function _updateFilesUploadProgress(files, xhr, e) {
-      var progress;
+	key: "removeAllFiles",
+	value: function removeAllFiles(cancelIfNecessary) {
+	  // Create a copy of files since removeFile() changes the @files array.
+	  if (cancelIfNecessary == null) {
+		cancelIfNecessary = false;
+	  }
 
-      if (typeof e !== "undefined") {
-        progress = 100 * e.loaded / e.total;
+	  var _iterator9 = dropzone_createForOfIteratorHelper(this.files.slice(), true),
+		  _step9;
 
-        if (files[0].upload.chunked) {
-          var file = files[0]; // Since this is a chunked upload, we need to update the appropriate chunk progress.
+	  try {
+		for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+		  var file = _step9.value;
 
-          var chunk = this._getChunk(file, xhr);
+		  if (file.status !== Dropzone.UPLOADING || cancelIfNecessary) {
+			this.removeFile(file);
+		  }
+		}
+	  } catch (err) {
+		_iterator9.e(err);
+	  } finally {
+		_iterator9.f();
+	  }
 
-          chunk.progress = progress;
-          chunk.total = e.total;
-          chunk.bytesSent = e.loaded;
-          var fileProgress = 0,
-              fileTotal,
-              fileBytesSent;
-          file.upload.progress = 0;
-          file.upload.total = 0;
-          file.upload.bytesSent = 0;
-
-          for (var i = 0; i < file.upload.totalChunkCount; i++) {
-            if (file.upload.chunks[i] !== undefined && file.upload.chunks[i].progress !== undefined) {
-              file.upload.progress += file.upload.chunks[i].progress;
-              file.upload.total += file.upload.chunks[i].total;
-              file.upload.bytesSent += file.upload.chunks[i].bytesSent;
-            }
-          }
-
-          file.upload.progress = file.upload.progress / file.upload.totalChunkCount;
-        } else {
-          var _iterator17 = dropzone_createForOfIteratorHelper(files, true),
-              _step17;
-
-          try {
-            for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
-              var _file2 = _step17.value;
-              _file2.upload.progress = progress;
-              _file2.upload.total = e.total;
-              _file2.upload.bytesSent = e.loaded;
-            }
-          } catch (err) {
-            _iterator17.e(err);
-          } finally {
-            _iterator17.f();
-          }
-        }
-
-        var _iterator18 = dropzone_createForOfIteratorHelper(files, true),
-            _step18;
-
-        try {
-          for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
-            var _file3 = _step18.value;
-            this.emit("uploadprogress", _file3, _file3.upload.progress, _file3.upload.bytesSent);
-          }
-        } catch (err) {
-          _iterator18.e(err);
-        } finally {
-          _iterator18.f();
-        }
-      } else {
-        // Called when the file finished uploading
-        var allFilesFinished = true;
-        progress = 100;
-
-        var _iterator19 = dropzone_createForOfIteratorHelper(files, true),
-            _step19;
-
-        try {
-          for (_iterator19.s(); !(_step19 = _iterator19.n()).done;) {
-            var _file4 = _step19.value;
-
-            if (_file4.upload.progress !== 100 || _file4.upload.bytesSent !== _file4.upload.total) {
-              allFilesFinished = false;
-            }
-
-            _file4.upload.progress = progress;
-            _file4.upload.bytesSent = _file4.upload.total;
-          } // Nothing to do, all files already at 100%
-
-        } catch (err) {
-          _iterator19.e(err);
-        } finally {
-          _iterator19.f();
-        }
-
-        if (allFilesFinished) {
-          return;
-        }
-
-        var _iterator20 = dropzone_createForOfIteratorHelper(files, true),
-            _step20;
-
-        try {
-          for (_iterator20.s(); !(_step20 = _iterator20.n()).done;) {
-            var _file5 = _step20.value;
-            this.emit("uploadprogress", _file5, progress, _file5.upload.bytesSent);
-          }
-        } catch (err) {
-          _iterator20.e(err);
-        } finally {
-          _iterator20.f();
-        }
-      }
-    }
-  }, {
-    key: "_finishedUploading",
-    value: function _finishedUploading(files, xhr, e) {
-      var response;
-
-      if (files[0].status === Dropzone.CANCELED) {
-        return;
-      }
-
-      if (xhr.readyState !== 4) {
-        return;
-      }
-
-      if (xhr.responseType !== "arraybuffer" && xhr.responseType !== "blob") {
-        response = xhr.responseText;
-
-        if (xhr.getResponseHeader("content-type") && ~xhr.getResponseHeader("content-type").indexOf("application/json")) {
-          try {
-            response = JSON.parse(response);
-          } catch (error) {
-            e = error;
-            response = "Invalid JSON response from server.";
-          }
-        }
-      }
-
-      this._updateFilesUploadProgress(files);
-
-      if (!(200 <= xhr.status && xhr.status < 300)) {
-        this._handleUploadError(files, xhr, response);
-      } else {
-        if (files[0].upload.chunked) {
-          files[0].upload.finishedChunkUpload(this._getChunk(files[0], xhr));
-        } else {
-          this._finished(files, response, e);
-        }
-      }
-    }
-  }, {
-    key: "_handleUploadError",
-    value: function _handleUploadError(files, xhr, response) {
-      if (files[0].status === Dropzone.CANCELED) {
-        return;
-      }
-
-      if (files[0].upload.chunked && this.options.retryChunks) {
-        var chunk = this._getChunk(files[0], xhr);
-
-        if (chunk.retries++ < this.options.retryChunksLimit) {
-          this._uploadData(files, [chunk.dataBlock]);
-
-          return;
-        } else {
-          console.warn("Retried this chunk too often. Giving up.");
-        }
-      }
-
-      this._errorProcessing(files, response || this.options.dictResponseError.replace("{{statusCode}}", xhr.status), xhr);
-    }
-  }, {
-    key: "submitRequest",
-    value: function submitRequest(xhr, formData, files) {
-      xhr.send(formData);
-    } // Called internally when processing is finished.
-    // Individual callbacks have to be called in the appropriate sections.
+	  return null;
+	} // Resizes an image before it gets sent to the server. This function is the default behavior of
+	// `options.transformFile` if `resizeWidth` or `resizeHeight` are set. The callback is invoked with
+	// the resized blob.
 
   }, {
-    key: "_finished",
-    value: function _finished(files, responseText, e) {
-      var _iterator21 = dropzone_createForOfIteratorHelper(files, true),
-          _step21;
+	key: "resizeImage",
+	value: function resizeImage(file, width, height, resizeMethod, callback) {
+	  var _this10 = this;
 
-      try {
-        for (_iterator21.s(); !(_step21 = _iterator21.n()).done;) {
-          var file = _step21.value;
-          file.status = Dropzone.SUCCESS;
-          this.emit("success", file, responseText, e);
-          this.emit("complete", file);
-        }
-      } catch (err) {
-        _iterator21.e(err);
-      } finally {
-        _iterator21.f();
-      }
+	  return this.createThumbnail(file, width, height, resizeMethod, true, function (dataUrl, canvas) {
+		if (canvas == null) {
+		  // The image has not been resized
+		  return callback(file);
+		} else {
+		  var resizeMimeType = _this10.options.resizeMimeType;
 
-      if (this.options.uploadMultiple) {
-        this.emit("successmultiple", files, responseText, e);
-        this.emit("completemultiple", files);
-      }
+		  if (resizeMimeType == null) {
+			resizeMimeType = file.type;
+		  }
 
-      if (this.options.autoProcessQueue) {
-        return this.processQueue();
-      }
-    } // Called internally when processing is finished.
-    // Individual callbacks have to be called in the appropriate sections.
+		  var resizedDataURL = canvas.toDataURL(resizeMimeType, _this10.options.resizeQuality);
+
+		  if (resizeMimeType === "image/jpeg" || resizeMimeType === "image/jpg") {
+			// Now add the original EXIF information
+			resizedDataURL = ExifRestore.restore(file.dataURL, resizedDataURL);
+		  }
+
+		  return callback(Dropzone.dataURItoBlob(resizedDataURL));
+		}
+	  });
+	}
+  }, {
+	key: "createThumbnail",
+	value: function createThumbnail(file, width, height, resizeMethod, fixOrientation, callback) {
+	  var _this11 = this;
+
+	  var fileReader = new FileReader();
+
+	  fileReader.onload = function () {
+		file.dataURL = fileReader.result; // Don't bother creating a thumbnail for SVG images since they're vector
+
+		if (file.type === "image/svg+xml") {
+		  if (callback != null) {
+			callback(fileReader.result);
+		  }
+
+		  return;
+		}
+
+		_this11.createThumbnailFromUrl(file, width, height, resizeMethod, fixOrientation, callback);
+	  };
+
+	  fileReader.readAsDataURL(file);
+	} // `mockFile` needs to have these attributes:
+	//
+	//	 { name: 'name', size: 12345, imageUrl: '' }
+	//
+	// `callback` will be invoked when the image has been downloaded and displayed.
+	// `crossOrigin` will be added to the `img` tag when accessing the file.
 
   }, {
-    key: "_errorProcessing",
-    value: function _errorProcessing(files, message, xhr) {
-      var _iterator22 = dropzone_createForOfIteratorHelper(files, true),
-          _step22;
+	key: "displayExistingFile",
+	value: function displayExistingFile(mockFile, imageUrl, callback, crossOrigin) {
+	  var _this12 = this;
 
-      try {
-        for (_iterator22.s(); !(_step22 = _iterator22.n()).done;) {
-          var file = _step22.value;
-          file.status = Dropzone.ERROR;
-          this.emit("error", file, message, xhr);
-          this.emit("complete", file);
-        }
-      } catch (err) {
-        _iterator22.e(err);
-      } finally {
-        _iterator22.f();
-      }
+	  var resizeThumbnail = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+	  this.emit("addedfile", mockFile);
+	  this.emit("complete", mockFile);
 
-      if (this.options.uploadMultiple) {
-        this.emit("errormultiple", files, message, xhr);
-        this.emit("completemultiple", files);
-      }
+	  if (!resizeThumbnail) {
+		this.emit("thumbnail", mockFile, imageUrl);
+		if (callback) callback();
+	  } else {
+		var onDone = function onDone(thumbnail) {
+		  _this12.emit("thumbnail", mockFile, thumbnail);
 
-      if (this.options.autoProcessQueue) {
-        return this.processQueue();
-      }
-    }
+		  if (callback) callback();
+		};
+
+		mockFile.dataURL = imageUrl;
+		this.createThumbnailFromUrl(mockFile, this.options.thumbnailWidth, this.options.thumbnailHeight, this.options.resizeMethod, this.options.fixOrientation, onDone, crossOrigin);
+	  }
+	}
+  }, {
+	key: "createThumbnailFromUrl",
+	value: function createThumbnailFromUrl(file, width, height, resizeMethod, fixOrientation, callback, crossOrigin) {
+	  var _this13 = this;
+
+	  // Not using `new Image` here because of a bug in latest Chrome versions.
+	  // See https://github.com/enyo/dropzone/pull/226
+	  var img = document.createElement("img");
+
+	  if (crossOrigin) {
+		img.crossOrigin = crossOrigin;
+	  } // fixOrientation is not needed anymore with browsers handling imageOrientation
+
+
+	  fixOrientation = getComputedStyle(document.body)["imageOrientation"] == "from-image" ? false : fixOrientation;
+
+	  img.onload = function () {
+		var loadExif = function loadExif(callback) {
+		  return callback(1);
+		};
+
+		if (typeof EXIF !== "undefined" && EXIF !== null && fixOrientation) {
+		  loadExif = function loadExif(callback) {
+			return EXIF.getData(img, function () {
+			  return callback(EXIF.getTag(this, "Orientation"));
+			});
+		  };
+		}
+
+		return loadExif(function (orientation) {
+		  file.width = img.width;
+		  file.height = img.height;
+
+		  var resizeInfo = _this13.options.resize.call(_this13, file, width, height, resizeMethod);
+
+		  var canvas = document.createElement("canvas");
+		  var ctx = canvas.getContext("2d");
+		  canvas.width = resizeInfo.trgWidth;
+		  canvas.height = resizeInfo.trgHeight;
+
+		  if (orientation > 4) {
+			canvas.width = resizeInfo.trgHeight;
+			canvas.height = resizeInfo.trgWidth;
+		  }
+
+		  switch (orientation) {
+			case 2:
+			  // horizontal flip
+			  ctx.translate(canvas.width, 0);
+			  ctx.scale(-1, 1);
+			  break;
+
+			case 3:
+			  // 180° rotate left
+			  ctx.translate(canvas.width, canvas.height);
+			  ctx.rotate(Math.PI);
+			  break;
+
+			case 4:
+			  // vertical flip
+			  ctx.translate(0, canvas.height);
+			  ctx.scale(1, -1);
+			  break;
+
+			case 5:
+			  // vertical flip + 90 rotate right
+			  ctx.rotate(0.5 * Math.PI);
+			  ctx.scale(1, -1);
+			  break;
+
+			case 6:
+			  // 90° rotate right
+			  ctx.rotate(0.5 * Math.PI);
+			  ctx.translate(0, -canvas.width);
+			  break;
+
+			case 7:
+			  // horizontal flip + 90 rotate right
+			  ctx.rotate(0.5 * Math.PI);
+			  ctx.translate(canvas.height, -canvas.width);
+			  ctx.scale(-1, 1);
+			  break;
+
+			case 8:
+			  // 90° rotate left
+			  ctx.rotate(-0.5 * Math.PI);
+			  ctx.translate(-canvas.height, 0);
+			  break;
+		  } // This is a bugfix for iOS' scaling bug.
+
+
+		  drawImageIOSFix(ctx, img, resizeInfo.srcX != null ? resizeInfo.srcX : 0, resizeInfo.srcY != null ? resizeInfo.srcY : 0, resizeInfo.srcWidth, resizeInfo.srcHeight, resizeInfo.trgX != null ? resizeInfo.trgX : 0, resizeInfo.trgY != null ? resizeInfo.trgY : 0, resizeInfo.trgWidth, resizeInfo.trgHeight);
+		  var thumbnail = canvas.toDataURL("image/png");
+
+		  if (callback != null) {
+			return callback(thumbnail, canvas);
+		  }
+		});
+	  };
+
+	  if (callback != null) {
+		img.onerror = callback;
+	  }
+
+	  return img.src = file.dataURL;
+	} // Goes through the queue and processes files if there aren't too many already.
+
+  }, {
+	key: "processQueue",
+	value: function processQueue() {
+	  var parallelUploads = this.options.parallelUploads;
+	  var processingLength = this.getUploadingFiles().length;
+	  var i = processingLength; // There are already at least as many files uploading than should be
+
+	  if (processingLength >= parallelUploads) {
+		return;
+	  }
+
+	  var queuedFiles = this.getQueuedFiles();
+
+	  if (!(queuedFiles.length > 0)) {
+		return;
+	  }
+
+	  if (this.options.uploadMultiple) {
+		// The files should be uploaded in one request
+		return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
+	  } else {
+		while (i < parallelUploads) {
+		  if (!queuedFiles.length) {
+			return;
+		  } // Nothing left to process
+
+
+		  this.processFile(queuedFiles.shift());
+		  i++;
+		}
+	  }
+	} // Wrapper for `processFiles`
+
+  }, {
+	key: "processFile",
+	value: function processFile(file) {
+	  return this.processFiles([file]);
+	} // Loads the file, then calls finishedLoading()
+
+  }, {
+	key: "processFiles",
+	value: function processFiles(files) {
+	  var _iterator10 = dropzone_createForOfIteratorHelper(files, true),
+		  _step10;
+
+	  try {
+		for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+		  var file = _step10.value;
+		  file.processing = true; // Backwards compatibility
+
+		  file.status = Dropzone.UPLOADING;
+		  this.emit("processing", file);
+		}
+	  } catch (err) {
+		_iterator10.e(err);
+	  } finally {
+		_iterator10.f();
+	  }
+
+	  if (this.options.uploadMultiple) {
+		this.emit("processingmultiple", files);
+	  }
+
+	  return this.uploadFiles(files);
+	}
+  }, {
+	key: "_getFilesWithXhr",
+	value: function _getFilesWithXhr(xhr) {
+	  var files;
+	  return files = this.files.filter(function (file) {
+		return file.xhr === xhr;
+	  }).map(function (file) {
+		return file;
+	  });
+	} // Cancels the file upload and sets the status to CANCELED
+	// **if** the file is actually being uploaded.
+	// If it's still in the queue, the file is being removed from it and the status
+	// set to CANCELED.
+
+  }, {
+	key: "cancelUpload",
+	value: function cancelUpload(file) {
+	  if (file.status === Dropzone.UPLOADING) {
+		var groupedFiles = this._getFilesWithXhr(file.xhr);
+
+		var _iterator11 = dropzone_createForOfIteratorHelper(groupedFiles, true),
+			_step11;
+
+		try {
+		  for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+			var groupedFile = _step11.value;
+			groupedFile.status = Dropzone.CANCELED;
+		  }
+		} catch (err) {
+		  _iterator11.e(err);
+		} finally {
+		  _iterator11.f();
+		}
+
+		if (typeof file.xhr !== "undefined") {
+		  file.xhr.abort();
+		}
+
+		var _iterator12 = dropzone_createForOfIteratorHelper(groupedFiles, true),
+			_step12;
+
+		try {
+		  for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+			var _groupedFile = _step12.value;
+			this.emit("canceled", _groupedFile);
+		  }
+		} catch (err) {
+		  _iterator12.e(err);
+		} finally {
+		  _iterator12.f();
+		}
+
+		if (this.options.uploadMultiple) {
+		  this.emit("canceledmultiple", groupedFiles);
+		}
+	  } else if (file.status === Dropzone.ADDED || file.status === Dropzone.QUEUED) {
+		file.status = Dropzone.CANCELED;
+		this.emit("canceled", file);
+
+		if (this.options.uploadMultiple) {
+		  this.emit("canceledmultiple", [file]);
+		}
+	  }
+
+	  if (this.options.autoProcessQueue) {
+		return this.processQueue();
+	  }
+	}
+  }, {
+	key: "resolveOption",
+	value: function resolveOption(option) {
+	  if (typeof option === "function") {
+		for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		  args[_key - 1] = arguments[_key];
+		}
+
+		return option.apply(this, args);
+	  }
+
+	  return option;
+	}
+  }, {
+	key: "uploadFile",
+	value: function uploadFile(file) {
+	  return this.uploadFiles([file]);
+	}
+  }, {
+	key: "uploadFiles",
+	value: function uploadFiles(files) {
+	  var _this14 = this;
+
+	  this._transformFiles(files, function (transformedFiles) {
+		if (_this14.options.chunking) {
+		  // Chunking is not allowed to be used with `uploadMultiple` so we know
+		  // that there is only __one__file.
+		  var transformedFile = transformedFiles[0];
+		  files[0].upload.chunked = _this14.options.chunking && (_this14.options.forceChunking || transformedFile.size > _this14.options.chunkSize);
+		  files[0].upload.totalChunkCount = Math.ceil(transformedFile.size / _this14.options.chunkSize);
+		}
+
+		if (files[0].upload.chunked) {
+		  // This file should be sent in chunks!
+		  // If the chunking option is set, we **know** that there can only be **one** file, since
+		  // uploadMultiple is not allowed with this option.
+		  var file = files[0];
+		  var _transformedFile = transformedFiles[0];
+		  var startedChunkCount = 0;
+		  file.upload.chunks = [];
+
+		  var handleNextChunk = function handleNextChunk() {
+			var chunkIndex = 0; // Find the next item in file.upload.chunks that is not defined yet.
+
+			while (file.upload.chunks[chunkIndex] !== undefined) {
+			  chunkIndex++;
+			} // This means, that all chunks have already been started.
+
+
+			if (chunkIndex >= file.upload.totalChunkCount) return;
+			startedChunkCount++;
+			var start = chunkIndex * _this14.options.chunkSize;
+			var end = Math.min(start + _this14.options.chunkSize, _transformedFile.size);
+			var dataBlock = {
+			  name: _this14._getParamName(0),
+			  data: _transformedFile.webkitSlice ? _transformedFile.webkitSlice(start, end) : _transformedFile.slice(start, end),
+			  filename: file.upload.filename,
+			  chunkIndex: chunkIndex
+			};
+			file.upload.chunks[chunkIndex] = {
+			  file: file,
+			  index: chunkIndex,
+			  dataBlock: dataBlock,
+			  // In case we want to retry.
+			  status: Dropzone.UPLOADING,
+			  progress: 0,
+			  retries: 0 // The number of times this block has been retried.
+
+			};
+
+			_this14._uploadData(files, [dataBlock]);
+		  };
+
+		  file.upload.finishedChunkUpload = function (chunk) {
+			var allFinished = true;
+			chunk.status = Dropzone.SUCCESS; // Clear the data from the chunk
+
+			chunk.dataBlock = null; // Leaving this reference to xhr intact here will cause memory leaks in some browsers
+
+			chunk.xhr = null;
+
+			for (var i = 0; i < file.upload.totalChunkCount; i++) {
+			  if (file.upload.chunks[i] === undefined) {
+				return handleNextChunk();
+			  }
+
+			  if (file.upload.chunks[i].status !== Dropzone.SUCCESS) {
+				allFinished = false;
+			  }
+			}
+
+			if (allFinished) {
+			  _this14.options.chunksUploaded(file, function () {
+				_this14._finished(files, "", null);
+			  });
+			}
+		  };
+
+		  if (_this14.options.parallelChunkUploads) {
+			for (var i = 0; i < file.upload.totalChunkCount; i++) {
+			  handleNextChunk();
+			}
+		  } else {
+			handleNextChunk();
+		  }
+		} else {
+		  var dataBlocks = [];
+
+		  for (var _i2 = 0; _i2 < files.length; _i2++) {
+			dataBlocks[_i2] = {
+			  name: _this14._getParamName(_i2),
+			  data: transformedFiles[_i2],
+			  filename: files[_i2].upload.filename
+			};
+		  }
+
+		  _this14._uploadData(files, dataBlocks);
+		}
+	  });
+	} /// Returns the right chunk for given file and xhr
+
+  }, {
+	key: "_getChunk",
+	value: function _getChunk(file, xhr) {
+	  for (var i = 0; i < file.upload.totalChunkCount; i++) {
+		if (file.upload.chunks[i] !== undefined && file.upload.chunks[i].xhr === xhr) {
+		  return file.upload.chunks[i];
+		}
+	  }
+	} // This function actually uploads the file(s) to the server.
+	// If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
+	// files, or individual chunks for chunked upload).
+
+  }, {
+	key: "_uploadData",
+	value: function _uploadData(files, dataBlocks) {
+	  var _this15 = this;
+
+	  var xhr = new XMLHttpRequest(); // Put the xhr object in the file objects to be able to reference it later.
+
+	  var _iterator13 = dropzone_createForOfIteratorHelper(files, true),
+		  _step13;
+
+	  try {
+		for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+		  var file = _step13.value;
+		  file.xhr = xhr;
+		}
+	  } catch (err) {
+		_iterator13.e(err);
+	  } finally {
+		_iterator13.f();
+	  }
+
+	  if (files[0].upload.chunked) {
+		// Put the xhr object in the right chunk object, so it can be associated later, and found with _getChunk
+		files[0].upload.chunks[dataBlocks[0].chunkIndex].xhr = xhr;
+	  }
+
+	  var method = this.resolveOption(this.options.method, files);
+	  var url = this.resolveOption(this.options.url, files);
+	  xhr.open(method, url, true); // Setting the timeout after open because of IE11 issue: https://gitlab.com/meno/dropzone/issues/8
+
+	  xhr.timeout = this.resolveOption(this.options.timeout, files); // Has to be after `.open()`. See https://github.com/enyo/dropzone/issues/179
+
+	  xhr.withCredentials = !!this.options.withCredentials;
+
+	  xhr.onload = function (e) {
+		_this15._finishedUploading(files, xhr, e);
+	  };
+
+	  xhr.ontimeout = function () {
+		_this15._handleUploadError(files, xhr, "Request timedout after ".concat(_this15.options.timeout / 1000, " seconds"));
+	  };
+
+	  xhr.onerror = function () {
+		_this15._handleUploadError(files, xhr);
+	  }; // Some browsers do not have the .upload property
+
+
+	  var progressObj = xhr.upload != null ? xhr.upload : xhr;
+
+	  progressObj.onprogress = function (e) {
+		return _this15._updateFilesUploadProgress(files, xhr, e);
+	  };
+
+	  var headers = {
+		Accept: "application/json",
+		"Cache-Control": "no-cache",
+		"X-Requested-With": "XMLHttpRequest"
+	  };
+
+	  if (this.options.headers) {
+		Dropzone.extend(headers, this.options.headers);
+	  }
+
+	  for (var headerName in headers) {
+		var headerValue = headers[headerName];
+
+		if (headerValue) {
+		  xhr.setRequestHeader(headerName, headerValue);
+		}
+	  }
+
+	  var formData = new FormData(); // Adding all @options parameters
+
+	  if (this.options.params) {
+		var additionalParams = this.options.params;
+
+		if (typeof additionalParams === "function") {
+		  additionalParams = additionalParams.call(this, files, xhr, files[0].upload.chunked ? this._getChunk(files[0], xhr) : null);
+		}
+
+		for (var key in additionalParams) {
+		  var value = additionalParams[key];
+
+		  if (Array.isArray(value)) {
+			// The additional parameter contains an array,
+			// so lets iterate over it to attach each value
+			// individually.
+			for (var i = 0; i < value.length; i++) {
+			  formData.append(key, value[i]);
+			}
+		  } else {
+			formData.append(key, value);
+		  }
+		}
+	  } // Let the user add additional data if necessary
+
+
+	  var _iterator14 = dropzone_createForOfIteratorHelper(files, true),
+		  _step14;
+
+	  try {
+		for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+		  var _file = _step14.value;
+		  this.emit("sending", _file, xhr, formData);
+		}
+	  } catch (err) {
+		_iterator14.e(err);
+	  } finally {
+		_iterator14.f();
+	  }
+
+	  if (this.options.uploadMultiple) {
+		this.emit("sendingmultiple", files, xhr, formData);
+	  }
+
+	  this._addFormElementData(formData); // Finally add the files
+	  // Has to be last because some servers (eg: S3) expect the file to be the last parameter
+
+
+	  for (var _i3 = 0; _i3 < dataBlocks.length; _i3++) {
+		var dataBlock = dataBlocks[_i3];
+		formData.append(dataBlock.name, dataBlock.data, dataBlock.filename);
+	  }
+
+	  this.submitRequest(xhr, formData, files);
+	} // Transforms all files with this.options.transformFile and invokes done with the transformed files when done.
+
+  }, {
+	key: "_transformFiles",
+	value: function _transformFiles(files, done) {
+	  var _this16 = this;
+
+	  var transformedFiles = []; // Clumsy way of handling asynchronous calls, until I get to add a proper Future library.
+
+	  var doneCounter = 0;
+
+	  var _loop = function _loop(i) {
+		_this16.options.transformFile.call(_this16, files[i], function (transformedFile) {
+		  transformedFiles[i] = transformedFile;
+
+		  if (++doneCounter === files.length) {
+			done(transformedFiles);
+		  }
+		});
+	  };
+
+	  for (var i = 0; i < files.length; i++) {
+		_loop(i);
+	  }
+	} // Takes care of adding other input elements of the form to the AJAX request
+
+  }, {
+	key: "_addFormElementData",
+	value: function _addFormElementData(formData) {
+	  // Take care of other input elements
+	  if (this.element.tagName === "FORM") {
+		var _iterator15 = dropzone_createForOfIteratorHelper(this.element.querySelectorAll("input, textarea, select, button"), true),
+			_step15;
+
+		try {
+		  for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+			var input = _step15.value;
+			var inputName = input.getAttribute("name");
+			var inputType = input.getAttribute("type");
+			if (inputType) inputType = inputType.toLowerCase(); // If the input doesn't have a name, we can't use it.
+
+			if (typeof inputName === "undefined" || inputName === null) continue;
+
+			if (input.tagName === "SELECT" && input.hasAttribute("multiple")) {
+			  // Possibly multiple values
+			  var _iterator16 = dropzone_createForOfIteratorHelper(input.options, true),
+				  _step16;
+
+			  try {
+				for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
+				  var option = _step16.value;
+
+				  if (option.selected) {
+					formData.append(inputName, option.value);
+				  }
+				}
+			  } catch (err) {
+				_iterator16.e(err);
+			  } finally {
+				_iterator16.f();
+			  }
+			} else if (!inputType || inputType !== "checkbox" && inputType !== "radio" || input.checked) {
+			  formData.append(inputName, input.value);
+			}
+		  }
+		} catch (err) {
+		  _iterator15.e(err);
+		} finally {
+		  _iterator15.f();
+		}
+	  }
+	} // Invoked when there is new progress information about given files.
+	// If e is not provided, it is assumed that the upload is finished.
+
+  }, {
+	key: "_updateFilesUploadProgress",
+	value: function _updateFilesUploadProgress(files, xhr, e) {
+	  var progress;
+
+	  if (typeof e !== "undefined") {
+		progress = 100 * e.loaded / e.total;
+
+		if (files[0].upload.chunked) {
+		  var file = files[0]; // Since this is a chunked upload, we need to update the appropriate chunk progress.
+
+		  var chunk = this._getChunk(file, xhr);
+
+		  chunk.progress = progress;
+		  chunk.total = e.total;
+		  chunk.bytesSent = e.loaded;
+		  var fileProgress = 0,
+			  fileTotal,
+			  fileBytesSent;
+		  file.upload.progress = 0;
+		  file.upload.total = 0;
+		  file.upload.bytesSent = 0;
+
+		  for (var i = 0; i < file.upload.totalChunkCount; i++) {
+			if (file.upload.chunks[i] !== undefined && file.upload.chunks[i].progress !== undefined) {
+			  file.upload.progress += file.upload.chunks[i].progress;
+			  file.upload.total += file.upload.chunks[i].total;
+			  file.upload.bytesSent += file.upload.chunks[i].bytesSent;
+			}
+		  }
+
+		  file.upload.progress = file.upload.progress / file.upload.totalChunkCount;
+		} else {
+		  var _iterator17 = dropzone_createForOfIteratorHelper(files, true),
+			  _step17;
+
+		  try {
+			for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
+			  var _file2 = _step17.value;
+			  _file2.upload.progress = progress;
+			  _file2.upload.total = e.total;
+			  _file2.upload.bytesSent = e.loaded;
+			}
+		  } catch (err) {
+			_iterator17.e(err);
+		  } finally {
+			_iterator17.f();
+		  }
+		}
+
+		var _iterator18 = dropzone_createForOfIteratorHelper(files, true),
+			_step18;
+
+		try {
+		  for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
+			var _file3 = _step18.value;
+			this.emit("uploadprogress", _file3, _file3.upload.progress, _file3.upload.bytesSent);
+		  }
+		} catch (err) {
+		  _iterator18.e(err);
+		} finally {
+		  _iterator18.f();
+		}
+	  } else {
+		// Called when the file finished uploading
+		var allFilesFinished = true;
+		progress = 100;
+
+		var _iterator19 = dropzone_createForOfIteratorHelper(files, true),
+			_step19;
+
+		try {
+		  for (_iterator19.s(); !(_step19 = _iterator19.n()).done;) {
+			var _file4 = _step19.value;
+
+			if (_file4.upload.progress !== 100 || _file4.upload.bytesSent !== _file4.upload.total) {
+			  allFilesFinished = false;
+			}
+
+			_file4.upload.progress = progress;
+			_file4.upload.bytesSent = _file4.upload.total;
+		  } // Nothing to do, all files already at 100%
+
+		} catch (err) {
+		  _iterator19.e(err);
+		} finally {
+		  _iterator19.f();
+		}
+
+		if (allFilesFinished) {
+		  return;
+		}
+
+		var _iterator20 = dropzone_createForOfIteratorHelper(files, true),
+			_step20;
+
+		try {
+		  for (_iterator20.s(); !(_step20 = _iterator20.n()).done;) {
+			var _file5 = _step20.value;
+			this.emit("uploadprogress", _file5, progress, _file5.upload.bytesSent);
+		  }
+		} catch (err) {
+		  _iterator20.e(err);
+		} finally {
+		  _iterator20.f();
+		}
+	  }
+	}
+  }, {
+	key: "_finishedUploading",
+	value: function _finishedUploading(files, xhr, e) {
+	  var response;
+
+	  if (files[0].status === Dropzone.CANCELED) {
+		return;
+	  }
+
+	  if (xhr.readyState !== 4) {
+		return;
+	  }
+
+	  if (xhr.responseType !== "arraybuffer" && xhr.responseType !== "blob") {
+		response = xhr.responseText;
+
+		if (xhr.getResponseHeader("content-type") && ~xhr.getResponseHeader("content-type").indexOf("application/json")) {
+		  try {
+			response = JSON.parse(response);
+		  } catch (error) {
+			e = error;
+			response = "Invalid JSON response from server.";
+		  }
+		}
+	  }
+
+	  this._updateFilesUploadProgress(files);
+
+	  if (!(200 <= xhr.status && xhr.status < 300)) {
+		this._handleUploadError(files, xhr, response);
+	  } else {
+		if (files[0].upload.chunked) {
+		  files[0].upload.finishedChunkUpload(this._getChunk(files[0], xhr));
+		} else {
+		  this._finished(files, response, e);
+		}
+	  }
+	}
+  }, {
+	key: "_handleUploadError",
+	value: function _handleUploadError(files, xhr, response) {
+	  if (files[0].status === Dropzone.CANCELED) {
+		return;
+	  }
+
+	  if (files[0].upload.chunked && this.options.retryChunks) {
+		var chunk = this._getChunk(files[0], xhr);
+
+		if (chunk.retries++ < this.options.retryChunksLimit) {
+		  this._uploadData(files, [chunk.dataBlock]);
+
+		  return;
+		} else {
+		  console.warn("Retried this chunk too often. Giving up.");
+		}
+	  }
+
+	  this._errorProcessing(files, response || this.options.dictResponseError.replace("{{statusCode}}", xhr.status), xhr);
+	}
+  }, {
+	key: "submitRequest",
+	value: function submitRequest(xhr, formData, files) {
+	  xhr.send(formData);
+	} // Called internally when processing is finished.
+	// Individual callbacks have to be called in the appropriate sections.
+
+  }, {
+	key: "_finished",
+	value: function _finished(files, responseText, e) {
+	  var _iterator21 = dropzone_createForOfIteratorHelper(files, true),
+		  _step21;
+
+	  try {
+		for (_iterator21.s(); !(_step21 = _iterator21.n()).done;) {
+		  var file = _step21.value;
+		  file.status = Dropzone.SUCCESS;
+		  this.emit("success", file, responseText, e);
+		  this.emit("complete", file);
+		}
+	  } catch (err) {
+		_iterator21.e(err);
+	  } finally {
+		_iterator21.f();
+	  }
+
+	  if (this.options.uploadMultiple) {
+		this.emit("successmultiple", files, responseText, e);
+		this.emit("completemultiple", files);
+	  }
+
+	  if (this.options.autoProcessQueue) {
+		return this.processQueue();
+	  }
+	} // Called internally when processing is finished.
+	// Individual callbacks have to be called in the appropriate sections.
+
+  }, {
+	key: "_errorProcessing",
+	value: function _errorProcessing(files, message, xhr) {
+	  var _iterator22 = dropzone_createForOfIteratorHelper(files, true),
+		  _step22;
+
+	  try {
+		for (_iterator22.s(); !(_step22 = _iterator22.n()).done;) {
+		  var file = _step22.value;
+		  file.status = Dropzone.ERROR;
+		  this.emit("error", file, message, xhr);
+		  this.emit("complete", file);
+		}
+	  } catch (err) {
+		_iterator22.e(err);
+	  } finally {
+		_iterator22.f();
+	  }
+
+	  if (this.options.uploadMultiple) {
+		this.emit("errormultiple", files, message, xhr);
+		this.emit("completemultiple", files);
+	  }
+
+	  if (this.options.autoProcessQueue) {
+		return this.processQueue();
+	  }
+	}
   }], [{
-    key: "initClass",
-    value: function initClass() {
-      // Exposing the emitter class, mainly for tests
-      this.prototype.Emitter = Emitter;
-      /*
-       This is a list of all available events you can register on a dropzone object.
-        You can register an event handler like this:
-        dropzone.on("dragEnter", function() { });
-        */
+	key: "initClass",
+	value: function initClass() {
+	  // Exposing the emitter class, mainly for tests
+	  this.prototype.Emitter = Emitter;
+	  /*
+	   This is a list of all available events you can register on a dropzone object.
+		You can register an event handler like this:
+		dropzone.on("dragEnter", function() { });
+		*/
 
-      this.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "addedfile", "addedfiles", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded", "maxfilesreached", "queuecomplete"];
-      this.prototype._thumbnailQueue = [];
-      this.prototype._processingThumbnail = false;
-    } // global utility
+	  this.prototype.events = ["drop", "dragstart", "dragend", "dragenter", "dragover", "dragleave", "addedfile", "addedfiles", "removedfile", "thumbnail", "error", "errormultiple", "processing", "processingmultiple", "uploadprogress", "totaluploadprogress", "sending", "sendingmultiple", "success", "successmultiple", "canceled", "canceledmultiple", "complete", "completemultiple", "reset", "maxfilesexceeded", "maxfilesreached", "queuecomplete"];
+	  this.prototype._thumbnailQueue = [];
+	  this.prototype._processingThumbnail = false;
+	} // global utility
 
   }, {
-    key: "extend",
-    value: function extend(target) {
-      for (var _len2 = arguments.length, objects = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        objects[_key2 - 1] = arguments[_key2];
-      }
+	key: "extend",
+	value: function extend(target) {
+	  for (var _len2 = arguments.length, objects = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+		objects[_key2 - 1] = arguments[_key2];
+	  }
 
-      for (var _i4 = 0, _objects = objects; _i4 < _objects.length; _i4++) {
-        var object = _objects[_i4];
+	  for (var _i4 = 0, _objects = objects; _i4 < _objects.length; _i4++) {
+		var object = _objects[_i4];
 
-        for (var key in object) {
-          var val = object[key];
-          target[key] = val;
-        }
-      }
+		for (var key in object) {
+		  var val = object[key];
+		  target[key] = val;
+		}
+	  }
 
-      return target;
-    }
+	  return target;
+	}
   }, {
-    key: "uuidv4",
-    value: function uuidv4() {
-      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0,
-            v = c === "x" ? r : r & 0x3 | 0x8;
-        return v.toString(16);
-      });
-    }
+	key: "uuidv4",
+	value: function uuidv4() {
+	  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+		var r = Math.random() * 16 | 0,
+			v = c === "x" ? r : r & 0x3 | 0x8;
+		return v.toString(16);
+	  });
+	}
   }]);
 
   return Dropzone;
@@ -9763,24 +9763,24 @@ Dropzone.version = "5.8.1"; // This is a map of options for your different dropz
 //
 // Example:
 //
-//     Dropzone.options.myDropzoneElementId = { maxFilesize: 1 };
+//	 Dropzone.options.myDropzoneElementId = { maxFilesize: 1 };
 //
 // To disable autoDiscover for a specific element, you can set `false` as an option:
 //
-//     Dropzone.options.myDisabledElementId = false;
+//	 Dropzone.options.myDisabledElementId = false;
 //
 // And in html:
 //
-//     <form action="/upload" id="my-dropzone-element-id" class="dropzone"></form>
+//	 <form action="/upload" id="my-dropzone-element-id" class="dropzone"></form>
 
 Dropzone.options = {}; // Returns the options for an element or undefined if none available.
 
 Dropzone.optionsForElement = function (element) {
   // Get the `Dropzone.options.elementId` for this element if it exists
   if (element.getAttribute("id")) {
-    return Dropzone.options[camelize(element.getAttribute("id"))];
+	return Dropzone.options[camelize(element.getAttribute("id"))];
   } else {
-    return undefined;
+	return undefined;
   }
 }; // Holds a list of all dropzone instances
 
@@ -9789,11 +9789,11 @@ Dropzone.instances = []; // Returns the dropzone for given element if any
 
 Dropzone.forElement = function (element) {
   if (typeof element === "string") {
-    element = document.querySelector(element);
+	element = document.querySelector(element);
   }
 
   if ((element != null ? element.dropzone : undefined) == null) {
-    throw new Error("No Dropzone found for given element. This is probably because you're trying to access it before Dropzone had the time to initialize. Use the `init` option to setup any additional observers on your Dropzone.");
+	throw new Error("No Dropzone found for given element. This is probably because you're trying to access it before Dropzone had the time to initialize. Use the `init` option to setup any additional observers on your Dropzone.");
   }
 
   return element.dropzone;
@@ -9806,65 +9806,65 @@ Dropzone.discover = function () {
   var dropzones;
 
   if (document.querySelectorAll) {
-    dropzones = document.querySelectorAll(".dropzone");
+	dropzones = document.querySelectorAll(".dropzone");
   } else {
-    dropzones = []; // IE :(
+	dropzones = []; // IE :(
 
-    var checkElements = function checkElements(elements) {
-      return function () {
-        var result = [];
+	var checkElements = function checkElements(elements) {
+	  return function () {
+		var result = [];
 
-        var _iterator23 = dropzone_createForOfIteratorHelper(elements, true),
-            _step23;
+		var _iterator23 = dropzone_createForOfIteratorHelper(elements, true),
+			_step23;
 
-        try {
-          for (_iterator23.s(); !(_step23 = _iterator23.n()).done;) {
-            var el = _step23.value;
+		try {
+		  for (_iterator23.s(); !(_step23 = _iterator23.n()).done;) {
+			var el = _step23.value;
 
-            if (/(^| )dropzone($| )/.test(el.className)) {
-              result.push(dropzones.push(el));
-            } else {
-              result.push(undefined);
-            }
-          }
-        } catch (err) {
-          _iterator23.e(err);
-        } finally {
-          _iterator23.f();
-        }
+			if (/(^| )dropzone($| )/.test(el.className)) {
+			  result.push(dropzones.push(el));
+			} else {
+			  result.push(undefined);
+			}
+		  }
+		} catch (err) {
+		  _iterator23.e(err);
+		} finally {
+		  _iterator23.f();
+		}
 
-        return result;
-      }();
-    };
+		return result;
+	  }();
+	};
 
-    checkElements(document.getElementsByTagName("div"));
-    checkElements(document.getElementsByTagName("form"));
+	checkElements(document.getElementsByTagName("div"));
+	checkElements(document.getElementsByTagName("form"));
   }
 
   return function () {
-    var result = [];
+	var result = [];
 
-    var _iterator24 = dropzone_createForOfIteratorHelper(dropzones, true),
-        _step24;
+	var _iterator24 = dropzone_createForOfIteratorHelper(dropzones, true),
+		_step24;
 
-    try {
-      for (_iterator24.s(); !(_step24 = _iterator24.n()).done;) {
-        var dropzone = _step24.value;
+	try {
+	  for (_iterator24.s(); !(_step24 = _iterator24.n()).done;) {
+		var dropzone = _step24.value;
 
-        // Create a dropzone unless auto discover has been disabled for specific element
-        if (Dropzone.optionsForElement(dropzone) !== false) {
-          result.push(new Dropzone(dropzone));
-        } else {
-          result.push(undefined);
-        }
-      }
-    } catch (err) {
-      _iterator24.e(err);
-    } finally {
-      _iterator24.f();
-    }
+		// Create a dropzone unless auto discover has been disabled for specific element
+		if (Dropzone.optionsForElement(dropzone) !== false) {
+		  result.push(new Dropzone(dropzone));
+		} else {
+		  result.push(undefined);
+		}
+	  }
+	} catch (err) {
+	  _iterator24.e(err);
+	} finally {
+	  _iterator24.f();
+	}
 
-    return result;
+	return result;
   }();
 }; // Some browsers support drag and drog functionality, but not correctly.
 //
@@ -9885,36 +9885,36 @@ Dropzone.isBrowserSupported = function () {
   var capableBrowser = true;
 
   if (window.File && window.FileReader && window.FileList && window.Blob && window.FormData && document.querySelector) {
-    if (!("classList" in document.createElement("a"))) {
-      capableBrowser = false;
-    } else {
-      if (Dropzone.blacklistedBrowsers !== undefined) {
-        // Since this has been renamed, this makes sure we don't break older
-        // configuration.
-        Dropzone.blockedBrowsers = Dropzone.blacklistedBrowsers;
-      } // The browser supports the API, but may be blocked.
+	if (!("classList" in document.createElement("a"))) {
+	  capableBrowser = false;
+	} else {
+	  if (Dropzone.blacklistedBrowsers !== undefined) {
+		// Since this has been renamed, this makes sure we don't break older
+		// configuration.
+		Dropzone.blockedBrowsers = Dropzone.blacklistedBrowsers;
+	  } // The browser supports the API, but may be blocked.
 
 
-      var _iterator25 = dropzone_createForOfIteratorHelper(Dropzone.blockedBrowsers, true),
-          _step25;
+	  var _iterator25 = dropzone_createForOfIteratorHelper(Dropzone.blockedBrowsers, true),
+		  _step25;
 
-      try {
-        for (_iterator25.s(); !(_step25 = _iterator25.n()).done;) {
-          var regex = _step25.value;
+	  try {
+		for (_iterator25.s(); !(_step25 = _iterator25.n()).done;) {
+		  var regex = _step25.value;
 
-          if (regex.test(navigator.userAgent)) {
-            capableBrowser = false;
-            continue;
-          }
-        }
-      } catch (err) {
-        _iterator25.e(err);
-      } finally {
-        _iterator25.f();
-      }
-    }
+		  if (regex.test(navigator.userAgent)) {
+			capableBrowser = false;
+			continue;
+		  }
+		}
+	  } catch (err) {
+		_iterator25.e(err);
+	  } finally {
+		_iterator25.f();
+	  }
+	}
   } else {
-    capableBrowser = false;
+	capableBrowser = false;
   }
 
   return capableBrowser;
@@ -9931,28 +9931,28 @@ Dropzone.dataURItoBlob = function (dataURI) {
   var ia = new Uint8Array(ab);
 
   for (var i = 0, end = byteString.length, asc = 0 <= end; asc ? i <= end : i >= end; asc ? i++ : i--) {
-    ia[i] = byteString.charCodeAt(i);
+	ia[i] = byteString.charCodeAt(i);
   } // write the ArrayBuffer to a blob
 
 
   return new Blob([ab], {
-    type: mimeString
+	type: mimeString
   });
 }; // Returns an array without the rejected item
 
 
 var without = function without(list, rejectedItem) {
   return list.filter(function (item) {
-    return item !== rejectedItem;
+	return item !== rejectedItem;
   }).map(function (item) {
-    return item;
+	return item;
   });
 }; // abc-def_ghi -> abcDefGhi
 
 
 var camelize = function camelize(str) {
   return str.replace(/[\-_](\w)/g, function (match) {
-    return match.charAt(1).toUpperCase();
+	return match.charAt(1).toUpperCase();
   });
 }; // Creates an element from string
 
@@ -9966,14 +9966,14 @@ Dropzone.createElement = function (string) {
 
 Dropzone.elementInside = function (element, container) {
   if (element === container) {
-    return true;
+	return true;
   } // Coffeescript doesn't support do/while loops
 
 
   while (element = element.parentNode) {
-    if (element === container) {
-      return true;
-    }
+	if (element === container) {
+	  return true;
+	}
   }
 
   return false;
@@ -9983,13 +9983,13 @@ Dropzone.getElement = function (el, name) {
   var element;
 
   if (typeof el === "string") {
-    element = document.querySelector(el);
+	element = document.querySelector(el);
   } else if (el.nodeType != null) {
-    element = el;
+	element = el;
   }
 
   if (element == null) {
-    throw new Error("Invalid `".concat(name, "` option provided. Please provide a CSS selector or a plain HTML element."));
+	throw new Error("Invalid `".concat(name, "` option provided. Please provide a CSS selector or a plain HTML element."));
   }
 
   return element;
@@ -9999,47 +9999,47 @@ Dropzone.getElements = function (els, name) {
   var el, elements;
 
   if (els instanceof Array) {
-    elements = [];
+	elements = [];
 
-    try {
-      var _iterator26 = dropzone_createForOfIteratorHelper(els, true),
-          _step26;
+	try {
+	  var _iterator26 = dropzone_createForOfIteratorHelper(els, true),
+		  _step26;
 
-      try {
-        for (_iterator26.s(); !(_step26 = _iterator26.n()).done;) {
-          el = _step26.value;
-          elements.push(this.getElement(el, name));
-        }
-      } catch (err) {
-        _iterator26.e(err);
-      } finally {
-        _iterator26.f();
-      }
-    } catch (e) {
-      elements = null;
-    }
+	  try {
+		for (_iterator26.s(); !(_step26 = _iterator26.n()).done;) {
+		  el = _step26.value;
+		  elements.push(this.getElement(el, name));
+		}
+	  } catch (err) {
+		_iterator26.e(err);
+	  } finally {
+		_iterator26.f();
+	  }
+	} catch (e) {
+	  elements = null;
+	}
   } else if (typeof els === "string") {
-    elements = [];
+	elements = [];
 
-    var _iterator27 = dropzone_createForOfIteratorHelper(document.querySelectorAll(els), true),
-        _step27;
+	var _iterator27 = dropzone_createForOfIteratorHelper(document.querySelectorAll(els), true),
+		_step27;
 
-    try {
-      for (_iterator27.s(); !(_step27 = _iterator27.n()).done;) {
-        el = _step27.value;
-        elements.push(el);
-      }
-    } catch (err) {
-      _iterator27.e(err);
-    } finally {
-      _iterator27.f();
-    }
+	try {
+	  for (_iterator27.s(); !(_step27 = _iterator27.n()).done;) {
+		el = _step27.value;
+		elements.push(el);
+	  }
+	} catch (err) {
+	  _iterator27.e(err);
+	} finally {
+	  _iterator27.f();
+	}
   } else if (els.nodeType != null) {
-    elements = [els];
+	elements = [els];
   }
 
   if (elements == null || !elements.length) {
-    throw new Error("Invalid `".concat(name, "` option provided. Please provide a CSS selector, a plain HTML element or a list of those."));
+	throw new Error("Invalid `".concat(name, "` option provided. Please provide a CSS selector, a plain HTML element or a list of those."));
   }
 
   return elements;
@@ -10051,9 +10051,9 @@ Dropzone.getElements = function (els, name) {
 
 Dropzone.confirm = function (question, accepted, rejected) {
   if (window.confirm(question)) {
-    return accepted();
+	return accepted();
   } else if (rejected != null) {
-    return rejected();
+	return rejected();
   }
 }; // Validates the mime type like this:
 //
@@ -10062,7 +10062,7 @@ Dropzone.confirm = function (question, accepted, rejected) {
 
 Dropzone.isValidFile = function (file, acceptedFiles) {
   if (!acceptedFiles) {
-    return true;
+	return true;
   } // If there are no accepted mime types, it's OK
 
 
@@ -10071,32 +10071,32 @@ Dropzone.isValidFile = function (file, acceptedFiles) {
   var baseMimeType = mimeType.replace(/\/.*$/, "");
 
   var _iterator28 = dropzone_createForOfIteratorHelper(acceptedFiles, true),
-      _step28;
+	  _step28;
 
   try {
-    for (_iterator28.s(); !(_step28 = _iterator28.n()).done;) {
-      var validType = _step28.value;
-      validType = validType.trim();
+	for (_iterator28.s(); !(_step28 = _iterator28.n()).done;) {
+	  var validType = _step28.value;
+	  validType = validType.trim();
 
-      if (validType.charAt(0) === ".") {
-        if (file.name.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
-          return true;
-        }
-      } else if (/\/\*$/.test(validType)) {
-        // This is something like a image/* mime type
-        if (baseMimeType === validType.replace(/\/.*$/, "")) {
-          return true;
-        }
-      } else {
-        if (mimeType === validType) {
-          return true;
-        }
-      }
-    }
+	  if (validType.charAt(0) === ".") {
+		if (file.name.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
+		  return true;
+		}
+	  } else if (/\/\*$/.test(validType)) {
+		// This is something like a image/* mime type
+		if (baseMimeType === validType.replace(/\/.*$/, "")) {
+		  return true;
+		}
+	  } else {
+		if (mimeType === validType) {
+		  return true;
+		}
+	  }
+	}
   } catch (err) {
-    _iterator28.e(err);
+	_iterator28.e(err);
   } finally {
-    _iterator28.f();
+	_iterator28.f();
   }
 
   return false;
@@ -10105,9 +10105,9 @@ Dropzone.isValidFile = function (file, acceptedFiles) {
 
 if (typeof jQuery !== "undefined" && jQuery !== null) {
   jQuery.fn.dropzone = function (options) {
-    return this.each(function () {
-      return new Dropzone(this, options);
-    });
+	return this.each(function () {
+	  return new Dropzone(this, options);
+	});
   };
 } // Dropzone file status codes
 
@@ -10144,7 +10144,7 @@ var detectVerticalSquash = function detectVerticalSquash(img) {
   ctx.drawImage(img, 0, 0);
 
   var _ctx$getImageData = ctx.getImageData(1, 0, 1, ih),
-      data = _ctx$getImageData.data; // search image edge pixel position in case it is squashed vertically.
+	  data = _ctx$getImageData.data; // search image edge pixel position in case it is squashed vertically.
 
 
   var sy = 0;
@@ -10152,23 +10152,23 @@ var detectVerticalSquash = function detectVerticalSquash(img) {
   var py = ih;
 
   while (py > sy) {
-    var alpha = data[(py - 1) * 4 + 3];
+	var alpha = data[(py - 1) * 4 + 3];
 
-    if (alpha === 0) {
-      ey = py;
-    } else {
-      sy = py;
-    }
+	if (alpha === 0) {
+	  ey = py;
+	} else {
+	  sy = py;
+	}
 
-    py = ey + sy >> 1;
+	py = ey + sy >> 1;
   }
 
   var ratio = py / ih;
 
   if (ratio === 0) {
-    return 1;
+	return 1;
   } else {
-    return ratio;
+	return ratio;
   }
 }; // A replacement for context.drawImage
 // (args are for source and destination).
@@ -10184,184 +10184,184 @@ var drawImageIOSFix = function drawImageIOSFix(ctx, img, sx, sy, sw, sh, dx, dy,
 
 var ExifRestore = /*#__PURE__*/function () {
   function ExifRestore() {
-    dropzone_classCallCheck(this, ExifRestore);
+	dropzone_classCallCheck(this, ExifRestore);
   }
 
   dropzone_createClass(ExifRestore, null, [{
-    key: "initClass",
-    value: function initClass() {
-      this.KEY_STR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-    }
+	key: "initClass",
+	value: function initClass() {
+	  this.KEY_STR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	}
   }, {
-    key: "encode64",
-    value: function encode64(input) {
-      var output = "";
-      var chr1 = undefined;
-      var chr2 = undefined;
-      var chr3 = "";
-      var enc1 = undefined;
-      var enc2 = undefined;
-      var enc3 = undefined;
-      var enc4 = "";
-      var i = 0;
+	key: "encode64",
+	value: function encode64(input) {
+	  var output = "";
+	  var chr1 = undefined;
+	  var chr2 = undefined;
+	  var chr3 = "";
+	  var enc1 = undefined;
+	  var enc2 = undefined;
+	  var enc3 = undefined;
+	  var enc4 = "";
+	  var i = 0;
 
-      while (true) {
-        chr1 = input[i++];
-        chr2 = input[i++];
-        chr3 = input[i++];
-        enc1 = chr1 >> 2;
-        enc2 = (chr1 & 3) << 4 | chr2 >> 4;
-        enc3 = (chr2 & 15) << 2 | chr3 >> 6;
-        enc4 = chr3 & 63;
+	  while (true) {
+		chr1 = input[i++];
+		chr2 = input[i++];
+		chr3 = input[i++];
+		enc1 = chr1 >> 2;
+		enc2 = (chr1 & 3) << 4 | chr2 >> 4;
+		enc3 = (chr2 & 15) << 2 | chr3 >> 6;
+		enc4 = chr3 & 63;
 
-        if (isNaN(chr2)) {
-          enc3 = enc4 = 64;
-        } else if (isNaN(chr3)) {
-          enc4 = 64;
-        }
+		if (isNaN(chr2)) {
+		  enc3 = enc4 = 64;
+		} else if (isNaN(chr3)) {
+		  enc4 = 64;
+		}
 
-        output = output + this.KEY_STR.charAt(enc1) + this.KEY_STR.charAt(enc2) + this.KEY_STR.charAt(enc3) + this.KEY_STR.charAt(enc4);
-        chr1 = chr2 = chr3 = "";
-        enc1 = enc2 = enc3 = enc4 = "";
+		output = output + this.KEY_STR.charAt(enc1) + this.KEY_STR.charAt(enc2) + this.KEY_STR.charAt(enc3) + this.KEY_STR.charAt(enc4);
+		chr1 = chr2 = chr3 = "";
+		enc1 = enc2 = enc3 = enc4 = "";
 
-        if (!(i < input.length)) {
-          break;
-        }
-      }
+		if (!(i < input.length)) {
+		  break;
+		}
+	  }
 
-      return output;
-    }
+	  return output;
+	}
   }, {
-    key: "restore",
-    value: function restore(origFileBase64, resizedFileBase64) {
-      if (!origFileBase64.match("data:image/jpeg;base64,")) {
-        return resizedFileBase64;
-      }
+	key: "restore",
+	value: function restore(origFileBase64, resizedFileBase64) {
+	  if (!origFileBase64.match("data:image/jpeg;base64,")) {
+		return resizedFileBase64;
+	  }
 
-      var rawImage = this.decode64(origFileBase64.replace("data:image/jpeg;base64,", ""));
-      var segments = this.slice2Segments(rawImage);
-      var image = this.exifManipulation(resizedFileBase64, segments);
-      return "data:image/jpeg;base64,".concat(this.encode64(image));
-    }
+	  var rawImage = this.decode64(origFileBase64.replace("data:image/jpeg;base64,", ""));
+	  var segments = this.slice2Segments(rawImage);
+	  var image = this.exifManipulation(resizedFileBase64, segments);
+	  return "data:image/jpeg;base64,".concat(this.encode64(image));
+	}
   }, {
-    key: "exifManipulation",
-    value: function exifManipulation(resizedFileBase64, segments) {
-      var exifArray = this.getExifArray(segments);
-      var newImageArray = this.insertExif(resizedFileBase64, exifArray);
-      var aBuffer = new Uint8Array(newImageArray);
-      return aBuffer;
-    }
+	key: "exifManipulation",
+	value: function exifManipulation(resizedFileBase64, segments) {
+	  var exifArray = this.getExifArray(segments);
+	  var newImageArray = this.insertExif(resizedFileBase64, exifArray);
+	  var aBuffer = new Uint8Array(newImageArray);
+	  return aBuffer;
+	}
   }, {
-    key: "getExifArray",
-    value: function getExifArray(segments) {
-      var seg = undefined;
-      var x = 0;
+	key: "getExifArray",
+	value: function getExifArray(segments) {
+	  var seg = undefined;
+	  var x = 0;
 
-      while (x < segments.length) {
-        seg = segments[x];
+	  while (x < segments.length) {
+		seg = segments[x];
 
-        if (seg[0] === 255 & seg[1] === 225) {
-          return seg;
-        }
+		if (seg[0] === 255 & seg[1] === 225) {
+		  return seg;
+		}
 
-        x++;
-      }
+		x++;
+	  }
 
-      return [];
-    }
+	  return [];
+	}
   }, {
-    key: "insertExif",
-    value: function insertExif(resizedFileBase64, exifArray) {
-      var imageData = resizedFileBase64.replace("data:image/jpeg;base64,", "");
-      var buf = this.decode64(imageData);
-      var separatePoint = buf.indexOf(255, 3);
-      var mae = buf.slice(0, separatePoint);
-      var ato = buf.slice(separatePoint);
-      var array = mae;
-      array = array.concat(exifArray);
-      array = array.concat(ato);
-      return array;
-    }
+	key: "insertExif",
+	value: function insertExif(resizedFileBase64, exifArray) {
+	  var imageData = resizedFileBase64.replace("data:image/jpeg;base64,", "");
+	  var buf = this.decode64(imageData);
+	  var separatePoint = buf.indexOf(255, 3);
+	  var mae = buf.slice(0, separatePoint);
+	  var ato = buf.slice(separatePoint);
+	  var array = mae;
+	  array = array.concat(exifArray);
+	  array = array.concat(ato);
+	  return array;
+	}
   }, {
-    key: "slice2Segments",
-    value: function slice2Segments(rawImageArray) {
-      var head = 0;
-      var segments = [];
+	key: "slice2Segments",
+	value: function slice2Segments(rawImageArray) {
+	  var head = 0;
+	  var segments = [];
 
-      while (true) {
-        var length;
+	  while (true) {
+		var length;
 
-        if (rawImageArray[head] === 255 & rawImageArray[head + 1] === 218) {
-          break;
-        }
+		if (rawImageArray[head] === 255 & rawImageArray[head + 1] === 218) {
+		  break;
+		}
 
-        if (rawImageArray[head] === 255 & rawImageArray[head + 1] === 216) {
-          head += 2;
-        } else {
-          length = rawImageArray[head + 2] * 256 + rawImageArray[head + 3];
-          var endPoint = head + length + 2;
-          var seg = rawImageArray.slice(head, endPoint);
-          segments.push(seg);
-          head = endPoint;
-        }
+		if (rawImageArray[head] === 255 & rawImageArray[head + 1] === 216) {
+		  head += 2;
+		} else {
+		  length = rawImageArray[head + 2] * 256 + rawImageArray[head + 3];
+		  var endPoint = head + length + 2;
+		  var seg = rawImageArray.slice(head, endPoint);
+		  segments.push(seg);
+		  head = endPoint;
+		}
 
-        if (head > rawImageArray.length) {
-          break;
-        }
-      }
+		if (head > rawImageArray.length) {
+		  break;
+		}
+	  }
 
-      return segments;
-    }
+	  return segments;
+	}
   }, {
-    key: "decode64",
-    value: function decode64(input) {
-      var output = "";
-      var chr1 = undefined;
-      var chr2 = undefined;
-      var chr3 = "";
-      var enc1 = undefined;
-      var enc2 = undefined;
-      var enc3 = undefined;
-      var enc4 = "";
-      var i = 0;
-      var buf = []; // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
+	key: "decode64",
+	value: function decode64(input) {
+	  var output = "";
+	  var chr1 = undefined;
+	  var chr2 = undefined;
+	  var chr3 = "";
+	  var enc1 = undefined;
+	  var enc2 = undefined;
+	  var enc3 = undefined;
+	  var enc4 = "";
+	  var i = 0;
+	  var buf = []; // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
 
-      var base64test = /[^A-Za-z0-9\+\/\=]/g;
+	  var base64test = /[^A-Za-z0-9\+\/\=]/g;
 
-      if (base64test.exec(input)) {
-        console.warn("There were invalid base64 characters in the input text.\nValid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\nExpect errors in decoding.");
-      }
+	  if (base64test.exec(input)) {
+		console.warn("There were invalid base64 characters in the input text.\nValid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\nExpect errors in decoding.");
+	  }
 
-      input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+	  input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
-      while (true) {
-        enc1 = this.KEY_STR.indexOf(input.charAt(i++));
-        enc2 = this.KEY_STR.indexOf(input.charAt(i++));
-        enc3 = this.KEY_STR.indexOf(input.charAt(i++));
-        enc4 = this.KEY_STR.indexOf(input.charAt(i++));
-        chr1 = enc1 << 2 | enc2 >> 4;
-        chr2 = (enc2 & 15) << 4 | enc3 >> 2;
-        chr3 = (enc3 & 3) << 6 | enc4;
-        buf.push(chr1);
+	  while (true) {
+		enc1 = this.KEY_STR.indexOf(input.charAt(i++));
+		enc2 = this.KEY_STR.indexOf(input.charAt(i++));
+		enc3 = this.KEY_STR.indexOf(input.charAt(i++));
+		enc4 = this.KEY_STR.indexOf(input.charAt(i++));
+		chr1 = enc1 << 2 | enc2 >> 4;
+		chr2 = (enc2 & 15) << 4 | enc3 >> 2;
+		chr3 = (enc3 & 3) << 6 | enc4;
+		buf.push(chr1);
 
-        if (enc3 !== 64) {
-          buf.push(chr2);
-        }
+		if (enc3 !== 64) {
+		  buf.push(chr2);
+		}
 
-        if (enc4 !== 64) {
-          buf.push(chr3);
-        }
+		if (enc4 !== 64) {
+		  buf.push(chr3);
+		}
 
-        chr1 = chr2 = chr3 = "";
-        enc1 = enc2 = enc3 = enc4 = "";
+		chr1 = chr2 = chr3 = "";
+		enc1 = enc2 = enc3 = enc4 = "";
 
-        if (!(i < input.length)) {
-          break;
-        }
-      }
+		if (!(i < input.length)) {
+		  break;
+		}
+	  }
 
-      return buf;
-    }
+	  return buf;
+	}
   }]);
 
   return ExifRestore;
@@ -10394,49 +10394,49 @@ var contentLoaded = function contentLoaded(win, fn) {
   var pre = doc.addEventListener ? "" : "on";
 
   var init = function init(e) {
-    if (e.type === "readystatechange" && doc.readyState !== "complete") {
-      return;
-    }
+	if (e.type === "readystatechange" && doc.readyState !== "complete") {
+	  return;
+	}
 
-    (e.type === "load" ? win : doc)[rem](pre + e.type, init, false);
+	(e.type === "load" ? win : doc)[rem](pre + e.type, init, false);
 
-    if (!done && (done = true)) {
-      return fn.call(win, e.type || e);
-    }
+	if (!done && (done = true)) {
+	  return fn.call(win, e.type || e);
+	}
   };
 
   var poll = function poll() {
-    try {
-      root.doScroll("left");
-    } catch (e) {
-      setTimeout(poll, 50);
-      return;
-    }
+	try {
+	  root.doScroll("left");
+	} catch (e) {
+	  setTimeout(poll, 50);
+	  return;
+	}
 
-    return init("poll");
+	return init("poll");
   };
 
   if (doc.readyState !== "complete") {
-    if (doc.createEventObject && root.doScroll) {
-      try {
-        top = !win.frameElement;
-      } catch (error) {}
+	if (doc.createEventObject && root.doScroll) {
+	  try {
+		top = !win.frameElement;
+	  } catch (error) {}
 
-      if (top) {
-        poll();
-      }
-    }
+	  if (top) {
+		poll();
+	  }
+	}
 
-    doc[add](pre + "DOMContentLoaded", init, false);
-    doc[add](pre + "readystatechange", init, false);
-    return win[add](pre + "load", init, false);
+	doc[add](pre + "DOMContentLoaded", init, false);
+	doc[add](pre + "readystatechange", init, false);
+	return win[add](pre + "load", init, false);
   }
 }; // As a single function to be able to write tests.
 
 
 Dropzone._autoDiscoverFunction = function () {
   if (Dropzone.autoDiscover) {
-    return Dropzone.discover();
+	return Dropzone.discover();
   }
 };
 
@@ -10448,9 +10448,9 @@ function __guard__(value, transform) {
 
 function __guardMethod__(obj, methodName, transform) {
   if (typeof obj !== "undefined" && obj !== null && typeof obj[methodName] === "function") {
-    return transform(obj, methodName);
+	return transform(obj, methodName);
   } else {
-    return undefined;
+	return undefined;
   }
 }
 

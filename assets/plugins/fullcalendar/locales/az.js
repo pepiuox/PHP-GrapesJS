@@ -2,26 +2,26 @@ FullCalendar.globalLocales.push(function () {
   'use strict';
 
   var az = {
-    code: 'az',
-    week: {
-      dow: 1, // Monday is the first day of the week.
-      doy: 4, // The week that contains Jan 4th is the first week of the year.
-    },
-    buttonText: {
-      prev: 'Əvvəl',
-      next: 'Sonra',
-      today: 'Bu Gün',
-      month: 'Ay',
-      week: 'Həftə',
-      day: 'Gün',
-      list: 'Gündəm',
-    },
-    weekText: 'Həftə',
-    allDayText: 'Bütün Gün',
-    moreLinkText: function(n) {
-      return '+ daha çox ' + n
-    },
-    noEventsText: 'Göstərmək üçün hadisə yoxdur',
+	'az',
+	{
+	 1, // Monday is the first day of the week.
+	 4, // The week that contains Jan 4th is the first week of the year.
+
+	Text: {
+	: 'Əvvəl',
+	: 'Sonra',
+	y: 'Bu Gün',
+	h: 'Ay',
+	: 'Həftə',
+	 'Gün',
+	: 'Gündəm',
+
+	xt: 'Həftə',
+	Text: 'Bütün Gün',
+	nkText: function(n) {
+	rn '+ daha çox ' + n
+
+	tsText: 'Göstərmək üçün hadisə yoxdur',
   };
 
   return az;

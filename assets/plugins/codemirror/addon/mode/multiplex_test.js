@@ -3,47 +3,47 @@
 
 (function() {
   CodeMirror.defineMode("markdown_with_stex", function(){
-    var inner = CodeMirror.getMode({}, "stex");
-    var outer = CodeMirror.getMode({}, "markdown");
+	var inner = CodeMirror.getMode({}, "stex");
+	var outer = CodeMirror.getMode({}, "markdown");
 
-    var innerOptions = {
-      open: '$',
-      close: '$',
-      mode: inner,
-      delimStyle: 'delim',
-      innerStyle: 'inner'
-    };
+	var innerOptions = {
+	  open: '$',
+	  close: '$',
+	  mode: inner,
+	  delimStyle: 'delim',
+	  innerStyle: 'inner'
+	};
 
-    return CodeMirror.multiplexingMode(outer, innerOptions);
+	return CodeMirror.multiplexingMode(outer, innerOptions);
   });
 
   var mode = CodeMirror.getMode({}, "markdown_with_stex");
 
   function MT(name) {
-    test.mode(
-      name,
-      mode,
-      Array.prototype.slice.call(arguments, 1),
-      'multiplexing');
+	test.mode(
+	  name,
+	  mode,
+	  Array.prototype.slice.call(arguments, 1),
+	  'multiplexing');
   }
 
   MT(
-    "stexInsideMarkdown",
-    "[strong **Equation:**] [delim&delim-open $][inner&tag \\pi][delim&delim-close $]");
+	"stexInsideMarkdown",
+	"[strong **Equation:**] [delim&delim-open $][inner&tag \\pi][delim&delim-close $]");
 
   CodeMirror.defineMode("identical_delim_multiplex", function() {
-    return CodeMirror.multiplexingMode(CodeMirror.getMode({indentUnit: 2}, "javascript"), {
-      open: "#",
-      close: "#",
-      mode: CodeMirror.getMode({}, "markdown"),
-      parseDelimiters: true,
-      innerStyle: "q"
-    });
+	return CodeMirror.multiplexingMode(CodeMirror.getMode({indentUnit: 2}, "javascript"), {
+	  open: "#",
+	  close: "#",
+	  mode: CodeMirror.getMode({}, "markdown"),
+	  parseDelimiters: true,
+	  innerStyle: "q"
+	});
   });
 
   var mode2 = CodeMirror.getMode({}, "identical_delim_multiplex");
 
   test.mode("identical_delimiters_with_parseDelimiters", mode2, [
-    "[keyword let] [def x] [operator =] [q #foo][q&em *bar*][q #];"
+	"[keyword let] [def x] [operator =] [q #foo][q&em *bar*][q #];"
   ], "multiplexing")
 })();

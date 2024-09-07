@@ -494,7 +494,7 @@ var _glue = function ( flash, node )
 /**
  * Get the sheet name for Excel exports.
  *
- * @param {object}  config       Button configuration
+ * @param {object}  config	   Button configuration
  */
 var _sheetname = function ( config )
 {
@@ -515,7 +515,7 @@ var _sheetname = function ( config )
  * lost, so an 8K limit used here is safe.
  *
  * @param {ZeroClipboard} flash ZeroClipboard instance
- * @param {string}        data  Data to send to Flash
+ * @param {string}		data  Data to send to Flash
  */
 var _setText = function ( flash, data )
 {
@@ -532,7 +532,7 @@ var _setText = function ( flash, data )
  * Get the newline character(s)
  *
  * @param {object}  config Button configuration
- * @return {string}        Newline character
+ * @return {string}		Newline character
  */
 var _newLine = function ( config )
 {
@@ -547,9 +547,9 @@ var _newLine = function ( config )
  * Combine the data from the `buttons.exportData` method into a string that
  * will be used in the export file.
  *
- * @param  {DataTable.Api} dt     DataTables API instance
- * @param  {object}        config Button configuration
- * @return {object}               The data to export
+ * @param  {DataTable.Api} dt	 DataTables API instance
+ * @param  {object}		config Button configuration
+ * @return {object}			   The data to export
  */
 var _exportData = function ( dt, config )
 {
@@ -666,11 +666,11 @@ function createCellPos( n ){
  * Create an XML node and add any children, attributes, etc without needing to
  * be verbose in the DOM.
  *
- * @param  {object} doc      XML document
+ * @param  {object} doc	  XML document
  * @param  {string} nodeName Node name
- * @param  {object} opts     Options - can be `attr` (attributes), `children`
+ * @param  {object} opts	 Options - can be `attr` (attributes), `children`
  *   (child nodes) and `text` (text content)
- * @return {node}            Created node
+ * @return {node}			Created node
  */
 function _createNode( doc, nodeName, opts ){
 	var tempNode = doc.createElement( nodeName );
@@ -697,8 +697,8 @@ function _createNode( doc, nodeName, opts ){
 /**
  * Get the width for an Excel column based on the contents of that column
  * @param  {object} data Data for export
- * @param  {int}    col  Column index
- * @return {int}         Column width
+ * @param  {int}	col  Column index
+ * @return {int}		 Column width
  */
 function _excelColWidth( data, col ) {
 	var max = data.header[col].length;
@@ -745,17 +745,17 @@ function _excelColWidth( data, col ) {
 }
 
   var _serialiser = "";
-    if (typeof window.XMLSerializer === 'undefined') {
-        _serialiser = new function () {
-            this.serializeToString = function (input) {
-                return input.xml
-            }
-        };
-    } else {
-        _serialiser =  new XMLSerializer();
-    }
+	if (typeof window.XMLSerializer === 'undefined') {
+		_serialiser = new function () {
+			this.serializeToString = function (input) {
+				return input.xml
+			}
+		};
+	} else {
+		_serialiser =  new XMLSerializer();
+	}
 
-    var _ieExcel;
+	var _ieExcel;
 
 
 /**
@@ -1062,15 +1062,15 @@ var excelStrings = {
 // Pattern matching for special number formats. Perhaps this should be exposed
 // via an API in future?
 var _excelSpecials = [
-	{ match: /^\-?\d+\.\d%$/,       style: 60, fmt: function (d) { return d/100; } }, // Precent with d.p.
-	{ match: /^\-?\d+\.?\d*%$/,     style: 56, fmt: function (d) { return d/100; } }, // Percent
+	{ match: /^\-?\d+\.\d%$/,	   style: 60, fmt: function (d) { return d/100; } }, // Precent with d.p.
+	{ match: /^\-?\d+\.?\d*%$/,	 style: 56, fmt: function (d) { return d/100; } }, // Percent
 	{ match: /^\-?\$[\d,]+.?\d*$/,  style: 57 }, // Dollars
 	{ match: /^\-?£[\d,]+.?\d*$/,   style: 58 }, // Pounds
 	{ match: /^\-?€[\d,]+.?\d*$/,   style: 59 }, // Euros
-	{ match: /^\([\d,]+\)$/,        style: 61, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets
+	{ match: /^\([\d,]+\)$/,		style: 61, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets
 	{ match: /^\([\d,]+\.\d{2}\)$/, style: 62, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets - 2d.p.
-	{ match: /^[\d,]+$/,            style: 63 }, // Numbers with thousand separators
-	{ match: /^[\d,]+\.\d{2}$/,     style: 64 }  // Numbers with 2d.p. and thousands separators
+	{ match: /^[\d,]+$/,			style: 63 }, // Numbers with thousand separators
+	{ match: /^[\d,]+\.\d{2}$/,	 style: 64 }  // Numbers with 2d.p. and thousands separators
 ];
 
 
@@ -1398,7 +1398,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 	},
 
 	extension: '.xlsx',
-	
+
 	createEmptyCells: false
 } );
 
@@ -1430,15 +1430,15 @@ DataTable.ext.buttons.pdfFlash = $.extend( {}, flashButton, {
 		flash.setFileName( info.filename );
 
 		_setText( flash, JSON.stringify( {
-			title:         info.title || '',
-			messageTop:    info.messageTop || '',
+			title:		 info.title || '',
+			messageTop:	info.messageTop || '',
 			messageBottom: info.messageBottom || '',
-			colWidth:      ratios.toArray(),
+			colWidth:	  ratios.toArray(),
 			orientation:   config.orientation,
-			size:          config.pageSize,
-			header:        config.header ? data.header : null,
-			footer:        config.footer ? data.footer : null,
-			body:          data.body
+			size:		  config.pageSize,
+			header:		config.header ? data.header : null,
+			footer:		config.footer ? data.footer : null,
+			body:		  data.body
 		} ) );
 
 		this.processing( false );

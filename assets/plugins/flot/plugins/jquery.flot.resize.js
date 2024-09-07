@@ -24,37 +24,37 @@ can just fix the size of their placeholders.
 
 /* eslint-enable */
 (function ($) {
-    var options = { }; // no options
+	var options = { }; // no options
 
-    function init(plot) {
-        function onResize() {
-            var placeholder = plot.getPlaceholder();
+	function init(plot) {
+		function onResize() {
+			var placeholder = plot.getPlaceholder();
 
-            // somebody might have hidden us and we can't plot
-            // when we don't have the dimensions
-            if (placeholder.width() === 0 || placeholder.height() === 0) return;
+			// somebody might have hidden us and we can't plot
+			// when we don't have the dimensions
+			if (placeholder.width() === 0 || placeholder.height() === 0) return;
 
-            plot.resize();
-            plot.setupGrid();
-            plot.draw();
-        }
+			plot.resize();
+			plot.setupGrid();
+			plot.draw();
+		}
 
-        function bindEvents(plot, eventHolder) {
-            plot.getPlaceholder().resize(onResize);
-        }
+		function bindEvents(plot, eventHolder) {
+			plot.getPlaceholder().resize(onResize);
+		}
 
-        function shutdown(plot, eventHolder) {
-            plot.getPlaceholder().unbind("resize", onResize);
-        }
+		function shutdown(plot, eventHolder) {
+			plot.getPlaceholder().unbind("resize", onResize);
+		}
 
-        plot.hooks.bindEvents.push(bindEvents);
-        plot.hooks.shutdown.push(shutdown);
-    }
+		plot.hooks.bindEvents.push(bindEvents);
+		plot.hooks.shutdown.push(shutdown);
+	}
 
-    $.plot.plugins.push({
-        init: init,
-        options: options,
-        name: 'resize',
-        version: '1.0'
-    });
+	$.plot.plugins.push({
+		init: init,
+		options: options,
+		name: 'resize',
+		version: '1.0'
+	});
 })(jQuery);

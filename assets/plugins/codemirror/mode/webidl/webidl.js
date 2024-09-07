@@ -3,11 +3,11 @@
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("../../lib/codemirror"));
+	mod(require("../../lib/codemirror"));
   else if (typeof define == "function" && define.amd) // AMD
-    define(["../../lib/codemirror"], mod);
+	define(["../../lib/codemirror"], mod);
   else // Plain browser env
-    mod(CodeMirror);
+	mod(CodeMirror);
 })(function(CodeMirror) {
 "use strict";
 
@@ -34,24 +34,24 @@ var builtinArray = [
   "SameObject",
   "TreatNonObjectAsNull",
   "TreatNullAs",
-    "EmptyString",
+	"EmptyString",
   "Unforgeable",
   "Unscopeable"
 ];
 var builtins = wordRegexp(builtinArray);
 
 var typeArray = [
-  "unsigned", "short", "long",                  // UnsignedIntegerType
-  "unrestricted", "float", "double",            // UnrestrictedFloatType
-  "boolean", "byte", "octet",                   // Rest of PrimitiveType
-  "Promise",                                    // PromiseType
+  "unsigned", "short", "long",				  // UnsignedIntegerType
+  "unrestricted", "float", "double",			// UnrestrictedFloatType
+  "boolean", "byte", "octet",				   // Rest of PrimitiveType
+  "Promise",									// PromiseType
   "ArrayBuffer", "DataView", "Int8Array", "Int16Array", "Int32Array",
   "Uint8Array", "Uint16Array", "Uint32Array", "Uint8ClampedArray",
-  "Float32Array", "Float64Array",               // BufferRelatedType
+  "Float32Array", "Float64Array",			   // BufferRelatedType
   "ByteString", "DOMString", "USVString", "sequence", "object", "RegExp",
-  "Error", "DOMException", "FrozenArray",       // Rest of NonAnyType
-  "any",                                        // Rest of SingleType
-  "void"                                        // Rest of ReturnType
+  "Error", "DOMException", "FrozenArray",	   // Rest of NonAnyType
+  "any",										// Rest of SingleType
+  "void"										// Rest of ReturnType
 ];
 var types = wordRegexp(typeArray);
 
@@ -59,21 +59,21 @@ var keywordArray = [
   "attribute", "callback", "const", "deleter", "dictionary", "enum", "getter",
   "implements", "inherit", "interface", "iterable", "legacycaller", "maplike",
   "partial", "required", "serializer", "setlike", "setter", "static",
-  "stringifier", "typedef",                     // ArgumentNameKeyword except
-                                                // "unrestricted"
+  "stringifier", "typedef",					 // ArgumentNameKeyword except
+												// "unrestricted"
   "optional", "readonly", "or"
 ];
 var keywords = wordRegexp(keywordArray);
 
 var atomArray = [
-  "true", "false",                              // BooleanLiteral
-  "Infinity", "NaN",                            // FloatLiteral
-  "null"                                        // Rest of ConstValue
+  "true", "false",							  // BooleanLiteral
+  "Infinity", "NaN",							// FloatLiteral
+  "null"										// Rest of ConstValue
 ];
 var atoms = wordRegexp(atomArray);
 
 CodeMirror.registerHelper("hintWords", "webidl",
-    builtinArray.concat(typeArray).concat(keywordArray).concat(atomArray));
+	builtinArray.concat(typeArray).concat(keywordArray).concat(atomArray));
 
 var startDefArray = ["callback", "dictionary", "enum", "interface"];
 var startDefs = wordRegexp(startDefArray);
@@ -97,26 +97,26 @@ function readToken(stream, state) {
 
   // comment
   if (state.inComment) {
-    if (stream.match(multilineCommentsEnd)) {
-      state.inComment = false;
-      return "comment";
-    }
-    stream.skipToEnd();
-    return "comment";
+	if (stream.match(multilineCommentsEnd)) {
+	  state.inComment = false;
+	  return "comment";
+	}
+	stream.skipToEnd();
+	return "comment";
   }
   if (stream.match("//")) {
-    stream.skipToEnd();
-    return "comment";
+	stream.skipToEnd();
+	return "comment";
   }
   if (stream.match(multilineComments)) return "comment";
   if (stream.match(multilineCommentsStart)) {
-    state.inComment = true;
-    return "comment";
+	state.inComment = true;
+	return "comment";
   }
 
   // integer and float
   if (stream.match(/^-?[0-9\.]/, false)) {
-    if (stream.match(integers) || stream.match(floats)) return "number";
+	if (stream.match(integers) || stream.match(floats)) return "number";
   }
 
   // string
@@ -126,24 +126,24 @@ function readToken(stream, state) {
   if (state.startDef && stream.match(identifiers)) return "def";
 
   if (state.endDef && stream.match(identifiersEnd)) {
-    state.endDef = false;
-    return "def";
+	state.endDef = false;
+	return "def";
   }
 
   if (stream.match(keywords)) return "keyword";
 
   if (stream.match(types)) {
-    var lastToken = state.lastToken;
-    var nextToken = (stream.match(/^\s*(.+?)\b/, false) || [])[1];
+	var lastToken = state.lastToken;
+	var nextToken = (stream.match(/^\s*(.+?)\b/, false) || [])[1];
 
-    if (lastToken === ":" || lastToken === "implements" ||
-        nextToken === "implements" || nextToken === "=") {
-      // Used as identifier
-      return "builtin";
-    } else {
-      // Used as type
-      return "variable-3";
-    }
+	if (lastToken === ":" || lastToken === "implements" ||
+		nextToken === "implements" || nextToken === "=") {
+	  // Used as identifier
+	  return "builtin";
+	} else {
+	  // Used as type
+	  return "variable-3";
+	}
   }
 
   if (stream.match(builtins)) return "builtin";
@@ -160,34 +160,34 @@ function readToken(stream, state) {
 
 CodeMirror.defineMode("webidl", function() {
   return {
-    startState: function() {
-      return {
-        // Is in multiline comment
-        inComment: false,
-        // Last non-whitespace, matched token
-        lastToken: "",
-        // Next token is a definition
-        startDef: false,
-        // Last token of the statement is a definition
-        endDef: false
-      };
-    },
-    token: function(stream, state) {
-      var style = readToken(stream, state);
+	startState: function() {
+	  return {
+		// Is in multiline comment
+		inComment: false,
+		// Last non-whitespace, matched token
+		lastToken: "",
+		// Next token is a definition
+		startDef: false,
+		// Last token of the statement is a definition
+		endDef: false
+	  };
+	},
+	token: function(stream, state) {
+	  var style = readToken(stream, state);
 
-      if (style) {
-        var cur = stream.current();
-        state.lastToken = cur;
-        if (style === "keyword") {
-          state.startDef = startDefs.test(cur);
-          state.endDef = state.endDef || endDefs.test(cur);
-        } else {
-          state.startDef = false;
-        }
-      }
+	  if (style) {
+		var cur = stream.current();
+		state.lastToken = cur;
+		if (style === "keyword") {
+		  state.startDef = startDefs.test(cur);
+		  state.endDef = state.endDef || endDefs.test(cur);
+		} else {
+		  state.startDef = false;
+		}
+	  }
 
-      return style;
-    }
+	  return style;
+	}
   };
 });
 

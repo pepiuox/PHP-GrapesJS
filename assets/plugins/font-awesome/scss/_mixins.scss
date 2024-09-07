@@ -14,15 +14,15 @@
 @mixin fa-icon-rotate($degrees, $rotation) {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation})";
   -webkit-transform: rotate($degrees);
-      -ms-transform: rotate($degrees);
-          transform: rotate($degrees);
+	  -ms-transform: rotate($degrees);
+		  transform: rotate($degrees);
 }
 
 @mixin fa-icon-flip($horiz, $vert, $rotation) {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation}, mirror=1)";
   -webkit-transform: scale($horiz, $vert);
-      -ms-transform: scale($horiz, $vert);
-          transform: scale($horiz, $vert);
+	  -ms-transform: scale($horiz, $vert);
+		  transform: scale($horiz, $vert);
 }
 
 
@@ -50,11 +50,11 @@
 @mixin sr-only-focusable {
   &:active,
   &:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
   }
 }

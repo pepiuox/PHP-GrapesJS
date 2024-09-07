@@ -2,24 +2,24 @@ FullCalendar.globalLocales.push(function () {
   'use strict';
 
   var el = {
-    code: 'el',
-    week: {
-      dow: 1, // Monday is the first day of the week.
-      doy: 4, // The week that contains Jan 4st is the first week of the year.
-    },
-    buttonText: {
-      prev: 'Προηγούμενος',
-      next: 'Επόμενος',
-      today: 'Σήμερα',
-      month: 'Μήνας',
-      week: 'Εβδομάδα',
-      day: 'Ημέρα',
-      list: 'Ατζέντα',
-    },
-    weekText: 'Εβδ',
-    allDayText: 'Ολοήμερο',
-    moreLinkText: 'περισσότερα',
-    noEventsText: 'Δεν υπάρχουν γεγονότα προς εμφάνιση',
+	e: 'el',
+	k: {
+	ow: 1, // Monday is the first day of the week.
+	oy: 4, // The week that contains Jan 4st is the first week of the year.
+
+	tonText: {
+	rev: 'Προηγούμενος',
+	ext: 'Επόμενος',
+	oday: 'Σήμερα',
+	onth: 'Μήνας',
+	eek: 'Εβδομάδα',
+	ay: 'Ημέρα',
+	ist: 'Ατζέντα',
+
+	kText: 'Εβδ',
+	DayText: 'Ολοήμερο',
+	eLinkText: 'περισσότερα',
+	ventsText: 'Δεν υπάρχουν γεγονότα προς εμφάνιση',
   };
 
   return el;

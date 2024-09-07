@@ -3,12 +3,12 @@
  */
 
 /**
- * @summary     AutoFill
+ * @summary	 AutoFill
  * @description Add Excel like click and drag auto-fill options to DataTables
- * @version     2.3.5
- * @file        dataTables.autoFill.js
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @contact     www.sprymedia.co.uk/contact
+ * @version	 2.3.5
+ * @file		dataTables.autoFill.js
+ * @author	  SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact	 www.sprymedia.co.uk/contact
  * @copyright   Copyright 2010-2020 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
@@ -52,7 +52,7 @@ var DataTable = $.fn.dataTable;
 
 var _instance = 0;
 
-/** 
+/**
  * AutoFill provides Excel like auto-fill features for a DataTable
  *
  * @class AutoFill
@@ -115,7 +115,7 @@ var AutoFill = function( dt, opts )
 		 *   will be over that element, rather than the cells!
 		 */
 		select: {
-			top:    $('<div class="dt-autofill-select top"/>'),
+			top:	$('<div class="dt-autofill-select top"/>'),
 			right:  $('<div class="dt-autofill-select right"/>'),
 			bottom: $('<div class="dt-autofill-select bottom"/>'),
 			left:   $('<div class="dt-autofill-select left"/>')
@@ -272,7 +272,7 @@ $.extend( AutoFill.prototype, {
 	 * end user.
 	 *
 	 * @param {array} cells Information about the selected cells from the key
-	 *     up function
+	 *	 up function
 	 * @private
 	 */
 	_actionSelector: function ( cells )
@@ -349,7 +349,7 @@ $.extend( AutoFill.prototype, {
 	 * and end cells, then placing the highlighting elements to draw a rectangle
 	 *
 	 * @param  {node}   target End cell
-	 * @param  {object} e      Originating event
+	 * @param  {object} e	  Originating event
 	 * @private
 	 */
 	_drawSelection: function ( target, e )
@@ -384,12 +384,12 @@ $.extend( AutoFill.prototype, {
 
 		var top, bottom, left, right, height, width;
 
-		top    = start.row    < end.row    ? startCell : endCell;
-		bottom = start.row    < end.row    ? endCell   : startCell;
+		top	= start.row	< end.row	? startCell : endCell;
+		bottom = start.row	< end.row	? endCell   : startCell;
 		left   = start.column < end.column ? startCell : endCell;
 		right  = start.column < end.column ? endCell   : startCell;
 
-		top    = this._getPosition( top.get(0) ).top;
+		top	= this._getPosition( top.get(0) ).top;
 		left   = this._getPosition( left.get(0) ).left;
 		height = this._getPosition( bottom.get(0) ).top + bottom.outerHeight() - top;
 		width  = this._getPosition( right.get(0) ).left + right.outerWidth() - left;
@@ -426,7 +426,7 @@ $.extend( AutoFill.prototype, {
 	 * cells
 	 *
 	 * @param {array} cells Information about the selected cells from the key
-	 *     up function
+	 *	 up function
 	 * @private
 	 */
 	_editor: function ( cells )
@@ -577,9 +577,9 @@ $.extend( AutoFill.prototype, {
 	/**
 	 * Get the position of a node, relative to another, including any scrolling
 	 * offsets.
-	 * @param  {Node}   node         Node to get the position of
+	 * @param  {Node}   node		 Node to get the position of
 	 * @param  {jQuery} targetParent Node to use as the parent
-	 * @return {object}              Offset calculation
+	 * @return {object}			  Offset calculation
 	 * @private
 	 */
 	_getPosition: function ( node, targetParent )
@@ -665,10 +665,10 @@ $.extend( AutoFill.prototype, {
 		this.s.scroll = {
 			windowHeight: $(window).height(),
 			windowWidth:  $(window).width(),
-			dtTop:        scrollWrapper ? scrollWrapper.offset().top : null,
-			dtLeft:       scrollWrapper ? scrollWrapper.offset().left : null,
-			dtHeight:     scrollWrapper ? scrollWrapper.outerHeight() : null,
-			dtWidth:      scrollWrapper ? scrollWrapper.outerWidth() : null
+			dtTop:		scrollWrapper ? scrollWrapper.offset().top : null,
+			dtLeft:	   scrollWrapper ? scrollWrapper.offset().left : null,
+			dtHeight:	 scrollWrapper ? scrollWrapper.outerHeight() : null,
+			dtWidth:	  scrollWrapper ? scrollWrapper.outerWidth() : null
 		};
 	},
 
@@ -681,7 +681,7 @@ $.extend( AutoFill.prototype, {
 	 * @private
 	 */
 	_mousemove: function ( e )
-	{	
+	{
 		var that = this;
 		var dt = this.s.dt;
 		var name = e.target.nodeName.toLowerCase();
@@ -749,8 +749,8 @@ $.extend( AutoFill.prototype, {
 		}
 
 		// Build a matrix representation of the selected rows
-		var rows       = this._range( start.row, end.row );
-		var columns    = this._range( start.column, end.column );
+		var rows	   = this._range( start.row, end.row );
+		var columns	= this._range( start.column, end.column );
 		var selected   = [];
 		var dtSettings = dt.settings()[0];
 		var dtColumns  = dtSettings.aoColumns;
@@ -787,7 +787,7 @@ $.extend( AutoFill.prototype, {
 		}
 
 		this._actionSelector( selected );
-		
+
 		// Stop shiftScroll
 		clearInterval( this.s.scrollInterval );
 		this.s.scrollInterval = null;
@@ -797,7 +797,7 @@ $.extend( AutoFill.prototype, {
 	/**
 	 * Create an array with a range of numbers defined by the start and end
 	 * parameters passed in (inclusive!).
-	 * 
+	 *
 	 * @param  {integer} start Start
 	 * @param  {integer} end   End
 	 * @private
@@ -936,7 +936,7 @@ $.extend( AutoFill.prototype, {
 	 *   be false internally to do nothing. This is not documented for plug-ins
 	 *   and is used only by the cancel option.
 	 * @param {array} cells Information about the selected cells from the key
-	 *     up function, argumented with the set values
+	 *	 up function, argumented with the set values
 	 * @private
 	 */
 	_update: function ( result, cells )
@@ -1098,16 +1098,16 @@ AutoFill.actions = {
 
 /**
  * AutoFill version
- * 
+ *
  * @static
- * @type      String
+ * @type	  String
  */
 AutoFill.version = '2.3.5';
 
 
 /**
  * AutoFill defaults
- * 
+ *
  * @namespace
  */
 AutoFill.defaults = {
@@ -1139,7 +1139,7 @@ AutoFill.defaults = {
 
 /**
  * Classes used by AutoFill that are configurable
- * 
+ *
  * @namespace
  */
 AutoFill.classes = {

@@ -150,7 +150,7 @@ $.extend( DataTable.ext.buttons, {
 			}
 
 			title = title
-				.replace(/\n/g," ")        // remove new lines
+				.replace(/\n/g," ")		// remove new lines
 				.replace(/<br\s*\/?>/gi, " ")  // replace line breaks with spaces
 				.replace(/<select(.*?)<\/select>/g, "") // remove select tags, including options text
 				.replace(/<!\-\-.*?\-\->/g, "") // strip HTML comments

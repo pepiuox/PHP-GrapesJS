@@ -2,27 +2,27 @@ FullCalendar.globalLocales.push(function () {
   'use strict';
 
   var deAt = {
-    code: 'de-at',
-    week: {
-      dow: 1, // Monday is the first day of the week.
-      doy: 4, // The week that contains Jan 4th is the first week of the year.
-    },
-    buttonText: {
-      prev: 'Zurück',
-      next: 'Vor',
-      today: 'Heute',
-      year: 'Jahr',
-      month: 'Monat',
-      week: 'Woche',
-      day: 'Tag',
-      list: 'Terminübersicht',
-    },
-    weekText: 'KW',
-    allDayText: 'Ganztägig',
-    moreLinkText: function(n) {
-      return '+ weitere ' + n
-    },
-    noEventsText: 'Keine Ereignisse anzuzeigen',
+	e: 'de-at',
+	k: {
+	ow: 1, // Monday is the first day of the week.
+	oy: 4, // The week that contains Jan 4th is the first week of the year.
+
+	tonText: {
+	rev: 'Zurück',
+	ext: 'Vor',
+	oday: 'Heute',
+	ear: 'Jahr',
+	onth: 'Monat',
+	eek: 'Woche',
+	ay: 'Tag',
+	ist: 'Terminübersicht',
+
+	kText: 'KW',
+	DayText: 'Ganztägig',
+	eLinkText: function(n) {
+	eturn '+ weitere ' + n
+
+	ventsText: 'Keine Ereignisse anzuzeigen',
   };
 
   return deAt;

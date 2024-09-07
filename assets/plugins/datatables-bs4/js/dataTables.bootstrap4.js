@@ -55,7 +55,7 @@ $.extend( true, DataTable.defaults, {
 
 /* Default class modification */
 $.extend( DataTable.ext.classes, {
-	sWrapper:      "dataTables_wrapper dt-bootstrap4",
+	sWrapper:	  "dataTables_wrapper dt-bootstrap4",
 	sFilterInput:  "form-control form-control-sm",
 	sLengthSelect: "custom-select custom-select-sm form-control form-control-sm",
 	sProcessing:   "dataTables_processing card",
@@ -65,9 +65,9 @@ $.extend( DataTable.ext.classes, {
 
 /* Bootstrap paging button renderer */
 DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, buttons, page, pages ) {
-	var api     = new DataTable.Api( settings );
+	var api	 = new DataTable.Api( settings );
 	var classes = settings.oClasses;
-	var lang    = settings.oLanguage.oPaginate;
+	var lang	= settings.oLanguage.oPaginate;
 	var aria = settings.oLanguage.oAria.paginate || {};
 	var btnDisplay, btnClass, counter=0;
 
@@ -157,7 +157,7 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 	};
 
 	// IE9 throws an 'unknown error' if document.activeElement is used
-	// inside an iframe or frame. 
+	// inside an iframe or frame.
 	var activeEl;
 
 	try {

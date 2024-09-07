@@ -3,12 +3,12 @@
  */
 
 /**
- * @summary     Scroller
+ * @summary	 Scroller
  * @description Virtual rendering for DataTables
- * @version     2.0.3
- * @file        dataTables.scroller.js
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @contact     www.sprymedia.co.uk/contact
+ * @version	 2.0.3
+ * @file		dataTables.scroller.js
+ * @author	  SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact	 www.sprymedia.co.uk/contact
  * @copyright   Copyright 2011-2020 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
@@ -71,32 +71,32 @@ var DataTable = $.fn.dataTable;
  *
  * Key features include:
  *   <ul class="limit_length">
- *     <li>Speed! The aim of Scroller for DataTables is to make rendering large data sets fast</li>
- *     <li>Full compatibility with deferred rendering in DataTables for maximum speed</li>
- *     <li>Display millions of rows</li>
- *     <li>Integration with state saving in DataTables (scrolling position is saved)</li>
- *     <li>Easy to use</li>
+ *	 <li>Speed! The aim of Scroller for DataTables is to make rendering large data sets fast</li>
+ *	 <li>Full compatibility with deferred rendering in DataTables for maximum speed</li>
+ *	 <li>Display millions of rows</li>
+ *	 <li>Integration with state saving in DataTables (scrolling position is saved)</li>
+ *	 <li>Easy to use</li>
  *   </ul>
  *
  *  @class
  *  @constructor
  *  @global
  *  @param {object} dt DataTables settings object or API instance
- *  @param {object} [opts={}] Configuration object for FixedColumns. Options 
- *    are defined by {@link Scroller.defaults}
+ *  @param {object} [opts={}] Configuration object for FixedColumns. Options
+ *	are defined by {@link Scroller.defaults}
  *
  *  @requires jQuery 1.7+
  *  @requires DataTables 1.10.0+
  *
  *  @example
- *    $(document).ready(function() {
- *        $('#example').DataTable( {
- *            "scrollY": "200px",
- *            "ajax": "media/dataset/large.txt",
- *            "scroller": true,
- *            "deferRender": true
- *        } );
- *    } );
+ *	$(document).ready(function() {
+ *		$('#example').DataTable( {
+ *			"scrollY": "200px",
+ *			"ajax": "media/dataset/large.txt",
+ *			"scroller": true,
+ *			"deferRender": true
+ *		} );
+ *	} );
  */
 var Scroller = function ( dt, opts ) {
 	/* Sanity check - you just know it will happen */
@@ -120,27 +120,27 @@ var Scroller = function ( dt, opts ) {
 	this.s = {
 		/**
 		 * DataTables settings object
-		 *  @type     object
+		 *  @type	 object
 		 *  @default  Passed in as first parameter to constructor
 		 */
 		dt: dtApi.settings()[0],
 
 		/**
 		 * DataTables API instance
-		 *  @type     DataTable.Api
+		 *  @type	 DataTable.Api
 		 */
 		dtApi: dtApi,
 
 		/**
 		 * Pixel location of the top of the drawn table in the viewport
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  0
 		 */
 		tableTop: 0,
 
 		/**
 		 * Pixel location of the bottom of the drawn table in the viewport
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  0
 		 */
 		tableBottom: 0,
@@ -148,7 +148,7 @@ var Scroller = function ( dt, opts ) {
 		/**
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
 		 * when scrolling up the way.
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  0
 		 *  @private
 		 */
@@ -158,7 +158,7 @@ var Scroller = function ( dt, opts ) {
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
 		 * when scrolling down the way. Note that this is actually calculated as the offset from
 		 * the top.
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  0
 		 *  @private
 		 */
@@ -166,14 +166,14 @@ var Scroller = function ( dt, opts ) {
 
 		/**
 		 * Auto row height or not indicator
-		 *  @type     bool
+		 *  @type	 bool
 		 *  @default  0
 		 */
 		autoHeight: true,
 
 		/**
 		 * Number of rows calculated as visible in the visible viewport
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  0
 		 */
 		viewportRows: 0,
@@ -182,7 +182,7 @@ var Scroller = function ( dt, opts ) {
 		 * setTimeout reference for state saving, used when state saving is enabled in the DataTable
 		 * and when the user scrolls the viewport in order to stop the cookie set taking too much
 		 * CPU!
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  0
 		 */
 		stateTO: null,
@@ -192,7 +192,7 @@ var Scroller = function ( dt, opts ) {
 		/**
 		 * setTimeout reference for the redraw, used when server-side processing is enabled in the
 		 * DataTables in order to prevent DoSing the server
-		 *  @type     int
+		 *  @type	 int
 		 *  @default  null
 		 */
 		drawTO: null,
@@ -205,14 +205,14 @@ var Scroller = function ( dt, opts ) {
 
 			/**
 			 * Height of rows in the table
-			 *  @type     int
+			 *  @type	 int
 			 *  @default  0
 			 */
 			row: null,
 
 			/**
 			 * Pixel height of the viewport
-			 *  @type     int
+			 *  @type	 int
 			 *  @default  0
 			 */
 			viewport: null,
@@ -243,10 +243,10 @@ var Scroller = function ( dt, opts ) {
 	 *
 	 */
 	this.dom = {
-		"force":    document.createElement('div'),
-		"label":    $('<div class="dts_label">0</div>'),
+		"force":	document.createElement('div'),
+		"label":	$('<div class="dts_label">0</div>'),
 		"scroller": null,
-		"table":    null,
+		"table":	null,
 		"loader":   null
 	};
 
@@ -275,7 +275,7 @@ $.extend( Scroller.prototype, {
 	 * rendering. This can be particularly useful if the table is initially
 	 * drawn in a hidden element - for example in a tab.
 	 *  @param {bool} [redraw=true] Redraw the table automatically after the recalculation, with
-	 *    the new dimensions forming the basis for the draw.
+	 *	the new dimensions forming the basis for the draw.
 	 *  @returns {void}
 	 */
 	measure: function ( redraw )
@@ -309,13 +309,13 @@ $.extend( Scroller.prototype, {
 	 *
 	 * @returns {object} info as an object:
 	 *  {
-	 *      start: {int}, // the 0-indexed record at the top of the viewport
-	 *      end:   {int}, // the 0-indexed record at the bottom of the viewport
+	 *	  start: {int}, // the 0-indexed record at the top of the viewport
+	 *	  end:   {int}, // the 0-indexed record at the bottom of the viewport
 	 *  }
 	*/
 	pageInfo: function()
 	{
-		var 
+		var
 			dt = this.s.dt,
 			iScrollTop = this.dom.scroller.scrollTop,
 			iTotal = dt.fnRecordsDisplay(),
@@ -549,7 +549,7 @@ $.extend( Scroller.prototype, {
 		}
 
 		this.measure( false );
-	
+
 		that.s.stateSaveThrottle = that.s.dt.oApi._fnThrottle( function () {
 			that.s.dtApi.state.save();
 		}, 500 );
@@ -619,18 +619,18 @@ $.extend( Scroller.prototype, {
 		// Want 3 rows in the sizing table so :first-child and :last-child
 		// CSS styles don't come into play - take the size of the middle row
 		$('tbody tr:lt(4)', origTable).clone().appendTo( tbody );
-        var rowsCount = $('tr', tbody).length;
+		var rowsCount = $('tr', tbody).length;
 
-        if ( rowsCount === 1 ) {
-            tbody.prepend('<tr><td>&#160;</td></tr>');
-            tbody.append('<tr><td>&#160;</td></tr>');
+		if ( rowsCount === 1 ) {
+			tbody.prepend('<tr><td>&#160;</td></tr>');
+			tbody.append('<tr><td>&#160;</td></tr>');
 		}
 		else {
-            for (; rowsCount < 3; rowsCount++) {
-                tbody.append('<tr><td>&#160;</td></tr>');
-            }
+			for (; rowsCount < 3; rowsCount++) {
+				tbody.append('<tr><td>&#160;</td></tr>');
+			}
 		}
-	
+
 		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
 		// If initialised using `dom`, use the holding element as the insert point
@@ -722,7 +722,7 @@ $.extend( Scroller.prototype, {
 				false;
 
 			if ( ( ajaxSourced && this.s.dt.iDraw == 2) ||
-			     (!ajaxSourced && this.s.dt.iDraw == 1) )
+				 (!ajaxSourced && this.s.dt.iDraw == 1) )
 			{
 				setTimeout( function () {
 					$(that.dom.scroller).scrollTop( that.s.dt.oLoadedState.scroller.scrollTop );
@@ -761,7 +761,7 @@ $.extend( Scroller.prototype, {
 	 * had scrolling containers of infinite height (i.e. the absolute value)
 	 *
 	 *  @param {string} dir Domain transform direction, `virtualToPhysical` or
-	 *    `physicalToVirtual` 
+	 *	`physicalToVirtual`
 	 *  @returns {number} Calculated transform
 	 *  @private
 	 */
@@ -1125,7 +1125,7 @@ Scroller.defaults = {
 	 * then the table will be redrawn whenever the viewport is scrolled, while 1 would not
 	 * redraw the table until the currently loaded data has all been shown. You will want
 	 * something in the middle - the default factor of 0.5 is usually suitable.
-	 *  @type     float
+	 *  @type	 float
 	 *  @default  0.5
 	 *  @static
 	 */
@@ -1141,7 +1141,7 @@ Scroller.defaults = {
 	 * of rows before the current viewport, the current viewport's rows and 1 viewport's worth
 	 * of rows after the current viewport. Adjusting this value can be useful for ensuring
 	 * smooth scrolling based on your data set.
-	 *  @type     int
+	 *  @type	 int
 	 *  @default  7
 	 *  @static
 	 */
@@ -1150,7 +1150,7 @@ Scroller.defaults = {
 	/**
 	 * Show (or not) the loading element in the background of the table. Note that you should
 	 * include the dataTables.scroller.css file for this to be displayed correctly.
-	 *  @type     boolean
+	 *  @type	 boolean
 	 *  @default  false
 	 *  @static
 	 */
@@ -1159,7 +1159,7 @@ Scroller.defaults = {
 	/**
 	 * Scroller will attempt to automatically calculate the height of rows for it's internal
 	 * calculations. However the height that is used can be overridden using this parameter.
-	 *  @type     int|string
+	 *  @type	 int|string
 	 *  @default  auto
 	 *  @static
 	 */
@@ -1169,7 +1169,7 @@ Scroller.defaults = {
 	 * When using server-side processing, Scroller will wait a small amount of time to allow
 	 * the scrolling to finish before requesting more data from the server. This prevents
 	 * you from DoSing your own server! The wait time can be configured by this parameter.
-	 *  @type     int
+	 *  @type	 int
 	 *  @default  200
 	 *  @static
 	 */
@@ -1186,9 +1186,9 @@ Scroller.oDefaults = Scroller.defaults;
 
 /**
  * Scroller version
- *  @type      String
+ *  @type	  String
  *  @default   See code
- *  @name      Scroller.version
+ *  @name	  Scroller.version
  *  @static
  */
 Scroller.version = "2.0.3";

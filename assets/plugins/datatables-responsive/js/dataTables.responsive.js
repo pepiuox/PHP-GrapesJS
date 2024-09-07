@@ -3,12 +3,12 @@
  */
 
 /**
- * @summary     Responsive
+ * @summary	 Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     2.2.7
- * @file        dataTables.responsive.js
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @contact     www.sprymedia.co.uk/contact
+ * @version	 2.2.7
+ * @file		dataTables.responsive.js
+ * @author	  SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact	 www.sprymedia.co.uk/contact
  * @copyright   Copyright 2014-2021 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
@@ -90,10 +90,10 @@ var DataTable = $.fn.dataTable;
  *  @requires DataTables 1.10.3+
  *
  *  @example
- *      $('#example').DataTable( {
- *        responsive: true
- *      } );
- *    } );
+ *	  $('#example').DataTable( {
+ *		responsive: true
+ *	  } );
+ *	} );
  */
 var Responsive = function ( settings, opts ) {
 	// Sanity check that we are using DataTables 1.10 or newer
@@ -461,9 +461,9 @@ $.extend( Responsive.prototype, {
 			return {
 				className: className,
 				includeIn: [],
-				auto:      false,
+				auto:	  false,
 				control:   false,
-				never:     className.match(/\bnever\b/) ? true : false,
+				never:	 className.match(/\bnever\b/) ? true : false,
 				priority:  priority
 			};
 		} );
@@ -609,8 +609,8 @@ $.extend( Responsive.prototype, {
 	/**
 	 * Show the details for the child row
 	 *
-	 * @param  {DataTables.Api} row    API instance for the row
-	 * @param  {boolean}        update Update flag
+	 * @param  {DataTables.Api} row	API instance for the row
+	 * @param  {boolean}		update Update flag
 	 * @private
 	 */
 	_detailsDisplay: function ( row, update )
@@ -640,8 +640,8 @@ $.extend( Responsive.prototype, {
 	 */
 	_detailsInit: function ()
 	{
-		var that    = this;
-		var dt      = this.s.dt;
+		var that	= this;
+		var dt	  = this.s.dt;
 		var details = this.c.details;
 
 		// The inline type always uses the first child as the target
@@ -736,10 +736,10 @@ $.extend( Responsive.prototype, {
 			return {
 				className:   dtCol.sClass,
 				columnIndex: i,
-				data:        dt.cell( rowIdx, i ).render( that.c.orthogonal ),
-				hidden:      dt.column( i ).visible() && !that.s.current[ i ],
-				rowIndex:    rowIdx,
-				title:       dtCol.sTitle !== null ?
+				data:		dt.cell( rowIdx, i ).render( that.c.orthogonal ),
+				hidden:	  dt.column( i ).visible() && !that.s.current[ i ],
+				rowIndex:	rowIdx,
+				title:	   dtCol.sTitle !== null ?
 					dtCol.sTitle :
 					$(dt.column(i).header()).text()
 			};
@@ -751,7 +751,7 @@ $.extend( Responsive.prototype, {
 	 * Find a breakpoint object from a name
 	 *
 	 * @param  {string} name Breakpoint name to find
-	 * @return {object}      Breakpoint description object
+	 * @return {object}	  Breakpoint description object
 	 * @private
 	 */
 	_find: function ( name )
@@ -811,7 +811,7 @@ $.extend( Responsive.prototype, {
 				break;
 			}
 		}
-		
+
 		// Show the columns for that break point
 		var columnsVis = this._columnsVisiblity( breakpoint );
 		this.s.current = columnsVis;
@@ -820,7 +820,7 @@ $.extend( Responsive.prototype, {
 		// listeners know what the state is. Need to determine if there are
 		// any columns that are not visible but can be shown
 		var collapsedClass = false;
-	
+
 		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
 			if ( columnsVis[i] === false && ! columns[i].never && ! columns[i].control && ! dt.column(i).visible() === false ) {
 				collapsedClass = true;
@@ -948,7 +948,7 @@ $.extend( Responsive.prototype, {
 		if ( this.c.details.type === 'inline' ) {
 			$(clonedTable).addClass( 'dtr-inline collapsed' );
 		}
-		
+
 		// It is unsafe to insert elements with the same name into the DOM
 		// multiple times. For example, cloning and inserting a checked radio
 		// clears the chcecked state of the original radio.
@@ -957,7 +957,7 @@ $.extend( Responsive.prototype, {
 		// A position absolute table would take the table out of the flow of
 		// our container element, bypassing the height and width (Scroller)
 		$( clonedTable ).css( 'position', 'relative' )
-		
+
 		var inserted = $('<div/>')
 			.css( {
 				width: 1,
@@ -1003,7 +1003,7 @@ $.extend( Responsive.prototype, {
 	 * supported (and all evergreen browsers of course) the control of the
 	 * display attribute works well.
 	 *
-	 * @param {integer} col      Column index
+	 * @param {integer} col	  Column index
 	 * @param {boolean} showHide Show or hide (true or false)
 	 * @private
 	 */
@@ -1251,7 +1251,7 @@ Responsive.renderer = {
 					var klass = col.className ?
 						'class="'+ col.className +'"' :
 						'';
-	
+
 					$(
 						'<li '+klass+' data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
 							'<span class="dtr-title">'+
@@ -1399,7 +1399,7 @@ Api.register( 'responsive.index()', function ( li ) {
 
 	return {
 		column: li.data('dtr-index'),
-		row:    li.parent().data('dtr-index')
+		row:	li.parent().data('dtr-index')
 	};
 } );
 

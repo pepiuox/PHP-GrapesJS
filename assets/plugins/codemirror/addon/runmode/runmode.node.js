@@ -3,8 +3,8 @@
 function copyObj(obj, target, overwrite) {
   if (!target) { target = {}; }
   for (var prop in obj)
-    { if (obj.hasOwnProperty(prop) && (overwrite !== false || !target.hasOwnProperty(prop)))
-      { target[prop] = obj[prop]; } }
+	{ if (obj.hasOwnProperty(prop) && (overwrite !== false || !target.hasOwnProperty(prop)))
+	  { target[prop] = obj[prop]; } }
   return target
 }
 
@@ -12,16 +12,16 @@ function copyObj(obj, target, overwrite) {
 // Used mostly to find indentation.
 function countColumn(string, end, tabSize, startIndex, startValue) {
   if (end == null) {
-    end = string.search(/[^\s\u00a0]/);
-    if (end == -1) { end = string.length; }
+	end = string.search(/[^\s\u00a0]/);
+	if (end == -1) { end = string.length; }
   }
   for (var i = startIndex || 0, n = startValue || 0;;) {
-    var nextTab = string.indexOf("\t", i);
-    if (nextTab < 0 || nextTab >= end)
-      { return n + (end - i) }
-    n += nextTab - i;
-    n += tabSize - (n % tabSize);
-    i = nextTab + 1;
+	var nextTab = string.indexOf("\t", i);
+	if (nextTab < 0 || nextTab >= end)
+	  { return n + (end - i) }
+	n += nextTab - i;
+	n += tabSize - (n % tabSize);
+	i = nextTab + 1;
   }
 }
 
@@ -30,10 +30,10 @@ function nothing() {}
 function createObj(base, props) {
   var inst;
   if (Object.create) {
-    inst = Object.create(base);
+	inst = Object.create(base);
   } else {
-    nothing.prototype = base;
-    inst = new nothing();
+	nothing.prototype = base;
+	inst = new nothing();
   }
   if (props) { copyObj(props, inst); }
   return inst
@@ -58,7 +58,7 @@ StringStream.prototype.sol = function () {return this.pos == this.lineStart};
 StringStream.prototype.peek = function () {return this.string.charAt(this.pos) || undefined};
 StringStream.prototype.next = function () {
   if (this.pos < this.string.length)
-    { return this.string.charAt(this.pos++) }
+	{ return this.string.charAt(this.pos++) }
 };
 StringStream.prototype.eat = function (match) {
   var ch = this.string.charAt(this.pos);
@@ -85,28 +85,28 @@ StringStream.prototype.skipTo = function (ch) {
 StringStream.prototype.backUp = function (n) {this.pos -= n;};
 StringStream.prototype.column = function () {
   if (this.lastColumnPos < this.start) {
-    this.lastColumnValue = countColumn(this.string, this.start, this.tabSize, this.lastColumnPos, this.lastColumnValue);
-    this.lastColumnPos = this.start;
+	this.lastColumnValue = countColumn(this.string, this.start, this.tabSize, this.lastColumnPos, this.lastColumnValue);
+	this.lastColumnPos = this.start;
   }
   return this.lastColumnValue - (this.lineStart ? countColumn(this.string, this.lineStart, this.tabSize) : 0)
 };
 StringStream.prototype.indentation = function () {
   return countColumn(this.string, null, this.tabSize) -
-    (this.lineStart ? countColumn(this.string, this.lineStart, this.tabSize) : 0)
+	(this.lineStart ? countColumn(this.string, this.lineStart, this.tabSize) : 0)
 };
 StringStream.prototype.match = function (pattern, consume, caseInsensitive) {
   if (typeof pattern == "string") {
-    var cased = function (str) { return caseInsensitive ? str.toLowerCase() : str; };
-    var substr = this.string.substr(this.pos, pattern.length);
-    if (cased(substr) == cased(pattern)) {
-      if (consume !== false) { this.pos += pattern.length; }
-      return true
-    }
+	var cased = function (str) { return caseInsensitive ? str.toLowerCase() : str; };
+	var substr = this.string.substr(this.pos, pattern.length);
+	if (cased(substr) == cased(pattern)) {
+	  if (consume !== false) { this.pos += pattern.length; }
+	  return true
+	}
   } else {
-    var match = this.string.slice(this.pos).match(pattern);
-    if (match && match.index > 0) { return null }
-    if (match && consume !== false) { this.pos += match[0].length; }
-    return match
+	var match = this.string.slice(this.pos).match(pattern);
+	if (match && match.index > 0) { return null }
+	if (match && consume !== false) { this.pos += match[0].length; }
+	return match
   }
 };
 StringStream.prototype.current = function (){return this.string.slice(this.start, this.pos)};
@@ -132,7 +132,7 @@ var modes = {}, mimeModes = {};
 // load a mode. (Preferred mechanism is the require/define calls.)
 function defineMode(name, mode) {
   if (arguments.length > 2)
-    { mode.dependencies = Array.prototype.slice.call(arguments, 2); }
+	{ mode.dependencies = Array.prototype.slice.call(arguments, 2); }
   modes[name] = mode;
 }
 
@@ -144,16 +144,16 @@ function defineMIME(mime, spec) {
 // string, return a mode config object.
 function resolveMode(spec) {
   if (typeof spec == "string" && mimeModes.hasOwnProperty(spec)) {
-    spec = mimeModes[spec];
+	spec = mimeModes[spec];
   } else if (spec && typeof spec.name == "string" && mimeModes.hasOwnProperty(spec.name)) {
-    var found = mimeModes[spec.name];
-    if (typeof found == "string") { found = {name: found}; }
-    spec = createObj(found, spec);
-    spec.name = found.name;
+	var found = mimeModes[spec.name];
+	if (typeof found == "string") { found = {name: found}; }
+	spec = createObj(found, spec);
+	spec.name = found.name;
   } else if (typeof spec == "string" && /^[\w\-]+\/[\w\-]+\+xml$/.test(spec)) {
-    return resolveMode("application/xml")
+	return resolveMode("application/xml")
   } else if (typeof spec == "string" && /^[\w\-]+\/[\w\-]+\+json$/.test(spec)) {
-    return resolveMode("application/json")
+	return resolveMode("application/json")
   }
   if (typeof spec == "string") { return {name: spec} }
   else { return spec || {name: "null"} }
@@ -167,17 +167,17 @@ function getMode(options, spec) {
   if (!mfactory) { return getMode(options, "text/plain") }
   var modeObj = mfactory(options, spec);
   if (modeExtensions.hasOwnProperty(spec.name)) {
-    var exts = modeExtensions[spec.name];
-    for (var prop in exts) {
-      if (!exts.hasOwnProperty(prop)) { continue }
-      if (modeObj.hasOwnProperty(prop)) { modeObj["_" + prop] = modeObj[prop]; }
-      modeObj[prop] = exts[prop];
-    }
+	var exts = modeExtensions[spec.name];
+	for (var prop in exts) {
+	  if (!exts.hasOwnProperty(prop)) { continue }
+	  if (modeObj.hasOwnProperty(prop)) { modeObj["_" + prop] = modeObj[prop]; }
+	  modeObj[prop] = exts[prop];
+	}
   }
   modeObj.name = spec.name;
   if (spec.helperType) { modeObj.helperType = spec.helperType; }
   if (spec.modeProps) { for (var prop$1 in spec.modeProps)
-    { modeObj[prop$1] = spec.modeProps[prop$1]; } }
+	{ modeObj[prop$1] = spec.modeProps[prop$1]; } }
 
   return modeObj
 }
@@ -195,9 +195,9 @@ function copyState(mode, state) {
   if (mode.copyState) { return mode.copyState(state) }
   var nstate = {};
   for (var n in state) {
-    var val = state[n];
-    if (val instanceof Array) { val = val.concat([]); }
-    nstate[n] = val;
+	var val = state[n];
+	if (val instanceof Array) { val = val.concat([]); }
+	nstate[n] = val;
   }
   return nstate
 }
@@ -207,10 +207,10 @@ function copyState(mode, state) {
 function innerMode(mode, state) {
   var info;
   while (mode.innerMode) {
-    info = mode.innerMode(state);
-    if (!info || info.mode == mode) { break }
-    state = info.state;
-    mode = info.mode;
+	info = mode.innerMode(state);
+	if (!info || info.mode == mode) { break }
+	state = info.state;
+	mode = info.mode;
   }
   return info || {mode: mode, state: state}
 }
@@ -257,11 +257,11 @@ exports.defaults = { indentUnit: 2 };
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    { mod(require("../../lib/codemirror")); }
+	{ mod(require("../../lib/codemirror")); }
   else if (typeof define == "function" && define.amd) // AMD
-    { define(["../../lib/codemirror"], mod); }
+	{ define(["../../lib/codemirror"], mod); }
   else // Plain browser env
-    { mod(CodeMirror); }
+	{ mod(CodeMirror); }
 })(function(CodeMirror) {
 
 CodeMirror.runMode = function(string, modespec, callback, options) {
@@ -270,59 +270,59 @@ CodeMirror.runMode = function(string, modespec, callback, options) {
 
   // Create a tokenizing callback function if passed-in callback is a DOM element.
   if (callback.appendChild) {
-    var ie = /MSIE \d/.test(navigator.userAgent);
-    var ie_lt9 = ie && (document.documentMode == null || document.documentMode < 9);
-    var node = callback, col = 0;
-    node.innerHTML = "";
-    callback = function(text, style) {
-      if (text == "\n") {
-        // Emitting LF or CRLF on IE8 or earlier results in an incorrect display.
-        // Emitting a carriage return makes everything ok.
-        node.appendChild(document.createTextNode(ie_lt9 ? '\r' : text));
-        col = 0;
-        return;
-      }
-      var content = "";
-      // replace tabs
-      for (var pos = 0;;) {
-        var idx = text.indexOf("\t", pos);
-        if (idx == -1) {
-          content += text.slice(pos);
-          col += text.length - pos;
-          break;
-        } else {
-          col += idx - pos;
-          content += text.slice(pos, idx);
-          var size = tabSize - col % tabSize;
-          col += size;
-          for (var i = 0; i < size; ++i) { content += " "; }
-          pos = idx + 1;
-        }
-      }
-      // Create a node with token style and append it to the callback DOM element.
-      if (style) {
-        var sp = node.appendChild(document.createElement("span"));
-        sp.className = "cm-" + style.replace(/ +/g, " cm-");
-        sp.appendChild(document.createTextNode(content));
-      } else {
-        node.appendChild(document.createTextNode(content));
-      }
-    };
+	var ie = /MSIE \d/.test(navigator.userAgent);
+	var ie_lt9 = ie && (document.documentMode == null || document.documentMode < 9);
+	var node = callback, col = 0;
+	node.innerHTML = "";
+	callback = function(text, style) {
+	  if (text == "\n") {
+		// Emitting LF or CRLF on IE8 or earlier results in an incorrect display.
+		// Emitting a carriage return makes everything ok.
+		node.appendChild(document.createTextNode(ie_lt9 ? '\r' : text));
+		col = 0;
+		return;
+	  }
+	  var content = "";
+	  // replace tabs
+	  for (var pos = 0;;) {
+		var idx = text.indexOf("\t", pos);
+		if (idx == -1) {
+		  content += text.slice(pos);
+		  col += text.length - pos;
+		  break;
+		} else {
+		  col += idx - pos;
+		  content += text.slice(pos, idx);
+		  var size = tabSize - col % tabSize;
+		  col += size;
+		  for (var i = 0; i < size; ++i) { content += " "; }
+		  pos = idx + 1;
+		}
+	  }
+	  // Create a node with token style and append it to the callback DOM element.
+	  if (style) {
+		var sp = node.appendChild(document.createElement("span"));
+		sp.className = "cm-" + style.replace(/ +/g, " cm-");
+		sp.appendChild(document.createTextNode(content));
+	  } else {
+		node.appendChild(document.createTextNode(content));
+	  }
+	};
   }
 
   var lines = CodeMirror.splitLines(string), state = (options && options.state) || CodeMirror.startState(mode);
   for (var i = 0, e = lines.length; i < e; ++i) {
-    if (i) { callback("\n"); }
-    var stream = new CodeMirror.StringStream(lines[i], null, {
-      lookAhead: function(n) { return lines[i + n] },
-      baseToken: function() {}
-    });
-    if (!stream.string && mode.blankLine) { mode.blankLine(state); }
-    while (!stream.eol()) {
-      var style = mode.token(stream, state);
-      callback(stream.current(), style, i, stream.start, state);
-      stream.start = stream.pos;
-    }
+	if (i) { callback("\n"); }
+	var stream = new CodeMirror.StringStream(lines[i], null, {
+	  lookAhead: function(n) { return lines[i + n] },
+	  baseToken: function() {}
+	});
+	if (!stream.string && mode.blankLine) { mode.blankLine(state); }
+	while (!stream.eol()) {
+	  var style = mode.token(stream, state);
+	  callback(stream.current(), style, i, stream.start, state);
+	  stream.start = stream.pos;
+	}
   }
 };
 

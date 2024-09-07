@@ -3,13 +3,13 @@
  */
 
 /**
- * @summary     FixedHeader
+ * @summary	 FixedHeader
  * @description Fix a table's header or footer, so it is always visible while
- *              scrolling
- * @version     3.1.8
- * @file        dataTables.fixedHeader.js
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @contact     www.sprymedia.co.uk/contact
+ *			  scrolling
+ * @version	 3.1.8
+ * @file		dataTables.fixedHeader.js
+ * @author	  SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact	 www.sprymedia.co.uk/contact
  * @copyright   Copyright 2009-2021 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
@@ -128,7 +128,7 @@ var FixedHeader = function ( dt, config ) {
 /*
  * Variable: FixedHeader
  * Purpose:  Prototype for FixedHeader
- * Scope:    global
+ * Scope:	global
  */
 $.extend( FixedHeader.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -173,9 +173,9 @@ $.extend( FixedHeader.prototype, {
 	{
 		return this.s.enable;
 	},
-	
+
 	/**
-	 * Set header offset 
+	 * Set header offset
 	 *
 	 * @param  {int} new value for headerOffset
 	 */
@@ -188,7 +188,7 @@ $.extend( FixedHeader.prototype, {
 
 		return this.c.headerOffset;
 	},
-	
+
 	/**
 	 * Set footer offset
 	 *
@@ -204,7 +204,7 @@ $.extend( FixedHeader.prototype, {
 		return this.c.footerOffset;
 	},
 
-	
+
 	/**
 	 * Recalculate the position of the fixed elements and force them into place
 	 */
@@ -227,7 +227,7 @@ $.extend( FixedHeader.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Constructor
 	 */
-	
+
 	/**
 	 * FixedHeader constructor - adding the required event listeners and
 	 * simple initialisation
@@ -387,8 +387,8 @@ $.extend( FixedHeader.prototype, {
 	 * Reposition the floating elements to take account of horizontal page
 	 * scroll
 	 *
-	 * @param  {string} item       The `header` or `footer`
-	 * @param  {int}    scrollLeft Document scrollLeft
+	 * @param  {string} item	   The `header` or `footer`
+	 * @param  {int}	scrollLeft Document scrollLeft
 	 * @private
 	 */
 	_horizontal: function ( item, scrollLeft )
@@ -412,11 +412,11 @@ $.extend( FixedHeader.prototype, {
 	 * * `in` - Floating over the DataTable
 	 * * `below` - (Header only) Fixed to the bottom of the table body
 	 * * `above` - (Footer only) Fixed to the top of the table body
-	 * 
-	 * @param  {string}  mode        Mode that the item should be shown in
-	 * @param  {string}  item        'header' or 'footer'
+	 *
+	 * @param  {string}  mode		Mode that the item should be shown in
+	 * @param  {string}  item		'header' or 'footer'
 	 * @param  {boolean} forceChange Force a redraw of the mode, even if already
-	 *     in that mode.
+	 *	 in that mode.
 	 * @private
 	 */
 	_modeChange: function ( mode, item, forceChange )
@@ -438,7 +438,7 @@ $.extend( FixedHeader.prototype, {
 		var focus = $.contains( tablePart[0], document.activeElement ) ?
 			document.activeElement :
 			null;
-		
+
 		if ( focus ) {
 			focus.blur();
 		}
@@ -562,7 +562,7 @@ $.extend( FixedHeader.prototype, {
 	 * into.
 	 *
 	 * @param  {boolean} forceChange Force a redraw of the mode, even if already
-	 *     in that mode.
+	 *	 in that mode.
 	 * @private
 	 */
 	_scroll: function ( forceChange )

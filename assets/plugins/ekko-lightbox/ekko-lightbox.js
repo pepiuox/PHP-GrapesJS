@@ -48,24 +48,24 @@ var Lightbox = (function ($) {
 			key: 'Default',
 
 			/**
-       Class properties:
+	   Class properties:
    	 _$element: null -> the <a> element currently being displayed
-    _$modal: The bootstrap modal generated
-       _$modalDialog: The .modal-dialog
-       _$modalContent: The .modal-content
-       _$modalBody: The .modal-body
-       _$modalHeader: The .modal-header
-       _$modalFooter: The .modal-footer
-    _$lightboxContainerOne: Container of the first lightbox element
-    _$lightboxContainerTwo: Container of the second lightbox element
-    _$lightboxBody: First element in the container
-    _$modalArrows: The overlayed arrows container
+	_$modal: The bootstrap modal generated
+	   _$modalDialog: The .modal-dialog
+	   _$modalContent: The .modal-content
+	   _$modalBody: The .modal-body
+	   _$modalHeader: The .modal-header
+	   _$modalFooter: The .modal-footer
+	_$lightboxContainerOne: Container of the first lightbox element
+	_$lightboxContainerTwo: Container of the second lightbox element
+	_$lightboxBody: First element in the container
+	_$modalArrows: The overlayed arrows container
    	 _$galleryItems: Other <a>'s available for this gallery
-    _galleryName: Name of the current data('gallery') showing
-    _galleryIndex: The current index of the _$galleryItems being shown
+	_galleryName: Name of the current data('gallery') showing
+	_galleryIndex: The current index of the _$galleryItems being shown
    	 _config: {} the options for the modal
-    _modalId: unique id for the current lightbox
-    _padding / _border: CSS properties for the modal container; these are used to calculate the available space for the content
+	_modalId: unique id for the current lightbox
+	_padding / _border: CSS properties for the modal container; these are used to calculate the available space for the content
    	 */
 
 			get: function get() {
@@ -602,7 +602,7 @@ var Lightbox = (function ($) {
 				} else width = width + widthBorderAndPadding;
 
 				var headerHeight = 0,
-				    footerHeight = 0;
+					footerHeight = 0;
 
 				// as the resize is performed the modal is show, the calculate might fail
 				// if so, default to the default sizes

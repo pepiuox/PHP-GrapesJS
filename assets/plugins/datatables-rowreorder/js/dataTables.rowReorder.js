@@ -3,12 +3,12 @@
  */
 
 /**
- * @summary     RowReorder
+ * @summary	 RowReorder
  * @description Row reordering extension for DataTables
- * @version     1.2.7
- * @file        dataTables.rowReorder.js
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @contact     www.sprymedia.co.uk/contact
+ * @version	 1.2.7
+ * @file		dataTables.rowReorder.js
+ * @author	  SpryMedia Ltd (www.sprymedia.co.uk)
+ * @contact	 www.sprymedia.co.uk/contact
  * @copyright   Copyright 2015-2020 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
@@ -65,7 +65,7 @@ var DataTable = $.fn.dataTable;
  * * `rowReorder` parameter in the DataTable initialisation object
  * * `new $.fn.dataTable.RowReorder( table, opts )` after DataTables
  *   initialisation.
- * 
+ *
  *  @class
  *  @param {object} settings DataTables settings object for the host table
  *  @param {object} [opts] Configuration options
@@ -215,7 +215,7 @@ $.extend( RowReorder.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Private methods
 	 */
-	
+
 	/**
 	 * Cache the measurements that RowReorder needs in the mouse move handler
 	 * to attempt to speed things up, rather than reading from the DOM.
@@ -361,7 +361,7 @@ $.extend( RowReorder.prototype, {
 	 * Mouse down event handler. Read initial positions and add event handlers
 	 * for the move.
 	 *
-	 * @param  {object} e      Mouse event
+	 * @param  {object} e	  Mouse event
 	 * @param  {jQuery} target TR element that is to be moved
 	 * @private
 	 */
@@ -406,10 +406,10 @@ $.extend( RowReorder.prototype, {
 		this.s.scroll = {
 			windowHeight: $(window).height(),
 			windowWidth:  $(window).width(),
-			dtTop:        scrollWrapper.length ? scrollWrapper.offset().top : null,
-			dtLeft:       scrollWrapper.length ? scrollWrapper.offset().left : null,
-			dtHeight:     scrollWrapper.length ? scrollWrapper.outerHeight() : null,
-			dtWidth:      scrollWrapper.length ? scrollWrapper.outerWidth() : null
+			dtTop:		scrollWrapper.length ? scrollWrapper.offset().top : null,
+			dtLeft:	   scrollWrapper.length ? scrollWrapper.offset().left : null,
+			dtHeight:	 scrollWrapper.length ? scrollWrapper.outerHeight() : null,
+			dtWidth:	  scrollWrapper.length ? scrollWrapper.outerWidth() : null
 		};
 	},
 
@@ -520,16 +520,16 @@ $.extend( RowReorder.prototype, {
 				diffNodes.push( endNodes[i] );
 			}
 		}
-		
+
 		// Create event args
 		var eventArgs = [ fullDiff, {
-			dataSrc:       dataSrc,
-			nodes:         diffNodes,
-			values:        idDiff,
-			triggerRow:    dt.row( this.dom.target ),
+			dataSrc:	   dataSrc,
+			nodes:		 diffNodes,
+			values:		idDiff,
+			triggerRow:	dt.row( this.dom.target ),
 			originalEvent: e
 		} ];
-		
+
 		// Emit event
 		this._emitEvent( 'row-reorder', eventArgs );
 
@@ -663,7 +663,7 @@ $.extend( RowReorder.prototype, {
 
 					if ( top !== $(document).scrollTop() ) {
 						var move = parseFloat(that.dom.clone.css("top"));
-						that.dom.clone.css("top", move + scroll.windowVert);					
+						that.dom.clone.css("top", move + scroll.windowVert);
 					}
 				}
 

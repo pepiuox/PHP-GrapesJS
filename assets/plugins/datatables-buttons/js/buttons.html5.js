@@ -454,11 +454,11 @@ function _addToZip( zip, obj ) {
  * Create an XML node and add any children, attributes, etc without needing to
  * be verbose in the DOM.
  *
- * @param  {object} doc      XML document
+ * @param  {object} doc	  XML document
  * @param  {string} nodeName Node name
- * @param  {object} opts     Options - can be `attr` (attributes), `children`
+ * @param  {object} opts	 Options - can be `attr` (attributes), `children`
  *   (child nodes) and `text` (text content)
- * @return {node}            Created node
+ * @return {node}			Created node
  */
 function _createNode( doc, nodeName, opts ) {
 	var tempNode = doc.createElement( nodeName );
@@ -485,8 +485,8 @@ function _createNode( doc, nodeName, opts ) {
 /**
  * Get the width for an Excel column based on the contents of that column
  * @param  {object} data Data for export
- * @param  {int}    col  Column index
- * @return {int}         Column width
+ * @param  {int}	col  Column index
+ * @return {int}		 Column width
  */
 function _excelColWidth( data, col ) {
 	var max = data.header[col].length;
@@ -772,17 +772,17 @@ var excelStrings = {
 // Ref: section 3.8.30 - built in formatters in open spreadsheet
 //   https://www.ecma-international.org/news/TC45_current_work/Office%20Open%20XML%20Part%204%20-%20Markup%20Language%20Reference.pdf
 var _excelSpecials = [
-	{ match: /^\-?\d+\.\d%$/,               style: 60, fmt: function (d) { return d/100; } }, // Precent with d.p.
-	{ match: /^\-?\d+\.?\d*%$/,             style: 56, fmt: function (d) { return d/100; } }, // Percent
-	{ match: /^\-?\$[\d,]+.?\d*$/,          style: 57 }, // Dollars
-	{ match: /^\-?£[\d,]+.?\d*$/,           style: 58 }, // Pounds
-	{ match: /^\-?€[\d,]+.?\d*$/,           style: 59 }, // Euros
-	{ match: /^\-?\d+$/,                    style: 65 }, // Numbers without thousand separators
-	{ match: /^\-?\d+\.\d{2}$/,             style: 66 }, // Numbers 2 d.p. without thousands separators
-	{ match: /^\([\d,]+\)$/,                style: 61, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets
-	{ match: /^\([\d,]+\.\d{2}\)$/,         style: 62, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets - 2d.p.
-	{ match: /^\-?[\d,]+$/,                 style: 63 }, // Numbers with thousand separators
-	{ match: /^\-?[\d,]+\.\d{2}$/,          style: 64 },
+	{ match: /^\-?\d+\.\d%$/,			   style: 60, fmt: function (d) { return d/100; } }, // Precent with d.p.
+	{ match: /^\-?\d+\.?\d*%$/,			 style: 56, fmt: function (d) { return d/100; } }, // Percent
+	{ match: /^\-?\$[\d,]+.?\d*$/,		  style: 57 }, // Dollars
+	{ match: /^\-?£[\d,]+.?\d*$/,		   style: 58 }, // Pounds
+	{ match: /^\-?€[\d,]+.?\d*$/,		   style: 59 }, // Euros
+	{ match: /^\-?\d+$/,					style: 65 }, // Numbers without thousand separators
+	{ match: /^\-?\d+\.\d{2}$/,			 style: 66 }, // Numbers 2 d.p. without thousands separators
+	{ match: /^\([\d,]+\)$/,				style: 61, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets
+	{ match: /^\([\d,]+\.\d{2}\)$/,		 style: 62, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets - 2d.p.
+	{ match: /^\-?[\d,]+$/,				 style: 63 }, // Numbers with thousand separators
+	{ match: /^\-?[\d,]+\.\d{2}$/,		  style: 64 },
 	{ match: /^[\d]{4}\-[\d]{2}\-[\d]{2}$/, style: 67, fmt: function (d) {return Math.round(25569 + (Date.parse(d) / (86400 * 1000)));}} //Date yyyy-mm-dd
 ];
 
@@ -1181,13 +1181,13 @@ DataTable.ext.buttons.excelHtml5 = {
 			addRow( data.header, rowPos );
 			$('row:last c', rels).attr( 's', '2' ); // bold
 		}
-	
+
 		dataStartRow = rowPos;
 
 		for ( var n=0, ie=data.body.length ; n<ie ; n++ ) {
 			addRow( data.body[n], rowPos );
 		}
-	
+
 		dataEndRow = rowPos;
 
 		if ( config.footer && data.footer ) {

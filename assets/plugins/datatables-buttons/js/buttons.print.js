@@ -43,7 +43,7 @@ var _link = document.createElement( 'a' );
  * Clone link and style tags, taking into account the need to change the source
  * path.
  *
- * @param  {node}     el Element to convert
+ * @param  {node}	 el Element to convert
  */
 var _styleToAbs = function( el ) {
 	var url;

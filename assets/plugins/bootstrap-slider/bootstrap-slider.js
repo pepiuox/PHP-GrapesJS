@@ -1,5 +1,5 @@
 /*! =======================================================
-                      VERSION  11.0.2              
+					  VERSION  11.0.2
 ========================================================= */
 "use strict";
 
@@ -106,9 +106,9 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 			// -------------------------- addOptionMethod -------------------------- //
 
 			/**
-    * adds option method -> $().plugin('option', {...})
-    * @param {Function} PluginClass - constructor class
-    */
+	* adds option method -> $().plugin('option', {...})
+	* @param {Function} PluginClass - constructor class
+	*/
 			function addOptionMethod(PluginClass) {
 				// don't overwrite original option method
 				if (PluginClass.prototype.option) {
@@ -134,10 +134,10 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 			};
 
 			/**
-    * jQuery plugin bridge, access methods like $elem.plugin('method')
-    * @param {String} namespace - plugin name
-    * @param {Function} PluginClass - constructor class
-    */
+	* jQuery plugin bridge, access methods like $elem.plugin('method')
+	* @param {String} namespace - plugin name
+	* @param {Function} PluginClass - constructor class
+	*/
 			function bridge(namespace, PluginClass) {
 				// add to jQuery fn namespace
 				$.fn[namespace] = function (options) {
@@ -194,11 +194,11 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 			// -------------------------- bridget -------------------------- //
 
 			/**
-    * converts a Prototypical class into a proper jQuery plugin
-    *   the class must have a ._init method
-    * @param {String} namespace - plugin name, used in $().pluginName
-    * @param {Function} PluginClass - constructor class
-    */
+	* converts a Prototypical class into a proper jQuery plugin
+	*   the class must have a ._init method
+	* @param {String} namespace - plugin name, used in $().pluginName
+	* @param {Function} PluginClass - constructor class
+	*/
 			$.bridget = function (namespace, PluginClass) {
 				addOptionMethod(PluginClass);
 				bridge(namespace, PluginClass);
@@ -241,9 +241,9 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 					var shouldAdjustWithBase = true;
 					if (this.options.ticks_positions.length > 0) {
 						var minv,
-						    maxv,
-						    minp,
-						    maxp = 0;
+							maxv,
+							minp,
+							maxp = 0;
 						for (var i = 1; i < this.options.ticks_positions.length; i++) {
 							if (percentage <= this.options.ticks_positions[i]) {
 								minv = this.options.ticks[i - 1];
@@ -270,9 +270,9 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 
 					if (this.options.ticks_positions.length > 0) {
 						var minv,
-						    maxv,
-						    minp,
-						    maxp = 0;
+							maxv,
+							minp,
+							maxp = 0;
 						for (var i = 0; i < this.options.ticks.length; i++) {
 							if (value <= this.options.ticks[i]) {
 								minv = i > 0 ? this.options.ticks[i - 1] : 0;
@@ -305,7 +305,7 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 					}
 					value = this.options.min + Math.round((value - this.options.min) / this.options.step) * this.options.step;
 					/* Rounding to the nearest step could exceed the min or
-      * max, so clip to those values. */
+	  * max, so clip to those values. */
 					return SliderScale.linear.getValue(value, this.options);
 				},
 				toPercentage: function toPercentage(value) {
@@ -2025,9 +2025,9 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 				return index;
 			},
 			/**
-    * Attempts to find the index in `ticks[]` the slider values are set at.
-    * The indexes can be -1 to indicate the slider value is not set at a value in `ticks[]`.
-    */
+	* Attempts to find the index in `ticks[]` the slider values are set at.
+	* The indexes can be -1 to indicate the slider value is not set at a value in `ticks[]`.
+	*/
 			_setTickIndex: function _setTickIndex() {
 				if (this.ticksAreValid) {
 					this._state.tickIndex = [this.options.ticks.indexOf(this._state.value[0]), this.options.ticks.indexOf(this._state.value[1])];

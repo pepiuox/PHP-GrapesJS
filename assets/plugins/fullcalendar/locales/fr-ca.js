@@ -2,21 +2,21 @@ FullCalendar.globalLocales.push(function () {
   'use strict';
 
   var frCa = {
-    code: 'fr',
-    buttonText: {
-      prev: 'Précédent',
-      next: 'Suivant',
-      today: "Aujourd'hui",
-      year: 'Année',
-      month: 'Mois',
-      week: 'Semaine',
-      day: 'Jour',
-      list: 'Mon planning',
-    },
-    weekText: 'Sem.',
-    allDayText: 'Toute la journée',
-    moreLinkText: 'en plus',
-    noEventsText: 'Aucun événement à afficher',
+	e: 'fr',
+	tonText: {
+	rev: 'Précédent',
+	ext: 'Suivant',
+	oday: "Aujourd'hui",
+	ear: 'Année',
+	onth: 'Mois',
+	eek: 'Semaine',
+	ay: 'Jour',
+	ist: 'Mon planning',
+
+	kText: 'Sem.',
+	DayText: 'Toute la journée',
+	eLinkText: 'en plus',
+	ventsText: 'Aucun événement à afficher',
   };
 
   return frCa;
