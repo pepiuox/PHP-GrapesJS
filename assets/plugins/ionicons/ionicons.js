@@ -20,12 +20,12 @@
 
 (function(){
   /*
-    Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-    Code distributed by Google as part of the polymer project is also
-    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+	Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+	This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+	The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+	The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+	Code distributed by Google as part of the polymer project is also
+	subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
   */
   'use strict';var aa=new Set("annotation-xml color-profile font-face font-face-src font-face-uri font-face-format font-face-name missing-glyph".split(" "));function g(a){var b=aa.has(a);a=/^[a-z][.0-9_a-z]*-[\-.0-9_a-z]*$/.test(a);return!b&&a}function l(a){var b=a.isConnected;if(void 0!==b)return b;for(;a&&!(a.__CE_isImportDocument||a instanceof Document);)a=a.parentNode||(window.ShadowRoot&&a instanceof ShadowRoot?a.host:void 0);return!(!a||!(a.__CE_isImportDocument||a instanceof Document))}
   function n(a,b){for(;b&&b!==a&&!b.nextSibling;)b=b.parentNode;return b&&b!==a?b.nextSibling:null}
@@ -109,14 +109,14 @@ DOMTokenList
   // Figure out currentScript (for IE11, since it does not support currentScript)
   var regex = /\/ionicons(\.esm)?\.js($|\?|#)/;
   var scriptElm = currentScript || Array.from(document.querySelectorAll('script')).find(function(s) {
-    return regex.test(s.src) || s.getAttribute('data-stencil-namespace') === "ionicons";
+	return regex.test(s.src) || s.getAttribute('data-stencil-namespace') === "ionicons";
   });
 
   var resourcesUrl = scriptElm ? scriptElm.getAttribute('data-resources-url') || scriptElm.src : '';
   var start = function() {
-    // if src is not present then origin is "null", and new URL() throws TypeError: Failed to construct 'URL': Invalid base URL
-    var url = new URL('./p-0cdf0eee.system.js', new URL(resourcesUrl, window.location.origin !== 'null' ? window.location.origin : undefined));
-    System.import(url.href);
+	// if src is not present then origin is "null", and new URL() throws TypeError: Failed to construct 'URL': Invalid base URL
+	var url = new URL('./p-0cdf0eee.system.js', new URL(resourcesUrl, window.location.origin !== 'null' ? window.location.origin : undefined));
+	System.import(url.href);
   };
 
   start();
