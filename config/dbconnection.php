@@ -23,5 +23,3 @@ $base = $protocol.$_SERVER['HTTP_HOST'];
 $fname = basename($_SERVER['SCRIPT_FILENAME'], '.php');
 $rname = $fname.'.php';
 $alertpg = $_SERVER['REQUEST_URI'];
-
-?>

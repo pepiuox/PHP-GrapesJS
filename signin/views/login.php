@@ -23,7 +23,7 @@ include '../elements/alerts.php';
                 </div>
                 <div class="input-group mb-3">
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off"
-                           required>
+                            required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -32,7 +32,7 @@ include '../elements/alerts.php';
                 </div>
                 <div class="input-group mb-3">
                     <input type="password" class="form-control" name="PIN" id="PIN" placeholder="PIN"  maxlength="6" autocomplete="off"
-                           required>
+                            required>
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-key"></span>
