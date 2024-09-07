@@ -56,38 +56,38 @@ table,
 
   &,
   p {
-    font-family: $font-family-sans-serif;
+	t-family: $font-family-sans-serif;
   }
 
   a,
   .alert-link {
-    font-weight: 400;
-    color: $white;
-    text-decoration: underline;
+	t-weight: 400;
+	or: $white;
+	t-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient($value, mix($body-bg, $value, 15%)) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+	{$color} {
+	if $enable-gradients {
+		ound: $value linear-gradient($value, mix($body-bg, $value, 15%)) repeat-x;
+	 @else {
+		ound-color: $value;
+
+
   }
 
   &-light {
-    &,
-    a,
-    .alert-link {
-      color: $body-color;
-    }
+
+
+	ert-link {
+	olor: $body-color;
+
   }
 }
 
 .badge {
   &.bg-light {
-    color: $dark;
+	or: $dark;
   }
 }
 

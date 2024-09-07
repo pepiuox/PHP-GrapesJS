@@ -13,13 +13,13 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&
 
 .btn {
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+	&-#{$color} {
+	  @if $enable-gradients {
+		background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+	  } @else {
+		background-color: $value;
+	  }
+	}
   }
 }
 
@@ -43,20 +43,20 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&
   font-size: $font-size-sm;
 
   .thead-dark th {
-    color: $white;
+	color: $white;
   }
 
   a:not(.btn) {
-    color: $white;
-    text-decoration: underline;
+	color: $white;
+	text-decoration: underline;
   }
 
   .dropdown-menu a {
-    text-decoration: none;
+	text-decoration: none;
   }
 
   .text-muted {
-    color: $text-muted;
+	color: $text-muted;
   }
 }
 
@@ -73,7 +73,7 @@ label,
   > label,
   > .form-control:focus ~ label,
   > .form-control:not(:placeholder-shown) ~ label {
-    color: $input-placeholder-color;
+	color: $input-placeholder-color;
   }
 }
 
@@ -83,11 +83,11 @@ label,
 .nav-pills {
   .nav-link,
   .nav-link:hover {
-    color: $body-color;
+	color: $body-color;
   }
 
   .nav-link.disabled {
-    color: $nav-link-disabled-color;
+	color: $nav-link-disabled-color;
   }
 }
 
@@ -105,25 +105,25 @@ label,
 
   a,
   .alert-link {
-    color: $white;
-    text-decoration: underline;
+	color: $white;
+	text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+	&-#{$color} {
+	  @if $enable-gradients {
+		background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+	  } @else {
+		background-color: $value;
+	  }
+	}
   }
 }
 
 .badge {
   &-warning,
   &-info {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -144,6 +144,6 @@ label,
 .modal {
   &-header,
   &-footer {
-    background-color: $table-hover-bg;
+	background-color: $table-hover-bg;
   }
 }

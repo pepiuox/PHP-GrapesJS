@@ -22,29 +22,29 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 .navbar {
   .nav-link,
   .navbar-brand {
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, .05);
-    transition: color ease-in-out .2s;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, .05);
+	transition: color ease-in-out .2s;
   }
 
   @each $color, $value in $theme-colors {
-    &.bg-#{$color} {
-      @include btn-shadow($value);
-    }
+	&.bg-#{$color} {
+	  @include btn-shadow($value);
+	}
   }
 
   &.bg-light {
-    .nav-link,
-    .navbar-brand {
-      text-shadow: 1px 1px 0 rgba(255, 255, 255, .1);
-    }
+	.nav-link,
+	.navbar-brand {
+	  text-shadow: 1px 1px 0 rgba(255, 255, 255, .1);
+	}
 
-    .navbar-brand {
-      color: $navbar-light-color;
+	.navbar-brand {
+	  color: $navbar-light-color;
 
-      &:hover {
-        color: $info;
-      }
-    }
+	  &:hover {
+		color: $info;
+	  }
+	}
   }
 }
 
@@ -54,17 +54,17 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   text-shadow: -1px -1px 0 rgba(0, 0, 0, .1);
 
   &-link {
-    text-shadow: none;
+	text-shadow: none;
   }
 }
 
 @each $color, $value in $theme-colors {
   .btn-#{$color} {
-    @include btn-shadow($value);
+	@include btn-shadow($value);
   }
 
   .btn-#{$color}:not(.disabled):hover {
-    @include btn-shadow(shade-color($value, 8%));
+	@include btn-shadow(shade-color($value, 8%));
   }
 }
 
@@ -76,7 +76,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 
 .badge {
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }
 
@@ -90,6 +90,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   h4,
   h5,
   h6 {
-    color: inherit;
+	color: inherit;
   }
 }

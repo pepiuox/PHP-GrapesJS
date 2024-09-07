@@ -13,13 +13,13 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@4
 
 .btn {
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+	&-#{$color} {
+	  @if $enable-gradients {
+		background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+	  } @else {
+		background-color: $value;
+	  }
+	}
   }
 }
 
@@ -31,32 +31,32 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@4
 
   a,
   .alert-link {
-    color: $white;
-    text-decoration: underline;
+	color: $white;
+	text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+	&-#{$color} {
+	  @if $enable-gradients {
+		background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+	  } @else {
+		background-color: $value;
+	  }
+	}
   }
 
   &-light {
-    &,
-    a:not(.btn),
-    .alert-link {
-      color: $body-bg;
-    }
+	&,
+	a:not(.btn),
+	.alert-link {
+	  color: $body-bg;
+	}
   }
 }
 
 .badge {
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }
 

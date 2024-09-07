@@ -7,7 +7,7 @@ $theme: "litera" !default;
 // Color system
 //
 
-$white:    #fff !default;
+$white:	f !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
 $gray-300: #ddd !default;
@@ -17,79 +17,79 @@ $gray-600: #868e96 !default;
 $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
-$black:    #000 !default;
+$black:	0 !default;
 
-$blue:    #4582ec !default;
+$blue:	82ec !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
-$pink:    #e83e8c !default;
-$red:     #d9534f !default;
+$pink:	3e8c !default;
+$red:	9534f !default;
 $orange:  #fd7e14 !default;
 $yellow:  #f0ad4e !default;
 $green:   #02b875 !default;
-$teal:    #20c997 !default;
-$cyan:    #17a2b8 !default;
+$teal:	c997 !default;
+$cyan:	a2b8 !default;
 
-$primary:       $blue !default;
-$secondary:     $gray-500 !default;
-$success:       $green !default;
-$info:          $cyan !default;
-$warning:       $yellow !default;
-$danger:        $red !default;
-$light:         $gray-100 !default;
-$dark:          $gray-800 !default;
+$primary:	$blue !default;
+$secondary:	ray-500 !default;
+$success:	$green !default;
+$info:		n !default;
+$warning:	$yellow !default;
+$danger:		default;
+$light:		-100 !default;
+$dark:		y-800 !default;
 
 $min-contrast-ratio:   1.85 !default;
 
 // Body
 
-$body-color:                $gray-800 !default;
+$body-color:				efault;
 
 // Fonts
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$font-family-serif:           Georgia, Cambria, "Times New Roman", Times, serif !default;
+$font-family-sans-serif:	apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-serif:		rgia, Cambria, "Times New Roman", Times, serif !default;
 // stylelint-enable
 
-$font-size-base:              1.1rem !default;
-$headings-font-weight:        700 !default;
+$font-size-base:			!default;
+$headings-font-weight:		efault;
 
 // Tables
 
-$table-border-color:          rgba(0, 0, 0, .1) !default;
+$table-border-color:		(0, 0, 0, .1) !default;
 
-$table-bg-scale:              0% !default;
+$table-bg-scale:			ault;
 
 // Buttons
 
-$input-btn-padding-y:         .5rem !default;
-$input-btn-padding-x:         1.1rem !default;
-$btn-font-family:             $font-family-sans-serif !default;
-$btn-font-size:               .875rem !default;
-$btn-font-size-sm:            .688rem !default;
+$input-btn-padding-y:		 !default;
+$input-btn-padding-x:		m !default;
+$btn-font-family:			mily-sans-serif !default;
+$btn-font-size:			m !default;
+$btn-font-size-sm:			default;
 
-$btn-border-radius:           1.078em !default;
-$btn-border-radius-lg:        2.688em !default;
-$btn-border-radius-sm:        .844em !default;
+$btn-border-radius:		78em !default;
+$btn-border-radius-lg:		m !default;
+$btn-border-radius-sm:		 !default;
 
 // Forms
 
-$input-border-color:                    rgba(0, 0, 0, .1) !default;
-$input-group-addon-bg:                  $gray-200 !default;
+$input-border-color:					1) !default;
+$input-group-addon-bg:				!default;
 
 // Navbar
 
 // Tooltips
 
-$tooltip-font-size:                 11px !default;
+$tooltip-font-size:				lt;
 
 // Badges
 
-$badge-font-weight:                 400 !default;
-$badge-padding-y:                   .6em !default;
-$badge-padding-x:                   1.2em !default;
+$badge-font-weight:				t;
+$badge-padding-y:				ault;
+$badge-padding-x:				fault;
 
 // Alerts
 
-$alert-border-width:                0 !default;
+$alert-border-width:

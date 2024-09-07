@@ -17,19 +17,19 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 
 .bg-primary {
   .dropdown-menu {
-    background-color: $primary;
+	background-color: $primary;
 
-    .dropdown-item,
-    .dropdown-item:focus {
-      color: $navbar-dark-color;
-    }
+	.dropdown-item,
+	.dropdown-item:focus {
+	  color: $navbar-dark-color;
+	}
 
-    .dropdown-item.active,
-    .dropdown-item:hover,
-    .dropdown-item:focus {
-      color: $white;
-      background-color: shade-color($primary, 10%);
-    }
+	.dropdown-item.active,
+	.dropdown-item:hover,
+	.dropdown-item:focus {
+	  color: $white;
+	  background-color: shade-color($primary, 10%);
+	}
   }
 }
 
@@ -37,37 +37,37 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
   background-color: $gray-800 !important;
 
   .dropdown-menu {
-    background-color: $gray-800;
+	background-color: $gray-800;
 
-    .dropdown-item,
-    .dropdown-item:focus {
-      color: $navbar-dark-color;
-    }
+	.dropdown-item,
+	.dropdown-item:focus {
+	  color: $navbar-dark-color;
+	}
 
-    .dropdown-item.active,
-    .dropdown-item:hover,
-    .dropdown-item:focus  {
-      color: $white;
-      background-color: shade-color($gray-800, 10%);
-    }
+	.dropdown-item.active,
+	.dropdown-item:hover,
+	.dropdown-item:focus  {
+	  color: $white;
+	  background-color: shade-color($gray-800, 10%);
+	}
   }
 }
 
 .bg-light {
   .dropdown-menu {
-    background-color: $gray-200;
+	background-color: $gray-200;
 
-    .dropdown-item,
-    .dropdown-item:focus {
-      color: $navbar-light-color;
-    }
+	.dropdown-item,
+	.dropdown-item:focus {
+	  color: $navbar-light-color;
+	}
 
-    .dropdown-item.active,
-    .dropdown-item:hover,
-    .dropdown-item:focus  {
-      color: $navbar-light-hover-color;
-      background-color: tint-color($gray-200, 10%);
-    }
+	.dropdown-item.active,
+	.dropdown-item:hover,
+	.dropdown-item:focus  {
+	  color: $navbar-light-hover-color;
+	  background-color: tint-color($gray-200, 10%);
+	}
   }
 }
 
@@ -75,37 +75,37 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 
 .btn {
   &-primary {
-    border-color: shade-color($primary, 10%);
+	border-color: shade-color($primary, 10%);
   }
 
   &-secondary {
-    border-color: shade-color($secondary, 10%);
+	border-color: shade-color($secondary, 10%);
   }
 
   &-success {
-    border-color: shade-color($success, 10%);
+	border-color: shade-color($success, 10%);
   }
 
   &-info {
-    color: $white;
-    border-color: shade-color($info, 10%);
+	color: $white;
+	border-color: shade-color($info, 10%);
   }
 
   &-danger {
-    border-color: shade-color($danger, 10%);
+	border-color: shade-color($danger, 10%);
   }
 
   &-warning {
-    color: $white;
-    border-color: shade-color($warning, 10%);
+	color: $white;
+	border-color: shade-color($warning, 10%);
   }
 
   &-light {
-    border-color: shade-color($light, 10%);
+	border-color: shade-color($light, 10%);
   }
 
   &-dark {
-    border-color: shade-color($dark, 10%);
+	border-color: shade-color($dark, 10%);
   }
 }
 
@@ -115,93 +115,93 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,
 
 .btn-group {
   .dropdown-menu {
-    border-top-width: 0;
+	border-top-width: 0;
   }
 
   .dropdown-toggle {
-    &.btn-primary ~ .dropdown-menu {
-      background-color: $primary;
-      border-color: shade-color($primary, 10%);
+	&.btn-primary ~ .dropdown-menu {
+	  background-color: $primary;
+	  border-color: shade-color($primary, 10%);
 
-      .dropdown-item {
-        color: $white;
-      }
+	  .dropdown-item {
+		color: $white;
+	  }
 
-      .dropdown-item:hover,
-      .dropdown-item:focus {
-        background-color: shade-color($primary, 16%);
-      }
-    }
+	  .dropdown-item:hover,
+	  .dropdown-item:focus {
+		background-color: shade-color($primary, 16%);
+	  }
+	}
 
-    &.btn-secondary ~ .dropdown-menu {
-      background-color: $secondary;
-      border-color: shade-color($secondary, 10%);
+	&.btn-secondary ~ .dropdown-menu {
+	  background-color: $secondary;
+	  border-color: shade-color($secondary, 10%);
 
-      .dropdown-item {
-        color: $body-color;
-      }
+	  .dropdown-item {
+		color: $body-color;
+	  }
 
-      .dropdown-item:hover,
-      .dropdown-item:focus {
-        background-color: shade-color($secondary, 16%);
-      }
-    }
+	  .dropdown-item:hover,
+	  .dropdown-item:focus {
+		background-color: shade-color($secondary, 16%);
+	  }
+	}
 
-    &.btn-success ~ .dropdown-menu {
-      background-color: $success;
-      border-color: shade-color($success, 10%);
+	&.btn-success ~ .dropdown-menu {
+	  background-color: $success;
+	  border-color: shade-color($success, 10%);
 
-      .dropdown-item {
-        color: $white;
-      }
+	  .dropdown-item {
+		color: $white;
+	  }
 
-      .dropdown-item:hover,
-      .dropdown-item:focus {
-        background-color: shade-color($success, 16%);
-      }
-    }
+	  .dropdown-item:hover,
+	  .dropdown-item:focus {
+		background-color: shade-color($success, 16%);
+	  }
+	}
 
-    &.btn-info ~ .dropdown-menu {
-      background-color: $info;
-      border-color: shade-color($info, 10%);
+	&.btn-info ~ .dropdown-menu {
+	  background-color: $info;
+	  border-color: shade-color($info, 10%);
 
-      .dropdown-item {
-        color: $white;
-      }
+	  .dropdown-item {
+		color: $white;
+	  }
 
-      .dropdown-item:hover,
-      .dropdown-item:focus {
-        background-color: shade-color($info, 16%);
-      }
-    }
+	  .dropdown-item:hover,
+	  .dropdown-item:focus {
+		background-color: shade-color($info, 16%);
+	  }
+	}
 
-    &.btn-warning ~ .dropdown-menu {
-      background-color: $warning;
-      border-color: shade-color($warning, 10%);
+	&.btn-warning ~ .dropdown-menu {
+	  background-color: $warning;
+	  border-color: shade-color($warning, 10%);
 
-      .dropdown-item {
-        color: $white;
-      }
+	  .dropdown-item {
+		color: $white;
+	  }
 
-      .dropdown-item:hover,
-      .dropdown-item:focus {
-        background-color: shade-color($warning, 16%);
-      }
-    }
+	  .dropdown-item:hover,
+	  .dropdown-item:focus {
+		background-color: shade-color($warning, 16%);
+	  }
+	}
 
-    &.btn-danger ~ .dropdown-menu {
-      background-color: $danger;
-      border-color: shade-color($danger, 10%);
+	&.btn-danger ~ .dropdown-menu {
+	  background-color: $danger;
+	  border-color: shade-color($danger, 10%);
 
-      .dropdown-item {
-        color: $white;
-      }
+	  .dropdown-item {
+		color: $white;
+	  }
 
-      .dropdown-item:hover,
-      .dropdown-item:focus {
-        background-color: shade-color($danger, 16%);
-      }
-    }
+	  .dropdown-item:hover,
+	  .dropdown-item:focus {
+		background-color: shade-color($danger, 16%);
+	  }
+	}
   }
 }
 
@@ -243,7 +243,7 @@ label,
 
 .nav-pills {
   .active {
-    border: 1px solid shade-color($primary, 10%);
+	border: 1px solid shade-color($primary, 10%);
   }
 }
 
@@ -258,21 +258,21 @@ label,
   font-weight: 300;
 
   .page-link {
-    margin-right: .1em;
-    margin-left: .1em;
-    border-color: transparent;
-    border-radius: 3px;
+	margin-right: .1em;
+	margin-left: .1em;
+	border-color: transparent;
+	border-radius: 3px;
 
-    &:hover,
-    &:focus {
-      text-decoration: none;
-    }
+	&:hover,
+	&:focus {
+	  text-decoration: none;
+	}
   }
 
   .page-item.disabled {
-    .page-link {
-      border-color: transparent;
-    }
+	.page-link {
+	  border-color: transparent;
+	}
   }
 }
 
@@ -281,15 +281,15 @@ label,
 .pagination-sm {
   .page-item:first-child,
   .page-item:last-child {
-    .page-link {
-      border-radius: 3px;
-    }
+	.page-link {
+	  border-radius: 3px;
+	}
   }
 }
 
 @include color-mode(dark) {
   .pagination {
-    --bs-pagination-disabled-color: #{$gray-700};
+	--bs-pagination-disabled-color: #{$gray-700};
   }
 }
 
@@ -310,14 +310,14 @@ label,
   font-weight: 300;
 
   .alert-link {
-    text-decoration: underline;
+	text-decoration: underline;
   }
 }
 
 .badge {
   &.bg-secondary,
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }
 

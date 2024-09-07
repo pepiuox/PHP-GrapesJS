@@ -15,58 +15,58 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
   position: relative;
 
   &::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin-left: 0;
-    pointer-events: none;
-    content: "";
-    background-position: 50%;
-    background-size: 1000% 1000%;
-    border: none;
-    opacity: 0;
-    transition: background .5s, opacity 1s;
-    @include gradient-radial($color 10%, transparent 10.01%);
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin-left: 0;
+	pointer-events: none;
+	content: "";
+	background-position: 50%;
+	background-size: 1000% 1000%;
+	border: none;
+	opacity: 0;
+	transition: background .5s, opacity 1s;
+	@include gradient-radial($color 10%, transparent 10.01%);
   }
 
   &:active::before {
-    background-size: 0 0;
-    opacity: .2;
-    transition: none;
+	background-size: 0 0;
+	opacity: .2;
+	transition: none;
   }
 
   &.disabled,
   &[disabled] {
-    &::before {
-      display: none;
-    }
+	&::before {
+	  display: none;
+	}
   }
 }
 
 @mixin btn($class,$bg,$color) {
   .btn-#{$class} {
-    &:focus {
-      background-color: $bg;
-      box-shadow: 0 0 0 2px rgba(204, 204, 204, .5);
-    }
+	&:focus {
+	  background-color: $bg;
+	  box-shadow: 0 0 0 2px rgba(204, 204, 204, .5);
+	}
 
-    &:hover,
-    &:active:hover {
-      background-color: shade-color($bg, 12%);
-    }
+	&:hover,
+	&:active:hover {
+	  background-color: shade-color($bg, 12%);
+	}
 
-    &:active {
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
-    }
+	&:active {
+	  box-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
+	}
 
-    @include ripple($color);
+	@include ripple($color);
   }
 
   .btn-outline-#{$class} {
-    @include ripple($color);
+	@include ripple($color);
   }
 }
 
@@ -84,33 +84,33 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
   box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 
   &-brand {
-    font-size: 24px;
+	font-size: 24px;
   }
 
   &-nav .nav-link {
-    padding-top: .9rem;
-    padding-bottom: .9rem;
+	padding-top: .9rem;
+	padding-bottom: .9rem;
   }
 
   &.bg-dark,
   &.bg-primary {
-    input[type="search"],
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    input[type="number"],
-    input[type="tel"] {
-      color: $white;
-      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .5);
+	input[type="search"],
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	input[type="number"],
+	input[type="tel"] {
+	  color: $white;
+	  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .5);
 
-      &:focus {
-        box-shadow: inset 0 -2px 0 $white;
-      }
+	  &:focus {
+		box-shadow: inset 0 -2px 0 $white;
+	  }
 
-      &::placeholder {
-        color: rgba(255, 255, 255, .5);
-      }
-    }
+	  &::placeholder {
+		color: rgba(255, 255, 255, .5);
+	  }
+	}
   }
 }
 
@@ -132,49 +132,49 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
   transition: color .4s, background-color .4s, border-color .4s, box-shadow .4s;
 
   &-link {
-    color: $link-color;
-    box-shadow: none;
+	color: $link-color;
+	box-shadow: none;
 
-    &:hover,
-    &:focus {
-      color: $link-hover-color;
-      text-decoration: $link-hover-decoration;
-      box-shadow: none;
-    }
+	&:hover,
+	&:focus {
+	  color: $link-hover-color;
+	  text-decoration: $link-hover-decoration;
+	  box-shadow: none;
+	}
 
-    &.disabled, // Although btn-link is intended for buttons, which want to look like link, I include here a.disable for the sake of consistency
-    &[disabled],
-    fieldset[disabled] & {
-      &:hover,
-      &:active:hover {
-        color: $btn-link-disabled-color;
-        text-decoration: none;
-      }
-    }
+	&.disabled, // Although btn-link is intended for buttons, which want to look like link, I include here a.disable for the sake of consistency
+	&[disabled],
+	fieldset[disabled] & {
+	  &:hover,
+	  &:active:hover {
+		color: $btn-link-disabled-color;
+		text-decoration: none;
+	  }
+	}
   }
 
   &-secondary {
-    &.disabled,
-    &[disabled],
-    fieldset[disabled] & {
-      color: rgba(0, 0, 0, .4);
-      background-color: rgba(0, 0, 0, .1);
-      opacity: 1;
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+	  color: rgba(0, 0, 0, .4);
+	  background-color: rgba(0, 0, 0, .1);
+	  opacity: 1;
 
-      &:hover,
-      &:focus {
-        background-color: rgba(0, 0, 0, .1);
-      }
-    }
+	  &:hover,
+	  &:focus {
+		background-color: rgba(0, 0, 0, .1);
+	  }
+	}
   }
 
   &-outline-secondary {
-    color: $gray-300;
-    border-color: $gray-200;
+	color: $gray-300;
+	border-color: $gray-200;
   }
 
   &-warning {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -183,21 +183,21 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;50
   .btn + .btn-group,
   .btn-group + .btn,
   .btn-group + .btn-group {
-    margin-left: 0;
+	margin-left: 0;
   }
 
   &-vertical {
-    > .btn + .btn,
-    > .btn + .btn-group,
-    > .btn-group + .btn,
-    > .btn-group + .btn-group {
-      margin-top: 0;
-    }
+	> .btn + .btn,
+	> .btn + .btn-group,
+	> .btn-group + .btn,
+	> .btn-group + .btn-group {
+	  margin-top: 0;
+	}
   }
 
   .btn + .btn,
   .btn + .btn-group > .dropdown-toggle {
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, .4);
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, .4);
   }
 }
 
@@ -227,7 +227,7 @@ p {
   > tbody > tr,
   > tbody > tr > th,
   > tbody > tr > td {
-    transition: background-color .2s, color .2s;
+	transition: background-color .2s, color .2s;
   }
 }
 
@@ -242,11 +242,11 @@ p {
   font-size: 16px;
 
   &-sm {
-    font-size: $font-size-sm;
+	font-size: $font-size-sm;
   }
 
   &-lg {
-    font-size: $font-size-lg;
+	font-size: $font-size-lg;
   }
 }
 
@@ -266,18 +266,18 @@ input[type="number"],
   transition: box-shadow .2s;
 
   &:focus {
-    box-shadow: inset 0 -2px 0 $primary;
+	box-shadow: inset 0 -2px 0 $primary;
   }
 
   &[disabled],
   &[readonly] {
-    border-bottom: 1px dotted #ddd;
-    box-shadow: none;
+	border-bottom: 1px dotted #ddd;
+	box-shadow: none;
   }
 
   &[disabled],
   &[disabled]::placeholder {
-    color: #ddd;
+	color: #ddd;
   }
 }
 
@@ -292,22 +292,22 @@ select.form-control {
   box-shadow: inset 0 -1px 0 #ddd;
 
   &.input {
-    &-sm {
-      font-size: $font-size-sm;
-    }
+	&-sm {
+	  font-size: $font-size-sm;
+	}
 
-    &-lg {
-      font-size: $font-size-lg;
-    }
+	&-lg {
+	  font-size: $font-size-lg;
+	}
   }
 
   &:focus {
-    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4'><path fill='#{$gray-900}' d='M8 0 4 4 0 0z'/></svg>"));
-    box-shadow: inset 0 -2px 0 $primary;
+	background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4'><path fill='#{$gray-900}' d='M8 0 4 4 0 0z'/></svg>"));
+	box-shadow: inset 0 -2px 0 $primary;
   }
 
   &[multiple] {
-    background: none;
+	background: none;
   }
 }
 
@@ -318,100 +318,100 @@ select.form-control {
   border: 2px solid $gray-400;
 
   &:checked[type="radio"] {
-    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$blue}' stroke='#{$white}'/></svg>")), var(--bs-gradient);
-    background-size: 1.8em;
+	background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$blue}' stroke='#{$white}'/></svg>")), var(--bs-gradient);
+	background-size: 1.8em;
   }
 }
 
 .form-switch {
   .form-check-input {
-    position: relative;
-    height: .8em;
-    margin-top: .29em;
-    background-color: $gray-400;
-    background-image: none;
-    border: none;
+	position: relative;
+	height: .8em;
+	margin-top: .29em;
+	background-color: $gray-400;
+	background-image: none;
+	border: none;
 
-    &:focus {
-      box-shadow: none;
-    }
+	&:focus {
+	  box-shadow: none;
+	}
 
-    &::before {
-      position: absolute;
-      top: -.2em;
-      left: -.2em;
-      width: 1.2em;
-      height: 1.2em;
-      content: "";
-      background-color: $white;
-      border-radius: 50%;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
-      transition: left .15s ease-in-out;
-    }
+	&::before {
+	  position: absolute;
+	  top: -.2em;
+	  left: -.2em;
+	  width: 1.2em;
+	  height: 1.2em;
+	  content: "";
+	  background-color: $white;
+	  border-radius: 50%;
+	  box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+	  transition: left .15s ease-in-out;
+	}
 
-    &::after {
-      position: absolute;
-      top: -.2em;
-      left: -.2em;
-      z-index: -1;
-      width: 1.2em;
-      height: 1.2em;
-      content: "";
-      border-radius: 50%;
-      box-shadow: 0 0 0 9px rgba(0, 0, 0, .05);
-      transition: left .15s ease-in-out, transform .15s ease-in-out, box-shadow .15s ease-in-out;
-      transform: scale(0);
-    }
+	&::after {
+	  position: absolute;
+	  top: -.2em;
+	  left: -.2em;
+	  z-index: -1;
+	  width: 1.2em;
+	  height: 1.2em;
+	  content: "";
+	  border-radius: 50%;
+	  box-shadow: 0 0 0 9px rgba(0, 0, 0, .05);
+	  transition: left .15s ease-in-out, transform .15s ease-in-out, box-shadow .15s ease-in-out;
+	  transform: scale(0);
+	}
 
-    &:hover:not(.disabled),
-    &:focus:not(.disabled) {
+	&:hover:not(.disabled),
+	&:focus:not(.disabled) {
 
-      &::after {
-        transform: scale(.9);
-      }
-    }
+	  &::after {
+		transform: scale(.9);
+	  }
+	}
 
-    &:focus:not(.disabled) {
-      &::after {
-        box-shadow: 0 0 0 9px rgba(0, 0, 0, .1);
-      }
-    }
+	&:focus:not(.disabled) {
+	  &::after {
+		box-shadow: 0 0 0 9px rgba(0, 0, 0, .1);
+	  }
+	}
 
-    &:checked {
-      background-color: rgba(33, 150, 243, .3);
+	&:checked {
+	  background-color: rgba(33, 150, 243, .3);
 
-      &::before {
-        left: calc(100% - .8em);
-        background-color: rgba(33, 150, 243, 1);
-      }
+	  &::before {
+		left: calc(100% - .8em);
+		background-color: rgba(33, 150, 243, 1);
+	  }
 
-      &::after {
-        left: calc(100% - .8em);
-        box-shadow: 0 0 0 9px rgba(33, 150, 243, .1);
-      }
+	  &::after {
+		left: calc(100% - .8em);
+		box-shadow: 0 0 0 9px rgba(33, 150, 243, .1);
+	  }
 
-      &:hover:not(.disabled),
-      &:focus:not(.disabled) {
-        &::after {
-          transform: scale(.9);
-        }
-      }
+	  &:hover:not(.disabled),
+	  &:focus:not(.disabled) {
+		&::after {
+		  transform: scale(.9);
+		}
+	  }
 
-      &:focus:not(.disabled) {
-        &::after {
-          box-shadow: 0 0 0 9px rgba(33, 150, 243, .2);
-        }
-      }
-    }
+	  &:focus:not(.disabled) {
+		&::after {
+		  box-shadow: 0 0 0 9px rgba(33, 150, 243, .2);
+		}
+	  }
+	}
   }
 }
 
 .form-check:not(.form-switch) {
   .form-check-input {
-    &:checked[type="checkbox"] {
-      background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$white}' stroke-width='2' d='m6 10 3 3 6-6'/></svg>")), var(--bs-gradient);
-      background-size: 1.6em;
-    }
+	&:checked[type="checkbox"] {
+	  background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$white}' stroke-width='2' d='m6 10 3 3 6-6'/></svg>")), var(--bs-gradient);
+	  background-size: 1.6em;
+	}
   }
 }
 
@@ -423,8 +423,8 @@ select.form-control {
   [type="text"].form-control[readonly],
   input:not([type="checkbox"]):focus,
   .form-control:focus {
-    border-bottom: none;
-    box-shadow: inset 0 -2px 0 $warning;
+	border-bottom: none;
+	box-shadow: inset 0 -2px 0 $warning;
   }
 }
 
@@ -436,8 +436,8 @@ select.form-control {
   [type="text"].form-control[readonly],
   input:not([type="checkbox"]):focus,
   .form-control:focus {
-    border-bottom: none;
-    box-shadow: inset 0 -2px 0 $danger;
+	border-bottom: none;
+	box-shadow: inset 0 -2px 0 $danger;
   }
 }
 
@@ -449,8 +449,8 @@ select.form-control {
   [type="text"].form-control[readonly],
   input:not([type="checkbox"]):focus,
   .form-control:focus {
-    border-bottom: none;
-    box-shadow: inset 0 -2px 0 $success;
+	border-bottom: none;
+	box-shadow: inset 0 -2px 0 $success;
   }
 }
 
@@ -459,16 +459,16 @@ select.form-control {
   .has-warning &,
   .has-danger &,
   .has-success & {
-    color: $input-color;
-    background-color: $input-group-addon-bg;
-    border-color: $input-group-addon-border-color;
+	color: $input-color;
+	background-color: $input-group-addon-bg;
+	border-color: $input-group-addon-border-color;
   }
 }
 
 .form-group-lg {
   select,
   select.form-control {
-    line-height: 1.5;
+	line-height: 1.5;
   }
 }
 
@@ -476,54 +476,54 @@ select.form-control {
 
 .nav-tabs {
   .nav-item + .nav-item {
-    margin-left: 0;
+	margin-left: 0;
   }
 
   .nav-link,
   .nav-link:focus {
-    margin-right: 0;
-    color: $body-color;
-    background-color: transparent;
-    border: none;
-    box-shadow: inset 0 -1px 0 #ddd;
-    transition: color .2s, box-shadow .2s;
+	margin-right: 0;
+	color: $body-color;
+	background-color: transparent;
+	border: none;
+	box-shadow: inset 0 -1px 0 #ddd;
+	transition: color .2s, box-shadow .2s;
 
-    &:hover {
-      color: $primary;
-      background-color: transparent;
-      box-shadow: inset 0 -2px 0 $primary;
-    }
+	&:hover {
+	  color: $primary;
+	  background-color: transparent;
+	  box-shadow: inset 0 -2px 0 $primary;
+	}
   }
 
   .nav-link.active,
   .nav-link.active:focus {
-    color: $primary;
-    border: none;
-    box-shadow: inset 0 -2px 0 $primary;
+	color: $primary;
+	border: none;
+	box-shadow: inset 0 -2px 0 $primary;
 
-    &:hover {
-      color: $primary;
-      border: none;
-    }
+	&:hover {
+	  color: $primary;
+	  border: none;
+	}
   }
 
   .nav-link.disabled {
-    box-shadow: inset 0 -1px 0 #ddd;
+	box-shadow: inset 0 -1px 0 #ddd;
   }
 
   &.nav-justified {
-    .nav-link,
-    .nav-link:hover,
-    .nav-link:focus,
-    .nav-link.active,
-    .nav-link.active:hover,
-    .nav-link.active:focus {
-      border: none;
-    }
+	.nav-link,
+	.nav-link:hover,
+	.nav-link:focus,
+	.nav-link.active,
+	.nav-link.active:hover,
+	.nav-link.active:focus {
+	  border: none;
+	}
   }
 
   .dropdown-menu {
-    margin-top: 0;
+	margin-top: 0;
   }
 }
 
@@ -546,39 +546,39 @@ select.form-control {
   h4,
   h5,
   h6 {
-    color: $white;
+	color: $white;
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($body-bg, $value, 15%), $value) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+	&-#{$color} {
+	  @if $enable-gradients {
+		background: $value linear-gradient(180deg, mix($body-bg, $value, 15%), $value) repeat-x;
+	  } @else {
+		background-color: $value;
+	  }
+	}
   }
 
   a:not(.btn),
   .alert-link {
-    font-weight: 700;
-    color: $white;
+	font-weight: 700;
+	color: $white;
   }
 
   &-secondary,
   &-light {
-    &,
-    a:not(.btn),
-    .alert-link {
-      color: $body-color;
-    }
+	&,
+	a:not(.btn),
+	.alert-link {
+	  color: $body-color;
+	}
   }
 }
 
 .badge {
   &.bg-secondary,
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }
 
@@ -595,20 +595,20 @@ select.form-control {
   &.border-danger,
   &.border-light,
   &.border-dark {
-    border-width: 1px;
+	border-width: 1px;
   }
 }
 
 .list-group {
   &-item-action.active {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: $white;
-    }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+	  color: $white;
+	}
   }
 }
 
@@ -621,7 +621,7 @@ select.form-control {
 .toast,
 .offcanvas {
   .btn-close {
-    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$black}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>"));
+	background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$black}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>"));
   }
 }
 
@@ -632,13 +632,13 @@ select.form-control {
 
 .carousel {
   &-caption {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: inherit;
-    }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+	  color: inherit;
+	}
   }
 }

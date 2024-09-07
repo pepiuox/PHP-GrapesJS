@@ -43,95 +43,95 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   @include shadow();
 
   &:focus {
-    color: $gray-700;
+	color: $gray-700;
   }
 
   &:hover,
   &:focus,
   &:active,
   &:active:focus {
-    @include shadow();
-    color: $gray-700;
+	@include shadow();
+	color: $gray-700;
   }
 
   &:active,
   &:active:focus {
-    border-color: transparent;
-    box-shadow: $btn-box-shadow-inset;
+	border-color: transparent;
+	box-shadow: $btn-box-shadow-inset;
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
+	&-#{$color} {
 
-      &:active,
-      &:active:focus {
-        @if ($color == secondary or $color == light) {
-          color: $gray-700;
-          background-color: $gray-200;
-        } @else {
-          color: $white;
-          background-color: $value;
-        }
-      }
-    }
+	  &:active,
+	  &:active:focus {
+		@if ($color == secondary or $color == light) {
+		  color: $gray-700;
+		  background-color: $gray-200;
+		} @else {
+		  color: $white;
+		  background-color: $value;
+		}
+	  }
+	}
   }
 
   &-link {
-    font-weight: $btn-font-weight;
+	font-weight: $btn-font-weight;
 
-    &:hover,
-    &:active,
-    &:active:focus {
-      color: $dark;
-    }
+	&:hover,
+	&:active,
+	&:active:focus {
+	  color: $dark;
+	}
   }
 
   &.disabled {
-    color: $gray-700;
-    background-color: $gray-200;
-    box-shadow: 2px 2px 5px rgba($black, .1), -2px -2px 5px rgba($white, .5);
+	color: $gray-700;
+	background-color: $gray-200;
+	box-shadow: 2px 2px 5px rgba($black, .1), -2px -2px 5px rgba($white, .5);
   }
 }
 
 .btn-outline {
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      background-color: $value;
-      border: none;
-      box-shadow: 5px 5px 10px rgba($black, .2), -5px -5px 10px rgba($white, .1);
+	&-#{$color} {
+	  background-color: $value;
+	  border: none;
+	  box-shadow: 5px 5px 10px rgba($black, .2), -5px -5px 10px rgba($white, .1);
 
-      @if ($color == secondary or $color == light) {
-        color: $gray-700;
-      } @else {
-        color: $white;
-      }
+	  @if ($color == secondary or $color == light) {
+		color: $gray-700;
+	  } @else {
+		color: $white;
+	  }
 
-      &:hover,
-      &:focus {
-        background-color: $value;
-        border: none;
-        box-shadow: 5px 5px 10px rgba($black, .2), -5px -5px 10px rgba($white, .1);
+	  &:hover,
+	  &:focus {
+		background-color: $value;
+		border: none;
+		box-shadow: 5px 5px 10px rgba($black, .2), -5px -5px 10px rgba($white, .1);
 
-        @if ($color == secondary or $color == light) {
-          color: $gray-700;
-        } @else {
-          color: $white;
-        }
-      }
+		@if ($color == secondary or $color == light) {
+		  color: $gray-700;
+		} @else {
+		  color: $white;
+		}
+	  }
 
-      &:active,
-      &:active:focus {
-        background-color: $value;
-        border: none;
-        box-shadow: inset 2px 3px 6px rgba($black, .1), inset -3px -2px 6px rgba($white, .1);
+	  &:active,
+	  &:active:focus {
+		background-color: $value;
+		border: none;
+		box-shadow: inset 2px 3px 6px rgba($black, .1), inset -3px -2px 6px rgba($white, .1);
 
-        @if ($color == secondary or $color == light) {
-          color: $gray-700;
-        } @else {
-          color: $white;
-        }
-      }
-    }
+		@if ($color == secondary or $color == light) {
+		  color: $gray-700;
+		} @else {
+		  color: $white;
+		}
+	  }
+	}
   }
 }
 
@@ -143,16 +143,16 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
 
   .btn,
   .btn-group {
-    margin: 0;
-    border: none;
-    box-shadow: none;
+	margin: 0;
+	border: none;
+	box-shadow: none;
 
-    &:hover,
-    &:active,
-    &:focus,
-    &:active:focus {
-      border: none;
-    }
+	&:hover,
+	&:active,
+	&:focus,
+	&:active:focus {
+	  border: none;
+	}
   }
 }
 
@@ -161,21 +161,21 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   > .btn:nth-child(n + 3),
   > :not(.btn-check) + .btn,
   > .btn-group:not(:first-child) > .btn {
-    border-left: 1px solid $border-color;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+	border-left: 1px solid $border-color;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 
-    &:hover,
-    &:active,
-    &:active:focus {
-      border-left: 1px solid $border-color;
-    }
+	&:hover,
+	&:active,
+	&:active:focus {
+	  border-left: 1px solid $border-color;
+	}
   }
 
   > .btn:not(:last-child):not(.dropdown-toggle),
   > .btn-group:not(:last-child) > .btn {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
   }
 }
 
@@ -183,43 +183,43 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   border-radius: 1rem;
 
   .btn {
-    border-radius: 1rem;
+	border-radius: 1rem;
 
-    &:hover,
-    &:active,
-    &:focus,
-    &:active:focus {
-      border-radius: 1rem;
-    }
+	&:hover,
+	&:active,
+	&:focus,
+	&:active:focus {
+	  border-radius: 1rem;
+	}
   }
 
   > .btn:nth-child(n + 3),
   > :not(.btn-check) + .btn,
   > .btn-group:not(:first-child) > .btn {
-    border-top: 1px solid rgba($black, .05);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+	border-top: 1px solid rgba($black, .05);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 
-    &:hover,
-    &:active,
-    &:active:focus {
-      border-top: 1px solid rgba($black, .05);
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
+	&:hover,
+	&:active,
+	&:active:focus {
+	  border-top: 1px solid rgba($black, .05);
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
   }
 
   > .btn:not(:last-child):not(.dropdown-toggle),
   > .btn-group:not(:last-child) > .btn {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 
-    &:hover,
-    &:active,
-    &:active:focus {
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
+	&:hover,
+	&:active,
+	&:active:focus {
+	  border-bottom-right-radius: 0;
+	  border-bottom-left-radius: 0;
+	}
   }
 }
 
@@ -228,18 +228,18 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   box-shadow: inset 2px 3px 6px rgba($black, .2);
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      background-color: $value;
+	&-#{$color} {
+	  background-color: $value;
 
-      .btn-check:checked + &,
-      .btn-check:active + & {
-        @if $color == secondary {
-          color: $gray-700;
-        } @else {
-          color: $value;
-        }
-      }
-    }
+	  .btn-check:checked + &,
+	  .btn-check:active + & {
+		@if $color == secondary {
+		  color: $gray-700;
+		} @else {
+		  color: $value;
+		}
+	  }
+	}
   }
 }
 
@@ -265,22 +265,22 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   border-radius: $border-radius;
 
   .nav-item {
-    box-shadow: 1px 0 $border-color;
+	box-shadow: 1px 0 $border-color;
 
-    &:first-child .nav-link {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-    }
+	&:first-child .nav-link {
+	  border-top-left-radius: $border-radius;
+	  border-bottom-left-radius: $border-radius;
+	}
 
-    &:last-child .nav-link {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
+	&:last-child .nav-link {
+	  border-top-right-radius: $border-radius;
+	  border-bottom-right-radius: $border-radius;
+	}
   }
 
   .nav-link.active,
   .nav-item.show .nav-link {
-    box-shadow: inset 0 3px 6px rgba($black, .2);
+	box-shadow: inset 0 3px 6px rgba($black, .2);
   }
 }
 
@@ -291,7 +291,7 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
 
 
   .nav-link.active {
-    box-shadow: inset 0 3px 6px rgba($black, .2);
+	box-shadow: inset 0 3px 6px rgba($black, .2);
   }
 }
 
@@ -314,36 +314,36 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   box-shadow: $box-shadow-inset;
 
   > .form-control {
-    background: none;
-    box-shadow: none;
+	background: none;
+	box-shadow: none;
   }
 
   .input-group-text {
-    background: none;
+	background: none;
   }
 
   .btn {
-    border: none;
-    border-radius: 0;
+	border: none;
+	border-radius: 0;
 
-    &:first-child {
-      border-radius: $border-radius 0 0 $border-radius;
-    }
+	&:first-child {
+	  border-radius: $border-radius 0 0 $border-radius;
+	}
 
-    &:last-child {
-      border-radius: 0 $border-radius $border-radius 0;
-    }
+	&:last-child {
+	  border-radius: 0 $border-radius $border-radius 0;
+	}
   }
 }
 
 .form-range {
   &::-webkit-slider-runnable-track {
-    box-shadow: inset 1px 1px 4px rgba($black, .15);
+	box-shadow: inset 1px 1px 4px rgba($black, .15);
   }
 
   &::-webkit-slider-thumb,
   &:focus::-webkit-slider-thumb {
-    box-shadow: 1px 1px 3px rgba($black, .2), inset 2px 2px 8px rgba(shade-color($form-range-thumb-bg, 50%), .1);
+	box-shadow: 1px 1px 3px rgba($black, .2), inset 2px 2px 8px rgba(shade-color($form-range-thumb-bg, 50%), .1);
   }
 }
 
@@ -353,23 +353,23 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   box-shadow: inset 1px 1px 7px rgba($black, .2);
 
   &:focus {
-    border: none;
-    box-shadow: none;
+	border: none;
+	box-shadow: none;
   }
 
   &:active {
-    filter: none;
+	filter: none;
   }
 
   &:checked {
-    background-color: $primary;
-    box-shadow: inset 1px 1px 7px rgba($black, .2);
+	background-color: $primary;
+	box-shadow: inset 1px 1px 7px rgba($black, .2);
   }
 }
 
 .form-control {
   &::file-selector-button {
-    box-shadow: 2px 2px 5px rgba($black, .2), inset 3px 3px 10px rgba(shade-color($form-range-thumb-bg, 50%), .1);
+	box-shadow: 2px 2px 5px rgba($black, .2), inset 3px 3px 10px rgba(shade-color($form-range-thumb-bg, 50%), .1);
   }
 }
 
@@ -385,29 +385,29 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   box-shadow: $dropdown-box-shadow;
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      background-color: rgba($value, .75);
-      box-shadow: $box-shadow-lg, inset 1px 1px 3px rgba(tint-color($value, 80%), .4), inset -5px -5px 20px rgba(shade-color($value, 80%), .05);
-    }
+	&-#{$color} {
+	  background-color: rgba($value, .75);
+	  box-shadow: $box-shadow-lg, inset 1px 1px 3px rgba(tint-color($value, 80%), .4), inset -5px -5px 20px rgba(shade-color($value, 80%), .05);
+	}
   }
 }
 
 .badge {
   &.bg-secondary,
   &.bg-light {
-    color: $gray-700;
+	color: $gray-700;
   }
 }
 
 .tooltip {
   &.show {
-    opacity: 1;
+	opacity: 1;
   }
 
   &-inner,
   .arrow {
-    backdrop-filter: blur(3px);
-    box-shadow: $dropdown-box-shadow;
+	backdrop-filter: blur(3px);
+	box-shadow: $dropdown-box-shadow;
   }
 }
 
@@ -426,13 +426,13 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   box-shadow: 2px 2px 5px rgba($black, .2);
 
   &:first-child {
-    border-top-left-radius: $border-radius-pill;
-    border-bottom-left-radius: $border-radius-pill;
+	border-top-left-radius: $border-radius-pill;
+	border-bottom-left-radius: $border-radius-pill;
   }
 
   &:last-child {
-    border-top-right-radius: $border-radius-pill;
-    border-bottom-right-radius: $border-radius-pill;
+	border-top-right-radius: $border-radius-pill;
+	border-bottom-right-radius: $border-radius-pill;
   }
 }
 
@@ -442,13 +442,13 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   box-shadow: inset 2px 2px 6px rgba(shade-color($body-bg, 50%), .2), inset -3px -2px 4px rgba($white, .2);
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      box-shadow: inset 2px 2px 6px  rgba(shade-color($value, 80%), .05), inset -3px -2px 4px rgba(tint-color($value, 80%), .2);
-    }
+	&-#{$color} {
+	  box-shadow: inset 2px 2px 6px  rgba(shade-color($value, 80%), .05), inset -3px -2px 4px rgba(tint-color($value, 80%), .2);
+	}
   }
 
   &-header {
-    border-bottom: 1px solid $border-color;
+	border-bottom: 1px solid $border-color;
   }
 
   h1,
@@ -457,7 +457,7 @@ $btn-box-shadow-inset: inset 2px 3px 6px rgba($black, .2), inset -3px -2px 6px r
   h4,
   h5,
   h6 {
-    color: inherit;
+	color: inherit;
   }
 }
 

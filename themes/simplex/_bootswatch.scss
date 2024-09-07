@@ -24,24 +24,24 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700
   border-width: 1px;
 
   &-fixed-top {
-    border-width: 0 0 1px;
+	border-width: 0 0 1px;
   }
 
   &-fixed-bottom {
-    border-style: solid;
-    border-top-width: 1px 0 0 0;
+	border-style: solid;
+	border-top-width: 1px 0 0 0;
   }
 
   &.bg-primary {
-    border-color: shade-color($primary, 13%) !important;
+	border-color: shade-color($primary, 13%) !important;
   }
 
   &.bg-dark {
-    border-color: shade-color($dark, 13%) !important;
+	border-color: shade-color($dark, 13%) !important;
   }
 
   &.bg-light {
-    border-color: shade-color($white, 13%);
+	border-color: shade-color($white, 13%);
   }
 }
 
@@ -98,8 +98,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700
   border-color: $gray-400;
 
   &:hover {
-    color: $white;
-    background-color: $gray-400;
+	color: $white;
+	background-color: $gray-400;
   }
 }
 
@@ -124,7 +124,7 @@ label {
 
 .pagination {
   .page-link:hover {
-    text-decoration: none;
+	text-decoration: none;
   }
 }
 
@@ -133,6 +133,6 @@ label {
 .badge {
   &.bg-secondary,
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }

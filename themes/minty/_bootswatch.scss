@@ -22,53 +22,53 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;50
 
   &,
   &:hover {
-    color: $white;
+	color: $white;
   }
 
   &-light,
   &-light:hover {
-    color: $gray-700;
+	color: $gray-700;
   }
 
   &-link,
   &-link:hover {
-    color: $primary;
+	color: $primary;
   }
 
   &-link.disabled:hover {
-    color: $gray-600;
+	color: $gray-600;
   }
 
   &-outline-primary {
-    color: $primary;
+	color: $primary;
   }
 
   &-outline-secondary {
-    color: $secondary;
+	color: $secondary;
   }
 
   &-outline-success {
-    color: $success;
+	color: $success;
   }
 
   &-outline-info {
-    color: $info;
+	color: $info;
   }
 
   &-outline-warning {
-    color: $warning;
+	color: $warning;
   }
 
   &-outline-danger {
-    color: $danger;
+	color: $danger;
   }
 
   &-outline-dark {
-    color: $dark;
+	color: $dark;
   }
 
   &-outline-light {
-    color: $light;
+	color: $light;
   }
 }
 
@@ -86,12 +86,12 @@ legend {
 
 .breadcrumb {
   a {
-    color: $navbar-dark-color;
+	color: $navbar-dark-color;
   }
 
   a:hover {
-    color: $white;
-    text-decoration: none;
+	color: $white;
+	text-decoration: none;
   }
 }
 
@@ -100,16 +100,16 @@ legend {
 .alert {
   a,
   .alert-link {
-    color: $white;
+	color: $white;
   }
 
   &-light {
 
-    &,
-    a:not(.btn),
-    .alert-link {
-      color: $body-color;
-    }
+	&,
+	a:not(.btn),
+	.alert-link {
+	  color: $body-color;
+	}
   }
 }
 
@@ -117,7 +117,7 @@ legend {
   color: $white;
 
   &.bg-light {
-    color: $gray-700;
+	color: $gray-700;
   }
 }
 
@@ -131,6 +131,6 @@ legend {
   h4,
   h5,
   h6 {
-    color: inherit;
+	color: inherit;
   }
 }

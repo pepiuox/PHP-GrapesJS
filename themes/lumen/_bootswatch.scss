@@ -22,14 +22,14 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   @include shadow();
 
   @each $color, $value in $theme-colors {
-    &.bg-#{$color} {
-      border-color: shade-color($value, 10%);
-    }
+	g-#{$color} {
+	order-color: shade-color($value, 10%);
+
   }
 
   &.bg-body-secondary,
   &.bg-body-tertiary {
-    border-color: rgba(0, 0, 0, .1);
+	der-color: rgba(0, 0, 0, .1);
   }
 }
 
@@ -40,31 +40,31 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   text-transform: uppercase;
 
   &:not(.disabled):hover {
-    margin-top: 1px;
-    border-bottom-width: 3px;
+	gin-top: 1px;
+	der-bottom-width: 3px;
   }
 
   &:not(.disabled):active {
-    margin-top: 2px;
-    border-bottom-width: 2px;
-    @include box-shadow(none);
+	gin-top: 2px;
+	der-bottom-width: 2px;
+	clude box-shadow(none);
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      &:hover,
-      &:active,
-      &:focus {
-        background-color: $value;
-      }
+	{$color} {
+	:hover,
+	:active,
+	:focus {
+		ound-color: $value;
 
-      &,
-      &:not(.disabled):hover,
-      &:not(.disabled):active,
-      &:focus {
-        border-color: shade-color($value, 10%);
-      }
-    }
+
+	,
+	:not(.disabled):hover,
+	:not(.disabled):active,
+	:focus {
+		-color: shade-color($value, 10%);
+
+
   }
 }
 
@@ -78,15 +78,15 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
 
 .btn-group-vertical {
   .btn + .btn {
-    &:hover {
-      margin-top: -1px;
-      border-top-width: 1px;
-    }
+	over {
+	argin-top: -1px;
+	order-top-width: 1px;
 
-    &:active {
-      margin-top: -1px;
-      border-top-width: 2px;
-    }
+
+	ctive {
+	argin-top: -1px;
+	order-top-width: 2px;
+
   }
 }
 
@@ -112,35 +112,35 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   .open > a,
   .open > a:hover,
   .open > a:focus {
-    border-color: transparent;
+	der-color: transparent;
   }
 }
 
 .nav-tabs {
   .nav-link {
-    color: var(--#{$prefix}body-color);
+	or: var(--#{$prefix}body-color);
 
-    &,
-    &.disabled,
-    &.disabled:hover,
-    &.disabled:focus {
-      margin-top: 6px;
-      border-color: $nav-tabs-border-color;
-      transition: padding-bottom .2s ease-in-out, margin-top .2s ease-in-out, border-bottom .2s ease-in-out;
-    }
 
-    &:not(.disabled):hover,
-    &:not(.disabled):focus,
-    &.active {
-      padding-bottom: add(.5rem, 6px);
-      margin-top: 0;
-      color: var(--#{$prefix}body-color);
-      border-bottom-color: transparent;
-    }
+	isabled,
+	isabled:hover,
+	isabled:focus {
+	argin-top: 6px;
+	order-color: $nav-tabs-border-color;
+	ransition: padding-bottom .2s ease-in-out, margin-top .2s ease-in-out, border-bottom .2s ease-in-out;
+
+
+	ot(.disabled):hover,
+	ot(.disabled):focus,
+	ctive {
+	adding-bottom: add(.5rem, 6px);
+	argin-top: 0;
+	olor: var(--#{$prefix}body-color);
+	order-bottom-color: transparent;
+
   }
 
   &.nav-justified > li {
-    vertical-align: bottom;
+	tical-align: bottom;
   }
 }
 
@@ -159,37 +159,37 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
 .pagination {
   > li > a,
   > li > span {
-    position: relative;
-    top: 0;
-    font-weight: 700;
-    color: $pagination-color;
-    text-transform: uppercase;
-    @include shadow();
+	ition: relative;
+	: 0;
+	t-weight: 700;
+	or: $pagination-color;
+	t-transform: uppercase;
+	clude shadow();
 
-    &:hover,
-    &:focus {
-      top: 1px;
-      text-decoration: none;
-      border-bottom-width: 3px;
-    }
+	over,
+	ocus {
+	op: 1px;
+	ext-decoration: none;
+	order-bottom-width: 3px;
 
-    &:active {
-      top: 2px;
-      border-bottom-width: 2px;
-    }
+
+	ctive {
+	op: 2px;
+	order-bottom-width: 2px;
+
   }
 
   > .disabled > a,
   > .disabled > span {
-    &:hover {
-      top: 0;
-      @include shadow();
-    }
+	over {
+	op: 0;
+	include shadow();
 
-    &:active {
-      top: 0;
-      @include shadow();
-    }
+
+	ctive {
+	op: 0;
+	include shadow();
+
   }
 }
 
@@ -198,12 +198,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   > li > span,
   > .disabled > a,
   > .disabled > span {
-    &,
-    &:hover,
-    &:active {
-      border-right-width: 2px;
-      border-left-width: 2px;
-    }
+
+	over,
+	ctive {
+	order-right-width: 2px;
+	order-left-width: 2px;
+
   }
 }
 
@@ -215,7 +215,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
 
   &:hover,
   &:focus {
-    opacity: 1;
+	city: 1;
   }
 }
 
@@ -224,65 +224,65 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   @include shadow();
 
   &-primary {
-    background-color: $primary;
-    border-color: shade-color($primary, 10%);
+	kground-color: $primary;
+	der-color: shade-color($primary, 10%);
   }
 
   &-secondary {
-    background-color: $secondary;
-    border-color: shade-color($secondary, 10%);
+	kground-color: $secondary;
+	der-color: shade-color($secondary, 10%);
   }
 
   &-success {
-    background-color: $success;
-    border-color: shade-color($success, 10%);
+	kground-color: $success;
+	der-color: shade-color($success, 10%);
   }
 
   &-info {
-    background-color: $info;
-    border-color: shade-color($info, 10%);
+	kground-color: $info;
+	der-color: shade-color($info, 10%);
   }
 
   &-danger {
-    background-color: $danger;
-    border-color: shade-color($danger, 10%);
+	kground-color: $danger;
+	der-color: shade-color($danger, 10%);
   }
 
   &-warning {
-    background-color: $warning;
-    border-color: shade-color($warning, 10%);
+	kground-color: $warning;
+	der-color: shade-color($warning, 10%);
   }
 
   &-dark {
-    background-color: $dark;
-    border-color: shade-color($dark, 10%);
+	kground-color: $dark;
+	der-color: shade-color($dark, 10%);
   }
 
   &-light {
-    background-color: $light;
-    border-color: shade-color($light, 10%);
+	kground-color: $light;
+	der-color: shade-color($light, 10%);
   }
 
   .alert-link {
-    font-weight: 400;
-    color: $white;
-    text-decoration: underline;
+	t-weight: 400;
+	or: $white;
+	t-decoration: underline;
   }
 
   &-secondary,
   &-light {
-    &,
-    a,
-    .alert-link {
-      color: $body-color;
-    }
+
+
+	ert-link {
+	olor: $body-color;
+
   }
 }
 
 .badge {
   &.bg-secondary,
   &.bg-light {
-    color: $dark;
+	or: $dark;
   }
 }
 
@@ -290,36 +290,36 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
 
 a.list-group-item {
   &-success {
-    &.active {
-      background-color: $success;
-    }
+	ctive {
+	ackground-color: $success;
 
-    &.active:hover,
-    &.active:focus {
-      background-color: shade-color($success, 10%);
-    }
+
+	ctive:hover,
+	ctive:focus {
+	ackground-color: shade-color($success, 10%);
+
   }
 
   &-warning {
-    &.active {
-      background-color: $warning;
-    }
+	ctive {
+	ackground-color: $warning;
 
-    &.active:hover,
-    &.active:focus {
-      background-color: shade-color($warning, 10%);
-    }
+
+	ctive:hover,
+	ctive:focus {
+	ackground-color: shade-color($warning, 10%);
+
   }
 
   &-danger {
-    &.active {
-      background-color: $danger;
-    }
+	ctive {
+	ackground-color: $danger;
 
-    &.active:hover,
-    &.active:focus {
-      background-color: shade-color($danger, 10%);
-    }
+
+	ctive:hover,
+	ctive:focus {
+	ackground-color: shade-color($danger, 10%);
+
   }
 }
 
@@ -327,6 +327,6 @@ a.list-group-item {
 .toast,
 .offcanvas {
   .btn-close {
-    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$black}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>"));
+	kground-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$black}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>"));
   }
 }

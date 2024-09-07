@@ -20,12 +20,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 
 .navbar {
   .nav-link {
-    @extend .sandstone;
+	@extend .sandstone;
   }
 
   &-form input,
   &-form .form-control {
-    border: none;
+	border: none;
   }
 }
 
@@ -35,12 +35,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
   @extend .sandstone;
 
   &:hover {
-    border-color: transparent;
+	border-color: transparent;
   }
 
   &-success,
   &-warning {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -48,7 +48,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 
 .table {
   .thead-dark th {
-    background-color: $dark;
+	background-color: $dark;
   }
 }
 
@@ -59,7 +59,7 @@ input,
   @include box-shadow(none);
 
   &:focus {
-    @include box-shadow(none);
+	@include box-shadow(none);
   }
 }
 
@@ -67,45 +67,45 @@ input,
 
 .nav-tabs {
   .nav-link {
-    @extend .sandstone;
-    background-color: $gray-200;
-    border-color: $gray-300;
+	@extend .sandstone;
+	background-color: $gray-200;
+	border-color: $gray-300;
   }
 
   .nav-link,
   .nav-link:hover,
   .nav-link:focus {
-    color: $gray-600;
+	color: $gray-600;
   }
 
   .nav-link.disabled,
   .nav-link.disabled:hover,
   .nav-link.disabled:focus {
-    color: $nav-link-disabled-color;
-    background-color: $gray-200;
-    border-color: $gray-300;
+	color: $nav-link-disabled-color;
+	background-color: $gray-200;
+	border-color: $gray-300;
   }
 }
 
 .nav-pills {
   .nav-link {
-    @extend .sandstone;
-    color: $gray-600;
-    border: 1px solid transparent;
+	@extend .sandstone;
+	color: $gray-600;
+	border: 1px solid transparent;
   }
 
   .nav-link.active,
   .nav-link:hover,
   .nav-link:focus {
-    background-color: $gray-200;
-    border-color: $gray-300;
+	background-color: $gray-200;
+	border-color: $gray-300;
   }
 
   .nav-link.disabled,
   .nav-link.disabled:hover {
-    color: $gray-300;
-    background-color: transparent;
-    border-color: transparent;
+	color: $gray-300;
+	background-color: transparent;
+	border-color: transparent;
   }
 }
 
@@ -119,13 +119,13 @@ input,
   @extend .sandstone;
 
   a:hover {
-    text-decoration: none;
+	text-decoration: none;
   }
 }
 
 .dropdown-menu {
   .dropdown-item {
-    @extend .sandstone;
+	@extend .sandstone;
   }
 }
 
@@ -136,84 +136,84 @@ input,
 
   a,
   .alert-link {
-    color: $white;
-    text-decoration: underline;
+	color: $white;
+	text-decoration: underline;
   }
 
   &-primary {
-    &,
-    > th,
-    > td {
-      background-color: $primary;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $primary;
+	}
   }
 
   &-secondary {
-    &,
-    > th,
-    > td {
-      background-color: $secondary;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $secondary;
+	}
   }
 
   &-success {
-    &,
-    > th,
-    > td {
-      background-color: $success;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $success;
+	}
   }
 
   &-info {
-    &,
-    > th,
-    > td {
-      background-color: $info;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $info;
+	}
   }
 
   &-danger {
-    &,
-    > th,
-    > td {
-      background-color: $danger;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $danger;
+	}
   }
 
   &-warning {
-    &,
-    > th,
-    > td {
-      background-color: $warning;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $warning;
+	}
   }
 
   &-dark {
-    &,
-    > th,
-    > td {
-      background-color: $dark;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $dark;
+	}
   }
 
   &-light {
-    &,
-    > th,
-    > td {
-      background-color: $light;
-    }
+	&,
+	> th,
+	> td {
+	  background-color: $light;
+	}
 
-    &,
-    a:not(.btn),
-    .alert-link {
-      color: $body-color;
-    }
+	&,
+	a:not(.btn),
+	.alert-link {
+	  color: $body-color;
+	}
   }
 }
 
 .badge {
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }
 
@@ -227,6 +227,6 @@ input,
 .toast,
 .offcanvas {
   .btn-close {
-    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$gray-300}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>"));
+	background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$gray-300}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>"));
   }
 }

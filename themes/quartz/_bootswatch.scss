@@ -15,11 +15,11 @@ $frosted-opacity: .3 !default;
   @include frost($opacity, $bg);
 
   a {
-    color: $card-color;
+	color: $card-color;
   }
 
   .text-muted {
-    color: rgba($card-color, .7) !important;
+	color: rgba($card-color, .7) !important;
   }
 }
 
@@ -37,7 +37,7 @@ body {
 
 @include color-mode(dark) {
   body {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -51,17 +51,17 @@ body {
 
 .btn {
   &-secondary {
-    color: $white;
-    border: none;
+	color: $white;
+	border: none;
 
-    &:hover,
-    &:focus {
-      color: $white;
-    }
+	&:hover,
+	&:focus {
+	  color: $white;
+	}
 
-    &.disabled {
-      color: $white;
-    }
+	&.disabled {
+	  color: $white;
+	}
   }
 }
 
@@ -111,7 +111,7 @@ body {
   transition: border-color .15s ease-in-out;
 
   option {
-    color: $black;
+	color: $black;
   }
 }
 
@@ -120,7 +120,7 @@ body {
   border-color: rgba($black, .2);
 
   &::placeholder {
-    color: rgba($black, .2);
+	color: rgba($black, .2);
   }
 }
 
@@ -132,54 +132,54 @@ body {
 
 .nav-tabs {
   .nav-link {
-    transition: none;
+	transition: none;
 
-    &:hover,
-    &:focus {
-      color: $white;
-      isolation: auto;
-    }
+	&:hover,
+	&:focus {
+	  color: $white;
+	  isolation: auto;
+	}
 
-    &,
-    &.disabled {
-      background-color: $progress-bg;
-    }
+	&,
+	&.disabled {
+	  background-color: $progress-bg;
+	}
   }
 
   .nav-item:first-child > .nav-link {
-    border-radius: $border-radius 0 0 $border-radius;
+	border-radius: $border-radius 0 0 $border-radius;
   }
 
   .nav-item:last-child > .nav-link {
-    border-radius: 0 $border-radius $border-radius 0;
+	border-radius: 0 $border-radius $border-radius 0;
   }
 
   .nav-item .nav-link.active,
   .nav-item.show .nav-link {
-    @include glass(1, $white);
-    border-radius: $border-radius;
-    transform: scale(1.1);
+	@include glass(1, $white);
+	border-radius: $border-radius;
+	transform: scale(1.1);
 
-    &:hover,
-    &:focus {
-      color: $gray-800;
-    }
+	&:hover,
+	&:focus {
+	  color: $gray-800;
+	}
   }
 
   .dropdown-menu {
-    border-radius: $border-radius;
+	border-radius: $border-radius;
   }
 }
 
 .nav-pills {
   .nav-link {
-    transition: none;
+	transition: none;
 
-    &:hover,
-    &:focus {
-      color: $white;
-      isolation: auto;
-    }
+	&:hover,
+	&:focus {
+	  color: $white;
+	  isolation: auto;
+	}
   }
 }
 
@@ -192,30 +192,30 @@ body {
   color: $white;
 
   @each $color, $value in $theme-colors {
-    $opacity: .7;
-    &-#{$color}::after {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: .5rem;
-      height: 100%;
-      content: "";
-      background-color: $value;
-    }
+	$opacity: .7;
+	&-#{$color}::after {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: .5rem;
+	  height: 100%;
+	  content: "";
+	  background-color: $value;
+	}
   }
 
   .alert-link {
-    color: $card-color;
+	color: $card-color;
   }
 }
 
 .badge {
   &.bg-secondary {
-    --bs-bg-opacity: .4;
+	--bs-bg-opacity: .4;
   }
 
   &.bg-light {
-    color: $gray-800;
+	color: $gray-800;
   }
 }
 
@@ -229,41 +229,41 @@ body {
   @include glass();
 
   @each $color, $value in $theme-colors {
-    @if ($color == secondary) {
-      --bs-secondary-rgb: transparent;
-    } @else {
-      &.bg-#{$color} {
-        background-image: none;
-      }
-    }
+	@if ($color == secondary) {
+	  --bs-secondary-rgb: transparent;
+	} @else {
+	  &.bg-#{$color} {
+		background-image: none;
+	  }
+	}
   }
 
   &.bg-light {
-    .card-header,
-    .card-body {
-      color: $gray-800;
-    }
+	.card-header,
+	.card-body {
+	  color: $gray-800;
+	}
   }
 
   &.border {
-    @each $color, $value in $theme-colors {
-      &-#{$color} {
-        @include glass();
+	@each $color, $value in $theme-colors {
+	  &-#{$color} {
+		@include glass();
 
-        .card-header {
-          background-color: $value !important;
-          border-bottom: none;
+		.card-header {
+		  background-color: $value !important;
+		  border-bottom: none;
 
-          @if ($color == light) {
-            color: $gray-800;
-          }
-        }
-      }
-    }
+		  @if ($color == light) {
+			color: $gray-800;
+		  }
+		}
+	  }
+	}
   }
 
   &-header {
-    font-weight: $headings-font-weight;
+	font-weight: $headings-font-weight;
   }
 }
 
@@ -280,7 +280,7 @@ body {
   @include glass();
 
   &-header {
-    border-bottom-color: $border-color;
+	border-bottom-color: $border-color;
   }
 }
 

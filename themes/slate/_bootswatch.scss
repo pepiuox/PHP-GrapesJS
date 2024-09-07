@@ -28,85 +28,85 @@
   border: 1px solid rgba(0, 0, 0, .6);
 
   .container {
-    padding: 0;
+	padding: 0;
   }
 
   .navbar-toggler {
-    border-color: rgba(0, 0, 0, .6);
+	border-color: rgba(0, 0, 0, .6);
   }
 
   &-fixed-top {
-    border-width: 0 0 1px;
+	border-width: 0 0 1px;
   }
 
   &-fixed-bottom {
-    border-width: 1px 0 0;
+	border-width: 1px 0 0;
   }
 
   .nav-link {
-    padding: 1rem;
-    border-right: 1px solid rgba(0, 0, 0, .2);
-    border-left: 1px solid rgba(255, 255, 255, .1);
+	padding: 1rem;
+	border-right: 1px solid rgba(0, 0, 0, .2);
+	border-left: 1px solid rgba(255, 255, 255, .1);
   }
 
   &-brand {
-    padding: .75rem 1rem subtract(24px, .75rem);
-    margin-right: 0;
-    border-right: 1px solid rgba(0, 0, 0, .2);
+	padding: .75rem 1rem subtract(24px, .75rem);
+	margin-right: 0;
+	border-right: 1px solid rgba(0, 0, 0, .2);
   }
 
   .nav-item.active .nav-link {
-    background-color: rgba(0, 0, 0, .3);
-    border-left: 1px solid rgba(0, 0, 0, .2);
+	background-color: rgba(0, 0, 0, .3);
+	border-left: 1px solid rgba(0, 0, 0, .2);
   }
 
   &-nav .nav-item + .nav-item {
-    margin-left: 0;
+	margin-left: 0;
   }
 
   @each $color, $value in $theme-colors {
-    &.bg-#{$color} {
+	&.bg-#{$color} {
 
-      .nav-link {
-        &:hover {
-          @include btn-shadow-inverse($value);
-          border-left: 1px solid rgba(0, 0, 0, .2);
-        }
+	  .nav-link {
+		&:hover {
+		  @include btn-shadow-inverse($value);
+		  border-left: 1px solid rgba(0, 0, 0, .2);
+		}
 
-        &:active,
-        &.active {
-          @include btn-shadow-inverse-dark($value);
-          border-left: 1px solid rgba(0, 0, 0, .2);
-        }
-      }
-    }
+		&:active,
+		&.active {
+		  @include btn-shadow-inverse-dark($value);
+		  border-left: 1px solid rgba(0, 0, 0, .2);
+		}
+	  }
+	}
   }
 }
 
 @media (max-width: 576px) {
   .navbar-expand-sm {
-    .navbar-brand,
-    .nav-link {
-      border: none !important;
-    }
+	.navbar-brand,
+	.nav-link {
+	  border: none !important;
+	}
   }
 }
 
 @media (max-width: 768px) {
   .navbar-expand-md {
-    .navbar-brand,
-    .nav-link {
-      border: none !important;
-    }
+	.navbar-brand,
+	.nav-link {
+	  border: none !important;
+	}
   }
 }
 
 @media (max-width: 992px) {
   .navbar-expand-lg {
-    .navbar-brand,
-    .nav-link {
-      border: none !important;
-    }
+	.navbar-brand,
+	.nav-link {
+	  border: none !important;
+	}
   }
 }
 
@@ -118,8 +118,8 @@
 
   &:not([disabled]):not(.disabled).active,
   &.disabled {
-    border-color: rgba(0, 0, 0, .6);
-    box-shadow: none;
+	border-color: rgba(0, 0, 0, .6);
+	box-shadow: none;
   }
 
   &:hover,
@@ -127,28 +127,28 @@
   &:not([disabled]):not(.disabled):active,
   &:not([disabled]):not(.disabled):active:hover,
   &:not([disabled]):not(.disabled).active:hover {
-    border-color: rgba(0, 0, 0, .6);
+	border-color: rgba(0, 0, 0, .6);
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @include btn-shadow($value);
+	&-#{$color} {
+	  @include btn-shadow($value);
 
-      &:not([disabled]):not(.disabled):hover {
-        @include btn-shadow-inverse($value);
-      }
+	  &:not([disabled]):not(.disabled):hover {
+		@include btn-shadow-inverse($value);
+	  }
 
-      &:not([disabled]):not(.disabled):active:hover,
-      &:not([disabled]):not(.disabled).active:hover {
-        @include btn-shadow-inverse-dark($value);
-      }
-    }
+	  &:not([disabled]):not(.disabled):active:hover,
+	  &:not([disabled]):not(.disabled).active:hover {
+		@include btn-shadow-inverse-dark($value);
+	  }
+	}
   }
 }
 
 .btn-outline {
   &-primary {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -160,7 +160,7 @@
 .btn-group,
 .btn-group-vertical {
   .btn.active {
-    border-color: rgba(0, 0, 0, .6);
+	border-color: rgba(0, 0, 0, .6);
   }
 }
 
@@ -197,71 +197,71 @@ legend {
 
 .nav-tabs {
   .nav-link {
-    @include btn-shadow-inverse($gray-800);
-    border: 1px solid rgba(0, 0, 0, .6);
+	@include btn-shadow-inverse($gray-800);
+	border: 1px solid rgba(0, 0, 0, .6);
 
-    &:not([disabled]):not(.disabled):hover,
-    &:not([disabled]):not(.disabled):focus,
-    &:not([disabled]):not(.disabled):active,
-    &:not([disabled]):not(.disabled).active {
-      @include btn-shadow($gray-800);
-    }
+	&:not([disabled]):not(.disabled):hover,
+	&:not([disabled]):not(.disabled):focus,
+	&:not([disabled]):not(.disabled):active,
+	&:not([disabled]):not(.disabled).active {
+	  @include btn-shadow($gray-800);
+	}
 
-    &.disabled {
-      border: 1px solid rgba(0, 0, 0, .6);
-    }
+	&.disabled {
+	  border: 1px solid rgba(0, 0, 0, .6);
+	}
   }
 
   .nav-link,
   .nav-link:hover {
-    color: $white;
+	color: $white;
   }
 }
 
 .nav-pills {
   .nav-link {
-    @include btn-shadow($gray-800);
-    color: $white;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
-    border: 1px solid rgba(0, 0, 0, .6);
+	@include btn-shadow($gray-800);
+	color: $white;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+	border: 1px solid rgba(0, 0, 0, .6);
 
-    &:hover {
-      @include btn-shadow-inverse($gray-800);
-      border: 1px solid rgba(0, 0, 0, .6);
-    }
+	&:hover {
+	  @include btn-shadow-inverse($gray-800);
+	  border: 1px solid rgba(0, 0, 0, .6);
+	}
   }
 
   .nav-link.active,
   .nav-link:hover {
-    background-color: transparent;
-    @include btn-shadow-inverse($gray-800);
-    border: 1px solid rgba(0, 0, 0, .6);
+	background-color: transparent;
+	@include btn-shadow-inverse($gray-800);
+	border: 1px solid rgba(0, 0, 0, .6);
   }
 
   .nav-link.disabled,
   .nav-link.disabled:hover {
-    @include btn-shadow($gray-800);
-    color: $nav-link-disabled-color;
+	@include btn-shadow($gray-800);
+	color: $nav-link-disabled-color;
   }
 }
 
 .pagination {
   .page-link {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
-    @include btn-shadow($gray-800);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+	@include btn-shadow($gray-800);
 
-    &:hover {
-      @include btn-shadow-inverse($gray-800);
-      text-decoration: none;
-    }
+	&:hover {
+	  @include btn-shadow-inverse($gray-800);
+	  text-decoration: none;
+	}
   }
 
   .page-item.active .page-link {
-    @include btn-shadow-inverse($gray-800);
+	@include btn-shadow-inverse($gray-800);
   }
 
   .page-item.disabled .page-link {
-    @include btn-shadow($gray-800);
+	@include btn-shadow($gray-800);
   }
 }
 
@@ -273,7 +273,7 @@ legend {
 
   a,
   a:hover {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -285,28 +285,28 @@ legend {
 
   a,
   .alert-link {
-    color: $white;
-    text-decoration: underline;
+	color: $white;
+	text-decoration: underline;
   }
 
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      background-color: $value;
-    }
+	&-#{$color} {
+	  background-color: $value;
+	}
   }
 
   &-light {
-    &,
-    a:not(.btn),
-    .alert-link {
-      color: $dark;
-    }
+	&,
+	a:not(.btn),
+	.alert-link {
+	  color: $dark;
+	}
   }
 }
 
 .badge {
   &.bg-light {
-    color: $dark;
+	color: $dark;
   }
 }
 
@@ -319,14 +319,14 @@ legend {
 
 .list-group {
   &-item {
-    color: $white;
+	color: $white;
 
-    &-light {
-      color: $dark;
-    }
+	&-light {
+	  color: $dark;
+	}
   }
 
   &-item-action:hover {
-    background-color: shade-color($gray-900, 10%);
+	background-color: shade-color($gray-900, 10%);
   }
 }

@@ -42,7 +42,7 @@ $outrun: false !default;
   .h4,
   .h5,
   .h6 {
-    @include text-shadow($color);
+	@include text-shadow($color);
   }
 }
 
@@ -54,23 +54,23 @@ body {
   @include text-shadow-sm($body-color);
 
   @if ($outrun) {
-    position: relative;
-    overflow-x: hidden;
+	position: relative;
+	overflow-x: hidden;
 
-    &::after {
-      position: absolute;
-      bottom: 0;
-      left: -50vw;
-      z-index: -1;
-      display: block;
-      width: 200vw;
-      height: 100vh;
-      content: "";
-      background-image: repeating-linear-gradient(rgba($blue, .6) 0 1px, transparent 1px 100%), repeating-linear-gradient(90deg, rgba($blue, .6) 0 1px, transparent 1px 100%);
-      background-size: 200px 200px;
-      transform: perspective(50vh) rotateX(50deg) translateY(-11.3vh) translateZ(10px);
-      transform-origin: center center;
-    }
+	&::after {
+	  position: absolute;
+	  bottom: 0;
+	  left: -50vw;
+	  z-index: -1;
+	  display: block;
+	  width: 200vw;
+	  height: 100vh;
+	  content: "";
+	  background-image: repeating-linear-gradient(rgba($blue, .6) 0 1px, transparent 1px 100%), repeating-linear-gradient(90deg, rgba($blue, .6) 0 1px, transparent 1px 100%);
+	  background-size: 200px 200px;
+	  transform: perspective(50vh) rotateX(50deg) translateY(-11.3vh) translateZ(10px);
+	  transform-origin: center center;
+	}
   }
 }
 
@@ -80,18 +80,18 @@ body {
 
 .text {
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @include text-shadow-sm($value);
-    }
+	&-#{$color} {
+	  @include text-shadow-sm($value);
+	}
   }
 
   &-white {
-    @include text-shadow-sm($white);
-    @include header-shadow($white);
+	@include text-shadow-sm($white);
+	@include header-shadow($white);
   }
 
   &-muted {
-    @include text-shadow-sm(shade-color($text-muted, 20%));
+	@include text-shadow-sm(shade-color($text-muted, 20%));
   }
 }
 
@@ -102,7 +102,7 @@ a {
 .blockquote {
 
   &-footer {
-    @include text-shadow-sm(shade-color($blockquote-footer-color, 20%));
+	@include text-shadow-sm(shade-color($blockquote-footer-color, 20%));
   }
 }
 
@@ -123,34 +123,34 @@ table,
 
 .btn {
   @each $color, $value in $theme-colors {
-    @if (($color != dark) or ($color != link)) {
-      &-#{$color},
-      &-outline-#{$color} {
-        @include box-shadow($value);
-      }
-    }
+	@if (($color != dark) or ($color != link)) {
+	  &-#{$color},
+	  &-outline-#{$color} {
+		@include box-shadow($value);
+	  }
+	}
 
-    &-#{$color} {
-      @include text-shadow-sm($white);
-    }
+	&-#{$color} {
+	  @include text-shadow-sm($white);
+	}
 
-    &-outline-#{$color} {
-      color: $white;
-      border-width: 2px;
-    }
+	&-outline-#{$color} {
+	  color: $white;
+	  border-width: 2px;
+	}
   }
 
   &-dark {
-    @include box-shadow($primary);
+	@include box-shadow($primary);
   }
 
   &-link {
-    box-shadow: none;
-    @include text-shadow($body-color);
+	box-shadow: none;
+	@include text-shadow($body-color);
   }
 
   &-outline-dark {
-    color: $white;
+	color: $white;
   }
 }
 
@@ -158,31 +158,31 @@ table,
 
 .navbar {
   @each $color, $value in $theme-colors {
-    &.bg-#{$color} {
-      @include box-shadow($value);
-    }
+	&.bg-#{$color} {
+	  @include box-shadow($value);
+	}
   }
 
   &[data-bs-theme="dark"] {
-    &,
-    a {
-      @include text-shadow-sm($white);
-    }
+	&,
+	a {
+	  @include text-shadow-sm($white);
+	}
 
-    .navbar-brand {
-      @include text-shadow($white);
-    }
+	.navbar-brand {
+	  @include text-shadow($white);
+	}
   }
 
   &[data-bs-theme="light"] {
-    &,
-    a {
-      @include text-shadow-sm($black);
-    }
+	&,
+	a {
+	  @include text-shadow-sm($black);
+	}
 
-    .navbar-brand {
-      @include text-shadow($black);
-    }
+	.navbar-brand {
+	  @include text-shadow($black);
+	}
   }
 }
 
@@ -190,7 +190,7 @@ table,
 
 .nav-link {
   &.disabled {
-    @include text-shadow-sm($nav-link-disabled-color);
+	@include text-shadow-sm($nav-link-disabled-color);
   }
 }
 
@@ -206,11 +206,11 @@ table,
 
 .breadcrumb {
   &-item.active {
-    @include text-shadow-sm($breadcrumb-active-color);
+	@include text-shadow-sm($breadcrumb-active-color);
   }
 
   &-item + .breadcrumb-item::before {
-    @include text-shadow-sm($breadcrumb-divider-color);
+	@include text-shadow-sm($breadcrumb-divider-color);
   }
 }
 
@@ -220,7 +220,7 @@ table,
 
 .page-item.active {
   .page-link {
-    @include box-shadow($component-active-bg);
+	@include box-shadow($component-active-bg);
   }
 }
 
@@ -242,17 +242,17 @@ legend {
 
 .alert {
   @each $color, $value in $theme-colors {
-    &-#{$color} {
-      color: $white;
-      background-color: $value;
-      @include text-shadow-sm($white);
-      @include box-shadow-lg($value);
-    }
+	&-#{$color} {
+	  color: $white;
+	  background-color: $value;
+	  @include text-shadow-sm($white);
+	  @include box-shadow-lg($value);
+	}
   }
 
   .alert-link,
   a {
-    color: $white;
+	color: $white;
   }
 
   @include header-shadow($white);
@@ -262,13 +262,13 @@ legend {
   overflow: visible;
 
   &-bar {
-    @include box-shadow($primary);
+	@include box-shadow($primary);
 
-    @each $color, $value in $theme-colors {
-      &.bg-#{$color} {
-        @include box-shadow($value);
-      }
-    }
+	@each $color, $value in $theme-colors {
+	  &.bg-#{$color} {
+		@include box-shadow($value);
+	  }
+	}
   }
 }
 
@@ -278,7 +278,7 @@ legend {
 
   &-inner,
   .arrow {
-    @include box-shadow-lg($primary);
+	@include box-shadow-lg($primary);
   }
 }
 
@@ -296,7 +296,7 @@ legend {
 
 .modal {
   &-content {
-    @include box-shadow-lg($primary);
+	@include box-shadow-lg($primary);
   }
 }
 
@@ -305,7 +305,7 @@ legend {
 .list-group {
 
   &-item.active {
-    @include header-shadow($white);
+	@include header-shadow($white);
   }
 }
 
@@ -314,15 +314,15 @@ legend {
   @include text-shadow-sm($white);
 
   @each $color, $value in $theme-colors {
-    @if ($color != dark) {
-      &.border-#{$color} {
-        @include box-shadow($value);
-      }
-    }
+	@if ($color != dark) {
+	  &.border-#{$color} {
+		@include box-shadow($value);
+	  }
+	}
   }
 
   &.border-dark {
-    @include box-shadow($primary);
+	@include box-shadow($primary);
   }
 
   @include header-shadow($white);
