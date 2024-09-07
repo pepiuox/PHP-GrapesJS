@@ -572,400 +572,400 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
 				{
 					border: 1px solid #ddd;
 					padding: 10px;
-				    white-space: nowrap;
-                }
-            </style>
-            <script>
-                $(document).ready(function () {
-                    sortable_tables.sorting_field_table();
-                });
-                $('table#sort tbody').sortable({
-                    items: ">tr",
-                    appendTo: "parent",
-                    opacity: 1,
-                    containment: "document",
-                    placeholder: "placeholder-style",
-                    cursor: "move",
-                    delay: 150,
-                    update: function (event, ui) {
-                        $(this).children().each(function (index) {
-                            $(this).find('tr').last().html(index + 1);
-                        });
-                    }
-                });
-                var sortable_tables =
-                        {
-                            sorting_field_table: function ()
-                            {
-                                $('table#sort tbody').sortable({
-                                    helper: sortable_tables.fixWidthHelper
-                                }).disableSelection();
-                            },
+					white-space: nowrap;
+				}
+			</style>
+			<script>
+				$(document).ready(function () {
+					sortable_tables.sorting_field_table();
+				});
+				$('table#sort tbody').sortable({
+					items: ">tr",
+					appendTo: "parent",
+					opacity: 1,
+					containment: "document",
+					placeholder: "placeholder-style",
+					cursor: "move",
+					delay: 150,
+					update: function (event, ui) {
+						$(this).children().each(function (index) {
+							$(this).find('tr').last().html(index + 1);
+						});
+					}
+				});
+				var sortable_tables =
+						{
+							sorting_field_table: function ()
+							{
+								$('table#sort tbody').sortable({
+									helper: sortable_tables.fixWidthHelper
+								}).disableSelection();
+							},
 
-                            fixWidthHelper: function (e, ui) {
-                                ui.children().each(function () {
-                                    $(this).width($(this).width());
-                                });
-                                return ui;
-                            }
-                        };
-                function saveOrderImg() {
-                    var selectedLanguage = new Array();
-                    $('#sort tr').each(function () {
-                        selectedLanguage.push($(this).attr("id"));
-                    });
-                    document.getElementById("img_order").value = selectedLanguage;
-                }
-                $('table#sort tr:last').index() + 1;
-            </script>
-            <?php
-            if (isset($_POST["submitOrd"])) {
-                $id_ary = explode(",", $_POST["img_order"]);
-                for ($i = 1; $i < count($id_ary); $i++) {
-                    $conn->query("UPDATE multimedia_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
-                }
-            }
-            ?>
-            <form action='' method='POST'>
-                <input type = "hidden" name="img_order" id="img_order" />
-                <?php
-                echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
-                echo "<thead>";
-                echo "<tr class=title>";
-                echo "<th><b>Orden</b></th>";
-                echo "<th><b>Nombre</b></th>";
-                echo "<th><b>Origen</b></th>";
-                echo "<th><b>Id Video</b></th>";
-                echo "<th></th><th></th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
-                $result = $conn->query("SELECT * FROM multimedia_gal WHERE galId='$id' ORDER BY sort") or trigger_error($conn->error);
-                while ($row = $result->fetch_array()) {
-                    foreach ($row AS $key => $value) {
-                        $row[$key] = stripslashes($value);
-                    }
-                    echo "<tr id=" . $row['id'] . "> \n";
-                    echo "<td valign='top'>" . $row['sort'] . "</td>";
-                    echo "<td valign='top'>" . $row['name'] . "</td>";
-                    echo "<td valign='top'>";
-                    if ($row['source'] == 0) {
-                        echo 'youtube';
-                    } elseif ($row['source'] == 1) {
-                        echo 'vimeo';
-                    } else {
-                        echo 'daylimotion';
-                    }
-                    echo "</td>";
-                    echo "<td valign='top'>" . $row['idlink'] . "</td>";
-                    echo "<td valign='top'><a href='editMedia.php?id={$row['id']}'>Editar</a></td><td><a href='deleteMedia.php?id={$row['id']}'>Eliminar</a></td> ";
-                    echo "</tr>";
-                }
-                echo "</tbody>";
-                echo "<tfoot>";
-                echo "<tr class=title>";
-                echo "<th><b>Orden</b></th>";
-                echo "<th><b>Nombre</b></th>";
-                echo "<th><b>Origen</b></th>";
-                echo "<th><b>Id Video</b></th>";
-                echo "<th></th><th></th>";
-                echo "</tr>";
-                echo "</tfoot>";
-                echo "</table>";
-                ?>
-                <input type="submit" class="btnSave" name="submitOrd" value="Guardar Orden" onClick="saveOrderImg();" />
-            </form>
-        </div>
-        <?php
-    } elseif ($w === 'addm') {
-        ?>
-        <div class="container">
-            <?php
-            if (isset($_GET['id']) && !empty($_GET['id'])) {
-                $id = (int) $_GET['id'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
-                if (isset($_POST['submitted'])) {
-                    $sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description` ,  `source` ,  `idlink`  ) VALUES(  '{$id}' ,  '{$_POST['name']}' ,  '{$_POST['image']}' ,  '{$_POST['description']}' ,  '{$_POST['source']}' ,  '{$_POST['idlink']}'  ) ";
-                    $conn->query($sql) or die($conn->error);
-                    echo "Fila Agregada.<br />";
-                    echo '<meta http-equiv="refresh" content="0">';
-                }
-                ?>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=listgm'>Retornar a la Lista</a>
-                <h3>Agregar Multimedia a <?php echo $row['gallery']; ?></h3>
-                <form action='' method='POST'>
-                    <div class='col-md-6'><label class="form-label">Imagen:</label>
-                        <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script>
-                        <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('#imageUpload').on('click', function (event) {
-                            event.preventDefault();
-                            $.popupWindow('elfinder/elfinder.html', {
-                                height: 420,
-                                width: 750
-                            });
-                        });
-                    });
+							fixWidthHelper: function (e, ui) {
+								ui.children().each(function () {
+									$(this).width($(this).width());
+								});
+								return ui;
+							}
+						};
+				function saveOrderImg() {
+					var selectedLanguage = new Array();
+					$('#sort tr').each(function () {
+						selectedLanguage.push($(this).attr("id"));
+					});
+					document.getElementById("img_order").value = selectedLanguage;
+				}
+				$('table#sort tr:last').index() + 1;
+			</script>
+			<?php
+			if (isset($_POST["submitOrd"])) {
+				$id_ary = explode(",", $_POST["img_order"]);
+				for ($i = 1; $i < count($id_ary); $i++) {
+					$conn->query("UPDATE multimedia_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
+				}
+			}
+			?>
+			<form action='' method='POST'>
+				<input type = "hidden" name="img_order" id="img_order" />
+				<?php
+				echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
+				echo "<thead>";
+				echo "<tr class=title>";
+				echo "<th><b>Orden</b></th>";
+				echo "<th><b>Nombre</b></th>";
+				echo "<th><b>Origen</b></th>";
+				echo "<th><b>Id Video</b></th>";
+				echo "<th></th><th></th>";
+				echo "</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				$result = $conn->query("SELECT * FROM multimedia_gal WHERE galId='$id' ORDER BY sort") or trigger_error($conn->error);
+				while ($row = $result->fetch_array()) {
+					foreach ($row AS $key => $value) {
+						$row[$key] = stripslashes($value);
+					}
+					echo "<tr id=" . $row['id'] . "> \n";
+					echo "<td valign='top'>" . $row['sort'] . "</td>";
+					echo "<td valign='top'>" . $row['name'] . "</td>";
+					echo "<td valign='top'>";
+					if ($row['source'] == 0) {
+						echo 'youtube';
+					} elseif ($row['source'] == 1) {
+						echo 'vimeo';
+					} else {
+						echo 'daylimotion';
+					}
+					echo "</td>";
+					echo "<td valign='top'>" . $row['idlink'] . "</td>";
+					echo "<td valign='top'><a href='editMedia.php?id={$row['id']}'>Editar</a></td><td><a href='deleteMedia.php?id={$row['id']}'>Eliminar</a></td> ";
+					echo "</tr>";
+				}
+				echo "</tbody>";
+				echo "<tfoot>";
+				echo "<tr class=title>";
+				echo "<th><b>Orden</b></th>";
+				echo "<th><b>Nombre</b></th>";
+				echo "<th><b>Origen</b></th>";
+				echo "<th><b>Id Video</b></th>";
+				echo "<th></th><th></th>";
+				echo "</tr>";
+				echo "</tfoot>";
+				echo "</table>";
+				?>
+				<input type="submit" class="btnSave" name="submitOrd" value="Guardar Orden" onClick="saveOrderImg();" />
+			</form>
+		</div>
+		<?php
+	} elseif ($w === 'addm') {
+		?>
+		<div class="container">
+			<?php
+			if (isset($_GET['id']) && !empty($_GET['id'])) {
+				$id = (int) $_GET['id'];
+				$row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+				if (isset($_POST['submitted'])) {
+					$sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description` ,  `source` ,  `idlink`  ) VALUES(  '{$id}' ,  '{$_POST['name']}' ,  '{$_POST['image']}' ,  '{$_POST['description']}' ,  '{$_POST['source']}' ,  '{$_POST['idlink']}'  ) ";
+					$conn->query($sql) or die($conn->error);
+					echo "Fila Agregada.<br />";
+					echo '<meta http-equiv="refresh" content="0">';
+				}
+				?>
+				<a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=listgm'>Retornar a la Lista</a>
+				<h3>Agregar Multimedia a <?php echo $row['gallery']; ?></h3>
+				<form action='' method='POST'>
+					<div class='col-md-6'><label class="form-label">Imagen:</label>
+						<script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script>
+						<script type="text/javascript">
+					$(document).ready(function () {
+						$('#imageUpload').on('click', function (event) {
+							event.preventDefault();
+							$.popupWindow('elfinder/elfinder.html', {
+								height: 420,
+								width: 750
+							});
+						});
+					});
 
-                    function processFile(file) {
-                        $('#picture').html('<img src="' + file + '" />');
-                        $('#image').val(file);
-                    }
-                        </script>
-                        <div id="picture">
-                            <span>No hay imagen? Utilice el botón para seleccionar una!</span>
-                        </div>
-                        <div class="container">
-                            <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
-                            <input type="button" id="imageUpload" value='Seleccionar Imagen' />
-                        </div>
-                    </div>
-                    <div class='col-md-6'>
-                        <div class="container"><label class="form-label">Título:</label>
-                            <input type="text" class="form-control" name='name' id='name'/>
-                        </div>
-                        <div class="container"><label class="form-label">Descripción:</label>
-                            <textarea class="form-control" name='description' id='description'></textarea>
-                        </div>
-                        <div class="container"><label class="form-label">Origen:</label>
-                            <select class="form-select" name='source' id='source'>
-                                <?php
-                                $acti = array("youtube", "vimeo");
-                                reset($acti);
-                                while (list($key, $val) = each($acti)) {
-                                    ?>
-                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="container"><label class="form-label">Id Video:</label>
-                            <input type="text" class="form-control" name='idlink' id='idlink'/>
-                        </div>
-                    </div>
-                    <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Multimedia' /><input type='hidden' value='1' name='submitted' /></div>
-                </form>
-                <?php
-            }
-            ?>
-        </div>
-        <?php
-    } elseif ($w === 'listgp') {
-        ?>
-        <div class="container">
-            <?php
-            if (isset($_GET['gal']) && !empty($_GET['gal'])) {
-                $id = (int) $_GET['gal'];
-                $rowg = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
-            }
-            ?>
-            <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=addp&id=<?php echo $rowg['idGal']; ?>'>Agregar Nuevo Publicacion</a>
-            </p>
-            <h3>Lista de Publicaciones de <?php echo $rowg['name']; ?></h3>
-            <style>
-                #sort
-                {
-                    border-collapse: collapse;
-                    width: 98%;
-                }
-                #sort a{
-                    cursor: pointer;
-                }
-                #sort thead tr
-                {
-                    border-bottom: 1px solid #ccc;
-                }
+					function processFile(file) {
+						$('#picture').html('<img src="' + file + '" />');
+						$('#image').val(file);
+					}
+						</script>
+						<div id="picture">
+							<span>No hay imagen? Utilice el botón para seleccionar una!</span>
+						</div>
+						<div class="container">
+							<input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
+							<input type="button" id="imageUpload" value='Seleccionar Imagen' />
+						</div>
+					</div>
+					<div class='col-md-6'>
+						<div class="container"><label class="form-label">Título:</label>
+							<input type="text" class="form-control" name='name' id='name'/>
+						</div>
+						<div class="container"><label class="form-label">Descripción:</label>
+							<textarea class="form-control" name='description' id='description'></textarea>
+						</div>
+						<div class="container"><label class="form-label">Origen:</label>
+							<select class="form-select" name='source' id='source'>
+								<?php
+								$acti = array("youtube", "vimeo");
+								reset($acti);
+								while (list($key, $val) = each($acti)) {
+									?>
+									<option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+									<?php
+								}
+								?>
+							</select>
+						</div>
+						<div class="container"><label class="form-label">Id Video:</label>
+							<input type="text" class="form-control" name='idlink' id='idlink'/>
+						</div>
+					</div>
+					<div class="container"><input class="btn btn-primary" type='submit' value='Agregar Multimedia' /><input type='hidden' value='1' name='submitted' /></div>
+				</form>
+				<?php
+			}
+			?>
+		</div>
+		<?php
+	} elseif ($w === 'listgp') {
+		?>
+		<div class="container">
+			<?php
+			if (isset($_GET['gal']) && !empty($_GET['gal'])) {
+				$id = (int) $_GET['gal'];
+				$rowg = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+			}
+			?>
+			<p>
+				<a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=addp&id=<?php echo $rowg['idGal']; ?>'>Agregar Nuevo Publicacion</a>
+			</p>
+			<h3>Lista de Publicaciones de <?php echo $rowg['name']; ?></h3>
+			<style>
+				#sort
+				{
+					border-collapse: collapse;
+					width: 98%;
+				}
+				#sort a{
+					cursor: pointer;
+				}
+				#sort thead tr
+				{
+					border-bottom: 1px solid #ccc;
+				}
 
-                #sort tr
-                {
-                    vertical-align: middle !important;
-                    line-height: 2rem !important;
-                    margin-bottom: 3px;
-                }
-                #sort th, #sort td
-                {
-                    border: 1px solid #ddd;
-                    padding: 10px;
-                    white-space: nowrap;
-                }
-            </style>
-            <script>
-                $(document).ready(function () {
-                    sortable_tables.sorting_field_table();
-                });
-                $('table#sort tbody').sortable({
-                    items: ">tr",
-                    appendTo: "parent",
-                    opacity: 1,
-                    containment: "document",
-                    placeholder: "placeholder-style",
-                    cursor: "move",
-                    delay: 150,
-                    update: function (event, ui) {
-                        $(this).children().each(function (index) {
-                            $(this).find('tr').last().html(index + 1);
-                        });
-                    }
-                });
-                var sortable_tables =
-                        {
-                            sorting_field_table: function ()
-                            {
-                                $('table#sort tbody').sortable({
-                                    helper: sortable_tables.fixWidthHelper
-                                }).disableSelection();
-                            },
+				#sort tr
+				{
+					vertical-align: middle !important;
+					line-height: 2rem !important;
+					margin-bottom: 3px;
+				}
+				#sort th, #sort td
+				{
+					border: 1px solid #ddd;
+					padding: 10px;
+					white-space: nowrap;
+				}
+			</style>
+			<script>
+				$(document).ready(function () {
+					sortable_tables.sorting_field_table();
+				});
+				$('table#sort tbody').sortable({
+					items: ">tr",
+					appendTo: "parent",
+					opacity: 1,
+					containment: "document",
+					placeholder: "placeholder-style",
+					cursor: "move",
+					delay: 150,
+					update: function (event, ui) {
+						$(this).children().each(function (index) {
+							$(this).find('tr').last().html(index + 1);
+						});
+					}
+				});
+				var sortable_tables =
+						{
+							sorting_field_table: function ()
+							{
+								$('table#sort tbody').sortable({
+									helper: sortable_tables.fixWidthHelper
+								}).disableSelection();
+							},
 
-                            fixWidthHelper: function (e, ui) {
-                                ui.children().each(function () {
-                                    $(this).width($(this).width());
-                                });
-                                return ui;
-                            }
-                        };
-                function saveOrderImg() {
-                    var selectedLanguage = new Array();
-                    $('#sort tr').each(function () {
-                        selectedLanguage.push($(this).attr("id"));
-                    });
-                    document.getElementById("img_order").value = selectedLanguage;
-                }
-                $('table#sort tr:last').index() + 1;
-            </script>
-            <?php
-            if (isset($_POST["submitOrd"])) {
-                $id_ary = explode(",", $_POST["img_order"]);
-                for ($i = 1; $i < count($id_ary); $i++) {
-                    $conn->query("UPDATE press_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
-                }
-            }
-            ?>
-            <form action='' method='POST'>
-                <input type = "hidden" name="img_order" id="img_order" />
-                <?php
-                echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
-                echo "<thead>";
-                echo "<tr class=title>";
-                echo "<th><b>Orden</b></th>";
-                echo "<th><b>Título</b></th>";
-                echo "<th><b>Sub Título</b></th>";
-                echo "<th><b>Fecha de publicacion</b></th>";
-                echo "<th><b>Tipo de publicacion</b></th>";
-                echo "<th></th><th></th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
-                $result = $conn->query("SELECT * FROM `press_gal` WHERE galId='$id'") or trigger_error($conn->error);
-                while ($row = $result->fetch_array()) {
-                    foreach ($row AS $key => $value) {
-                        $row[$key] = stripslashes($value);
-                    }
-                    echo "<tr id=" . $row['id'] . "> \n";
-                    echo "<td valign='top'>" . $row['gallery'] . "</td>";
-                    echo "<td valign='top'>" . $row['title'] . "</td>";
-                    echo "<td valign='top'>" . $row['subtitle'] . "</td>";
-                    echo "<td valign='top'>" . $row['printing_date'] . "</td>";
-                    echo "<td valign='top'>";
-                    if ($row['type_press'] == 0) {
-                        echo "Entrevista";
-                    } else if ($row['type_press'] == 1) {
-                        echo "Articulo";
-                    } else {
-                        echo "Catalogo";
-                    }
-                    echo "</td>";
-                    echo "<td valign='top'><a href='viewPress.php?idPr={$row['idPr']}'>Vista</a></td><td valign='top'><a href='editPress.php?idPr={$row['idPr']}'>Editar</a></td><td><a href='deletePress.php?idPr={$row['idPr']}'>Eliminar</a></td> ";
-                    echo "</tr>";
-                }
-                echo "</tbody>";
-                echo "<tfoot>";
-                echo "<tr class=title>";
-                echo "<th><b>Orden</b></th>";
-                echo "<th><b>Título</b></th>";
-                echo "<th><b>Sub Título</b></th>";
-                echo "<th><b>Fecha de publicacion</b></th>";
-                echo "<th><b>Tipo de publicacion</b></th>";
-                echo "<th></th><th></th>";
-                echo "</tr>";
-                echo "</tfoot>";
-                echo "</table>";
-                ?>
-                <input type="submit" class="btnSave" name="submitOrd" value="Guardar Orden" onClick="saveOrderImg();" />
-            </form>
-        </div>
-        <?php
-    } elseif ($w === 'addp') {
-        ?>
-        <div class="container">
-            <?php
-            if (isset($_GET['id']) && !empty($_GET['id'])) {
-                $id = (int) $_GET['id'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
-                if (isset($_POST['submitted'])) {
-                    $sql = "INSERT INTO `press_gal` ( `galId` ,  `image`,  `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  '$id' ,  '{$_POST['image']}' , '{$_POST['title']}' ,  '{$_POST['subtitle']}' ,  '{$_POST['description']}' ,  '{$_POST['printing_date']}' ,  '{$_POST['type_press']}'  ) ";
-                    $conn->query($sql) or die($conn->error);
-                    echo "Fila Agregada.<br />";
-                    echo '<meta http-equiv="refresh" content="0">';
-                }
-                ?>
-                <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=listgp'>Retornar a la Lista</a>
-                </p>
-                <h3>Agregar a Publicación</h3>
-                <form action='' method='POST'>
-                    <div class='col-md-6'><label class="form-label">Imagen:</label>
-                        <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script>
-                        <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('#imageUpload').on('click', function (event) {
-                            event.preventDefault();
-                            $.popupWindow('elfinder/elfinder.html', {
-                                height: 420,
-                                width: 750
-                            });
-                        });
-                    });
+							fixWidthHelper: function (e, ui) {
+								ui.children().each(function () {
+									$(this).width($(this).width());
+								});
+								return ui;
+							}
+						};
+				function saveOrderImg() {
+					var selectedLanguage = new Array();
+					$('#sort tr').each(function () {
+						selectedLanguage.push($(this).attr("id"));
+					});
+					document.getElementById("img_order").value = selectedLanguage;
+				}
+				$('table#sort tr:last').index() + 1;
+			</script>
+			<?php
+			if (isset($_POST["submitOrd"])) {
+				$id_ary = explode(",", $_POST["img_order"]);
+				for ($i = 1; $i < count($id_ary); $i++) {
+					$conn->query("UPDATE press_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
+				}
+			}
+			?>
+			<form action='' method='POST'>
+				<input type = "hidden" name="img_order" id="img_order" />
+				<?php
+				echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
+				echo "<thead>";
+				echo "<tr class=title>";
+				echo "<th><b>Orden</b></th>";
+				echo "<th><b>Título</b></th>";
+				echo "<th><b>Sub Título</b></th>";
+				echo "<th><b>Fecha de publicacion</b></th>";
+				echo "<th><b>Tipo de publicacion</b></th>";
+				echo "<th></th><th></th>";
+				echo "</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				$result = $conn->query("SELECT * FROM `press_gal` WHERE galId='$id'") or trigger_error($conn->error);
+				while ($row = $result->fetch_array()) {
+					foreach ($row AS $key => $value) {
+						$row[$key] = stripslashes($value);
+					}
+					echo "<tr id=" . $row['id'] . "> \n";
+					echo "<td valign='top'>" . $row['gallery'] . "</td>";
+					echo "<td valign='top'>" . $row['title'] . "</td>";
+					echo "<td valign='top'>" . $row['subtitle'] . "</td>";
+					echo "<td valign='top'>" . $row['printing_date'] . "</td>";
+					echo "<td valign='top'>";
+					if ($row['type_press'] == 0) {
+						echo "Entrevista";
+					} else if ($row['type_press'] == 1) {
+						echo "Articulo";
+					} else {
+						echo "Catalogo";
+					}
+					echo "</td>";
+					echo "<td valign='top'><a href='viewPress.php?idPr={$row['idPr']}'>Vista</a></td><td valign='top'><a href='editPress.php?idPr={$row['idPr']}'>Editar</a></td><td><a href='deletePress.php?idPr={$row['idPr']}'>Eliminar</a></td> ";
+					echo "</tr>";
+				}
+				echo "</tbody>";
+				echo "<tfoot>";
+				echo "<tr class=title>";
+				echo "<th><b>Orden</b></th>";
+				echo "<th><b>Título</b></th>";
+				echo "<th><b>Sub Título</b></th>";
+				echo "<th><b>Fecha de publicacion</b></th>";
+				echo "<th><b>Tipo de publicacion</b></th>";
+				echo "<th></th><th></th>";
+				echo "</tr>";
+				echo "</tfoot>";
+				echo "</table>";
+				?>
+				<input type="submit" class="btnSave" name="submitOrd" value="Guardar Orden" onClick="saveOrderImg();" />
+			</form>
+		</div>
+		<?php
+	} elseif ($w === 'addp') {
+		?>
+		<div class="container">
+			<?php
+			if (isset($_GET['id']) && !empty($_GET['id'])) {
+				$id = (int) $_GET['id'];
+				$row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+				if (isset($_POST['submitted'])) {
+					$sql = "INSERT INTO `press_gal` ( `galId` ,  `image`,  `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  '$id' ,  '{$_POST['image']}' , '{$_POST['title']}' ,  '{$_POST['subtitle']}' ,  '{$_POST['description']}' ,  '{$_POST['printing_date']}' ,  '{$_POST['type_press']}'  ) ";
+					$conn->query($sql) or die($conn->error);
+					echo "Fila Agregada.<br />";
+					echo '<meta http-equiv="refresh" content="0">';
+				}
+				?>
+				<p>
+					<a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=listgp'>Retornar a la Lista</a>
+				</p>
+				<h3>Agregar a Publicación</h3>
+				<form action='' method='POST'>
+					<div class='col-md-6'><label class="form-label">Imagen:</label>
+						<script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script>
+						<script type="text/javascript">
+					$(document).ready(function () {
+						$('#imageUpload').on('click', function (event) {
+							event.preventDefault();
+							$.popupWindow('elfinder/elfinder.html', {
+								height: 420,
+								width: 750
+							});
+						});
+					});
 
-                    function processFile(file) {
-                        $('#picture').html('<img src="' + file + '" />');
-                        $('#image').val(file);
-                    }
-                        </script>
-                        <div id="picture">
-                            <span>No hay imagen? Utilice el botón para seleccionar una!</span>
-                        </div>
-                        <div class="container">
-                            <input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
-                            <input type="button" id="imageUpload" value='Seleccionar Imagen' />
-                        </div>
-                    </div>
-                    <div class='col-md-6'><label class="form-label">Título:</label><input type="text" class="form-control" name='title' id='title'/></div>
-                    <div class='col-md-6'><label class="form-label">SubTítulo:</label><input type="text" class="form-control" name='subtitle' id='subtitle'/></div>
-                    <div class="container"><label class="form-label">Descripción:</label><textarea class="form-control" name='description' id='description'></textarea></div>
-                    <div class='col-md-6'><label class="form-label">Fecha de publicación:</label><input type="text" class="form-control" name='printing_date' id='printing_date'/></div>
-                    <div class='col-md-6'><label class="form-label">Tipo de publicación:</label>
-                        <select class="form-select" name='type_press' id='type_press'>
-                            <?php
-                            $acti = array("Entrevista", "Articulo", "Catalogo");
-                            reset($acti);
-                            while (list($key, $val) = each($acti)) {
-                                ?>
-                                <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
-                                <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="container"><input class="btn btn-primary" type='submit' value='Agregar Publicacion' /><input type='hidden' value='1' name='submitted' /></div>
+					function processFile(file) {
+						$('#picture').html('<img src="' + file + '" />');
+						$('#image').val(file);
+					}
+						</script>
+						<div id="picture">
+							<span>No hay imagen? Utilice el botón para seleccionar una!</span>
+						</div>
+						<div class="container">
+							<input type="text" name='image' id='image' placeholder="Imagen Url" readonly />
+							<input type="button" id="imageUpload" value='Seleccionar Imagen' />
+						</div>
+					</div>
+					<div class='col-md-6'><label class="form-label">Título:</label><input type="text" class="form-control" name='title' id='title'/></div>
+					<div class='col-md-6'><label class="form-label">SubTítulo:</label><input type="text" class="form-control" name='subtitle' id='subtitle'/></div>
+					<div class="container"><label class="form-label">Descripción:</label><textarea class="form-control" name='description' id='description'></textarea></div>
+					<div class='col-md-6'><label class="form-label">Fecha de publicación:</label><input type="text" class="form-control" name='printing_date' id='printing_date'/></div>
+					<div class='col-md-6'><label class="form-label">Tipo de publicación:</label>
+						<select class="form-select" name='type_press' id='type_press'>
+							<?php
+							$acti = array("Entrevista", "Articulo", "Catalogo");
+							reset($acti);
+							while (list($key, $val) = each($acti)) {
+								?>
+								<option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+								<?php
+							}
+							?>
+						</select>
+					</div>
+					<div class="container"><input class="btn btn-primary" type='submit' value='Agregar Publicacion' /><input type='hidden' value='1' name='submitted' /></div>
 
-                </form>
-                <?php
-            }
-            ?>
-        </div>
-        <?php
-    }
+				</form>
+				<?php
+			}
+			?>
+		</div>
+		<?php
+	}
 }
 ?>

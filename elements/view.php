@@ -306,4 +306,4 @@ if (file_exists($connfile)) {
 	header('Location: installer/install.php');
 	exit();
 }
-		?>
+?>
