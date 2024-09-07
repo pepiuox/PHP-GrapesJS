@@ -15,8 +15,8 @@
 }
 @media (min-width: 768px) {
   .content {
-    min-width: 0;
-    width: 100%;
+	min-width: 0;
+	width: 100%;
   }
 }
 
@@ -35,7 +35,7 @@
 }
 @media (min-width: 768px) {
   .sidebar {
-    margin-left: 0;
+	margin-left: 0;
   }
 }
 
@@ -44,7 +44,7 @@
 }
 @media (min-width: 768px) {
   .sidebar-toggle .sidebar {
-    margin-left: -17rem;
+	margin-left: -17rem;
   }
 }
 

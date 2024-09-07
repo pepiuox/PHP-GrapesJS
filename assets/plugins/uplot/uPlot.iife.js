@@ -10,7 +10,7 @@
 var uPlot = (function () {
 	'use strict';
 
-	var FEAT_TIME          = true;
+	var FEAT_TIME		  = true;
 
 	function debounce(fn, time) {
 		var pending = null;
@@ -199,10 +199,10 @@ var uPlot = (function () {
 		var softMinMode = ifNull(cmin.mode, 0);
 		var softMaxMode = ifNull(cmax.mode, 0);
 
-		var delta        = _max - _min;
+		var delta		= _max - _min;
 		var nonZeroDelta = delta || abs(_max) || 1e3;
-		var mag          = log10(nonZeroDelta);
-		var base         = pow(10, floor(mag));
+		var mag		  = log10(nonZeroDelta);
+		var base		 = pow(10, floor(mag));
 
 		var _padMin  = nonZeroDelta * (delta == 0 ? (_min == 0 ? .1 : 1) : padMin);
 		var _newMin  = roundDec(incrRoundDn(_min - _padMin, base/10), 6);
@@ -451,40 +451,40 @@ var uPlot = (function () {
 
 	var microTask = typeof queueMicrotask == "undefined" ? fn => Promise.resolve().then(fn) : queueMicrotask;
 
-	var WIDTH       = "width";
-	var HEIGHT      = "height";
-	var TOP         = "top";
-	var BOTTOM      = "bottom";
-	var LEFT        = "left";
-	var RIGHT       = "right";
-	var hexBlack    = "#000";
+	var WIDTH	   = "width";
+	var HEIGHT	  = "height";
+	var TOP		 = "top";
+	var BOTTOM	  = "bottom";
+	var LEFT		= "left";
+	var RIGHT	   = "right";
+	var hexBlack	= "#000";
 	var transparent = hexBlack + "0";
 
 	var mousemove   = "mousemove";
 	var mousedown   = "mousedown";
-	var mouseup     = "mouseup";
+	var mouseup	 = "mouseup";
 	var mouseenter  = "mouseenter";
 	var mouseleave  = "mouseleave";
-	var dblclick    = "dblclick";
-	var resize      = "resize";
-	var scroll      = "scroll";
+	var dblclick	= "dblclick";
+	var resize	  = "resize";
+	var scroll	  = "scroll";
 
 	var pre = "u-";
 
-	var UPLOT          =       "uplot";
-	var ORI_HZ         = pre + "hz";
-	var ORI_VT         = pre + "vt";
-	var TITLE          = pre + "title";
-	var WRAP           = pre + "wrap";
-	var UNDER          = pre + "under";
-	var OVER           = pre + "over";
-	var OFF            = pre + "off";
-	var SELECT         = pre + "select";
-	var CURSOR_X       = pre + "cursor-x";
-	var CURSOR_Y       = pre + "cursor-y";
-	var CURSOR_PT      = pre + "cursor-pt";
-	var LEGEND         = pre + "legend";
-	var LEGEND_LIVE    = pre + "live";
+	var UPLOT		  =	   "uplot";
+	var ORI_HZ		 = pre + "hz";
+	var ORI_VT		 = pre + "vt";
+	var TITLE		  = pre + "title";
+	var WRAP		   = pre + "wrap";
+	var UNDER		  = pre + "under";
+	var OVER		   = pre + "over";
+	var OFF			= pre + "off";
+	var SELECT		 = pre + "select";
+	var CURSOR_X	   = pre + "cursor-x";
+	var CURSOR_Y	   = pre + "cursor-y";
+	var CURSOR_PT	  = pre + "cursor-pt";
+	var LEGEND		 = pre + "legend";
+	var LEGEND_LIVE	= pre + "live";
 	var LEGEND_INLINE  = pre + "inline";
 	var LEGEND_THEAD   = pre + "thead";
 	var LEGEND_SERIES  = pre + "series";
@@ -702,24 +702,24 @@ var uPlot = (function () {
 	// 1, 2, 2.5, 5, 10, 20, 25, 50...
 	var oneIncrs = genIncrs(10, 0, 16, allMults);
 
-	// 1, 2,      5, 10, 20, 25, 50...
+	// 1, 2,	  5, 10, 20, 25, 50...
 	var wholeIncrs = oneIncrs.filter(onlyWhole);
 
 	var numIncrs = decIncrs.concat(oneIncrs);
 
 	var NL = "\n";
 
-	var yyyy    = "{YYYY}";
+	var yyyy	= "{YYYY}";
 	var NLyyyy  = NL + yyyy;
-	var md      = "{M}/{D}";
-	var NLmd    = NL + md;
+	var md	  = "{M}/{D}";
+	var NLmd	= NL + md;
 	var NLmdyy  = NLmd + "/{YY}";
 
-	var aa      = "{aa}";
-	var hmm     = "{h}:{mm}";
+	var aa	  = "{aa}";
+	var hmm	 = "{h}:{mm}";
 	var hmmaa   = hmm + aa;
 	var NLhmmaa = NL + hmmaa;
-	var ss      = ":{ss}";
+	var ss	  = ":{ss}";
 
 	var _ = null;
 
@@ -787,14 +787,14 @@ var uPlot = (function () {
 		// [2-7]: rollover tick formats
 		// [8]:   mode: 0: replace [1] -> [2-7], 1: concat [1] + [2-7]
 		var _timeAxisStamps = [
-		//   tick incr    default          year                    month   day                   hour    min       sec   mode
-			[y,           yyyy,            _,                      _,      _,                    _,      _,        _,       1],
-			[d * 28,      "{MMM}",         NLyyyy,                 _,      _,                    _,      _,        _,       1],
-			[d,           md,              NLyyyy,                 _,      _,                    _,      _,        _,       1],
-			[h,           "{h}" + aa,      NLmdyy,                 _,      NLmd,                 _,      _,        _,       1],
-			[m,           hmmaa,           NLmdyy,                 _,      NLmd,                 _,      _,        _,       1],
-			[s,           ss,              NLmdyy + " " + hmmaa,   _,      NLmd + " " + hmmaa,   _,      NLhmmaa,  _,       1],
-			[ms,          ss + ".{fff}",   NLmdyy + " " + hmmaa,   _,      NLmd + " " + hmmaa,   _,      NLhmmaa,  _,       1] ];
+		//   tick incr	default		  year					month   day				   hour	min	   sec   mode
+			[y,		   yyyy,			_,					  _,	  _,					_,	  _,		_,	   1],
+			[d * 28,	  "{MMM}",		 NLyyyy,				 _,	  _,					_,	  _,		_,	   1],
+			[d,		   md,			  NLyyyy,				 _,	  _,					_,	  _,		_,	   1],
+			[h,		   "{h}" + aa,	  NLmdyy,				 _,	  NLmd,				 _,	  _,		_,	   1],
+			[m,		   hmmaa,		   NLmdyy,				 _,	  NLmd,				 _,	  _,		_,	   1],
+			[s,		   ss,			  NLmdyy + " " + hmmaa,   _,	  NLmd + " " + hmmaa,   _,	  NLhmmaa,  _,	   1],
+			[ms,		  ss + ".{fff}",   NLmdyy + " " + hmmaa,   _,	  NLmd + " " + hmmaa,   _,	  NLhmmaa,  _,	   1] ];
 
 		// the ensures that axis ticks, values & grid are aligned to logical temporal breakpoints and not an arbitrary timestamp
 		// https://www.timeanddate.com/time/dst/
@@ -949,7 +949,7 @@ var uPlot = (function () {
 					newHour != prevHour && s[5] ||
 					newMins != prevMins && s[6] ||
 					newSecs != prevSecs && s[7] ||
-					                       s[1]
+										   s[1]
 				);
 
 				prevYear = newYear;
@@ -1075,9 +1075,9 @@ var uPlot = (function () {
 
 		bind: {
 			mousedown:   filtBtn0,
-			mouseup:     filtBtn0,
-			click:       filtBtn0,
-			dblclick:    filtBtn0,
+			mouseup:	 filtBtn0,
+			click:	   filtBtn0,
+			dblclick:	filtBtn0,
 
 			mousemove:   passThru,
 			mouseleave:  passThru,
@@ -1114,7 +1114,7 @@ var uPlot = (function () {
 
 	var ticks = assign({}, grid, {size: 10});
 
-	var font      = '12px system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+	var font	  = '12px system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 	var labelFont = "bold " + font;
 	var lineMult = 1.5;		// font-size multiplier
 
@@ -1216,7 +1216,7 @@ var uPlot = (function () {
 	var RE_ALL   = /./;
 	var RE_12357 = /[12357]/;
 	var RE_125   = /[125]/;
-	var RE_1     = /1/;
+	var RE_1	 = /1/;
 
 	function logAxisValsFilt(self, splits, axisIdx, foundSpace, foundIncr) {
 		var axis = self.axes[axisIdx];
@@ -2153,7 +2153,7 @@ var uPlot = (function () {
 		var ms = opts.ms || 1e-3;
 
 		var series  = self.series = setDefaults(opts.series || [], xSeriesOpts, ySeriesOpts, false);
-		var axes    = self.axes   = setDefaults(opts.axes   || [], xAxisOpts,   yAxisOpts,    true);
+		var axes	= self.axes   = setDefaults(opts.axes   || [], xAxisOpts,   yAxisOpts,	true);
 		var scales  = self.scales = {};
 		var bands   = self.bands  = opts.bands || [];
 
@@ -2238,8 +2238,8 @@ var uPlot = (function () {
 			addClass(root, ORI_HZ);
 			valToPosX = getHPos;
 			valToPosY = getVPos;
-			moveTo    = moveToH;
-			arc       = arcH;
+			moveTo	= moveToH;
+			arc	   = arcH;
 			/*
 			updOriDims = () => {
 				xDimCan = plotWid;
@@ -2258,8 +2258,8 @@ var uPlot = (function () {
 			addClass(root, ORI_VT);
 			valToPosX = getVPos;
 			valToPosY = getHPos;
-			moveTo    = moveToV;
-			arc       = arcV;
+			moveTo	= moveToV;
+			arc	   = arcV;
 			/*
 			updOriDims = () => {
 				xDimCan = plotHgt;
@@ -2295,7 +2295,7 @@ var uPlot = (function () {
 		var _timeAxisVals   = timeAxisVals(_tzDate, timeAxisStamps((ms == 1 ? _timeAxisStampsMs : _timeAxisStampsS), _fmtDate));
 		var _timeSeriesVal  = timeSeriesVal(_tzDate, timeSeriesStamp(_timeSeriesStamp, _fmtDate));
 
-		var legend     = assign({show: true, live: true}, opts.legend);
+		var legend	 = assign({show: true, live: true}, opts.legend);
 		var showLegend = legend.show;
 
 		{
@@ -2454,7 +2454,7 @@ var uPlot = (function () {
 			var bb = self.bbox;
 
 			plotLft = bb.left   = incrRound(plotLftCss * pxRatio, 0.5);
-			plotTop = bb.top    = incrRound(plotTopCss * pxRatio, 0.5);
+			plotTop = bb.top	= incrRound(plotTopCss * pxRatio, 0.5);
 			plotWid = bb.width  = incrRound(plotWidCss * pxRatio, 0.5);
 			plotHgt = bb.height = incrRound(plotHgtCss * pxRatio, 0.5);
 
@@ -2695,10 +2695,10 @@ var uPlot = (function () {
 				axis.size   = fnOrSelf(axis.size);
 				axis.space  = fnOrSelf(axis.space);
 				axis.rotate = fnOrSelf(axis.rotate);
-				axis.incrs  = fnOrSelf(axis.incrs  || (          sc.distr == 2 ? wholeIncrs : (isTime ? (ms == 1 ? timeIncrsMs : timeIncrsS) : numIncrs)));
+				axis.incrs  = fnOrSelf(axis.incrs  || (		  sc.distr == 2 ? wholeIncrs : (isTime ? (ms == 1 ? timeIncrsMs : timeIncrsS) : numIncrs)));
 				axis.splits = fnOrSelf(axis.splits || (isTime && sc.distr == 1 ? _timeAxisSplits : sc.distr == 3 ? logAxisSplits : sc.distr == 4 ? asinhAxisSplits : numAxisSplits));
 
-				axis.stroke       = fnOrSelf(axis.stroke);
+				axis.stroke	   = fnOrSelf(axis.stroke);
 				axis.grid.stroke  = fnOrSelf(axis.grid.stroke);
 				axis.ticks.stroke = fnOrSelf(axis.ticks.stroke);
 
@@ -2714,9 +2714,9 @@ var uPlot = (function () {
 					) : av || numAxisVals
 				);
 
-				axis.filter = fnOrSelf(axis.filter || (          sc.distr >= 3 ? logAxisValsFilt : retArg1));
+				axis.filter = fnOrSelf(axis.filter || (		  sc.distr >= 3 ? logAxisValsFilt : retArg1));
 
-				axis.font      = pxRatioFont(axis.font);
+				axis.font	  = pxRatioFont(axis.font);
 				axis.labelFont = pxRatioFont(axis.labelFont);
 
 				axis._size   = axis.size(self, null, i, 0);
@@ -3190,7 +3190,7 @@ var uPlot = (function () {
 
 		function strokeFill(strokeStyle, lineWidth, lineDash, lineCap, fillStyle, strokePath, fillPath) {
 			setCtxStyle(strokeStyle, lineWidth, lineDash, lineCap, fillStyle);
-			fillStyle   && fillPath                && ctx.fill(fillPath);
+			fillStyle   && fillPath				&& ctx.fill(fillPath);
 			strokeStyle && strokePath && lineWidth && ctx.stroke(strokePath);
 		}
 
@@ -3203,8 +3203,8 @@ var uPlot = (function () {
 				{ incrSpace = [0, 0]; }
 			else {
 				var minSpace = axis._space = axis.space(self, axisIdx, min, max, fullDim);
-				var incrs    = axis._incrs = axis.incrs(self, axisIdx, min, max, fullDim, minSpace);
-				incrSpace    = axis._found = findIncr(min, max, incrs, fullDim, minSpace);
+				var incrs	= axis._incrs = axis.incrs(self, axisIdx, min, max, fullDim, minSpace);
+				incrSpace	= axis._found = findIncr(min, max, incrs, fullDim, minSpace);
 			}
 
 			return incrSpace;
@@ -3363,18 +3363,18 @@ var uPlot = (function () {
 				var shiftAmt = tickSize + axisGap;
 				var shiftDir = ori == 0 && side == 0 || ori == 1 && side == 3 ? -1 : 1;
 				var finalPos = basePos + shiftAmt * shiftDir;
-				var y        = ori == 0 ? finalPos : 0;
-				var x        = ori == 1 ? finalPos : 0;
+				var y		= ori == 0 ? finalPos : 0;
+				var x		= ori == 1 ? finalPos : 0;
 
-				ctx.font         = axis.font[0];
-				ctx.fillStyle    = axis.stroke(self, i);									// rgba?
-				ctx.textAlign    = axis.align == 1 ? LEFT :
-				                   axis.align == 2 ? RIGHT :
-				                   angle > 0 ? LEFT :
-				                   angle < 0 ? RIGHT :
-				                   ori == 0 ? "center" : side == 3 ? RIGHT : LEFT;
+				ctx.font		 = axis.font[0];
+				ctx.fillStyle	= axis.stroke(self, i);									// rgba?
+				ctx.textAlign	= axis.align == 1 ? LEFT :
+								   axis.align == 2 ? RIGHT :
+								   angle > 0 ? LEFT :
+								   angle < 0 ? RIGHT :
+								   ori == 0 ? "center" : side == 3 ? RIGHT : LEFT;
 				ctx.textBaseline = angle ||
-				                   ori == 1 ? "middle" : side == 2 ? TOP   : BOTTOM;
+								   ori == 1 ? "middle" : side == 2 ? TOP   : BOTTOM;
 
 				var lineHeight = axis.font[1] * lineMult;
 
@@ -3423,9 +3423,9 @@ var uPlot = (function () {
 						y = baseLpos;
 					}
 
-					ctx.font         = axis.labelFont[0];
-				//	ctx.fillStyle    = axis.labelStroke || hexBlack;						// rgba?
-					ctx.textAlign    = "center";
+					ctx.font		 = axis.labelFont[0];
+				//	ctx.fillStyle	= axis.labelStroke || hexBlack;						// rgba?
+					ctx.textAlign	= "center";
 					ctx.textBaseline = side == 2 ? TOP : BOTTOM;
 
 					ctx.fillText(axis.label, x, y);
@@ -3510,12 +3510,12 @@ var uPlot = (function () {
 
 			if (shouldSetSize) {
 				setStylePx(under, LEFT,   plotLftCss);
-				setStylePx(under, TOP,    plotTopCss);
+				setStylePx(under, TOP,	plotTopCss);
 				setStylePx(under, WIDTH,  plotWidCss);
 				setStylePx(under, HEIGHT, plotHgtCss);
 
-				setStylePx(over, LEFT,    plotLftCss);
-				setStylePx(over, TOP,     plotTopCss);
+				setStylePx(over, LEFT,	plotLftCss);
+				setStylePx(over, TOP,	 plotTopCss);
 				setStylePx(over, WIDTH,   plotWidCss);
 				setStylePx(over, HEIGHT,  plotHgtCss);
 
@@ -3670,7 +3670,7 @@ var uPlot = (function () {
 			over:   true,
 			left:   0,
 			width:  0,
-			top:    0,
+			top:	0,
 			height: 0,
 		}, opts.select);
 
@@ -3840,7 +3840,7 @@ var uPlot = (function () {
 		}
 
 		function setSelV(off, dim) {
-			setStylePx(selectDiv, TOP,    select.top = off);
+			setStylePx(selectDiv, TOP,	select.top = off);
 			setStylePx(selectDiv, HEIGHT, select.height = dim);
 		}
 
@@ -3993,7 +3993,7 @@ var uPlot = (function () {
 
 						sc = scales[xKey];
 
-						a = valToPosX(sPosToVal(sOff, xKey),        sc, xDim, 0);
+						a = valToPosX(sPosToVal(sOff, xKey),		sc, xDim, 0);
 						b = valToPosX(sPosToVal(sOff + sDim, xKey), sc, xDim, 0);
 
 						setSelX(min(a,b), abs(b-a));
@@ -4014,7 +4014,7 @@ var uPlot = (function () {
 
 						sc = scales[yKey];
 
-						a = valToPosY(sPosToVal(sOff, yKey),        sc, yDim, 0);
+						a = valToPosY(sPosToVal(sOff, yKey),		sc, yDim, 0);
 						b = valToPosY(sPosToVal(sOff + sDim, yKey), sc, yDim, 0);
 
 						setSelY(min(a,b), abs(b-a));
@@ -4510,7 +4510,7 @@ var uPlot = (function () {
 		(paths.linear  = linear);
 		(paths.spline  = spline);
 		(paths.stepped = stepped);
-		(paths.bars    = bars);
+		(paths.bars	= bars);
 	}
 
 	return uPlot;

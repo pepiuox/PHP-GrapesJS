@@ -58,17 +58,17 @@ body.tempusdominus-bootstrap-datetimepicker-widget-day-click {
 }
 @media (min-width: 576px) {
   .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
-    width: 38em;
+	width: 38em;
   }
 }
 @media (min-width: 768px) {
   .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
-    width: 38em;
+	width: 38em;
   }
 }
 @media (min-width: 992px) {
   .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
-    width: 38em;
+	width: 38em;
   }
 }
 .bootstrap-datetimepicker-widget.dropdown-menu:before, .bootstrap-datetimepicker-widget.dropdown-menu:after {

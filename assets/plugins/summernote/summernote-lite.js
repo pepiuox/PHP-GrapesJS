@@ -1,14 +1,14 @@
 /*!
- * 
+ *
  * Super simple wysiwyg editor v0.8.18
  * https://summernote.org
- * 
- * 
+ *
+ *
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
- * 
+ *
  * Date: 2020-05-20T16:47Z
- * 
+ *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -133,58 +133,58 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var Renderer = /*#__PURE__*/function () {
   function Renderer(markup, children, options, callback) {
-    _classCallCheck(this, Renderer);
+	_classCallCheck(this, Renderer);
 
-    this.markup = markup;
-    this.children = children;
-    this.options = options;
-    this.callback = callback;
+	this.markup = markup;
+	this.children = children;
+	this.options = options;
+	this.callback = callback;
   }
 
   _createClass(Renderer, [{
-    key: "render",
-    value: function render($parent) {
-      var $node = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.markup);
+	key: "render",
+	value: function render($parent) {
+	  var $node = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.markup);
 
-      if (this.options && this.options.contents) {
-        $node.html(this.options.contents);
-      }
+	  if (this.options && this.options.contents) {
+		$node.html(this.options.contents);
+	  }
 
-      if (this.options && this.options.className) {
-        $node.addClass(this.options.className);
-      }
+	  if (this.options && this.options.className) {
+		$node.addClass(this.options.className);
+	  }
 
-      if (this.options && this.options.data) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(this.options.data, function (k, v) {
-          $node.attr('data-' + k, v);
-        });
-      }
+	  if (this.options && this.options.data) {
+		jquery__WEBPACK_IMPORTED_MODULE_0___default.a.each(this.options.data, function (k, v) {
+		  $node.attr('data-' + k, v);
+		});
+	  }
 
-      if (this.options && this.options.click) {
-        $node.on('click', this.options.click);
-      }
+	  if (this.options && this.options.click) {
+		$node.on('click', this.options.click);
+	  }
 
-      if (this.children) {
-        var $container = $node.find('.note-children-container');
-        this.children.forEach(function (child) {
-          child.render($container.length ? $container : $node);
-        });
-      }
+	  if (this.children) {
+		var $container = $node.find('.note-children-container');
+		this.children.forEach(function (child) {
+		  child.render($container.length ? $container : $node);
+		});
+	  }
 
-      if (this.callback) {
-        this.callback($node, this.options);
-      }
+	  if (this.callback) {
+		this.callback($node, this.options);
+	  }
 
-      if (this.options && this.options.callback) {
-        this.options.callback($node);
-      }
+	  if (this.options && this.options.callback) {
+		this.options.callback($node);
+	  }
 
-      if ($parent) {
-        $parent.append($node);
-      }
+	  if ($parent) {
+		$parent.append($node);
+	  }
 
-      return $node;
-    }
+	  return $node;
+	}
   }]);
 
   return Renderer;
@@ -192,16 +192,16 @@ var Renderer = /*#__PURE__*/function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   create: function create(markup, callback) {
-    return function () {
-      var options = _typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
-      var children = Array.isArray(arguments[0]) ? arguments[0] : [];
+	return function () {
+	  var options = _typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
+	  var children = Array.isArray(arguments[0]) ? arguments[0] : [];
 
-      if (options && options.children) {
-        children = options.children;
-      }
+	  if (options && options.children) {
+		children = options.children;
+	  }
 
-      return new Renderer(markup, children, options, callback);
-    };
+	  return new Renderer(markup, children, options, callback);
+	};
   }
 });
 
@@ -233,163 +233,163 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
 };
 external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.lang, {
   'en-US': {
-    font: {
-      bold: 'Bold',
-      italic: 'Italic',
-      underline: 'Underline',
-      clear: 'Remove Font Style',
-      height: 'Line Height',
-      name: 'Font Family',
-      strikethrough: 'Strikethrough',
-      subscript: 'Subscript',
-      superscript: 'Superscript',
-      size: 'Font Size',
-      sizeunit: 'Font Size Unit'
-    },
-    image: {
-      image: 'Picture',
-      insert: 'Insert Image',
-      resizeFull: 'Resize full',
-      resizeHalf: 'Resize half',
-      resizeQuarter: 'Resize quarter',
-      resizeNone: 'Original size',
-      floatLeft: 'Float Left',
-      floatRight: 'Float Right',
-      floatNone: 'Remove float',
-      shapeRounded: 'Shape: Rounded',
-      shapeCircle: 'Shape: Circle',
-      shapeThumbnail: 'Shape: Thumbnail',
-      shapeNone: 'Shape: None',
-      dragImageHere: 'Drag image or text here',
-      dropImage: 'Drop image or Text',
-      selectFromFiles: 'Select from files',
-      maximumFileSize: 'Maximum file size',
-      maximumFileSizeError: 'Maximum file size exceeded.',
-      url: 'Image URL',
-      remove: 'Remove Image',
-      original: 'Original'
-    },
-    video: {
-      video: 'Video',
-      videoLink: 'Video Link',
-      insert: 'Insert Video',
-      url: 'Video URL',
-      providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
-    },
-    link: {
-      link: 'Link',
-      insert: 'Insert Link',
-      unlink: 'Unlink',
-      edit: 'Edit',
-      textToDisplay: 'Text to display',
-      url: 'To what URL should this link go?',
-      openInNewWindow: 'Open in new window',
-      useProtocol: 'Use default protocol'
-    },
-    table: {
-      table: 'Table',
-      addRowAbove: 'Add row above',
-      addRowBelow: 'Add row below',
-      addColLeft: 'Add column left',
-      addColRight: 'Add column right',
-      delRow: 'Delete row',
-      delCol: 'Delete column',
-      delTable: 'Delete table'
-    },
-    hr: {
-      insert: 'Insert Horizontal Rule'
-    },
-    style: {
-      style: 'Style',
-      p: 'Normal',
-      blockquote: 'Quote',
-      pre: 'Code',
-      h1: 'Header 1',
-      h2: 'Header 2',
-      h3: 'Header 3',
-      h4: 'Header 4',
-      h5: 'Header 5',
-      h6: 'Header 6'
-    },
-    lists: {
-      unordered: 'Unordered list',
-      ordered: 'Ordered list'
-    },
-    options: {
-      help: 'Help',
-      fullscreen: 'Full Screen',
-      codeview: 'Code View'
-    },
-    paragraph: {
-      paragraph: 'Paragraph',
-      outdent: 'Outdent',
-      indent: 'Indent',
-      left: 'Align left',
-      center: 'Align center',
-      right: 'Align right',
-      justify: 'Justify full'
-    },
-    color: {
-      recent: 'Recent Color',
-      more: 'More Color',
-      background: 'Background Color',
-      foreground: 'Text Color',
-      transparent: 'Transparent',
-      setTransparent: 'Set transparent',
-      reset: 'Reset',
-      resetToDefault: 'Reset to default',
-      cpSelect: 'Select'
-    },
-    shortcut: {
-      shortcuts: 'Keyboard shortcuts',
-      close: 'Close',
-      textFormatting: 'Text formatting',
-      action: 'Action',
-      paragraphFormatting: 'Paragraph formatting',
-      documentStyle: 'Document Style',
-      extraKeys: 'Extra keys'
-    },
-    help: {
-      'escape': 'Escape',
-      'insertParagraph': 'Insert Paragraph',
-      'undo': 'Undo the last command',
-      'redo': 'Redo the last command',
-      'tab': 'Tab',
-      'untab': 'Untab',
-      'bold': 'Set a bold style',
-      'italic': 'Set a italic style',
-      'underline': 'Set a underline style',
-      'strikethrough': 'Set a strikethrough style',
-      'removeFormat': 'Clean a style',
-      'justifyLeft': 'Set left align',
-      'justifyCenter': 'Set center align',
-      'justifyRight': 'Set right align',
-      'justifyFull': 'Set full align',
-      'insertUnorderedList': 'Toggle unordered list',
-      'insertOrderedList': 'Toggle ordered list',
-      'outdent': 'Outdent on current paragraph',
-      'indent': 'Indent on current paragraph',
-      'formatPara': 'Change current block\'s format as a paragraph(P tag)',
-      'formatH1': 'Change current block\'s format as H1',
-      'formatH2': 'Change current block\'s format as H2',
-      'formatH3': 'Change current block\'s format as H3',
-      'formatH4': 'Change current block\'s format as H4',
-      'formatH5': 'Change current block\'s format as H5',
-      'formatH6': 'Change current block\'s format as H6',
-      'insertHorizontalRule': 'Insert horizontal rule',
-      'linkDialog.show': 'Show Link Dialog'
-    },
-    history: {
-      undo: 'Undo',
-      redo: 'Redo'
-    },
-    specialChar: {
-      specialChar: 'SPECIAL CHARACTERS',
-      select: 'Select Special characters'
-    },
-    output: {
-      noSelection: 'No Selection Made!'
-    }
+	font: {
+	  bold: 'Bold',
+	  italic: 'Italic',
+	  underline: 'Underline',
+	  clear: 'Remove Font Style',
+	  height: 'Line Height',
+	  name: 'Font Family',
+	  strikethrough: 'Strikethrough',
+	  subscript: 'Subscript',
+	  superscript: 'Superscript',
+	  size: 'Font Size',
+	  sizeunit: 'Font Size Unit'
+	},
+	image: {
+	  image: 'Picture',
+	  insert: 'Insert Image',
+	  resizeFull: 'Resize full',
+	  resizeHalf: 'Resize half',
+	  resizeQuarter: 'Resize quarter',
+	  resizeNone: 'Original size',
+	  floatLeft: 'Float Left',
+	  floatRight: 'Float Right',
+	  floatNone: 'Remove float',
+	  shapeRounded: 'Shape: Rounded',
+	  shapeCircle: 'Shape: Circle',
+	  shapeThumbnail: 'Shape: Thumbnail',
+	  shapeNone: 'Shape: None',
+	  dragImageHere: 'Drag image or text here',
+	  dropImage: 'Drop image or Text',
+	  selectFromFiles: 'Select from files',
+	  maximumFileSize: 'Maximum file size',
+	  maximumFileSizeError: 'Maximum file size exceeded.',
+	  url: 'Image URL',
+	  remove: 'Remove Image',
+	  original: 'Original'
+	},
+	video: {
+	  video: 'Video',
+	  videoLink: 'Video Link',
+	  insert: 'Insert Video',
+	  url: 'Video URL',
+	  providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
+	},
+	link: {
+	  link: 'Link',
+	  insert: 'Insert Link',
+	  unlink: 'Unlink',
+	  edit: 'Edit',
+	  textToDisplay: 'Text to display',
+	  url: 'To what URL should this link go?',
+	  openInNewWindow: 'Open in new window',
+	  useProtocol: 'Use default protocol'
+	},
+	table: {
+	  table: 'Table',
+	  addRowAbove: 'Add row above',
+	  addRowBelow: 'Add row below',
+	  addColLeft: 'Add column left',
+	  addColRight: 'Add column right',
+	  delRow: 'Delete row',
+	  delCol: 'Delete column',
+	  delTable: 'Delete table'
+	},
+	hr: {
+	  insert: 'Insert Horizontal Rule'
+	},
+	style: {
+	  style: 'Style',
+	  p: 'Normal',
+	  blockquote: 'Quote',
+	  pre: 'Code',
+	  h1: 'Header 1',
+	  h2: 'Header 2',
+	  h3: 'Header 3',
+	  h4: 'Header 4',
+	  h5: 'Header 5',
+	  h6: 'Header 6'
+	},
+	lists: {
+	  unordered: 'Unordered list',
+	  ordered: 'Ordered list'
+	},
+	options: {
+	  help: 'Help',
+	  fullscreen: 'Full Screen',
+	  codeview: 'Code View'
+	},
+	paragraph: {
+	  paragraph: 'Paragraph',
+	  outdent: 'Outdent',
+	  indent: 'Indent',
+	  left: 'Align left',
+	  center: 'Align center',
+	  right: 'Align right',
+	  justify: 'Justify full'
+	},
+	color: {
+	  recent: 'Recent Color',
+	  more: 'More Color',
+	  background: 'Background Color',
+	  foreground: 'Text Color',
+	  transparent: 'Transparent',
+	  setTransparent: 'Set transparent',
+	  reset: 'Reset',
+	  resetToDefault: 'Reset to default',
+	  cpSelect: 'Select'
+	},
+	shortcut: {
+	  shortcuts: 'Keyboard shortcuts',
+	  close: 'Close',
+	  textFormatting: 'Text formatting',
+	  action: 'Action',
+	  paragraphFormatting: 'Paragraph formatting',
+	  documentStyle: 'Document Style',
+	  extraKeys: 'Extra keys'
+	},
+	help: {
+	  'escape': 'Escape',
+	  'insertParagraph': 'Insert Paragraph',
+	  'undo': 'Undo the last command',
+	  'redo': 'Redo the last command',
+	  'tab': 'Tab',
+	  'untab': 'Untab',
+	  'bold': 'Set a bold style',
+	  'italic': 'Set a italic style',
+	  'underline': 'Set a underline style',
+	  'strikethrough': 'Set a strikethrough style',
+	  'removeFormat': 'Clean a style',
+	  'justifyLeft': 'Set left align',
+	  'justifyCenter': 'Set center align',
+	  'justifyRight': 'Set right align',
+	  'justifyFull': 'Set full align',
+	  'insertUnorderedList': 'Toggle unordered list',
+	  'insertOrderedList': 'Toggle ordered list',
+	  'outdent': 'Outdent on current paragraph',
+	  'indent': 'Indent on current paragraph',
+	  'formatPara': 'Change current block\'s format as a paragraph(P tag)',
+	  'formatH1': 'Change current block\'s format as H1',
+	  'formatH2': 'Change current block\'s format as H2',
+	  'formatH3': 'Change current block\'s format as H3',
+	  'formatH4': 'Change current block\'s format as H4',
+	  'formatH5': 'Change current block\'s format as H5',
+	  'formatH6': 'Change current block\'s format as H6',
+	  'insertHorizontalRule': 'Insert horizontal rule',
+	  'linkDialog.show': 'Show Link Dialog'
+	},
+	history: {
+	  undo: 'Undo',
+	  redo: 'Redo'
+	},
+	specialChar: {
+	  specialChar: 'SPECIAL CHARACTERS',
+	  select: 'Select Special characters'
+	},
+	output: {
+	  noSelection: 'No Selection Made!'
+	}
   }
 });
 // CONCATENATED MODULE: ./src/js/base/core/env.js
@@ -430,13 +430,13 @@ if (isMSIE) {
   var matches = /MSIE (\d+[.]\d+)/.exec(userAgent);
 
   if (matches) {
-    browserVersion = parseFloat(matches[1]);
+	browserVersion = parseFloat(matches[1]);
   }
 
   matches = /Trident\/.*rv:([0-9]{1,}[.0-9]{0,})/.exec(userAgent);
 
   if (matches) {
-    browserVersion = parseFloat(matches[1]);
+	browserVersion = parseFloat(matches[1]);
   }
 }
 
@@ -486,7 +486,7 @@ var inputEventName = isMSIE ? 'DOMCharacterDataModified DOMSubtreeModified DOMNo
 
 function eq(itemA) {
   return function (itemB) {
-    return itemA === itemB;
+	return itemA === itemB;
   };
 }
 
@@ -496,7 +496,7 @@ function eq2(itemA, itemB) {
 
 function peq2(propName) {
   return function (itemA, itemB) {
-    return itemA[propName] === itemB[propName];
+	return itemA[propName] === itemB[propName];
   };
 }
 
@@ -510,13 +510,13 @@ function fail() {
 
 function not(f) {
   return function () {
-    return !f.apply(f, arguments);
+	return !f.apply(f, arguments);
   };
 }
 
 function and(fA, fB) {
   return function (item) {
-    return fA(item) && fB(item);
+	return fA(item) && fB(item);
   };
 }
 
@@ -526,7 +526,7 @@ function func_self(a) {
 
 function func_invoke(obj, method) {
   return function () {
-    return obj[method].apply(obj, arguments);
+	return obj[method].apply(obj, arguments);
   };
 }
 
@@ -568,10 +568,10 @@ function uniqueId(prefix) {
 function rect2bnd(rect) {
   var $document = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(document);
   return {
-    top: rect.top + $document.scrollTop(),
-    left: rect.left + $document.scrollLeft(),
-    width: rect.right - rect.left,
-    height: rect.bottom - rect.top
+	top: rect.top + $document.scrollTop(),
+	left: rect.left + $document.scrollLeft(),
+	width: rect.right - rect.left,
+	height: rect.bottom - rect.top
   };
 }
 /**
@@ -585,9 +585,9 @@ function invertObject(obj) {
   var inverted = {};
 
   for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      inverted[obj[key]] = key;
-    }
+	if (Object.prototype.hasOwnProperty.call(obj, key)) {
+	  inverted[obj[key]] = key;
+	}
   }
 
   return inverted;
@@ -602,7 +602,7 @@ function invertObject(obj) {
 function namespaceToCamel(namespace, prefix) {
   prefix = prefix || '';
   return prefix + namespace.split('.').map(function (name) {
-    return name.substring(0, 1).toUpperCase() + name.substring(1);
+	return name.substring(0, 1).toUpperCase() + name.substring(1);
   }).join('');
 }
 /**
@@ -620,24 +620,24 @@ function namespaceToCamel(namespace, prefix) {
 function debounce(func, wait, immediate) {
   var timeout;
   return function () {
-    var context = this;
-    var args = arguments;
+	var context = this;
+	var args = arguments;
 
-    var later = function later() {
-      timeout = null;
+	var later = function later() {
+	  timeout = null;
 
-      if (!immediate) {
-        func.apply(context, args);
-      }
-    };
+	  if (!immediate) {
+		func.apply(context, args);
+	  }
+	};
 
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+	var callNow = immediate && !timeout;
+	clearTimeout(timeout);
+	timeout = setTimeout(later, wait);
 
-    if (callNow) {
-      func.apply(context, args);
-    }
+	if (callNow) {
+	  func.apply(context, args);
+	}
   };
 }
 /**
@@ -718,11 +718,11 @@ function tail(array) {
 
 function find(array, pred) {
   for (var idx = 0, len = array.length; idx < len; idx++) {
-    var item = array[idx];
+	var item = array[idx];
 
-    if (pred(item)) {
-      return item;
-    }
+	if (pred(item)) {
+	  return item;
+	}
   }
 }
 /**
@@ -732,9 +732,9 @@ function find(array, pred) {
 
 function lists_all(array, pred) {
   for (var idx = 0, len = array.length; idx < len; idx++) {
-    if (!pred(array[idx])) {
-      return false;
-    }
+	if (!pred(array[idx])) {
+	  return false;
+	}
   }
 
   return true;
@@ -746,12 +746,12 @@ function lists_all(array, pred) {
 
 function contains(array, item) {
   if (array && array.length && item) {
-    if (array.indexOf) {
-      return array.indexOf(item) !== -1;
-    } else if (array.contains) {
-      // `DOMTokenList` doesn't implement `.indexOf`, but it implements `.contains`
-      return array.contains(item);
-    }
+	if (array.indexOf) {
+	  return array.indexOf(item) !== -1;
+	} else if (array.contains) {
+	  // `DOMTokenList` doesn't implement `.indexOf`, but it implements `.contains`
+	  return array.contains(item);
+	}
   }
 
   return false;
@@ -767,7 +767,7 @@ function contains(array, item) {
 function sum(array, fn) {
   fn = fn || func.self;
   return array.reduce(function (memo, v) {
-    return memo + fn(v);
+	return memo + fn(v);
   }, 0);
 }
 /**
@@ -782,7 +782,7 @@ function from(collection) {
   var idx = -1;
 
   while (++idx < length) {
-    result[idx] = collection[idx];
+	result[idx] = collection[idx];
   }
 
   return result;
@@ -806,20 +806,20 @@ function lists_isEmpty(array) {
 
 function clusterBy(array, fn) {
   if (!array.length) {
-    return [];
+	return [];
   }
 
   var aTail = tail(array);
   return aTail.reduce(function (memo, v) {
-    var aLast = lists_last(memo);
+	var aLast = lists_last(memo);
 
-    if (fn(lists_last(aLast), v)) {
-      aLast[aLast.length] = v;
-    } else {
-      memo[memo.length] = [v];
-    }
+	if (fn(lists_last(aLast), v)) {
+	  aLast[aLast.length] = v;
+	} else {
+	  memo[memo.length] = [v];
+	}
 
-    return memo;
+	return memo;
   }, [[lists_head(array)]]);
 }
 /**
@@ -834,9 +834,9 @@ function compact(array) {
   var aResult = [];
 
   for (var idx = 0, len = array.length; idx < len; idx++) {
-    if (array[idx]) {
-      aResult.push(array[idx]);
-    }
+	if (array[idx]) {
+	  aResult.push(array[idx]);
+	}
   }
 
   return aResult;
@@ -852,9 +852,9 @@ function unique(array) {
   var results = [];
 
   for (var idx = 0, len = array.length; idx < len; idx++) {
-    if (!contains(results, array[idx])) {
-      results.push(array[idx]);
-    }
+	if (!contains(results, array[idx])) {
+	  results.push(array[idx]);
+	}
   }
 
   return results;
@@ -867,8 +867,8 @@ function unique(array) {
 
 function lists_next(array, item) {
   if (array && array.length && item) {
-    var idx = array.indexOf(item);
-    return idx === -1 ? null : array[idx + 1];
+	var idx = array.indexOf(item);
+	return idx === -1 ? null : array[idx + 1];
   }
 
   return null;
@@ -881,8 +881,8 @@ function lists_next(array, item) {
 
 function prev(array, item) {
   if (array && array.length && item) {
-    var idx = array.indexOf(item);
-    return idx === -1 ? null : array[idx - 1];
+	var idx = array.indexOf(item);
+	return idx === -1 ? null : array[idx - 1];
   }
 
   return null;
@@ -959,7 +959,7 @@ function isControlSizing(node) {
 function makePredByNodeName(nodeName) {
   nodeName = nodeName.toUpperCase();
   return function (node) {
-    return node && node.nodeName.toUpperCase() === nodeName;
+	return node && node.nodeName.toUpperCase() === nodeName;
   };
 }
 /**
@@ -1000,7 +1000,7 @@ function isVoid(node) {
 
 function isPara(node) {
   if (isEditable(node)) {
-    return false;
+	return false;
   } // Chrome(v31.0), FF(v25.0.1) use DIV for paragraph
 
 
@@ -1077,13 +1077,13 @@ function withClosestSiblings(node, pred) {
   var siblings = [];
 
   if (node.previousSibling && pred(node.previousSibling)) {
-    siblings.push(node.previousSibling);
+	siblings.push(node.previousSibling);
   }
 
   siblings.push(node);
 
   if (node.nextSibling && pred(node.nextSibling)) {
-    siblings.push(node.nextSibling);
+	siblings.push(node.nextSibling);
   }
 
   return siblings;
@@ -1106,11 +1106,11 @@ var blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
 
 function nodeLength(node) {
   if (isText(node)) {
-    return node.nodeValue.length;
+	return node.nodeValue.length;
   }
 
   if (node) {
-    return node.childNodes.length;
+	return node.childNodes.length;
   }
 
   return 0;
@@ -1125,7 +1125,7 @@ function nodeLength(node) {
 
 function deepestChildIsEmpty(node) {
   do {
-    if (node.firstElementChild === null || node.firstElementChild.innerHTML === '') break;
+	if (node.firstElementChild === null || node.firstElementChild.innerHTML === '') break;
   } while (node = node.firstElementChild);
 
   return dom_isEmpty(node);
@@ -1142,13 +1142,13 @@ function dom_isEmpty(node) {
   var len = nodeLength(node);
 
   if (len === 0) {
-    return true;
+	return true;
   } else if (!isText(node) && len === 1 && node.innerHTML === blankHTML) {
-    // ex) <p><br></p>, <span><br></span>
-    return true;
+	// ex) <p><br></p>, <span><br></span>
+	return true;
   } else if (lists.all(node.childNodes, isText) && node.innerHTML === '') {
-    // ex) <p></p>, <span></span>
-    return true;
+	// ex) <p></p>, <span></span>
+	return true;
   }
 
   return false;
@@ -1160,7 +1160,7 @@ function dom_isEmpty(node) {
 
 function paddingBlankHTML(node) {
   if (!isVoid(node) && !nodeLength(node)) {
-    node.innerHTML = blankHTML;
+	node.innerHTML = blankHTML;
   }
 }
 /**
@@ -1173,15 +1173,15 @@ function paddingBlankHTML(node) {
 
 function dom_ancestor(node, pred) {
   while (node) {
-    if (pred(node)) {
-      return node;
-    }
+	if (pred(node)) {
+	  return node;
+	}
 
-    if (isEditable(node)) {
-      break;
-    }
+	if (isEditable(node)) {
+	  break;
+	}
 
-    node = node.parentNode;
+	node = node.parentNode;
   }
 
   return null;
@@ -1198,19 +1198,19 @@ function singleChildAncestor(node, pred) {
   node = node.parentNode;
 
   while (node) {
-    if (nodeLength(node) !== 1) {
-      break;
-    }
+	if (nodeLength(node) !== 1) {
+	  break;
+	}
 
-    if (pred(node)) {
-      return node;
-    }
+	if (pred(node)) {
+	  return node;
+	}
 
-    if (isEditable(node)) {
-      break;
-    }
+	if (isEditable(node)) {
+	  break;
+	}
 
-    node = node.parentNode;
+	node = node.parentNode;
   }
 
   return null;
@@ -1227,11 +1227,11 @@ function listAncestor(node, pred) {
   pred = pred || func.fail;
   var ancestors = [];
   dom_ancestor(node, function (el) {
-    if (!isEditable(el)) {
-      ancestors.push(el);
-    }
+	if (!isEditable(el)) {
+	  ancestors.push(el);
+	}
 
-    return pred(el);
+	return pred(el);
   });
   return ancestors;
 }
@@ -1256,7 +1256,7 @@ function dom_commonAncestor(nodeA, nodeB) {
   var ancestors = listAncestor(nodeA);
 
   for (var n = nodeB; n; n = n.parentNode) {
-    if (ancestors.indexOf(n) > -1) return n;
+	if (ancestors.indexOf(n) > -1) return n;
   }
 
   return null; // difference document area
@@ -1274,12 +1274,12 @@ function listPrev(node, pred) {
   var nodes = [];
 
   while (node) {
-    if (pred(node)) {
-      break;
-    }
+	if (pred(node)) {
+	  break;
+	}
 
-    nodes.push(node);
-    node = node.previousSibling;
+	nodes.push(node);
+	node = node.previousSibling;
   }
 
   return nodes;
@@ -1297,12 +1297,12 @@ function listNext(node, pred) {
   var nodes = [];
 
   while (node) {
-    if (pred(node)) {
-      break;
-    }
+	if (pred(node)) {
+	  break;
+	}
 
-    nodes.push(node);
-    node = node.nextSibling;
+	nodes.push(node);
+	node = node.nextSibling;
   }
 
   return nodes;
@@ -1320,13 +1320,13 @@ function listDescendant(node, pred) {
   pred = pred || func.ok; // start DFS(depth first search) with node
 
   (function fnWalk(current) {
-    if (node !== current && pred(current)) {
-      descendants.push(current);
-    }
+	if (node !== current && pred(current)) {
+	  descendants.push(current);
+	}
 
-    for (var idx = 0, len = current.childNodes.length; idx < len; idx++) {
-      fnWalk(current.childNodes[idx]);
-    }
+	for (var idx = 0, len = current.childNodes.length; idx < len; idx++) {
+	  fnWalk(current.childNodes[idx]);
+	}
   })(node);
 
   return descendants;
@@ -1360,9 +1360,9 @@ function insertAfter(node, preceding) {
   var parent = preceding.parentNode;
 
   if (next) {
-    parent.insertBefore(node, next);
+	parent.insertBefore(node, next);
   } else {
-    parent.appendChild(node);
+	parent.appendChild(node);
   }
 
   return node;
@@ -1377,7 +1377,7 @@ function insertAfter(node, preceding) {
 
 function appendChildNodes(node, aChild) {
   external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.each(aChild, function (idx, child) {
-    node.appendChild(child);
+	node.appendChild(child);
   });
   return node;
 }
@@ -1425,11 +1425,11 @@ function isEdgePoint(point) {
 
 function dom_isLeftEdgeOf(node, ancestor) {
   while (node && node !== ancestor) {
-    if (dom_position(node) !== 0) {
-      return false;
-    }
+	if (dom_position(node) !== 0) {
+	  return false;
+	}
 
-    node = node.parentNode;
+	node = node.parentNode;
   }
 
   return true;
@@ -1445,15 +1445,15 @@ function dom_isLeftEdgeOf(node, ancestor) {
 
 function isRightEdgeOf(node, ancestor) {
   if (!ancestor) {
-    return false;
+	return false;
   }
 
   while (node && node !== ancestor) {
-    if (dom_position(node) !== nodeLength(node.parentNode) - 1) {
-      return false;
-    }
+	if (dom_position(node) !== nodeLength(node.parentNode) - 1) {
+	  return false;
+	}
 
-    node = node.parentNode;
+	node = node.parentNode;
   }
 
   return true;
@@ -1491,7 +1491,7 @@ function dom_position(node) {
   var offset = 0;
 
   while (node = node.previousSibling) {
-    offset += 1;
+	offset += 1;
   }
 
   return offset;
@@ -1514,23 +1514,23 @@ function dom_prevPoint(point, isSkipInnerOffset) {
   var offset;
 
   if (point.offset === 0) {
-    if (isEditable(point.node)) {
-      return null;
-    }
+	if (isEditable(point.node)) {
+	  return null;
+	}
 
-    node = point.node.parentNode;
-    offset = dom_position(point.node);
+	node = point.node.parentNode;
+	offset = dom_position(point.node);
   } else if (hasChildren(point.node)) {
-    node = point.node.childNodes[point.offset - 1];
-    offset = nodeLength(node);
+	node = point.node.childNodes[point.offset - 1];
+	offset = nodeLength(node);
   } else {
-    node = point.node;
-    offset = isSkipInnerOffset ? 0 : point.offset - 1;
+	node = point.node;
+	offset = isSkipInnerOffset ? 0 : point.offset - 1;
   }
 
   return {
-    node: node,
-    offset: offset
+	node: node,
+	offset: offset
   };
 }
 /**
@@ -1546,30 +1546,30 @@ function dom_nextPoint(point, isSkipInnerOffset) {
   var node, offset;
 
   if (nodeLength(point.node) === point.offset) {
-    if (isEditable(point.node)) {
-      return null;
-    }
+	if (isEditable(point.node)) {
+	  return null;
+	}
 
-    var nextTextNode = getNextTextNode(point.node);
+	var nextTextNode = getNextTextNode(point.node);
 
-    if (nextTextNode) {
-      node = nextTextNode;
-      offset = 0;
-    } else {
-      node = point.node.parentNode;
-      offset = dom_position(point.node) + 1;
-    }
+	if (nextTextNode) {
+	  node = nextTextNode;
+	  offset = 0;
+	} else {
+	  node = point.node.parentNode;
+	  offset = dom_position(point.node) + 1;
+	}
   } else if (hasChildren(point.node)) {
-    node = point.node.childNodes[point.offset];
-    offset = 0;
+	node = point.node.childNodes[point.offset];
+	offset = 0;
   } else {
-    node = point.node;
-    offset = isSkipInnerOffset ? nodeLength(point.node) : point.offset + 1;
+	node = point.node;
+	offset = isSkipInnerOffset ? nodeLength(point.node) : point.offset + 1;
   }
 
   return {
-    node: node,
-    offset: offset
+	node: node,
+	offset: offset
   };
 }
 /**
@@ -1585,53 +1585,53 @@ function nextPointWithEmptyNode(point, isSkipInnerOffset) {
   var node, offset; // if node is empty string node, return current node's sibling.
 
   if (dom_isEmpty(point.node)) {
-    node = point.node.nextSibling;
-    offset = 0;
-    return {
-      node: node,
-      offset: offset
-    };
+	node = point.node.nextSibling;
+	offset = 0;
+	return {
+	  node: node,
+	  offset: offset
+	};
   }
 
   if (nodeLength(point.node) === point.offset) {
-    if (isEditable(point.node)) {
-      return null;
-    }
+	if (isEditable(point.node)) {
+	  return null;
+	}
 
-    var nextTextNode = getNextTextNode(point.node);
+	var nextTextNode = getNextTextNode(point.node);
 
-    if (nextTextNode) {
-      node = nextTextNode;
-      offset = 0;
-    } else {
-      node = point.node.parentNode;
-      offset = dom_position(point.node) + 1;
-    } // if next node is editable, return current node's sibling node.
+	if (nextTextNode) {
+	  node = nextTextNode;
+	  offset = 0;
+	} else {
+	  node = point.node.parentNode;
+	  offset = dom_position(point.node) + 1;
+	} // if next node is editable, return current node's sibling node.
 
 
-    if (isEditable(node)) {
-      node = point.node.nextSibling;
-      offset = 0;
-    }
+	if (isEditable(node)) {
+	  node = point.node.nextSibling;
+	  offset = 0;
+	}
   } else if (hasChildren(point.node)) {
-    node = point.node.childNodes[point.offset];
-    offset = 0;
+	node = point.node.childNodes[point.offset];
+	offset = 0;
 
-    if (dom_isEmpty(node)) {
-      return null;
-    }
+	if (dom_isEmpty(node)) {
+	  return null;
+	}
   } else {
-    node = point.node;
-    offset = isSkipInnerOffset ? nodeLength(point.node) : point.offset + 1;
+	node = point.node;
+	offset = isSkipInnerOffset ? nodeLength(point.node) : point.offset + 1;
 
-    if (dom_isEmpty(node)) {
-      return null;
-    }
+	if (dom_isEmpty(node)) {
+	  return null;
+	}
   }
 
   return {
-    node: node,
-    offset: offset
+	node: node,
+	offset: offset
   };
 }
 /*
@@ -1667,14 +1667,14 @@ function isSamePoint(pointA, pointB) {
 
 function isVisiblePoint(point) {
   if (isText(point.node) || !hasChildren(point.node) || dom_isEmpty(point.node)) {
-    return true;
+	return true;
   }
 
   var leftNode = point.node.childNodes[point.offset - 1];
   var rightNode = point.node.childNodes[point.offset];
 
   if ((!leftNode || isVoid(leftNode)) && (!rightNode || isVoid(rightNode))) {
-    return true;
+	return true;
   }
 
   return false;
@@ -1690,11 +1690,11 @@ function isVisiblePoint(point) {
 
 function prevPointUntil(point, pred) {
   while (point) {
-    if (pred(point)) {
-      return point;
-    }
+	if (pred(point)) {
+	  return point;
+	}
 
-    point = dom_prevPoint(point);
+	point = dom_prevPoint(point);
   }
 
   return null;
@@ -1710,11 +1710,11 @@ function prevPointUntil(point, pred) {
 
 function nextPointUntil(point, pred) {
   while (point) {
-    if (pred(point)) {
-      return point;
-    }
+	if (pred(point)) {
+	  return point;
+	}
 
-    point = dom_nextPoint(point);
+	point = dom_nextPoint(point);
   }
 
   return null;
@@ -1729,7 +1729,7 @@ function nextPointUntil(point, pred) {
 
 function isCharPoint(point) {
   if (!isText(point.node)) {
-    return false;
+	return false;
   }
 
   var ch = point.node.nodeValue.charAt(point.offset - 1);
@@ -1745,7 +1745,7 @@ function isCharPoint(point) {
 
 function isSpacePoint(point) {
   if (!isText(point.node)) {
-    return false;
+	return false;
   }
 
   var ch = point.node.nodeValue.charAt(point.offset - 1);
@@ -1765,14 +1765,14 @@ function walkPoint(startPoint, endPoint, handler, isSkipInnerOffset) {
   var point = startPoint;
 
   while (point) {
-    handler(point);
+	handler(point);
 
-    if (isSamePoint(point, endPoint)) {
-      break;
-    }
+	if (isSamePoint(point, endPoint)) {
+	  break;
+	}
 
-    var isSkipOffset = isSkipInnerOffset && startPoint.node !== point.node && endPoint.node !== point.node;
-    point = nextPointWithEmptyNode(point, isSkipOffset);
+	var isSkipOffset = isSkipInnerOffset && startPoint.node !== point.node && endPoint.node !== point.node;
+	point = nextPointWithEmptyNode(point, isSkipOffset);
   }
 }
 /**
@@ -1803,11 +1803,11 @@ function fromOffsetPath(ancestor, offsets) {
   var current = ancestor;
 
   for (var i = 0, len = offsets.length; i < len; i++) {
-    if (current.childNodes.length <= offsets[i]) {
-      current = current.childNodes[current.childNodes.length - 1];
-    } else {
-      current = current.childNodes[offsets[i]];
-    }
+	if (current.childNodes.length <= offsets[i]) {
+	  current = current.childNodes[current.childNodes.length - 1];
+	} else {
+	  current = current.childNodes[offsets[i]];
+	}
   }
 
   return current;
@@ -1832,43 +1832,43 @@ function splitNode(point, options) {
   var isDiscardEmptySplits = options && options.isDiscardEmptySplits;
 
   if (isDiscardEmptySplits) {
-    isSkipPaddingBlankHTML = true;
+	isSkipPaddingBlankHTML = true;
   } // edge case
 
 
   if (isEdgePoint(point) && (isText(point.node) || isNotSplitEdgePoint)) {
-    if (isLeftEdgePoint(point)) {
-      return point.node;
-    } else if (isRightEdgePoint(point)) {
-      return point.node.nextSibling;
-    }
+	if (isLeftEdgePoint(point)) {
+	  return point.node;
+	} else if (isRightEdgePoint(point)) {
+	  return point.node.nextSibling;
+	}
   } // split #text
 
 
   if (isText(point.node)) {
-    return point.node.splitText(point.offset);
+	return point.node.splitText(point.offset);
   } else {
-    var childNode = point.node.childNodes[point.offset];
-    var clone = insertAfter(point.node.cloneNode(false), point.node);
-    appendChildNodes(clone, listNext(childNode));
+	var childNode = point.node.childNodes[point.offset];
+	var clone = insertAfter(point.node.cloneNode(false), point.node);
+	appendChildNodes(clone, listNext(childNode));
 
-    if (!isSkipPaddingBlankHTML) {
-      paddingBlankHTML(point.node);
-      paddingBlankHTML(clone);
-    }
+	if (!isSkipPaddingBlankHTML) {
+	  paddingBlankHTML(point.node);
+	  paddingBlankHTML(clone);
+	}
 
-    if (isDiscardEmptySplits) {
-      if (dom_isEmpty(point.node)) {
-        remove(point.node);
-      }
+	if (isDiscardEmptySplits) {
+	  if (dom_isEmpty(point.node)) {
+		remove(point.node);
+	  }
 
-      if (dom_isEmpty(clone)) {
-        remove(clone);
-        return point.node.nextSibling;
-      }
-    }
+	  if (dom_isEmpty(clone)) {
+		remove(clone);
+		return point.node.nextSibling;
+	  }
+	}
 
-    return clone;
+	return clone;
   }
 }
 /**
@@ -1890,20 +1890,20 @@ function splitTree(root, point, options) {
   var ancestors = listAncestor(point.node, func.eq(root));
 
   if (!ancestors.length) {
-    return null;
+	return null;
   } else if (ancestors.length === 1) {
-    return splitNode(point, options);
+	return splitNode(point, options);
   }
 
   return ancestors.reduce(function (node, parent) {
-    if (node === point.node) {
-      node = splitNode(point, options);
-    }
+	if (node === point.node) {
+	  node = splitNode(point, options);
+	}
 
-    return splitNode({
-      node: parent,
-      offset: node ? dom_position(node) : nodeLength(parent)
-    }, options);
+	return splitNode({
+	  node: parent,
+	  offset: node ? dom_position(node) : nodeLength(parent)
+	}, options);
   });
 }
 /**
@@ -1925,26 +1925,26 @@ function splitPoint(point, isInline) {
   var splitRoot, container;
 
   if (pred(topAncestor)) {
-    splitRoot = ancestors[ancestors.length - 2];
-    container = topAncestor;
+	splitRoot = ancestors[ancestors.length - 2];
+	container = topAncestor;
   } else {
-    splitRoot = topAncestor;
-    container = splitRoot.parentNode;
+	splitRoot = topAncestor;
+	container = splitRoot.parentNode;
   } // if splitRoot is exists, split with splitTree
 
 
   var pivot = splitRoot && splitTree(splitRoot, point, {
-    isSkipPaddingBlankHTML: isInline,
-    isNotSplitEdgePoint: isInline
+	isSkipPaddingBlankHTML: isInline,
+	isNotSplitEdgePoint: isInline
   }); // if container is point.node, find pivot with point.offset
 
   if (!pivot && container === point.node) {
-    pivot = point.node.childNodes[point.offset];
+	pivot = point.node.childNodes[point.offset];
   }
 
   return {
-    rightNode: pivot,
-    container: container
+	rightNode: pivot,
+	container: container
   };
 }
 
@@ -1967,25 +1967,25 @@ function createText(text) {
 
 function remove(node, isRemoveChild) {
   if (!node || !node.parentNode) {
-    return;
+	return;
   }
 
   if (node.removeNode) {
-    return node.removeNode(isRemoveChild);
+	return node.removeNode(isRemoveChild);
   }
 
   var parent = node.parentNode;
 
   if (!isRemoveChild) {
-    var nodes = [];
+	var nodes = [];
 
-    for (var i = 0, len = node.childNodes.length; i < len; i++) {
-      nodes.push(node.childNodes[i]);
-    }
+	for (var i = 0, len = node.childNodes.length; i < len; i++) {
+	  nodes.push(node.childNodes[i]);
+	}
 
-    for (var _i = 0, _len = nodes.length; _i < _len; _i++) {
-      parent.insertBefore(nodes[_i], node);
-    }
+	for (var _i = 0, _len = nodes.length; _i < _len; _i++) {
+	  parent.insertBefore(nodes[_i], node);
+	}
   }
 
   parent.removeChild(node);
@@ -2000,13 +2000,13 @@ function remove(node, isRemoveChild) {
 
 function removeWhile(node, pred) {
   while (node) {
-    if (isEditable(node) || !pred(node)) {
-      break;
-    }
+	if (isEditable(node) || !pred(node)) {
+	  break;
+	}
 
-    var parent = node.parentNode;
-    remove(node);
-    node = parent;
+	var parent = node.parentNode;
+	remove(node);
+	node = parent;
   }
 }
 /**
@@ -2022,13 +2022,13 @@ function removeWhile(node, pred) {
 
 function dom_replace(node, nodeName) {
   if (node.nodeName.toUpperCase() === nodeName.toUpperCase()) {
-    return node;
+	return node;
   }
 
   var newNode = dom_create(nodeName);
 
   if (node.style.cssText) {
-    newNode.style.cssText = node.style.cssText;
+	newNode.style.cssText = node.style.cssText;
   }
 
   appendChildNodes(newNode, lists.from(node.childNodes));
@@ -2047,7 +2047,7 @@ function dom_value($node, stripLinebreaks) {
   var val = isTextarea($node[0]) ? $node.val() : $node.html();
 
   if (stripLinebreaks) {
-    return val.replace(/[\n\r]/g, '');
+	return val.replace(/[\n\r]/g, '');
   }
 
   return val;
@@ -2066,14 +2066,14 @@ function dom_html($node, isNewlineOnBlock) {
   var markup = dom_value($node);
 
   if (isNewlineOnBlock) {
-    var regexTag = /<(\/?)(\b(?!!)[^>\s]*)(.*?)(\s*\/?>)/g;
-    markup = markup.replace(regexTag, function (match, endSlash, name) {
-      name = name.toUpperCase();
-      var isEndOfInlineContainer = /^DIV|^TD|^TH|^P|^LI|^H[1-7]/.test(name) && !!endSlash;
-      var isBlockNode = /^BLOCKQUOTE|^TABLE|^TBODY|^TR|^HR|^UL|^OL/.test(name);
-      return match + (isEndOfInlineContainer || isBlockNode ? '\n' : '');
-    });
-    markup = markup.trim();
+	var regexTag = /<(\/?)(\b(?!!)[^>\s]*)(.*?)(\s*\/?>)/g;
+	markup = markup.replace(regexTag, function (match, endSlash, name) {
+	  name = name.toUpperCase();
+	  var isEndOfInlineContainer = /^DIV|^TD|^TH|^P|^LI|^H[1-7]/.test(name) && !!endSlash;
+	  var isBlockNode = /^BLOCKQUOTE|^TABLE|^TBODY|^TR|^HR|^UL|^OL/.test(name);
+	  return match + (isEndOfInlineContainer || isBlockNode ? '\n' : '');
+	});
+	markup = markup.trim();
   }
 
   return markup;
@@ -2085,20 +2085,20 @@ function posFromPlaceholder(placeholder) {
   var height = $placeholder.outerHeight(true); // include margin
 
   return {
-    left: pos.left,
-    top: pos.top + height
+	left: pos.left,
+	top: pos.top + height
   };
 }
 
 function attachEvents($node, events) {
   Object.keys(events).forEach(function (key) {
-    $node.on(key, events[key]);
+	$node.on(key, events[key]);
   });
 }
 
 function detachEvents($node, events) {
   Object.keys(events).forEach(function (key) {
-    $node.off(key, events[key]);
+	$node.off(key, events[key]);
   });
 }
 /**
@@ -2229,17 +2229,17 @@ var Context_Context = /*#__PURE__*/function () {
    * @param {Object} options
    */
   function Context($note, options) {
-    _classCallCheck(this, Context);
+	_classCallCheck(this, Context);
 
-    this.$note = $note;
-    this.memos = {};
-    this.modules = {};
-    this.layoutInfo = {};
-    this.options = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend(true, {}, options); // init ui with options
+	this.$note = $note;
+	this.memos = {};
+	this.modules = {};
+	this.layoutInfo = {};
+	this.options = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend(true, {}, options); // init ui with options
 
-    external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui_template(this.options);
-    this.ui = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui;
-    this.initialize();
+	external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui_template(this.options);
+	this.ui = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui;
+	this.initialize();
   }
   /**
    * create layout and initialize modules and other resources
@@ -2247,74 +2247,74 @@ var Context_Context = /*#__PURE__*/function () {
 
 
   _createClass(Context, [{
-    key: "initialize",
-    value: function initialize() {
-      this.layoutInfo = this.ui.createLayout(this.$note);
+	key: "initialize",
+	value: function initialize() {
+	  this.layoutInfo = this.ui.createLayout(this.$note);
 
-      this._initialize();
+	  this._initialize();
 
-      this.$note.hide();
-      return this;
-    }
-    /**
-     * destroy modules and other resources and remove layout
-     */
-
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this._destroy();
-
-      this.$note.removeData('summernote');
-      this.ui.removeLayout(this.$note, this.layoutInfo);
-    }
-    /**
-     * destory modules and other resources and initialize it again
-     */
+	  this.$note.hide();
+	  return this;
+	}
+	/**
+	 * destroy modules and other resources and remove layout
+	 */
 
   }, {
-    key: "reset",
-    value: function reset() {
-      var disabled = this.isDisabled();
-      this.code(dom.emptyPara);
+	key: "destroy",
+	value: function destroy() {
+	  this._destroy();
 
-      this._destroy();
+	  this.$note.removeData('summernote');
+	  this.ui.removeLayout(this.$note, this.layoutInfo);
+	}
+	/**
+	 * destory modules and other resources and initialize it again
+	 */
 
-      this._initialize();
-
-      if (disabled) {
-        this.disable();
-      }
-    }
   }, {
-    key: "_initialize",
-    value: function _initialize() {
-      var _this = this;
+	key: "reset",
+	value: function reset() {
+	  var disabled = this.isDisabled();
+	  this.code(dom.emptyPara);
 
-      // set own id
-      this.options.id = func.uniqueId(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.now()); // set default container for tooltips, popovers, and dialogs
+	  this._destroy();
 
-      this.options.container = this.options.container || this.layoutInfo.editor; // add optional buttons
+	  this._initialize();
 
-      var buttons = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend({}, this.options.buttons);
-      Object.keys(buttons).forEach(function (key) {
-        _this.memo('button.' + key, buttons[key]);
-      });
-      var modules = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend({}, this.options.modules, external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.plugins || {}); // add and initialize modules
-
-      Object.keys(modules).forEach(function (key) {
-        _this.module(key, modules[key], true);
-      });
-      Object.keys(this.modules).forEach(function (key) {
-        _this.initializeModule(key);
-      });
-    }
+	  if (disabled) {
+		this.disable();
+	  }
+	}
   }, {
-    key: "_destroy",
-    value: function _destroy() {
-      var _this2 = this;
+	key: "_initialize",
+	value: function _initialize() {
+	  var _this = this;
 
-      // destroy modules with reversed order
+	  // set own id
+	  this.options.id = func.uniqueId(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.now()); // set default container for tooltips, popovers, and dialogs
+
+	  this.options.container = this.options.container || this.layoutInfo.editor; // add optional buttons
+
+	  var buttons = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend({}, this.options.buttons);
+	  Object.keys(buttons).forEach(function (key) {
+		_this.memo('button.' + key, buttons[key]);
+	  });
+	  var modules = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend({}, this.options.modules, external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.plugins || {}); // add and initialize modules
+
+	  Object.keys(modules).forEach(function (key) {
+		_this.module(key, modules[key], true);
+	  });
+	  Object.keys(this.modules).forEach(function (key) {
+		_this.initializeModule(key);
+	  });
+	}
+  }, {
+	key: "_destroy",
+	value: function _destroy() {
+	  var _this2 = this;
+
+	  // destroy modules with reversed order
       Object.keys(this.modules).reverse().forEach(function (key) {
         _this2.removeModule(key);
       });

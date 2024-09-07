@@ -1,17 +1,17 @@
 .dropdown-menu {
-    margin-top: 0;
+	margin-top: 0;
 }
 .dropdown-menu .dropdown-toggle::after {
-    vertical-align: middle;
-    border-left: 4px solid;
-    border-bottom: 4px solid transparent;
-    border-top: 4px solid transparent;
+	vertical-align: middle;
+	border-left: 4px solid;
+	border-bottom: 4px solid transparent;
+	border-top: 4px solid transparent;
 }
 .dropdown-menu .dropdown .dropdown-menu {
-    left: 100%;
-    top: 0%;
-    margin:0 20px;
-    border-width: 0;
+	left: 100%;
+	top: 0%;
+	margin:0 20px;
+	border-width: 0;
 }
 
 .dropdown-menu > li a:hover,
@@ -24,8 +24,8 @@
 }
 
 @media (min-width: 768px) {
-    .dropdown-menu .dropdown .dropdown-menu {
-        margin:0;
-        border-width: 1px;
-    }
+	.dropdown-menu .dropdown .dropdown-menu {
+		margin:0;
+		border-width: 1px;
+	}
 }

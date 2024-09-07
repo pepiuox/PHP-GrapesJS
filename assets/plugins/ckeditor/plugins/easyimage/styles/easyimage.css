@@ -74,7 +74,7 @@ body.cke_editable > .cke_widget_wrapper_easyimage-side {
 	/* Add border so when caption is focused, blue border does not cause flickering. */
 	border: 1px solid #f7f7f7;
 	color: #333;
-    padding: .8em;
+	padding: .8em;
 }
 
 .cke_widget_wrapper:hover .easyimage .cke_widget_editable {

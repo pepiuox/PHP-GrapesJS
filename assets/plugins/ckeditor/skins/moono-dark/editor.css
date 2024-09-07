@@ -111,7 +111,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	/*-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;*/
 	/*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;*/
 	background: transparent;
-    background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.1);
 
 	/*background-image: -webkit-gradient(
 		linear,
@@ -411,8 +411,8 @@ a:active.cke_colormore {
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1),
 		0 0 2px rgba(255, 255, 255, 0.15) inset,
 		0 1px 0 rgba(255, 255, 255, 0.15) inset;
-    background-color: rgba(0, 0, 0, 0.2);
-	
+	background-color: rgba(0, 0, 0, 0.2);
+
 	/*background: #404040;
 	background-image: -webkit-gradient(
 		linear,
@@ -830,7 +830,7 @@ a.cke_button_disabled:active {
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1),
 		0 0 2px rgba(255, 255, 255, 0.15) inset,
 		0 1px 0 rgba(255, 255, 255, 0.15) inset;
-    background-color: rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.2);
 
 	/*background: #404040;
 	background-image: -webkit-gradient(
