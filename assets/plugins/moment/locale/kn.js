@@ -4,131 +4,131 @@
 
 ;(function (global, factory) {
    typeof exports === 'object' && typeof module !== 'undefined'
-       && typeof require === 'function' ? factory(require('../moment')) :
+	&& typeof require === 'function' ? factory(require('../moment')) :
    typeof define === 'function' && define.amd ? define(['../moment'], factory) :
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-    //! moment.js locale configuration
+	 moment.js locale configuration
 
-    var symbolMap = {
-            1: '೧',
-            2: '೨',
-            3: '೩',
-            4: '೪',
-            5: '೫',
-            6: '೬',
-            7: '೭',
-            8: '೮',
-            9: '೯',
-            0: '೦',
-        },
-        numberMap = {
-            '೧': '1',
-            '೨': '2',
-            '೩': '3',
-            '೪': '4',
-            '೫': '5',
-            '೬': '6',
-            '೭': '7',
-            '೮': '8',
-            '೯': '9',
-            '೦': '0',
-        };
+	 symbolMap = {
 
-    var kn = moment.defineLocale('kn', {
-        months: 'ಜನವರಿ_ಫೆಬ್ರವರಿ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂಬರ್_ಅಕ್ಟೋಬರ್_ನವೆಂಬರ್_ಡಿಸೆಂಬರ್'.split(
-            '_'
-        ),
-        monthsShort: 'ಜನ_ಫೆಬ್ರ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂ_ಅಕ್ಟೋ_ನವೆಂ_ಡಿಸೆಂ'.split(
-            '_'
-        ),
-        monthsParseExact: true,
-        weekdays: 'ಭಾನುವಾರ_ಸೋಮವಾರ_ಮಂಗಳವಾರ_ಬುಧವಾರ_ಗುರುವಾರ_ಶುಕ್ರವಾರ_ಶನಿವಾರ'.split(
-            '_'
-        ),
-        weekdaysShort: 'ಭಾನು_ಸೋಮ_ಮಂಗಳ_ಬುಧ_ಗುರು_ಶುಕ್ರ_ಶನಿ'.split('_'),
-        weekdaysMin: 'ಭಾ_ಸೋ_ಮಂ_ಬು_ಗು_ಶು_ಶ'.split('_'),
-        longDateFormat: {
-            LT: 'A h:mm',
-            LTS: 'A h:mm:ss',
-            L: 'DD/MM/YYYY',
-            LL: 'D MMMM YYYY',
-            LLL: 'D MMMM YYYY, A h:mm',
-            LLLL: 'dddd, D MMMM YYYY, A h:mm',
-        },
-        calendar: {
-            sameDay: '[ಇಂದು] LT',
-            nextDay: '[ನಾಳೆ] LT',
-            nextWeek: 'dddd, LT',
-            lastDay: '[ನಿನ್ನೆ] LT',
-            lastWeek: '[ಕೊನೆಯ] dddd, LT',
-            sameElse: 'L',
-        },
-        relativeTime: {
-            future: '%s ನಂತರ',
-            past: '%s ಹಿಂದೆ',
-            s: 'ಕೆಲವು ಕ್ಷಣಗಳು',
-            ss: '%d ಸೆಕೆಂಡುಗಳು',
-            m: 'ಒಂದು ನಿಮಿಷ',
-            mm: '%d ನಿಮಿಷ',
-            h: 'ಒಂದು ಗಂಟೆ',
-            hh: '%d ಗಂಟೆ',
-            d: 'ಒಂದು ದಿನ',
-            dd: '%d ದಿನ',
-            M: 'ಒಂದು ತಿಂಗಳು',
-            MM: '%d ತಿಂಗಳು',
-            y: 'ಒಂದು ವರ್ಷ',
-            yy: '%d ವರ್ಷ',
-        },
-        preparse: function (string) {
-            return string.replace(/[೧೨೩೪೫೬೭೮೯೦]/g, function (match) {
-                return numberMap[match];
-            });
-        },
-        postformat: function (string) {
-            return string.replace(/\d/g, function (match) {
-                return symbolMap[match];
-            });
-        },
-        meridiemParse: /ರಾತ್ರಿ|ಬೆಳಿಗ್ಗೆ|ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ/,
-        meridiemHour: function (hour, meridiem) {
-            if (hour === 12) {
-                hour = 0;
-            }
-            if (meridiem === 'ರಾತ್ರಿ') {
-                return hour < 4 ? hour : hour + 12;
-            } else if (meridiem === 'ಬೆಳಿಗ್ಗೆ') {
-                return hour;
-            } else if (meridiem === 'ಮಧ್ಯಾಹ್ನ') {
-                return hour >= 10 ? hour : hour + 12;
-            } else if (meridiem === 'ಸಂಜೆ') {
-                return hour + 12;
-            }
-        },
-        meridiem: function (hour, minute, isLower) {
-            if (hour < 4) {
-                return 'ರಾತ್ರಿ';
-            } else if (hour < 10) {
-                return 'ಬೆಳಿಗ್ಗೆ';
-            } else if (hour < 17) {
-                return 'ಮಧ್ಯಾಹ್ನ';
-            } else if (hour < 20) {
-                return 'ಸಂಜೆ';
-            } else {
-                return 'ರಾತ್ರಿ';
-            }
-        },
-        dayOfMonthOrdinalParse: /\d{1,2}(ನೇ)/,
-        ordinal: function (number) {
-            return number + 'ನೇ';
-        },
-        week: {
-            dow: 0, // Sunday is the first day of the week.
-            doy: 6, // The week that contains Jan 6th is the first week of the year.
-        },
-    });
 
-    return kn;
+
+
+
+
+
+
+
+
+
+		Map = {
+
+
+
+
+
+
+
+
+
+
+
+
+	 kn = moment.defineLocale('kn', {
+		: 'ಜನವರಿ_ಫೆಬ್ರವರಿ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂಬರ್_ಅಕ್ಟೋಬರ್_ನವೆಂಬರ್_ಡಿಸೆಂಬರ್'.split(
+
+
+		Short: 'ಜನ_ಫೆಬ್ರ_ಮಾರ್ಚ್_ಏಪ್ರಿಲ್_ಮೇ_ಜೂನ್_ಜುಲೈ_ಆಗಸ್ಟ್_ಸೆಪ್ಟೆಂ_ಅಕ್ಟೋ_ನವೆಂ_ಡಿಸೆಂ'.split(
+
+
+		ParseExact: true,
+		ys: 'ಭಾನುವಾರ_ಸೋಮವಾರ_ಮಂಗಳವಾರ_ಬುಧವಾರ_ಗುರುವಾರ_ಶುಕ್ರವಾರ_ಶನಿವಾರ'.split(
+
+
+		ysShort: 'ಭಾನು_ಸೋಮ_ಮಂಗಳ_ಬುಧ_ಗುರು_ಶುಕ್ರ_ಶನಿ'.split('_'),
+		ysMin: 'ಭಾ_ಸೋ_ಮಂ_ಬು_ಗು_ಶು_ಶ'.split('_'),
+		teFormat: {
+			mm',
+			:mm:ss',
+			/YYYY',
+			MM YYYY',
+			MMM YYYY, A h:mm',
+			dd, D MMMM YYYY, A h:mm',
+
+		ar: {
+			'[ಇಂದು] LT',
+			'[ನಾಳೆ] LT',
+			 'dddd, LT',
+			'[ನಿನ್ನೆ] LT',
+			 '[ಕೊನೆಯ] dddd, LT',
+			 'L',
+
+		veTime: {
+			%s ನಂತರ',
+			 ಹಿಂದೆ',
+			 ಕ್ಷಣಗಳು',
+			ೆಕೆಂಡುಗಳು',
+			ನಿಮಿಷ',
+			ಿಮಿಷ',
+			ಗಂಟೆ',
+			ಂಟೆ',
+			ದಿನ',
+			ಿನ',
+			ತಿಂಗಳು',
+			ಿಂಗಳು',
+			ವರ್ಷ',
+			ರ್ಷ',
+
+		se: function (string) {
+			ring.replace(/[೧೨೩೪೫೬೭೮೯೦]/g, function (match) {
+				rMap[match];
+
+
+		rmat: function (string) {
+			ring.replace(/\d/g, function (match) {
+				lMap[match];
+
+
+		emParse: /ರಾತ್ರಿ|ಬೆಳಿಗ್ಗೆ|ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ/,
+		emHour: function (hour, meridiem) {
+			=== 12) {
+
+
+			iem === 'ರಾತ್ರಿ') {
+				< 4 ? hour : hour + 12;
+			 (meridiem === 'ಬೆಳಿಗ್ಗೆ') {
+
+			 (meridiem === 'ಮಧ್ಯಾಹ್ನ') {
+				>= 10 ? hour : hour + 12;
+			 (meridiem === 'ಸಂಜೆ') {
+				+ 12;
+
+
+		em: function (hour, minute, isLower) {
+			< 4) {
+				ರಿ';
+			 (hour < 10) {
+				ಗ್ಗೆ';
+			 (hour < 17) {
+				ಾಹ್ನ';
+			 (hour < 20) {
+				';
+
+				ರಿ';
+
+
+		onthOrdinalParse: /\d{1,2}(ನೇ)/,
+		l: function (number) {
+			mber + 'ನೇ';
+
+		{
+			/ Sunday is the first day of the week.
+			/ The week that contains Jan 6th is the first week of the year.
+
+
+
+	urn kn;
 
 })));
