@@ -6,19 +6,19 @@ $result = $conn->query($q);
 $num_rows = $result->num_rows;
 
 if (!$result || ($num_rows === 0)) {
-	o "Information display error";
+	echo "Information display error";
 } else if ($num_rows > 0) {
-	Display active users, with link to their info */
-	o '<table class="table" align="left">' . "\n";
-	o '<tr><td>' . "\n";
+	/* Display active users, with link to their info */
+	echo '<table class="table" align="left">' . "\n";
+	echo '<tr><td>' . "\n";
 
-	 ($i = 0; $i < $num_rows; $i++) {
+	for ($i = 0; $i < $num_rows; $i++) {
 
-		_data_seek($result, $i);
-		 mysqli_fetch_row($result);
-		 = $row[0]; //username
-		<a href="userinfo.php?user=' . $uname . '">' . $uname . '</a>';
-
-	o '</font></td></tr></table><br>' . "\n";
+		mysqli_data_seek($result, $i);
+		$row = mysqli_fetch_row($result);
+		$uname = $row[0]; //username
+		echo '<a href="userinfo.php?user=' . $uname . '">' . $uname . '</a>';
+	}
+	echo '</font></td></tr></table><br>' . "\n";
 }
 ?>
