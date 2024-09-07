@@ -9,15 +9,15 @@ require_once 'function.php';
 include_once 'define.php';
 
 $protocol =
-        (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
-        $_SERVER["SERVER_PORT"] == 443
-            ? "https://"
-            : "http://";
+		(!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
+		$_SERVER["SERVER_PORT"] == 443
+			? "https://"
+			: "http://";
 
 
-        if (!empty(SITE_PATH)) {
-            $siteinstall = SITE_PATH;
-        } else {
+		if (!empty(SITE_PATH)) {
+			$siteinstall = SITE_PATH;
+		} else {
 $base = $protocol.$_SERVER['HTTP_HOST'];
 }
 $fname = basename($_SERVER['SCRIPT_FILENAME'], '.php');
