@@ -2,9 +2,9 @@
 
 class GetVisitor {
 
-    protected $getip;
+    public $getip;
     public $baseurl;
-	public $system;
+    public $system;
     protected $connection;
     private $timestamp;
     public $date;
