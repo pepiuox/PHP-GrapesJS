@@ -1,5 +1,8 @@
 <!-- menu -->
 <?php
+if(empty($menu)){
+    $menu = 1;
+}
 $rmenu = $conn->query("SELECT * FROM menu_options WHERE id='$menu'");
 $rmopt = $rmenu->fetch_assoc();
 $id_menu = $rmopt['id_menu'];

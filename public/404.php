@@ -1,5 +1,4 @@
 <?php
-
 //
 //  This application develop by PEPIUOX.
 //  Created by : Lab eMotion
@@ -11,15 +10,38 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION)) {
     session_start();
 }
+$protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
+    $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
+$url = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+$escaped_url = htmlspecialchars($url, ENT_QUOTES, "UTF-8");
+$url_path = parse_url($escaped_url, PHP_URL_PATH);
+$basename = pathinfo($url_path, PATHINFO_BASENAME);
+
+require_once '../elements/top.php';
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 </head>
 <body>
-    <h1>La pagina no existe</h1>
+<div id="wrapper"> 
+         <?php
+         require_once '../elements/menu.php';
+         ?>
+
+   <div class="login-box">
+    <div class="login-logo">
+            <div class="card text-center">
+                <div class="card-body login-card-body">
+                    <h4 class="card-title"> This page not exist</h4>
+                    <p class="card-text">You will be directed to the main page.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+<script>
+setTimeout(function(){ 
+window.location.href = "<?php echo SITE_PATH; ?>"; 
+}, 10 * 1000);
+</script>
+    
 </body>
 </html>

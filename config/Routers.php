@@ -111,7 +111,7 @@ class Routers {
     }
 
     public function GoPage() {
-        $page = $this->SplitUrl();
+        $page = $this->basename;
         if ($page === "home" || $page === "inicio" || empty($page)) {
             return true;
         } else {
@@ -131,7 +131,7 @@ class Routers {
     public function routePages() {
 
         $nm = "";
-        $page = $this->SplitUrl();
+        $page = $this->basename;
         if ($page === "home" || $page === "inicio") {
             header("Location: $this->host");
             die();
@@ -157,7 +157,7 @@ class Routers {
     }
 
     public function ContentPage() {
-        $page = $this->SplitUrl();
+        $page = $this->basename;
         $nm = "";
         if ($this->host === $this->url) {
             $spg = $this->conn->prepare("SELECT * FROM pages WHERE startpage = ? AND active = ? ");
