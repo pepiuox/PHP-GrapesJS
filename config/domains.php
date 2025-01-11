@@ -7,5 +7,5 @@ return [
         'pepiuox_com' => ['dataserver' => 'cms_2'],
         'pepiuox_org' => ['dataserver' => 'cms_3']
     ]
-    ]
+]
 ?>

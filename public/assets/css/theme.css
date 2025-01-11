@@ -1,7 +1,6 @@
 /*!
 * Based on Bootstrap v5.2.3 (https://getbootstrap.com) 
 */
-@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700|Montserrat:300,400,500,600,700|Open+Sans:300,400,600,700|Oswald:300,400,500,700|Roboto+Condensed:300,400,700|Roboto:300,400,500,700|Source+Sans+Pro:300,400,600,700");
 
 /* Amplifier value */
 /* The mixin */
@@ -177,12 +176,6 @@ html {
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
-
-@-ms-viewport {
-  width: device-width; }
-
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
-  display: block; }
 
 body {
   margin: 0;

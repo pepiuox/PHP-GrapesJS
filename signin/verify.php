@@ -1,14 +1,7 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$connfile = '../config/dbconnection.php';
-if (file_exists($connfile)) {
-    require_once '../config/dbconnection.php';
     require_once 'Autoload.php';
 
     $verify = new UserVerify();
@@ -16,10 +9,7 @@ if (file_exists($connfile)) {
     require_once '../PHPMailer/src/Exception.php';
     require_once '../PHPMailer/src/PHPMailer.php';
     require_once '../PHPMailer/src/SMTP.php';
-} else {
-    header('Location: ../installer/install.php');
-    exit();
-}
+
 ?>
 <?php include '../elements/header.php'; ?>
 </head>

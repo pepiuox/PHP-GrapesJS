@@ -11,5 +11,9 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION)) {
     session_start();
 }
-require_once 'elements/view.php';
+// get base folder basename(dirname(__DIR__));
+
+
+define("URL", dirname(__DIR__));
+require_once URL.'/elements/views.php';
 ?>
