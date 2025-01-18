@@ -21,8 +21,9 @@ $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
 
 $extpath = pathinfo($url, PATHINFO_EXTENSION);
-
-if ($initweb === $url) {
+$pages->routePages();
+if ($pages->GoPage() === true) {
+    if ($initweb === $url) {
     $rpx = $pages->InitPage();
 } elseif (isset($basename) && !empty($basename)) {
     $npg = $pages->Pages($basename);
@@ -33,6 +34,8 @@ if ($initweb === $url) {
         exit;
     }
 }
+}
+
 
 $bid = $rpx["id"];
 $syspath = $rpx['system_path'];
@@ -65,11 +68,12 @@ if ($viewpg === "public") {
         echo '</style>' . "\n";
     }
     ?>
-    </head>
-    <body>
-        <div id="wrapper">
-            <div class='container-fluid' id="content-page">
-                        <?php
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class='container-fluid' id="content-page">
+            <?php
                         require_once "elements/menu.php";
                         if ($typepage === 'File') {
                             include "elements/alerts.php";
@@ -88,18 +92,20 @@ if ($viewpg === "public") {
                         }
                         require_once "elements/footer.php";
                         ?>
-            </div>
         </div>
-    </body>
-    </html>
+    </div>
+</body>
+
+</html>
 <?php
 } else {
  include 'elements/header.php'; 
  ?>
 </head>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-    <?php
+        <?php
     if ($request === $purl) {
         require_once $pfile . ".php";
     }
@@ -107,9 +113,8 @@ if ($viewpg === "public") {
     ?>
     </div>
 </body>
+
 </html>
 <?php
 }
 ?>
-
-

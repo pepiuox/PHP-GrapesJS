@@ -10,8 +10,10 @@ ini_set('display_errors', 1);
 if (!isset($_SESSION)) {
     session_start();
 }
-$path_app = dirname(__DIR__);
-$source = str_replace('\\', '/', $path_app);
+
+define("URL", dirname(__DIR__));
+
+$source = str_replace('\\', '/', URL);
 
 require_once $source.'/core/view.php';
 ?>

@@ -1,5 +1,10 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 /*
  * This class will include everything associated with users:
  * Login - Login()

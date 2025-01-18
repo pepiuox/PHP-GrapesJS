@@ -1,5 +1,10 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 
 $path = 'http://localhost:83/concrete5-8.5.4/';
 require 'addCart';

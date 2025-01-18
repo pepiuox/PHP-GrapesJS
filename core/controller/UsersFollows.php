@@ -1,7 +1,10 @@
 <?php 
-/*
- * This class 
- */
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 class UsersFollows{
     protected $conn;
     public $date;

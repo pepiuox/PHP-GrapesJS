@@ -1,5 +1,10 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 if (isset($_SESSION["client_session"]) && !empty($_SESSION["client_session"])) {
     // add items
     $cant = $_POST["cantidad"];

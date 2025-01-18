@@ -55,6 +55,51 @@ class Routers
             return $rs->fetch_assoc();
         }
     }
+    
+    public function GoPage() {
+        $page = $this->basename;
+        if ($page === "home" || $page === "inicio" || empty($page)) {
+            return true;
+        } else {
+            $spg = $this->conn->prepare("SELECT * FROM pages WHERE link = ? AND active = ? ");
+            $spg->bind_param("si", $page, $this->active);
+            $spg->execute();
+            $rs = $spg->get_result();
+            $nm = $rs->num_rows;
+            if ($nm > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function routePages() {
+        $nm = "";
+        $page = $this->basename;
+        if ($page === "home" || $page === "inicio") {
+            header("Location: $this->host");
+            die();
+        } else if (isset($_GET['url']) && !empty($_GET['url'])) {
+            $id = (int) $_GET['url'];
+            $spg = $this->conn->prepare("SELECT * FROM pages WHERE id = ? AND active = ? ");
+            $spg->bind_param("ii", $id, $this->active);
+            $spg->execute();
+            $rs = $spg->get_result();
+            $nm = $rs->num_rows;
+            if ($nm > 0) {
+                $rpx = $rs->fetch_assoc();
+                $link = $this->Pages($rpx['link']);
+                header("Location: $link");
+                die();
+            } else {
+                header("Location: $this->host");
+                die();
+            }
+        } else {
+            return;
+        }
+    }
 
     public function PageDataWeb($basename)
     {

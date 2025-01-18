@@ -1,5 +1,10 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 class Form {
 
     public $values = array();  //Holds submitted form field values

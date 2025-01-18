@@ -1,7 +1,13 @@
-<?php 
+<?php
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 class UsersUpdates{
 	
-	protected $conn;
+    protected $conn;
     private $uca;
     public $gc;
 	private $pt;

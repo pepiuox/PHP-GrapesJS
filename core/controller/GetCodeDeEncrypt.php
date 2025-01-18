@@ -1,4 +1,10 @@
 <?php
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 class GetCodeDeEncrypt{
     public $characters;
     public function __construct(){

@@ -1,5 +1,10 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
 class ViewCart {
 
     private $table_name = 'canasta_articulos';
