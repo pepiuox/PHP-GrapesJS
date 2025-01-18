@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
         DirectoryIndex index.php
 	RewriteEngine On
+        RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 	RewriteBase /
         ## Begin - Rewrite rules to block out some common exploits.
 	# If you experience problems on your site block out the operations listed below
@@ -17,6 +18,7 @@
 	# Return 403 Forbidden header and show the content of the root homepage
 	RewriteRule .* index.php [F,L]
 	#
+        RewriteRule ^index\.php$ - [L]
 	RewriteCond %{REQUEST_FILENAME} !-f
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule ^.*$ index.php [QSA,L]

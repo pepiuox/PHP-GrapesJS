@@ -59,6 +59,7 @@ if (isset($_SESSION["DBConnected"]) && !empty($_SESSION["DBConnected"])) {
         require_once "installUser.php";
     }
 }
+
 if (!file_exists($file)) {
 
     if (isset($_GET["step"]) && !empty($_GET["step"])) {
@@ -204,6 +205,9 @@ if (!file_exists($file)) {
             if ($_POST["Update"] === $v) {
                 continue;
             }
+             if($k == 'DOMAIN_SITE' || $k == 'SITE_PATH'){
+                $v .= '/';
+            }
             $vals[] = "`" . $k . "`='" . $v . "'";
         }
         $vupdates = implode(", ", $vals);
@@ -327,10 +331,10 @@ if (!file_exists($file)) {
         $svcontent .= "";
         $svcontent .= "<?php
 
-\$settings=array(
+\$settings=[
     'default-connection' => 'cms',
-    'connections' => array(
-        'cms' => array(
+    'connections' => [
+        'cms' => [
             'server' => '" .
             $_SESSION["DBHOST"] .
             "',
@@ -345,23 +349,23 @@ if (!file_exists($file)) {
             "',
             'charset' => 'utf8',
             'port' => '3306',
-        ),// use different connection for another DB in this app, and change values.
-         'ecommerce' => array(
+        ],// use different connection for another DB in this app, and change values.
+         'ecommerce' => [
             'server' => 'localhost',
             'database' => 'ecommerce',
             'username' => 'user',
             'password' => 'password',
             'charset' => 'utf8',
             'port' => '3306',
-        ),
-        ),
-);
+        ]
+    ]
+];
         ?>";
 
         file_put_contents($serverfile, $svcontent, FILE_APPEND | LOCK_EX);
 
         $filecontent = "";
-        $filecontent .= "<?php" . "\n\n";
+        $filecontent .= "<?php" . "\n";
         $filecontent .= "include 'error_report.php';
 include 'Database.php';
 \$link=new Database();
@@ -435,7 +439,7 @@ if(isset(\$_SESSION['translation'])){
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="refresh" content="5; url=' . $website . '" />
+        <meta http-equiv="refresh" content="5; url=' . $website . 'signin/login" />
         <title>PHP GrapesJS</title>
 
         <link href="' .
