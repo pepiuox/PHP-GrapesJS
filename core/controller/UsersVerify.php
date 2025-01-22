@@ -22,6 +22,16 @@ class UsersVerify {
     private $code;
     private $hash;
     
+    /**
+     * UsersVerify constructor.
+     * 
+     * The constructor method for the UsersVerify class.
+     * This method is called when an object is created from the class and it
+     * allows the class to initialize the attributes of the class.
+     * 
+     * @param void
+     * @return void
+     */
     public function __construct() {
         global $conn;
         $this->conn = $conn;
@@ -53,6 +63,16 @@ class UsersVerify {
      * is_activated is updated in database.
      */
     /**/
+
+    /**
+     * Verifies user email based on the activation code and hash provided via POST request.
+     * 
+     * This function cross-references the provided activation code and hash with the database.
+     * If they match, the user's account is activated, various user-related tables are updated,
+     * and a confirmation email is sent. If any validation fails, an error message is set.
+     * 
+     * @return void
+     */
 
     private function uVerify() {
         if (isset($_POST['bverify'])) {

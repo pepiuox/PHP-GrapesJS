@@ -37,6 +37,14 @@ class UsersClass {
      * Constructor will be called every time Login class is called ($login = new Login())
      */
 
+    /**
+     * Constructor for UsersClass.
+     *
+     * Initializes database connection, session paths, user IP, and encryption utilities.
+     * Sets the expiry time for cookies, constructs the base URL, and initializes the current timestamp.
+     * Calls relevant methods based on POST data to handle login, attempts, profile, logout, and password update actions.
+     */
+
     public function __construct() {
         global $conn;
         $this->conn = $conn;
@@ -71,6 +79,15 @@ class UsersClass {
 
     /* End __constructor() */
 
+    /**
+     * Gets the real visitor IP behind CloudFlare network.
+     *
+     * This method will return the IP address of the visitor.
+     * If the visitor is behind a CloudFlare network, the method will get the real IP address from the HTTP_CF_CONNECTING_IP server variable.
+     * If the visitor is not behind a CloudFlare network, the method will get the IP address from the REMOTE_ADDR server variable.
+     *
+     * @return string The IP address of the visitor.
+     */
     public function getUserIP() {
         // Get real visitor IP behind CloudFlare network
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
@@ -114,6 +131,12 @@ class UsersClass {
      * If data is valid user is logged in, session variables are set.
      */
 
+    /**
+     * Validates user login data, cross-checks with database.
+     * If data is valid user is logged in, session variables are set.
+     *
+     * @return void
+     */
     private function Login() {
         if (isset($_POST["signin"])) {
             //set login attempt if not set
@@ -541,8 +564,11 @@ class UsersClass {
             if ($_SESSION["attempt_again"] >= 3) {
                 $_SESSION["ErrorMessage"] = "You have the account blocked for more than 3 failed access attempts.";
                 header('Location: ' . $this->logp);
-                exit();
+                die();
             }
+        } if ($num->num_rows === 0) {
+            header('Location: ' . $this->logp);
+                die();
         }
     }
 

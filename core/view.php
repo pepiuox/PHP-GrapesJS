@@ -31,11 +31,11 @@ if ($pages->GoPage() === true) {
         $rpx = $pages->PageDataWeb($basename);
     } else {
         header("Location: $npg");
-        exit;
+        die();
     }
+}else{
+    $pages->routePages();
 }
-}
-
 
 $bid = $rpx["id"];
 $syspath = $rpx['system_path'];
@@ -116,5 +116,6 @@ if ($viewpg === "public") {
 
 </html>
 <?php
+}
 }
 ?>

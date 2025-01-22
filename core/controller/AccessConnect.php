@@ -18,21 +18,25 @@ class AccessConnect
     /* get number of visitor
      *
      */
-
+private function activeGuests(){
+return $this->conn->query("SELECT ip FROM active_guests")->num_rows; 
+}
     public function numVisitor()
     {
-        return $this->conn->query("SELECT ip FROM active_guests")->num_rows;
+         return $this->activeGuests();
     }
 
     /* get number of users
      *
      */
-
-    public function numUsers()
-    {
-        return $this->conn->query(
+private function verifiedUser(){
+return $this->conn->query(
             "SELECT verified FROM users WHERE verified='1'"
         )->num_rows;
+}
+    public function numUsers()
+    {
+        return $this->verifiedUser();
     }
 
     public function getUserInfo($username)

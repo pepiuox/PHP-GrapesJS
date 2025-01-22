@@ -16,7 +16,7 @@ class statistic {
     public function write_visita() {
 
 //Indicar ruta de archivo válida
-        $archivo = "ruta/archivo/visitas.txt";
+        $archivo = URL."/fls/visitas.txt";
 
 //Si que quiere ignorar la propia IP escribirla aquí, esto se podría automatizar
         $ip = "127.0.0.1";
@@ -206,4 +206,3 @@ class statistic {
     }
 }
 ?>
-

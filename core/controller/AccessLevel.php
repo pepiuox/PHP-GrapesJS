@@ -100,6 +100,7 @@ class AccessLevel
         $stmt->bind_param("s", $idr);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
         $rpres = $result->fetch_array();
         $idp = $rpres["permission_id"];
         return $this->Permissions($idp);
@@ -113,6 +114,7 @@ class AccessLevel
         $stmt->bind_param("s", $idp);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
         return $result->fetch_array();
     }
 }

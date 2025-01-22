@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               9.0.1 - MySQL Community Server - GPL
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6985
+-- HeidiSQL Version:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `counter` (
 
 -- Dumping data for table test_cms.counter: ~1 rows (approximately)
 INSERT INTO `counter` (`counter`) VALUES
-	(45);
+	(48);
 
 -- Dumping structure for table test_cms.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
@@ -2243,7 +2243,7 @@ CREATE TABLE IF NOT EXISTS `ip` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.ip: ~0 rows (approximately)
+-- Dumping data for table test_cms.ip: ~1 rows (approximately)
 INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
 	('577272556846484d32316438507671736b777a6f7042467a616c44346d624150', 'contact@pepiuox.net', '127.0.0.1', '2023-11-13 18:31:59');
 
@@ -2451,7 +2451,7 @@ CREATE TABLE IF NOT EXISTS `pageviews` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.pageviews: ~44 rows (approximately)
+-- Dumping data for table test_cms.pageviews: ~63 rows (approximately)
 INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(1, 'Inicio', '127.0.0.1', '2024-09-06 06:40:35'),
 	(2, '404', '127.0.0.1', '2024-09-06 06:40:36'),
@@ -2496,7 +2496,28 @@ INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(41, 'Proveedores', '127.0.0.1', '2025-01-11 16:24:41'),
 	(42, 'Promociones', '127.0.0.1', '2025-01-11 16:24:43'),
 	(43, 'Login', '127.0.0.1', '2025-01-11 16:33:19'),
-	(44, 'Register', '127.0.0.1', '2025-01-11 19:02:00');
+	(44, 'Register', '127.0.0.1', '2025-01-11 19:02:00'),
+	(45, 'Inicio', '127.0.0.1', '2025-01-18 00:20:22'),
+	(46, '404', '127.0.0.1', '2025-01-18 00:20:22'),
+	(47, 'Contacto', '127.0.0.1', '2025-01-18 00:22:05'),
+	(48, 'Proveedores', '127.0.0.1', '2025-01-18 00:22:33'),
+	(49, 'Ofertas', '127.0.0.1', '2025-01-18 00:26:04'),
+	(50, 'Login', '127.0.0.1', '2025-01-18 01:32:12'),
+	(51, NULL, '127.0.0.1', '2025-01-18 17:11:43'),
+	(52, NULL, '127.0.0.1', '2025-01-18 17:11:45'),
+	(53, NULL, '127.0.0.1', '2025-01-18 17:11:56'),
+	(54, 'Inicio', '127.0.0.1', '2025-01-19 03:26:29'),
+	(55, NULL, '127.0.0.1', '2025-01-19 03:26:29'),
+	(56, NULL, '127.0.0.1', '2025-01-19 03:26:36'),
+	(57, NULL, '127.0.0.1', '2025-01-19 03:26:36'),
+	(58, NULL, '127.0.0.1', '2025-01-19 03:27:36'),
+	(59, NULL, '127.0.0.1', '2025-01-19 03:27:36'),
+	(60, 'Register', '127.0.0.1', '2025-01-19 03:29:01'),
+	(61, 'Login', '127.0.0.1', '2025-01-19 03:29:03'),
+	(62, 'Inicio', '127.0.0.1', '2025-01-20 17:19:01'),
+	(63, 'Login', '127.0.0.1', '2025-01-20 17:19:51'),
+	(64, 'Login', '127.0.0.1', '2025-01-21 23:15:57'),
+	(65, 'Inicio', '127.0.0.1', '2025-01-22 00:29:32');
 
 -- Dumping structure for table test_cms.page_contents
 DROP TABLE IF EXISTS `page_contents`;
@@ -3316,7 +3337,7 @@ INSERT INTO `total_visitors` (`id`, `session`, `time`) VALUES
 	(3, 'N0U5cmRDWUd6aHJBeDkvL3JlanZvUT09', '2024-04-12 08:38:46'),
 	(4, 'dXJZeUJrUDNHZFZDOThheEg4OWZlZz09', '2023-12-27 09:25:59'),
 	(5, 'amtrNGpkMWo2VitFQUtHaTNZeWFOQT09', '2024-04-14 13:33:35'),
-	(6, 'UHp6aTI1UXVOczlpTUd6TjY5UDN3QT09', '2025-01-12 01:52:35');
+	(6, 'UHp6aTI1UXVOczlpTUd6TjY5UDN3QT09', '2025-01-22 06:29:32');
 
 -- Dumping structure for table test_cms.type_actions
 DROP TABLE IF EXISTS `type_actions`;
@@ -4040,7 +4061,7 @@ CREATE TABLE IF NOT EXISTS `visitor` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.visitor: ~11 rows (approximately)
+-- Dumping data for table test_cms.visitor: ~13 rows (approximately)
 INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2024-09-06 06:38:14', '2024-09-08 14:10:00'),
 	('127.0.0.1', '2024-10-02 04:48:04', '2024-10-02 11:48:34'),
@@ -4052,7 +4073,10 @@ INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2024-11-05 02:56:01', '2024-11-06 08:48:05'),
 	('127.0.0.1', '2024-12-15 00:12:02', '2024-12-15 07:02:26'),
 	('127.0.0.1', '2025-01-03 01:51:28', '2025-01-03 10:46:07'),
-	('127.0.0.1', '2025-01-11 16:00:03', '2025-01-12 01:52:35');
+	('127.0.0.1', '2025-01-11 16:00:03', '2025-01-12 01:52:35'),
+	('127.0.0.1', '2025-01-18 00:20:22', '2025-01-19 09:29:03'),
+	('127.0.0.1', '2025-01-20 17:19:01', '2025-01-20 23:20:38'),
+	('127.0.0.1', '2025-01-21 23:15:57', '2025-01-22 06:29:32');
 
 -- Dumping structure for table test_cms.visitor_productos
 DROP TABLE IF EXISTS `visitor_productos`;
