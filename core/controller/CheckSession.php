@@ -20,13 +20,23 @@ class CheckSession {
 
     private function sessionKey($len = 32) {
         $bytes = random_bytes(16);
-        return bin2hex($bytes) . substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
+        return bin2hex($bytes) . substr(sha1(openssl_random_pseudo_bytes(13)), - $len);
     }
 
     private function accessKey($len = 32) {
         $bytes = random_bytes(16);
-        return bin2hex($bytes) . substr(sha1(openssl_random_pseudo_bytes(21)), - $len);
+        return bin2hex($bytes) . substr(sha1(openssl_random_pseudo_bytes(27)), - $len);
     }
+
+    /**
+     * Checks and manages the client session.
+     *
+     * This function verifies the presence of a client session in cookies and sessions.
+     * If a session cookie exists but no session is active, it attempts to verify the session
+     * against the database and create a new access key if the session is not found.
+     * It updates the session and cookie values accordingly. If neither session nor cookie is present,
+     * it generates a new session key and sets a session cookie.
+     */
 
     public function checking() {
         if (isset($_COOKIE['client_session']) && !empty($_COOKIE['client_session'])) {
@@ -75,4 +85,3 @@ class CheckSession {
     }
 
 }
-

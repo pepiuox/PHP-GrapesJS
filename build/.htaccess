@@ -45,10 +45,18 @@
         Header append Vary User-Agent env=!dont-vary
         Header always append X-Frame-Options SAMEORIGIN
         Header always set Content-Security-Policy "upgrade-insecure-requests;"
-        # // This is the Xss header you are looking for
-        Header set X-XSS-Protection "1; mode=block"       
+        # This is the Xss header you are looking for
+        Header set X-XSS-Protection "1; mode=block"   
         Header set X-Content-Type-Options nosniff
-        Header set Content-Security-Policy "default-src 'self'; img-src https://*; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+        Header set X-Frame-Options "SAMEORIGIN"
+        # Disable server signature
+        Header set ServerSignature "Off"
+        Header set ServerTokens "Prod"
+        # Control Cross-Domain Policies
+        Header set X-Permitted-Cross-Domain-Policies "master-only"
+        # Charset UTF-8
+        Header set Content-Type "text/html; charset=UTF-8"
+        Header set Content-Security-Policy "default-src 'self'; img-src 'self' http: https: *.pepiuox.net; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
         Header set Access-Control-Allow-Origin "*"
         IndexIgnore *.zip *.css *.js *.pyt    
         Options -MultiViews -Indexes        

@@ -49,7 +49,7 @@ class CheckUsersSession
                 unset($_SESSION);
                 session_destroy(); // Destroy all session data.				
             header("Location: login.php");
-            exit;
+            die();
         }
     }
 }

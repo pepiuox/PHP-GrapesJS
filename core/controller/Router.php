@@ -19,11 +19,11 @@ class Router {
     // Initialize routes with access controls
     private function initRoutes() {
         // Database Pages
-        $this->routes['/db/admin/dashboard'] = ['AdminController', 'dashboard', ['admin']];
-        $this->routes['/db/user/profile'] = ['UserController', 'profile', ['user', 'admin']];
+        $this->routes['/admin/dashboard'] = ['AdminController', 'dashboard', ['admin']];
+        $this->routes['/user/profile'] = ['UserController', 'profile', ['user', 'admin']];
 
         // System Files (Caution: Implement with extreme security measures)
-        $this->routes['/sys/admin/config'] = ['SystemController', 'config', ['admin']];
+        $this->routes['/admin/config'] = ['SystemController', 'config', ['admin']];
         // $this->routes['/sys/user/files'] = ['SystemController', 'userFiles', ['user', 'admin']]; // Uncomment with caution
     }
 

@@ -6,7 +6,7 @@ $link = new Database();
 $conn = $link->MysqliConnection();
 require_once 'Routers.php';
 require_once 'function.php';
-include_once 'define.php';
+require_once 'define.php';
 
 $protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
     $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
@@ -24,6 +24,8 @@ $lang = '';
 $lg = '';
 if (!isset($_SESSION['translation'])) {
     $lg = 'es';
+}else{
+    $lg = 'en';
 }
 if (!empty($lg)) {
     $_SESSION['translation'] = $lg;
@@ -35,4 +37,3 @@ if (isset($_SESSION['translation'])) {
     require_once 'language/lang/es.php';
 }
 ?>
-    

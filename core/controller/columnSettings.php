@@ -52,7 +52,7 @@ class columnSettings {
         $stmt->bind_param("ss", $tname, $cname);
         $stmt->execute();
         $rts = $stmt->get_result();
-
+        $stmt->close();
         $nm = $rts->num_rows;
 
         if ($nm > 0) {
@@ -61,7 +61,7 @@ class columnSettings {
         } else {
             echo 'Error in Database';
         }
-        $stmt->close();
+        
     }
 }
 ?>

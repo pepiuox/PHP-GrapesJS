@@ -81,8 +81,7 @@ if ($viewpg === "public") {
                             if ($request === $purl) {
                                 require_once $pfile . ".php";
                             }
-                        }
-                        if ($typepage === 'Design') {
+                        }else if ($typepage === 'Design') {
                             $string = decodeContent($content);
                             if (!empty($content)) {
                                 $string = str_replace("<body>", "", $string);
@@ -102,7 +101,6 @@ if ($viewpg === "public") {
  include 'elements/header.php'; 
  ?>
 </head>
-
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <?php
