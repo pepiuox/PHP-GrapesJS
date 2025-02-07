@@ -23,7 +23,7 @@ class MyCRUD {
     private $tps;
 
     public function __construct() {
-        global$uconn, $dbdata, $rname;
+        global $conn, $dbdata, $rname;
 		$this->baseDB = 'app_users';
 		$this->conn = $conn;		
         $this->dbdata = $dbdata;
@@ -258,7 +258,7 @@ class MyCRUD {
             echo '<table class="table">
 			<thead>
 				<tr>
-<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>' . "\n";
+<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud/add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>' . "\n";
             foreach ($colmns as $colmn) {
                 $tremp = ucfirst(str_replace("_", " ", $colmn->name));
                 $remp = str_replace(" id", " ", $tremp);
@@ -271,8 +271,8 @@ class MyCRUD {
 
                 echo '<tr>' . "\n";
                 echo '<td><!--Button -->
-                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
-<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
+                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud/edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
+<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud/delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
@@ -305,7 +305,7 @@ class MyCRUD {
 		</table>' . "\n";
 
             if (ceil($total_pages / $num_results_on_page) > 0) {
-                $url = $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble;
+                $url = $this->pgname . '?cms=table_crud/list&tbl=' . $tble;
                 ?>
                 <nav aria-label="page navigation mx-auto">
                     <ul class="pagination justify-content-center">
@@ -464,7 +464,7 @@ class MyCRUD {
             }
         }
 
-        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add</a></th>' . "\n";
+        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud/add&tbl=' . $tble . '">Add</a></th>' . "\n";
         echo '</tr>' . "\n";
         echo '</thead>' . "\n";
         echo '<tbody>' . "\n";
@@ -512,8 +512,8 @@ class MyCRUD {
 
             $i_row = $row[0];
             echo '<td><!--Button -->
-                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
-                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
+                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud/edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
+                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud/delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
                 </td>';
 
             echo '</tr>' . "\n";
@@ -523,7 +523,7 @@ class MyCRUD {
         echo '</table>' . "\n";
         // end body table
         // end
-        $url = $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble;
+        $url = $this->pgname . '?cms=table_crud/list&tbl=' . $tble;
 
         if ($i < $rowcq) {
             echo '<nav aria-label="navigation">';
@@ -950,7 +950,7 @@ class MyCRUD {
         $content .= '$stmt->execute();' . "\n";
         $content .= '$stmt->close();' . "\n";
         $content .= "\$_SESSION['success'] = 'The data was added correctly';
-header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "');" . "\n";
+header('Location: " . $this->pgname . "?cms=table_crud/list&tbl=" . $tble . "');" . "\n";
         $content .= "} \n";
         $content .= "?> \n";
 
@@ -1147,7 +1147,7 @@ header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "'
         $content .= '$_SESSION["success"] = "The data was updated correctly.";' . "\n";
         $content .= "echo \"<script>
 window.onload = function() {
-    location.href = '" . $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble . "';
+    location.href = '" . $this->pgname . '?cms=table_crud/list&tbl=' . $tble . "';
 }
 </script>\";" . "\n";
         $content .= "} \r\n";

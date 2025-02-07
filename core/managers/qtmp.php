@@ -11,7 +11,7 @@ if ($conn->query($query) === TRUE) {
 $ins_qry = "INSERT INTO table_settings(table_name) VALUES('templates')";
 if ($conn->query($ins_qry) === TRUE){
 echo "Record added successfully";
-echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=templates">';
+echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/editor&tbl=templates">';
 } else {
 echo "Error added record: " . $conn->error;
 }

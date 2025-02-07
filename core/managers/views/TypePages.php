@@ -6,7 +6,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container">
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Agregar Nuevo Tipo de Página</a> 
+                <a class="btn btn-secondary" href='dashboard/typepages/add'>Agregar Nuevo Tipo de Página</a> 
             </p>
             <h3>Lista de Tipos de Página</h3>
             <?php
@@ -27,7 +27,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo "<tr>";
                 echo "<td valign='top'>" . $row['id'] . "</td>";
                 echo "<td valign='top'>" . $row['type_page'] . "</td>";
-                echo "<td valign='top'><a href='dashboard.php?cms=typepages&w=edit&id={$row['id']}'>Editar</a></td><td><a href='dashboard.php?cms=typepages&w=delete&?id={$row['id']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='dashboard/typepages/edit&id={$row['id']}'>Editar</a></td><td><a href='dashboard/typepages/delete&?id={$row['id']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -53,7 +53,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=list'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/typepages/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar un Tipo de Página</h3> 
             <form action='' method='POST'> 
@@ -82,7 +82,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_page` WHERE `id` = '$id' "));
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Nuevo tipo de página</a> 
+                    <a class="btn btn-secondary" href='dashboard/typepages/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typepages/add'>Nuevo tipo de página</a> 
                 </p>
                 <h3>Editar tipo de página</h3> 
                 <form action='' method='POST'> 
@@ -107,7 +107,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_page` WHERE `id` = '$id' "));
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Nuevo tipo de página</a> 
+                <a class="btn btn-secondary" href='dashboard/typepages/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typepages/add'>Nuevo tipo de página</a> 
             </p>
             <h3>Vista de type_page</h3> 
             <div class="container"> 
@@ -120,7 +120,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typepages&w=add'>Nuevo tipo de página</a> 
+                <a class="btn btn-secondary" href='dashboard/typepages/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typepages/add'>Nuevo tipo de página</a> 
             </p>
             <h3>Eliminado de type_page</h3> 
             <?php

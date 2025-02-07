@@ -8,24 +8,24 @@
 require_once 'metalink.php';
 
 if (!empty($description)) {
-?>
-<meta name="description" content="<?php echo $description; ?>" />
+    ?>
+    <meta name="description" content="<?php echo $description; ?>" />
 <?php } else { ?>
-<meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />
+    <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />
     <?php
 }
 if (!empty($keyword)) {
     ?>
-<meta name="keywords" content="<?php echo $keyword; ?>" />
+    <meta name="keywords" content="<?php echo $keyword; ?>" />
 <?php } else { ?>
-<meta name="keywords" content="<?php echo SITE_KEYWORDS; ?>" />
+    <meta name="keywords" content="<?php echo SITE_KEYWORDS; ?>" />
     <?php
 }
 if (!empty($classification)) {
     ?>
-<meta name="classification" content="<?php echo $classification; ?>" />
+    <meta name="classification" content="<?php echo $classification; ?>" />
 <?php } else { ?>
-<meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
+    <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
 <?php } ?>
 <title><?php echo $title . ' - ' . SITE_NAME; ?></title>
 
@@ -43,23 +43,23 @@ $nt = $tm->num_rows;
 
 if ($nt > 0) {
     $thm = $tm->fetch_assoc();
-?>
-    		<link href="<?php echo SITE_PATH; ?>themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
-    <?php
-} else {
     ?>
-    		<link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo SITE_PATH; ?>themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
     <?php
-}
-    ?>
+    } else {
+            ?>
+        <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <?php
+    }
+           ?>
 
 <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/adminlte/css/adminlte.min.css">       
 <!-- Font Awesome -->
-<link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/menu.css" />
 <!-- botstrap, jquery, pooper -->
 <script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo SITE_PATH; ?>assets/css/menu.css" />
 <script src="<?php echo SITE_PATH; ?>assets/js/menu.js" type="text/javascript"></script>
 <style>
     #wrapper, .container-fluid{

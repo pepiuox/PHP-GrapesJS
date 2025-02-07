@@ -9,7 +9,7 @@ class Autoload {
                 return TRUE;
             }
         } else {
-            throw new Exception("No existe $classes.");
+            throw new Exception("Not exists $classes.");
         }
         return FALSE;
     }

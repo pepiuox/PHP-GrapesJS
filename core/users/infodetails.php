@@ -31,14 +31,14 @@
 
                         $sql = "INSERT INTO datos_personales (user_id, nombre, edad, tipo_figura, estatura, busto, cintura, caderas, detalles_fisicos, zonas, citas, salidas, dias, horarios, descripcion_servicio, servicios, adicionales, pack_videos, otras_atenciones)
 VALUES ('$user_id', '$nombre', '$edad', '$tipo_figura', '$estatura', '$busto', '$cintura', '$caderas', '$detalles_fisicos', '$zonas', '$citas', '$salidas', '$dias', '$horarios', '$descripcion_servicio', '$servicios', '$adicionales', '$pack_videos', '$otras_atenciones')";
-                        if ($uconn->query($sql) === TRUE) {
+                        if ($conn->query($sql) === TRUE) {
                             $_SESSION['success'] = 'Los datos se guardaron correctamente';
-                            header('Location: dashboard.php?cms=crud&w=list&tbl=datos_personales');
+                            header('Location: dashboard/crud/list&tbl=datos_personales');
                         } else {
-                            $_SESSION['error'] = 'Error: ' . $uconn->error;
+                            $_SESSION['error'] = 'Error: ' . $conn->error;
                         }
 
-                        $uconn->close();
+                        $conn->close();
                     }
                     ?> 
                     <form method="post" class="form-horizontal" role="form" id="add_datos_personales" enctype="multipart/form-data">

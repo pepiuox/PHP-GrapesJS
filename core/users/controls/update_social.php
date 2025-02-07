@@ -19,7 +19,7 @@
 				$tiktok = protect($_POST['tiktok']);
 				$tumblr = protect($_POST['tumblr']);
 				$linkedin = protect($_POST['linkedin']);
-				$updsm = $uconn->prepare("UPDATE users_social_media SET website = ?, whatsapp = ?, instagram = ?, facebook = ?, telegram = ?, youtube = ?, twitter = ?, tiktok = ?, tumblr = ?, linkedin = ? WHERE usercode = ?");
+				$updsm = $conn->prepare("UPDATE users_social_media SET website = ?, whatsapp = ?, instagram = ?, facebook = ?, telegram = ?, youtube = ?, twitter = ?, tiktok = ?, tumblr = ?, linkedin = ? WHERE usercode = ?");
 				$updsm->bind_param("sssssssssss", $website, $whatsapp, $instagram, $facebook, $telegram, $youtube, $twitter, $tiktok, $tumblr, $linkedin, $ucode);
 				$updsm->execute();
 				$updsm->close();

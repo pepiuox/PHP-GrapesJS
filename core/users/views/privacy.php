@@ -14,7 +14,7 @@ $created = $_POST["created"];
 $updated = $_POST["updated"]; 
 
 $query = "UPDATE users_privacy SET usercode = ?, verification = ?, nationality = ?, type_document = ?, number_document = ?, name_company = ?, ruc_number = ?, logo_image = ?, required = ?, created = ?, updated = ? WHERE idPri = ?";
-$updated = $this->conn->prepare($sql);
+$updated = $conn->prepare($sql);
 $updated->bind_param('ssssssssissi', $usercode, $verification, $nationality, $type_document, $number_document, $name_company, $ruc_number, $logo_image, $required, $created, $updated, $id );
 $updated->execute();
 $updated->close();

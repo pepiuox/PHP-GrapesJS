@@ -6,7 +6,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
       if (isset($_GET['w']) && !empty($_GET['w'])) {
       $w = $p->secureStr($_GET['w']);
       }else{
-      header('Location: dashboard.php?cms=list_pages&w=list');
+      header('Location: dashboard/list_pages/list');
       exit;
       }
      */
@@ -15,7 +15,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <div class='container-fluid'>            
             <div class="row">                
                 <div class="col-md-12 py-3">
-                    <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="btn btn-primary" > Add new page</a>
+                    <a href="<?php echo SITE_PATH; ?>admin/dashboard/add_page" class="btn btn-primary" > Add new page</a>
                     <table class="table">
                         <thead>
                             <tr>
@@ -46,11 +46,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     echo '</td><td>' . "\n";
                                     vwaction($prow['active']);
                                     echo '</td><td>' . "\n";
-                                    echo '<a href="dashboard.php?cms=edit_page&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
+                                    echo '<a href="dashboard/edit_page&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
                                     echo '</td><td>' . "\n";
                                     echo '<a href="builder.php?build=page&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
                                     echo '</td><td>' . "\n";
-                                    echo '<a href="dashboard.php?cms=delete_page&&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+                                    echo '<a href="dashboard/delete_page&&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                     echo '</td></tr>';
                                 }
                             } else {
@@ -516,7 +516,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
             <?php
         } else {
-            header('Location: dashboard.php?cms=list_pages');
+            header('Location: dashboard/list_pages');
             exit;
         }
     } elseif ($cms == "delete_page") {
@@ -529,7 +529,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</div>';
                 echo "<script>
 window.setTimeout(function() {
-    window.location.href = 'dashboard.php?cms=list_pages';
+    window.location.href = 'dashboard/list_pages';
 }, 3000);
 </script>";
             } else {
@@ -562,7 +562,7 @@ window.setTimeout(function() {
         </div>
         <?php
     } else {
-        header('Location: dashboard.php?cms=list_pages');
+        header('Location: dashboard/list_pages');
     }
 }
 ?>

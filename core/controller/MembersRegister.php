@@ -48,7 +48,7 @@ class MembersRegister {
                 ) {
                     $_SESSION["ErrorMessage"] = "Please insert the correct email.";
                     header("Location: registration.php");
-                    exit();
+                    die();
                 }
 
                 // If username or email is taken.
@@ -56,7 +56,7 @@ class MembersRegister {
                     // Promt user error about username or email already taken.
                     $_SESSION["ErrorMessage"] = "Firstname is taken from user or email!";
                     header("Location: registration.php");
-                    exit();
+                    die();
                 } else {
                     // Insert data into database
                     $code = $this->gc->getIdCode();
@@ -99,18 +99,18 @@ class MembersRegister {
                     // If registration is successful return user to registration.php and promt user success pop-up.
                     $_SESSION["ErrorMessage"] = "The user has been created!";
                     header("Location: register.php");
-                    exit();
+                    die();
                 }
             } else {
                 // If registration fails return user to registration.php and promt user failure error.
                 $_SESSION["ErrorMessage"] = "Please complete all fields!";
                 header("Location: register.php");
-                exit();
+                die();
             }
         } else {
             $_SESSION["ErrorMessage"] = "Passwords do not match!";
             header("Location: register.php");
-            exit();
+            die();
         }
         $this->conn->close();
     }

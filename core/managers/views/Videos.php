@@ -6,7 +6,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class='button' href='dashboard.php?cms=videos&w=add'>Nuevo Video</a> 
+                <a class='button' href='dashboard/videos/add'>Nuevo Video</a> 
             </p>
             <h3>Lista de videos</h3> 
 
@@ -50,7 +50,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     echo 'No';
                 }
                 echo "</td>";
-                echo "<td valign='top'><a href='" . B_URL . "index.php?page={$row['idVd']}' target='_blank'>Vista</a></td><td valign='top'><a href='dashboard.php?cms=videos&w=edit&idVd={$row['idVd']}'>Editar</a></td><td><a href='dashboard.php?cms=videos&w=delete&idVd={$row['idVd']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='" . B_URL . "index.php?page={$row['idVd']}' target='_blank'>Vista</a></td><td valign='top'><a href='dashboard/videos/edit&idVd={$row['idVd']}'>Editar</a></td><td><a href='dashboard/videos/delete&idVd={$row['idVd']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -82,7 +82,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class='button' href='dashboard.php?cms=videos&w=list'>Retornar a la Lista</a> 
+                <a class='button' href='dashboard/videos/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar Video</h3> 
 
@@ -197,7 +197,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 }
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `videos` WHERE `idVd` = '$idVd' "));
                 ?>
-                <a class='button' href='dashboard.php?cms=videos&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=videos&w=add'>Nueva Video</a> 
+                <a class='button' href='dashboard/videos/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/videos/add'>Nueva Video</a> 
                 <h3>Editar de video</h3> 
                 <form action='' method='POST'> 
                     <div class='col-md-6'>
@@ -328,7 +328,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             $row = mysqli_fetch_array($conn->query("SELECT * FROM `videos` WHERE `idVd` = '$idVd' "));
             ?>
             <p>
-                <a class='button' href='dashboard.php?cms=videos&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=videos&w=add'>Nueva Video</a> 
+                <a class='button' href='dashboard/videos/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/videos/add'>Nueva Video</a> 
             </p>
             <h3>Vista de videos</h3> 
             <div class="container"> 
@@ -361,7 +361,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
 
         <div class="container">
             <p>
-                <a class='button' href='dashboard.php?cms=videos&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=videos&w=add'>Nueva video</a> 
+                <a class='button' href='dashboard/videos/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/videos/add'>Nueva video</a> 
             </p>
             <h3>Eliminado el video</h3> 
 

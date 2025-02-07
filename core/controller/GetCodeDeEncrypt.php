@@ -44,7 +44,7 @@ class GetCodeDeEncrypt{
     }
     public function iRandHash() {
         $len = 64;
-        $secret = substr(sha1(openssl_random_pseudo_bytes(21)), - $len) . sha1(openssl_random_pseudo_bytes(13));
+        $secret = substr(sha1(openssl_random_pseudo_bytes(19)), - $len) . sha1(openssl_random_pseudo_bytes(15));
         return substr(hash('sha256', $secret), 0, $len);
     }
 

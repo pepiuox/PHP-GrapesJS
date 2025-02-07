@@ -76,7 +76,7 @@ class tableSettings {
             $row = $rts->fetch_assoc();
             return json_encode($row, true);
         } else {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_crud&w=select">';           
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/table_crud/select">';           
         }
         $stmt->close();
     }

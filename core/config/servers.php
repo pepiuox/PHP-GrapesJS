@@ -1,6 +1,6 @@
 <?php
 
-$settings=[
+$settings = [
     'default-connection' => 'cms',
     'connections' => [
         'cms' => [
@@ -11,14 +11,14 @@ $settings=[
             'charset' => 'utf8',
             'port' => '3306',
         ],// use different connection for another DB in this app, and change values.
-         'ecommerce' => [
+        'ecommerce' => [
             'server' => 'localhost',
             'database' => 'ecommerce',
             'username' => 'user',
             'password' => 'password',
             'charset' => 'utf8',
             'port' => '3306',
-        ]
-    ]
+        ],
+    ],
 ];
         ?>

@@ -14,7 +14,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/index.php" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard" class="nav-link <?php
                         if ($fname === 'dashboard') {
                             echo 'active';
                         }
@@ -24,7 +24,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=siteconf" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/siteconf" class="nav-link <?php
                         if ($cms === 'siteconf') {
                             echo 'active';
                         }
@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=themes&w=list" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/themes/list" class="nav-link <?php
                         if ($cms === 'themes') {
                             echo 'active';
                         }
@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=theme_template" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/theme_template/list" class="nav-link <?php
                         if ($cms === 'theme_tenplate') {
                             echo 'active';
                         }
@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=menu" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/menu" class="nav-link <?php
                         if ($cms === 'menu') {
                             echo 'active';
                         }
@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=plugins" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/plugins/list" class="nav-link <?php
                         if ($cms === 'plugins') {
                             echo 'active';
                         }
@@ -84,7 +84,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=volunteer" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/volunteer" class="nav-link <?php
                         if ($cms === 'volunteer') {
                             echo 'active';
                         }
@@ -94,7 +94,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=users" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/users" class="nav-link <?php
                         if ($cms === 'users') {
                             echo 'active';
                         }
@@ -104,7 +104,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=adduser" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/adduser" class="nav-link <?php
                         if ($cms === 'adduser') {
                             echo 'active';
                         }
@@ -125,7 +125,7 @@
                 </a>
                 <ul class="nav nav-treeview"> 
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard?cms=list_pages" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/list_pages" class="nav-link <?php
                         if ($cms === 'list_pages') {
                             echo 'active';
                         }
@@ -137,7 +137,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_page" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/add_page" class="nav-link <?php
                         if ($cms === 'add_page') {
                             echo 'active';
                         }
@@ -196,7 +196,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=post_category&w=list" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/post_category/list" class="nav-link <?php
                         if ($cms === 'post_category') {
                             echo 'active';
                         }
@@ -208,7 +208,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=list_posts" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/list_posts" class="nav-link <?php
                         if ($cms === 'list_posts') {
                             echo 'active';
                         }
@@ -220,7 +220,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_post" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/add_post" class="nav-link <?php
                         if ($cms === 'add_post') {
                             echo 'active';
                         }
@@ -279,7 +279,7 @@
                 </a>
                 <ul class="nav nav-treeview">                
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_config" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/table_config" class="nav-link <?php
                         if ($cms === 'table_config') {
                             echo 'active';
                         }
@@ -289,7 +289,7 @@
                         </a>
                     </li>                    
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_manager&w=list" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/table_manager/list" class="nav-link <?php
                         if ($cms === 'table_manager') {
                             echo 'active';
                         }
@@ -298,7 +298,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=column_manager&w=select" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/column_manager/select" class="nav-link <?php
                         if ($cms === 'column_manager') {
                             echo 'active';
                         }
@@ -308,7 +308,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=table_crud&w=select" class="nav-link <?php
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/table_crud/select" class="nav-link <?php
                         if ($cms === 'table_crud') {
                             echo 'active';
                         }
@@ -330,7 +330,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=pinfo" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>profile/userprofile/pinfo" class="nav-link <?php
                     if ($user === 'pinfo') {
                         echo 'active';
                     }
@@ -340,7 +340,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=pdetail" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>profile/userprofile/pdetail" class="nav-link <?php
                     if ($user === 'pdetail') {
                         echo 'active';
                     }
@@ -350,7 +350,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=sphra" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>profile/userprofile/sphra" class="nav-link <?php
                     if ($user === 'sphra') {
                         echo 'active';
                     }
@@ -360,7 +360,7 @@
                     </a>
                 </li>
 				<li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=uphra" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>profile/userprofile/uphra" class="nav-link <?php
                     if ($user === 'uphra') {
                         echo 'active';
                     }
@@ -370,7 +370,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=chpass" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>profile/userprofile/chpass" class="nav-link <?php
                     if ($user === 'chpass') {
                         echo 'active';
                     }
@@ -380,7 +380,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo SITE_PATH; ?>users/profile.php?user=chpin" class="nav-link <?php
+                    <a href="<?php echo SITE_PATH; ?>profile/userprofile/chpin" class="nav-link <?php
                     if ($user === 'chpin') {
                         echo 'active';
                     }

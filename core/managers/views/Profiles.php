@@ -5,7 +5,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
+                <a class='button' href='dashboard/profiles/add'>Nuevo perfil</a> 
             </p>
             <h3>Lista de perfiles</h3> 
             <?php
@@ -42,7 +42,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo "<td valign='top'>" . $row['description_es'] . "</td>";
                 echo "<td valign='top'>" . $row['image'] . "</td>";
                 echo "<td valign='top'>" . $row['active'] . "</td>";
-                echo "<td valign='top'><a href='dashboard.php?cms=profiles&w=view&id={$row['idPro']}'>Vista</a></td><td valign='top'><a href='dashboard.php?cms=profiles&w=edit&id={$row['idPro']}'>Editar</a></td><td><a href='dashboard.php?cms=profiles&w=delete&id={$row['idPro']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='dashboard/profiles/view&id={$row['idPro']}'>Vista</a></td><td valign='top'><a href='dashboard/profiles/edit&id={$row['idPro']}'>Editar</a></td><td><a href='dashboard/profiles/delete&id={$row['idPro']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -77,7 +77,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class='button' href='dashboard.php?cms=profiles&w=list'>Retornar a la Lista</a> 
+                <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar a Perfil</h3> 
             <form action='' method='POST'>                 
@@ -149,7 +149,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 $row = mysqli_fetch_assoc($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '$idPro' "));
                 ?>
                 <p>
-                    <a class='button' href='dashboard.php?cms=profiles&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
+                    <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/profiles/add'>Nuevo perfil</a> 
                 </p>
                 <h3>Editar de profile</h3> 
                 <form action='' method='POST'>                     
@@ -212,7 +212,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             $row = mysqli_fetch_assoc($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '$idPro' "));
             ?>
             <p>
-                <a class='button' href='dashboard.php?cms=profiles&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
+                <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/profiles/add'>Nuevo perfil</a> 
             </p>
             <h3>Vista de profile</h3> 
             <div class="container">                 
@@ -247,7 +247,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container">
             <p>
-                <a class='button' href='dashboard.php?cms=profiles&w=list'>Retornar a la Lista</a> - <a class='button' href='dashboard.php?cms=profiles&w=add'>Nuevo perfil</a> 
+                <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/profiles/add'>Nuevo perfil</a> 
             </p>
             <h3>Eliminado de profile</h3> 
             <?php

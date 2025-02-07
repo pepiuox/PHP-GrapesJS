@@ -2,8 +2,8 @@
 //
 //  This application develop by PEPIUOX.
 //  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
+//  Author : PePiuoX
+//  Email  : contact@pepiuox.net
 //
 
 require_once "config/loader.php";
@@ -24,96 +24,136 @@ $extpath = pathinfo($url, PATHINFO_EXTENSION);
 $pages->routePages();
 if ($pages->GoPage() === true) {
     if ($initweb === $url) {
-    $rpx = $pages->InitPage();
-} elseif (isset($basename) && !empty($basename)) {
-    $npg = $pages->Pages($basename);
-    if ($npg == $url) {
-        $rpx = $pages->PageDataWeb($basename);
+        $rpx = $pages->InitPage();
+    } elseif (isset($basename) && !empty($basename)) {
+        $npg = $pages->Pages($basename);
+        if ($npg == $url) {
+            $rpx = $pages->PageDataWeb($basename);
+        } else {
+            header("Location: $npg");
+            die();
+        }
     } else {
-        header("Location: $npg");
+        $pages->routePages();
+    }
+
+    $bid = $rpx["id"];
+    $syspath = $rpx['system_path'];
+    $viewpg = $rpx['view_page'];
+    $title = $rpx["title"];
+    $plink = $rpx["link"];
+    $purl = $rpx["url"];
+    $keyword = $rpx["keyword"];
+    $classification = $rpx["classification"];
+    $description = $rpx["description"];
+    $typepage = $rpx["type"];
+    $menu = $rpx["menu"];
+    $pfile = $rpx["path_file"];
+    $content = $rpx["content"];
+    $style = $rpx["style"];
+    $lng = $rpx["language"];
+
+    $visitor->pageViews($title);
+
+    $language = $_SESSION["language"] = $lng;
+    $request = $_SERVER["REQUEST_URI"];
+
+    if ($viewpg === "public") {
+
+        require_once "elements/top.php";
+
+        if ($typepage === 'Design') {
+            echo '<style>' . "\n";
+            echo decodeContent($style) . "\n";
+            echo '</style>' . "\n";
+        }
+?>
+                 </head>
+
+                 <body>
+                 <div id="wrapper">
+                 <div class='container-fluid' id="content-page">
+        <?php
+        require_once "elements/menu.php";
+        if ($typepage === 'File') {
+            include "elements/alerts.php";
+
+            if ($request === $purl) {
+                require_once $pfile . ".php";
+            }
+        } else if ($typepage === 'Design') {
+            $string = decodeContent($content);
+            if (!empty($content)) {
+                $string = str_replace("<body>", "", $string);
+                $string = str_replace("</body>", "", $string);
+            }
+            echo $string . "\n";
+        }
+        require_once "elements/footer.php";
+        ?>
+                 </div>
+                 </div>
+                 </body>
+                 </html>
+        <?php
+    } else if ($viewpg === "system") {
+        include 'elements/header.php';
+        ?>
+                 </head>
+                 <body class="hold-transition sidebar-mini">
+                 <div class="wrapper">
+        <?php
+        if ($request === $purl) {
+            require_once $pfile . ".php";
+        }
+
+        require_once 'elements/footer.php';
+        ?>
+                 </div>
+                 </body>
+
+                 </html>
+        <?php
+    }
+} else {
+
+    $tempURL = explode('/', $_SERVER['REQUEST_URI']);
+    $tempBASE = $tempURL[1];
+    $tempURI = $tempURL[2];
+
+    include 'elements/header.php';
+        ?>
+          </head>
+          <body class="hold-transition sidebar-mini">
+          <div class="wrapper">  
+    <?php
+    if ($tempBASE === "admin") {
+        if (!empty($tempURL[3])) {
+            define('CMS', $tempURL[3]);
+        }
+        if (!empty($tempURL[4])) {
+            define('WS', $tempURL[4]);
+        }
+        if (!empty($tempURL[5])) {
+            define('TBL', $tempURL[5]);
+        }
+        require_once "managers/" . $tempURI . ".php";
+    } else if ($tempBASE === "profile") {
+        if (!empty($tempURL[3])) {
+            define('USR', $tempURL[3]);
+        }
+        if (!empty($tempURL[4])) {
+            define('WS', $tempURL[4]);
+        }
+        require_once "users/" . $tempURI . ".php";
+    } else {
+        header("Location " . $pg404);
         die();
     }
-}else{
-    $pages->routePages();
-}
-
-$bid = $rpx["id"];
-$syspath = $rpx['system_path'];
-$viewpg = $rpx['view_page'];
-$title = $rpx["title"];
-$plink = $rpx["link"];
-$purl = $rpx["url"];
-$keyword = $rpx["keyword"];
-$classification = $rpx["classification"];
-$description = $rpx["description"];
-$typepage = $rpx["type"];
-$menu = $rpx["menu"];
-$pfile = $rpx["path_file"];
-$content = $rpx["content"];
-$style = $rpx["style"];
-$lng = $rpx["language"];
-
-$visitor->pageViews($title);
-
-$language = $_SESSION["language"] = $lng;
-$request = $_SERVER["REQUEST_URI"];
-
-if ($viewpg === "public") {
-
-    require_once "elements/top.php";
-
-    if ($typepage === 'Design') {
-        echo '<style>' . "\n";
-        echo decodeContent($style) . "\n";
-        echo '</style>' . "\n";
-    }
     ?>
-</head>
-
-<body>
-    <div id="wrapper">
-        <div class='container-fluid' id="content-page">
-            <?php
-                        require_once "elements/menu.php";
-                        if ($typepage === 'File') {
-                            include "elements/alerts.php";
-                            
-                            if ($request === $purl) {
-                                require_once $pfile . ".php";
-                            }
-                        }else if ($typepage === 'Design') {
-                            $string = decodeContent($content);
-                            if (!empty($content)) {
-                                $string = str_replace("<body>", "", $string);
-                                $string = str_replace("</body>", "", $string);
-                            }
-                            echo $string . "\n";
-                        }
-                        require_once "elements/footer.php";
-                        ?>
-        </div>
-    </div>
-</body>
-
-</html>
-<?php
-} else {
- include 'elements/header.php'; 
- ?>
-</head>
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-        <?php
-    if ($request === $purl) {
-        require_once $pfile . ".php";
-    }
-    require_once 'elements/footer.php';
+          </div>
+          </body>
+          </html>
+    <?php
+}
     ?>
-    </div>
-</body>
-
-</html>
-<?php
-}
-}
-?>

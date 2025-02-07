@@ -5,7 +5,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Agregar Nueva Imagen</a> 
+                <a class="btn btn-secondary" href='dashboard/images/add'>Agregar Nueva Imagen</a> 
             </p>
             <h3>Lista de Imagenes en Galerias</h3>
             <?php
@@ -26,7 +26,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo "<tr> \n";
                 echo "<td valign='top' style='height:110px'>" . $row['gallery'] . "</td> \n";
                 echo "<td valign='top' style='height:110px'><img src='" . $row['image'] . "' style='height:110px' /></td> \n";
-                echo "<td valign='top' style='height:110px'><a href='dashboard.php?cms=images&w=view&id={$row['id']}'>Vista</a></td><td valign='top' style='height:110px'><a href='dashboard.php?cms=images&w=edit&id={$row['id']}'>Editar</a></td><td style='height:110px'><a href='dashboard.php?cms=images&w=delete&id={$row['id']}'>Eliminar</a></td> \n";
+                echo "<td valign='top' style='height:110px'><a href='dashboard/images/view&id={$row['id']}'>Vista</a></td><td valign='top' style='height:110px'><a href='dashboard/images/edit&id={$row['id']}'>Editar</a></td><td style='height:110px'><a href='dashboard/images/delete&id={$row['id']}'>Eliminar</a></td> \n";
                 echo "</tr> \n";
             }
             echo "</tbody> \n";
@@ -53,7 +53,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=images&w=list'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar una Imagen</h3> 
             <form action='' method='POST'> 
@@ -142,7 +142,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `image_gal` WHERE `id` = '$id' "));
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=images&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Nueva Imagen</a> 
+                    <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/images/add'>Nueva Imagen</a> 
                 </p>
                 <h3>Editar de Imagen para galeria</h3> 
                 <form action='' method='POST'> 
@@ -237,7 +237,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             $row = mysqli_fetch_array($conn->query("SELECT * FROM `image_gal` LEFT JOIN galleries ON image_gal.galId=galleries.idGal WHERE `id` = '$id' "));
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=images&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Nueva Imagen</a> 
+                <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/images/add'>Nueva Imagen</a> 
             </p>
             <h3>Vista de imagenes</h3> 
             <div class="container">
@@ -263,7 +263,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?> 
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=images&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=images&w=add'>Nueva Fila</a> 
+                <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/images/add'>Nueva Fila</a> 
             </p>
             <h3>Eliminado de image_gal</h3> 
             <?php

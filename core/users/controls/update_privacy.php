@@ -23,7 +23,7 @@ $stmt->bind_param('ssssss', $nationality, $type_document, $number_document, $nam
 $stmt->execute();
 $stmt->close();
 }
-$upry = $uconn->prepare("SELECT nationality, type_document, number_document, name_company, ruc_number FROM users_privacy WHERE usercode = ?");
+$upry = $conn->prepare("SELECT nationality, type_document, number_document, name_company, ruc_number FROM users_privacy WHERE usercode = ?");
 $upry->bind_param('s', $ucode);
 $upry->execute();
 $pry = $upry->get_result();

@@ -21,13 +21,13 @@ $language = protect($_POST["language"]);
 
 
 $sql = "UPDATE users_profiles SET public_phone = ?, public_email = ?, social_media = ?, profession = ?, occupation = ?, profile_bio = ?, language = ? WHERE idp = ? AND usercode = ?";
-$stmt = $uconn->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param('sssssssss', $public_phone, $public_email, $social_media, $profession, $occupation, $profile_bio, $language, $userid, $ucode );
 $stmt->execute();
 $stmt->close();
 }
  
-$upro = $uconn->prepare("SELECT public_phone, public_email, social_media, profession, occupation, profile_bio, language FROM users_profiles WHERE idp = ? AND usercode=?");
+$upro = $conn->prepare("SELECT public_phone, public_email, social_media, profession, occupation, profile_bio, language FROM users_profiles WHERE idp = ? AND usercode=?");
 $upro->bind_param('ss', $userid, $ucode);
 $upro->execute();
 $pro = $upro->get_result();

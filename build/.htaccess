@@ -22,12 +22,29 @@
 	RewriteCond %{REQUEST_FILENAME} !-f
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule ^.*$ index.php [QSA,L]
+        #RewriteRule ^([^/.]+)/?$ $1.php
         # RewriteRule ^(.*)$ index.php?$1 [L,QSA]
         # RewriteRule ^([^\.]+)$ $1.php [NC,L]
         # RewriteRule ^(.+)\.php$ /$1 [R,L]
-	# RewriteCond %{REQUEST_FILENAME}/index.html !-f
+	RewriteCond %{REQUEST_FILENAME}/index.html !-f
 	RewriteCond %{REQUEST_FILENAME}/index.php !-f
-        #
+        # RewriteRule .*[^/]$ %{REQUEST_URI}/ [L,R=301]
+        # RewriteCond %{REQUEST_URI} ^(/dashboard/[^/]+)\.php$ [NC]
+        # RewriteRule . %1/ [L,R=301]
+        # RewriteCond %{REQUEST_URI} ^(/dashboard/.+[^/])$ [NC]
+        # RewriteCond %{REQUEST_URI} ^/dashboard/[^/]+/([a-zA-Z0-9]+)/$ [NC]
+        
+        # RewriteRule . index.php?cms=$1 [L] 
+        # RewriteRule . index.php?cms=$1&w=$2 [L] 
+        # RewriteRule ^(.+)/([a-zA-Z0-9]+)/?$ index.php?cms=$1 [L]
+        # RewriteRule ^(.+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/?$ ./index.php?cms=$1&w=$2 [L,QSA]
+        #       
+        # RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?cms=$1
+        # RewriteRule ^dashboard/(\d+)*$ ./dashboard.php?cms=$1
+        # RewriteRule ^dashboard/([a-zA-Z0-9_-]+)$ dashboard.php?cms=$1
+        # RewriteRule ^dashboard/([a-zA-Z0-9_-]+)/$ dashboard.php?cms=$1
+        # RewriteRule ^dashboard/?$ dashboard.php?cms=$=1 [NC,L]
+
         # RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
         # RewriteRule ^ index.php [QSA,L]
 	# RewriteRule . index.php [L]
@@ -55,7 +72,7 @@
         # Control Cross-Domain Policies
         Header set X-Permitted-Cross-Domain-Policies "master-only"
         # Charset UTF-8
-        Header set Content-Type "text/html; charset=UTF-8"
+        # Header set Content-Type "text/html; charset=UTF-8"
         Header set Content-Security-Policy "default-src 'self'; img-src 'self' http: https: *.pepiuox.net; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
         Header set Access-Control-Allow-Origin "*"
         IndexIgnore *.zip *.css *.js *.pyt    
@@ -95,3 +112,8 @@
         Deny from all
         Satisfy All
 </FilesMatch>
+<IfModule mod_negotiation.c>
+        # Options +SymLinksIfOwnerMatch
+        Options -MultiViews
+        # other code
+</IfModule>

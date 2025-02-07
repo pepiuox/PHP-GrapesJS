@@ -18,7 +18,7 @@ $created = $_POST["created"];
 $updated = $_POST["updated"]; 
 
 $query = "UPDATE users_info SET usercode = ?, firstname = ?, lastname = ?, gender = ?, age = ?, birthday = ?, phone = ?, country = ?, state = ?, city = ?, address1 = ?, address2 = ?, is_active = ?, created = ?, updated = ? WHERE userid = ?";
-$updated = $this->conn->prepare($sql);
+$updated = $conn->prepare($sql);
 $updated->bind_param('ssssisssssssissi', $usercode, $firstname, $lastname, $gender, $age, $birthday, $phone, $country, $state, $city, $address1, $address2, $is_active, $created, $updated, $id );
 $updated->execute();
 $updated->close();

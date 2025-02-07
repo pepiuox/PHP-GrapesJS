@@ -1,11 +1,4 @@
 <?php
-if (isset($_GET['w']) && !empty($_GET['w'])) {
-    $w = protect($_GET['w']);
-} else {
-    ?>
-    <meta http-equiv="Refresh" content="0; url='dashboard.php?cms=plugins&w=list'" />
-    <?php
-}
 
 if ($w == "list") {
     $tble = 'plugins_app';
@@ -16,7 +9,7 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard.php?cms=plugins&w=add">Add <i class="fas fa-plus-square"></i></a></th>
+                        <th><a id="addrow" name="addrow" title="Agregar" class="btn btn-primary" href="dashboard/plugins/add">Add <i class="fas fa-plus-square"></i></a></th>
                         <th>Id</th>
                         <th>Plugins</th>
                         <th>Plugins Opts</th>
@@ -34,8 +27,8 @@ if ($w == "list") {
                         echo '
                         <tr>
                             <td><!--Button -->
-                                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=plugins&w=edit&id=' . $mnop['id'] . '"><i class="fas fa-edit"></i></a>
-                                <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=crud&w=delete&id=' . $mnop['id'] . '"><i class="fas fa-trash-alt"></i></a>
+                                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard/plugins/edit&id=' . $mnop['id'] . '"><i class="fas fa-edit"></i></a>
+                                <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard/crud/delete&id=' . $mnop['id'] . '"><i class="fas fa-trash-alt"></i></a>
                             </td>
                             <td>' . $mnop['id'] . '</td>
                             <td>' . $mnop['plugins'] . '</td>
@@ -68,7 +61,7 @@ if ($w == "list") {
                 . "VALUES ('$plugins', '$plugins_opts', '$script', '$css', '$buttons', '$plugins_script', '$plugins_css')";
         if ($conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly';
-            header('Location: dashboard.php?cms=plugins&w=list');
+            header('Location: dashboard/plugins/list');
             exit;
         } else {
             $_SESSION['error'] = 'Error: ' . $conn->error;
@@ -81,7 +74,7 @@ if ($w == "list") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=plugins&w=list">Back to List </a>
+                   href="dashboard/plugins/list">Back to List </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Add Menu Options </h2>
@@ -148,7 +141,7 @@ if ($w == "list") {
         $query = "UPDATE `$tble` SET plugins = '$plugins', plugins_opts = '$plugins_opts', script = '$script', css = '$css', buttons = '$buttons', plugins_script = '$plugins_script', plugins_css = '$plugins_css' WHERE id=$id ";
         if ($conn->query($query) === TRUE) {
             $_SESSION["success"] = "The data was updated correctly.";
-            header("Location: dashboard.php?cms=plugins&w=list");
+            header("Location: dashboard/plugins/list");
             exit;
         } else {
             $_SESSION["error"] = "Error updating data: " . $conn->error;
@@ -161,7 +154,7 @@ if ($w == "list") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=plugins&w=list">Back to List </a>
+                   href="dashboard/plugins/list">Back to List </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Edit Menu Options </h2>
@@ -216,7 +209,7 @@ if ($w == "list") {
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <a href="dashboard.php?cms=plugins&w=list">List Menu Option</a>
+                <a href="dashboard/plugins/list">List Menu Option</a>
             </div>
             <div class="col-md-9">
                 <center>
@@ -237,7 +230,7 @@ if ($w == "list") {
 
                         if ($conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
                             $_SESSION['success'] = "Record deleted successfully";
-                            header('Location: dashboard.php?cms=plugins&w=list');
+                            header('Location: dashboard/plugins/list');
                             exit;
                         } else {
                             $_SESSION['error'] = "Error deleting record";

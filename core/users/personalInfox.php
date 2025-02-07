@@ -28,7 +28,7 @@
                         $profile_bio = protect($_POST["profile_bio"]);
                         $language = protect($_POST["language"]);
                         $query = "UPDATE profiles SET avatar = ?, birthday = ?, public_phone = ?, website = ?, social_media = ?, profession = ?, occupation = ?, public_email = ?, address = ?, profile_image = ?, profile_cover = ?, profile_bio = ?, language = ? WHERE idp = ? AND mkhash = ? ";
-                        $up1 = $uconn->prepare($query);
+                        $up1 = $conn->prepare($query);
                         $up1->bind_param("sisssssssssssss", $avatar, $birthday, $public_phone, $website, $social_media, $profession, $occupation, $public_email, $address, $profile_image, $profile_cover, $profile_bio, $language, $userid, $hash);
                         $up1->execute();
                         $inst1 = $up1->affected_rows;
@@ -41,7 +41,7 @@
                             $_SESSION["error"] = "Error updating data: " . $conn->error;
                         }
                     }
-                    $respro = $uconn->prepare("SELECT * FROM users_profiles WHERE idp = ? AND mkhash = ? ");
+                    $respro = $conn->prepare("SELECT * FROM users_profiles WHERE idp = ? AND mkhash = ? ");
                     $respro->bind_param("ss", $userid, $hash);
                     $respro->execute();
                     $prof = $respro->get_result();

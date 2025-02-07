@@ -8,6 +8,7 @@
 class UsersCodeAccess{
   protected $conn;
   private $actions;
+  private $secures;
   
     public function __construct(){
        global $conn;
@@ -15,12 +16,14 @@ class UsersCodeAccess{
         $this->actions = [
             'users_active',
             'users_plans',
-            'users_privacy',
             'users_searches',
-            'users_secures',
             'users_social_media',
             'users_types',
             'users_verifications'                   
+            ]; 
+        $this->secures = [
+            'users_privacy',
+            'users_secures'                   
             ]; 
               
     }
@@ -40,7 +43,18 @@ class UsersCodeAccess{
                 $stmt = $this->conn->prepare($sql);
                 $stmt->bind_param("s", $uscod);
                 $stmt->execute();
-				$stmt->close();
+		$stmt->close();
+        }    
+            
+    }
+    
+    public function AddSecures($ids, $uscod){
+        foreach($this->secures as $tb){
+                $sql= "INSERT INTO ".$tb." (idUsr, usercode) VALUES (?, ?)";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bind_param("ss", $ids, $uscod);
+                $stmt->execute();
+		$stmt->close();
         }    
             
     }
@@ -83,14 +97,14 @@ class UsersCodeAccess{
      * @param string $folder The folder associated with the secure.
      */
     public function UpSecures($uscod, $ids, $val, $folder){
-        $stmt = $this->conn->prepare("UPDATE users_secures SET idSec=?, folder_files=?, validation=? WHERE usercode=?");
+        $stmt = $this->conn->prepare("UPDATE users_secures SET idUsr=?, folder_files=?, validation=? WHERE usercode=?");
         $stmt->bind_param("ssss", $ids, $folder, $val, $uscod);
         $stmt->execute();
         $stmt->close();
     }
 	
     public function UpPrivacy($uscod,$idp, $ver){
-        $stmt = $this->conn->prepare("UPDATE users_privacy SET idPri=?, verification=? WHERE usercode=?");
+        $stmt = $this->conn->prepare("UPDATE users_privacy SET idUsr=?, verification=? WHERE usercode=?");
         $stmt->bind_param("sss",$idp, $ver, $uscod);
         $stmt->execute();
         $stmt->close();

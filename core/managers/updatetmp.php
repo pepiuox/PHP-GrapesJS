@@ -15,7 +15,7 @@ $stmt->close();
 $_SESSION["success"] = "The data was updated correctly.";
 echo "<script>
 window.onload = function() {
-    location.href = 'dashboard.php?cms=table_crud&w=list&tbl=menu';
+    location.href = 'dashboard/table_crud/list&tbl=menu';
 }
 </script>";
 } 

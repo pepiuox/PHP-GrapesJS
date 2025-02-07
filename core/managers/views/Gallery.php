@@ -5,7 +5,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Agregar Nueva galeria</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/add'>Agregar Nueva galeria</a> 
             </p>
             <h3>Lista de galeria de medios </h3>
             <style>
@@ -35,22 +35,22 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo "<tr>";
                 echo "<td valign='top'>" . $row['gallery'] . "<br />";
                 if ($row['type'] == 1) {
-                    echo "<a class='button' href='dashboard.php?cms=gallery&w=addi&id={$row['idGal']}'>Agregar Imagenes</a>";
+                    echo "<a class='button' href='dashboard/gallery/addi&id={$row['idGal']}'>Agregar Imagenes</a>";
                 } else if ($row['type'] == 2) {
-                    echo "<a class='button' href='dashboard.php?cms=gallery&w=addm&id={$row['idGal']}'>Agregar Multimedia</a>";
+                    echo "<a class='button' href='dashboard/gallery/addm&id={$row['idGal']}'>Agregar Multimedia</a>";
                 } else {
-                    echo "<a class='button' href='dashboard.php?cms=gallery&w=addp&id={$row['idGal']}'>Agregar Publicaciones</a>";
+                    echo "<a class='button' href='dashboard/gallery/addp&id={$row['idGal']}'>Agregar Publicaciones</a>";
                 }
                 echo "</td>";
                 echo "<td valign='top'>" . $row['name'] . "</td>";
                 echo "<td valign='top'>" . $row['type_gallery'] . "</td>";
                 echo "<td valign='top'>";
                 if ($row['type'] == 1) {
-                    echo "<a href='dashboard.php?cms=gallery&w=listgi&gal={$row['idGal']}'>";
+                    echo "<a href='dashboard/gallery/listgi&gal={$row['idGal']}'>";
                 } elseif ($row['type'] == 2) {
-                    echo "<a href='dashboard.php?cms=gallery&w=listgm&gal={$row['idGal']}'>";
+                    echo "<a href='dashboard/gallery/listgm&gal={$row['idGal']}'>";
                 } else {
-                    echo "<a href='dashboard.php?cms=gallery&w=listgp&gal={$row['idGal']}'>";
+                    echo "<a href='dashboard/gallery/listgp&gal={$row['idGal']}'>";
                 }
                 echo "Ver contenido</a></td>";
                 echo "<td valign='top'>" . $row['npage'] . "</td>";
@@ -61,7 +61,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     echo 'No';
                 }
                 echo "</td>";
-                echo "<td valign='top'><a href='" . B_URL . "index.php?page={$row['id']}' target='_blank'>Vista</a></td><td valign='top'><a href='dashboard.php?cms=gallery&w=edit&id={$row['idGal']}'>Editar</a></td><td><a href='dashboard.php?cms=gallery&w=delete&id={$row['idGal']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='" . B_URL . "index.php?page={$row['id']}' target='_blank'>Vista</a></td><td valign='top'><a href='dashboard/gallery/edit&id={$row['idGal']}'>Editar</a></td><td><a href='dashboard/gallery/delete&id={$row['idGal']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -92,7 +92,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=list'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar una Galeria</h3> 
             <form action='' method='POST'> 
@@ -182,7 +182,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Nueva Galeria</a> 
+                    <a class="btn btn-secondary" href='dashboard/gallery/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/gallery/add'>Nueva Galeria</a> 
                 </p>
                 <h3>Editar <?php echo $row['name']; ?></h3> 
 
@@ -283,7 +283,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container">
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Nueva Galeria</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/gallery/add'>Nueva Galeria</a> 
             </p>
             <link href="<?php echo B_URL; ?>dist/css/lightgallery.css" rel="stylesheet">
             <link href="<?php echo B_URL; ?>css/responsiveslides.css" rel="stylesheet">
@@ -340,7 +340,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=add'>Nueva Galeria</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/gallery/add'>Nueva Galeria</a> 
             </p>
             <h3>Eliminado de galleries</h3> 
 
@@ -348,7 +348,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             $id = (int) $_GET['id'];
             $conn->query("DELETE FROM `galleries` WHERE `idGal` = '$id' ");
             echo "Galelria Eliminada.<br /> ";
-            header("Location: dashboard.php?cms=gallery&w=list");
+            header("Location: dashboard/gallery/list");
             ?> 
         </div>
         <?php
@@ -545,7 +545,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=addm&id=<?php echo $rowg['idGal']; ?>'>Agregar Nuevo Multimedia</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/addm&id=<?php echo $rowg['idGal']; ?>'>Agregar Nuevo Multimedia</a> 
             </p>
             <h3>Lista de Multimedia de <?php echo $rowg['name']; ?></h3>
             <style>
@@ -691,7 +691,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     echo '<meta http-equiv="refresh" content="0">';
                 }
                 ?>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=listgm'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/listgm'>Retornar a la Lista</a> 
                 <h3>Agregar Multimedia a <?php echo $row['gallery']; ?></h3> 
                 <form action='' method='POST'>                                        
                     <div class='col-md-6'><label class="form-label">Imagen:</label>  
@@ -761,7 +761,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=addp&id=<?php echo $rowg['idGal']; ?>'>Agregar Nuevo Publicacion</a> 
+                <a class="btn btn-secondary" href='dashboard/gallery/addp&id=<?php echo $rowg['idGal']; ?>'>Agregar Nuevo Publicacion</a> 
             </p>
             <h3>Lista de Publicaciones de <?php echo $rowg['name']; ?></h3>
             <style>
@@ -911,7 +911,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 }
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=gallery&w=listgp'>Retornar a la Lista</a> 
+                    <a class="btn btn-secondary" href='dashboard/gallery/listgp'>Retornar a la Lista</a> 
                 </p>
                 <h3>Agregar a Publicación</h3> 
                 <form action='' method='POST'>  

@@ -46,7 +46,7 @@ include_once '../elements/alerts.php';
 $userid = $_SESSION['user_id'];
 $hash = $_SESSION['hash'];
 
-$respro = $uconn->prepare("SELECT * FROM users_profiles p LEFT JOIN users_info i ON p.usercode = i.usercode WHERE p.idp = ? AND p.mkhash = ? ");
+$respro = $conn->prepare("SELECT * FROM users_profiles p LEFT JOIN users_info i ON p.usercode = i.usercode WHERE p.idp = ? AND p.mkhash = ? ");
 $respro->bind_param("ss", $userid, $hash);
 $respro->execute();
 $prof = $respro->get_result();

@@ -1,11 +1,13 @@
 <?php
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
-    if (!isset($_GET['w']) || empty($_GET['w'])) {
-        header('Location: dashboard.php?cms=table_manager&w=list');
-        exit;
-    }
+    
     extract($_POST);
-    $w = protect($_GET['w']);
+    if (defined('WS')) {
+    $w = WS;
+    }
+    if (defined('TBL')) {
+    $tble = TBL;
+    }
     $c = new MyCRUD();
 
     if ($w == "list") {
@@ -15,9 +17,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 <?php
                 if (isset($_POST['addtable'])) {
-                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">';
+                    echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/add">';
                 }
-                $linkedit = 'dashboard.php?cms=table_manager&w=editor&tbl=';
+                $linkedit = 'dashboard/table_manager/editor/';
                 $result0 = $conn->query("SHOW COLUMNS FROM table_settings");
                 $bq = array();
                 echo '<form class="row form-horizontal" method="POST">' . "\n";
@@ -94,7 +96,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         echo '</tr>' . "\n";
                     }
                 } else {
-                    echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">' . "\n";
+                    echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/add">' . "\n";
                 }
                 echo '</tbody>' . "\n";
                 echo '</table>' . "\n";
@@ -110,11 +112,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     } elseif ($w == "add") {
         $tableNames = '';
         if (isset($_POST['list'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">' . "\n";
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/list">' . "\n";
         }
 
-        if (isset($_GET['tbl']) && !empty($_GET['tbl'])) {
-            $tble = protect($_GET['tbl']);
+        if (defined('TBL')) {
+            $tble = TBL;
 
             $vfile = 'qtmp.php';
             if (file_exists($vfile)) {
@@ -128,7 +130,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if ($result->num_rows > 0) {
                 echo '<h4>This table has already been added in the query builder.</h4> ' . "\n";
                 echo '<script>' . "\n";
-                echo 'window.location.href = "dashboard.php?cms=table_manager&w=editor&tbl=' . $tble . '"' . "\n";
+                echo 'window.location.href = "dashboard/table_manager/editor&tbl=' . $tble . '"' . "\n";
                 echo '</script>' . "\n";
             } else {
 
@@ -153,7 +155,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $dq .= implode(", \n", $addq);
                 $dq .= '";';
 
-                $redir = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=editor&tbl=' . $tble . '">';
+                $redir = '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/editor/' . $tble . '">';
                 $content = '<?php' . "\n";
                 $content .= '//This is temporal file only for add new row' . "\n";
                 $content .= "if(isset(\$_POST['addtable'])){" . "\n";
@@ -217,7 +219,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <script>
                         let select = document.querySelector('#addtb');
                         select.addEventListener('change', function () {
-                        let url = 'dashboard.php?cms=table_manager&w=add&tbl=' + this.value;
+                        let url = 'dashboard/table_manager/add/' + this.value;
                         window.location.replace(url);
                         });
                     </script>
@@ -235,7 +237,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </div>
         <?php
     } elseif ($w == "editor") {
-        $tble = protect($_GET['tbl']);
+        
         $result = $conn->query("SELECT table_name FROM table_settings");
         $total_found = $result->num_rows;
         $rc = array();
@@ -245,10 +247,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             }
         }
         if (isset($_POST['list'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">' . "\n";
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/list">' . "\n";
         }
         if (isset($_POST['add'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">' . "\n";
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/add">' . "\n";
         }
         if (isset($_POST['submit'])) {
             $cols = array();
@@ -273,7 +275,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $upset = "UPDATE table_settings SET $colset WHERE table_name='$tble'";
             if ($conn->query($upset) === TRUE) {
                 echo "Record updated successfully";
-                echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=list">' . "\n";
+                echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/list">' . "\n";
             } else {
                 echo "Error updating record: " . $conn->error;
             }
@@ -298,7 +300,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                let url = 'dashboard.php?cms=table_manager&w=editor&tbl=' + this.value;
+                                let url = 'dashboard/table_manager/editor&tbl=' + this.value;
                                 window.location.replace(url);
                                 });
                             </script>
@@ -438,7 +440,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                let url = 'dashboard.php?cms=table_manager&w=editor&tbl=' + this.value;
+                                let url = 'dashboard/table_manager/editor&tbl=' + this.value;
                                 window.location.replace(url);
                                 });
                             </script>

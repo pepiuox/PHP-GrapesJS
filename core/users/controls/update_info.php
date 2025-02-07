@@ -31,7 +31,7 @@ $updated->execute();
 $updated->close();
 }
 
-$upinfo = $uconn->prepare("SELECT * FROM users_info WHERE usercode=?");
+$upinfo = $conn->prepare("SELECT * FROM users_info WHERE usercode=?");
 $upinfo->bind_param('s', $ucode);
 $upinfo->execute();
 $upinf = $upinfo->get_result();

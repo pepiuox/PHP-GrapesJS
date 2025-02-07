@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               9.0.1 - MySQL Community Server - GPL
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.6.0.6765
+-- HeidiSQL Version:             12.10.0.7010
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.active_guests: ~2 rows (approximately)
+-- Dumping data for table test_cms.active_guests: ~3 rows (approximately)
 INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
 	('127.0.0.1', '2023-10-01 01:51:11'),
 	('::1', '2023-12-25 05:55:22'),
@@ -48,10 +48,10 @@ INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
 -- Dumping structure for table test_cms.active_sessions
 DROP TABLE IF EXISTS `active_sessions`;
 CREATE TABLE IF NOT EXISTS `active_sessions` (
-  `session` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
-  `access` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
+  `session` char(128) DEFAULT NULL,
+  `access` char(128) DEFAULT NULL,
   `date_session` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.active_sessions: ~0 rows (approximately)
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
   KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.admins: ~0 rows (approximately)
+-- Dumping data for table test_cms.admins: ~1 rows (approximately)
 INSERT INTO `admins` (`adminid`, `usercode`, `is_active`, `superadmin`) VALUES
 	('100546964394868738', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 1, 1);
 
@@ -2172,9 +2172,9 @@ CREATE TABLE IF NOT EXISTS `follow` (
 DROP TABLE IF EXISTS `forgot_pass`;
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
   `idFpa` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `email` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `password_key` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `username` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `password_key` varchar(128) DEFAULT NULL,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `expired` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idFpa`)
@@ -2186,9 +2186,9 @@ CREATE TABLE IF NOT EXISTS `forgot_pass` (
 DROP TABLE IF EXISTS `forgot_pin`;
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
   `idFpi` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `email` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `pin_key` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `username` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `pin_key` varchar(128) DEFAULT NULL,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `expired` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idFpi`) USING BTREE
@@ -2239,7 +2239,7 @@ DROP TABLE IF EXISTS `ip`;
 CREATE TABLE IF NOT EXISTS `ip` (
   `id_session` char(128) NOT NULL,
   `user_data` char(128) NOT NULL,
-  `address` char(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `address` char(20) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -2396,7 +2396,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `language` int NOT NULL DEFAULT '1',
   `position` int NOT NULL DEFAULT '0',
   `system_path` varchar(150) DEFAULT NULL,
-  `view_page` enum('public','system','private') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `view_page` enum('public','system','private') DEFAULT NULL,
   `title` varchar(50) DEFAULT 'Title',
   `link` varchar(150) DEFAULT NULL,
   `url` varchar(150) DEFAULT NULL,
@@ -2451,7 +2451,7 @@ CREATE TABLE IF NOT EXISTS `pageviews` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.pageviews: ~63 rows (approximately)
+-- Dumping data for table test_cms.pageviews: ~65 rows (approximately)
 INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(1, 'Inicio', '127.0.0.1', '2024-09-06 06:40:35'),
 	(2, '404', '127.0.0.1', '2024-09-06 06:40:36'),
@@ -2524,8 +2524,8 @@ DROP TABLE IF EXISTS `page_contents`;
 CREATE TABLE IF NOT EXISTS `page_contents` (
   `idContent` int NOT NULL AUTO_INCREMENT,
   `idPage` int NOT NULL,
-  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `script` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `content` longtext NOT NULL,
+  `script` mediumtext NOT NULL,
   `style` mediumtext NOT NULL,
   `version` int NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -2593,24 +2593,24 @@ INSERT INTO `permissions` (`id`, `name`, `description`, `category`, `required`) 
 -- Dumping structure for table test_cms.personal_config
 DROP TABLE IF EXISTS `personal_config`;
 CREATE TABLE IF NOT EXISTS `personal_config` (
-  `usercode` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
-  `looking_for` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `education` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `occupation_industry` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `relationship` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `ethnicity` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `smokes` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `drinks` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `children` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `body_type` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `height` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `width` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `about_me` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `interest` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `skills` varchar(50) COLLATE utf8mb3_bin DEFAULT NULL,
+  `usercode` char(128) DEFAULT NULL,
+  `looking_for` varchar(50) DEFAULT NULL,
+  `education` varchar(50) DEFAULT NULL,
+  `occupation_industry` varchar(50) DEFAULT NULL,
+  `relationship` varchar(50) DEFAULT NULL,
+  `ethnicity` varchar(50) DEFAULT NULL,
+  `smokes` varchar(50) DEFAULT NULL,
+  `drinks` varchar(50) DEFAULT NULL,
+  `children` varchar(50) DEFAULT NULL,
+  `body_type` varchar(50) DEFAULT NULL,
+  `height` varchar(50) DEFAULT NULL,
+  `width` varchar(50) DEFAULT NULL,
+  `about_me` varchar(50) DEFAULT NULL,
+  `interest` varchar(50) DEFAULT NULL,
+  `skills` varchar(50) DEFAULT NULL,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.personal_config: ~0 rows (approximately)
 
@@ -2988,10 +2988,10 @@ CREATE TABLE IF NOT EXISTS `secrets` (
 -- Dumping structure for table test_cms.sessions
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
-  `id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `id` varchar(128) NOT NULL,
   `set_time` int NOT NULL DEFAULT '2',
-  `data` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `session_key` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `data` varchar(128) NOT NULL,
+  `session_key` varchar(128) NOT NULL,
   `ip` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -3036,27 +3036,27 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.site_configuration: ~0 rows (approximately)
+-- Dumping data for table test_cms.site_configuration: ~1 rows (approximately)
 INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `created`, `updated`) VALUES
-	(1, '//www.esrapi.com', 'ESRAPI', 'icon-pepiuox.png', '//localhost:180/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'contact@pepiuox.net', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', '2022-01-08 13:42:41', '2024-04-14 06:50:59');
+	(1, '//www.esrapi.com/', 'ESRAPI', 'icon-pepiuox.png', 'http://localhost:180/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'contact@pepiuox.net', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', '2022-01-08 13:42:41', '2025-02-06 06:32:08');
 
 -- Dumping structure for table test_cms.site_mail_configuration
 DROP TABLE IF EXISTS `site_mail_configuration`;
 CREATE TABLE IF NOT EXISTS `site_mail_configuration` (
   `idMc` int NOT NULL AUTO_INCREMENT,
   `idSite` int NOT NULL,
-  `mail_support` char(60) COLLATE utf8mb3_bin DEFAULT NULL,
-  `subject_support` char(150) COLLATE utf8mb3_bin DEFAULT NULL,
-  `mail_help` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `subject_help` char(150) COLLATE utf8mb3_bin DEFAULT NULL,
-  `mail_faq` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `subject_faq` char(150) COLLATE utf8mb3_bin DEFAULT NULL,
+  `mail_support` char(60) DEFAULT NULL,
+  `subject_support` char(150) DEFAULT NULL,
+  `mail_help` char(50) DEFAULT NULL,
+  `subject_help` char(150) DEFAULT NULL,
+  `mail_faq` char(50) DEFAULT NULL,
+  `subject_faq` char(150) DEFAULT NULL,
   PRIMARY KEY (`idMc`),
   KEY `FK_email_site` (`idSite`),
   CONSTRAINT `FK_email_site` FOREIGN KEY (`idSite`) REFERENCES `site_configuration` (`ID_Site`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.site_mail_configuration: ~0 rows (approximately)
+-- Dumping data for table test_cms.site_mail_configuration: ~1 rows (approximately)
 INSERT INTO `site_mail_configuration` (`idMc`, `idSite`, `mail_support`, `subject_support`, `mail_help`, `subject_help`, `mail_faq`, `subject_faq`) VALUES
 	(1, 1, 'support@esrapi.com', NULL, 'help@esrapi.com', NULL, 'faq@esrapi.com', NULL);
 
@@ -3082,9 +3082,9 @@ CREATE TABLE IF NOT EXISTS `site_security` (
   CONSTRAINT `FK_site_secutity` FOREIGN KEY (`site`) REFERENCES `site_configuration` (`ID_Site`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.site_security: ~0 rows (approximately)
+-- Dumping data for table test_cms.site_security: ~1 rows (approximately)
 INSERT INTO `site_security` (`idSs`, `site`, `MAILSERVER`, `PORTSERVER`, `USEREMAIL`, `PASSMAIL`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `created`, `updated`) VALUES
-	(1, 1, 'smtp.hostinger.com', '461', 'YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=', 'bnVEa3VFZXV6eERRNjVDcEVpZWJNWEoxVW9WTEE1YTBmMnczTXB4aElFMD0=', 'Super Admin', 9, 'Admin', 5, 'b5771f3c6b6f65fd39b059d34d294116ab321bc88abe2c6411036654d9c6a50d', 'o]ZmhBH8g{#qmt4ndEAe[[$}[EcszyYYkX25E&db0Bz&E4e&]R2S5$AVb{%PyB{vxmVb$FM4d4wtw]3Prd((wnDzZaG7}{gCqLko$z#y5mj(wX({IRgu&Dd@xvd1wxwf', '2023-11-14 20:20:47', '2024-04-13 17:13:46');
+	(1, 1, 'smtp.hostinger.com', '461', 'YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=', 'bnVEa3VFZXV6eERRNjVDcEVpZWJNWEoxVW9WTEE1YTBmMnczTXB4aElFMD0=', 'Super Admin', 9, 'Admin', 5, 'b85fd633074856031a97b36e7a798cfb7cdb364e1986432c70307e56031ae6d3', 'P4BuB(31u4riQN]7h3g)EUEveiRXGsghTl]9pFNlz0Ls]6aTZcaq]0m}lz%8{WlZLCOFRhf2m%z&V9x18v#0h4Pt1E3d$5)C[8ueB0&UcEy5x9r6ImxEE31S]aQ1Zwz{', '2023-11-14 20:20:47', '2025-02-06 06:32:14');
 
 -- Dumping structure for table test_cms.social_link
 DROP TABLE IF EXISTS `social_link`;
@@ -3133,7 +3133,7 @@ CREATE TABLE IF NOT EXISTS `table_config` (
   PRIMARY KEY (`tcon_Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.table_config: ~0 rows (approximately)
+-- Dumping data for table test_cms.table_config: ~1 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `db_name`, `table_name`) VALUES
 	(1, '', 'users_contacts,users_info,users_locations,users_plans,users_privacy,users_profiles,users_secures,users_social_media,users_types');
 
@@ -3185,7 +3185,7 @@ CREATE TABLE IF NOT EXISTS `themes` (
   PRIMARY KEY (`theme_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.themes: ~0 rows (approximately)
+-- Dumping data for table test_cms.themes: ~1 rows (approximately)
 INSERT INTO `themes` (`theme_id`, `theme_name`, `theme_bootstrap`, `base_default`, `active_theme`) VALUES
 	(1, 'test theme color', 'cerulean', 'Yes', 'Yes');
 
@@ -3201,7 +3201,7 @@ CREATE TABLE IF NOT EXISTS `theme_base_colors` (
   CONSTRAINT `FK_theme_base_colors` FOREIGN KEY (`idtbc`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.theme_base_colors: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_base_colors: ~1 rows (approximately)
 INSERT INTO `theme_base_colors` (`idtbc`, `body_color`, `text_color`, `links_color`) VALUES
 	(1, '#ffffff', '#2f0202', '#172fa2');
 
@@ -3218,7 +3218,7 @@ CREATE TABLE IF NOT EXISTS `theme_base_font` (
   CONSTRAINT `FK_theme_base_font` FOREIGN KEY (`idtbf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.theme_base_font: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_base_font: ~1 rows (approximately)
 INSERT INTO `theme_base_font` (`idtbf`, `family`, `size`, `weight`, `line_height`) VALUES
 	(1, '', '', 'default', '');
 
@@ -3234,7 +3234,7 @@ CREATE TABLE IF NOT EXISTS `theme_headings_font` (
   CONSTRAINT `FK_theme_headings_font` FOREIGN KEY (`idthf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.theme_headings_font: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_headings_font: ~1 rows (approximately)
 INSERT INTO `theme_headings_font` (`idthf`, `family`, `weight`, `line_weight`) VALUES
 	(1, '', 'default', '');
 
@@ -3249,7 +3249,7 @@ CREATE TABLE IF NOT EXISTS `theme_lead_font` (
   CONSTRAINT `FK_theme_lead_font` FOREIGN KEY (`idtlf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.theme_lead_font: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_lead_font: ~1 rows (approximately)
 INSERT INTO `theme_lead_font` (`idtlf`, `size`, `weight`) VALUES
 	(1, '', '');
 
@@ -3273,7 +3273,7 @@ CREATE TABLE IF NOT EXISTS `theme_palette` (
   CONSTRAINT `FK_theme_palette` FOREIGN KEY (`idtp`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.theme_palette: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_palette: ~1 rows (approximately)
 INSERT INTO `theme_palette` (`idtp`, `primary_color`, `secondary_color`, `info_color`, `light_color`, `dark_color`, `success_color`, `warning_color`, `danger_color`, `custom_color`, `custom_light_color`, `custom_dark_color`) VALUES
 	(1, '#993f3f', '#814040', '#1f53a5', '#000000', '#4b3737', '#000000', '#d24747', '#000000', '#000000', '#d4b8b8', '#000000');
 
@@ -3292,7 +3292,7 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   CONSTRAINT `FK_theme_settings` FOREIGN KEY (`idts`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.theme_settings: ~0 rows (approximately)
+-- Dumping data for table test_cms.theme_settings: ~1 rows (approximately)
 INSERT INTO `theme_settings` (`idts`, `container`, `spacer`, `radius`, `radius_sm`, `radius_lg`, `font_size`) VALUES
 	(1, 'default', 'default', NULL, NULL, NULL, 'default');
 
@@ -3406,7 +3406,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.users: ~0 rows (approximately)
+-- Dumping data for table test_cms.users: ~2 rows (approximately)
 
 -- Dumping structure for table test_cms.users_actions
 DROP TABLE IF EXISTS `users_actions`;
@@ -3422,7 +3422,7 @@ CREATE TABLE IF NOT EXISTS `users_actions` (
   UNIQUE KEY `usercode` (`usercode`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.users_actions: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_actions: ~1 rows (approximately)
 
 -- Dumping structure for table test_cms.users_active
 DROP TABLE IF EXISTS `users_active`;
@@ -3435,7 +3435,7 @@ CREATE TABLE IF NOT EXISTS `users_active` (
   CONSTRAINT `FK_users_active` FOREIGN KEY (`usercode`) REFERENCES `users_actions` (`usercode`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.users_active: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_active: ~1 rows (approximately)
 
 -- Dumping structure for table test_cms.users_assigned_role
 DROP TABLE IF EXISTS `users_assigned_role`;
@@ -3468,7 +3468,7 @@ CREATE TABLE IF NOT EXISTS `users_banned` (
 -- Dumping structure for table test_cms.users_compare
 DROP TABLE IF EXISTS `users_compare`;
 CREATE TABLE IF NOT EXISTS `users_compare` (
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
+  `usercode` char(128) NOT NULL,
   `ratings` int DEFAULT '0',
   `likes` int DEFAULT '0',
   `followers` int DEFAULT '0',
@@ -3477,7 +3477,7 @@ CREATE TABLE IF NOT EXISTS `users_compare` (
   `is_active` tinyint(1) DEFAULT '0',
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_compare: ~0 rows (approximately)
 
@@ -3485,11 +3485,11 @@ CREATE TABLE IF NOT EXISTS `users_compare` (
 DROP TABLE IF EXISTS `users_contacts`;
 CREATE TABLE IF NOT EXISTS `users_contacts` (
   `iduc` int NOT NULL AUTO_INCREMENT,
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `contactcode` char(128) COLLATE utf8mb3_bin NOT NULL,
+  `usercode` char(128) NOT NULL,
+  `contactcode` char(128) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`iduc`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_contacts: ~0 rows (approximately)
 
@@ -3545,21 +3545,21 @@ CREATE TABLE IF NOT EXISTS `users_deleted` (
 DROP TABLE IF EXISTS `users_followers`;
 CREATE TABLE IF NOT EXISTS `users_followers` (
   `iduf` int NOT NULL AUTO_INCREMENT,
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `fusercode` char(128) COLLATE utf8mb3_bin NOT NULL,
+  `usercode` char(128) NOT NULL,
+  `fusercode` char(128) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`iduf`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_followers: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.users_forgot_pass
 DROP TABLE IF EXISTS `users_forgot_pass`;
 CREATE TABLE IF NOT EXISTS `users_forgot_pass` (
-  `username` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `email` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `username` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
   `mkhash` varchar(128) NOT NULL,
-  `password_key` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `password_key` varchar(128) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `expired` timestamp NULL DEFAULT NULL,
   UNIQUE KEY `username` (`username`),
@@ -3571,10 +3571,10 @@ CREATE TABLE IF NOT EXISTS `users_forgot_pass` (
 -- Dumping structure for table test_cms.users_forgot_pin
 DROP TABLE IF EXISTS `users_forgot_pin`;
 CREATE TABLE IF NOT EXISTS `users_forgot_pin` (
-  `username` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `email` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `username` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
   `mkhash` varchar(128) DEFAULT NULL,
-  `pin_key` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `pin_key` varchar(128) DEFAULT NULL,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `expired` timestamp NULL DEFAULT NULL,
   UNIQUE KEY `username` (`username`),
@@ -3622,7 +3622,7 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   CONSTRAINT `FK_users_info_uverify` FOREIGN KEY (`userid`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.users_info: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_info: ~1 rows (approximately)
 
 -- Dumping structure for table test_cms.users_jail
 DROP TABLE IF EXISTS `users_jail`;
@@ -3644,32 +3644,32 @@ CREATE TABLE IF NOT EXISTS `users_jail` (
 DROP TABLE IF EXISTS `users_likes`;
 CREATE TABLE IF NOT EXISTS `users_likes` (
   `idul` int NOT NULL AUTO_INCREMENT,
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `lusercode` char(128) COLLATE utf8mb3_bin NOT NULL,
+  `usercode` char(128) NOT NULL,
+  `lusercode` char(128) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idul`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_likes: ~0 rows (approximately)
 
 -- Dumping structure for table test_cms.users_locations
 DROP TABLE IF EXISTS `users_locations`;
 CREATE TABLE IF NOT EXISTS `users_locations` (
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
+  `usercode` char(128) NOT NULL,
   `user_type` tinyint NOT NULL DEFAULT '0',
-  `name_location_1` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address_1` varchar(300) COLLATE utf8mb3_bin DEFAULT NULL,
-  `name_location_2` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address_2` varchar(300) COLLATE utf8mb3_bin DEFAULT NULL,
-  `name_location_3` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address_3` varchar(300) COLLATE utf8mb3_bin DEFAULT NULL,
-  `name_location_4` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address_4` varchar(300) COLLATE utf8mb3_bin DEFAULT NULL,
-  `name_location_5` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address_5` varchar(300) COLLATE utf8mb3_bin DEFAULT NULL,
+  `name_location_1` char(50) DEFAULT NULL,
+  `address_1` varchar(300) DEFAULT NULL,
+  `name_location_2` char(50) DEFAULT NULL,
+  `address_2` varchar(300) DEFAULT NULL,
+  `name_location_3` char(50) DEFAULT NULL,
+  `address_3` varchar(300) DEFAULT NULL,
+  `name_location_4` char(50) DEFAULT NULL,
+  `address_4` varchar(300) DEFAULT NULL,
+  `name_location_5` char(50) DEFAULT NULL,
+  `address_5` varchar(300) DEFAULT NULL,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_locations: ~0 rows (approximately)
 
@@ -3734,40 +3734,41 @@ INSERT INTO `users_permissions` (`idPer`, `name`, `description`, `category`, `re
 -- Dumping structure for table test_cms.users_plans
 DROP TABLE IF EXISTS `users_plans`;
 CREATE TABLE IF NOT EXISTS `users_plans` (
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
+  `usercode` char(128) NOT NULL,
   `verification` tinyint(1) DEFAULT '0',
   `upgrades` tinyint(1) DEFAULT '0',
-  `type_plan` char(20) COLLATE utf8mb3_bin DEFAULT 'Cliente',
+  `type_plan` char(20) DEFAULT 'Cliente',
   `days_plan` tinyint DEFAULT '7',
   `required` tinyint(1) DEFAULT '0',
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.users_plans: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_plans: ~1 rows (approximately)
 
 -- Dumping structure for table test_cms.users_privacy
 DROP TABLE IF EXISTS `users_privacy`;
 CREATE TABLE IF NOT EXISTS `users_privacy` (
-  `idPri` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `verification` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `nationality` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `type_document` enum('DNI','Carnet Extranjeria','Pasaporte') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `number_document` varchar(12) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `name_company` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `ruc_number` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `logo_image` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `idUsr` char(128) NOT NULL,
+  `usercode` char(128) NOT NULL,
+  `verification` char(128) NOT NULL,
+  `nationality` char(50) DEFAULT NULL,
+  `type_document` enum('DNI','Carnet Extranjeria','Pasaporte') DEFAULT NULL,
+  `number_document` varchar(12) DEFAULT NULL,
+  `name_company` varchar(50) DEFAULT NULL,
+  `ruc_number` varchar(11) DEFAULT NULL,
+  `logo_image` varchar(150) DEFAULT NULL,
   `required` tinyint(1) DEFAULT '0',
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idPri`),
+  PRIMARY KEY (`idUsr`),
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
-  UNIQUE KEY `id_Pri` (`idPri`) USING BTREE,
-  KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  UNIQUE KEY `id_Pri` (`idUsr`) USING BTREE,
+  KEY `usercode` (`usercode`),
+  CONSTRAINT `FK_privacy_uverify` FOREIGN KEY (`idUsr`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_privacy: ~0 rows (approximately)
 
@@ -3776,7 +3777,7 @@ DROP TABLE IF EXISTS `users_profiles`;
 CREATE TABLE IF NOT EXISTS `users_profiles` (
   `idp` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
-  `usrtypes` char(128) NOT NULL,
+  `usrtypes` char(128) DEFAULT NULL,
   `mkhash` varchar(256) NOT NULL DEFAULT '',
   `avatar` varchar(250) DEFAULT NULL,
   `profile_image` varchar(250) DEFAULT NULL,
@@ -3801,7 +3802,7 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.users_profiles: ~0 rows (approximately)
+-- Dumping data for table test_cms.users_profiles: ~1 rows (approximately)
 
 -- Dumping structure for table test_cms.users_rating
 DROP TABLE IF EXISTS `users_rating`;
@@ -3899,32 +3900,34 @@ CREATE TABLE IF NOT EXISTS `users_searches` (
 -- Dumping structure for table test_cms.users_secures
 DROP TABLE IF EXISTS `users_secures`;
 CREATE TABLE IF NOT EXISTS `users_secures` (
-  `idsec` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `type_user` char(20) COLLATE utf8mb3_bin DEFAULT NULL,
+  `idUsr` char(128) NOT NULL,
+  `usercode` char(128) NOT NULL,
+  `type_user` char(20) DEFAULT NULL,
   `type_plan` int DEFAULT NULL,
-  `type_document` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `id_document` char(12) COLLATE utf8mb3_bin DEFAULT NULL,
-  `name_company` char(50) COLLATE utf8mb3_bin DEFAULT NULL,
-  `ruc_number` char(11) COLLATE utf8mb3_bin DEFAULT NULL,
-  `business_sector` char(30) COLLATE utf8mb3_bin DEFAULT NULL,
-  `phone` char(15) COLLATE utf8mb3_bin DEFAULT NULL,
-  `mobile_phone` char(15) COLLATE utf8mb3_bin DEFAULT NULL,
-  `address` varchar(250) COLLATE utf8mb3_bin DEFAULT NULL,
-  `location` varchar(250) COLLATE utf8mb3_bin DEFAULT NULL,
-  `folder_files` char(64) COLLATE utf8mb3_bin DEFAULT NULL,
-  `validation` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
-  `activation_code` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
+  `type_document` enum('DNI','Carnet Extranjeria','Pasaporte') DEFAULT NULL,
+  `id_document` char(12) DEFAULT NULL,
+  `name_company` char(50) DEFAULT NULL,
+  `ruc_number` char(11) DEFAULT NULL,
+  `business_sector` char(30) DEFAULT NULL,
+  `phone` char(15) DEFAULT NULL,
+  `mobile_phone` char(15) DEFAULT NULL,
+  `address` varchar(250) DEFAULT NULL,
+  `location` varchar(250) DEFAULT NULL,
+  `folder_files` char(64) DEFAULT NULL,
+  `validation` char(128) DEFAULT NULL,
+  `activation_code` char(128) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '0',
   `required` tinyint(1) DEFAULT '0',
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idUsr`),
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
-  UNIQUE KEY `id_Sec` (`idsec`) USING BTREE,
+  UNIQUE KEY `id_Sec` (`idUsr`) USING BTREE,
   UNIQUE KEY `id_document` (`id_document`),
   UNIQUE KEY `ruc` (`ruc_number`) USING BTREE,
-  KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  KEY `usercode` (`usercode`),
+  CONSTRAINT `FK_secures_uverify` FOREIGN KEY (`idUsr`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_secures: ~0 rows (approximately)
 
@@ -3948,20 +3951,20 @@ CREATE TABLE IF NOT EXISTS `users_settings` (
 -- Dumping structure for table test_cms.users_social_media
 DROP TABLE IF EXISTS `users_social_media`;
 CREATE TABLE IF NOT EXISTS `users_social_media` (
-  `usercode` char(128) COLLATE utf8mb3_bin NOT NULL,
-  `website` char(150) COLLATE utf8mb3_bin DEFAULT NULL,
-  `whatsapp` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `instagram` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `facebook` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `telegram` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `youtube` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `twitter` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `tiktok` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `tumblr` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
-  `linkedin` char(100) COLLATE utf8mb3_bin DEFAULT NULL,
+  `usercode` char(128) NOT NULL,
+  `website` char(150) DEFAULT NULL,
+  `whatsapp` char(100) DEFAULT NULL,
+  `instagram` char(100) DEFAULT NULL,
+  `facebook` char(100) DEFAULT NULL,
+  `telegram` char(100) DEFAULT NULL,
+  `youtube` char(100) DEFAULT NULL,
+  `twitter` char(100) DEFAULT NULL,
+  `tiktok` char(100) DEFAULT NULL,
+  `tumblr` char(100) DEFAULT NULL,
+  `linkedin` char(100) DEFAULT NULL,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_social_media: ~0 rows (approximately)
 
@@ -3980,12 +3983,12 @@ CREATE TABLE IF NOT EXISTS `users_to_group` (
 -- Dumping structure for table test_cms.users_types
 DROP TABLE IF EXISTS `users_types`;
 CREATE TABLE IF NOT EXISTS `users_types` (
-  `usercode` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_type` char(128) COLLATE utf8mb3_bin DEFAULT NULL,
+  `usercode` char(128) DEFAULT NULL,
+  `user_type` char(128) DEFAULT NULL,
   `val_user` tinyint(1) DEFAULT '1',
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.users_types: ~0 rows (approximately)
 
@@ -4037,7 +4040,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   UNIQUE KEY `usercode` (`usercode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.uverify: ~0 rows (approximately)
+-- Dumping data for table test_cms.uverify: ~1 rows (approximately)
 
 -- Dumping structure for table test_cms.view_log
 DROP TABLE IF EXISTS `view_log`;
@@ -4061,31 +4064,16 @@ CREATE TABLE IF NOT EXISTS `visitor` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table test_cms.visitor: ~13 rows (approximately)
-INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
-	('127.0.0.1', '2024-09-06 06:38:14', '2024-09-08 14:10:00'),
-	('127.0.0.1', '2024-10-02 04:48:04', '2024-10-02 11:48:34'),
-	('127.0.0.1', '2024-10-31 04:39:35', '2024-10-31 10:50:15'),
-	('127.0.0.1', '2024-10-31 04:39:35', '2024-10-31 10:50:15'),
-	('127.0.0.1', '2024-10-31 04:39:35', '2024-10-31 10:50:15'),
-	('127.0.0.1', '2024-10-31 04:39:35', '2024-10-31 10:50:15'),
-	('127.0.0.1', '2024-10-31 04:39:35', '2024-10-31 10:50:15'),
-	('127.0.0.1', '2024-11-05 02:56:01', '2024-11-06 08:48:05'),
-	('127.0.0.1', '2024-12-15 00:12:02', '2024-12-15 07:02:26'),
-	('127.0.0.1', '2025-01-03 01:51:28', '2025-01-03 10:46:07'),
-	('127.0.0.1', '2025-01-11 16:00:03', '2025-01-12 01:52:35'),
-	('127.0.0.1', '2025-01-18 00:20:22', '2025-01-19 09:29:03'),
-	('127.0.0.1', '2025-01-20 17:19:01', '2025-01-20 23:20:38'),
-	('127.0.0.1', '2025-01-21 23:15:57', '2025-01-22 06:29:32');
+-- Dumping data for table test_cms.visitor: ~14 rows (approximately)
 
 -- Dumping structure for table test_cms.visitor_productos
 DROP TABLE IF EXISTS `visitor_productos`;
 CREATE TABLE IF NOT EXISTS `visitor_productos` (
   `visitsprId` int NOT NULL AUTO_INCREMENT,
-  `ip` char(20) COLLATE utf8mb3_bin DEFAULT NULL,
+  `ip` char(20) DEFAULT NULL,
   `producto_id` int DEFAULT NULL,
   PRIMARY KEY (`visitsprId`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.visitor_productos: ~0 rows (approximately)
 
@@ -4093,10 +4081,10 @@ CREATE TABLE IF NOT EXISTS `visitor_productos` (
 DROP TABLE IF EXISTS `visitor_servicios`;
 CREATE TABLE IF NOT EXISTS `visitor_servicios` (
   `visitsprId` int NOT NULL AUTO_INCREMENT,
-  `ip` char(20) COLLATE utf8mb3_bin DEFAULT NULL,
+  `ip` char(20) DEFAULT NULL,
   `servicio_id` int DEFAULT NULL,
   PRIMARY KEY (`visitsprId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table test_cms.visitor_servicios: ~0 rows (approximately)
 

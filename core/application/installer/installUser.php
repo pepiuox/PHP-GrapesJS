@@ -264,18 +264,30 @@ class installUser {
                     $ekey = $this->gc->randToken();
                     $eiv = $this->gc->randkey();
                     $enck = $this->gc->randHash();
+                    $site = 1;
+                    
+                    $query = $this->connection->prepare(
+                    "SELECT SECURE_HASH,SECURE_TOKEN FROM site_security WHERE site=?"
+                    );
+                    $query->bind_param("i", $site);
+                    $query->execute();
+                    $result = $query->get_result();
+                    $secure = $result->fetch_assoc();
+                    $stoken =$secure['SECURE_TOKEN'];
+                    $shash = $secure['SECURE_HASH'];
 
                     $user = $this->gc->ende_crypter(
                         "encrypt",
                         $username,
-                        $_SESSION['SECURE_TOKEN'],
-                        $_SESSION['SECURE_HASH']
+                        $stoken,
+                        $shash
                     );
+                    
                     $uml = $this->gc->ende_crypter(
                         "encrypt",
                         $email,
-                        $_SESSION['SECURE_TOKEN'],
-                        $_SESSION['SECURE_HASH']
+                        $stoken,
+                        $shash
                     );
 
                     $newid = $this->gc->getRandCode();
@@ -301,14 +313,16 @@ class installUser {
                     $mp = $this->gc->ende_crypter(
                         "encrypt",
                         $pin,
-                        $_SESSION['SECURE_TOKEN'],
-                        $_SESSION['SECURE_HASH']
+                        $stoken,
+                        $shash
                     );
 
                     $usrcod = $this->gc->getRandomCode();
                     $code = $this->gc->getIdCode();
+                    
 
                     $lvl = 'Super Admin';
+                    $lvlk = $this->gc->iRandKey(64);
 
                     $status = 0;
                     $dvd = 0;
@@ -320,11 +334,11 @@ class installUser {
 
                     // adding data in table uverify
                     $stmt1 = $this->connection->prepare(
-                        "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,level,is_activated,verified,banned) " .
-                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                        "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,level,level_key,is_activated,verified,banned) " .
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
                     $stmt1->bind_param(
-                        "ssssssssssiii",
+                        "sssssssssssiii",
                         $newid,
                         $usrcod,
                         $user,
@@ -335,6 +349,7 @@ class installUser {
                         $enck,
                         $mp,
                         $lvl,
+                        $lvlk,
                         $is_actd,
                         $verif,
                         $ban
@@ -366,7 +381,7 @@ class installUser {
                     $stmt->execute();
                     $inst1 = $stmt->affected_rows;
                     $stmt->close();
-
+            
                     // adding data in table profile
                     $prof = $this->connection->prepare(
                         "INSERT INTO users_profiles(idp,usercode,mkhash) VALUES (?,?,?)"
@@ -393,8 +408,9 @@ class installUser {
                     $uact->execute();
                     $inst5 = $uact->affected_rows;
                     $uact->close();
-
+                    
                     $this->uca->AddUserCode($usrcod);
+                    // $this->uca->AddSecures($newid,$usrcod);
 
                     if (
                         $inst1 === 1 &&

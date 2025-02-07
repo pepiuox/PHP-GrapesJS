@@ -12,11 +12,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     }
 
     if (isset($_POST['queryb'])) {
-        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=column_manager&w=select" />';
+        echo '<meta http-equiv="refresh" content="1;url=dashboard/column_manager/select" />';
     }
 
     if (isset($_POST['tbmngr'])) {
-        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_manager&w=list" />';
+        echo '<meta http-equiv="refresh" content="1;url=dashboard/table_manager/list" />';
     }
 
     if (isset($_POST['submit'])) {
@@ -40,7 +40,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $_SESSION['SuccessMessage'] = 'The tables was adding in the table config';
             }
         }
-        echo '<meta http-equiv="refresh" content="1;url=dashboard.php?cms=table_config" />';
+        echo '<meta http-equiv="refresh" content="1;url=dashboard/table_config" />';
     }
     ?>
     <div class="container">

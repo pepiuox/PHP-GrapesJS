@@ -12,7 +12,6 @@ if (!isset($_SESSION)) {
 }
 
 define("URL", dirname(__DIR__));
-
 $source = str_replace('\\', '/', URL);
 
 require_once $source.'/core/view.php';

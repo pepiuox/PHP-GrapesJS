@@ -9,7 +9,7 @@ $image_document_back = $_POST["image_document_back"];
 $payment_document = $_POST["payment_document"]; 
 
 $query = "UPDATE users_verifications SET verification = ?, is_verify = ?, portraid_date = ?, image_document_front = ?, image_document_back = ?, payment_document = ? WHERE usercode = ?";
-$updated = $this->conn->prepare($sql);
+$updated = $conn->prepare($sql);
 $updated->bind_param('sissssi', $verification, $is_verify, $portraid_date, $image_document_front, $image_document_back, $payment_document, $id );
 $updated->execute();
 $updated->close();

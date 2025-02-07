@@ -52,7 +52,7 @@ if (isset($_POST["imgfile"])) {
     } else {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
 			
-			$imgq = $uconn->prepare("UPDATE users_profiles SET profile_image = ? WHERE idp = ?  AND mkhash = ?");
+			$imgq = $conn->prepare("UPDATE users_profiles SET profile_image = ? WHERE idp = ?  AND mkhash = ?");
                 $imgq->bind_param("sss", $filename, $userid, $hash);
                 $nn = $imgq->affected_rows;
                 $imgq->execute();

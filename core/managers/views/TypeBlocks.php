@@ -6,7 +6,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container">
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=add'>Agregar Nuevo Componente</a> 
+                <a class="btn btn-secondary" href='dashboard/typeblocks/add'>Agregar Nuevo Componente</a> 
             </p>
             <h3>Lista de Componentes</h3>
             <?php
@@ -27,7 +27,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo "<tr>";
                 echo "<td valign='top'>" . $row['id'] . "</td>";
                 echo "<td valign='top'>" . $row['type_block'] . "</td>";
-                echo "<td valign='top'><a href='dashboard.php?cms=typeblocks&w=edit&id={$row['id']}'>Editar</a></td><td><a href='dashboard.php?cms=typeblocks&w=delete&?id={$row['id']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='dashboard/typeblocks/edit&id={$row['id']}'>Editar</a></td><td><a href='dashboard/typeblocks/delete&?id={$row['id']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -53,7 +53,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=list'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar un Componente</h3> 
             <form action='' method='POST'> 
@@ -82,7 +82,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_blocks` WHERE `id` = '$id' "));
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=add'>Nuevo componente</a> 
+                    <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typeblocks/add'>Nuevo componente</a> 
                 </p>
                 <h3>Editar componente</h3> 
                 <form action='' method='POST'> 
@@ -107,7 +107,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_blocks` WHERE `id` = '$id' "));
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=add'>Nuevo componente</a> 
+                <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typeblocks/add'>Nuevo componente</a> 
             </p>
             <h3>Vista de componente</h3> 
             <div class="container"> 
@@ -120,7 +120,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=typeblocks&w=add'>Nuevo componente</a> 
+                <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typeblocks/add'>Nuevo componente</a> 
             </p>
             <h3>Eliminado de Componente</h3> 
             <?php

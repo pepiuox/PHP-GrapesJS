@@ -3,7 +3,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = protect($_GET['w']);
 } else {
     ?>
-    <meta http-equiv="Refresh" content="0; url='dashboard.php?cms=menu&w=list'" />
+    <meta http-equiv="Refresh" content="0; url='dashboard/menu/list'" />
     <?php
 }
 
@@ -16,7 +16,7 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard.php?cms=menu&w=add">Add <i class="fa fa-plus-square"></i></a></th><th>Id</th><th>Id menu</th><th>Fluid</th><th>Placement</th><th>Aligment</th><th>Background</th><th>Color</th>
+                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard/menu/add">Add <i class="fa fa-plus-square"></i></a></th><th>Id</th><th>Id menu</th><th>Fluid</th><th>Placement</th><th>Aligment</th><th>Background</th><th>Color</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,8 +26,8 @@ if ($w == "list") {
                         echo '
                      <tr>
                         <td><!--Button -->
-                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard.php?cms=menu&w=edit&id=' . $mnop['id'] . '"><i class="fas fa-edit"></i></a>
-                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard.php?cms=menu&w=delete&id=' . $mnop['id'] . '"><i class="fas fa-trash-alt"></i></a>
+                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard/menu/edit&id=' . $mnop['id'] . '"><i class="fas fa-edit"></i></a>
+                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard/menu/delete&id=' . $mnop['id'] . '"><i class="fas fa-trash-alt"></i></a>
                         </td>
                         <td>' . $mnop['id'] . '</td>
                         <td>' . $mnop['id_menu'] . '</td>
@@ -59,7 +59,7 @@ if ($w == "list") {
                 . "VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
         if ($conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly.';
-            echo '<script> window.location.replace("dashboard.php?cms=menu&w=list"); </script>';
+            echo '<script> window.location.replace("dashboard/menu/list"); </script>';
         } else {
             $_SESSION['error'] = 'Error: ' . $conn->error;
         }
@@ -71,7 +71,7 @@ if ($w == "list") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=menu&w=list">Back to List </a>
+                   href="dashboard/menu/list">Back to List </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Add Menu Options </h2>
@@ -157,7 +157,7 @@ if ($w == "list") {
         $query = "UPDATE `$tble` SET id_menu = '$id_menu', fluid = '$fluid', placement = '$placement', aligment = '$aligment', background = '$background', color = '$color' WHERE id=$id ";
         if ($conn->query($query) === TRUE) {
             $_SESSION['success'] = "The data was updated correctly.";
-            echo '<script> window.location.replace("dashboard.php?cms=menu&w=list"); </script>';
+            echo '<script> window.location.replace("dashboard/menu/list"); </script>';
         } else {
             $_SESSION['error'] = "Error updating data: " . $conn->error;
         }
@@ -169,7 +169,7 @@ if ($w == "list") {
         <div class="row">
             <div class="col-md-3">
                 <a class="btn btn-secondary"
-                   href="dashboard.php?cms=menu&w=list">Back to List </a>
+                   href="dashboard/menu/list">Back to List </a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Edit Menu Options </h2>
@@ -207,7 +207,7 @@ if ($w == "list") {
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <a href="dashboard.php?cms=menu&w=list">List Menu Option</a>
+                <a href="dashboard/menu/list">List Menu Option</a>
             </div>
             <div class="col-md-9">
                 <center>
@@ -228,7 +228,7 @@ if ($w == "list") {
 
                         if ($conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
                             $_SESSION['success'] = "Record deleted successfully";
-                            echo '<script> window.location.replace("dashboard.php?cms=menu&w=list"); </script>';
+                            echo '<script> window.location.replace("dashboard/menu/list"); </script>';
                         } else {
                             $_SESSION['error'] = "Error deleting record";
                         }

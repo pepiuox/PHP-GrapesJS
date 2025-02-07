@@ -28,7 +28,7 @@ $updated->bind_param('ssssssssss', $name_location_1, $address_1, $name_location_
 $updated->execute();
 $updated->close();
 }
-$upry = $uconn->prepare("SELECT name_location_1, address_1, name_location_2, address_2, name_location_3, address_3, name_location_4, address_4, name_location_5, address_5 FROM users_locations WHERE usercode = ?");
+$upry = $conn->prepare("SELECT name_location_1, address_1, name_location_2, address_2, name_location_3, address_3, name_location_4, address_4, name_location_5, address_5 FROM users_locations WHERE usercode = ?");
 $upry->bind_param('s', $ucode);
 $upry->execute();
 $pry = $upry->get_result();

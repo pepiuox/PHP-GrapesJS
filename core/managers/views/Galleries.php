@@ -6,7 +6,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <div class="container">
             <div class="row"> 
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=add'>Agregar Nueva galleries</a> 
+                    <a class="btn btn-secondary" href='dashboard/galleries/add'>Agregar Nueva galleries</a> 
                 </p>
                 <h3>Lista de galleries </h3>
                 <style>
@@ -95,7 +95,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 }
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=list'>Retornar a la Lista</a> 
+                    <a class="btn btn-secondary" href='dashboard/galleries/list'>Retornar a la Lista</a> 
                 </p>
                 <h3>Agregar una Galeria</h3> 
                 <form action='' method='POST'> 
@@ -192,7 +192,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
                     ?>
                     <p>
-                        <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=add'>Nueva Galeria</a> 
+                        <a class="btn btn-secondary" href='dashboard/galleries/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/galleries/add'>Nueva Galeria</a> 
                     </p>
                     <h3>Editar <?php echo $row['name']; ?></h3> 
                     <form action='' method='POST'> 
@@ -299,7 +299,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <div class="container">
             <div class="row">
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=add'>Nueva Galeria</a> 
+                    <a class="btn btn-secondary" href='dashboard/galleries/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/galleries/add'>Nueva Galeria</a> 
                 </p>
                 <link href="<?php echo B_URL; ?>dist/css/lightgallery.css" rel="stylesheet">
                 <link href="<?php echo B_URL; ?>css/responsiveslides.css" rel="stylesheet">
@@ -357,14 +357,14 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         <div class="container">
             <div class="row">
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=galleries&w=add'>Nueva Galeria</a> 
+                    <a class="btn btn-secondary" href='dashboard/galleries/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/galleries/add'>Nueva Galeria</a> 
                 </p>
                 <h3>Eliminado de galleries</h3> 
                 <?php
                 $id = (int) $_GET['id'];
                 $conn->query("DELETE FROM `galleries` WHERE `idGal` = '$id' ");
                 echo "Galelria Eliminada.<br /> ";
-                header("Location: dashboard.php?cms=galleries&w=list");
+                header("Location: dashboard/galleries/list");
                 ?> 
             </div>
         </div>

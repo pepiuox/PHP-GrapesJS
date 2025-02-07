@@ -60,7 +60,7 @@ if (isset($_SESSION["DBConnected"]) && !empty($_SESSION["DBConnected"])) {
     }
 }
 
-if (!file_exists($file)) {
+if (!file_exists($serverfile)) {
 
     if (isset($_GET["step"]) && !empty($_GET["step"])) {
         $step = $_GET["step"];
@@ -93,7 +93,7 @@ if (!file_exists($file)) {
             $_SESSION["ErrorMessage"] = "The database has not been created yet, do you want to create it?";
             $_SESSION["StepInstall"] = 2;
             header("Location: install.php?step=2");
-            exit();
+            die();
         } else {
             $_SESSION["SuccessMessage"] = "The database exists, now you need to import the data tables.";
             $_SESSION["StepInstall"] = 3;
@@ -180,7 +180,7 @@ if (!file_exists($file)) {
     // Fourth step
     // Define configuration for the website
     function RandHash($len = 128) {
-        $secret = substr(sha1(openssl_random_pseudo_bytes(21)), -$len) .
+        $secret = substr(sha1(openssl_random_pseudo_bytes(19)), -$len) .
             sha1(openssl_random_pseudo_bytes(13));
         return substr(hash("sha256", $secret), 0, $len);
     }

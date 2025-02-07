@@ -14,7 +14,7 @@ $name_location_5 = $_POST["name_location_5"];
 $address_5 = $_POST["address_5"]; 
 
 $query = "UPDATE users_locations SET user_type = ?, name_location_1 = ?, address_1 = ?, name_location_2 = ?, address_2 = ?, name_location_3 = ?, address_3 = ?, name_location_4 = ?, address_4 = ?, name_location_5 = ?, address_5 = ? WHERE usercode = ?";
-$updated = $this->conn->prepare($sql);
+$updated = $conn->prepare($sql);
 $updated->bind_param('issssssssssi', $user_type, $name_location_1, $address_1, $name_location_2, $address_2, $name_location_3, $address_3, $name_location_4, $address_4, $name_location_5, $address_5, $id );
 $updated->execute();
 $updated->close();

@@ -16,7 +16,7 @@ if ($w == "list") {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Category name</th><th>Description</th><th><a href="dashboard.php?cms=post_category&w=add" class="btn btn-primary" > Add new category</a></th>
+                                <th>Category name</th><th>Description</th><th><a href="dashboard/post_category/add" class="btn btn-primary" > Add new category</a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,8 +28,8 @@ if ($w == "list") {
                                     echo '<tr>';
                                     echo '<td>' . $row['category_name'] . '</td><td>' . $row['description'] . '</td>';
                                     echo '<td>';
-                                    echo '<a class="btn btn-success" href="dashboard.php?cms=post_category&w=edit&id=' . $row['categoryId'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a> ';
-                                    echo '<a class="btn btn-danger" href="dashboard.php?cms=post_category&w=delete&id=' . $row['categoryId'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+                                    echo '<a class="btn btn-success" href="dashboard/post_category/edit&id=' . $row['categoryId'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a> ';
+                                    echo '<a class="btn btn-danger" href="dashboard/post_category/delete&id=' . $row['categoryId'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                     echo '</tr>';
                                 }
                             } else {
@@ -54,7 +54,7 @@ if ($w == "list") {
         if ($stmt->error) {
             echo "FAILURE! " . $stmt->error;
         } else {
-            echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
+            echo '<script> window.location.replace("dashboard/post_category/list"); </script>';
         }
         $stmt->close();
     }
@@ -62,7 +62,7 @@ if ($w == "list") {
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <a class="btn btn-secondary" href="dashboard.php?cms=post_category&w=list">Back to List</a>
+                <a class="btn btn-secondary" href="dashboard/post_category/list">Back to List</a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Add Category </h2>
@@ -100,7 +100,7 @@ if ($w == "list") {
             if ($stmt->error) {
                 echo "FAILURE! " . $stmt->error;
             } else {
-                echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
+                echo '<script> window.location.replace("dashboard/post_category/list"); </script>';
             }
             $stmt->close();
         }
@@ -114,7 +114,7 @@ if ($w == "list") {
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <a class="btn btn-secondary" href="dashboard.php?cms=post_category&w=list">Back to List</a>
+                    <a class="btn btn-secondary" href="dashboard/post_category/list">Back to List</a>
                 </div>
                 <div class="col-md-9">
                     <h2 class="text-primary">Edit Category </h2>
@@ -151,7 +151,7 @@ if ($w == "list") {
             if ($stmt->error) {
                 echo "FAILURE! " . $stmt->error;
             } else {
-                echo '<script> window.location.replace("dashboard.php?cms=post_category&w=list"); </script>';
+                echo '<script> window.location.replace("dashboard/post_category/list"); </script>';
             }
             $stmt->close();
         }

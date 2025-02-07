@@ -1,8 +1,9 @@
 <?php
-// We define the language and all the words in Spanish an array
+// We define the language and all the words in English an array
 $lang = array(
 	'title' => 'ESRAPI',
 	'logo' => 'Sistema ESRAPI',
+        'username' => 'User Name',
 	'email' => 'Correo electrónico',
 	'password' => 'Contraseña',
 	'password2' => 'Confirm Password',
@@ -10,7 +11,7 @@ $lang = array(
 	'sign_in' => 'Iniciar sesión',
 	'ihuser' => 'I already have a username',
 	'nwuser' => 'Register a new account',
-    'ifguser' => 'I forgot my username',
+        'ifguser' => 'I forgot my username',
 	'ifgemail' => 'I forgot my email',
 	'ifgpass' => 'I forgot my password',
 	'ifgpin' => 'I forgot my PIN',	

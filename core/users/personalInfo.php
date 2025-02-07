@@ -3,7 +3,7 @@ $userid = $_SESSION["user_id"];
 $hash = $_SESSION["hash"];
 $ucode = $_SESSION["access_id"];
 
-$respro = $uconn->prepare(
+$respro = $conn->prepare(
     "SELECT * FROM users_profiles p LEFT JOIN users_info i ON p.usercode = i.usercode WHERE p.idp = ? AND p.mkhash = ? "
 );
 $respro->bind_param("ss", $userid, $hash);
@@ -12,7 +12,7 @@ $prof = $respro->get_result();
 $respro->close();
 $rpro = $prof->fetch_assoc();
 
-$ffold = $uconn->prepare(
+$ffold = $conn->prepare(
     "SELECT folder_files FROM users_secures WHERE usercode = ? "
 );
 $ffold->bind_param("s", $ucode);

@@ -1039,7 +1039,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                     function pageList() {
 
-                        var url = 'dashboard.php?cms=<?php echo $linkp; ?>';
+                        var url = 'dashboard/<?php echo $linkp; ?>';
                         location.replace(url);
                     }
 
@@ -1054,7 +1054,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                     function newContent() {
 
-                        var url = 'dashboard.php?cms=<?php echo $linkn; ?>';
+                        var url = 'dashboard/<?php echo $linkn; ?>';
                         location.replace(url);
                     }
 

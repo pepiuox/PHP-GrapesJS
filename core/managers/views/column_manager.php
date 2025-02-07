@@ -3,7 +3,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     extract($_POST);
 
     if (!isset($_GET['w']) || empty($_GET['w'])) {
-        header('Location: dashboard.php?cms=column_manager&w=select');
+        header('Location: dashboard/column_manager/select');
         exit;
     }
 
@@ -54,7 +54,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         }
 
         if (isset($_POST['add'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=table_manager&w=add">';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/table_manager/add">';
         }
         ?>
         <div class="container">
@@ -79,13 +79,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                    let url = 'dashboard.php?cms=column_manager&w=build&tbl=' + this.value;
+                                    let url = 'dashboard/column_manager/build&tbl=' + this.value;
                                     window.location.replace(url);
                                 });
                             </script>
                         </div>
                         <div class="col-auto py-4">
-                            <a class="btn btn-primary mb-3" href="dashboard.php?cms=table_manager&w=add">Go to add more tables</a>
+                            <a class="btn btn-primary mb-3" href="dashboard/table_manager/add">Go to add more tables</a>
                         </div>
                     </form>
                 </div>
@@ -135,7 +135,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
                 }
 
-                $lnk = "dashboard.php?cms=column_manager&w=update&tbl=" . $tble . "&id=";
+                $lnk = "dashboard/column_manager/update&tbl=" . $tble . "&id=";
 
                 $sql = "SELECT * FROM table_column_settings WHERE table_name='$tble'";
 
@@ -143,7 +143,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '<div class="col-12">';
                 echo '<form class="row form-horizontal" method="post">';
                 echo '<div class="col-auto">';
-                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=column_manager&w=select">Select table options</a>';
+                echo '<a class="btn btn-primary mb-3" href="dashboard/column_manager/select">Select table options</a>';
                 echo '</div>';
 
                 echo '<table class="table">';
@@ -186,7 +186,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</tbody>';
                 echo '<table>';
                 echo '<div class="col-auto">';
-                echo '<a class="btn btn-primary mb-3" href="dashboard.php?cms=column_manager&w=select">Select table options</a>';
+                echo '<a class="btn btn-primary mb-3" href="dashboard/column_manager/select">Select table options</a>';
                 echo '</div>';
 
                 echo '</form>';
@@ -213,11 +213,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 // 
 //extract($_POST);
         if (isset($_POST['build'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/column_manager/build&tbl=' . $tble . '">';
         }
 
         if (isset($_POST['select'])) {
-            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=select">';
+            echo '<meta http-equiv="refresh" content="0;url=dashboard/column_manager/select">';
         }
         ?>
         <script src="../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
@@ -271,7 +271,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id='$id' AND table_name='$tble'";
                                         if ($conn->query($upset) === TRUE) {
                                             echo "Record updated successfully";
-                                            echo '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=update&tbl=' . $tble . '&id=' . $id . '#optionsshows">';
+                                            echo '<meta http-equiv="refresh" content="0;url=dashboard/column_manager/update&tbl=' . $tble . '&id=' . $id . '#optionsshows">';
                                         } else {
                                             echo "Error updating record: " . $conn->error;
                                         }
@@ -637,7 +637,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '<form class="row form-horizontal" method="POST" role="form" id="query_' . $tble . '">' . "\n";
                 echo '<div class="form-group">
                         <button type = "submit" id="updatequeries" name="updatequeries" class="btn btn-primary"><span class = "fas fa-plus-square"></span> Save query to columns</button>
-<a class="btn btn-success" href="dashboard.php?cms=table_crud&w=list&tbl=' . $tble . '">View Table</a>                      
+<a class="btn btn-success" href="dashboard/table_crud/list&tbl=' . $tble . '">View Table</a>                      
 </div>' . "\n";
                 while ($ttn = $tbsc->fetch_assoc()) {
                     $remp = str_replace("_", " ", $ttn['col_name']);
@@ -729,7 +729,7 @@ $(document).ready(function () {
                 }
                 echo '<div class="form-group">
                         <button type = "submit" id="updatequeries" name="updatequeries" class="btn btn-primary"><span class = "fas fa-plus-square"></span> Save query to columns</button>
-                        <a class="btn btn-success" href="dashboard.php?cms=crud&w=list&tbl=' . $tble . '">View Table</a>                       
+                        <a class="btn btn-success" href="dashboard/crud/list&tbl=' . $tble . '">View Table</a>                       
                         </div>' . "\n";
                 echo '</form>' . "\n";
 
@@ -769,7 +769,7 @@ $(document).ready(function () {
                     unlink($rvfile);
                 }
 
-                $redir = '<meta http-equiv="refresh" content="0;url=dashboard.php?cms=column_manager&w=build&tbl=' . $tble . '">';
+                $redir = '<meta http-equiv="refresh" content="0;url=dashboard/column_manager/build&tbl=' . $tble . '">';
 
                 $content = '<?php' . "\n";
                 $content .= '//This is temporal file only for add new row' . "\n";

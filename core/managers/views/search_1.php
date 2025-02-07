@@ -74,7 +74,7 @@ if ($w == "select") {
                 var selecttb = $(this).val();
                 var value = selecttb;
                 value = value.replace("_", " ");
-                var url = 'dashboard.php?cms=search&w=find&tbl=' + selecttb;
+                var url = 'dashboard/search/find&tbl=' + selecttb;
                 $('#fttl').text('Buscar en ' + value);
                 window.location.replace(url);
             });
@@ -110,7 +110,7 @@ if ($w == "select") {
     <div class="container">
         <div class="row pt-3">
             <div class="col-md-3">
-                <a class="btn btn-secondary" href="dashboard.php?cms=search&w=select">Volver a seleccionar tabla</a>
+                <a class="btn btn-secondary" href="dashboard/search/select">Volver a seleccionar tabla</a>
             </div>
             <div class="col-md-9">
                 <h2 class="text-primary">Buscar Datos en <?php echo $titl; ?></h2>

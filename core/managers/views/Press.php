@@ -4,7 +4,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     if ($w === 'list') {
         ?>
         <div class="container"> 
-            <a class="btn btn-secondary" href='dashboard.php?cms=press&w=add'>Nueva Publicacion</a> 
+            <a class="btn btn-secondary" href='dashboard/press/add'>Nueva Publicacion</a> 
             <h3>Lista de Publicaciones</h3> 
             <?php
             echo "<table class='table' border=1 cellpadding=0 cellspacing=0 >";
@@ -38,7 +38,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     echo "Catalogo";
                 }
                 echo "</td>";
-                echo "<td valign='top'><a href='dashboard.php?cms=press&w=view&idPr={$row['idPr']}'>Vista</a></td><td valign='top'><a href='dashboard.php?cms=press&w=edit&idPr={$row['idPr']}'>Editar</a></td><td><a href='dashboard.php?cms=press&w=delete&idPr={$row['idPr']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='dashboard/press/view&idPr={$row['idPr']}'>Vista</a></td><td valign='top'><a href='dashboard/press/edit&idPr={$row['idPr']}'>Editar</a></td><td><a href='dashboard/press/delete&idPr={$row['idPr']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -68,7 +68,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=press&w=list'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/press/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar a Publicacion</h3> 
             <form action='' method='POST'>  
@@ -164,7 +164,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 }
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=press&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=press&w=add'>Nueva Fila</a> 
+                    <a class="btn btn-secondary" href='dashboard/press/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/press/add'>Nueva Fila</a> 
                 </p>
                 <h3>Editar de Publicacion</h3> 
                 <form action='' method='POST'> 
@@ -275,7 +275,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?> 
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=press&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=press&w=add'>Nueva Fila</a> 
+                <a class="btn btn-secondary" href='dashboard/press/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/press/add'>Nueva Fila</a> 
             </p>
             <h3>Eliminado de Publicacion</h3> 
             <?php

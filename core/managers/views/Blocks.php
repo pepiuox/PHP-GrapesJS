@@ -5,7 +5,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=blocks&w=add'>Agregar Nuevo Bloque</a> 
+                <a class="btn btn-secondary" href='dashboard/blocks/add'>Agregar Nuevo Bloque</a> 
             </p>
             <h3>Lista de bloques </h3>
             <?php
@@ -34,7 +34,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 }
                 echo "</td>";
                 echo "<td valign='top'>" . $row['title'] . "</td>";
-                echo "<td valign='top'><a href=dashboard.php?cms=blocks&w=edit&idB={$row['idB']}>Editar</a></td><td><a href=dashboard.php?cms=blocks&w=delete&idB={$row['idB']}>Eliminar</a></td> ";
+                echo "<td valign='top'><a href=dashboard/blocks/edit&idB={$row['idB']}>Editar</a></td><td><a href=dashboard/blocks/delete&idB={$row['idB']}>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -133,7 +133,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 $row = $conn->query("SELECT * FROM `blocks` WHERE `idB` = '$idB' ")->fetch_assoc();
                 ?>
                 <p>
-                    <a class="btn btn-secondary" href='dashboard.php?cms=blocks&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
+                    <a class="btn btn-secondary" href='dashboard/blocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
                 </p>
                 <form action='' method='POST'> 
                     <div class="container">

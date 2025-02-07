@@ -5,7 +5,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
         ?>
         <div class="container"> 
             <p>
-                <a class='button' href='dashboard.php?cms=multimedia&w=add'>Agregar Nueva Multimedia</a> 
+                <a class='button' href='dashboard/multimedia/add'>Agregar Nueva Multimedia</a> 
             </p>
             <h3>Lista de Multimedia</h3>
             <?php
@@ -38,7 +38,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 }
                 echo "</td>";
                 echo "<td valign='top'>" . $row['idlink'] . "</td>";
-                echo "<td valign='top'><a href='dashboard.php?cms=multimedia&w=view&id={$row['id']}'>Vista</a></td><td valign='top'><a href='dashboard.php?cms=multimedia&w=edit&id={$row['id']}'>Editar</a></td><td><a href='dashboard.php?cms=multimedia&w=delete&id={$row['id']}'>Eliminar</a></td> ";
+                echo "<td valign='top'><a href='dashboard/multimedia/view&id={$row['id']}'>Vista</a></td><td valign='top'><a href='dashboard/multimedia/edit&id={$row['id']}'>Editar</a></td><td><a href='dashboard/multimedia/delete&id={$row['id']}'>Eliminar</a></td> ";
                 echo "</tr>";
             }
             echo "</tbody>";
@@ -67,7 +67,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             ?>
             <p>
-                <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=list'>Retornar a la Lista</a> 
+                <a class="btn btn-secondary" href='dashboard/multimedia/list'>Retornar a la Lista</a> 
             </p>
             <h3>Agregar a Multimedia</h3> 
             <form action='' method='POST'> 
@@ -152,7 +152,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     echo '<meta http-equiv="refresh" content="0">';
                 }
                 ?>
-                <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=add'>Nuevo Multimedia</a> 
+                <a class="btn btn-secondary" href='dashboard/multimedia/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/multimedia/add'>Nuevo Multimedia</a> 
                 <h3>Editar de multimedia</h3> 
                 <form action='' method='POST'> 
                     <div class='col-md-6'><label class="form-label">Galeria:</label>
@@ -258,7 +258,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             }
             $row = mysqli_fetch_array($conn->query("SELECT * FROM multimedia_gal LEFT JOIN galleries ON multimedia_gal.galId=galleries.idGal WHERE `id` = '$id' "));
             ?>
-            <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=add'>Nueva Fila</a> 
+            <a class="btn btn-secondary" href='dashboard/multimedia/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/multimedia/add'>Nueva Fila</a> 
             <h3>Vista de multimedia_gal</h3> 
             <div class="container"> 
                 <div class='col-md-6'>
@@ -299,7 +299,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             ?> 
             <div class="container"> 
                 <p>
-                    <a class='button' href='dashboard.php?cms=multimedia&w=list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard.php?cms=multimedia&w=add'>Nuevo multimedia</a> 
+                    <a class='button' href='dashboard/multimedia/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/multimedia/add'>Nuevo multimedia</a> 
                 </p>
                 <h3>Eliminado de Multimedia</h3> 
                 <?php

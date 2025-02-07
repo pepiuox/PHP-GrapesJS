@@ -213,17 +213,17 @@ class UsersClass {
                             if (!empty($urw["password_key"])) {
                                 $_SESSION["ErrorMessage"] = "Your account is not active by request for password recovery, check your email or please contact support";
                                 header('Location: ' . $this->logp);
-                                exit();
+                                die();
                             }
                             if (!empty($urw["pin_key"])) {
                                 $_SESSION["ErrorMessage"] = "Your account is not active by request for PIN recovery, check your email or please contact support.";
                                 header('Location: ' . $this->logp);
-                                exit();
+                                die();
                             }
                             if ($urw["banned"] === 1) {
                                 $_SESSION["ErrorMessage"] = "Access could not be completed, account may be blocked, please contact support.";
                                 header('Location: ' . $this->logp);
-                                exit();
+                                die();
                             }
                             $ucode = $urw["usercode"];
 
@@ -305,7 +305,7 @@ class UsersClass {
                                         if ($sqr->num_rows === 0) {
                                             $_SESSION["ErrorMessage"] = "The data is wrong.";
                                             header('Location: ' . $this->logp);
-                                            exit();
+                                            die();
                                         }
                                         $row = $sqr->fetch_assoc();
 
@@ -385,23 +385,23 @@ class UsersClass {
                                     } else {
                                         $this->nAttempt($useremail);
                                         header('Location: ' . $this->logp);
-                                        exit();
+                                        die();
                                     }
                                 } else {
                                     $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
                                     header('Location: ' . $this->logp);
-                                    exit();
+                                    die();
                                 }
                             } else {
                                 $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
                                 header('Location: ' . $this->logp);
-                                exit();
+                                die();
                             }
                         }
                     } else {
                         $_SESSION["ErrorMessage"] = "The PIN is not numeric or is not complete.";
                         header('Location: ' . $this->logp);
-                        exit();
+                        die();
                     }
                 }
             }
@@ -475,7 +475,7 @@ class UsersClass {
                 if ($result->num_rows === 0) {
                     $_SESSION["ErrorMessage"] = "The data is wrong.";
                     header('Location: ' . $this->logp);
-                    exit();
+                    die();
                 } else {
                     $urw = $result->fetch_assoc();
                     if ($urw["is_activated"] === 1 && $urw["banned"] === 0) {
@@ -523,17 +523,17 @@ class UsersClass {
                                 unset($_SESSION["id_session_attempt"]);
                                 $_SESSION["SuccessMessage"] = "Congratulations you now have access!";
                                 header('Location: ' . $this->logp);
-                                exit();
+                                die();
                             }
                         } else {
                             $_SESSION["ErrorMessage"] = "Password incorrect.";
                             header('Location: ' . $this->logp);
-                            exit();
+                            die();
                         }
                     } else {
                         $_SESSION["ErrorMessage"] = "Invalid username or password incorrect.";
                         header('Location: ' . $this->logp);
-                        exit();
+                        die();
                     }
                 }
             }
@@ -547,7 +547,7 @@ class UsersClass {
 
     private function verifyAttempts($udata) {
         $result = $this->conn->prepare(
-            "SELECT id_session, user_data FROM ip WHERE user_data = ? GROUP BY id_session"
+            "SELECT COUNT(id_session) FROM ip WHERE user_data = ?"
         );
         $result->bind_param("s", $udata);
         $result->execute();
@@ -631,11 +631,11 @@ class UsersClass {
             if ($_SESSION["attempt_again"] >= 3) {
                 $_SESSION["error"] = "Your are allowed 3 attempts in 10 minutes";
                 header('Location: ' . $this->logp);
-                exit();
+                die();
             } else {
                 $_SESSION["ErrorMessage"] = "Invalid email, password or PIN incorrect.";
                 header('Location: ' . $this->logp);
-                exit();
+                die();
             }
         }
     }
@@ -683,11 +683,11 @@ class UsersClass {
                 unset($_SESSION);
                 session_destroy(); // Destroy all session data.
                 header('Location: ' . $this->logp);
-                exit();
+                die();
             }
         } else {
             header("Location: " . $this->syst);
-            exit();
+            die();
         }
     }
 
@@ -715,7 +715,7 @@ class UsersClass {
     public function Profile() {
         if (isset($_POST["profile"])) {
             header("Location: " . $this->syst . "profile/user-profile");
-            exit();
+            die();
         }
     }
 
@@ -755,7 +755,7 @@ class UsersClass {
             //have we expired?
             //redirect to logout.php
             header("Location: " . $this->syst . "signin/logout"); //change yoursite.com to the name of you site!
-            exit();
+            die();
         } else {
             //if we haven't expired:
             $_SESSION["last_activity"] = time(); //this was the moment of last activity.

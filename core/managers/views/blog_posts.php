@@ -11,7 +11,7 @@ if ($cms == "list_posts") {
     <div class='container-fluid'>            
         <div class="row">                
             <div class="col-md-12 py-3">
-                <a href="<?php echo SITE_PATH; ?>admin/dashboard.php?cms=add_post" class="btn btn-primary" > Add new page</a>
+                <a href="<?php echo SITE_PATH; ?>admin/dashboard/add_post" class="btn btn-primary" > Add new page</a>
                 <table class="table">
                     <thead>
                         <tr>
@@ -42,11 +42,11 @@ if ($cms == "list_posts") {
                                 echo '</td><td>' . "\n";
                                 vwaction($prow['active']);
                                 echo '</td><td>' . "\n";
-                                echo '<a href="dashboard.php?cms=edit_post&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
+                                echo '<a href="dashboard/edit_post&id=' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
                                 echo '</td><td>' . "\n";
                                 echo '<a href="builder.php?build=blog_posts&id=' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
                                 echo '</td><td>' . "\n";
-                                echo '<a href="dashboard.php?cms=deletepost&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+                                echo '<a href="dashboard/deletepost&id=' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                                 echo '</td></tr>';
                             }
                         } else {
@@ -132,7 +132,7 @@ if ($cms == "list_posts") {
             echo "FAILURE! " . $stmt->error;
         } else {
             echo "Updated {$stmt->affected_rows} category";
-            header('Location: dashboard.php?cms=blog_posts&w=list');
+            header('Location: dashboard/blog_posts/list');
         }
         $stmt->close();
     }
@@ -317,7 +317,7 @@ if ($cms == "list_posts") {
             echo "FAILURE! " . $stmt->error;
         } else {
             echo "Updated {$stmt->affected_rows} category";
-            header('Location: dashboard.php?cms=blog_posts&w=list');
+            header('Location: dashboard/blog_posts/list');
         }
         $stmt->close();
     }
@@ -450,7 +450,7 @@ if ($cms == "list_posts") {
             echo '</div>';
             echo "<script>
 window.setTimeout(function() {
-    window.location.href = 'dashboard.php?cms=list_posts';
+    window.location.href = 'dashboard/list_posts';
 }, 3000);
 </script>";
         } else {

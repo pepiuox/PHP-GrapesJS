@@ -19,7 +19,7 @@ $created = $_POST["created"];
 $updated = $_POST["updated"]; 
 
 $query = "UPDATE users_profiles SET usercode = ?, mkhash = ?, avatar = ?, profile_image = ?, profile_cover = ?, public_phone = ?, public_email = ?, social_media = ?, profession = ?, occupation = ?, profile_bio = ?, language = ?, is_active = ?, banned = ?, created = ?, updated = ? WHERE idp = ?";
-$updated = $this->conn->prepare($sql);
+$updated = $conn->prepare($sql);
 $updated->bind_param('ssssssssssssiissi', $usercode, $mkhash, $avatar, $profile_image, $profile_cover, $public_phone, $public_email, $social_media, $profession, $occupation, $profile_bio, $language, $is_active, $banned, $created, $updated, $id );
 $updated->execute();
 $updated->close();
