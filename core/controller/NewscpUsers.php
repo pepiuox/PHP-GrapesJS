@@ -42,9 +42,9 @@ class NewscpUsers
     }
     private function includes()
     {
-        require_once "../PHPMailer/src/Exception.php";
-        require_once "../PHPMailer/src/PHPMailer.php";
-        require_once "../PHPMailer/src/SMTP.php";
+        require_once URL."/core/PHPMailer/src/Exception.php";
+        require_once URL."/core/PHPMailer/src/PHPMailer.php";
+        require_once URL."/core/PHPMailer/src/SMTP.php";
     }
 
     public function procheck($string)

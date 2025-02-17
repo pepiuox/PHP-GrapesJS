@@ -1,15 +1,12 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
+
 class MyCRUD {
 
-    protected $conn;
-    protected $dbdata;
-    private $baseDB;
+    protected $connection;
+    protected $hostDB;
+    protected $userDB;
+    protected $passDB;
+    protected $baseDB;
     public $pgname;
     private $itpi;
     private $itpc;
@@ -23,10 +20,12 @@ class MyCRUD {
     private $tps;
 
     public function __construct() {
-        global $conn, $dbdata, $rname;
-		$this->baseDB = 'app_users';
-		$this->conn = $conn;		
-        $this->dbdata = $dbdata;
+        $this->hostDB = DBHOST;
+        $this->userDB = DBUSER;
+        $this->passDB = DBPASS;
+        $this->baseDB = DBNAME;
+        global $conn, $rname;
+        $this->connection = $conn;
         $this->pgname = $rname;
         // Array to get input type
         $this->itpi = [
@@ -129,25 +128,20 @@ class MyCRUD {
     }
 
     public function protect($str) {
-		if(!empty($str)){
-			$str = trim($str);
-			$str = stripslashes($str);
-			$str = htmlentities($str, ENT_QUOTES);
-			$str = htmlspecialchars(trim($str), ENT_QUOTES);
-			$str = mysqli_real_escape_string($this->conn, $str);
-			return $str;
-		}else{
-			return NULL;
-		}
-        
+        $str = trim($str);
+        $str = stripslashes($str);
+        $str = htmlentities($str, ENT_QUOTES);
+        $str = htmlspecialchars(trim($str), ENT_QUOTES);
+        $str = mysqli_real_escape_string($this->connection, $str);
+        return $str;
     }
 
     public function getAllData($tble) {
-        return $this->conn->query("SELECT * FROM $tble");
+        return $this->connection->query("SELECT * FROM $tble");
     }
 
     public function selectData($query) {
-        return $this->conn->query($query);
+        return $this->connection->query($query);
     }
 
     public function getID($tble) {
@@ -170,8 +164,8 @@ class MyCRUD {
     }
 
     public function listDatatype($tble) {
-        
-        $dsql = "SELECT COLUMN_NAME AS name, DATA_TYPE AS type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$this->baseDB' AND TABLE_NAME = '$tble'";
+        $nDB = DBNAME;
+        $dsql = "SELECT COLUMN_NAME AS name, DATA_TYPE AS type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$nDB' AND TABLE_NAME = '$tble'";
         $dresult = $this->selectData($dsql);
         $cnm = array();
         while ($row = $dresult->fetch_assoc()) {
@@ -181,8 +175,8 @@ class MyCRUD {
     }
 
     public function showCol($tble) {
-        
-        $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$this->baseDB' AND TABLE_NAME = '$tble'";
+        $nDB = DBNAME;
+        $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$nDB' AND TABLE_NAME = '$tble'";
         $result = $this->selectData($sql);
         $columnArr = array();
         while ($row = $result->fetch_assoc()) {
@@ -193,11 +187,15 @@ class MyCRUD {
 
     public function viewColumns($tble) {
 
-        return $this->dbdata->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type
+        try {
+            $dbDdata = new PDO("mysql:host=$this->hostDB;dbname=$this->baseDB", $this->userDB, $this->passDB);
+        } catch (Exception $e) {
+            echo "Something happened to the database: " . $e->getMessage();
+        }
+        return $dbDdata->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type
             FROM information_schema.columns WHERE
             table_schema = '$this->baseDB'
             AND table_name = '$tble'")->fetchAll(PDO::FETCH_OBJ);
-       
     }
 
     public function getList($sql, $col) {
@@ -239,7 +237,7 @@ class MyCRUD {
 
     public function getDatalist($tble) {
 
-        $total_pages = $this->conn->query("SELECT * FROM $tble")->num_rows;
+        $total_pages = $this->connection->query("SELECT * FROM $tble")->num_rows;
 
         $colmns = $this->viewColumns($tble);
 
@@ -247,7 +245,7 @@ class MyCRUD {
 
         $num_results_on_page = 10;
 
-        if ($stmt = $this->conn->prepare("SELECT * FROM $tble LIMIT ?,?")) {
+        if ($stmt = $this->connection->prepare("SELECT * FROM $tble LIMIT ?,?")) {
 
             $calc_page = ($page - 1) * $num_results_on_page;
             $stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -258,7 +256,7 @@ class MyCRUD {
             echo '<table class="table">
 			<thead>
 				<tr>
-<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud/add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>' . "\n";
+<th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add <i class="fa fa-plus-square"></i></a></th>' . "\n";
             foreach ($colmns as $colmn) {
                 $tremp = ucfirst(str_replace("_", " ", $colmn->name));
                 $remp = str_replace(" id", " ", $tremp);
@@ -271,13 +269,13 @@ class MyCRUD {
 
                 echo '<tr>' . "\n";
                 echo '<td><!--Button -->
-                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud/edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
-<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud/delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
+                <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-edit"></i></a>
+<a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $row[0] . '"><i class="fas fa-trash-alt"></i></a>
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
 
-                    $resultq = $this->conn->query("SELECT * FROM table_column_settings WHERE table_name='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
+                    $resultq = $this->connection->query("SELECT * FROM table_column_settings WHERE table_name='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
 
                     if ($resultq->num_rows > 0) {
                         while ($trow = $resultq->fetch_array()) {
@@ -289,7 +287,7 @@ class MyCRUD {
                                 $id = $trow['j_id'];
                                 $val = $trow['j_value'];
                                 $ql = "SELECT * FROM " . $tb . " WHERE " . $id . "='" . $fd . "'";
-                                $rest = $this->conn->query($ql);
+                                $rest = $this->connection->query($ql);
                                 $tow = $rest->fetch_assoc();
                                 echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>' . "\n";
                             }
@@ -305,7 +303,7 @@ class MyCRUD {
 		</table>' . "\n";
 
             if (ceil($total_pages / $num_results_on_page) > 0) {
-                $url = $this->pgname . '?cms=table_crud/list&tbl=' . $tble;
+                $url = $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble;
                 ?>
                 <nav aria-label="page navigation mx-auto">
                     <ul class="pagination justify-content-center">
@@ -464,7 +462,7 @@ class MyCRUD {
             }
         }
 
-        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud/add&tbl=' . $tble . '">Add</a></th>' . "\n";
+        echo '<th><a id="addrow" name="addrow" class="btn btn-primary" href="' . $this->pgname . '?cms=table_crud&w=add&tbl=' . $tble . '">Add</a></th>' . "\n";
         echo '</tr>' . "\n";
         echo '</thead>' . "\n";
         echo '<tbody>' . "\n";
@@ -512,8 +510,8 @@ class MyCRUD {
 
             $i_row = $row[0];
             echo '<td><!--Button -->
-                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud/edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
-                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud/delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
+                <a id="editrow" name="editrow" class="btn btn-success" href="' . $this->pgname . '?cms=table_crud&w=edit&tbl=' . $tble . '&id=' . $i_row . '">Edit</a>
+                <a id="deleterow" name="deleterow" class="btn btn-danger" href="' . $this->pgname . '?cms=table_crud&w=delete&tbl=' . $tble . '&id=' . $i_row . '">Borrar</a>
                 </td>';
 
             echo '</tr>' . "\n";
@@ -523,7 +521,7 @@ class MyCRUD {
         echo '</table>' . "\n";
         // end body table
         // end
-        $url = $this->pgname . '?cms=table_crud/list&tbl=' . $tble;
+        $url = $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble;
 
         if ($i < $rowcq) {
             echo '<nav aria-label="navigation">';
@@ -602,7 +600,7 @@ class MyCRUD {
 
     public function ShowInputData($table, $clmn) {
         $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$table' AND col_name='$clmn'";
-        $resultq = $this->conn->query($sqlq);
+        $resultq = $this->connection->query($sqlq);
         $nrows = $resultq->num_rows;
         if ($nrows > 0) {
 
@@ -656,7 +654,7 @@ class MyCRUD {
     }
 
     public function get_enum_values($tble, $field) {
-        $type = $this->conn->query("SHOW COLUMNS FROM {$tble} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
+        $type = $this->connection->query("SHOW COLUMNS FROM {$tble} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
         preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
         $enum = explode("','", $matches[1]);
         return $enum;
@@ -664,7 +662,7 @@ class MyCRUD {
 
     public function enum_values($tble, $field, $vals) {
 
-        $type = $this->conn->query("SHOW COLUMNS FROM {$tble} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
+        $type = $this->connection->query("SHOW COLUMNS FROM {$tble} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
         preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
         $enum = explode("','", $matches[1]);
         $frmp = ucfirst(str_replace("_", " ", $field));
@@ -687,7 +685,7 @@ class MyCRUD {
         $ncol = $this->getID($tble);
         //
         $sqlq = "SELECT * FROM table_column_settings WHERE table_name='$tble'";
-        $resultq = $this->conn->query($sqlq);
+        $resultq = $this->connection->query($sqlq);
         $rowcq = $resultq->num_rows;
 
         if ($rowcq > 0) {
@@ -724,7 +722,7 @@ class MyCRUD {
 
                         $sqp1 = "select * from $c_tb";
 
-                        $qres = $this->conn->query($sqp1);
+                        $qres = $this->connection->query($sqp1);
 
                         while ($options = $qres->fetch_array()) {
                             echo '<option value="' . $options[$c_id] . '">' . $options[$c_vl] . '</option>' . "\n";
@@ -945,12 +943,12 @@ class MyCRUD {
         $content .= $ptadds . "\n";
         $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
         $content .= 'VALUES (' . $nvls . ')";' . "\n";
-        $content .= "\$stmt = \$this->conn->prepare(\$sql);" . "\n";
+        $content .= "\$stmt = \$this->connection->prepare(\$sql);" . "\n";
         $content .= '$stmt->bind_param("' . $ctypes . '", ' . $cnames . ');' . "\n";
         $content .= '$stmt->execute();' . "\n";
         $content .= '$stmt->close();' . "\n";
         $content .= "\$_SESSION['success'] = 'The data was added correctly';
-header('Location: " . $this->pgname . "?cms=table_crud/list&tbl=" . $tble . "');" . "\n";
+header('Location: " . $this->pgname . "?cms=table_crud&w=list&tbl=" . $tble . "');" . "\n";
         $content .= "} \n";
         $content .= "?> \n";
 
@@ -1022,7 +1020,7 @@ header('Location: " . $this->pgname . "?cms=table_crud/list&tbl=" . $tble . "');
         $content .= $ptadds . "\n";
         $content .= '$sql = "INSERT INTO ' . $tble . ' (' . $vnames . ')' . "\n";
         $content .= 'VALUES (' . $pnames . ')";' . "\n";
-        $content .= "\$insert = \$this->conn->prepare(\$sql);
+        $content .= "\$insert = \$this->connection->prepare(\$sql);
 \$insert->bind_param('" . $vd . "'," . $bnames . " );
 \$insert->execute();
 \$insert->close();" . "\n";
@@ -1139,15 +1137,15 @@ header('Location: " . $this->pgname . "?cms=table_crud/list&tbl=" . $tble . "');
         $content .= '//This is temporal file only for add new row' . "\n";
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
         $content .= $scpt . "\r\n";
-        $content .= "\$sql=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . " = ? \";" . "\r\n";
-        $content .= '$stmt = $this->conn->prepare($sql);' . "\r\n";
+        $content .= "\$query=\"UPDATE `$tble` SET " . $ecols . " WHERE " . $ncol . " = ? \";" . "\r\n";
+        $content .= '$stmt = $this->connection->prepare($query);' . "\r\n";
         $content .= '$stmt->bind_param("' . $bindp . '",' . $cnames . ', $id);' . "\n";
         $content .= '$stmt->execute();' . "\n";
         $content .= '$stmt->close();' . "\n";
         $content .= '$_SESSION["success"] = "The data was updated correctly.";' . "\n";
         $content .= "echo \"<script>
 window.onload = function() {
-    location.href = '" . $this->pgname . '?cms=table_crud/list&tbl=' . $tble . "';
+    location.href = '" . $this->pgname . '?cms=table_crud&w=list&tbl=' . $tble . "';
 }
 </script>\";" . "\n";
         $content .= "} \r\n";
@@ -1204,8 +1202,8 @@ window.onload = function() {
         $content .= '//This is temporal file only for add new row' . "\n";
         $content .= "if (isset(\$_POST['editrow'])) { \r\n";
         $content .= $scpt . "\r\n";
-        $content .= '$sql = "UPDATE ' . $tble . ' SET ' . $ecols . ' WHERE ' . $ncol . ' = ?";' . "\r\n";
-        $content .= "\$updated = \$this->conn->prepare(\$sql);
+        $content .= '$query = "UPDATE ' . $tble . ' SET ' . $ecols . ' WHERE ' . $ncol . ' = ?";' . "\r\n";
+        $content .= "\$updated = \$this->connection->prepare(\$sql);
 \$updated->bind_param('" . $ctypes . "i', " . $cnames . ", \$id );
 \$updated->execute();
 \$updated->close();" . "\n";
@@ -1242,12 +1240,19 @@ window.onload = function() {
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
 
-                if (in_array($c_tp, $this->itpi)) {
+                $itpi = ['int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal'];
+                $itpc = ['time', 'year'];
+                $itpd = ['date', 'datetime', 'timestamp'];
+                $itpv = ['varchar', 'char'];
+                $itpt = ['text', 'tinytext', 'mediumtext', 'longtext', 'json', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection', 'binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob'];
+                $itpe = ['enum', 'set'];
+
+                if (in_array($c_tp, $itpi)) {
                     if ($i_tp === 3) {
 
                         echo '
 			<div class="form-group">
-        <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+        <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
         <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >';
 
                         $qres = $this->getAllData($c_tb);
@@ -1264,20 +1269,20 @@ window.onload = function() {
                         echo '</div>';
                     } else {
                         echo '<div class="form-group">
-				<label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label> <input type="text"
+				<label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label> <input type="text"
 					class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"
 					value="' . $cdta . '">
 			</div>
 			' . "\n";
                     }
-                } elseif (in_array($c_tp, $this->itpc)) {
+                } elseif (in_array($c_tp, $itpc)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
-                } elseif (in_array($c_tp, $this->itpd)) {
+                } elseif (in_array($c_tp, $itpd)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
                     echo '<script type="text/javascript">
@@ -1291,7 +1296,7 @@ window.onload = function() {
                                             $("#' . $c_nm . '").datepicker("setDate", new Date());
                                         });
                                     </script>' . "\n";
-                } elseif (in_array($c_tp, $this->itpv)) {
+                } elseif (in_array($c_tp, $itpv)) {
                     if ($i_tp === 4) {
                         echo '<div class="form-group">
                     <label for="' . $c_nm . '">' . $frmp . ':
@@ -1304,21 +1309,21 @@ window.onload = function() {
                   </div>' . "\n";
                     } else {
                         echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
                     }
-                } elseif (in_array($c_tp, $this->itpt)) {
+                } elseif (in_array($c_tp, $itpt)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
                   </div>' . "\n";
-                } elseif (in_array($c_tp, $this->itpe)) {
+                } elseif (in_array($c_tp, $itpe)) {
                     // ----------------------
                     $options = $this->get_enum_values($tble, $c_nm);
                     //
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     foreach ($options as $option) {
@@ -1357,24 +1362,29 @@ window.onload = function() {
                 $remp = ucfirst(str_replace("_", " ", $c_nm));
                 $frmp = str_replace(" id", "", $remp);
 
-         
+                $itpi = array('int', 'tinyint', 'smallint', 'mediumint', 'bigint', 'bit', 'float', 'double', 'decimal');
+                $itpc = array('time', 'year');
+                $itpd = array('date', 'datetime', 'timestamp');
+                $itpv = array('varchar', 'char');
+                $itpt = array('text', 'tinytext', 'mediumtext', 'longtext', 'json', 'point', 'linestring', 'polygon', 'geometry', 'multipoint', 'multilinestring', 'multipolygon', 'geometrycollection', 'binary', 'varbinary', 'tinyblob', 'blob', 'mediumblob', 'longblob');
+                $itpe = array('enum', 'set');
 
-                if (in_array($c_tp, $this->itpi)) {
+                if (in_array($c_tp, $itpi)) {
 
                     echo '<div class="form-group">
-				<label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label> <input type="text"
+				<label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label> <input type="text"
 					class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"
 					value="' . $cdta . '">
 			</div>
 			' . "\n";
-                } elseif (in_array($c_tp, $this->itpc)) {
+                } elseif (in_array($c_tp, $itpc)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
-                } elseif (in_array($c_tp, $this->itpd)) {
+                } elseif (in_array($c_tp, $itpd)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
                     echo '<script type="text/javascript">
@@ -1390,25 +1400,25 @@ window.onload = function() {
                                         });
                                     </script>' . "\n";
                 }
-                if (in_array($c_tp, $this->itpv)) {
+                if (in_array($c_tp, $itpv)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" value="' . $cdta . '">
                   </div>' . "\n";
                 }
-                if (in_array($c_tp, $this->itpt)) {
+                if (in_array($c_tp, $itpt)) {
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">' . $cdta . '</textarea>
                   </div>' . "\n";
                 }
-                if (in_array($c_tp, $this->itpe)) {
+                if (in_array($c_tp, $itpe)) {
                     // ----------------------
 
                     $options = $this->get_enum_values($tble, $c_nm);
                     //
                     echo '<div class="form-group">
-                       <label for="' . $c_nm . '" class ="control-label col-md-6">' . $frmp . ':</label>
+                       <label for="' . $c_nm . '" class ="control-label col-sm-3">' . $frmp . ':</label>
                        <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
 
                     foreach ($options as $option) {
@@ -1455,10 +1465,10 @@ window.onload = function() {
         $content .= "if(isset(\$_POST['editrow'])){" . "\n\n";
         $content .= $ptadds . "\n";
         $content .= '$sql = "UPDATE $tble SET ' . $pnames . ' WHERE $ncol=' . $id . '";' . "\n";
-        $content .= "if (\$this->conn->query(\$sql) === TRUE) {
+        $content .= "if (\$this->connection->query(\$sql) === TRUE) {
         \$_SESSION['success'] = \"New record created successfully\";
     } else {
-       \$_SESSION['error'] = \"Error: \" . \$sql . \"<br>\" . \$this->conn->error;
+       \$_SESSION['error'] = \"Error: \" . \$sql . \"<br>\" . \$this->connection->error;
     }" . "\n";
         $content .= " }" . "\n";
         $content .= "?> \n";
@@ -1776,7 +1786,7 @@ window.onload = function() {
 
     public function searchData($tble, $col, $str) {
 
-        $total_pages = $this->conn->query("SELECT * FROM $tble")->num_rows;
+        $total_pages = $this->connection->query("SELECT * FROM $tble")->num_rows;
 
         $colmns = $this->viewColumns($tble);
 
@@ -1784,7 +1794,7 @@ window.onload = function() {
 
         $num_results_on_page = 10;
 
-        if ($stmt = $this->conn->prepare("SELECT * FROM $tble WHERE (`$col` LIKE '%" . $str . "%') LIMIT ?,?")) {
+        if ($stmt = $this->connection->prepare("SELECT * FROM $tble WHERE (`$col` LIKE '%" . $str . "%') LIMIT ?,?")) {
 
             $calc_page = ($page - 1) * $num_results_on_page;
             $stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -1814,7 +1824,7 @@ window.onload = function() {
                 </td>' . "\n";
                 foreach ($colmns as $colmn) {
                     $fd = $row[$colmn->name];
-                    $resultq = $this->conn->query("SELECT * FROM table_queries WHERE name_table='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
+                    $resultq = $this->connection->query("SELECT * FROM table_queries WHERE name_table='$tble' AND col_name='$colmn->name' AND input_type IS NOT NULL");
                     $resv = $resultq->num_rows;
                     $r = 0;
                     if ($resv > $r) {
@@ -1822,7 +1832,7 @@ window.onload = function() {
                         $tb = $trow['j_table'];
                         $id = $trow['j_id'];
                         $val = $trow['j_value'];
-                        $tow = $this->conn->query("SELECT * FROM $tb WHERE $id='$fd'")->fetch_assoc();
+                        $tow = $this->connection->query("SELECT * FROM $tb WHERE $id='$fd'")->fetch_assoc();
 
                         echo '<td><a class="goto" href="search.php?w=find&tbl=' . $tb . '&id=' . $fd . '">' . $tow[$val] . '</a></td>' . "\n";
                     } else {

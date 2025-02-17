@@ -30,16 +30,23 @@ return $this->conn->query("SELECT ip FROM active_guests")->num_rows;
      *
      */
 private function verifiedUser(){
-return $this->conn->query(
-            "SELECT verified FROM users WHERE verified='1'"
-        )->num_rows;
+    $ver = 1
+$stmt = $this->conn->prepare(
+            "SELECT verified FROM users WHERE verified = ?"
+        );
+        $stmt->bind_param("i", $ver);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result->num_rows
 }
-    public function numUsers()
+
+public function numUsers()
     {
         return $this->verifiedUser();
     }
 
-    public function getUserInfo($username)
+public function getUserInfo($username)
     {
         $stmt = $this->conn->prepare(
             "SELECT iduv, email, level  FROM uverify WHERE username = ?"
@@ -59,7 +66,7 @@ return $this->conn->query(
         
     }
 
-    public function getUserOnly($username)
+public function getUserOnly($username)
     {
         $stmt = $this->conn->prepare(
             "SELECT username FROM uverify WHERE username = ?"

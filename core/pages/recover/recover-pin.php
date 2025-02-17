@@ -10,7 +10,7 @@ $forgotpass = new userForgot();
 if ($login->isLoggedIn() === true) {
 ?>
          <script>
-            window.location.replace("<?php echo SITE_PATH; ?>profile/user-profile");
+            window.location.replace("<?php echo SITE_PATH; ?>profile/userprofile");
                 </script>
     <?php
 } else {

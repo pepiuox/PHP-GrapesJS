@@ -28,8 +28,10 @@ class AccessLevel
 
     /* This functions verify if exits user level in the users_roles table
      *
+     * This function get the level of the user
+     *
+     * @return int user level
      */
-
     public function levels()
     {
         $stmt = $this->conn->prepare(
@@ -63,6 +65,12 @@ class AccessLevel
         }
     }
 
+    /**
+     * This function retrieve all the information about a user role
+     *
+     * @param string $level the level of the user
+     * @return array user role information
+     */
     private function Roles($level)
     {
         $stmt = $this->conn->prepare(

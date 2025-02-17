@@ -273,6 +273,7 @@ class installUser {
                     $query->execute();
                     $result = $query->get_result();
                     $secure = $result->fetch_assoc();
+                    $query->close();
                     $stoken =$secure['SECURE_TOKEN'];
                     $shash = $secure['SECURE_HASH'];
 
@@ -297,18 +298,21 @@ class installUser {
                         $ekey,
                         $eiv
                     );
+                    
                     $cml = $this->gc->ende_crypter(
                         "encrypt",
                         $email,
                         $ekey,
                         $eiv
                     );
+                    
                     $eusr = $this->gc->ende_crypter(
                         "encrypt",
                         $username,
                         $ekey,
                         $eiv
                     );
+                    
                     $pin = rand(100000, 999999);
                     $mp = $this->gc->ende_crypter(
                         "encrypt",
@@ -320,7 +324,6 @@ class installUser {
                     $usrcod = $this->gc->getRandomCode();
                     $code = $this->gc->getIdCode();
                     
-
                     $lvl = 'Super Admin';
                     $lvlk = $this->gc->iRandKey(64);
 
@@ -410,7 +413,7 @@ class installUser {
                     $uact->close();
                     
                     $this->uca->AddUserCode($usrcod);
-                    // $this->uca->AddSecures($newid,$usrcod);
+                    $this->uca->AddSecures($newid,$usrcod);
 
                     if (
                         $inst1 === 1 &&
@@ -418,7 +421,7 @@ class installUser {
                         $inst3 === 1 &&
                         $inst4 === 1 &&
                         $inst5 === 1
-                    ) {
+                    ){
                         // message for PIN save
                         $query = $this->connection->prepare(
                             "SELECT iduv, mkpin FROM uverify WHERE username=? AND email=? AND password=?"

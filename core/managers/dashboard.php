@@ -12,10 +12,14 @@ $level = new AccessLevel();
 $vp = new DashboardRoutes();
 $visitors = new Visitors();
 $cms = '';
-$w = '';
 if (defined('CMS')) {
     $cms = CMS;
 }
+$user = '';
+if (defined('USR')) {
+    $user = USR;
+}
+$w = '';
 if (defined('WS')) {
     $w = WS;
 }

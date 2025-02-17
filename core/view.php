@@ -67,52 +67,49 @@ if ($pages->GoPage() === true) {
             echo decodeContent($style) . "\n";
             echo '</style>' . "\n";
         }
-?>
-                 </head>
-
-                 <body>
-                 <div id="wrapper">
-                 <div class='container-fluid' id="content-page">
-        <?php
-        require_once "elements/menu.php";
-        if ($typepage === 'File') {
-            include "elements/alerts.php";
-
-            if ($request === $purl) {
-                require_once $pfile . ".php";
-            }
-        } else if ($typepage === 'Design') {
-            $string = decodeContent($content);
-            if (!empty($content)) {
-                $string = str_replace("<body>", "", $string);
-                $string = str_replace("</body>", "", $string);
-            }
-            echo $string . "\n";
-        }
-        require_once "elements/footer.php";
         ?>
-                 </div>
-                 </div>
-                 </body>
-                 </html>
-        <?php
-    } else if ($viewpg === "system") {
-        include 'elements/header.php';
-        ?>
-                 </head>
-                 <body class="hold-transition sidebar-mini">
-                 <div class="wrapper">
-        <?php
-        if ($request === $purl) {
-            require_once $pfile . ".php";
-        }
+        </head>
+        <body>
+        <div id="wrapper">
+        <div class='container-fluid min-h-screen' id="content-page">
+                             <?php
+                             require_once "elements/menu.php";
+                             if ($typepage === 'File') {
+                                 include "elements/alerts.php";
 
-        require_once 'elements/footer.php';
-        ?>
-                 </div>
-                 </body>
-
-                 </html>
+                                 if ($request === $purl) {
+                                     require_once $pfile . ".php";
+                                 }
+                             } else if ($typepage === 'Design') {
+                                 $string = decodeContent($content);
+                                 if (!empty($content)) {
+                                     $string = str_replace("<body>", "", $string);
+                                     $string = str_replace("</body>", "", $string);
+                                 }
+                                 echo $string . "\n";
+                             }
+                             require_once "elements/footer.php";
+                             ?>
+         </div>
+         </div>
+         </body>
+         </html>
+                         <?php
+                     } else if ($viewpg === "system") {
+                         include 'elements/header.php';
+                         ?>
+         </head>
+         <body class="hold-transition sidebar-mini">
+         <div class="wrapper">
+                             <?php
+                             if ($request === $purl) {
+                                 require_once $pfile . ".php";
+                             }
+                             require_once 'elements/footer.php';
+                             ?>
+         </div>
+         </body>
+         </html>
         <?php
     }
 } else {
@@ -121,24 +118,60 @@ if ($pages->GoPage() === true) {
     $tempBASE = $tempURL[1];
     $tempURI = $tempURL[2];
 
-    include 'elements/header.php';
-        ?>
-          </head>
-          <body class="hold-transition sidebar-mini">
-          <div class="wrapper">  
-    <?php
     if ($tempBASE === "admin") {
-        if (!empty($tempURL[3])) {
-            define('CMS', $tempURL[3]);
+
+        if ($tempURI === "dashboard") {
+            include 'elements/header.php';
+            ?>
+              </head>
+              <body class="hold-transition sidebar-mini">
+              <div class="wrapper">  
+                                      <?php
+                                      if (!empty($tempURL[3])) {
+                                          define('CMS', $tempURL[3]);
+                                      }
+                                      if (!empty($tempURL[4])) {
+                                          define('WS', $tempURL[4]);
+                                      }
+                                      if (!empty($tempURL[5])) {
+                                          define('TBL', $tempURL[5]);
+                                      }
+                                      require_once "managers/" . $tempURI . ".php";
+                                      ?>
+              </div>
+              </body>
+              </html>
+            <?php
         }
-        if (!empty($tempURL[4])) {
-            define('WS', $tempURL[4]);
+
+        if ($tempURI === "builder") {
+            include 'elements/top_build.php';
+            ?>   
+               </head>
+            <body id="builder">  
+            <?php
+            if (!empty($tempURL[3])) {
+                define('PAG', $tempURL[3]);
+            }
+            if (!empty($tempURL[4])) {
+                define('IDP', $tempURL[4]);
+            }
+            require_once "managers/" . $tempURI . ".php";
+            ?>
+              
+              </body>
+              </html>
+            <?php
         }
-        if (!empty($tempURL[5])) {
-            define('TBL', $tempURL[5]);
-        }
-        require_once "managers/" . $tempURI . ".php";
+        ?>
+        <?php
     } else if ($tempBASE === "profile") {
+        include 'elements/header.php';
+        ?>
+        </head>
+         <body class="hold-transition sidebar-mini">
+         <div class="wrapper">  
+        <?php
         if (!empty($tempURL[3])) {
             define('USR', $tempURL[3]);
         }
@@ -146,14 +179,17 @@ if ($pages->GoPage() === true) {
             define('WS', $tempURL[4]);
         }
         require_once "users/" . $tempURI . ".php";
+        ?>
+          </div>
+          </body>
+          </html>
+        <?php
     } else {
         header("Location " . $pg404);
         die();
     }
     ?>
-          </div>
-          </body>
-          </html>
+      
     <?php
 }
-    ?>
+?>

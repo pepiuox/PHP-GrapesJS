@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
         <title><?php echo SITE_NAME; ?> | <?php echo $fname; ?></title>
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome-free/css/all.min.css">        
+        <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome/css/all.min.css">        
         <!-- Theme style -->
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/adminlte/css/adminlte.min.css">

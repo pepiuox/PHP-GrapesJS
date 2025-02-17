@@ -4,6 +4,9 @@ html {
     height: 100%;
     margin: 0;
 }
+.min-h-screen {
+  min-height:100vh
+}
 li {
     padding: 12px;
     width:100%;

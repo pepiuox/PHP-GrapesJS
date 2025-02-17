@@ -29,26 +29,26 @@ class GetCodeDeEncrypt{
 // sha1(bin2hex(mt_rand())); // Get 40 string
 // sha1(uniqid(mt_rand(), TRUE)); // Get 40 string
 // randtoken maker
-    public function randToken() {
+public function randToken() {
         return substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(64))), 0, 64);
     }
 
 // randkey maker
-    public function randKey() {
+public function randKey() {
         return substr(str_replace(['+', '/', '='], '', base64_encode(openssl_random_pseudo_bytes(64))), 0, 64);
     }
 
 // randhash maker
-    public function randHash() {      
+public function randHash() {      
         return bin2hex(substr(str_replace(['+', '/', '='], '', base64_encode(openssl_random_pseudo_bytes(32))), 0, 32));
     }
-    public function iRandHash() {
+public function iRandHash() {
         $len = 64;
         $secret = substr(sha1(openssl_random_pseudo_bytes(19)), - $len) . sha1(openssl_random_pseudo_bytes(15));
         return substr(hash('sha256', $secret), 0, $len);
     }
 
-   public function iRandKey($length) {   
+public function iRandKey($length) {   
         $characters = $this->characters;
         $charactersLength = strlen($characters);
         $randomString = '';

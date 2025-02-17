@@ -714,7 +714,7 @@ class UsersClass {
 
     public function Profile() {
         if (isset($_POST["profile"])) {
-            header("Location: " . $this->syst . "profile/user-profile");
+            header("Location: " . $this->syst . "profile/userprofile");
             die();
         }
     }
