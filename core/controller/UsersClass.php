@@ -180,20 +180,34 @@ class UsersClass {
                                 define("COOKIE_PATH", "/"); //Avaible in whole domain
                             }
                         }
+                        
+                        $site = 1;
+                    
+                    $query = $this->conn->prepare(
+                    "SELECT SECURE_HASH,SECURE_TOKEN FROM site_security WHERE site=?"
+                    );
+                    $query->bind_param("i", $site);
+                    $query->execute();
+                    $qresult = $query->get_result();
+                    $secure = $qresult->fetch_assoc();
+                    $query->close();
+                    $stoken = $secure['SECURE_TOKEN'];
+                    $shash = $secure['SECURE_HASH'];
+                        
                         // This for check if the account is activated
                         $isact = 1;
                         //
                         $usrm = $this->gc->ende_crypter(
                             "encrypt",
                             $useremail,
-                            SECURE_TOKEN,
-                            SECURE_HASH
+                            $stoken,
+                            $shash
                         );
                         $upin = $this->gc->ende_crypter(
                             "encrypt",
                             $userpin,
-                            SECURE_TOKEN,
-                            SECURE_HASH
+                            $stoken,
+                            $shash
                         );
 
                         $stmt = $this->conn->prepare(
@@ -245,14 +259,14 @@ class UsersClass {
                                     $user = $this->gc->ende_crypter(
                                         "decrypt",
                                         $urw["username"],
-                                        SECURE_TOKEN,
-                                        SECURE_HASH
+                                        $stoken,
+                                        $shash
                                     );
                                     $cml = $this->gc->ende_crypter(
                                         "decrypt",
                                         $urw["email"],
-                                        SECURE_TOKEN,
-                                        SECURE_HASH
+                                        $stoken,
+                                        $shash
                                     );
 
                                     $passw = $urw["password"];
@@ -351,14 +365,14 @@ class UsersClass {
                                             $usnm = $this->gc->ende_crypter(
                                                 "encrypt",
                                                 $_SESSION["username"],
-                                                SECURE_TOKEN,
-                                                SECURE_HASH
+                                                $stoken,
+                                                $shash
                                             );
                                             $usid = $this->gc->ende_crypter(
                                                 "encrypt",
                                                 $_SESSION["user_id"],
-                                                SECURE_TOKEN,
-                                                SECURE_HASH
+                                                $stoken,
+                                                $shash
                                             );
                                             setcookie(
                                                 "cookname",

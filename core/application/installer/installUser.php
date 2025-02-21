@@ -430,14 +430,15 @@ class installUser {
                         $query->execute();
                         $result = $query->get_result();
                         $query->close();
-
+                        
                         if ($result->num_rows === 1) {
+                            $this->UpActive($usrcod, $verif);
                             $_SESSION['FullSuccess'] = 'Please remember! Save this, your PIN code is: <h2>' . $pin . '</h2> Thank you for registering. ' . "\n";
                             $_SESSION['SuccessMessage'] = "Admin successfully added.";
 
                             $_SESSION['StepInstall'] = 6;
                             header("Location: install.php?step=6");
-                            exit;
+                            die();
                         } else {
                             $_SESSION["ErrorMessage"] = "Security log could not be completed, see technical support.";
                         }
