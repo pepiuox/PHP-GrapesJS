@@ -1,4 +1,4 @@
 [Project]
 CreatedFrom=
-Manager=KDevCustomBuildSystem
+Manager=KDevGenericManager
 Name=PHP-GrapesJS

@@ -10,6 +10,9 @@
 //
 
 session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 $protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
     $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
@@ -368,8 +371,8 @@ $filecontent = "";
 $filecontent .= "<?php" . "\n";
         $filecontent .= "include 'error_report.php';
 include 'Database.php';
-\$link=new Database();
-\$conn=\$link->MysqliConnection();
+\$link = new Database();
+\$conn = \$link->MysqliConnection();
 require_once 'Routers.php';
 require_once 'function.php';
 include_once 'define.php';" . "\n\n";
@@ -427,8 +430,8 @@ $lastcontent .= "\$alertpg = '" . $website . "';
             return substr(md5(openssl_random_pseudo_bytes(20)), -\$len);
         }
 
-        \$nf=randHash(32) . '.php';
-        \$nu=randHash(30) . '.php';
+        \$nf = randHash(32) . '.php';
+        \$nu = randHash(30) . '.php';
         rename('install.php', \$nf);
         rename('installUser.php', \$nu);
         

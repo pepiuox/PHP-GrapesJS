@@ -7,9 +7,17 @@
 //
 class GetCodeDeEncrypt{
     public $characters;
+    
     public function __construct(){
         $this->characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@[]{|}';
     }
+
+    // This function check that they do not have html symbols 
+    public function procheck($string) {
+        $str = htmlentities(stripslashes($string), ENT_QUOTES);
+        return htmlspecialchars(trim($str), ENT_QUOTES);
+    }
+    
     public function ende_crypter($action, $string, $secret_key, $secret_iv) {
         $output = false;
         $encrypt_method = 'AES-256-CBC';

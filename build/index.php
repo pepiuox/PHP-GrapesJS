@@ -11,8 +11,8 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-define("URL", dirname(__DIR__));
-$source = str_replace('\\', '/', URL);
+$source = str_replace('\\', '/', dirname(__DIR__));
+define("URL", $source);
 
-require_once $source.'/core/view.php';
+require_once URL.'/core/view.php';
 ?>

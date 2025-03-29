@@ -21,6 +21,7 @@ class UsersCodeAccess{
             'users_types',
             'users_verifications'                   
             ]; 
+
         $this->secures = [
             'users_privacy',
             'users_secures'                   
@@ -82,7 +83,7 @@ class UsersCodeAccess{
      * @param int $verst The value to set the is_active field to.
      */
     public function UpActive($uscod, $verst){
-	$stmt = $this->conn->prepare("UPDATE users_active SET is_active=? WHERE usercode=?)");
+	$stmt = $this->conn->prepare("UPDATE users_active SET is_active = ? WHERE usercode = ?");
         $stmt->bind_param("is", $verst, $uscod);
         $stmt->execute();
         $stmt->close();

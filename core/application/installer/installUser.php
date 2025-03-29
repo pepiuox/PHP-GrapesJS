@@ -271,10 +271,10 @@ class installUser {
                     );
                     $query->bind_param("i", $site);
                     $query->execute();
-                    $result = $query->get_result();
-                    $secure = $result->fetch_assoc();
+                    $result = $query->get_result();                   
                     $query->close();
-                    $stoken =$secure['SECURE_TOKEN'];
+                    $secure = $result->fetch_assoc();
+                    $stoken = $secure['SECURE_TOKEN'];
                     $shash = $secure['SECURE_HASH'];
 
                     $user = $this->gc->ende_crypter(
@@ -432,7 +432,7 @@ class installUser {
                         $query->close();
                         
                         if ($result->num_rows === 1) {
-                            $this->UpActive($usrcod, $verif);
+                            $this->uca->UpActive($usrcod, $verif);
                             $_SESSION['FullSuccess'] = 'Please remember! Save this, your PIN code is: <h2>' . $pin . '</h2> Thank you for registering. ' . "\n";
                             $_SESSION['SuccessMessage'] = "Admin successfully added.";
 

@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               9.0.1 - MySQL Community Server - GPL
+-- Server version:               11.7.2-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL Version:             12.10.0.7010
 -- --------------------------------------------------------
@@ -14,73 +14,74 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dumping structure for table test_cms.actions_logs
+-- Dumping structure for table phpgrapesjs.actions_logs
 DROP TABLE IF EXISTS `actions_logs`;
 CREATE TABLE IF NOT EXISTS `actions_logs` (
-  `actions_logs_id` int NOT NULL AUTO_INCREMENT,
+  `actions_logs_id` int(11) NOT NULL AUTO_INCREMENT,
   `email_login` varchar(255) DEFAULT NULL,
   `user_agent` varchar(255) DEFAULT NULL,
   `ip_address` varchar(100) DEFAULT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `actions` varchar(255) DEFAULT NULL,
-  `timestamp_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp_create` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`actions_logs_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.actions_logs: 0 rows
+-- Dumping data for table phpgrapesjs.actions_logs: 0 rows
 /*!40000 ALTER TABLE `actions_logs` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions_logs` ENABLE KEYS */;
 
--- Dumping structure for table test_cms.active_guests
+-- Dumping structure for table phpgrapesjs.active_guests
 DROP TABLE IF EXISTS `active_guests`;
 CREATE TABLE IF NOT EXISTS `active_guests` (
   `ip` varchar(20) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.active_guests: ~3 rows (approximately)
+-- Dumping data for table phpgrapesjs.active_guests: ~4 rows (approximately)
 INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
 	('127.0.0.1', '2023-10-01 01:51:11'),
 	('::1', '2023-12-25 05:55:22'),
-	('127.0.0.1', '2024-09-06 06:38:14');
+	('127.0.0.1', '2024-09-06 06:38:14'),
+	('127.0.0.1', '2025-03-27 08:00:56');
 
--- Dumping structure for table test_cms.active_sessions
+-- Dumping structure for table phpgrapesjs.active_sessions
 DROP TABLE IF EXISTS `active_sessions`;
 CREATE TABLE IF NOT EXISTS `active_sessions` (
   `session` char(128) DEFAULT NULL,
   `access` char(128) DEFAULT NULL,
-  `date_session` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `date_session` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.active_sessions: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.active_sessions: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.active_users
+-- Dumping structure for table phpgrapesjs.active_users
 DROP TABLE IF EXISTS `active_users`;
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(256) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.active_users: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.active_users: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.admins
+-- Dumping structure for table phpgrapesjs.admins
 DROP TABLE IF EXISTS `admins`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `adminid` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT '0',
-  `superadmin` tinyint(1) NOT NULL DEFAULT '0',
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
+  `superadmin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`adminid`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.admins: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.admins: ~1 rows (approximately)
 INSERT INTO `admins` (`adminid`, `usercode`, `is_active`, `superadmin`) VALUES
-	('100546964394868738', 'AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017', 1, 1);
+	('100546964394868738', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 1, 1);
 
--- Dumping structure for table test_cms.admins_users
+-- Dumping structure for table phpgrapesjs.admins_users
 DROP TABLE IF EXISTS `admins_users`;
 CREATE TABLE IF NOT EXISTS `admins_users` (
   `admin_id` char(128) NOT NULL,
@@ -93,153 +94,153 @@ CREATE TABLE IF NOT EXISTS `admins_users` (
   `last_name` varchar(255) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
-  `address` text,
+  `address` text DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
-  `is_active` int DEFAULT NULL,
+  `is_active` int(11) DEFAULT NULL,
   `session_id` varchar(255) DEFAULT NULL,
   `mk_hash` varchar(255) DEFAULT NULL,
   `mk_lasttime` datetime DEFAULT NULL,
-  `pm_sendmail` int DEFAULT NULL,
+  `pm_sendmail` int(11) DEFAULT NULL,
   `timestamp_login` datetime DEFAULT NULL,
-  `pass_change` int DEFAULT NULL,
+  `pass_change` int(11) DEFAULT NULL,
   `timestamp_create` datetime DEFAULT NULL,
   `timestamp_update` datetime DEFAULT NULL,
   PRIMARY KEY (`admin_id`) USING BTREE,
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.admins_users: 1 rows
+-- Dumping data for table phpgrapesjs.admins_users: 1 rows
 /*!40000 ALTER TABLE `admins_users` DISABLE KEYS */;
 INSERT INTO `admins_users` (`admin_id`, `admincode`, `username`, `email`, `password`, `user_type`, `first_name`, `last_name`, `birthday`, `gender`, `address`, `phone`, `picture`, `is_active`, `session_id`, `mk_hash`, `mk_lasttime`, `pm_sendmail`, `timestamp_login`, `pass_change`, `timestamp_create`, `timestamp_update`) VALUES
 	('100546964394868738', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `admins_users` ENABLE KEYS */;
 
--- Dumping structure for table test_cms.announcement
+-- Dumping structure for table phpgrapesjs.announcement
 DROP TABLE IF EXISTS `announcement`;
 CREATE TABLE IF NOT EXISTS `announcement` (
-  `announcement_id` int unsigned NOT NULL,
+  `announcement_id` int(10) unsigned NOT NULL,
   `is_active` enum('N','Y') NOT NULL DEFAULT 'N',
-  `topic` int NOT NULL,
+  `topic` int(11) NOT NULL,
   `message` mediumtext NOT NULL,
-  `date_lastupdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_lastupdate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `auto_publish` enum('Y','N') DEFAULT 'N',
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
   `date_created` datetime DEFAULT NULL,
   `created_by` varchar(200) DEFAULT NULL,
-  `translated_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `translated_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.announcement: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.announcement: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.blacklist_ip
+-- Dumping structure for table phpgrapesjs.blacklist_ip
 DROP TABLE IF EXISTS `blacklist_ip`;
 CREATE TABLE IF NOT EXISTS `blacklist_ip` (
-  `blacklist_ip_id` int NOT NULL AUTO_INCREMENT,
+  `blacklist_ip_id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(255) DEFAULT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `timestamp_create` datetime DEFAULT NULL,
   PRIMARY KEY (`blacklist_ip_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.blacklist_ip: 0 rows
+-- Dumping data for table phpgrapesjs.blacklist_ip: 0 rows
 /*!40000 ALTER TABLE `blacklist_ip` DISABLE KEYS */;
 /*!40000 ALTER TABLE `blacklist_ip` ENABLE KEYS */;
 
--- Dumping structure for table test_cms.blog_categories
+-- Dumping structure for table phpgrapesjs.blog_categories
 DROP TABLE IF EXISTS `blog_categories`;
 CREATE TABLE IF NOT EXISTS `blog_categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `category` char(50) DEFAULT NULL,
   `description` char(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.blog_categories: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.blog_categories: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.blog_posts
+-- Dumping structure for table phpgrapesjs.blog_posts
 DROP TABLE IF EXISTS `blog_posts`;
 CREATE TABLE IF NOT EXISTS `blog_posts` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `link` varchar(255) DEFAULT NULL,
-  `category` int DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `content` longtext,
-  `style` longtext,
+  `content` longtext DEFAULT NULL,
+  `style` longtext DEFAULT NULL,
   `keyword` char(150) DEFAULT NULL,
   `classification` char(150) DEFAULT NULL,
   `description` char(150) DEFAULT NULL,
-  `author` int DEFAULT NULL,
-  `menu` int DEFAULT NULL,
+  `author` int(11) DEFAULT NULL,
+  `menu` int(11) DEFAULT NULL,
   `hidden_blog` tinyint(1) DEFAULT NULL,
   `published` tinyint(1) DEFAULT NULL,
-  `date_posted` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_posted` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.blog_posts: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.blog_posts: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.blog_post_tags
+-- Dumping structure for table phpgrapesjs.blog_post_tags
 DROP TABLE IF EXISTS `blog_post_tags`;
 CREATE TABLE IF NOT EXISTS `blog_post_tags` (
-  `blog_post_id` int NOT NULL,
-  `tag_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `blog_post_id` int(11) NOT NULL,
+  `tag_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.blog_post_tags: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.blog_post_tags: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.categories
+-- Dumping structure for table phpgrapesjs.categories
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
-  `categoryId` int NOT NULL AUTO_INCREMENT,
+  `categoryId` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(50) NOT NULL,
   `description` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`categoryId`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.categories: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.categories: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.counter
+-- Dumping structure for table phpgrapesjs.counter
 DROP TABLE IF EXISTS `counter`;
 CREATE TABLE IF NOT EXISTS `counter` (
-  `counter` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `counter` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.counter: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.counter: ~0 rows (approximately)
 INSERT INTO `counter` (`counter`) VALUES
-	(48);
+	(50);
 
--- Dumping structure for table test_cms.deleted_users
+-- Dumping structure for table phpgrapesjs.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
 CREATE TABLE IF NOT EXISTS `deleted_users` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
   `username` varchar(256) NOT NULL,
   `email` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.deleted_users: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.deleted_users: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.districts
+-- Dumping structure for table phpgrapesjs.districts
 DROP TABLE IF EXISTS `districts`;
 CREATE TABLE IF NOT EXISTS `districts` (
   `idDist` char(6) NOT NULL,
   `name` varchar(50) NOT NULL,
   `region_id` char(6) NOT NULL,
   `province_id` char(6) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idDist`),
   UNIQUE KEY `idDist` (`idDist`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.districts: ~1,874 rows (approximately)
+-- Dumping data for table phpgrapesjs.districts: ~1,874 rows (approximately)
 INSERT INTO `districts` (`idDist`, `name`, `region_id`, `province_id`, `created`, `updated`) VALUES
 	('010101', 'Chachapoyas', '010100', '010000', '2023-10-18 06:08:35', '2023-10-18 06:08:35'),
 	('010102', 'Asunción', '010100', '010000', '2023-10-18 06:08:35', '2023-10-18 06:08:35'),
@@ -2116,172 +2117,172 @@ INSERT INTO `districts` (`idDist`, `name`, `region_id`, `province_id`, `created`
 	('250305', 'Alexander Von Humboldt', '250300', '250000', '2023-10-18 06:08:35', '2023-10-18 06:08:35'),
 	('250401', 'Purús', '250400', '250000', '2023-10-18 06:08:35', '2023-10-18 06:08:35');
 
--- Dumping structure for table test_cms.eventlog
+-- Dumping structure for table phpgrapesjs.eventlog
 DROP TABLE IF EXISTS `eventlog`;
 CREATE TABLE IF NOT EXISTS `eventlog` (
-  `id` bigint unsigned NOT NULL,
-  `event` int NOT NULL,
+  `id` bigint(20) unsigned NOT NULL,
+  `event` int(11) NOT NULL,
   `eventRowIdOrRef` varchar(20) DEFAULT NULL,
-  `eventDesc` text,
+  `eventDesc` text DEFAULT NULL,
   `eventTable` varchar(20) DEFAULT NULL,
-  `staffInCharge` bigint unsigned NOT NULL,
-  `eventTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `staffInCharge` bigint(20) unsigned NOT NULL,
+  `eventTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.eventlog: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.eventlog: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.events
+-- Dumping structure for table phpgrapesjs.events
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
-  `eventId` int NOT NULL AUTO_INCREMENT,
+  `eventId` int(11) NOT NULL AUTO_INCREMENT,
   `event_name` char(200) NOT NULL,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
   PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.events: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.events: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.faq
+-- Dumping structure for table phpgrapesjs.faq
 DROP TABLE IF EXISTS `faq`;
 CREATE TABLE IF NOT EXISTS `faq` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) DEFAULT NULL,
-  `answer` text,
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `answer` text DEFAULT NULL,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.faq: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.faq: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.follow
+-- Dumping structure for table phpgrapesjs.follow
 DROP TABLE IF EXISTS `follow`;
 CREATE TABLE IF NOT EXISTS `follow` (
-  `follow_id` int NOT NULL,
+  `follow_id` int(11) NOT NULL,
   `sender` char(128) NOT NULL DEFAULT '',
   `receiver` char(128) NOT NULL DEFAULT '',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`follow_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.follow: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.follow: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.forgot_pass
+-- Dumping structure for table phpgrapesjs.forgot_pass
 DROP TABLE IF EXISTS `forgot_pass`;
 CREATE TABLE IF NOT EXISTS `forgot_pass` (
-  `idFpa` int NOT NULL AUTO_INCREMENT,
+  `idFpa` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `password_key` varchar(128) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` timestamp NULL DEFAULT current_timestamp(),
   `expired` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idFpa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.forgot_pass: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.forgot_pass: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.forgot_pin
+-- Dumping structure for table phpgrapesjs.forgot_pin
 DROP TABLE IF EXISTS `forgot_pin`;
 CREATE TABLE IF NOT EXISTS `forgot_pin` (
-  `idFpi` int NOT NULL AUTO_INCREMENT,
+  `idFpi` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `pin_key` varchar(128) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` timestamp NULL DEFAULT current_timestamp(),
   `expired` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idFpi`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.forgot_pin: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.forgot_pin: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.help
+-- Dumping structure for table phpgrapesjs.help
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE IF NOT EXISTS `help` (
-  `helpId` int NOT NULL AUTO_INCREMENT,
+  `helpId` int(11) NOT NULL AUTO_INCREMENT,
   `language` char(2) NOT NULL,
-  `topic` int NOT NULL,
+  `topic` int(11) NOT NULL,
   `description` text NOT NULL,
-  `category` int NOT NULL,
-  `order` int NOT NULL,
+  `category` int(11) NOT NULL,
+  `order` int(11) NOT NULL,
   `display_in_page` varchar(100) NOT NULL,
   `updated` datetime DEFAULT NULL,
-  `last_updated` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`helpId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.help: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.help: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.help_categories
+-- Dumping structure for table phpgrapesjs.help_categories
 DROP TABLE IF EXISTS `help_categories`;
 CREATE TABLE IF NOT EXISTS `help_categories` (
-  `category_id` int NOT NULL,
+  `category_id` int(11) NOT NULL,
   `language` char(2) NOT NULL,
   `category_description` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.help_categories: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.help_categories: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.history
+-- Dumping structure for table phpgrapesjs.history
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE IF NOT EXISTS `history` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.history: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.history: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.ip
+-- Dumping structure for table phpgrapesjs.ip
 DROP TABLE IF EXISTS `ip`;
 CREATE TABLE IF NOT EXISTS `ip` (
   `id_session` char(128) NOT NULL,
   `user_data` char(128) NOT NULL,
   `address` char(20) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.ip: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.ip: ~1 rows (approximately)
 INSERT INTO `ip` (`id_session`, `user_data`, `address`, `timestamp`) VALUES
-	('577272556846484d32316438507671736b777a6f7042467a616c44346d624150', 'contact@pepiuox.net', '127.0.0.1', '2023-11-13 18:31:59');
+	('446631707a5a32397559545830584d6f426d313078666b4c485270474f6f326e', 'contact@pepiuox.net', '127.0.0.1', '2025-03-29 02:19:04');
 
--- Dumping structure for table test_cms.items
+-- Dumping structure for table phpgrapesjs.items
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
-  `id` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.items: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.items: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.login_attempts
+-- Dumping structure for table phpgrapesjs.login_attempts
 DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id_session` varchar(128) NOT NULL,
   `user_data` varchar(100) NOT NULL,
   `ip_address` varchar(20) NOT NULL,
-  `attempts` int NOT NULL,
-  `lastlogin` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `attempts` int(11) NOT NULL,
+  `lastlogin` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.login_attempts: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.login_attempts: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.members
+-- Dumping structure for table phpgrapesjs.members
 DROP TABLE IF EXISTS `members`;
 CREATE TABLE IF NOT EXISTS `members` (
   `id` char(128) NOT NULL,
   `username` varchar(65) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(65) NOT NULL DEFAULT '',
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `banned` tinyint(1) NOT NULL DEFAULT '0',
-  `mod_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `banned` tinyint(1) NOT NULL DEFAULT 0,
+  `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
   `recovery_password` varchar(128) NOT NULL DEFAULT '0',
   `mktoken` varchar(128) NOT NULL DEFAULT '',
   `mkkey` varchar(128) NOT NULL,
@@ -2292,11 +2293,11 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.members: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.members: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.member_info
+-- Dumping structure for table phpgrapesjs.member_info
 DROP TABLE IF EXISTS `member_info`;
 CREATE TABLE IF NOT EXISTS `member_info` (
   `userid` char(128) NOT NULL,
@@ -2313,55 +2314,55 @@ CREATE TABLE IF NOT EXISTS `member_info` (
   UNIQUE KEY `userid_UNIQUE` (`userid`),
   KEY `fk_userid_idx` (`userid`),
   CONSTRAINT `fk_userid` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.member_info: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.member_info: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.member_jail
+-- Dumping structure for table phpgrapesjs.member_jail
 DROP TABLE IF EXISTS `member_jail`;
 CREATE TABLE IF NOT EXISTS `member_jail` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` char(128) NOT NULL,
-  `banned_hours` float NOT NULL DEFAULT '24',
+  `banned_hours` float NOT NULL DEFAULT 24,
   `reason` varchar(2000) DEFAULT NULL,
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `user_id_UNIQUE` (`user_id`) USING BTREE,
   KEY `fk_userid_idx` (`user_id`) USING BTREE,
   CONSTRAINT `fk_userid_jail` FOREIGN KEY (`user_id`) REFERENCES `members` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.member_jail: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.member_jail: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.member_roles
+-- Dumping structure for table phpgrapesjs.member_roles
 DROP TABLE IF EXISTS `member_roles`;
 CREATE TABLE IF NOT EXISTS `member_roles` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` char(128) NOT NULL,
-  `role_id` int NOT NULL,
+  `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_unique_idx` (`member_id`,`role_id`),
   KEY `member_id_idx` (`member_id`),
   KEY `fk_role_id_idx` (`role_id`),
-  CONSTRAINT `fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_member_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  CONSTRAINT `FK_member_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.member_roles: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.member_roles: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.menu
+-- Dumping structure for table phpgrapesjs.menu
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
-  `idMenu` int NOT NULL AUTO_INCREMENT,
-  `sort` int DEFAULT NULL,
-  `page_id` int DEFAULT NULL,
+  `idMenu` int(11) NOT NULL AUTO_INCREMENT,
+  `sort` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
   `title_page` varchar(100) DEFAULT NULL,
   `link_page` varchar(100) DEFAULT NULL,
-  `parent_id` int DEFAULT '0',
+  `parent_id` int(11) DEFAULT 0,
   PRIMARY KEY (`idMenu`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.menu: ~6 rows (approximately)
+-- Dumping data for table phpgrapesjs.menu: ~6 rows (approximately)
 INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `parent_id`) VALUES
 	(1, NULL, 1, 'Inicio', 'inicio', 0),
 	(2, NULL, 2, 'Servicios', 'servicios', 0),
@@ -2370,10 +2371,10 @@ INSERT INTO `menu` (`idMenu`, `sort`, `page_id`, `title_page`, `link_page`, `par
 	(5, NULL, 5, 'Ofertas', 'ofertas', 4),
 	(6, NULL, 6, 'Contacto', 'contacto', 0);
 
--- Dumping structure for table test_cms.menu_options
+-- Dumping structure for table phpgrapesjs.menu_options
 DROP TABLE IF EXISTS `menu_options`;
 CREATE TABLE IF NOT EXISTS `menu_options` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_menu` char(50) NOT NULL,
   `fluid` enum('Yes','No') DEFAULT NULL,
   `placement` enum('top','bottom','sticky-top') DEFAULT NULL,
@@ -2382,19 +2383,19 @@ CREATE TABLE IF NOT EXISTS `menu_options` (
   `color` enum('light','dark') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_menu` (`id_menu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Dumping data for table test_cms.menu_options: ~2 rows (approximately)
+-- Dumping data for table phpgrapesjs.menu_options: ~2 rows (approximately)
 INSERT INTO `menu_options` (`id`, `id_menu`, `fluid`, `placement`, `aligment`, `background`, `color`) VALUES
 	(1, 'main_navbar', 'Yes', 'top', 'start', 'primary', 'dark'),
 	(2, 'main_menu', 'Yes', 'top', 'end', 'dark', 'light');
 
--- Dumping structure for table test_cms.pages
+-- Dumping structure for table phpgrapesjs.pages
 DROP TABLE IF EXISTS `pages`;
 CREATE TABLE IF NOT EXISTS `pages` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `language` int NOT NULL DEFAULT '1',
-  `position` int NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `language` int(11) NOT NULL DEFAULT 1,
+  `position` int(11) NOT NULL DEFAULT 0,
   `system_path` varchar(150) DEFAULT NULL,
   `view_page` enum('public','system','private') DEFAULT NULL,
   `title` varchar(50) DEFAULT 'Title',
@@ -2405,25 +2406,25 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `description` varchar(160) DEFAULT NULL,
   `image` varchar(150) DEFAULT NULL,
   `type` enum('Design','File','Link') NOT NULL,
-  `menu` int DEFAULT '1',
-  `hidden_page` tinyint(1) DEFAULT '0',
+  `menu` int(11) DEFAULT 1,
+  `hidden_page` tinyint(1) DEFAULT 0,
   `path_file` varchar(250) DEFAULT NULL,
   `script_name` varchar(250) DEFAULT NULL,
   `template` varchar(150) DEFAULT NULL,
   `base_template` varchar(150) DEFAULT NULL,
-  `content` longtext,
-  `style` longtext,
-  `startpage` int DEFAULT '0',
-  `level` int DEFAULT '1',
-  `parent` int DEFAULT '0',
-  `sort` int DEFAULT '0',
-  `active` int DEFAULT '1',
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `content` longtext DEFAULT NULL,
+  `style` longtext DEFAULT NULL,
+  `startpage` int(11) DEFAULT 0,
+  `level` int(11) DEFAULT 1,
+  `parent` int(11) DEFAULT 0,
+  `sort` int(11) DEFAULT 0,
+  `active` int(11) DEFAULT 1,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.pages: ~15 rows (approximately)
+-- Dumping data for table phpgrapesjs.pages: ~15 rows (approximately)
 INSERT INTO `pages` (`id`, `language`, `position`, `system_path`, `view_page`, `title`, `link`, `url`, `keyword`, `classification`, `description`, `image`, `type`, `menu`, `hidden_page`, `path_file`, `script_name`, `template`, `base_template`, `content`, `style`, `startpage`, `level`, `parent`, `sort`, `active`, `created`, `updated`) VALUES
 	(1, 1, 0, '', 'public', 'Inicio', 'inicio', NULL, 'Inicio', 'Inicio', 'Inicio', '29853.jpg', 'Design', 1, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;iafuo&amp;quot; class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iaq6l&amp;quot; class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i0lkk&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;Encuentra un servicio o proveedor&amp;lt;br id=&amp;quot;ia8y&amp;quot; draggable=&amp;quot;true&amp;quot;/&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;p id=&amp;quot;in7xp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Publica tus servicios y productos o haz saber que necesitas y encuentralo de forma segura y confiable.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;a id=&amp;quot;iza5ur&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Promociones&amp;lt;/a&amp;gt; &amp;lt;a id=&amp;quot;i410ic&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Ofertas&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;section id=&amp;quot;in4g&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;py-5 about-area about-two&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id1p&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;igm3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;id3l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-lg-12&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ik8n&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;about-title text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i6w9&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;section-title&amp;quot;&amp;gt;&amp;lt;h2 id=&amp;quot;iqk1&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;fw-bold&amp;quot;&amp;gt;&amp;lt;span lang=&amp;quot;es&amp;quot; class=&amp;quot;HwtZe&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;jCAhz ChMk0b&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;ryNqvb&amp;quot;&amp;gt;Nuestras caracter&amp;iacute;sticas clave&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h2&amp;gt;&amp;lt;p id=&amp;quot;ij0l4&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Se parte de nuestro directorio para contactar con tu clientes de una forma segura y rapida.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;div id=&amp;quot;izhsl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row justify-content-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;iafkz&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ied4f&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ihaol&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/viral.svg&amp;quot; id=&amp;quot;i8mfp&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iunmf&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iji93&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;&amp;lt;span lang=&amp;quot;es&amp;quot; class=&amp;quot;HwtZe&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;jCAhz ChMk0b&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;ryNqvb&amp;quot;&amp;gt;Marketing directo&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iomun&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;Nuestro sistema te conecta a clientes con proveedores de servicios o productos sin problemas&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;iannt&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-xl-5 col-lg-6 col-md-8 col-sm-11&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i8akp&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;single-features-one-items text-center&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7cqu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-image&amp;quot;&amp;gt;&amp;lt;img src=&amp;quot;http://localhost:130/assets/images/about/about-02/remote-team.svg&amp;quot; id=&amp;quot;iyb2j&amp;quot; draggable=&amp;quot;true&amp;quot; alt=&amp;quot;image&amp;quot; class=&amp;quot;img-fluid&amp;quot;/&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;h3 id=&amp;quot;id1nu&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-title&amp;quot;&amp;gt;Un equipo dedicado&amp;lt;br/&amp;gt;&amp;lt;/h3&amp;gt;&amp;lt;div id=&amp;quot;ix8ce&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;features-content&amp;quot;&amp;gt;&amp;lt;p id=&amp;quot;iloaj&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;text&amp;quot;&amp;gt;Mejoramos dia a dia para hacer que tu negocio crezca sin problemas de medios inseguros.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- single features one items --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- row --&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;!-- container --&amp;gt;&amp;lt;/section&amp;gt;&amp;lt;div id=&amp;quot;iftvoc&amp;quot; class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;text-center mx-auto col-md-12&amp;quot;&amp;gt;&amp;lt;h1 id=&amp;quot;i5lggf&amp;quot; class=&amp;quot;text-light&amp;quot;&amp;gt;Estas buscanto o tienes algo que ofrecer.&amp;lt;br/&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ilz7np&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;i6wfch&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Cliente&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;icngp3&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Si estas en la busca de servicios y proveedores registrate y encuentra cerca de ti aquello que necesitas.&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;ijp64p&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;iucglj&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;icmjyn&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;izyn5o&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;iif0kn&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Servicios&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;ii6sq6&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Si tienes servicios puedes ofrecerlos, tus clientes pueden estar mas cerca de lo que imaginas. &amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;inry5q&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;izcdm1&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;imry6b&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-4 p-3&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;card text-center text-dark&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;ia0ddl&amp;quot; class=&amp;quot;card-body p-4&amp;quot;&amp;gt;&amp;lt;h3 id=&amp;quot;ib6b2m&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Proveedor&amp;lt;/h3&amp;gt;&amp;lt;p id=&amp;quot;iuyalh&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;my-3&amp;quot;&amp;gt;Aun no encuentras la forma se ofrecer tus productos, crear una cuenta y conectarte con tus clientes.&amp;nbsp; &amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;h2 id=&amp;quot;i4ou4n&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;b id=&amp;quot;ia6uyd&amp;quot; draggable=&amp;quot;true&amp;quot;&amp;gt;Gratis&amp;lt;/b&amp;gt;&amp;lt;/h2&amp;gt; &amp;lt;a id=&amp;quot;ikhlrp&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mt-3&amp;quot;&amp;gt;Registrate&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-3&amp;quot; id=&amp;quot;i42ibr&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;Main&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;ul class=&amp;quot;list-unstyled&amp;quot;&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Home&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Features&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Pricing&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;Others&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;ul class=&amp;quot;list-unstyled&amp;quot;&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;FAQ&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Resources&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;li&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;Career&amp;lt;/a&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-lg-3 col-md-6 p-3&amp;quot;&amp;gt;&amp;lt;h5&amp;gt; &amp;lt;b&amp;gt;About&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;p class=&amp;quot;mb-0&amp;quot;&amp;gt; I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div id=&amp;quot;i9zak&amp;quot; class=&amp;quot;col-lg-3 col-md-6 p-3&amp;quot;&amp;gt;&amp;lt;h5 id=&amp;quot;iqnc4w&amp;quot;&amp;gt; &amp;lt;b&amp;gt;Follow us&amp;lt;/b&amp;gt; &amp;lt;/h5&amp;gt;&amp;lt;div id=&amp;quot;i5eutl&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;i7dwoe&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;col-md-12 d-flex align-items-center justify-content-between my-2&amp;quot;&amp;gt;&amp;lt;a id=&amp;quot;i2ebba&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i8vi7l&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-facebook text-muted fa-lg mr-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;isazig&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i5isjc&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-instagram text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;il0pof&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;i5gomi&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-google-plus text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;iskvap&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;im7i8k&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-pinterest text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;ih7mz6&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;ir653x&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-reddit text-muted fa-lg mx-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;a id=&amp;quot;iribyw&amp;quot; draggable=&amp;quot;true&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;&amp;lt;i id=&amp;quot;icsmts&amp;quot; draggable=&amp;quot;true&amp;quot; class=&amp;quot;d-block fa-brands fa-twitter text-muted fa-lg ml-2&amp;quot;&amp;gt;\n      &amp;lt;/i&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12 text-center&amp;quot;&amp;gt;&amp;lt;p class=&amp;quot;mb-0 mt-2&amp;quot;&amp;gt;&amp;copy; 2021 PHP GrapesJS. All rights reserved&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin:0;}#iafuo{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:160/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}#iftvoc{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:160/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:100%, 100%;background-repeat:repeat, repeat;}#iaq6l{color:white;}', 1, 1, 0, 0, 1, '2023-09-30 23:39:21', '2024-09-06 06:48:37'),
 	(2, 1, 0, '', 'public', 'Servicios', 'servicios', NULL, 'Servicios', 'Servicios', 'Servicios', NULL, 'Design', 2, 0, NULL, NULL, NULL, NULL, '&amp;lt;body&amp;gt;&amp;lt;div class=&amp;quot;py-5 text-center text-primary h-100 align-items-center d-flex&amp;quot; id=&amp;quot;i6kb&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;mx-auto col-lg-8 col-md-10&amp;quot;&amp;gt;&amp;lt;h1 class=&amp;quot;display-3 mb-4&amp;quot;&amp;gt;A wonderful serenity&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;lead mb-5&amp;quot;&amp;gt;Has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence.&amp;lt;/p&amp;gt;&amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg btn-primary mx-1&amp;quot;&amp;gt;Take me there&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-lg mx-1 btn-outline-primary&amp;quot;&amp;gt;Let&amp;#039;s Go&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;py-5&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-12&amp;quot;&amp;gt;&amp;lt;h1&amp;gt;O my friend&amp;lt;/h1&amp;gt;&amp;lt;p class=&amp;quot;mb-4&amp;quot;&amp;gt;A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.\n                        I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;div class=&amp;quot;row&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;col-md-3 order-3 order-md-1&amp;quot;&amp;gt; &amp;lt;img src=&amp;quot;http://localhost:130/assets/images/img-placeholder-1.svg&amp;quot; class=&amp;quot;img-fluid d-block&amp;quot;/&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-6 col-8 d-flex flex-column justify-content-center p-3 order-1 order-md-2&amp;quot;&amp;gt;&amp;lt;h3&amp;gt;Mere tranquil existence&amp;lt;/h3&amp;gt;&amp;lt;p&amp;gt;I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;col-md-2 col-4 d-flex flex-column align-items-center justify-content-center order-2 order-md-2 p-3&amp;quot;&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-outline-primary mb-3&amp;quot;&amp;gt;Read more&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-primary mb-3&amp;quot;&amp;gt;Main action&amp;lt;/a&amp;gt; &amp;lt;a href=&amp;quot;#&amp;quot; class=&amp;quot;btn btn-link&amp;quot;&amp;gt;Link&amp;lt;/a&amp;gt; &amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;', '* { box-sizing: border-box; } body {margin: 0;}#i6kb{background-image:linear-gradient(to bottom, rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(http://localhost:130/assets/images/cover-bubble-dark.svg);background-position:center center, center center;background-size:cover, cover;background-repeat:repeat, repeat;}', 0, 1, 0, 0, 1, '2023-09-30 23:39:21', '2024-09-06 06:48:37'),
@@ -2441,17 +2442,17 @@ INSERT INTO `pages` (`id`, `language`, `position`, `system_path`, `view_page`, `
 	(19, 1, 0, 'signin/', 'public', 'Forgot PIN', 'forgot-pin', '/signin/forgot-pin', NULL, NULL, NULL, NULL, 'File', 1, 0, 'pages/forgot/forgot_pin', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-06 14:55:02', '2024-09-07 05:59:57'),
 	(20, 1, 0, 'admin/', 'system', 'Dashboard', 'dashboard', '/admin/dashboard', NULL, NULL, NULL, NULL, 'File', 1, 0, 'managers/dashboard', NULL, NULL, NULL, NULL, NULL, 0, 1, 0, 0, 1, '2024-01-11 04:48:18', '2024-09-07 05:59:57');
 
--- Dumping structure for table test_cms.pageviews
+-- Dumping structure for table phpgrapesjs.pageviews
 DROP TABLE IF EXISTS `pageviews`;
 CREATE TABLE IF NOT EXISTS `pageviews` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `page` char(250) DEFAULT NULL,
   `ip` char(20) DEFAULT NULL,
-  `date_view` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_view` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.pageviews: ~65 rows (approximately)
+-- Dumping data for table phpgrapesjs.pageviews: ~69 rows (approximately)
 INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(1, 'Inicio', '127.0.0.1', '2024-09-06 06:40:35'),
 	(2, '404', '127.0.0.1', '2024-09-06 06:40:36'),
@@ -2517,62 +2518,71 @@ INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(62, 'Inicio', '127.0.0.1', '2025-01-20 17:19:01'),
 	(63, 'Login', '127.0.0.1', '2025-01-20 17:19:51'),
 	(64, 'Login', '127.0.0.1', '2025-01-21 23:15:57'),
-	(65, 'Inicio', '127.0.0.1', '2025-01-22 00:29:32');
+	(65, 'Inicio', '127.0.0.1', '2025-01-22 00:29:32'),
+	(66, 'Login', '127.0.0.1', '2025-03-27 08:00:56'),
+	(67, 'Inicio', '127.0.0.1', '2025-03-27 08:03:02'),
+	(68, 'Contacto', '127.0.0.1', '2025-03-27 08:03:07'),
+	(69, 'Proveedores', '127.0.0.1', '2025-03-27 08:03:10'),
+	(70, 'Promociones', '127.0.0.1', '2025-03-27 08:03:13'),
+	(71, 'Inicio', '127.0.0.1', '2025-03-29 02:18:27'),
+	(72, 'Login', '127.0.0.1', '2025-03-29 02:18:30'),
+	(73, 'Contacto', '127.0.0.1', '2025-03-29 02:26:01'),
+	(74, 'Dashboard', '127.0.0.1', '2025-03-29 02:26:17');
 
--- Dumping structure for table test_cms.page_contents
+-- Dumping structure for table phpgrapesjs.page_contents
 DROP TABLE IF EXISTS `page_contents`;
 CREATE TABLE IF NOT EXISTS `page_contents` (
-  `idContent` int NOT NULL AUTO_INCREMENT,
-  `idPage` int NOT NULL,
+  `idContent` int(11) NOT NULL AUTO_INCREMENT,
+  `idPage` int(11) NOT NULL,
   `content` longtext NOT NULL,
   `script` mediumtext NOT NULL,
   `style` mediumtext NOT NULL,
-  `version` int NOT NULL,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `version` int(11) NOT NULL,
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idContent`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.page_contents: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.page_contents: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.page_menu
+-- Dumping structure for table phpgrapesjs.page_menu
 DROP TABLE IF EXISTS `page_menu`;
 CREATE TABLE IF NOT EXISTS `page_menu` (
-  `page_menu_id` int NOT NULL AUTO_INCREMENT,
+  `page_menu_id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_name` varchar(255) DEFAULT NULL,
   `lang_iso` varchar(10) DEFAULT NULL,
-  `pages_id` int DEFAULT NULL,
+  `pages_id` int(11) DEFAULT NULL,
   `other_link` varchar(512) DEFAULT NULL,
   `plugin_menu` varchar(255) DEFAULT NULL,
-  `drop_menu` int DEFAULT NULL,
-  `drop_page_menu_id` int DEFAULT NULL,
-  `position` int DEFAULT NULL,
-  `new_windows` int DEFAULT NULL,
-  `active` int DEFAULT NULL,
-  `arrange` int DEFAULT NULL,
-  `timestamp_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `timestamp_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `drop_menu` int(11) DEFAULT NULL,
+  `drop_page_menu_id` int(11) DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
+  `new_windows` int(11) DEFAULT NULL,
+  `active` int(11) DEFAULT NULL,
+  `arrange` int(11) DEFAULT NULL,
+  `timestamp_create` timestamp NULL DEFAULT current_timestamp(),
+  `timestamp_update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`page_menu_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.page_menu: 0 rows
+-- Dumping data for table phpgrapesjs.page_menu: 0 rows
 /*!40000 ALTER TABLE `page_menu` DISABLE KEYS */;
 /*!40000 ALTER TABLE `page_menu` ENABLE KEYS */;
 
--- Dumping structure for table test_cms.permissions
+-- Dumping structure for table phpgrapesjs.permissions
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE IF NOT EXISTS `permissions` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `category` varchar(50) NOT NULL DEFAULT 'General',
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.permissions: ~15 rows (approximately)
+-- Dumping data for table phpgrapesjs.permissions: ~15 rows (approximately)
 INSERT INTO `permissions` (`id`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
 	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
@@ -2590,7 +2600,7 @@ INSERT INTO `permissions` (`id`, `name`, `description`, `category`, `required`) 
 	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 
--- Dumping structure for table test_cms.personal_config
+-- Dumping structure for table phpgrapesjs.personal_config
 DROP TABLE IF EXISTS `personal_config`;
 CREATE TABLE IF NOT EXISTS `personal_config` (
   `usercode` char(128) DEFAULT NULL,
@@ -2610,17 +2620,17 @@ CREATE TABLE IF NOT EXISTS `personal_config` (
   `skills` varchar(50) DEFAULT NULL,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.personal_config: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.personal_config: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.personal_services
+-- Dumping structure for table phpgrapesjs.personal_services
 DROP TABLE IF EXISTS `personal_services`;
 CREATE TABLE IF NOT EXISTS `personal_services` (
   `idd` char(128) NOT NULL,
   `usercode` char(128) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
-  `edad` tinyint DEFAULT NULL,
+  `edad` tinyint(4) DEFAULT NULL,
   `tipo_figura` enum('Delgada','Delgada pechugona','Delgada potoncita','Esbelta','Esbelta pechugona','Esbelta potoncita','Curvilineo','Llenita') DEFAULT NULL,
   `estatura` varchar(50) DEFAULT NULL,
   `busto` varchar(50) DEFAULT NULL,
@@ -2641,23 +2651,23 @@ CREATE TABLE IF NOT EXISTS `personal_services` (
   UNIQUE KEY `idd` (`idd`) USING BTREE,
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK1_idd` FOREIGN KEY (`idd`) REFERENCES `users` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.personal_services: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.personal_services: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.provinces
+-- Dumping structure for table phpgrapesjs.provinces
 DROP TABLE IF EXISTS `provinces`;
 CREATE TABLE IF NOT EXISTS `provinces` (
   `idProv` char(6) NOT NULL,
   `name` varchar(50) NOT NULL,
   `region_id` char(6) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idProv`),
   UNIQUE KEY `idProv` (`idProv`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.provinces: ~196 rows (approximately)
+-- Dumping data for table phpgrapesjs.provinces: ~196 rows (approximately)
 INSERT INTO `provinces` (`idProv`, `name`, `region_id`, `created`, `updated`) VALUES
 	('010100', 'Chachapoyas', '010000', '2023-10-18 06:07:13', '2023-10-18 06:07:13'),
 	('010200', 'Bagua', '010000', '2023-10-18 06:07:13', '2023-10-18 06:07:13'),
@@ -2856,20 +2866,20 @@ INSERT INTO `provinces` (`idProv`, `name`, `region_id`, `created`, `updated`) VA
 	('250300', 'Padre Abad ', '250000', '2023-10-18 06:07:13', '2023-10-18 06:07:13'),
 	('250400', 'Purús', '250000', '2023-10-18 06:07:13', '2023-10-18 06:07:13');
 
--- Dumping structure for table test_cms.rating_sp
+-- Dumping structure for table phpgrapesjs.rating_sp
 DROP TABLE IF EXISTS `rating_sp`;
 CREATE TABLE IF NOT EXISTS `rating_sp` (
-  `idRat` int NOT NULL AUTO_INCREMENT,
+  `idRat` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL DEFAULT '',
-  `product_id` int NOT NULL,
-  `rating` int NOT NULL DEFAULT '0',
+  `product_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idRat`),
   UNIQUE KEY `product_id` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.rating_sp: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.rating_sp: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.regions
+-- Dumping structure for table phpgrapesjs.regions
 DROP TABLE IF EXISTS `regions`;
 CREATE TABLE IF NOT EXISTS `regions` (
   `idRegi` char(6) NOT NULL DEFAULT '',
@@ -2878,9 +2888,9 @@ CREATE TABLE IF NOT EXISTS `regions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`idRegi`),
   UNIQUE KEY `idRegi` (`idRegi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.regions: ~25 rows (approximately)
+-- Dumping data for table phpgrapesjs.regions: ~25 rows (approximately)
 INSERT INTO `regions` (`idRegi`, `name`, `created_at`, `updated_at`) VALUES
 	('010000', 'Amazonas', NULL, NULL),
 	('020000', 'Ãncash', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -2908,39 +2918,39 @@ INSERT INTO `regions` (`idRegi`, `name`, `created_at`, `updated_at`) VALUES
 	('240000', 'Tumbes', NULL, NULL),
 	('250000', 'Ucayali', NULL, NULL);
 
--- Dumping structure for table test_cms.roles
+-- Dumping structure for table phpgrapesjs.roles
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   `default_role` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.roles: ~3 rows (approximately)
+-- Dumping data for table phpgrapesjs.roles: ~3 rows (approximately)
 INSERT INTO `roles` (`id`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Superadmin', 'Master administrator of site', 1, NULL),
 	(2, 'Admin', 'Site administrator', 1, NULL),
 	(3, 'Standard User', 'Default site role for standard users', 1, 1);
 
--- Dumping structure for table test_cms.role_permissions
+-- Dumping structure for table phpgrapesjs.role_permissions
 DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE IF NOT EXISTS `role_permissions` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `role_id` int NOT NULL,
-  `permission_id` int NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Role_Id_idx` (`role_id`),
   KEY `fk_Permission_Id_idx` (`permission_id`),
   CONSTRAINT `fk_Permission_Id` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Role_Id_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.role_permissions: ~24 rows (approximately)
+-- Dumping data for table phpgrapesjs.role_permissions: ~24 rows (approximately)
 INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -2967,7 +2977,7 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 	(23, 2, 14),
 	(24, 2, 15);
 
--- Dumping structure for table test_cms.secrets
+-- Dumping structure for table phpgrapesjs.secrets
 DROP TABLE IF EXISTS `secrets`;
 CREATE TABLE IF NOT EXISTS `secrets` (
   `secretid` char(128) NOT NULL,
@@ -2981,34 +2991,34 @@ CREATE TABLE IF NOT EXISTS `secrets` (
   UNIQUE KEY `secretid` (`secretid`) USING BTREE,
   UNIQUE KEY `userid` (`userid`) USING BTREE,
   UNIQUE KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.secrets: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.secrets: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.sessions
+-- Dumping structure for table phpgrapesjs.sessions
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(128) NOT NULL,
-  `set_time` int NOT NULL DEFAULT '2',
+  `set_time` int(11) NOT NULL DEFAULT 2,
   `data` varchar(128) NOT NULL,
   `session_key` varchar(128) NOT NULL,
   `ip` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.sessions: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.sessions: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.site_configuration
+-- Dumping structure for table phpgrapesjs.site_configuration
 DROP TABLE IF EXISTS `site_configuration`;
 CREATE TABLE IF NOT EXISTS `site_configuration` (
-  `ID_Site` int NOT NULL,
+  `ID_Site` int(11) NOT NULL,
   `DOMAIN_SITE` varchar(60) NOT NULL,
   `SITE_NAME` varchar(60) NOT NULL,
   `SITE_BRAND_IMG` varchar(250) DEFAULT NULL,
   `SITE_PATH` varchar(250) DEFAULT NULL,
-  `SITE_DESCRIPTION` tinytext,
-  `SITE_KEYWORDS` tinytext,
-  `SITE_CLASSIFICATION` tinytext,
+  `SITE_DESCRIPTION` tinytext DEFAULT NULL,
+  `SITE_KEYWORDS` tinytext DEFAULT NULL,
+  `SITE_CLASSIFICATION` tinytext DEFAULT NULL,
   `SITE_EMAIL` varchar(60) DEFAULT NULL,
   `SITE_IMAGE` varchar(250) DEFAULT NULL,
   `SITE_ADMIN` varchar(60) DEFAULT NULL,
@@ -3024,27 +3034,27 @@ CREATE TABLE IF NOT EXISTS `site_configuration` (
   `NAME_CONTACT` varchar(128) DEFAULT NULL,
   `PHONE_CONTACT` varchar(60) DEFAULT NULL,
   `EMAIL_CONTACT` varchar(128) DEFAULT NULL,
-  `ADDRESS` tinytext,
+  `ADDRESS` tinytext DEFAULT NULL,
   `TWITTER` varchar(60) DEFAULT NULL,
   `FACEBOOKID` varchar(60) DEFAULT NULL,
   `SKYPE` varchar(60) DEFAULT NULL,
   `TELEGRAM` varchar(60) DEFAULT NULL,
   `WHATSAPP` varchar(60) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`ID_Site`),
   UNIQUE KEY `SITE_NAME` (`SITE_NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.site_configuration: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.site_configuration: ~1 rows (approximately)
 INSERT INTO `site_configuration` (`ID_Site`, `DOMAIN_SITE`, `SITE_NAME`, `SITE_BRAND_IMG`, `SITE_PATH`, `SITE_DESCRIPTION`, `SITE_KEYWORDS`, `SITE_CLASSIFICATION`, `SITE_EMAIL`, `SITE_IMAGE`, `SITE_ADMIN`, `SITE_CONTROL`, `SITE_CONFIG`, `SITE_LANGUAGE_1`, `SITE_LANGUAGE_2`, `FOLDER_IMAGES`, `SITE_CREATOR`, `SITE_EDITOR`, `SITE_BUILDER`, `SITE_LIST`, `NAME_CONTACT`, `PHONE_CONTACT`, `EMAIL_CONTACT`, `ADDRESS`, `TWITTER`, `FACEBOOKID`, `SKYPE`, `TELEGRAM`, `WHATSAPP`, `created`, `updated`) VALUES
-	(1, '//www.esrapi.com/', 'ESRAPI', 'icon-pepiuox.png', 'http://localhost:180/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'contact@pepiuox.net', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', '2022-01-08 13:42:41', '2025-02-06 06:32:08');
+	(1, '//www.php-grapesjs.com/', 'PHP GrapesJS', 'icon-pepiuox.png', 'http://localhost:130/', 'Your description for your domains', 'Your keywords for your domains', 'Your classification for your domains', 'contact@pepiuox.net', 'dashboard', 'dashboard', 'users', 'siteconf', 'English', 'Spanish', 'uploads', 'admin', 'admin, editor', 'builder', 'list', 'Jose Mantilla', '0051999063645', 'contact@pepiuox.net', 'Lima - Peru', '@pepiuox', 'pepiuox30675', 'pepiuox', 'pepiuox', '+51 999063645', '2022-01-08 13:42:41', '2025-03-29 02:47:08');
 
--- Dumping structure for table test_cms.site_mail_configuration
+-- Dumping structure for table phpgrapesjs.site_mail_configuration
 DROP TABLE IF EXISTS `site_mail_configuration`;
 CREATE TABLE IF NOT EXISTS `site_mail_configuration` (
-  `idMc` int NOT NULL AUTO_INCREMENT,
-  `idSite` int NOT NULL,
+  `idMc` int(11) NOT NULL AUTO_INCREMENT,
+  `idSite` int(11) NOT NULL,
   `mail_support` char(60) DEFAULT NULL,
   `subject_support` char(150) DEFAULT NULL,
   `mail_help` char(50) DEFAULT NULL,
@@ -3054,17 +3064,17 @@ CREATE TABLE IF NOT EXISTS `site_mail_configuration` (
   PRIMARY KEY (`idMc`),
   KEY `FK_email_site` (`idSite`),
   CONSTRAINT `FK_email_site` FOREIGN KEY (`idSite`) REFERENCES `site_configuration` (`ID_Site`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.site_mail_configuration: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.site_mail_configuration: ~1 rows (approximately)
 INSERT INTO `site_mail_configuration` (`idMc`, `idSite`, `mail_support`, `subject_support`, `mail_help`, `subject_help`, `mail_faq`, `subject_faq`) VALUES
 	(1, 1, 'support@esrapi.com', NULL, 'help@esrapi.com', NULL, 'faq@esrapi.com', NULL);
 
--- Dumping structure for table test_cms.site_security
+-- Dumping structure for table phpgrapesjs.site_security
 DROP TABLE IF EXISTS `site_security`;
 CREATE TABLE IF NOT EXISTS `site_security` (
-  `idSs` int NOT NULL AUTO_INCREMENT,
-  `site` int NOT NULL,
+  `idSs` int(11) NOT NULL AUTO_INCREMENT,
+  `site` int(11) NOT NULL,
   `MAILSERVER` varchar(60) DEFAULT NULL,
   `PORTSERVER` varchar(60) DEFAULT NULL,
   `USEREMAIL` varchar(128) DEFAULT NULL,
@@ -3075,39 +3085,39 @@ CREATE TABLE IF NOT EXISTS `site_security` (
   `ADMIN_LEVEL` tinyint(1) NOT NULL,
   `SECURE_HASH` char(128) DEFAULT NULL,
   `SECURE_TOKEN` char(128) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idSs`) USING BTREE,
   KEY `FK_site_secutity` (`site`),
   CONSTRAINT `FK_site_secutity` FOREIGN KEY (`site`) REFERENCES `site_configuration` (`ID_Site`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.site_security: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.site_security: ~1 rows (approximately)
 INSERT INTO `site_security` (`idSs`, `site`, `MAILSERVER`, `PORTSERVER`, `USEREMAIL`, `PASSMAIL`, `SUPERADMIN_NAME`, `SUPERADMIN_LEVEL`, `ADMIN_NAME`, `ADMIN_LEVEL`, `SECURE_HASH`, `SECURE_TOKEN`, `created`, `updated`) VALUES
-	(1, 1, 'smtp.hostinger.com', '461', 'YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=', 'bnVEa3VFZXV6eERRNjVDcEVpZWJNWEoxVW9WTEE1YTBmMnczTXB4aElFMD0=', 'Super Admin', 9, 'Admin', 5, 'b85fd633074856031a97b36e7a798cfb7cdb364e1986432c70307e56031ae6d3', 'P4BuB(31u4riQN]7h3g)EUEveiRXGsghTl]9pFNlz0Ls]6aTZcaq]0m}lz%8{WlZLCOFRhf2m%z&V9x18v#0h4Pt1E3d$5)C[8ueB0&UcEy5x9r6ImxEE31S]aQ1Zwz{', '2023-11-14 20:20:47', '2025-02-06 06:32:14');
+	(1, 1, 'smtp.hostinger.com', '461', 'YWlsMldhQ3E0UEtGbjhQTGQ4YUVPbUFvQjI4ZWxsNXEycjdVbXFSNG5MZz0=', 'bnVEa3VFZXV6eERRNjVDcEVpZWJNWEoxVW9WTEE1YTBmMnczTXB4aElFMD0=', 'Super Admin', 9, 'Admin', 5, 'bb06a322eec423960af055cda3142ac8fba023a47c6e46069aa306b745889438', 'jVm4O7JTF81#WmpRtKKgmGzSEkz%%Sj1H&0jtMgZx6UT]YPIb]l0}(8Sosig)m2QeAo&L8OkK0t$sdkeKGj4I#fH5L)7Klndac5#5(1jTAYfOWL@4IybQ{}KN5bAyfg@', '2023-11-14 20:20:47', '2025-03-27 07:24:49');
 
--- Dumping structure for table test_cms.social_link
+-- Dumping structure for table phpgrapesjs.social_link
 DROP TABLE IF EXISTS `social_link`;
 CREATE TABLE IF NOT EXISTS `social_link` (
   `social_name` varchar(20) DEFAULT NULL,
   `social_url` varchar(150) DEFAULT NULL,
   KEY `social_name` (`social_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.social_link: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.social_link: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.table_column_settings
+-- Dumping structure for table phpgrapesjs.table_column_settings
 DROP TABLE IF EXISTS `table_column_settings`;
 CREATE TABLE IF NOT EXISTS `table_column_settings` (
-  `tqop_Id` int NOT NULL AUTO_INCREMENT,
+  `tqop_Id` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` varchar(50) DEFAULT NULL,
   `col_name` varchar(50) DEFAULT NULL,
-  `col_list` tinyint(1) DEFAULT '0',
-  `col_add` tinyint(1) DEFAULT '0',
-  `col_update` tinyint(1) DEFAULT '0',
-  `col_view` tinyint(1) DEFAULT '0',
+  `col_list` tinyint(1) DEFAULT 0,
+  `col_add` tinyint(1) DEFAULT 0,
+  `col_update` tinyint(1) DEFAULT 0,
+  `col_view` tinyint(1) DEFAULT 0,
   `col_type` varchar(50) DEFAULT NULL,
-  `input_type` int DEFAULT NULL,
+  `input_type` int(11) DEFAULT NULL,
   `joins` varchar(50) DEFAULT NULL,
   `j_table` varchar(50) DEFAULT NULL,
   `j_id` varchar(50) DEFAULT NULL,
@@ -3118,97 +3128,97 @@ CREATE TABLE IF NOT EXISTS `table_column_settings` (
   `dependent` varchar(50) DEFAULT NULL,
   `main_field` varchar(50) DEFAULT NULL,
   `lookup_field` varchar(50) DEFAULT NULL,
-  `jvpos` int DEFAULT NULL,
+  `jvpos` int(11) DEFAULT NULL,
   PRIMARY KEY (`tqop_Id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.table_column_settings: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.table_column_settings: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.table_config
+-- Dumping structure for table phpgrapesjs.table_config
 DROP TABLE IF EXISTS `table_config`;
 CREATE TABLE IF NOT EXISTS `table_config` (
-  `tcon_Id` int NOT NULL AUTO_INCREMENT,
+  `tcon_Id` int(11) NOT NULL AUTO_INCREMENT,
   `db_name` char(50) NOT NULL,
-  `table_name` text,
+  `table_name` text DEFAULT NULL,
   PRIMARY KEY (`tcon_Id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.table_config: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.table_config: ~0 rows (approximately)
 INSERT INTO `table_config` (`tcon_Id`, `db_name`, `table_name`) VALUES
 	(1, '', 'users_contacts,users_info,users_locations,users_plans,users_privacy,users_profiles,users_secures,users_social_media,users_types');
 
--- Dumping structure for table test_cms.table_settings
+-- Dumping structure for table phpgrapesjs.table_settings
 DROP TABLE IF EXISTS `table_settings`;
 CREATE TABLE IF NOT EXISTS `table_settings` (
-  `IdTbset` int NOT NULL AUTO_INCREMENT,
+  `IdTbset` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` char(50) NOT NULL DEFAULT '',
-  `table_list` tinyint(1) NOT NULL DEFAULT '0',
-  `table_add` tinyint(1) NOT NULL DEFAULT '0',
-  `table_update` tinyint(1) NOT NULL DEFAULT '0',
-  `table_delete` tinyint(1) NOT NULL DEFAULT '0',
-  `table_view` tinyint(1) NOT NULL DEFAULT '0',
-  `table_secure` tinyint(1) NOT NULL DEFAULT '0',
+  `table_list` tinyint(1) NOT NULL DEFAULT 0,
+  `table_add` tinyint(1) NOT NULL DEFAULT 0,
+  `table_update` tinyint(1) NOT NULL DEFAULT 0,
+  `table_delete` tinyint(1) NOT NULL DEFAULT 0,
+  `table_view` tinyint(1) NOT NULL DEFAULT 0,
+  `table_secure` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`IdTbset`) USING BTREE,
   UNIQUE KEY `table_name` (`table_name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.table_settings: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.table_settings: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.tags
+-- Dumping structure for table phpgrapesjs.tags
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.tags: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.tags: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.templates
+-- Dumping structure for table phpgrapesjs.templates
 DROP TABLE IF EXISTS `templates`;
 CREATE TABLE IF NOT EXISTS `templates` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `templates` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.templates: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.templates: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.themes
+-- Dumping structure for table phpgrapesjs.themes
 DROP TABLE IF EXISTS `themes`;
 CREATE TABLE IF NOT EXISTS `themes` (
-  `theme_id` int NOT NULL AUTO_INCREMENT,
+  `theme_id` int(11) NOT NULL AUTO_INCREMENT,
   `theme_name` char(50) NOT NULL,
   `theme_bootstrap` char(50) NOT NULL,
   `base_default` enum('Yes','No') NOT NULL DEFAULT 'No',
   `active_theme` enum('Yes','No') NOT NULL DEFAULT 'No',
   PRIMARY KEY (`theme_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.themes: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.themes: ~0 rows (approximately)
 INSERT INTO `themes` (`theme_id`, `theme_name`, `theme_bootstrap`, `base_default`, `active_theme`) VALUES
 	(1, 'test theme color', 'cerulean', 'Yes', 'Yes');
 
--- Dumping structure for table test_cms.theme_base_colors
+-- Dumping structure for table phpgrapesjs.theme_base_colors
 DROP TABLE IF EXISTS `theme_base_colors`;
 CREATE TABLE IF NOT EXISTS `theme_base_colors` (
-  `idtbc` int NOT NULL AUTO_INCREMENT,
+  `idtbc` int(11) NOT NULL AUTO_INCREMENT,
   `body_color` char(8) DEFAULT NULL,
   `text_color` char(8) DEFAULT NULL,
   `links_color` char(8) DEFAULT NULL,
   PRIMARY KEY (`idtbc`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtbc`) USING BTREE,
   CONSTRAINT `FK_theme_base_colors` FOREIGN KEY (`idtbc`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.theme_base_colors: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.theme_base_colors: ~0 rows (approximately)
 INSERT INTO `theme_base_colors` (`idtbc`, `body_color`, `text_color`, `links_color`) VALUES
 	(1, '#ffffff', '#2f0202', '#172fa2');
 
--- Dumping structure for table test_cms.theme_base_font
+-- Dumping structure for table phpgrapesjs.theme_base_font
 DROP TABLE IF EXISTS `theme_base_font`;
 CREATE TABLE IF NOT EXISTS `theme_base_font` (
-  `idtbf` int NOT NULL AUTO_INCREMENT,
+  `idtbf` int(11) NOT NULL AUTO_INCREMENT,
   `family` char(50) DEFAULT NULL,
   `size` char(50) DEFAULT NULL,
   `weight` enum('default','light','normal','bold') NOT NULL DEFAULT 'default',
@@ -3216,47 +3226,47 @@ CREATE TABLE IF NOT EXISTS `theme_base_font` (
   PRIMARY KEY (`idtbf`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtbf`) USING BTREE,
   CONSTRAINT `FK_theme_base_font` FOREIGN KEY (`idtbf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.theme_base_font: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.theme_base_font: ~0 rows (approximately)
 INSERT INTO `theme_base_font` (`idtbf`, `family`, `size`, `weight`, `line_height`) VALUES
 	(1, '', '', 'default', '');
 
--- Dumping structure for table test_cms.theme_headings_font
+-- Dumping structure for table phpgrapesjs.theme_headings_font
 DROP TABLE IF EXISTS `theme_headings_font`;
 CREATE TABLE IF NOT EXISTS `theme_headings_font` (
-  `idthf` int NOT NULL AUTO_INCREMENT,
+  `idthf` int(11) NOT NULL AUTO_INCREMENT,
   `family` char(50) DEFAULT NULL,
   `weight` enum('default','light','normal','bold') NOT NULL DEFAULT 'default',
   `line_weight` char(50) DEFAULT NULL,
   PRIMARY KEY (`idthf`) USING BTREE,
   UNIQUE KEY `theme_id` (`idthf`) USING BTREE,
   CONSTRAINT `FK_theme_headings_font` FOREIGN KEY (`idthf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.theme_headings_font: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.theme_headings_font: ~0 rows (approximately)
 INSERT INTO `theme_headings_font` (`idthf`, `family`, `weight`, `line_weight`) VALUES
 	(1, '', 'default', '');
 
--- Dumping structure for table test_cms.theme_lead_font
+-- Dumping structure for table phpgrapesjs.theme_lead_font
 DROP TABLE IF EXISTS `theme_lead_font`;
 CREATE TABLE IF NOT EXISTS `theme_lead_font` (
-  `idtlf` int NOT NULL AUTO_INCREMENT,
+  `idtlf` int(11) NOT NULL AUTO_INCREMENT,
   `size` char(6) DEFAULT NULL,
   `weight` char(6) DEFAULT NULL,
   PRIMARY KEY (`idtlf`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtlf`) USING BTREE,
   CONSTRAINT `FK_theme_lead_font` FOREIGN KEY (`idtlf`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.theme_lead_font: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.theme_lead_font: ~0 rows (approximately)
 INSERT INTO `theme_lead_font` (`idtlf`, `size`, `weight`) VALUES
 	(1, '', '');
 
--- Dumping structure for table test_cms.theme_palette
+-- Dumping structure for table phpgrapesjs.theme_palette
 DROP TABLE IF EXISTS `theme_palette`;
 CREATE TABLE IF NOT EXISTS `theme_palette` (
-  `idtp` int NOT NULL AUTO_INCREMENT,
+  `idtp` int(11) NOT NULL AUTO_INCREMENT,
   `primary_color` char(8) DEFAULT NULL,
   `secondary_color` char(8) DEFAULT NULL,
   `info_color` char(8) DEFAULT NULL,
@@ -3271,16 +3281,16 @@ CREATE TABLE IF NOT EXISTS `theme_palette` (
   PRIMARY KEY (`idtp`) USING BTREE,
   UNIQUE KEY `theme_id` (`idtp`) USING BTREE,
   CONSTRAINT `FK_theme_palette` FOREIGN KEY (`idtp`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.theme_palette: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.theme_palette: ~0 rows (approximately)
 INSERT INTO `theme_palette` (`idtp`, `primary_color`, `secondary_color`, `info_color`, `light_color`, `dark_color`, `success_color`, `warning_color`, `danger_color`, `custom_color`, `custom_light_color`, `custom_dark_color`) VALUES
 	(1, '#993f3f', '#814040', '#1f53a5', '#000000', '#4b3737', '#000000', '#d24747', '#000000', '#000000', '#d4b8b8', '#000000');
 
--- Dumping structure for table test_cms.theme_settings
+-- Dumping structure for table phpgrapesjs.theme_settings
 DROP TABLE IF EXISTS `theme_settings`;
 CREATE TABLE IF NOT EXISTS `theme_settings` (
-  `idts` int NOT NULL AUTO_INCREMENT,
+  `idts` int(11) NOT NULL AUTO_INCREMENT,
   `container` enum('default','narrow') NOT NULL DEFAULT 'default',
   `spacer` enum('x 2','x 1.5','x 1.2','default','x .8','x .5') NOT NULL DEFAULT 'default',
   `radius` char(50) DEFAULT NULL,
@@ -3290,64 +3300,65 @@ CREATE TABLE IF NOT EXISTS `theme_settings` (
   PRIMARY KEY (`idts`) USING BTREE,
   UNIQUE KEY `theme_id` (`idts`) USING BTREE,
   CONSTRAINT `FK_theme_settings` FOREIGN KEY (`idts`) REFERENCES `themes` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.theme_settings: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.theme_settings: ~0 rows (approximately)
 INSERT INTO `theme_settings` (`idts`, `container`, `spacer`, `radius`, `radius_sm`, `radius_lg`, `font_size`) VALUES
 	(1, 'default', 'default', NULL, NULL, NULL, 'default');
 
--- Dumping structure for table test_cms.tokens
+-- Dumping structure for table phpgrapesjs.tokens
 DROP TABLE IF EXISTS `tokens`;
 CREATE TABLE IF NOT EXISTS `tokens` (
   `tokenid` char(25) NOT NULL,
   `userid` char(128) NOT NULL,
-  `expired` tinyint(1) NOT NULL DEFAULT '0',
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `expired` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`tokenid`) USING BTREE,
   UNIQUE KEY `tokenid_UNIQUE` (`tokenid`) USING BTREE,
   UNIQUE KEY `userid_UNIQUE` (`userid`) USING BTREE,
   CONSTRAINT `userid_t` FOREIGN KEY (`userid`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.tokens: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.tokens: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.topics
+-- Dumping structure for table phpgrapesjs.topics
 DROP TABLE IF EXISTS `topics`;
 CREATE TABLE IF NOT EXISTS `topics` (
-  `topicId` int NOT NULL AUTO_INCREMENT,
+  `topicId` int(11) NOT NULL AUTO_INCREMENT,
   `topic_name` char(100) DEFAULT NULL,
   PRIMARY KEY (`topicId`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.topics: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.topics: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.total_visitors
+-- Dumping structure for table phpgrapesjs.total_visitors
 DROP TABLE IF EXISTS `total_visitors`;
 CREATE TABLE IF NOT EXISTS `total_visitors` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `session` char(128) DEFAULT NULL,
   `time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.total_visitors: ~6 rows (approximately)
+-- Dumping data for table phpgrapesjs.total_visitors: ~6 rows (approximately)
 INSERT INTO `total_visitors` (`id`, `session`, `time`) VALUES
 	(1, 'VzB2V21zVUVpVGJvUGt6TEoxTFJHZz09', '2023-10-25 11:21:21'),
 	(2, 'Q3NucDBJazVVclkrZTE1RkVyME4zUT09', '2023-12-23 09:06:12'),
 	(3, 'N0U5cmRDWUd6aHJBeDkvL3JlanZvUT09', '2024-04-12 08:38:46'),
 	(4, 'dXJZeUJrUDNHZFZDOThheEg4OWZlZz09', '2023-12-27 09:25:59'),
 	(5, 'amtrNGpkMWo2VitFQUtHaTNZeWFOQT09', '2024-04-14 13:33:35'),
-	(6, 'UHp6aTI1UXVOczlpTUd6TjY5UDN3QT09', '2025-01-22 06:29:32');
+	(6, 'UHp6aTI1UXVOczlpTUd6TjY5UDN3QT09', '2025-01-22 06:29:32'),
+	(7, 'cnM4dVlWYXUxQlV3UUFYYzlZL0dhUT09', '2025-03-29 09:35:47');
 
--- Dumping structure for table test_cms.type_actions
+-- Dumping structure for table phpgrapesjs.type_actions
 DROP TABLE IF EXISTS `type_actions`;
 CREATE TABLE IF NOT EXISTS `type_actions` (
-  `idta` int NOT NULL AUTO_INCREMENT,
+  `idta` int(11) NOT NULL AUTO_INCREMENT,
   `action` char(20) NOT NULL,
   PRIMARY KEY (`idta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.type_actions: ~6 rows (approximately)
+-- Dumping data for table phpgrapesjs.type_actions: ~6 rows (approximately)
 INSERT INTO `type_actions` (`idta`, `action`) VALUES
 	(1, 'validation'),
 	(2, 'verification'),
@@ -3356,27 +3367,27 @@ INSERT INTO `type_actions` (`idta`, `action`) VALUES
 	(5, 'verified'),
 	(6, 'approved');
 
--- Dumping structure for table test_cms.type_menu
+-- Dumping structure for table phpgrapesjs.type_menu
 DROP TABLE IF EXISTS `type_menu`;
 CREATE TABLE IF NOT EXISTS `type_menu` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_menu` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.type_menu: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.type_menu: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.type_page
+-- Dumping structure for table phpgrapesjs.type_page
 DROP TABLE IF EXISTS `type_page`;
 CREATE TABLE IF NOT EXISTS `type_page` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_page` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.type_page: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.type_page: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users
+-- Dumping structure for table phpgrapesjs.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `idUser` char(128) NOT NULL,
@@ -3385,18 +3396,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL,
   `usr_type` char(50) NOT NULL DEFAULT 'guest',
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `ip` char(50) NOT NULL,
-  `signup_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `signup_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `email_verified` varchar(128) DEFAULT NULL,
-  `document_verified` int NOT NULL DEFAULT '0',
-  `mobile_verified` int NOT NULL DEFAULT '0',
+  `document_verified` int(11) NOT NULL DEFAULT 0,
+  `mobile_verified` int(11) NOT NULL DEFAULT 0,
   `mkpin` varchar(128) NOT NULL,
-  `create_user` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_user` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_user` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_user` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_user` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_user` timestamp NOT NULL DEFAULT current_timestamp(),
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idUser`) USING BTREE,
   UNIQUE KEY `ID_user` (`idUser`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE,
@@ -3404,11 +3415,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_users_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users: ~2 rows (approximately)
+-- Dumping data for table phpgrapesjs.users: ~1 rows (approximately)
+INSERT INTO `users` (`idUser`, `usercode`, `username`, `email`, `password`, `usr_type`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`, `deleted_user`, `last_login`) VALUES
+	('b4AN035kHLVOic5tImNhO19xlo7EoyPn2Cr4SX0VFTwxnpP2dvKBiYLze19MRu8Y', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 'OENoYUhVVEhvVGlQRnorMlU3cjlQZz09', 'cHBlVVVHcEpWelRKdTVRMkZNUHB0OTVOK0FBbDVQcVVpZWZnUlNLeElxUT0=', 'bjhRb0tId0h6YUZlWTB5RS82cVZCQ1ZuTHZsV1ZnWkYvQ0hYTzBTcjA0MD0=', 'guest', 0, 0, '127.0.0.1', '2025-03-27 13:58:58', '390069a77a9648832d89ddeb2fc7a0dcc258cd854c2aa5e3c93119300608c69b', 0, 0, 'UGhRS1FTRHFYSERQUlVsa0pCREh4UT09', '2025-03-27 07:58:58', '2025-03-27 07:58:58', '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_actions
+-- Dumping structure for table phpgrapesjs.users_actions
 DROP TABLE IF EXISTS `users_actions`;
 CREATE TABLE IF NOT EXISTS `users_actions` (
   `usercode` char(128) NOT NULL,
@@ -3416,84 +3429,88 @@ CREATE TABLE IF NOT EXISTS `users_actions` (
   `validation` char(128) NOT NULL,
   `verification` char(128) DEFAULT NULL,
   `approval` char(128) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`usercode`),
   UNIQUE KEY `usercode` (`usercode`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_actions: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_actions: ~1 rows (approximately)
+INSERT INTO `users_actions` (`usercode`, `action`, `validation`, `verification`, `approval`, `created`, `updated`) VALUES
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 'validation', '390069a77a9648832d89ddeb2fc7a0dcc258cd854c2aa5e3c93119300608c69b', NULL, NULL, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_active
+-- Dumping structure for table phpgrapesjs.users_active
 DROP TABLE IF EXISTS `users_active`;
 CREATE TABLE IF NOT EXISTS `users_active` (
   `usercode` char(128) NOT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT '0',
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_users_active` FOREIGN KEY (`usercode`) REFERENCES `users_actions` (`usercode`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_active: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_active: ~1 rows (approximately)
+INSERT INTO `users_active` (`usercode`, `is_active`, `timestamp`) VALUES
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 1, '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_assigned_role
+-- Dumping structure for table phpgrapesjs.users_assigned_role
 DROP TABLE IF EXISTS `users_assigned_role`;
 CREATE TABLE IF NOT EXISTS `users_assigned_role` (
   `usercode` char(128) NOT NULL,
-  `role_id` int NOT NULL,
+  `role_id` int(11) NOT NULL,
   PRIMARY KEY (`usercode`),
   UNIQUE KEY `usercode` (`usercode`),
   KEY `FK_users_roles` (`role_id`),
   CONSTRAINT `FK_users_assigned_role` FOREIGN KEY (`usercode`) REFERENCES `users` (`usercode`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_users_roles` FOREIGN KEY (`role_id`) REFERENCES `users_roles` (`idRol`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_assigned_role: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_assigned_role: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_banned
+-- Dumping structure for table phpgrapesjs.users_banned
 DROP TABLE IF EXISTS `users_banned`;
 CREATE TABLE IF NOT EXISTS `users_banned` (
   `usercode` char(128) NOT NULL,
   `username` char(128) NOT NULL DEFAULT '',
   `email` char(128) NOT NULL DEFAULT '',
-  `banned_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `banned_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `banned_hours` float NOT NULL,
   `hours_remaining` double DEFAULT NULL,
   UNIQUE KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_banned: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_banned: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_compare
+-- Dumping structure for table phpgrapesjs.users_compare
 DROP TABLE IF EXISTS `users_compare`;
 CREATE TABLE IF NOT EXISTS `users_compare` (
   `usercode` char(128) NOT NULL,
-  `ratings` int DEFAULT '0',
-  `likes` int DEFAULT '0',
-  `followers` int DEFAULT '0',
-  `views` int DEFAULT '0',
-  `recommendation` int DEFAULT '0',
-  `is_active` tinyint(1) DEFAULT '0',
+  `ratings` int(11) DEFAULT 0,
+  `likes` int(11) DEFAULT 0,
+  `followers` int(11) DEFAULT 0,
+  `views` int(11) DEFAULT 0,
+  `recommendation` int(11) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 0,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_compare: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_compare: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_contacts
+-- Dumping structure for table phpgrapesjs.users_contacts
 DROP TABLE IF EXISTS `users_contacts`;
 CREATE TABLE IF NOT EXISTS `users_contacts` (
-  `iduc` int NOT NULL AUTO_INCREMENT,
+  `iduc` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
   `contactcode` char(128) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`iduc`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_contacts: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_contacts: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_csp
+-- Dumping structure for table phpgrapesjs.users_csp
 DROP TABLE IF EXISTS `users_csp`;
 CREATE TABLE IF NOT EXISTS `users_csp` (
   `idUser` char(128) NOT NULL,
@@ -3502,18 +3519,18 @@ CREATE TABLE IF NOT EXISTS `users_csp` (
   `email` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL,
   `usr_type` char(50) NOT NULL DEFAULT 'guest',
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `ip` char(30) NOT NULL,
-  `signup_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `signup_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `email_verified` varchar(128) DEFAULT NULL,
-  `document_verified` int NOT NULL DEFAULT '0',
-  `mobile_verified` int NOT NULL DEFAULT '0',
+  `document_verified` int(11) NOT NULL DEFAULT 0,
+  `mobile_verified` int(11) NOT NULL DEFAULT 0,
   `mkpin` varchar(128) NOT NULL,
-  `create_user` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_user` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_user` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_user` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_user` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_user` timestamp NOT NULL DEFAULT current_timestamp(),
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idUser`) USING BTREE,
   UNIQUE KEY `ID_user` (`idUser`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE,
@@ -3521,82 +3538,82 @@ CREATE TABLE IF NOT EXISTS `users_csp` (
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   KEY `usercode` (`usercode`) USING BTREE,
   CONSTRAINT `FK_cspusers_uverify` FOREIGN KEY (`idUser`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_csp: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_csp: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_deleted
+-- Dumping structure for table phpgrapesjs.users_deleted
 DROP TABLE IF EXISTS `users_deleted`;
 CREATE TABLE IF NOT EXISTS `users_deleted` (
   `usercode` char(128) NOT NULL,
   `username` varchar(65) NOT NULL,
   `password` varchar(65) NOT NULL,
   `email` varchar(65) NOT NULL,
-  `visible` tinyint(1) NOT NULL DEFAULT '0',
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `banned` tinyint(1) NOT NULL DEFAULT '0',
-  `mod_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `visible` tinyint(1) NOT NULL DEFAULT 0,
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `banned` tinyint(1) NOT NULL DEFAULT 0,
+  `mod_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   UNIQUE KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_deleted: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_deleted: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_followers
+-- Dumping structure for table phpgrapesjs.users_followers
 DROP TABLE IF EXISTS `users_followers`;
 CREATE TABLE IF NOT EXISTS `users_followers` (
-  `iduf` int NOT NULL AUTO_INCREMENT,
+  `iduf` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
   `fusercode` char(128) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`iduf`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_followers: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_followers: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_forgot_pass
+-- Dumping structure for table phpgrapesjs.users_forgot_pass
 DROP TABLE IF EXISTS `users_forgot_pass`;
 CREATE TABLE IF NOT EXISTS `users_forgot_pass` (
   `username` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
   `mkhash` varchar(128) NOT NULL,
   `password_key` varchar(128) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `expired` timestamp NULL DEFAULT NULL,
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_forgot_pass: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_forgot_pass: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_forgot_pin
+-- Dumping structure for table phpgrapesjs.users_forgot_pin
 DROP TABLE IF EXISTS `users_forgot_pin`;
 CREATE TABLE IF NOT EXISTS `users_forgot_pin` (
   `username` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `mkhash` varchar(128) DEFAULT NULL,
   `pin_key` varchar(128) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` timestamp NULL DEFAULT current_timestamp(),
   `expired` timestamp NULL DEFAULT NULL,
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_forgot_pin: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_forgot_pin: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_groups
+-- Dumping structure for table phpgrapesjs.users_groups
 DROP TABLE IF EXISTS `users_groups`;
 CREATE TABLE IF NOT EXISTS `users_groups` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(150) NOT NULL,
-  `group_level` int NOT NULL,
-  `group_status` int NOT NULL,
+  `group_level` int(11) NOT NULL,
+  `group_status` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_level` (`group_level`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_groups: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_groups: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_info
+-- Dumping structure for table phpgrapesjs.users_info
 DROP TABLE IF EXISTS `users_info`;
 CREATE TABLE IF NOT EXISTS `users_info` (
   `userid` char(128) NOT NULL,
@@ -3604,7 +3621,7 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   `firstname` varchar(60) DEFAULT NULL,
   `lastname` varchar(60) DEFAULT NULL,
   `gender` enum('Woman','Male','With doubt') DEFAULT NULL,
-  `age` int DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `country` varchar(45) DEFAULT 'Perú',
@@ -3612,51 +3629,53 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   `city` varchar(45) DEFAULT NULL,
   `address1` varchar(45) DEFAULT NULL,
   `address2` varchar(45) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) DEFAULT 0,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   UNIQUE KEY `userid_UNIQUE` (`userid`),
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `fk_userids_idx` (`userid`),
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_users_info_uverify` FOREIGN KEY (`userid`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_info: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_info: ~0 rows (approximately)
+INSERT INTO `users_info` (`userid`, `usercode`, `firstname`, `lastname`, `gender`, `age`, `birthday`, `phone`, `country`, `state`, `city`, `address1`, `address2`, `is_active`, `created`, `updated`) VALUES
+	('b4AN035kHLVOic5tImNhO19xlo7EoyPn2Cr4SX0VFTwxnpP2dvKBiYLze19MRu8Y', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, 'Perú', NULL, NULL, NULL, NULL, 0, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_jail
+-- Dumping structure for table phpgrapesjs.users_jail
 DROP TABLE IF EXISTS `users_jail`;
 CREATE TABLE IF NOT EXISTS `users_jail` (
   `user_id` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
-  `banned_hours` float NOT NULL DEFAULT '24',
+  `banned_hours` float NOT NULL DEFAULT 24,
   `reason` varchar(2000) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(1) DEFAULT 0,
+  `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   KEY `fk_userid_idx` (`user_id`),
   CONSTRAINT `FK_user_jail` FOREIGN KEY (`user_id`) REFERENCES `users_csp` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_jail: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_jail: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_likes
+-- Dumping structure for table phpgrapesjs.users_likes
 DROP TABLE IF EXISTS `users_likes`;
 CREATE TABLE IF NOT EXISTS `users_likes` (
-  `idul` int NOT NULL AUTO_INCREMENT,
+  `idul` int(11) NOT NULL AUTO_INCREMENT,
   `usercode` char(128) NOT NULL,
   `lusercode` char(128) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idul`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_likes: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_likes: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_locations
+-- Dumping structure for table phpgrapesjs.users_locations
 DROP TABLE IF EXISTS `users_locations`;
 CREATE TABLE IF NOT EXISTS `users_locations` (
   `usercode` char(128) NOT NULL,
-  `user_type` tinyint NOT NULL DEFAULT '0',
+  `user_type` tinyint(4) NOT NULL DEFAULT 0,
   `name_location_1` char(50) DEFAULT NULL,
   `address_1` varchar(300) DEFAULT NULL,
   `name_location_2` char(50) DEFAULT NULL,
@@ -3669,51 +3688,51 @@ CREATE TABLE IF NOT EXISTS `users_locations` (
   `address_5` varchar(300) DEFAULT NULL,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_locations: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_locations: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_logs
+-- Dumping structure for table phpgrapesjs.users_logs
 DROP TABLE IF EXISTS `users_logs`;
 CREATE TABLE IF NOT EXISTS `users_logs` (
-  `idlogs` int NOT NULL,
+  `idlogs` int(11) NOT NULL,
   `usercode` char(128) NOT NULL,
   `logs` char(128) NOT NULL,
   `ip` char(50) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idlogs`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_logs: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_logs: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_notes
+-- Dumping structure for table phpgrapesjs.users_notes
 DROP TABLE IF EXISTS `users_notes`;
 CREATE TABLE IF NOT EXISTS `users_notes` (
   `usercode` char(128) NOT NULL,
   `userprov` char(128) NOT NULL,
   `notes` varchar(1000) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_notes: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_notes: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_permissions
+-- Dumping structure for table phpgrapesjs.users_permissions
 DROP TABLE IF EXISTS `users_permissions`;
 CREATE TABLE IF NOT EXISTS `users_permissions` (
-  `idPer` int NOT NULL AUTO_INCREMENT,
+  `idPer` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `category` varchar(50) NOT NULL DEFAULT 'General',
-  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idPer`) USING BTREE,
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `id_UNIQUE` (`idPer`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_permissions: ~15 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_permissions: ~15 rows (approximately)
 INSERT INTO `users_permissions` (`idPer`, `name`, `description`, `category`, `required`) VALUES
 	(1, 'Verify Users', 'Administration permission allowing for the verification of new users', 'Users', 1),
 	(2, 'Delete Unverified Users', 'Administration permission allowing the deletion of unverified users', 'Users', 1),
@@ -3731,48 +3750,55 @@ INSERT INTO `users_permissions` (`idPer`, `name`, `description`, `category`, `re
 	(14, 'View Users', 'Administration permission allowing for the viewing of all users', 'Users', 1),
 	(15, 'Delete Users', 'Administration permission allowing for the deletion of users', 'Users', 1);
 
--- Dumping structure for table test_cms.users_plans
+-- Dumping structure for table phpgrapesjs.users_plans
 DROP TABLE IF EXISTS `users_plans`;
 CREATE TABLE IF NOT EXISTS `users_plans` (
   `usercode` char(128) NOT NULL,
-  `verification` tinyint(1) DEFAULT '0',
-  `upgrades` tinyint(1) DEFAULT '0',
+  `verification` tinyint(1) DEFAULT 0,
+  `upgrades` tinyint(1) DEFAULT 0,
   `type_plan` char(20) DEFAULT 'Cliente',
-  `days_plan` tinyint DEFAULT '7',
-  `required` tinyint(1) DEFAULT '0',
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `days_plan` tinyint(4) DEFAULT 7,
+  `required` tinyint(1) DEFAULT 0,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_plans: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_plans: ~4 rows (approximately)
+INSERT INTO `users_plans` (`usercode`, `verification`, `upgrades`, `type_plan`, `days_plan`, `required`, `created`, `updated`) VALUES
+	('#QhdRD1wkzj7vVqG0dk$n4c#i|q10%V{ON1@IdMf[1}yx4{yTDbSJI{o75602403', 0, 0, 'Cliente', 7, 0, '2025-03-27 07:56:30', '2025-03-27 07:56:30'),
+	('|HL|U@{JiHE9lVfR7M[P5I&qGYT]$$BTgojLz]QqE|BqzEonykl1rctc72258935', 0, 0, 'Cliente', 7, 0, '2025-03-27 07:27:32', '2025-03-27 07:27:32'),
+	('kRLZs$m]UDt#mQ1$zuIX9D1Tn]]oxyRQxq&n0wV%tBWC{mHn8W8nXAV964007492', 0, 0, 'Cliente', 7, 0, '2025-03-27 07:50:29', '2025-03-27 07:50:29'),
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 0, 0, 'Cliente', 7, 0, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_privacy
+-- Dumping structure for table phpgrapesjs.users_privacy
 DROP TABLE IF EXISTS `users_privacy`;
 CREATE TABLE IF NOT EXISTS `users_privacy` (
   `idUsr` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
-  `verification` char(128) NOT NULL,
+  `verification` char(128) DEFAULT NULL,
   `nationality` char(50) DEFAULT NULL,
   `type_document` enum('DNI','Carnet Extranjeria','Pasaporte') DEFAULT NULL,
   `number_document` varchar(12) DEFAULT NULL,
   `name_company` varchar(50) DEFAULT NULL,
   `ruc_number` varchar(11) DEFAULT NULL,
   `logo_image` varchar(150) DEFAULT NULL,
-  `required` tinyint(1) DEFAULT '0',
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `required` tinyint(1) DEFAULT 0,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idUsr`),
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   UNIQUE KEY `id_Pri` (`idUsr`) USING BTREE,
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_privacy_uverify` FOREIGN KEY (`idUsr`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_privacy: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_privacy: ~0 rows (approximately)
+INSERT INTO `users_privacy` (`idUsr`, `usercode`, `verification`, `nationality`, `type_document`, `number_document`, `name_company`, `ruc_number`, `logo_image`, `required`, `created`, `updated`) VALUES
+	('b4AN035kHLVOic5tImNhO19xlo7EoyPn2Cr4SX0VFTwxnpP2dvKBiYLze19MRu8Y', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_profiles
+-- Dumping structure for table phpgrapesjs.users_profiles
 DROP TABLE IF EXISTS `users_profiles`;
 CREATE TABLE IF NOT EXISTS `users_profiles` (
   `idp` char(128) NOT NULL,
@@ -3789,10 +3815,10 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
   `occupation` varchar(128) DEFAULT NULL,
   `profile_bio` varchar(500) DEFAULT NULL,
   `language` varchar(128) DEFAULT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT '0',
-  `banned` tinyint(1) NOT NULL DEFAULT '1',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
+  `banned` tinyint(1) NOT NULL DEFAULT 1,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idp`) USING BTREE,
   UNIQUE KEY `usercode_U` (`usercode`),
   UNIQUE KEY `id_Pro` (`idp`) USING BTREE,
@@ -3800,40 +3826,42 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
   UNIQUE KEY `public_email` (`public_email`),
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_profiles_uverify` FOREIGN KEY (`idp`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_profiles: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_profiles: ~0 rows (approximately)
+INSERT INTO `users_profiles` (`idp`, `usercode`, `usrtypes`, `mkhash`, `avatar`, `profile_image`, `profile_cover`, `public_phone`, `public_email`, `social_media`, `profession`, `occupation`, `profile_bio`, `language`, `is_active`, `banned`, `created`, `updated`) VALUES
+	('b4AN035kHLVOic5tImNhO19xlo7EoyPn2Cr4SX0VFTwxnpP2dvKBiYLze19MRu8Y', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, '354647314f5471553942533042517351466f527235364763455873584e6c7441', NULL, NULL, NULL, NULL, NULL, 'Yes', NULL, NULL, NULL, NULL, 0, 1, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_rating
+-- Dumping structure for table phpgrapesjs.users_rating
 DROP TABLE IF EXISTS `users_rating`;
 CREATE TABLE IF NOT EXISTS `users_rating` (
   `usercode` char(128) NOT NULL,
-  `rating` int NOT NULL DEFAULT '0',
-  `star_1` int NOT NULL DEFAULT '0',
-  `star_2` int NOT NULL DEFAULT '0',
-  `star_3` int NOT NULL DEFAULT '0',
-  `star_4` int NOT NULL DEFAULT '0',
-  `star_5` int NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL DEFAULT 0,
+  `star_1` int(11) NOT NULL DEFAULT 0,
+  `star_2` int(11) NOT NULL DEFAULT 0,
+  `star_3` int(11) NOT NULL DEFAULT 0,
+  `star_4` int(11) NOT NULL DEFAULT 0,
+  `star_5` int(11) NOT NULL DEFAULT 0,
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_rating: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_rating: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_roles
+-- Dumping structure for table phpgrapesjs.users_roles
 DROP TABLE IF EXISTS `users_roles`;
 CREATE TABLE IF NOT EXISTS `users_roles` (
-  `idRol` int NOT NULL AUTO_INCREMENT,
+  `idRol` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `required` tinyint(1) NOT NULL DEFAULT '0',
-  `default_role` tinyint(1) DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT 0,
+  `default_role` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`idRol`) USING BTREE,
   UNIQUE KEY `name_UNIQUE` (`name`) USING BTREE,
   UNIQUE KEY `default_role_UNIQUE` (`default_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_roles: ~5 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_roles: ~5 rows (approximately)
 INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_role`) VALUES
 	(1, 'Super Admin', 'Master administrator of site', 1, 9),
 	(2, 'Admin', 'Site administrator', 1, 5),
@@ -3841,20 +3869,20 @@ INSERT INTO `users_roles` (`idRol`, `name`, `description`, `required`, `default_
 	(4, 'Stantard User', 'Default site role for standard users', 1, 1),
 	(5, 'Guest', 'Guest visit', 0, 0);
 
--- Dumping structure for table test_cms.users_role_permissions
+-- Dumping structure for table phpgrapesjs.users_role_permissions
 DROP TABLE IF EXISTS `users_role_permissions`;
 CREATE TABLE IF NOT EXISTS `users_role_permissions` (
-  `idRp` int NOT NULL AUTO_INCREMENT,
-  `role_id` int NOT NULL,
-  `permission_id` int NOT NULL,
+  `idRp` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
   PRIMARY KEY (`idRp`) USING BTREE,
   KEY `role_id` (`role_id`),
   KEY `permission_id` (`permission_id`),
   CONSTRAINT `FK_urs_permission` FOREIGN KEY (`permission_id`) REFERENCES `users_permissions` (`idPer`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_usr_role` FOREIGN KEY (`role_id`) REFERENCES `users_roles` (`idRol`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_role_permissions: ~27 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_role_permissions: ~27 rows (approximately)
 INSERT INTO `users_role_permissions` (`idRp`, `role_id`, `permission_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -3884,26 +3912,31 @@ INSERT INTO `users_role_permissions` (`idRp`, `role_id`, `permission_id`) VALUES
 	(27, 3, 13),
 	(28, 3, 14);
 
--- Dumping structure for table test_cms.users_searches
+-- Dumping structure for table phpgrapesjs.users_searches
 DROP TABLE IF EXISTS `users_searches`;
 CREATE TABLE IF NOT EXISTS `users_searches` (
   `usercode` char(128) NOT NULL,
   `searches` varchar(500) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_searches: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_searches: ~4 rows (approximately)
+INSERT INTO `users_searches` (`usercode`, `searches`, `created`, `updated`) VALUES
+	('#QhdRD1wkzj7vVqG0dk$n4c#i|q10%V{ON1@IdMf[1}yx4{yTDbSJI{o75602403', NULL, '2025-03-27 07:56:30', '2025-03-27 07:56:30'),
+	('|HL|U@{JiHE9lVfR7M[P5I&qGYT]$$BTgojLz]QqE|BqzEonykl1rctc72258935', NULL, '2025-03-27 07:27:32', '2025-03-27 07:27:32'),
+	('kRLZs$m]UDt#mQ1$zuIX9D1Tn]]oxyRQxq&n0wV%tBWC{mHn8W8nXAV964007492', NULL, '2025-03-27 07:50:29', '2025-03-27 07:50:29'),
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_secures
+-- Dumping structure for table phpgrapesjs.users_secures
 DROP TABLE IF EXISTS `users_secures`;
 CREATE TABLE IF NOT EXISTS `users_secures` (
   `idUsr` char(128) NOT NULL,
   `usercode` char(128) NOT NULL,
   `type_user` char(20) DEFAULT NULL,
-  `type_plan` int DEFAULT NULL,
+  `type_plan` int(11) DEFAULT NULL,
   `type_document` enum('DNI','Carnet Extranjeria','Pasaporte') DEFAULT NULL,
   `id_document` char(12) DEFAULT NULL,
   `name_company` char(50) DEFAULT NULL,
@@ -3916,10 +3949,10 @@ CREATE TABLE IF NOT EXISTS `users_secures` (
   `folder_files` char(64) DEFAULT NULL,
   `validation` char(128) DEFAULT NULL,
   `activation_code` char(128) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT '0',
-  `required` tinyint(1) DEFAULT '0',
-  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) DEFAULT 0,
+  `required` tinyint(1) DEFAULT 0,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`idUsr`),
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   UNIQUE KEY `id_Sec` (`idUsr`) USING BTREE,
@@ -3927,14 +3960,16 @@ CREATE TABLE IF NOT EXISTS `users_secures` (
   UNIQUE KEY `ruc` (`ruc_number`) USING BTREE,
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_secures_uverify` FOREIGN KEY (`idUsr`) REFERENCES `uverify` (`iduv`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_secures: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_secures: ~1 rows (approximately)
+INSERT INTO `users_secures` (`idUsr`, `usercode`, `type_user`, `type_plan`, `type_document`, `id_document`, `name_company`, `ruc_number`, `business_sector`, `phone`, `mobile_phone`, `address`, `location`, `folder_files`, `validation`, `activation_code`, `is_active`, `required`, `created`, `updated`) VALUES
+	('b4AN035kHLVOic5tImNhO19xlo7EoyPn2Cr4SX0VFTwxnpP2dvKBiYLze19MRu8Y', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2025-03-27 07:58:58', '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.users_settings
+-- Dumping structure for table phpgrapesjs.users_settings
 DROP TABLE IF EXISTS `users_settings`;
 CREATE TABLE IF NOT EXISTS `users_settings` (
-  `idUsr` int NOT NULL,
+  `idUsr` int(11) NOT NULL,
   `usercode` char(128) DEFAULT NULL,
   `level` char(50) DEFAULT NULL,
   `activity` char(50) DEFAULT NULL,
@@ -3942,13 +3977,13 @@ CREATE TABLE IF NOT EXISTS `users_settings` (
   `logs` char(50) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `last_activity` timestamp NULL DEFAULT NULL,
-  `created` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `created` datetime DEFAULT current_timestamp(),
+  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_settings: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_settings: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.users_social_media
+-- Dumping structure for table phpgrapesjs.users_social_media
 DROP TABLE IF EXISTS `users_social_media`;
 CREATE TABLE IF NOT EXISTS `users_social_media` (
   `usercode` char(128) NOT NULL,
@@ -3964,40 +3999,50 @@ CREATE TABLE IF NOT EXISTS `users_social_media` (
   `linkedin` char(100) DEFAULT NULL,
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_social_media: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_social_media: ~4 rows (approximately)
+INSERT INTO `users_social_media` (`usercode`, `website`, `whatsapp`, `instagram`, `facebook`, `telegram`, `youtube`, `twitter`, `tiktok`, `tumblr`, `linkedin`) VALUES
+	('#QhdRD1wkzj7vVqG0dk$n4c#i|q10%V{ON1@IdMf[1}yx4{yTDbSJI{o75602403', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('|HL|U@{JiHE9lVfR7M[P5I&qGYT]$$BTgojLz]QqE|BqzEonykl1rctc72258935', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('kRLZs$m]UDt#mQ1$zuIX9D1Tn]]oxyRQxq&n0wV%tBWC{mHn8W8nXAV964007492', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Dumping structure for table test_cms.users_to_group
+-- Dumping structure for table phpgrapesjs.users_to_group
 DROP TABLE IF EXISTS `users_to_group`;
 CREATE TABLE IF NOT EXISTS `users_to_group` (
-  `user_admin_id` int NOT NULL,
-  `user_groups_id` int NOT NULL,
+  `user_admin_id` int(11) NOT NULL,
+  `user_groups_id` int(11) NOT NULL,
   PRIMARY KEY (`user_admin_id`,`user_groups_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_to_group: 0 rows
+-- Dumping data for table phpgrapesjs.users_to_group: 0 rows
 /*!40000 ALTER TABLE `users_to_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users_to_group` ENABLE KEYS */;
 
--- Dumping structure for table test_cms.users_types
+-- Dumping structure for table phpgrapesjs.users_types
 DROP TABLE IF EXISTS `users_types`;
 CREATE TABLE IF NOT EXISTS `users_types` (
   `usercode` char(128) DEFAULT NULL,
   `user_type` char(128) DEFAULT NULL,
-  `val_user` tinyint(1) DEFAULT '1',
+  `val_user` tinyint(1) DEFAULT 1,
   UNIQUE KEY `usercode_U` (`usercode`) USING BTREE,
   KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_types: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_types: ~4 rows (approximately)
+INSERT INTO `users_types` (`usercode`, `user_type`, `val_user`) VALUES
+	('|HL|U@{JiHE9lVfR7M[P5I&qGYT]$$BTgojLz]QqE|BqzEonykl1rctc72258935', NULL, 1),
+	('kRLZs$m]UDt#mQ1$zuIX9D1Tn]]oxyRQxq&n0wV%tBWC{mHn8W8nXAV964007492', NULL, 1),
+	('#QhdRD1wkzj7vVqG0dk$n4c#i|q10%V{ON1@IdMf[1}yx4{yTDbSJI{o75602403', NULL, 1),
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, 1);
 
--- Dumping structure for table test_cms.users_verifications
+-- Dumping structure for table phpgrapesjs.users_verifications
 DROP TABLE IF EXISTS `users_verifications`;
 CREATE TABLE IF NOT EXISTS `users_verifications` (
   `usercode` char(128) NOT NULL,
   `verification` char(128) DEFAULT NULL,
-  `is_verify` tinyint(1) DEFAULT '0',
+  `is_verify` tinyint(1) DEFAULT 0,
   `portraid_date` varchar(150) DEFAULT NULL,
   `image_document_front` varchar(150) DEFAULT NULL,
   `image_document_back` varchar(150) DEFAULT NULL,
@@ -4005,11 +4050,13 @@ CREATE TABLE IF NOT EXISTS `users_verifications` (
   UNIQUE KEY `usercode_U` (`usercode`),
   KEY `usercode` (`usercode`),
   CONSTRAINT `FK_users_verification` FOREIGN KEY (`usercode`) REFERENCES `users_actions` (`usercode`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.users_verifications: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.users_verifications: ~1 rows (approximately)
+INSERT INTO `users_verifications` (`usercode`, `verification`, `is_verify`, `portraid_date`, `image_document_front`, `image_document_back`, `payment_document`) VALUES
+	('Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', NULL, 0, NULL, NULL, NULL, NULL);
 
--- Dumping structure for table test_cms.uverify
+-- Dumping structure for table phpgrapesjs.uverify
 DROP TABLE IF EXISTS `uverify`;
 CREATE TABLE IF NOT EXISTS `uverify` (
   `iduv` char(128) NOT NULL,
@@ -4028,65 +4075,70 @@ CREATE TABLE IF NOT EXISTS `uverify` (
   `activation_code` varchar(128) DEFAULT NULL,
   `password_key` varchar(256) DEFAULT NULL,
   `pin_key` varchar(256) DEFAULT NULL,
-  `rp_active` tinyint(1) NOT NULL DEFAULT '0',
-  `is_activated` tinyint(1) NOT NULL DEFAULT '0',
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `banned` tinyint(1) NOT NULL DEFAULT '1',
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `rp_active` tinyint(1) NOT NULL DEFAULT 0,
+  `is_activated` tinyint(1) NOT NULL DEFAULT 0,
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `banned` tinyint(1) NOT NULL DEFAULT 1,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`iduv`) USING BTREE,
   UNIQUE KEY `iduv` (`iduv`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE,
   UNIQUE KEY `email` (`email`) USING BTREE,
   UNIQUE KEY `usercode` (`usercode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.uverify: ~1 rows (approximately)
+-- Dumping data for table phpgrapesjs.uverify: ~1 rows (approximately)
+INSERT INTO `uverify` (`iduv`, `usercode`, `username`, `email`, `password`, `usr_type`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `level_key`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
+	('b4AN035kHLVOic5tImNhO19xlo7EoyPn2Cr4SX0VFTwxnpP2dvKBiYLze19MRu8Y', 'Xn46z0PGr9Y5MlFkBVkjyp&N4OcMo%@TXrIf[$45tGRG7AJeRx9#3viK66468102', 'MGpnbDNRVjZ4MUxTV3ZzdUduYk1WUT09', 'SVlob0ZzbFBDMGROUlB0WGFXdWFQN0s0dHBnQjBoQnZlTXVyRGZVMEJhdz0=', 'bjhRb0tId0h6YUZlWTB5RS82cVZCQ1ZuTHZsV1ZnWkYvQ0hYTzBTcjA0MD0=', '', 'CZI7s1bXo9ylnaX3SEFV0Wq8TFcmDQxPqBaL30Y4Q1EwRKGl4n2r0VG5MIkvQL1j', 'AUe3vVnMXmXfVMxNsT2hGrlK8sxHMR85nMcRxZ3cKhL3hfrK6FOFeW2JrvEGKAk0', '354647314f5471553942533042517351466f527235364763455873584e6c7441', 'UGhRS1FTRHFYSERQUlVsa0pCREh4UT09', 'Super Admin', '8v@Ul3qOUOzss}2V[d51o0Cz]MfmyhyNhy4e}%%ok|O%x3H9ggYC86luF&1||FuC', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2025-03-27 07:58:58');
 
--- Dumping structure for table test_cms.view_log
+-- Dumping structure for table phpgrapesjs.view_log
 DROP TABLE IF EXISTS `view_log`;
 CREATE TABLE IF NOT EXISTS `view_log` (
-  `idVl` int NOT NULL,
+  `idVl` int(11) NOT NULL,
   `usercode` char(128) DEFAULT NULL,
-  `count` int DEFAULT NULL,
-  `stars` int DEFAULT NULL,
-  `applause` int DEFAULT NULL,
-  `acceptance` int DEFAULT NULL,
-  `like` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `count` int(11) DEFAULT NULL,
+  `stars` int(11) DEFAULT NULL,
+  `applause` int(11) DEFAULT NULL,
+  `acceptance` int(11) DEFAULT NULL,
+  `like` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.view_log: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.view_log: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.visitor
+-- Dumping structure for table phpgrapesjs.visitor
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE IF NOT EXISTS `visitor` (
   `ip` varchar(20) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.visitor: ~14 rows (approximately)
+-- Dumping data for table phpgrapesjs.visitor: ~1 rows (approximately)
+INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
+	('127.0.0.1', '2025-03-27 08:00:56', '2025-03-27 14:03:35'),
+	('127.0.0.1', '2025-03-29 02:18:27', '2025-03-29 09:35:47');
 
--- Dumping structure for table test_cms.visitor_productos
+-- Dumping structure for table phpgrapesjs.visitor_productos
 DROP TABLE IF EXISTS `visitor_productos`;
 CREATE TABLE IF NOT EXISTS `visitor_productos` (
-  `visitsprId` int NOT NULL AUTO_INCREMENT,
+  `visitsprId` int(11) NOT NULL AUTO_INCREMENT,
   `ip` char(20) DEFAULT NULL,
-  `producto_id` int DEFAULT NULL,
+  `producto_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`visitsprId`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.visitor_productos: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.visitor_productos: ~0 rows (approximately)
 
--- Dumping structure for table test_cms.visitor_servicios
+-- Dumping structure for table phpgrapesjs.visitor_servicios
 DROP TABLE IF EXISTS `visitor_servicios`;
 CREATE TABLE IF NOT EXISTS `visitor_servicios` (
-  `visitsprId` int NOT NULL AUTO_INCREMENT,
+  `visitsprId` int(11) NOT NULL AUTO_INCREMENT,
   `ip` char(20) DEFAULT NULL,
-  `servicio_id` int DEFAULT NULL,
+  `servicio_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`visitsprId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table test_cms.visitor_servicios: ~0 rows (approximately)
+-- Dumping data for table phpgrapesjs.visitor_servicios: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

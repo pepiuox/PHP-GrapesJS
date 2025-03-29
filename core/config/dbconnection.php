@@ -9,7 +9,7 @@ require_once 'function.php';
 include_once 'define.php';
 
 $protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
-    $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
+        $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
 
 if (!empty(SITE_PATH)) {
     $siteinstall = SITE_PATH;

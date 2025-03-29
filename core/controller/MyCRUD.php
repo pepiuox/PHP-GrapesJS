@@ -624,6 +624,7 @@ class MyCRUD {
             $blodata = ['tinyblob', 'blob', 'mediumblob', 'longblob'];
 
             $sql = "SELECT * FROM $t_nm";
+
             if (in_array($c_tp, $intdata)) {
                 echo '<div class="form-group">
                        <label for="' . $c_nm . '">' . $frmp . ':</label>

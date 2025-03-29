@@ -8,24 +8,24 @@
 require_once 'metalink.php';
 
 if (!empty($description)) {
-    ?>
-    <meta name="description" content="<?php echo $description; ?>" />
+?>
+        <meta name="description" content="<?php echo $description; ?>" />
 <?php } else { ?>
-    <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />
+        <meta name="description" content="<?php echo SITE_DESCRIPTION; ?>" />
     <?php
 }
 if (!empty($keyword)) {
     ?>
-    <meta name="keywords" content="<?php echo $keyword; ?>" />
+        <meta name="keywords" content="<?php echo $keyword; ?>" />
 <?php } else { ?>
-    <meta name="keywords" content="<?php echo SITE_KEYWORDS; ?>" />
+        <meta name="keywords" content="<?php echo SITE_KEYWORDS; ?>" />
     <?php
 }
 if (!empty($classification)) {
     ?>
-    <meta name="classification" content="<?php echo $classification; ?>" />
+        <meta name="classification" content="<?php echo $classification; ?>" />
 <?php } else { ?>
-    <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
+        <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
 <?php } ?>
 <title><?php echo $title . ' - ' . SITE_NAME; ?></title>
 
@@ -33,7 +33,7 @@ if (!empty($classification)) {
 $actth = 'Yes';
 $bsdft = 'Yes';
 $theme = $conn->prepare(
-    "SELECT * FROM themes WHERE base_default = ? AND active_theme = ? "
+        "SELECT * FROM themes WHERE base_default = ? AND active_theme = ? "
 );
 $theme->bind_param("ss", $bsdft, $actth);
 $theme->execute();
@@ -43,15 +43,15 @@ $nt = $tm->num_rows;
 
 if ($nt > 0) {
     $thm = $tm->fetch_assoc();
+?>
+            <link href="<?php echo SITE_PATH; ?>themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <?php
+} else {
     ?>
-        <link href="<?php echo SITE_PATH; ?>themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
+            <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <?php
-    } else {
-            ?>
-        <link href="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <?php
-    }
-           ?>
+}
+    ?>
 
 <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/adminlte/css/adminlte.min.css">       
 <!-- Font Awesome -->

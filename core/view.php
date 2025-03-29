@@ -19,8 +19,8 @@ $url = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 $escaped_url = htmlspecialchars($url, ENT_QUOTES, "UTF-8");
 $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
-
 $extpath = pathinfo($url, PATHINFO_EXTENSION);
+
 $pages->routePages();
 if ($pages->GoPage() === true) {
     if ($initweb === $url) {
@@ -72,41 +72,41 @@ if ($pages->GoPage() === true) {
         <body>
         <div id="wrapper">
         <div class='container-fluid min-h-screen' id="content-page">
-                             <?php
-                             require_once "elements/menu.php";
-                             if ($typepage === 'File') {
-                                 include "elements/alerts.php";
+       <?php
+       require_once "elements/menu.php";
+       if ($typepage === 'File') {
+           include "elements/alerts.php";
 
-                                 if ($request === $purl) {
-                                     require_once $pfile . ".php";
-                                 }
-                             } else if ($typepage === 'Design') {
-                                 $string = decodeContent($content);
-                                 if (!empty($content)) {
-                                     $string = str_replace("<body>", "", $string);
-                                     $string = str_replace("</body>", "", $string);
-                                 }
-                                 echo $string . "\n";
-                             }
-                             require_once "elements/footer.php";
-                             ?>
+           if ($request === $purl) {
+               require_once $pfile . ".php";
+           }
+       } else if ($typepage === 'Design') {
+           $string = decodeContent($content);
+           if (!empty($content)) {
+               $string = str_replace("<body>", "", $string);
+               $string = str_replace("</body>", "", $string);
+           }
+           echo $string . "\n";
+       }
+       require_once "elements/footer.php";
+       ?>
          </div>
          </div>
          </body>
          </html>
-                         <?php
+   <?php
                      } else if ($viewpg === "system") {
-                         include 'elements/header.php';
-                         ?>
+   include 'elements/header.php';
+   ?>
          </head>
          <body class="hold-transition sidebar-mini">
          <div class="wrapper">
-                             <?php
-                             if ($request === $purl) {
-                                 require_once $pfile . ".php";
-                             }
-                             require_once 'elements/footer.php';
-                             ?>
+       <?php
+       if ($request === $purl) {
+           require_once $pfile . ".php";
+       }
+       require_once 'elements/footer.php';
+       ?>
          </div>
          </body>
          </html>
@@ -126,18 +126,18 @@ if ($pages->GoPage() === true) {
               </head>
               <body class="hold-transition sidebar-mini">
               <div class="wrapper">  
-                                      <?php
-                                      if (!empty($tempURL[3])) {
-                                          define('CMS', $tempURL[3]);
-                                      }
-                                      if (!empty($tempURL[4])) {
-                                          define('WS', $tempURL[4]);
-                                      }
-                                      if (!empty($tempURL[5])) {
-                                          define('TBL', $tempURL[5]);
-                                      }
-                                      require_once "managers/" . $tempURI . ".php";
-                                      ?>
+                <?php
+                if (!empty($tempURL[3])) {
+                    define('CMS', $tempURL[3]);
+                }
+                if (!empty($tempURL[4])) {
+                    define('WS', $tempURL[4]);
+                }
+                if (!empty($tempURL[5])) {
+                    define('TBL', $tempURL[5]);
+                }
+                require_once "managers/" . $tempURI . ".php";
+                ?>
               </div>
               </body>
               </html>

@@ -1,4 +1,5 @@
 <?php
+
 //
 //  This application develop by PEPIUOX.
 //  Created by : Lab eMotion
@@ -8,8 +9,8 @@
 //  Description of Routers class
 //  Routers.php file
 //
-class Routers
-{
+class Routers {
+
     protected $conn;
     public $url;
     public $host;
@@ -22,29 +23,38 @@ class Routers
     public $parent = 0;
     public $pg404;
 
-    public function __construct()
-    {
+    public function __construct() {
         global $conn;
         $this->conn = $conn;
 
-        $this->protocol =
-            (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
-            $_SERVER["SERVER_PORT"] == 443
-                ? "https://"
-                : "http://";
+        $this->protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
+                $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
         $this->host = $this->protocol . $_SERVER["HTTP_HOST"] . "/";
         $this->pg404 = $this->host . "error/404";
-        $this->url =
-            $this->protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+        $this->url = $this->protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
         $this->escaped_url = htmlspecialchars($this->url, ENT_QUOTES, "UTF-8");
         $this->url_path = parse_url($this->escaped_url, PHP_URL_PATH);
         $this->basename = pathinfo($this->url_path, PATHINFO_BASENAME);
+        $columns = ['id',
+            'system_path',
+            'view_page',
+            'title',
+            'link',
+            'url',
+            'keyword',
+            'classification',
+            'description',
+            'type',
+            'menu',
+            'path_file',
+            'content',
+            'style',
+            'language'];
     }
 
-    public function InitPage()
-    {
+    public function InitPage() {
         $stmt = $this->conn->prepare(
-            "SELECT * FROM pages WHERE startpage = ? AND active = ? "
+                "SELECT * FROM pages WHERE startpage = ? AND active = ? "
         );
         $stmt->bind_param("ii", $this->startpage, $this->active);
         $stmt->execute();
@@ -55,7 +65,7 @@ class Routers
             return $rs->fetch_assoc();
         }
     }
-    
+
     public function GoPage() {
         $page = $this->basename;
         if ($page === "home" || $page === "inicio" || empty($page)) {
@@ -101,10 +111,9 @@ class Routers
         }
     }
 
-    public function PageDataWeb($basename)
-    {
+    public function PageDataWeb($basename) {
         $stmt = $this->conn->prepare(
-            "SELECT * FROM pages WHERE link = ? AND active = ? "
+                "SELECT * FROM pages WHERE link = ? AND active = ? "
         );
         $stmt->bind_param("si", $basename, $this->active);
         $stmt->execute();
@@ -119,10 +128,9 @@ class Routers
         }
     }
 
-    public function Pages($plink)
-    {
+    public function Pages($plink) {
         $pg = $this->conn->prepare(
-            "SELECT system_path, link, startpage, type, path_file, parent, active FROM pages WHERE link = ? AND active = ? "
+                "SELECT system_path, link, startpage, type, path_file, parent, active FROM pages WHERE link = ? AND active = ? "
         );
         $pg->bind_param("si", $plink, $this->active);
         $pg->execute();
@@ -148,10 +156,9 @@ class Routers
         }
     }
 
-    public function GetParent($parent)
-    {
+    public function GetParent($parent) {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
+                "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();
@@ -166,10 +173,9 @@ class Routers
         }
     }
 
-    public function GetSecondParent($parent)
-    {
+    public function GetSecondParent($parent) {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
+                "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();
@@ -184,10 +190,9 @@ class Routers
         }
     }
 
-    public function GetThirdParent($parent)
-    {
+    public function GetThirdParent($parent) {
         $pr = $this->conn->prepare(
-            "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
+                "SELECT id, link, parent, active FROM pages WHERE id = ? AND active = ? "
         );
         $pr->bind_param("ii", $parent, $this->active);
         $pr->execute();

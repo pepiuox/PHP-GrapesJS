@@ -15,8 +15,9 @@ if ($login->isLoggedIn() === true) {
     <?php
 } else {
     ?>
-        <div class="hold-transition login-page">
+        <div class="hold-transition login-page">       
     <?php
+    $login->getdatau();
     /* login-box */
     if (isset($_SESSION["attempt"]) || isset($_SESSION["attempt_again"])) {
         if ($_SESSION["attempt"] === 3 || $_SESSION["attempt_again"] >= 3) {
