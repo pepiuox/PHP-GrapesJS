@@ -1,7 +1,5 @@
 <?php
 
-include '../config/dbconnection.php';
-
 if (isset($_POST['title'])) {
     $title = $_POST['title'];
     $content = $_POST['content'];

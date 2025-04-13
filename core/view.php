@@ -11,6 +11,7 @@ require_once "config/loader.php";
 $pages = new Routers();
 $visitor = new GetVisitor();
 
+$protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") || $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
 $page = $_SERVER["PHP_SELF"];
 $_SESSION["language"] = "";
 $initweb = $protocol . $_SERVER["HTTP_HOST"] . "/";

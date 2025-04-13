@@ -408,24 +408,28 @@ class UsersClass {
                                         }
                                     } else {
                                         $this->nAttempt($useremail);
-                                        header('Location: ' . $this->logp);
-                                        die();
+                                        echo '<script>
+                window.location.replace("' . SITE_PATH . 'signin/login");
+                </script>';
                                     }
                                 } else {
                                     $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
-                                    header('Location: ' . $this->logp);
-                                    die();
+                                    echo '<script>
+                window.location.replace("' . SITE_PATH . 'signin/login");
+                </script>';
                                 }
                             } else {
                                 $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
-                                header('Location: ' . $this->logp);
-                                die();
+                                echo '<script>
+                window.location.replace("' . SITE_PATH . 'signin/login");
+                </script>';
                             }
                         }
                     } else {
                         $_SESSION["ErrorMessage"] = "The PIN is not numeric or is not complete.";
-                        header('Location: ' . $this->logp);
-                        die();
+                        echo '<script>
+                window.location.replace("' . SITE_PATH . 'signin/login");
+                </script>';
                     }
                 }
             }

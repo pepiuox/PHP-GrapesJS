@@ -1,7 +1,6 @@
 <?php
-
+include_once URL . '/core/config/dbconnection.php';
 /* Save Page */
-include '../config/dbconnection.php';
 
 if (isset($_POST['content'])) {
     $idp = $_POST['idp'];
@@ -9,11 +8,19 @@ if (isset($_POST['content'])) {
     $content = $_POST['content'];
     $style = $_POST['style'];
 
-    $sql = "UPDATE $tbl SET  content='" . protect($content) . "', style='" . protect($style) . "' WHERE id='$idp'";
-    if ($conn->query($sql) === TRUE) {
-        echo "The $tbl has been updated";
+    $sql = "UPDATE $tbl SET  content = ?, style = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", protect($content), protect($style), $idp);
+    $stmt->execute();
+    $save = $stmt->affected_rows;
+    $stmt->close();
+
+    if ($save === 1) {
+        echo "Save Data";
     } else {
         echo "Failed";
     }
 }
+
 ?>
+

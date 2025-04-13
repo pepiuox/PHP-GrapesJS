@@ -37,7 +37,7 @@
 <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-project-manager.min.js"></script>
 <script src="<?php echo SITE_PATH; ?>assets/plugins/grapesjs/js/grapesjs-component-code-editor.min.js"></script>
 <script src="<?php echo SITE_PATH ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js"></script>
 <script>
 $(".gjs-pn-buttons").click(function () {
 var imp = $("span").find("[data-tooltip='Import']");

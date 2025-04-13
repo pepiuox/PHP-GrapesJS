@@ -74,7 +74,7 @@
         # Charset UTF-8
         # Header set Content-Type "text/html; charset=UTF-8"
         # 
-        Header set Content-Security-Policy "default-src 'self'; img-src 'self' http: https: *.pepiuox.net; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+        Header set Content-Security-Policy "default-src 'self'; img-src 'self'; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
         Header set Access-Control-Allow-Origin "*"
         IndexIgnore *.zip *.css *.js *.pyt    
         Options -MultiViews -Indexes        
