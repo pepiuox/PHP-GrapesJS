@@ -58,8 +58,8 @@ if ($nt > 0) {
 <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome/css/all.min.css">
 <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/css/menu.css" />
 <!-- botstrap, jquery, pooper -->
-<script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="<?php echo SITE_PATH; ?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="<?php echo SITE_PATH; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="<?php echo SITE_PATH; ?>assets/js/menu.js" type="text/javascript"></script>
 <style>
     #wrapper, .container-fluid{

@@ -32,6 +32,7 @@ class UsersClass {
     private $uca;
     protected $gc;
     public $protocol;
+    public $loginp;
 
     /*
      * __constructor()
@@ -58,6 +59,9 @@ class UsersClass {
         $this->baseurl = $this->protocol . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]);
         $this->date = new DateTime();
         $this->timestamp = $this->date->format("Y-m-d H:i:s");
+        $this->loginp = '<script>
+                window.location.replace("' . SITE_PATH . 'signin/login");
+                </script>';
 
         /* If login data is posted call validation function. */
         if (isset($_POST["signin"])) {
@@ -125,9 +129,6 @@ class UsersClass {
         return true;
     }
 
-    public function getdatau() {
-        
-    }
 
     /*
      * Function Login()
@@ -384,52 +385,32 @@ class UsersClass {
                                                     $stoken,
                                                     $shash
                                             );
-                                            setcookie(
-                                                    "cookname",
-                                                    $usnm,
-                                                    time() + $this->expiry,
-                                                    "/"
-                                            );
-                                            setcookie(
-                                                    "cookid",
-                                                    $usid,
-                                                    time() + $this->expiry,
-                                                    "/"
-                                            );
+                                            setcookie("cknm", $usnm, time() + $this->expiry );
+                                            setcookie("ckid", $usid, time() + $this->expiry );
                                             $_SESSION["SuccessMessage"] = "Congratulations you now have access!";
                                             unset($_SESSION["attempt"]);
                                             unset($_SESSION["attempt_again"]);
-                                            unset(
-                                                    $_SESSION["id_session_attempt"]
-                                            );
+                                            unset($_SESSION["id_session_attempt"]);
                                         } else {
                                             session_destroy();
                                             $_SESSION["ErrorMessage"] = "Access error!";
                                         }
                                     } else {
                                         $this->nAttempt($useremail);
-                                        echo '<script>
-                window.location.replace("' . SITE_PATH . 'signin/login");
-                </script>';
+                                        echo $this->loginp;
                                     }
                                 } else {
                                     $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
-                                    echo '<script>
-                window.location.replace("' . SITE_PATH . 'signin/login");
-                </script>';
+                                    echo $this->loginp;
                                 }
                             } else {
                                 $_SESSION["ErrorMessage"] = "Your account is not active, some process is incomplete, please contact support.";
-                                echo '<script>
-                window.location.replace("' . SITE_PATH . 'signin/login");
-                </script>';
+                                echo $this->loginp;
                             }
                         }
                     } else {
                         $_SESSION["ErrorMessage"] = "The PIN is not numeric or is not complete.";
-                        echo '<script>
-                window.location.replace("' . SITE_PATH . 'signin/login");
-                </script>';
+                        echo $this->loginp;
                     }
                 }
             }
@@ -540,20 +521,14 @@ class UsersClass {
                                 unset($_SESSION["attempt_again"]);
                                 unset($_SESSION["id_session_attempt"]);
                                 $_SESSION["SuccessMessage"] = "Congratulations you now have access!";
-                                echo '<script>
-                window.location.replace("' . SITE_PATH . 'signin/login");
-                </script>';
+                                echo $this->loginp;
                             } else {
                                 $_SESSION["ErrorMessage"] = "Password incorrect.";
-                                echo '<script>
-                window.location.replace("' . SITE_PATH . 'signin/login");
-                </script>';
+                                echo $this->loginp;
                             }
                         } else {
                             $_SESSION["ErrorMessage"] = "Invalid username or password incorrect.";
-                            echo '<script>
-        window.location.replace("' . SITE_PATH . 'signin/login");
-        </script>';
+                            echo $this->loginp;
                         }
                     }
                 }
@@ -675,14 +650,10 @@ class UsersClass {
             }
             if ($_SESSION["attempt_again"] >= 3) {
                 $_SESSION["error"] = "Your are allowed 3 attempts in 10 minutes";
-                echo '<script>
-                window.location.replace("' . $this->logp . '");
-                </script>';
+                echo $this->loginp;
             } else {
                 $_SESSION["ErrorMessage"] = "Invalid email, password or PIN incorrect.";
-                echo '<script>
-        window.location.replace("' . $this->logp . '");
-        </script>';
+                echo $this->loginp;
             }
         }
     }
@@ -716,9 +687,9 @@ class UsersClass {
     public function logout() {
         if (isset($_POST["logout"])) {
             if (!empty($_SESSION["user_id"])) {
-                if (isset($_COOKIE["cookname"]) && isset($_COOKIE["cookid"])) {
-                    setcookie("cookname", "", time() - $this->expiry, "/");
-                    setcookie("cookid", "", time() - $this->expiry, "/");
+                if (isset($_COOKIE["cknm"]) && isset($_COOKIE["ckid"])) {
+                    setcookie("cknm", "", time() - $this->expiry);
+                    setcookie("ckid", "", time() - $this->expiry);
                 }
                 $_SESSION = [];
                 /* Unset PHP session variables */

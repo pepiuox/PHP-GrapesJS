@@ -9,6 +9,10 @@ $login = new UsersClass();
 $check = new CheckValidUser();
 $level = new AccessLevel();
 
+$cms = '';
+if (defined('CMS')) {
+    $cms = CMS;
+}
 $user = '';
 $w = '';
 if (defined('USR')) {
