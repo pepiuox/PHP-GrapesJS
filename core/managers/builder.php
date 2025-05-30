@@ -19,7 +19,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
     if (isset($id) && !empty($id)) {
 
-        $targetDir = URL . "/build/uploads/";
+        $targetDir = URL . "/core/managers/uploads/";
 
         if ($build === 'pages') {
             $linkp = 'list_pages';
@@ -60,13 +60,25 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         if (isset($build) && !empty($build)) {
 
-            $erow = $conn->prepare("SELECT id, title, content, style FROM $build WHERE id=?");
+            $erow = $conn->prepare("SELECT id, title, link, content, style, parent FROM $build WHERE id=?");
             $erow->bind_param('i', $id);
             $erow->execute();
             $result = $erow->get_result();
             $row = $result->fetch_assoc();
+            
             $pcontent = $row['content'];
             $pstyle = $row['style'];
+            if($row['parent']===0){
+                $plink = $row['link'];
+            }else{
+            $prow = $conn->prepare("SELECT id, link FROM $build WHERE id=?");
+            $prow->bind_param('i', $row['parent']);
+            $prow->execute();
+            $presult = $prow->get_result();
+            $lrow = $presult->fetch_assoc();
+            $plink = $lrow['link'].'/'.$row['link'];
+            
+            }
         } else {
             header('Location: ' . SITE_PATH . 'admin/dashboard/');
             die();
@@ -1013,7 +1025,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         function viewContent() {
         var id = '<?php echo $id; ?>';
         var tbl = '<?php echo $build; ?>';
-        var url = 'view.php?tbl=' + tbl + '&id=' + id;
+        var url = "<?php echo SITE_PATH. $plink; ?>";
         window.open(url);
         }
 
