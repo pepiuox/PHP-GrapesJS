@@ -26,8 +26,19 @@ if (!empty($classification)) {
         <meta name="classification" content="<?php echo $classification; ?>" />
 <?php } else { ?>
         <meta name="classification" content="<?php echo SITE_CLASSIFICATION; ?>" />
-<?php } ?>
-<title><?php echo $title . ' - ' . SITE_NAME; ?></title>
+<?php } 
+if(!empty($title)){
+    ?>
+        <title><?php echo $title . ' - ' . SITE_NAME; ?></title>
+        <?php
+}else{
+    ?>
+        <title><?php echo $fname . ' - ' . SITE_NAME; ?></title>
+        <?php
+}
+?>
+        
+
 
 <?php
 $actth = 'Yes';

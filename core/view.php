@@ -21,7 +21,8 @@ $escaped_url = htmlspecialchars($url, ENT_QUOTES, "UTF-8");
 $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
 $extpath = pathinfo($url, PATHINFO_EXTENSION);
-
+$menu = '';
+$title ='';
 $pages->routePages();
 if ($pages->GoPage() === true) {
     if ($initweb === $url) {
@@ -59,6 +60,7 @@ if ($pages->GoPage() === true) {
     $language = $_SESSION["language"] = $lng;
     $request = $_SERVER["REQUEST_URI"];
 
+       
     if ($viewpg === "public") {
 
         require_once "elements/top.php";
@@ -96,30 +98,43 @@ if ($pages->GoPage() === true) {
          </body>
          </html>
    <?php
-    } else if ($viewpg === "system") {
-   include 'elements/header.php';
+    } 
+} else {
+$tempURL = explode('/', $_SERVER['REQUEST_URI']);
+    $tempBASE = $tempURL[1];
+    $tempURI = $tempURL[2];
+    
+    if ($tempBASE === "signin") {
+        require_once "elements/top.php";
+  
    ?>
          </head>
-         <body class="hold-transition sidebar-mini">
-         <div class="wrapper">
-       <?php
-       if ($request === $purl) {
-           require_once $pfile . ".php";
+         <div id="wrapper">
+             <div class='container-fluid min-h-screen' id="content-page">
+       <?php  
+      require_once "elements/menu.php";
+       if ($tempURI === "login") {
+        require_once "pages/login/" . $tempURI . ".php";
+       }else if ($tempURI === "register") {
+         require_once "pages/register/" . $tempURI . ".php";  
+       }else if ($tempURI === "forgot-username") {
+         require_once "pages/forgot/" . $tempURI . ".php";  
+       }else if ($tempURI === "forgot-password") {
+         require_once "pages/forgot/" . $tempURI . ".php";  
+       }else if ($tempURI === "forgot-email") {
+         require_once "pages/forgot/" . $tempURI . ".php";  
+       }else if ($tempURI === "forgot-pin") {
+         require_once "pages/forgot/" . $tempURI . ".php";  
        }
        require_once 'elements/footer.php';
        ?>
          </div>
+         </div>
          </body>
          </html>
         <?php
-    }
-} else {
-
-    $tempURL = explode('/', $_SERVER['REQUEST_URI']);
-    $tempBASE = $tempURL[1];
-    $tempURI = $tempURL[2];
-
-    if ($tempBASE === "admin") {
+    
+    }else if ($tempBASE === "admin") {
 
         if ($tempURI === "dashboard") {
             include 'elements/header.php';

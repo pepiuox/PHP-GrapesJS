@@ -153,7 +153,9 @@ function third($sid, $plink)
     }
     echo "</ul>" . "\n";
 }
-
+if(empty($menu)){
+    $menu = 1;
+}
 $rmenu = $conn->prepare("SELECT * FROM menu_options WHERE id=?");
 $rmenu->bind_param("i", $menu);
 $rmenu->execute();

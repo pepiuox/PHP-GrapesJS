@@ -42,24 +42,21 @@ $lang = array(
 		'title' => 'Register',
 		'box_msg' => 'Register a new account'
 	),
-	'forgot_pin' => array(
+	'forgot-pin' => array(
 		'title' => 'Forgot PIN',
 		'box_msg' => 'You are only one step a way from your new PIN, recover your PIN now.'
 	),
-	'forgot_email' => array(
+	'forgot-email' => array(
 		'title' => 'Forgot Email',
 		'box_msg' => 'You forgot your Email? Here you can easily retrieve a Email.'
 	),
-	'forgot_password' => array(
+	'forgot-password' => array(
 		'title' => 'Forgot Password',
 		'box_msg' => 'You forgot your password? Here you can easily retrieve a new password.'
 	),
-	'forgot_username' => array(
+	'forgot-username' => array(
 		'title' => 'Forgot Username',
 		'box_msg' => 'You forgot your Username? Here you can easily retrieve a Username.'
 	),
-	'forgot_username' => array(
-		'title' => 'Forgot Username',
-		'box_msg' => 'You forgot your Username? Here you can easily retrieve a Username.'
-	),
+	
 );
