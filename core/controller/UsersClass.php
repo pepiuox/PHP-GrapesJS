@@ -132,11 +132,7 @@ class UsersClass {
 
     /*
      * Function Login()
-     * Function that validates user login data, cross-checks with database.
-     * If data is valid user is logged in, session variables are set.
-     */
-
-    /**
+     * Function that validates user login data, cross-checks with database.    
      * Validates user login data, cross-checks with database.
      * If data is valid user is logged in, session variables are set.
      *

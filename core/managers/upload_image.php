@@ -1,8 +1,8 @@
 <?php
-
+$rout = str_replace('\\', '/', dirname(__DIR__));
 /* Upload image */
 if ($_FILES) {
-    $targetDir = "../uploads";
+    $targetDir = $rout."/managers/uploads";
 
     $resultArray = array();
     foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {

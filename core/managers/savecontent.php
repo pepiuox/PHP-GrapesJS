@@ -1,4 +1,6 @@
 <?php
+$rout = str_replace('\\', '/', dirname(__DIR__));
+include_once $rout.'/config/dbconnection.php';
 
 if (isset($_POST['title'])) {
     $title = $_POST['title'];

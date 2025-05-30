@@ -1,8 +1,9 @@
 <?php
-include_once URL . '/core/config/dbconnection.php';
+$rout = str_replace('\\', '/', dirname(__DIR__));
+include_once $rout.'/config/dbconnection.php';
 /* Save Page */
 
-if (isset($_POST['content'])) {
+if (isset($_POST['idp'])) {
     $idp = $_POST['idp'];
     $tbl = $_POST['tbl'];
     $content = $_POST['content'];

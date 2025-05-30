@@ -14,10 +14,10 @@ if (defined('CMS')) {
     $cms = CMS;
 }
 $user = '';
-$w = '';
 if (defined('USR')) {
     $user = USR;
 }
+$w = '';
 if (defined('WS')) {
     $w = WS;
 }

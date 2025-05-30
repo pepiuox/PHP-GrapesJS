@@ -96,7 +96,7 @@ if ($pages->GoPage() === true) {
          </body>
          </html>
    <?php
-                     } else if ($viewpg === "system") {
+    } else if ($viewpg === "system") {
    include 'elements/header.php';
    ?>
          </head>
@@ -173,6 +173,7 @@ if ($pages->GoPage() === true) {
          <body class="hold-transition sidebar-mini">
          <div class="wrapper">  
         <?php
+       
         if (!empty($tempURL[3])) {
             define('USR', $tempURL[3]);
         }
