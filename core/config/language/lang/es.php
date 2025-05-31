@@ -1,8 +1,8 @@
 <?php
 // We define the language and all the words in Spanish an array
 $lang = array(
-	'title' => 'ESRAPI',
-	'logo' => 'Sistema ESRAPI',
+	'title' => 'PHP GrapesJS',
+	'logo' => 'Sistema PHP GrapesJS',
 	'username' => 'Nombre de usuario',
 	'email' => 'Correo electrónico',
 	'password' => 'Contraseña',
@@ -28,12 +28,12 @@ $lang = array(
 	'btn_register' => 'Registro',
 	'agree_term' => 'Estoy de acuerdo con los términos',
 	'home' => array(
-		'title' => 'ESRAPI',
-		'logo' => 'Sistema ESRAPI',
+		'title' => 'PHP GrapesJS',
+		'logo' => 'Sistema PHP GrapesJS',
 		'description' => 'Hola, este es un título en Español.',
         ),
 	'login' => array(
-		'title' => 'Login ESRAPI',
+		'title' => 'Login PHP GrapesJS',
 		'box_msg' => 'Inicia sesión para acceder a tu cuenta',
 		'attempts' => 'Desbloqueo por intentos fallidos',
 		'att_msg' => 'Inicia sesión con tu nombre de usuario a tu cuenta',

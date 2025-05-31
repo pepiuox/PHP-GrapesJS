@@ -6,28 +6,28 @@ if ($fname != "login") { ?>
 ]; ?></a>
             </p>
 			<?php }
-if ($fname != "forgot_username") { ?>
+if ($fname != "forgot-username") { ?>
 	    <p class="mb-1">
                 <a href="<?php echo SITE_PATH; ?>signin/forgot-username"><?php echo $lang[
     "ifguser"
 ]; ?></a>
             </p>
 			<?php }
-if ($fname != "forgot_email") { ?>
+if ($fname != "forgot-email") { ?>
 	    <p class="mb-1">
                 <a href="<?php echo SITE_PATH; ?>signin/forgot-email"><?php echo $lang[
     "ifgemail"
 ]; ?></a>
             </p>
 			<?php }
-if ($fname != "forgot_password") { ?>
+if ($fname != "forgot-password") { ?>
 	    <p class="mb-1">
                 <a href="<?php echo SITE_PATH; ?>signin/forgot-password"><?php echo $lang[
     "ifgpass"
 ]; ?></a>
             </p>
 			<?php }
-if ($fname != "forgot_pin") { ?>
+if ($fname != "forgot-pin") { ?>
             <p class="mb-1">
                 <a href="<?php echo SITE_PATH; ?>signin/forgot-pin"><?php echo $lang[
     "ifgpin"

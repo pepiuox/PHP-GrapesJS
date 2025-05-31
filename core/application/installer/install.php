@@ -33,14 +33,6 @@ if (isset($_SESSION["PathInstall"])) {
     $siteinstall = $website . $folder . "/";
 }
 
-/*
-  if(isset($_SESSION['SECURE_HASH']) && !empty($_SESSION['SECURE_HASH'])){
-  define('SECURE_HASH',$_SESSION['SECURE_HASH']);
-  }
-  if(isset($_SESSION['SECURE_TOKEN']) && !empty($_SESSION['SECURE_TOKEN'])){
-  define('SECURE_TOKEN',$_SESSION['SECURE_TOKEN']);
-  }
- */
 
 $rname = $_SERVER["REQUEST_URI"];
 $alertpg = $rname;

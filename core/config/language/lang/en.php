@@ -1,8 +1,8 @@
 <?php
 // We define the language and all the words in English an array
 $lang = array(
-	'title' => 'ESRAPI',
-	'logo' => 'Sistema ESRAPI',
+	'title' => 'PHP GrapesJS',
+	'logo' => 'Sistema PHP GrapesJS',
         'username' => 'User Name',
 	'email' => 'Correo electrónico',
 	'password' => 'Contraseña',
