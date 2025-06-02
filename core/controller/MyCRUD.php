@@ -20,10 +20,6 @@ class MyCRUD {
     private $tps;
 
     public function __construct() {
-        $this->hostDB = DBHOST;
-        $this->userDB = DBUSER;
-        $this->passDB = DBPASS;
-        $this->baseDB = DBNAME;
         global $conn, $rname;
         $this->connection = $conn;
         $this->pgname = $rname;

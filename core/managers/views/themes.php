@@ -7,7 +7,7 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard/theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
+                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="../theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
                         <th>Theme name</th>
                         <th>Theme bootstrap</th>
                     </tr>
@@ -20,8 +20,8 @@ if ($w == "list") {
                         while ($prow = $result->fetch_array()) {
                             echo '<tr>
                         <td><!--Button -->
-                            <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="dashboard/theme_template&amp;w=list"><i class="fas fa-edit"></i> List</a>
-                            <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="dashboard/themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i> More options</a>
+                            <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="../theme_template&amp;w=list"><i class="fas fa-edit"></i> List</a>
+                            <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="../themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i> More options</a>
                         </td>
                         <td>' . $prow['theme_name'] . '</td>
                         <td>' . $prow['theme_bootstrap'] . '</td>
@@ -39,7 +39,7 @@ if ($w == "list") {
         $id = protect($_GET['id']);
     } else {
         ?>
-        <meta http-equiv="Refresh" content="0; url='dashboard/themes/list'" />
+        <meta http-equiv="Refresh" content="0; url='../themes/list'" />
         <?php
     }
     ?> 
@@ -79,7 +79,7 @@ if ($w == "list") {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/themes/options&id=" . $id . "';
+    location.href = '../themes/options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -142,7 +142,7 @@ window.onload = function() {
                                     echo "The data was updated correctly.";
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/themes/options&id=" . $id . "';
+    location.href = '../themes/options&id=" . $id . "';
 }
 </script>";
                                 }
@@ -290,7 +290,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/themes/options&id=" . $id . "';
+    location.href = '../themes/options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -335,7 +335,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/themes/options&id=" . $id . "';
+    location.href = '../themes/options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -381,7 +381,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/themes/options&id=" . $id . "';
+    location.href = '../themes/options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -434,7 +434,7 @@ window.onload = function() {
 
                                     echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/themes/options&id=" . $id . "';
+    location.href = '../themes/options&id=" . $id . "';
 }
 </script>";
                                 } else {

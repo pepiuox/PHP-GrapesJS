@@ -4,7 +4,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
     $w = $p->secureStr($_GET['w']);
 } else {
     ?>
-    <meta http-equiv="Refresh" content="0; url='dashboard/search/select'" />
+    <meta http-equiv="Refresh" content="0; url='../search/select'" />
     <?php
 }
 
@@ -83,7 +83,7 @@ if ($w == "select") {
                     <script>
                         let select = document.querySelector('#selecttb');
                         select.addEventListener('change', function () {
-                            let url = 'dashboard/search/find&tbl=' + this.value;
+                            let url = '../search/find&tbl=' + this.value;
                             window.location.replace(url);
                         });
                     </script>

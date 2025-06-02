@@ -22,7 +22,7 @@ $url_path = parse_url($escaped_url, PHP_URL_PATH);
 $basename = pathinfo($url_path, PATHINFO_BASENAME);
 $extpath = pathinfo($url, PATHINFO_EXTENSION);
 $menu = '';
-$title ='';
+$title = '';
 $pages->routePages();
 if ($pages->GoPage() === true) {
     if ($initweb === $url) {
@@ -60,7 +60,6 @@ if ($pages->GoPage() === true) {
     $language = $_SESSION["language"] = $lng;
     $request = $_SERVER["REQUEST_URI"];
 
-       
     if ($viewpg === "public") {
 
         require_once "elements/top.php";
@@ -70,101 +69,104 @@ if ($pages->GoPage() === true) {
             echo decodeContent($style) . "\n";
             echo '</style>' . "\n";
         }
-        ?>
-        </head>
-        <body>
-        <div id="wrapper">
-        <div class='container-fluid min-h-screen' id="content-page">
-       <?php
-       require_once "elements/menu.php";
-       if ($typepage === 'File') {
-           include "elements/alerts.php";
+?>
+                </head>
+                <body>
+                <div id="wrapper">
+                <div class='container-fluid min-h-screen' id="content-page">
+        <?php
+        require_once "elements/menu.php";
+        if ($typepage === 'File') {
+            include "elements/alerts.php";
 
-           if ($request === $purl) {
-               require_once $pfile . ".php";
-           }
-       } else if ($typepage === 'Design') {
-           $string = decodeContent($content);
-           if (!empty($content)) {
-               $string = str_replace("<body>", "", $string);
-               $string = str_replace("</body>", "", $string);
-           }
-           echo $string . "\n";
-       }
-       require_once "elements/footer.php";
-       ?>
-         </div>
-         </div>
-         </body>
-         </html>
-   <?php
-    } 
+            if ($request === $purl) {
+                require_once $pfile . ".php";
+            }
+        } else if ($typepage === 'Design') {
+            $string = decodeContent($content);
+            if (!empty($content)) {
+                $string = str_replace("<body>", "", $string);
+                $string = str_replace("</body>", "", $string);
+            }
+            echo $string . "\n";
+        }
+        require_once "elements/footer.php";
+        ?>
+        </div>
+        </div>
+        </body>
+        </html>
+        <?php
+    }
 } else {
-$tempURL = explode('/', $_SERVER['REQUEST_URI']);
+    $tempURL = explode('/', $_SERVER['REQUEST_URI']);
     $tempBASE = $tempURL[1];
     $tempURI = $tempURL[2];
-    
+
     if ($tempBASE === "signin") {
         require_once "elements/top.php";
-  
-   ?>
-         </head>
-         <div id="wrapper">
-             <div class='container-fluid min-h-screen' id="content-page">
-       <?php  
-      require_once "elements/menu.php";
-       if ($tempURI === "login") {
-        require_once "pages/login/" . $tempURI . ".php";
-       }else if ($tempURI === "register") {
-         require_once "pages/register/" . $tempURI . ".php";  
-       }else if ($tempURI === "forgot-username") {
-         require_once "pages/forgot/" . $tempURI . ".php";  
-       }else if ($tempURI === "forgot-password") {
-         require_once "pages/forgot/" . $tempURI . ".php";  
-       }else if ($tempURI === "forgot-email") {
-         require_once "pages/forgot/" . $tempURI . ".php";  
-       }else if ($tempURI === "forgot-pin") {
-         require_once "pages/forgot/" . $tempURI . ".php";  
-       }
-       require_once 'elements/footer.php';
-       ?>
-         </div>
-         </div>
-         </body>
-         </html>
+        ?>
+        </head>
+        <div id="wrapper">
+            <div class='container-fluid min-h-screen' id="content-page">
         <?php
-    
-    }else if ($tempBASE === "admin") {
+        require_once "elements/menu.php";
+        if ($tempURI === "login") {
+            require_once "pages/login/" . $tempURI . ".php";
+        } else if ($tempURI === "register") {
+            require_once "pages/register/" . $tempURI . ".php";
+        } else if ($tempURI === "forgot-username") {
+            require_once "pages/forgot/" . $tempURI . ".php";
+        } else if ($tempURI === "forgot-password") {
+            require_once "pages/forgot/" . $tempURI . ".php";
+        } else if ($tempURI === "forgot-email") {
+            require_once "pages/forgot/" . $tempURI . ".php";
+        } else if ($tempURI === "forgot-pin") {
+            require_once "pages/forgot/" . $tempURI . ".php";
+        }
+        require_once 'elements/footer.php';
+        ?>
+        </div>
+        </div>
+        </body>
+        </html>
+        <?php
+    } else if ($tempBASE === "admin") {
 
         if ($tempURI === "dashboard") {
             include 'elements/header.php';
-            ?>
-              </head>
-              <body class="hold-transition sidebar-mini">
-              <div class="wrapper">  
-                <?php
-                if (!empty($tempURL[3])) {
-                    define('CMS', $tempURL[3]);
-                }
-                if (!empty($tempURL[4])) {
+        ?>
+                 </head>
+                 <body class="hold-transition sidebar-mini">
+                 <div class="wrapper">  
+            <?php
+            if (!empty($tempURL[3])) {
+                define('CMS', $tempURL[3]);
+            }
+            if (!empty($tempURL[4])) {
+                
+                if (is_numeric($tempURL[4])=== TRUE) {
+                    define('IDP', $tempURL[4]);
+                } else {
                     define('WS', $tempURL[4]);
                 }
-                if (!empty($tempURL[5])) {
-                    define('TBL', $tempURL[5]);
-                }
-                require_once "managers/" . $tempURI . ".php";
-                ?>
-              </div>
-              </body>
-              </html>
+            }
+            if (!empty($tempURL[5])) {
+                define('TBL', $tempURL[5]);
+            }
+            require_once "managers/" . $tempURI . ".php";
+            ?>
+                 </div>
+                 </body>
+                 </html>
             <?php
         }
 
         if ($tempURI === "builder") {
             include 'elements/top_build.php';
             ?>   
-               </head>
-            <body id="builder">  
+                  </head>
+               <body id="builder">  
             <?php
             if (!empty($tempURL[3])) {
                 define('PAG', $tempURL[3]);
@@ -174,21 +176,20 @@ $tempURL = explode('/', $_SERVER['REQUEST_URI']);
             }
             require_once "managers/" . $tempURI . ".php";
             ?>
-              
-              </body>
-              </html>
+                 
+                 </body>
+                 </html>
             <?php
         }
-        ?>
+            ?>
         <?php
     } else if ($tempBASE === "profile") {
         include 'elements/header.php';
         ?>
-        </head>
-         <body class="hold-transition sidebar-mini">
-         <div class="wrapper">  
+                </head>
+        <body class="hold-transition sidebar-mini">
+        <div class="wrapper">  
         <?php
-       
         if (!empty($tempURL[3])) {
             define('USR', $tempURL[3]);
         }
@@ -197,16 +198,16 @@ $tempURL = explode('/', $_SERVER['REQUEST_URI']);
         }
         require_once "users/" . $tempURI . ".php";
         ?>
-          </div>
-          </body>
-          </html>
+         </div>
+         </body>
+         </html>
         <?php
     } else {
         header("Location " . $pg404);
         die();
     }
-    ?>
-      
+        ?>
+          
     <?php
 }
-?>
+    ?>

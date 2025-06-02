@@ -44,7 +44,7 @@
      */
     /* If logged in user viewing own account, give link to edit */
     if (strcmp($session->username, $req_user) == 0) {
-        echo "<a href=\"dashboard/useredit\">Editar Cuenta Información</a><br /><br />";
+        echo "<a href=\"../useredit\">Editar Cuenta Información</a><br /><br />";
     }
 
     if ($session->isAdmin()) {

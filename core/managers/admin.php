@@ -16,7 +16,7 @@ function displayUsers() {
         echo "Information display error";
         return;
     }
-    if ($num_rows == 0) {
+    if ($num_rows === 0) {
         echo "Empty database table";
         return;
     }

@@ -2,12 +2,13 @@
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     extract($_POST);
 
-    if (!isset($_GET['w']) || empty($_GET['w'])) {
-        header('Location: dashboard/column_manager/select');
-        exit;
+    if (defined('WS')) {
+    $w = WS;
+    }
+    if (defined('TBL')) {
+    $tble = TBL;
     }
 
-    $w = protect($_GET['w']);
     $c = new MyCRUD();
 
     function tnmes($tbsl = '') {

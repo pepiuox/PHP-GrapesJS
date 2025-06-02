@@ -7,7 +7,7 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="dashboard/theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>                      
+                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="../theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>                      
                         <th>Theme name</th>
                         <th>Theme bootstrap</th>
                         <th>Base default</th>
@@ -22,8 +22,8 @@ if ($w == "list") {
                         while ($prow = $result->fetch_array()) {
                             echo '<tr>
                         <td><!--Button -->
-                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="dashboard/theme_template&amp;w=edit&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
-                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="dashboard/theme_template&amp;w=delete&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
+                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="../theme_template&amp;w=edit&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
+                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="../theme_template&amp;w=delete&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
                         </td>                        
                         <td>' . $prow['theme_name'] . '</td>
                             <td>' . $prow['theme_bootstrap'] . '</td>
@@ -167,7 +167,7 @@ if ($w == "list") {
 
                 echo "<script>
 window.onload = function() {
-    location.href = 'dashboard/table_crud/list&tbl=themes';
+    location.href = '../table_crud/list&tbl=themes';
 }
 </script>";
             } else {

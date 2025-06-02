@@ -130,7 +130,7 @@ if (isset($_POST['Update'])) {
         }
     } else {
         $_SESSION['ErrorMessage'] = "Updated settings : Error.";
-        header("Location: dashboard/siteconf");
+        header("Location: ../siteconf");
         exit;
     }
 }

@@ -1,16 +1,7 @@
 <?php
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
-    /*
-      $p = new Protect();
-      $w = '';
-      if (isset($_GET['w']) && !empty($_GET['w'])) {
-      $w = $p->secureStr($_GET['w']);
-      }else{
-      header('Location: dashboard/list_pages/list');
-      exit;
-      }
-     */
-    if ($cms == "list_pages") {
+
+    if ($cms === "list_pages") {
 ?>
         <div class='container-fluid'>
         <div class="row">
@@ -46,11 +37,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</td><td>' . "\n";
                 vwaction($prow['active']);
                 echo '</td><td>' . "\n";
-                echo '<a href="dashboard/edit_page/' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
+                echo '<a href="edit_page/' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
                 echo '</td><td>' . "\n";
                 echo '<a href="../builder/pages/' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
                 echo '</td><td>' . "\n";
-                echo '<a href="dashboard/delete_page/' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+                echo '<a href="delete_page/' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
                 echo '</td></tr>';
             }
         } else {
@@ -65,7 +56,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </div>
         </div>
         <?php
-    } elseif ($cms == "add_page") {
+    } elseif ($cms === "add_page") {
         if (isset($_POST['submit'])) {
             $file_name = '';
             if (!empty($_FILES['image']['name'])) {
@@ -148,7 +139,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
 // Insert info in table PAGE 
             $sql = "INSERT INTO pages (title, link, keyword, classification, description, image, startpage, parent, active) "
-                . "VALUES (?,?,?,?,?,?,?,?,?)";
+                    . "VALUES (?,?,?,?,?,?,?,?,?)";
             $updp = $conn->prepare($sql);
             $updp->bind_param("ssssssiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active);
             $updp->execute();
@@ -159,7 +150,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
 // Insert info in table MENU
                 $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) "
-                    . "VALUES (?, ?, ?, ?)";
+                        . "VALUES (?, ?, ?, ?)";
                 $updpm = $conn->prepare($sqlm);
                 $updpm->bind_param("issi", $last_id, $title, $link, $parent);
                 $updpm->execute();
@@ -282,9 +273,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </script>
 
         <?php
-    } elseif ($cms == "edit_page") {
-        if (!empty($_GET['id'])) {
-            $id = $_GET['id'];
+    } elseif ($cms === "edit_page") {
+        
+        if (is_numeric($id) === TRUE) {
+            
             if (isset($_POST['submit'])) {
                 if (!empty($_FILES['image']['name'])) {
                     $errors = array();
@@ -400,13 +392,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 // echo '<meta http-equiv="refresh" content="5; url=builder.php?id=' . $id . '" />';
             }
         ?>
-            <div class="container"> 
-            <div class="row">
-            <div class="card py-3">
-            <div class="card-body">
+                    <div class="container"> 
+                    <div class="row">
+                    <div class="card py-3">
+                    <div class="card-body">
             <?php
-            if (isset($_GET['id']) && !empty($_GET['id'])) {
-                $id = $_GET['id'];
+            if (isset($id) && !empty($id)) {
+                
                 $qlv2 = $conn->prepare("SELECT * FROM pages WHERE id = ?");
                 $qlv2->bind_param("i", $id);
                 $qlv2->execute();
@@ -449,7 +441,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
   </div>
   </div>' . "\n";
 
-                    enum_values('page', 'type', $row['type']);
+                    enum_values('pages', 'type', $row['type']);
 
                     echo '<div class="form-group">
 				<label for="menu" class ="control-label col-sm-3">Menu:</label> 
@@ -500,24 +492,24 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 }
             }
             ?>
-            </div>
-            </div>
-            </div>
-            </div>
-            <script>
-            document.getElementById("title").addEventListener("keyup", mkeyup);
-            function mkeyup() {
-            let ttl = document.getElementById("title").value;
-            ttl = ttl.toLowerCase();
-            ttl = ttl.replace(/ /g, "-");
-            document.getElementById("link").value = ttl;
-            }
-            </script>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    <script>
+                    document.getElementById("title").addEventListener("keyup", mkeyup);
+                    function mkeyup() {
+                    let ttl = document.getElementById("title").value;
+                    ttl = ttl.toLowerCase();
+                    ttl = ttl.replace(/ /g, "-");
+                    document.getElementById("link").value = ttl;
+                    }
+                    </script>
 
             <?php
         } else {
-            header('Location: dashboard/list_pages');
-            exit;
+            
+            echo '<meta http-equiv="refresh" content="0;url=../list_pages">';
         }
     } elseif ($cms == "delete_page") {
 
@@ -529,7 +521,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</div>';
                 echo "<script>
 window.setTimeout(function() {
-window.location.href = 'dashboard/list_pages';
+window.location.href = '../list_pages';
 }, 3000);
 </script>";
             } else {
@@ -562,7 +554,8 @@ window.location.href = 'dashboard/list_pages';
         </div>
         <?php
     } else {
-        header('Location: dashboard/list_pages');
+        header('Location: ../list_pages');
+        exit();
     }
 }
         ?>
