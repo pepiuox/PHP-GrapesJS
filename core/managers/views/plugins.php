@@ -61,6 +61,7 @@ if ($w == "list") {
                 . "VALUES ('$plugins', '$plugins_opts', '$script', '$css', '$buttons', '$plugins_script', '$plugins_css')";
         if ($conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly';
+            echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/plugins/list">' . "\n";
             header('Location: ../plugins/list');
             exit;
         } else {

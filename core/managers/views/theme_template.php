@@ -1,5 +1,5 @@
 <?php
-
+if ($login->isLoggedIn() === true && $level->levels() === 9) {
 if ($w == "list") {
     ?>
     <div class="container">
@@ -7,7 +7,7 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="../theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>                      
+                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="../theme_template/add/themes">Add <i class="fa fa-plus-square"></i></a></th>                      
                         <th>Theme name</th>
                         <th>Theme bootstrap</th>
                         <th>Base default</th>
@@ -22,8 +22,8 @@ if ($w == "list") {
                         while ($prow = $result->fetch_array()) {
                             echo '<tr>
                         <td><!--Button -->
-                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="../theme_template&amp;w=edit&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
-                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="../theme_template&amp;w=delete&amp;tbl=theme_template&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
+                            <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="../theme_template/edit/theme_template/' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
+                            <a id="deleterow" name="deleterow" title="Delete" class="btn btn-danger" href="../theme_template/delete/theme_template/' . $prow['theme_id'] . '"><i class="fas fa-trash-alt"></i></a>
                         </td>                        
                         <td>' . $prow['theme_name'] . '</td>
                             <td>' . $prow['theme_bootstrap'] . '</td>
@@ -137,8 +137,10 @@ if ($w == "list") {
     </div>
     <?php
 } elseif ($w == "edit") {
-    if (isset($_GET["id"])) {
-        $id = $_GET["id"];
+    if (isset($id) && !empty($id)) {
+        
+if(is_numeric($id)=== TRUE){
+    
 
         $log_directory = '../themes';
         $results_array = array();
@@ -164,12 +166,8 @@ if ($w == "list") {
             $query = "UPDATE themes SET theme_name = '$theme_name', theme_bootstrap = '$theme_bootstrap', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
             if ($conn->query($query) === TRUE) {
                 $_SESSION["success"] = "The data was updated correctly.";
-
-                echo "<script>
-window.onload = function() {
-    location.href = '../table_crud/list&tbl=themes';
-}
-</script>";
+ echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/theme_template/list">' . "\n";
+                
             } else {
                 $_SESSION["error"] = "Error updating data: " . $conn->error;
             }
@@ -214,11 +212,13 @@ window.onload = function() {
                 </form>
             </div>
         </div>
-
-
         <?php
+        }
+    }else{
+        echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/theme_template/list">' . "\n";
     }
 } elseif ($w == "delete") {
     
+}
 }
 ?>

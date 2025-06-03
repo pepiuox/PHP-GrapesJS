@@ -1,5 +1,5 @@
 <?php
-
+if ($login->isLoggedIn() === true && $level->levels() === 9) {
 if ($w == "list") {
     ?>
     <div class="container">
@@ -140,11 +140,7 @@ window.onload = function() {
                                     echo "FAILURE!!! " . $stmt->error;
                                 } else {
                                     echo "The data was updated correctly.";
-                                    echo "<script>
-window.onload = function() {
-    location.href = '../themes/options&id=" . $id . "';
-}
-</script>";
+                                    echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                 }
                             }
                             $sql = "SELECT * FROM theme_palette WHERE idtp=?";
@@ -332,12 +328,8 @@ window.onload = function() {
                                 $query = "UPDATE `theme_headings_font` SET family = '$family', weight = '$weight', line_weight = '$line_weight' WHERE idthf='$id' ";
                                 if ($conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
-
-                                    echo "<script>
-window.onload = function() {
-    location.href = '../themes/options&id=" . $id . "';
-}
-</script>";
+echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
+                                    
                                 } else {
                                     echo "Error updating data: " . $conn->error;
                                 }
@@ -379,11 +371,7 @@ window.onload = function() {
                                 if ($conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 
-                                    echo "<script>
-window.onload = function() {
-    location.href = '../themes/options&id=" . $id . "';
-}
-</script>";
+                                    echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                 } else {
                                     echo "Error updating data: " . $conn->error;
                                 }
@@ -431,10 +419,10 @@ window.onload = function() {
                                 $query = "UPDATE `theme_base_colors` SET body_color = '$body_color', text_color = '$text_color', links_color = '$links_color' WHERE idtbc='$id'";
                                 if ($conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
-
+echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                     echo "<script>
 window.onload = function() {
-    location.href = '../themes/options&id=" . $id . "';
+    location.href = ''.SITE_PATH.'/themes/options&id=" . $id . "';
 }
 </script>";
                                 } else {
@@ -485,4 +473,5 @@ window.onload = function() {
             </div>
         </div>
     </div>
-<?php } ?>
+<?php } 
+} ?>

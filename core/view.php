@@ -152,7 +152,14 @@ if ($pages->GoPage() === true) {
                 }
             }
             if (!empty($tempURL[5])) {
-                define('TBL', $tempURL[5]);
+                if (is_numeric($tempURL[5])=== TRUE) {
+                    define('IDP', $tempURL[5]);
+                } else {
+                    define('TBL', $tempURL[5]);
+                }              
+            }
+            if (!empty($tempURL[6])) {
+                define('IDP', $tempURL[6]);
             }
             require_once "managers/" . $tempURI . ".php";
             ?>

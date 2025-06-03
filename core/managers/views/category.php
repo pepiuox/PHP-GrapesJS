@@ -1,12 +1,4 @@
 <?php
-if (isset($_GET['w']) && !empty($_GET['w'])) {
-    $w = protect($_GET['w']);
-}
-$id = '';
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = protect($_GET['id']);
-}
-
 if ($w == "list") {
     ?>
     <div class="container">

@@ -27,6 +27,10 @@ $id = '';
 if (defined('IDP')) {
     $id = IDP;
 }
+$tble = '';
+if (defined('TBL')) {
+    $tble = TBL;
+}
 $vpages = $vp->vPages($cms);
 
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
