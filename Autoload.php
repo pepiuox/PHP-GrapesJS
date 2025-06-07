@@ -4,7 +4,7 @@ class Autoload {
 
     static public function loader($classes) {
 
-        $filename = "src/core/" . str_replace("\\", '/', $classes) . ".php";
+        $filename = "core/" . str_replace("\\", '/', $classes) . ".php";
         if (file_exists($filename)) {
             include($filename);
             if (class_exists($classes)) {

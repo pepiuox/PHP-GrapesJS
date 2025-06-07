@@ -36,14 +36,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/themes/list" class="nav-link <?php
-                        if ($cms === 'themes') {
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/siteconf" class="nav-link <?php
+                        if ($cms === 'siteconf') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Site Definitions                  
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/files" class="nav-link <?php
+                        if ($cms === 'files') {
                             echo 'active';
                         }
                         ?>">                            
-                            <i class="nav-icon fas fa-solid fa-draw-polygon"></i>
+                            <i class="nav-icon fa-regular fa-file"></i>          
                             <p>
-                                Themes                  
+                                Files                  
                             </p>
                         </a>
                     </li>
@@ -163,7 +175,7 @@
                                 $plink = $page['link'];
                                 $ptitle = $page['title'];
                                 $pparent = $page['parent'];
-                                echo'<li class="nav-item">';
+                                echo'<li class="nav-item">'."\n";
                                 if ($pparent > 0) {
                                     $parent = $conn->query("SELECT * FROM pages where id=$pparent");
                                     $pagep = $parent->fetch_assoc();
@@ -175,11 +187,11 @@
                                 if ($fname === $plink) {
                                     echo 'active';
                                 }
-                                echo '">';
-                                echo '<p>' . $ptitle . '</p>';
+                                echo '">'."\n";
+                                echo '<p>' . $ptitle . '</p>'."\n";
                                 echo '<i class="far fa-circle nav-icon"></i>';
-                                echo '</a>';
-                                echo '</li>';
+                                echo '</a>'."\n";
+                                echo '</li>'."\n";
                             }
                             ?>
                         </ul>

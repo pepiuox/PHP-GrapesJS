@@ -31,6 +31,8 @@ class DashboardRoutes {
             $view = 'views/settings.php';
         } elseif ($cms === 'themes') {
             $view = 'views/themes.php';
+        } elseif ($cms === 'files') {
+            $view = 'views/files.php';
         } elseif ($cms === 'theme_template') {
             $view = 'views/theme_template.php';
         } elseif ($cms === 'menu') {
@@ -83,6 +85,8 @@ class DashboardRoutes {
             $vpages = 'Site Definitions';
         } elseif ($cms === 'themes') {
             $vpages = 'Themes';
+        } elseif ($cms === 'files') {
+            $vpages = 'Files';
         } elseif ($cms === 'theme_template') {
             $vpages = 'Theme Template';
         } elseif ($cms === 'menu') {

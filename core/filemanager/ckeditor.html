@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <!-- jQuery and jQuery UI (REQUIRED) -->
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+    <!-- elFinder CSS (REQUIRED) -->
+    <link rel="stylesheet" type="text/css" href="../2.1/css/elfinder.min.css">
+    <link rel="stylesheet" type="text/css" href="../2.1/css/theme.css">
+
+    <!-- elFinder JS (REQUIRED) -->
+    <script src="./js/elfinder.min.js"></script>
+
+    <!-- CKEditor JS (REQUIRED) -->
+    <script src="//cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        (function(){
+        var elfNode, elfInsrance, dialogName,
+            elfUrl        = './php/connector.minimal.php', // Your connector's URL
+            elfDirHashMap = { // Dialog name / elFinder holder hash Map
+                image : 'imagenes', // example for 1st LocalFileVolume "/images"
+                flash : '',
+                files : '',
+                link  : ''
+            };
+            var getLang = function() {
+                try {
+                    var full_lng;
+                    var loct = window.location.search;
+                    var locm;
+                    if (loct && (locm = loct.match(/lang=([a-zA-Z_-]+)/))) {
+                        full_lng = locm[1];
+                    } else {
+                        full_lng = (navigator.browserLanguage || navigator.language || navigator.userLanguage);
+                    }
+                    var lng = full_lng.substr(0,2);
+                    if (lng == 'ja') lng = 'jp';
+                    else if (lng == 'pt') lng = 'pt_BR';
+                    else if (lng == 'zh') lng = (full_lng.substr(0,5) == 'zh-tw')? 'zh_TW' : 'zh_CN';
+
+                    if (lng != 'en') {
+                        var script_tag      = document.createElement("script");
+                        script_tag.type     = "text/javascript";
+                        script_tag.src      = "./js/i18n/elfinder."+lng+".js";
+                        script_tag.charset = "utf-8";
+                        $("head").append(script_tag);
+                    }
+
+                    return lng;
+                } catch(e) {
+                    return 'en';
+                }
+            };
+
+        CKEDITOR.on('dialogDefinition', function (event) { // connection manager
+            var editor = event.editor;
+            var dialogDefinition = event.data.definition;
+            var tabCount = dialogDefinition.contents.length;
+            for (var i = 0; i < tabCount; i++) { // cycle to replace the click of button "View on the server"
+                var browseButton = dialogDefinition.contents[i].get('browse');
+
+                if (browseButton !== null) {
+                    browseButton.hidden = false;
+                    browseButton.onClick = function (dialog, i) {
+
+                        dialogName = CKEDITOR.dialog.getCurrent()._.name;
+                        if (elfNode) {
+                            if (elfDirHashMap[dialogName] && elfDirHashMap[dialogName] != elfInsrance.cwd().hash) {
+                                elfInsrance.request({
+                                    data   : {cmd  : 'open', target : elfDirHashMap[dialogName]},
+                                    notify : {type : 'open', cnt : 1, hideCnt : true},
+                                    syncOnFail : true
+                                });
+                            }
+                            elfNode.dialog('open');
+                        } else {
+                            elfNode = $('<div \>');
+                            elfNode.dialog({
+                                modal: true,
+                                width: '80%',
+                                title: 'Server File Manager',
+                                create: function (event, ui) {
+                                    var startPathHash = (elfDirHashMap[dialogName] && elfDirHashMap[dialogName])? elfDirHashMap[dialogName] : '';
+                                                                        // elFinder configure
+                                    elfInsrance = $(this).elfinder({
+                                        startPathHash: startPathHash,
+                                        useBrowserHistory: false,
+                                        resizable: false,
+                                        width: '100%',
+                                        url: elfUrl,
+                                        lang: getLang(),
+                                        getFileCallback: function (file) {
+                                            var url = file.url;
+                                            var dialog = CKEDITOR.dialog.getCurrent();
+                                            if (dialogName == 'image') {
+                                                var urlObj = 'txtUrl'
+                                            } else if (dialogName == 'flash') {
+                                                var urlObj = 'src'
+                                            } else if (dialogName == 'files' || dialogName == 'link') {
+                                                var urlObj = 'url'
+                                            } else {
+                                                return;
+                                            }
+                                            dialog.setValueOf(dialog._.currentTabId, urlObj, url);
+                                            elfNode.dialog('close');
+                                            elfInsrance.disable();
+                                        }
+                                    }).elfinder('instance');
+                                },
+                                open: function() {
+                                    elfNode.find('div.elfinder-toolbar input').blur();
+                                    setTimeout(function(){
+                                        elfInsrance.enable();
+                                    }, 100);
+                                },
+                                resizeStop: function() {
+                                    elfNode.trigger('resize');
+                                }
+                            }).parent().css({'zIndex':'11000'});
+                        }
+
+                    } 
+                } 
+
+            } 
+        });
+        })();
+    </script>
+</head>
+<body>
+    <h1>CKEditor + elFinder Integration (jQuery dialog version)</h1>
+    <form method="post">
+        <textarea id="mytextarea"></textarea>
+    </form>
+    <script>
+        CKEDITOR.replace('mytextarea', {
+            filebrowserBrowseUrl: '#'
+        });
+    </script>
+</body>
+</html>
