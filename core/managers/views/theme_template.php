@@ -1,6 +1,21 @@
 <?php
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
+    
+      $log_directory = URL.'/build/themes';
+        $results_array = array();
+
+        if (is_dir($log_directory)) {
+            if ($handle = opendir($log_directory)) {
+                //Notice the parentheses I added:
+                while (($file = readdir($handle)) !== FALSE) {
+                    $results_array[] = $file;
+                }
+                closedir($handle);
+            }
+        }
+              
 if ($w == "list") {
+       
     ?>
     <div class="container">
         <div class="row pt-3">
@@ -39,19 +54,6 @@ if ($w == "list") {
     </div>
     <?php
 } elseif ($w == "add") {
-
-    $log_directory = '../themes';
-    $results_array = array();
-
-    if (is_dir($log_directory)) {
-        if ($handle = opendir($log_directory)) {
-            //Notice the parentheses I added:
-            while (($file = readdir($handle)) !== FALSE) {
-                $results_array[] = $file;
-            }
-            closedir($handle);
-        }
-    }
 
     if (isset($_POST['addtheme'])) {
         $idtheme = uniqid(rand(), false);
@@ -125,8 +127,8 @@ if ($w == "list") {
                 <div class="form-group">
                     <label for="active_theme">Active theme:</label>
                     <select type="text" class="form-select" id="active_theme" name="active_theme" >
-                        <option value="Yes">Yes</option>
                         <option value="No">No</option>
+                        <option value="Yes">Yes</option>                    
                     </select>
                 </div>
                 <div class="form-group">
@@ -141,20 +143,6 @@ if ($w == "list") {
         
 if(is_numeric($id)=== TRUE){
     
-
-        $log_directory = '../themes';
-        $results_array = array();
-
-        if (is_dir($log_directory)) {
-            if ($handle = opendir($log_directory)) {
-                //Notice the parentheses I added:
-                while (($file = readdir($handle)) !== FALSE) {
-                    $results_array[] = $file;
-                }
-                closedir($handle);
-            }
-        }
-
 //This is temporal file only for add new row
         if (isset($_POST['editrow'])) {
 

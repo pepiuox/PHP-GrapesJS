@@ -8,9 +8,10 @@
 
 $check = new CheckValidUser();
 $login = new UsersClass();
+$visitors = new Visitors();
 $level = new AccessLevel();
 $vp = new DashboardRoutes();
-$visitors = new Visitors();
+
 $cms = '';
 if (defined('CMS')) {
     $cms = CMS;

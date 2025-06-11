@@ -165,7 +165,7 @@ class UsersClass {
 
 // verify if PIN is numeric
                     if (
-                            is_numeric($_POST["PIN"]) &&
+                            is_numeric($_POST["PIN"]) === TRUE &&
                             strlen($_POST["PIN"]) === 6
                     ) {
                         $userpsw = $this->gc->procheck($_POST["password"]);

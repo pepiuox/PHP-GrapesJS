@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `counter` (
 
 -- Dumping data for table phpgrapesjs.counter: ~0 rows (approximately)
 INSERT INTO `counter` (`counter`) VALUES
-	(63);
+	(64);
 
 -- Dumping structure for table phpgrapesjs.deleted_users
 DROP TABLE IF EXISTS `deleted_users`;
@@ -2465,7 +2465,7 @@ CREATE TABLE IF NOT EXISTS `pageviews` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table phpgrapesjs.pageviews: ~131 rows (approximately)
+-- Dumping data for table phpgrapesjs.pageviews: ~130 rows (approximately)
 INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(1, 'Inicio', '127.0.0.1', '2024-09-06 06:40:35'),
 	(2, '404', '127.0.0.1', '2024-09-06 06:40:36'),
@@ -2597,7 +2597,11 @@ INSERT INTO `pageviews` (`id`, `page`, `ip`, `date_view`) VALUES
 	(128, 'Inicio', '127.0.0.1', '2025-06-06 23:25:45'),
 	(129, 'Contacto', '127.0.0.1', '2025-06-06 23:25:52'),
 	(130, 'Promociones', '127.0.0.1', '2025-06-07 03:30:38'),
-	(131, 'Inicio', '127.0.0.1', '2025-06-07 16:55:59');
+	(131, 'Inicio', '127.0.0.1', '2025-06-07 16:55:59'),
+	(132, 'Inicio', '127.0.0.1', '2025-06-09 03:02:14'),
+	(133, 'Inicio', '127.0.0.1', '2025-06-10 15:38:35'),
+	(134, 'Contacto', '127.0.0.1', '2025-06-10 17:20:23'),
+	(135, 'Promociones', '127.0.0.1', '2025-06-10 20:16:54');
 
 -- Dumping structure for table phpgrapesjs.page_menu
 DROP TABLE IF EXISTS `page_menu`;
@@ -3267,7 +3271,7 @@ CREATE TABLE IF NOT EXISTS `themes` (
 
 -- Dumping data for table phpgrapesjs.themes: ~0 rows (approximately)
 INSERT INTO `themes` (`theme_id`, `theme_name`, `theme_bootstrap`, `base_default`, `active_theme`) VALUES
-	(1, 'theme color', 'Select theme bootstrap', 'Yes', 'Yes');
+	(1, 'theme color', 'cerulean', 'Yes', 'Yes');
 
 -- Dumping structure for table phpgrapesjs.theme_base_colors
 DROP TABLE IF EXISTS `theme_base_colors`;
@@ -3419,7 +3423,7 @@ INSERT INTO `total_visitors` (`id`, `session`, `time`) VALUES
 	(5, 'amtrNGpkMWo2VitFQUtHaTNZeWFOQT09', '2024-04-14 13:33:35'),
 	(6, 'UHp6aTI1UXVOczlpTUd6TjY5UDN3QT09', '2025-01-22 06:29:32'),
 	(7, 'cnM4dVlWYXUxQlV3UUFYYzlZL0dhUT09', '2025-03-29 09:35:47'),
-	(8, 'NzNyU1dCbGpQK2ZtOEZrc0NNRUh6Zz09', '2025-06-08 00:48:09'),
+	(8, 'NzNyU1dCbGpQK2ZtOEZrc0NNRUh6Zz09', '2025-06-11 04:18:09'),
 	(9, 'L1E4aFVnK3BpUnQxWU0yYnhrd2x0QT09', '2025-04-08 14:00:08');
 
 -- Dumping structure for table phpgrapesjs.type_actions
@@ -3491,7 +3495,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Dumping data for table phpgrapesjs.users: ~1 rows (approximately)
 INSERT INTO `users` (`idUser`, `usercode`, `username`, `email`, `password`, `usr_type`, `verified`, `status`, `ip`, `signup_time`, `email_verified`, `document_verified`, `mobile_verified`, `mkpin`, `create_user`, `update_user`, `deleted_user`, `last_login`) VALUES
-	('1865e41075ebaa4aac3f6ef820027f5dcd60e8fe3ba497fd333ab8dacb2e2405', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', 'Y3lWZVE1d2RSTitUTHAvQTRoK3JnZz09', 'K0xKWGhGVnJJdUt5NG5HUDJKOS9iWk50SGtzOFRyekRYYThxRXFVMnU4Yz0=', 'SUNrbmJsdGlteUpkQWhYcjBNanIrbEhjR21ML2Vqd0NDWnJJSnp1WHdjbz0=', 'guest', 0, 0, '127.0.0.1', '2025-03-29 10:29:37', '51a5e3e5418a30a29896154f289727ebb09ddd54e5fdefcf8ccbe1b8d97b8c1f', 0, 0, 'TFFJL1QvaTNtRFQwWnByVzlNRTJqUT09', '2025-03-29 04:29:37', '2025-03-29 04:29:37', '2025-03-29 04:29:37', '2025-03-29 04:29:37');
+	('829ca08e83fc9c4951366578317c446e93b7f848b1732ef87d6f8e99eeb22404', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', 'Y3lWZVE1d2RSTitUTHAvQTRoK3JnZz09', 'K0xKWGhGVnJJdUt5NG5HUDJKOS9iWk50SGtzOFRyekRYYThxRXFVMnU4Yz0=', 'SUNrbmJsdGlteUpkQWhYcjBNanIrbEhjR21ML2Vqd0NDWnJJSnp1WHdjbz0=', 'guest', 0, 0, '127.0.0.1', '2025-03-29 10:29:37', '51a5e3e5418a30a29896154f289727ebb09ddd54e5fdefcf8ccbe1b8d97b8c1f', 0, 0, 'TFFJL1QvaTNtRFQwWnByVzlNRTJqUT09', '2025-03-29 04:29:37', '2025-03-29 04:29:37', '2025-03-29 04:29:37', '2025-03-29 04:29:37');
 
 -- Dumping structure for table phpgrapesjs.users_actions
 DROP TABLE IF EXISTS `users_actions`;
@@ -3715,7 +3719,7 @@ CREATE TABLE IF NOT EXISTS `users_info` (
 
 -- Dumping data for table phpgrapesjs.users_info: ~1 rows (approximately)
 INSERT INTO `users_info` (`userid`, `usercode`, `firstname`, `lastname`, `gender`, `age`, `birthday`, `phone`, `country`, `state`, `city`, `address1`, `address2`, `is_active`, `created`, `updated`) VALUES
-	('1865e41075ebaa4aac3f6ef820027f5dcd60e8fe3ba497fd333ab8dacb2e2405', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, 'Perú', NULL, NULL, NULL, NULL, 0, '2025-03-29 04:29:37', '2025-03-29 04:29:37');
+	('829ca08e83fc9c4951366578317c446e93b7f848b1732ef87d6f8e99eeb22404', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', 'Jose', 'Mantilla', NULL, NULL, NULL, NULL, 'Perú', NULL, NULL, NULL, NULL, 0, '2025-03-29 04:29:37', '2025-03-29 04:29:37');
 
 -- Dumping structure for table phpgrapesjs.users_jail
 DROP TABLE IF EXISTS `users_jail`;
@@ -3871,7 +3875,7 @@ CREATE TABLE IF NOT EXISTS `users_privacy` (
 
 -- Dumping data for table phpgrapesjs.users_privacy: ~1 rows (approximately)
 INSERT INTO `users_privacy` (`idUsr`, `usercode`, `verification`, `nationality`, `type_document`, `number_document`, `name_company`, `ruc_number`, `logo_image`, `required`, `created`, `updated`) VALUES
-	('1865e41075ebaa4aac3f6ef820027f5dcd60e8fe3ba497fd333ab8dacb2e2405', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-03-29 04:29:37', '2025-03-29 04:29:37');
+	('829ca08e83fc9c4951366578317c446e93b7f848b1732ef87d6f8e99eeb22404', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-03-29 04:29:37', '2025-03-29 04:29:37');
 
 -- Dumping structure for table phpgrapesjs.users_profiles
 DROP TABLE IF EXISTS `users_profiles`;
@@ -3905,7 +3909,7 @@ CREATE TABLE IF NOT EXISTS `users_profiles` (
 
 -- Dumping data for table phpgrapesjs.users_profiles: ~1 rows (approximately)
 INSERT INTO `users_profiles` (`idp`, `usercode`, `usrtypes`, `mkhash`, `avatar`, `profile_image`, `profile_cover`, `public_phone`, `public_email`, `social_media`, `profession`, `occupation`, `profile_bio`, `language`, `is_active`, `banned`, `created`, `updated`) VALUES
-	('1865e41075ebaa4aac3f6ef820027f5dcd60e8fe3ba497fd333ab8dacb2e2405', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', NULL, '47414e72784e6e5048616364744933796a6b6651514e355a4962694e76626548', NULL, NULL, NULL, NULL, NULL, 'Yes', NULL, NULL, NULL, NULL, 0, 1, '2025-03-29 04:29:37', '2025-06-07 17:39:50');
+	('829ca08e83fc9c4951366578317c446e93b7f848b1732ef87d6f8e99eeb22404', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', NULL, '797542716a41777a7152474957787a36457638686245476b39443871636d5670', NULL, NULL, NULL, NULL, NULL, 'Yes', NULL, NULL, NULL, NULL, 0, 1, '2025-03-29 04:29:37', '2025-06-10 17:44:40');
 
 -- Dumping structure for table phpgrapesjs.users_rating
 DROP TABLE IF EXISTS `users_rating`;
@@ -4040,7 +4044,7 @@ CREATE TABLE IF NOT EXISTS `users_secures` (
 
 -- Dumping data for table phpgrapesjs.users_secures: ~1 rows (approximately)
 INSERT INTO `users_secures` (`idUsr`, `usercode`, `type_user`, `type_plan`, `type_document`, `id_document`, `name_company`, `ruc_number`, `business_sector`, `phone`, `mobile_phone`, `address`, `location`, `folder_files`, `validation`, `activation_code`, `is_active`, `required`, `created`, `updated`) VALUES
-	('1865e41075ebaa4aac3f6ef820027f5dcd60e8fe3ba497fd333ab8dacb2e2405', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2025-03-29 04:29:37', '2025-03-29 04:29:37');
+	('829ca08e83fc9c4951366578317c446e93b7f848b1732ef87d6f8e99eeb22404', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2025-03-29 04:29:37', '2025-03-29 04:29:37');
 
 -- Dumping structure for table phpgrapesjs.users_settings
 DROP TABLE IF EXISTS `users_settings`;
@@ -4168,7 +4172,7 @@ CREATE TABLE IF NOT EXISTS `uverify` (
 
 -- Dumping data for table phpgrapesjs.uverify: ~1 rows (approximately)
 INSERT INTO `uverify` (`iduv`, `usercode`, `username`, `email`, `password`, `usr_type`, `mktoken`, `mkkey`, `mkhash`, `mkpin`, `level`, `level_key`, `recovery_phrase`, `activation_code`, `password_key`, `pin_key`, `rp_active`, `is_activated`, `verified`, `banned`, `timestamp`) VALUES
-	('1865e41075ebaa4aac3f6ef820027f5dcd60e8fe3ba497fd333ab8dacb2e2405', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', 'QURJYXVuWFdXU3NmeFZYWVRWQkVpQT09', 'b1FTN3FEUkdremNoV3YraUtmM3pBZ2drUkhyZUJhQWFCS2VQZjBBMjQ2Yz0=', 'SUNrbmJsdGlteUpkQWhYcjBNanIrbEhjR21ML2Vqd0NDWnJJSnp1WHdjbz0=', '', 'EXeRyaFpzoF8afPwb7UZ2bcr7YUO1Bcdp4Pu1Z19l3Zq663WyZFoisixBn5Pf1l6', '4kcGoEjeW1XBeIeBJ70ApasJJRzDKOVnPOVBBJOcZcVj8EZ9QdKn19ut7zLQesef', '47414e72784e6e5048616364744933796a6b6651514e355a4962694e76626548', 'TFFJL1QvaTNtRFQwWnByVzlNRTJqUT09', 'Super Admin', 'NRmtGSK1fSOyhe%Vpf%rsapKVnTm|NC[V0Co7w4w]TCHk$9KYm3DCGzhliHVl[og', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2025-06-07 17:39:50');
+	('829ca08e83fc9c4951366578317c446e93b7f848b1732ef87d6f8e99eeb22404', 'z32p@wsH5OG7IFBhl1B6j7u4%R%UCYm2LZByyK1j9c&11}hFlxs}SJ0573833557', 'QURJYXVuWFdXU3NmeFZYWVRWQkVpQT09', 'b1FTN3FEUkdremNoV3YraUtmM3pBZ2drUkhyZUJhQWFCS2VQZjBBMjQ2Yz0=', 'SUNrbmJsdGlteUpkQWhYcjBNanIrbEhjR21ML2Vqd0NDWnJJSnp1WHdjbz0=', '', 'EXeRyaFpzoF8afPwb7UZ2bcr7YUO1Bcdp4Pu1Z19l3Zq663WyZFoisixBn5Pf1l6', '4kcGoEjeW1XBeIeBJ70ApasJJRzDKOVnPOVBBJOcZcVj8EZ9QdKn19ut7zLQesef', '797542716a41777a7152474957787a36457638686245476b39443871636d5670', 'TFFJL1QvaTNtRFQwWnByVzlNRTJqUT09', 'Super Admin', 'NRmtGSK1fSOyhe%Vpf%rsapKVnTm|NC[V0Co7w4w]TCHk$9KYm3DCGzhliHVl[og', NULL, NULL, NULL, NULL, 0, 1, 1, 0, '2025-06-10 17:44:40');
 
 -- Dumping structure for table phpgrapesjs.view_log
 DROP TABLE IF EXISTS `view_log`;
@@ -4192,7 +4196,7 @@ CREATE TABLE IF NOT EXISTS `visitor` (
   `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
--- Dumping data for table phpgrapesjs.visitor: ~15 rows (approximately)
+-- Dumping data for table phpgrapesjs.visitor: ~16 rows (approximately)
 INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2025-03-27 08:00:56', '2025-03-27 14:03:35'),
 	('127.0.0.1', '2025-03-29 02:18:27', '2025-03-30 02:00:18'),
@@ -4208,7 +4212,8 @@ INSERT INTO `visitor` (`ip`, `timestamp`, `updated`) VALUES
 	('127.0.0.1', '2025-04-30 03:24:47', '2025-04-30 12:01:26'),
 	('127.0.0.1', '2025-05-26 02:28:29', '2025-05-26 09:37:44'),
 	('127.0.0.1', '2025-05-30 06:31:12', '2025-06-03 10:00:27'),
-	('127.0.0.1', '2025-06-04 03:46:23', '2025-06-08 00:48:09');
+	('127.0.0.1', '2025-06-04 03:46:23', '2025-06-08 02:25:12'),
+	('127.0.0.1', '2025-06-09 02:55:59', '2025-06-11 04:18:09');
 
 -- Dumping structure for table phpgrapesjs.visitor_productos
 DROP TABLE IF EXISTS `visitor_productos`;

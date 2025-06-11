@@ -5,9 +5,11 @@
 //  Author  : PePiuoX
 //  Email: contact@pepiuox.net
 //
-$login = new UsersClass();
 $check = new CheckValidUser();
+$login = new UsersClass();
+$visitors = new Visitors();
 $level = new AccessLevel();
+$vp = new DashboardRoutes();
 
 $cms = '';
 if (defined('CMS')) {

@@ -22,19 +22,7 @@
                             <i class="far fa-circle nav-icon"></i>
                             <p>Dashboard</p>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/siteconf" class="nav-link <?php
-                        if ($cms === 'siteconf') {
-                            echo 'active';
-                        }
-                        ?>">
-                            <i class="nav-icon fas fa-cogs"></i>
-                            <p>
-                                Site Definitions                  
-                            </p>
-                        </a>
-                    </li>
+                    </li>                 
                     <li class="nav-item">
                         <a href="<?php echo SITE_PATH; ?>admin/dashboard/siteconf" class="nav-link <?php
                         if ($cms === 'siteconf') {
@@ -56,6 +44,18 @@
                             <i class="nav-icon fa-regular fa-file"></i>          
                             <p>
                                 Files                  
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/themes/list" class="nav-link <?php
+                        if ($cms === 'themes') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-solid fa-draw-polygon"></i>
+                            <p>
+                                Themes                  
                             </p>
                         </a>
                     </li>

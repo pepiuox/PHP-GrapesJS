@@ -1,6 +1,7 @@
 <?php
 
 error_reporting(0); // Set E_ALL for debuging
+require 'path.php';
 
 // // Optional exec path settings (Default is called with command name only)
 // define('ELFINDER_TAR_PATH',      '/PATH/TO/tar');

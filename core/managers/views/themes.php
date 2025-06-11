@@ -7,7 +7,7 @@ if ($w == "list") {
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="../theme_template&amp;w=add&amp;tbl=themes">Add <i class="fa fa-plus-square"></i></a></th>
+                        <th><a id="addrow" name="addrow" title="Add" class="btn btn-primary" href="<?php echo SITE_PATH; ?>admin/dashboard/theme_template/add/themes">Add <i class="fa fa-plus-square"></i></a></th>
                         <th>Theme name</th>
                         <th>Theme bootstrap</th>
                     </tr>
@@ -20,8 +20,8 @@ if ($w == "list") {
                         while ($prow = $result->fetch_array()) {
                             echo '<tr>
                         <td><!--Button -->
-                            <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="../theme_template&amp;w=list"><i class="fas fa-edit"></i> List</a>
-                            <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="../themes&amp;w=options&amp;id=' . $prow['theme_id'] . '"><i class="fas fa-edit"></i> More options</a>
+                            <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="'.SITE_PATH.'admin/dashboard/theme_template/list"><i class="fas fa-edit"></i> List</a>
+                            <a id="editoption" name="editoption" title="Edit Option" class="btn btn-primary" href="'.SITE_PATH.'admin/dashboard/themes/options/' . $prow['theme_id'] . '"><i class="fas fa-edit"></i> More options</a>
                         </td>
                         <td>' . $prow['theme_name'] . '</td>
                         <td>' . $prow['theme_bootstrap'] . '</td>
@@ -35,11 +35,9 @@ if ($w == "list") {
     </div>
     <?php
 } elseif ($w == "options") {
-    if (isset($_GET['id']) && !empty($_GET['id'])) {
-        $id = protect($_GET['id']);
-    } else {
+    if (is_numeric($id) === FALSE){
         ?>
-        <meta http-equiv="Refresh" content="0; url='../themes/list'" />
+        <meta http-equiv="Refresh" content="0; url='<?php echo SITE_PATH; ?>admin/dashboard/themes/list'" />
         <?php
     }
     ?> 
@@ -420,11 +418,7 @@ echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/the
                                 if ($conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
-                                    echo "<script>
-window.onload = function() {
-    location.href = ''.SITE_PATH.'/themes/options&id=" . $id . "';
-}
-</script>";
+                                    
                                 } else {
                                     echo "Error updating data: " . $conn->error;
                                 }

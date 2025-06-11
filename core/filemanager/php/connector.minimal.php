@@ -1,6 +1,8 @@
 <?php
 
 error_reporting(0); // Set E_ALL for debuging
+require 'path.php';
+
 // // Optional exec path settings (Default is called with command name only)
 // define('ELFINDER_TAR_PATH',      '/PATH/TO/tar');
 // define('ELFINDER_GZIP_PATH',     '/PATH/TO/gzip');
@@ -134,8 +136,8 @@ $opts = array(
         // Items volume
         array(
             'driver' => 'LocalFileSystem', // driver for accessing file system (REQUIRED)
-            'path' => '../uploads/', // path to files (REQUIRED)
-            'URL' => dirname($_SERVER['PHP_SELF']) . '/../uploads/', // URL to files (REQUIRED)
+            'path' => $rootweb . '/build/uploads', // path to files (REQUIRED)
+            'URL' => $baseweb . 'build/uploads/', // URL to files (REQUIRED)
             'trashHash' => 't1_Lw', // elFinder's hash of trash folder
             'winHashFix' => DIRECTORY_SEPARATOR !== '/', // to make hash same to Linux one on windows too
             'uploadDeny' => array('all'), // All Mimetypes not allowed to upload
@@ -147,8 +149,9 @@ $opts = array(
         array(
             'id' => '1',
             'driver' => 'Trash',
-            'path' => '../uploads/.trash/',
-            'tmbURL' => dirname($_SERVER['PHP_SELF']) . '/../uploads/.trash/.tmb/',
+            'path' => $rootweb . '/build/uploads/.trash/',
+            // 'tmbURL' => dirname($_SERVER['PHP_SELF']) . '/../uploads/.trash/.tmb/',
+            'tmbURL' => $baseweb . 'build/uploads/.trash/.tmb/',
             'winHashFix' => DIRECTORY_SEPARATOR !== '/', // to make hash same to Linux one on windows too
             'uploadDeny' => array('all'), // Recomend the same settings as the original volume that uses the trash
             'uploadAllow' => array('image/x-ms-bmp', 'image/gif', 'image/jpeg', 'image/png', 'image/x-icon', 'text/plain'), // Same as above
@@ -157,17 +160,7 @@ $opts = array(
         ),
     )
 );
-/*
-  $opts = array(
-  'roots'  => array(
-  array(
-  'driver' => 'LocalFileSystem',
-  'path'   => '/path/to/files/',
-  'URL'    => 'http://localhost/to/files/'
-  )
-  )
-  );
- */
+
 // run elFinder
 $connector = new elFinderConnector(new elFinder($opts));
 $connector->run();

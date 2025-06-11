@@ -1,6 +1,16 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     RewriteBase /
+
+    # Block out any script trying to base64_encode data within the URL.
+    RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+    # Block out any script that includes a <script> tag in URL.
+    RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+    # Block out any script trying to set a PHP GLOBALS variable via URL.
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    # Block out any script trying to modify a _REQUEST variable via URL.
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 
     RewriteCond %{THE_REQUEST} /build/([^\s?]*) [NC]
     RewriteRule ^ %1 [L,NE,R=302]
