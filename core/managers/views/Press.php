@@ -281,7 +281,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             <?php
             $idPr = (int) $_GET['idPr'];
             $conn->query("DELETE FROM `press_gal` WHERE `idPr` = '$idPr' ");
-            echo ($database->affected_rows) ? "Publicacion Eliminada.<br /> " : "No se Elimino.<br /> ";
+            echo ($conn->affected_rows) ? "Publicacion Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
         </div>
         <?php

@@ -7,6 +7,7 @@
 //
 
 require_once "config/loader.php";
+$_SESSION["URL"] = URL;
 
 $pages = new Routers();
 $visitor = new GetVisitor();
@@ -134,7 +135,7 @@ if ($pages->GoPage() === true) {
     } else if ($tempBASE === "admin") {
 
         if ($tempURI === "dashboard") {
-            include 'elements/header.php';
+            include 'elements/header_dashboard.php';
         ?>
                  </head>
                  <body class="hold-transition sidebar-mini">

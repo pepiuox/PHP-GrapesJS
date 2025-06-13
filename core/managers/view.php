@@ -6,8 +6,6 @@
 //  Email      : contact@pepiuox.net
 //
 
-
-
 $pages = new Routers();
 $visitor = new GetVisitor();
 

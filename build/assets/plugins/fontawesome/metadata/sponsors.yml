@@ -102,8 +102,20 @@ bryntum:
     - diagram-previous
     - diagram-subtask
     - diagram-successor
+    - table-cells-row-lock
+    - table-cells-row-unlock
   label: Bryntum
   url: 'https://bryntum.com'
+bundeskriminalamt:
+  icons:
+    - globe-wifi
+    - hydra
+    - lightbulb-message
+    - octopus
+    - user-beard-bolt
+    - user-hoodie
+  label: 'Bundeskriminalamt, Cybercrime Division'
+  url: 'https://www.bka.de'
 büromöbel-experte-gmb-h &co-kg:
   icons:
     - buromobelexperte
@@ -188,6 +200,12 @@ cmplid:
     - cmplid
   label: Cmplid
   url: 'http://cmplid.com'
+crystal-instruments:
+  icons:
+    - chart-fft
+    - chart-sine
+  label: Crystal Instruments
+  url: 'https://www.crystalinstruments.com'
 cuttlefish:
   icons:
     - cuttlefish
@@ -248,12 +266,28 @@ econopublish:
     - hat-cowboy-side
   label: EconoPublish
   url: 'https://www.econopublish.com'
+erbslanddev:
+  icons:
+    - chart-diagram
+    - comment-nodes
+    - file-fragment
+    - file-half-dashed
+    - hexagon-nodes
+    - hexagon-nodes-bolt
+    - square-binary
+  label: ErbslandDEV
+  url: 'https://erbsland.dev'
 fairyloot:
   icons:
     - person-dress-fairy
     - person-fairy
   label: FairyLoot
   url: 'https://us.fairyloot.com'
+files-com:
+  icons:
+    - files-pinwheel
+  label: Files.com
+  url: 'https://files.com'
 firstdraft:
   icons:
     - firstdraft
@@ -435,6 +469,11 @@ icis:
     - user-group-simple
   label: ICIS
   url: 'https://www.icis.com/'
+idle-anthill:
+  icons:
+    - ant
+  label: Idle Anthill
+  url: 'https://idleanthill.com/'
 in-site-systems:
   icons:
     - toolbox
@@ -481,6 +520,11 @@ jon-galloway:
     - crow
   label: Jon Galloway
   url: null
+jxl:
+  icons:
+    - jxl
+  label: JXL for Jira
+  url: 'https://jxl.app'
 kevin-barone:
   icons:
     - file-contract
@@ -552,6 +596,16 @@ megaport:
     - megaport
   label: Megaport
   url: 'https://www.megaport.com'
+menlo-school:
+  icons:
+    - carpool
+  label: Menlo School
+  url: 'https://www.menloschool.org'
+mintbit:
+  icons:
+    - mintbit
+  label: Mintbit
+  url: 'https://www.mintbit.com'
 mix:
   icons:
     - mix
@@ -855,6 +909,11 @@ rodney-oliver:
     - folder-plus
   label: Rodney Oliver
   url: null
+ruling:
+  icons:
+    - file-cad
+  label: 'Ruland Manufacturing Co., Inc.'
+  url: 'http://www.ruland.com/'
 schlix:
   icons:
     - schlix
@@ -864,7 +923,7 @@ screenpal:
   icons:
     - screenpal
   label: ScreenPal
-  url: 'https://screencast-o-matic.com/screenpal'
+  url: 'https://screenpal.com'
 search-eng-in:
   icons:
     - searchengin
@@ -1052,6 +1111,11 @@ think-peaks:
     - think-peaks
   label: Think Peaks
   url: 'https://thinkpeaks.com'
+timesavr:
+  icons:
+    - bottle-baby
+  label: Timesavr Software
+  url: 'http://www.timesavr.net'
 typo3:
   icons:
     - typo3
@@ -1291,6 +1355,11 @@ uncharted:
     - uncharted
   label: Uncharted Software
   url: 'https://uncharted.software'
+undeco-cora:
+  icons:
+    - music-magnifying-glass
+  label: Undeco & Cora Music
+  url: 'https://undeco.se'
 uniregistry:
   icons:
     - uniregistry
@@ -1344,6 +1413,16 @@ van-raam:
     - tricycle-adult
   label: Van Raam
   url: 'https://www.vanraam.com'
+verasoft:
+  icons:
+    - circles-overlap-3
+  label: Verasoft
+  url: 'https://verasoft.com'
+verifi:
+  icons:
+    - circle-wifi-circle-wifi
+  label: VeriFi
+  url: 'http://verifi.world/'
 via:
   icons:
     - car-burst

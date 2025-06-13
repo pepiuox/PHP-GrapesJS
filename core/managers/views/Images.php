@@ -136,7 +136,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 if (isset($_POST['submitted'])) {
                     $sql = "UPDATE `image_gal` SET  `galId` =  '{$_POST['galId']}' ,  `image` =  '{$_POST['image']}' ,  `caption_en` =  '{$_POST['caption_en']}' ,  `caption_es` =  '{$_POST['caption_es']}', `paypal_code` =  '{$_POST['paypal_code']}', `link` =  '{$_POST['link']}'  WHERE `id` = '$id' ";
                     $conn->query($sql) or die($conn->error);
-                    printf("Imagen Editada.\n", $database->affected_rows);
+                    printf("Imagen Editada.\n", $conn->affected_rows);
                     echo '<meta http-equiv="refresh" content="0">';
                 }
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `image_gal` WHERE `id` = '$id' "));

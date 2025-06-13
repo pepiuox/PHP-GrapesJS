@@ -1,0 +1,53 @@
+.route {
+    position: relative;
+    list-style-type: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    margin-top: 0px;    
+    width: 100%;
+    background: #bcf;
+    border-radius: 2px;
+    z-index: -1;
+}
+.route span {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    -ms-transform: scale(2);
+    /* IE 9 */
+    -webkit-transform: scale(2);
+    /* Chrome, Safari, Opera */
+    transform: scale(2);
+    z-index: 10;
+}
+.route .title {
+    position: absolute;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    padding-top: 6px;
+    height: 24px;
+    width: 100%;
+    text-indent: 20px;
+    background: #4af;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px 2px #29f;
+    pointer-events: none;
+}
+.first-title { margin-left: 10px; }
+.space {
+    position: relative;
+    list-style-type: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    margin-left: 20px;
+    width: 30px;
+    top: 34px;
+    padding-bottom: 34px;
+    height: 100%;
+    z-index: 1;
+}
+.first-space { margin-left: 10px; }

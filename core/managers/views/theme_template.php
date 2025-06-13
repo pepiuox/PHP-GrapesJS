@@ -2,7 +2,7 @@
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     
       $log_directory = URL.'/build/themes';
-        $results_array = array();
+      $results_array = array();
 
         if (is_dir($log_directory)) {
             if ($handle = opendir($log_directory)) {

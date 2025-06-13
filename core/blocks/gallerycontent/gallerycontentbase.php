@@ -18,15 +18,15 @@ if ($num_ct > 0) {
             </div>
             <div class="col-md-6">
                 <div class="controls">
-                    <a class="info"><img src="<?php echo SITE_PATH; ?>assets/images/info.png" /></a>                  
-                    <a class="play"><img src="<?php echo SITE_PATH; ?>assets/images/play.png" /></a>
-                    <a class="pause"><img src="<?php echo SITE_PATH; ?>assets/images/pause.png" /></a> 
-                    <a class="prev"><img src="<?php echo SITE_PATH; ?>assets/images/p-left.png" /></a>
+                    <a class="info"><img src="<?php echo SITE_PATH; ?>assets/img/info.png" /></a>                  
+                    <a class="play"><img src="<?php echo SITE_PATH; ?>assets/img/play.png" /></a>
+                    <a class="pause"><img src="<?php echo SITE_PATH; ?>assets/img/pause.png" /></a> 
+                    <a class="prev"><img src="<?php echo SITE_PATH; ?>assets/img/p-left.png" /></a>
                     <a class="count" ></a>
-                    <a class="next"><img src="<?php echo SITE_PATH; ?>assets/images/n-right.png" /></a>
-                    <a class="boxes"><img src="<?php echo SITE_PATH; ?>assets/images/boxes.png" /></a>
-                    <a class="square"><img src="<?php echo SITE_PATH; ?>assets/images/square.png" /></a>
-                    <a onclick="$(document).toggleFullScreen()"><img src="<?php echo SITE_PATH; ?>assets/images/e-arrows.png" /></a>                                                 
+                    <a class="next"><img src="<?php echo SITE_PATH; ?>assets/img/n-right.png" /></a>
+                    <a class="boxes"><img src="<?php echo SITE_PATH; ?>assets/img/boxes.png" /></a>
+                    <a class="square"><img src="<?php echo SITE_PATH; ?>assets/img/square.png" /></a>
+                    <a onclick="$(document).toggleFullScreen()"><img src="<?php echo SITE_PATH; ?>assets/img/e-arrows.png" /></a>                                                 
                 </div>
             </div>
             

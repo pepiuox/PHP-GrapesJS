@@ -143,7 +143,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 if (isset($_POST['submitted'])) {
                     $sql = "UPDATE `my_info` SET  `idUser` =  '{$_POST['idUser']}' ,  `first_name` =  '{$_POST['first_name']}' ,  `last_name` =  '{$_POST['last_name']}' ,  `age` =  '{$_POST['age']}' ,  `gender` =  '{$_POST['gender']}' ,  `description_en` =  '{$_POST['description_en']}' ,  `description_es` =  '{$_POST['description_es']}' ,  `image` =  '{$_POST['image']}' ,  `active` =  '{$_POST['active']}'   WHERE `idPro` = '$idPro' ";
                     $conn->query($sql) or die($conn->error);
-                    echo ($database->affected_rows) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
+                    echo ($conn->affected_rows) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
                 $row = mysqli_fetch_assoc($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '$idPro' "));
@@ -253,7 +253,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             <?php
             $idPro = (int) $_GET['id'];
             $conn->query("DELETE FROM `my_info` WHERE `idPro` = '$idPro' ");
-            echo ($database->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
+            echo ($conn->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
         </div>
         <?php

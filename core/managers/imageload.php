@@ -8,7 +8,7 @@ if (isset($_POST["submit"])) {
         // this should have sufficient read/write/execute permissions
         // if not already exists, please create it in the root of the
         // project folder
-        $targetDir = "../uploads/";
+        $targetDir = $_SERVER['DOCUMENT_ROOT']."/build/uploads/";
         $targetFile = $targetDir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -59,17 +59,7 @@ if (isset($_POST["submit"])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-
-    <head>
-        <title>Upload and display image in PHP</title>
-        <link href="style.css" rel="stylesheet" type="text/css" />
-        <link href="form.css" rel="stylesheet" type="text/css" />
-    </head>
-
-    <body>
-        <div class="phppot-container">
+        <div class="container">
             <h1>Upload an Image</h1>
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="row">
@@ -83,6 +73,4 @@ if (isset($_POST["submit"])) {
                 <img src="<?php echo $targetFile; ?>" alt="Uploaded Image">
             <?php endif; ?>
         </div>
-    </body>
-
-</html>
+   

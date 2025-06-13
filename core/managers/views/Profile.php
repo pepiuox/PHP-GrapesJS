@@ -16,8 +16,8 @@
         $ac = $_POST['active'];
         $sql = "UPDATE `my_info` SET  `first_name` =  '$fn' ,  `last_name` =  '$ln' ,  `age` =  '$ag' ,  `gender` =  '$gd', `description_en` =  '$dn', `description_es` =  '$ds', `image` =  '$im', `active` =  '$ac'  WHERE idPro = '1' ";
         $conn->query($sql);
-        if ($database->connect_errno) {
-            printf("Error en actualizar: %s\n", $database->connect_error);
+        if ($conn->connect_errno) {
+            printf("Error en actualizar: %s\n", $conn->connect_error);
             exit;
         } else {
             echo 'Se edito el perfil';

@@ -1,4 +1,5 @@
 <?php
+if ($login->isLoggedIn() === true && $level->levels() === 9) {
 if (isset($w) && !empty($w)) {
     if ($w === "list") {
     $tble = 'menu_options';
@@ -237,5 +238,8 @@ if (isset($w) && !empty($w)) {
 }
 } else {
     echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n";  
+}
+}else{
+    echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'">' . "\n";
 }
 ?>

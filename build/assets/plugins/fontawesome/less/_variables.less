@@ -1,53 +1,55 @@
 // variables
 // --------------------------
 
-@fa-css-prefix          : fa;
-@fa-style               : 900;
-@fa-style-family        : "Font Awesome 6 Free";
-@fa-style-family-sharp  : "Font Awesome 6 Sharp";
+@fa-css-prefix            : fa;
+@fa-style                 : 900;
+@fa-style-family          : "Font Awesome 6 Free";
 
-@fa-display             : inline-block;
+@fa-icon-property         : --fa;
+@fa-duotone-icon-property : --fa--fa;
 
-@fa-fw-width            : (20em / 16);
-@fa-inverse             : #fff;
+@fa-display               : inline-block;
 
-@fa-border-color        : #eee;
-@fa-border-padding      : .2em .25em .15em;
-@fa-border-radius       : .1em;
-@fa-border-style        : solid;
-@fa-border-width        : .08em;
+@fa-fw-width              : (20em / 16);
+@fa-inverse               : #fff;
 
-@fa-size-scale-2xs      : 10;
-@fa-size-scale-xs       : 12;
-@fa-size-scale-sm       : 14;
-@fa-size-scale-base     : 16;
-@fa-size-scale-lg       : 20;
-@fa-size-scale-xl       : 24;
-@fa-size-scale-2xl      : 32;
+@fa-border-color          : #eee;
+@fa-border-padding        : .2em .25em .15em;
+@fa-border-radius         : .1em;
+@fa-border-style          : solid;
+@fa-border-width          : .08em;
+
+@fa-size-scale-2xs        : 10;
+@fa-size-scale-xs         : 12;
+@fa-size-scale-sm         : 14;
+@fa-size-scale-base       : 16;
+@fa-size-scale-lg         : 20;
+@fa-size-scale-xl         : 24;
+@fa-size-scale-2xl        : 32;
 
 .fa-sizes() {
-  2xs                   : @fa-size-scale-2xs;
-  xs                    : @fa-size-scale-xs;
-  sm                    : @fa-size-scale-sm;
-  lg                    : @fa-size-scale-lg;
-  xl                    : @fa-size-scale-xl;
-  2xl                   : @fa-size-scale-2xl;
+  2xs                     : @fa-size-scale-2xs;
+  xs                      : @fa-size-scale-xs;
+  sm                      : @fa-size-scale-sm;
+  lg                      : @fa-size-scale-lg;
+  xl                      : @fa-size-scale-xl;
+  2xl                     : @fa-size-scale-2xl;
 }
 
-@fa-li-width            : 2em;
-@fa-li-margin           : (@fa-li-width * 5/4);
+@fa-li-width              : 2em;
+@fa-li-margin             : (@fa-li-width * 5/4);
 
-@fa-pull-margin         : .3em;
+@fa-pull-margin           : .3em;
 
-@fa-primary-opacity     : 1;
-@fa-secondary-opacity   : .4;
+@fa-primary-opacity       : 1;
+@fa-secondary-opacity     : .4;
 
-@fa-stack-vertical-align: middle;
-@fa-stack-width         : (@fa-fw-width * 2);
-@fa-stack-z-index       : auto;
+@fa-stack-vertical-align  : middle;
+@fa-stack-width           : (@fa-fw-width * 2);
+@fa-stack-z-index         : auto;
 
-@fa-font-display        : block;
-@fa-font-path           : "../webfonts";
+@fa-font-display          : block;
+@fa-font-path             : "../webfonts";
 
 @fa-var-0: "\30";
 @fa-var-1: "\31";
@@ -515,6 +517,8 @@
 @fa-var-sign-in-alt: "\f2f6";
 @fa-var-venus: "\f221";
 @fa-var-passport: "\f5ab";
+@fa-var-thumbtack-slash: "\e68f";
+@fa-var-thumb-tack-slash: "\e68f";
 @fa-var-heart-pulse: "\f21e";
 @fa-var-heartbeat: "\f21e";
 @fa-var-people-carry-box: "\f4ce";
@@ -635,6 +639,7 @@
 @fa-var-arrow-up-from-ground-water: "\e4b5";
 @fa-var-martini-glass: "\f57b";
 @fa-var-glass-martini-alt: "\f57b";
+@fa-var-square-binary: "\e69b";
 @fa-var-rotate-left: "\f2ea";
 @fa-var-rotate-back: "\f2ea";
 @fa-var-rotate-backward: "\f2ea";
@@ -807,6 +812,7 @@
 @fa-var-couch: "\f4b8";
 @fa-var-cedi-sign: "\e0df";
 @fa-var-italic: "\f033";
+@fa-var-table-cells-column-lock: "\e678";
 @fa-var-church: "\f51d";
 @fa-var-comments-dollar: "\f653";
 @fa-var-democrat: "\f747";
@@ -1053,6 +1059,7 @@
 @fa-var-grin-squint: "\f585";
 @fa-var-hand-holding-dollar: "\f4c0";
 @fa-var-hand-holding-usd: "\f4c0";
+@fa-var-chart-diagram: "\e695";
 @fa-var-bacterium: "\e05a";
 @fa-var-hand-pointer: "\f25a";
 @fa-var-drum-steelpan: "\f56a";
@@ -1085,6 +1092,7 @@
 @fa-var-shield-virus: "\e06c";
 @fa-var-dice-six: "\f526";
 @fa-var-mosquito-net: "\e52c";
+@fa-var-file-fragment: "\e697";
 @fa-var-bridge-water: "\e4ce";
 @fa-var-person-booth: "\f756";
 @fa-var-text-width: "\f035";
@@ -1266,6 +1274,7 @@
 @fa-var-plug-circle-plus: "\e55f";
 @fa-var-place-of-worship: "\f67f";
 @fa-var-grip-vertical: "\f58e";
+@fa-var-hexagon-nodes: "\e699";
 @fa-var-arrow-turn-up: "\f148";
 @fa-var-level-up: "\f148";
 @fa-var-u: "\55";
@@ -1531,6 +1540,7 @@
 @fa-var-tree-city: "\e587";
 @fa-var-play: "\f04b";
 @fa-var-font: "\f031";
+@fa-var-table-cells-row-lock: "\e67a";
 @fa-var-rupiah-sign: "\e23d";
 @fa-var-magnifying-glass: "\f002";
 @fa-var-search: "\f002";
@@ -1654,6 +1664,7 @@
 @fa-var-photo-film: "\f87c";
 @fa-var-photo-video: "\f87c";
 @fa-var-folder-minus: "\f65d";
+@fa-var-hexagon-nodes-bolt: "\e69a";
 @fa-var-store: "\f54e";
 @fa-var-arrow-trend-up: "\e098";
 @fa-var-plug-circle-minus: "\e55e";
@@ -1741,6 +1752,7 @@
 @fa-var-shield-blank: "\f132";
 @fa-var-arrow-up-short-wide: "\f885";
 @fa-var-sort-amount-up-alt: "\f885";
+@fa-var-comment-nodes: "\e696";
 @fa-var-house-medical: "\e3b2";
 @fa-var-golf-ball-tee: "\f450";
 @fa-var-golf-ball: "\f450";
@@ -1874,7 +1886,6 @@
 @fa-var-warning: "\f071";
 @fa-var-database: "\f1c0";
 @fa-var-share: "\f064";
-@fa-var-arrow-turn-right: "\f064";
 @fa-var-mail-forward: "\f064";
 @fa-var-bottle-droplet: "\e4c4";
 @fa-var-mask-face: "\e1d7";
@@ -1932,6 +1943,7 @@
 @fa-var-mug-saucer: "\f0f4";
 @fa-var-coffee: "\f0f4";
 @fa-var-brush: "\f55d";
+@fa-var-file-half-dashed: "\e698";
 @fa-var-mask: "\f6fa";
 @fa-var-magnifying-glass-minus: "\f010";
 @fa-var-search-minus: "\f010";
@@ -1951,6 +1963,7 @@
 @fa-var-bug-slash: "\e490";
 @fa-var-arrow-up-from-water-pump: "\e4b6";
 @fa-var-bone: "\f5d7";
+@fa-var-table-cells-row-unlock: "\e691";
 @fa-var-user-injured: "\f728";
 @fa-var-face-sad-tear: "\f5b4";
 @fa-var-sad-tear: "\f5b4";
@@ -2013,6 +2026,7 @@
 @fa-var-yoast: "\f2b1";
 @fa-var-cloudflare: "\e07d";
 @fa-var-ups: "\f7e0";
+@fa-var-pixiv: "\e640";
 @fa-var-wpexplorer: "\f2de";
 @fa-var-dyalog: "\f399";
 @fa-var-bity: "\f37a";
@@ -2033,6 +2047,8 @@
 @fa-var-centercode: "\f380";
 @fa-var-glide-g: "\f2a6";
 @fa-var-drupal: "\f1a9";
+@fa-var-jxl: "\e67b";
+@fa-var-dart-lang: "\e693";
 @fa-var-hire-a-helper: "\f3b0";
 @fa-var-creative-commons-by: "\f4e7";
 @fa-var-unity: "\e049";
@@ -2048,6 +2064,7 @@
 @fa-var-contao: "\f26d";
 @fa-var-square-font-awesome: "\e5ad";
 @fa-var-deskpro: "\f38f";
+@fa-var-brave: "\e63c";
 @fa-var-sistrix: "\f3ee";
 @fa-var-square-instagram: "\e055";
 @fa-var-instagram-square: "\e055";
@@ -2104,6 +2121,7 @@
 @fa-var-centos: "\f789";
 @fa-var-adn: "\f170";
 @fa-var-cloudsmith: "\f384";
+@fa-var-opensuse: "\e62b";
 @fa-var-pied-piper-alt: "\f1a8";
 @fa-var-square-dribbble: "\f397";
 @fa-var-dribbble-square: "\f397";
@@ -2116,6 +2134,7 @@
 @fa-var-debian: "\e60b";
 @fa-var-openid: "\f19b";
 @fa-var-instalod: "\e081";
+@fa-var-files-pinwheel: "\e69f";
 @fa-var-expeditedssl: "\f23e";
 @fa-var-sellcast: "\f2da";
 @fa-var-square-twitter: "\f081";
@@ -2132,6 +2151,7 @@
 @fa-var-itunes-note: "\f3b5";
 @fa-var-golang: "\e40f";
 @fa-var-kickstarter: "\f3bb";
+@fa-var-square-kickstarter: "\f3bb";
 @fa-var-grav: "\f2d6";
 @fa-var-weibo: "\f18a";
 @fa-var-uncharted: "\e084";
@@ -2152,9 +2172,11 @@
 @fa-var-laravel: "\f3bd";
 @fa-var-hotjar: "\f3b1";
 @fa-var-bluetooth-b: "\f294";
+@fa-var-square-letterboxd: "\e62e";
 @fa-var-sticker-mule: "\f3f7";
 @fa-var-creative-commons-zero: "\f4f3";
 @fa-var-hips: "\f452";
+@fa-var-css: "\e6a2";
 @fa-var-behance: "\f1b4";
 @fa-var-reddit: "\f1a1";
 @fa-var-discord: "\f392";
@@ -2163,6 +2185,7 @@
 @fa-var-cc-discover: "\f1f2";
 @fa-var-wpbeginner: "\f297";
 @fa-var-confluence: "\f78d";
+@fa-var-shoelace: "\e60c";
 @fa-var-mdb: "\f8ca";
 @fa-var-dochub: "\f394";
 @fa-var-accessible-icon: "\f368";
@@ -2204,6 +2227,7 @@
 @fa-var-y-combinator: "\f23b";
 @fa-var-empire: "\f1d1";
 @fa-var-envira: "\f299";
+@fa-var-google-scholar: "\e63b";
 @fa-var-square-gitlab: "\e5ae";
 @fa-var-gitlab-square: "\e5ae";
 @fa-var-studiovinari: "\f3f8";
@@ -2248,6 +2272,7 @@
 @fa-var-blogger-b: "\f37d";
 @fa-var-opencart: "\f23d";
 @fa-var-vine: "\f1ca";
+@fa-var-signal-messenger: "\e663";
 @fa-var-paypal: "\f1ed";
 @fa-var-gitlab: "\f296";
 @fa-var-typo3: "\f42b";
@@ -2259,6 +2284,7 @@
 @fa-var-bootstrap: "\f836";
 @fa-var-odnoklassniki: "\f263";
 @fa-var-nfc-symbol: "\e531";
+@fa-var-mintbit: "\e62f";
 @fa-var-ethereum: "\f42e";
 @fa-var-speaker-deck: "\f83c";
 @fa-var-creative-commons-nc-eu: "\f4e9";
@@ -2267,9 +2293,11 @@
 @fa-var-ello: "\f5f1";
 @fa-var-gofore: "\f3a7";
 @fa-var-bimobject: "\f378";
+@fa-var-brave-reverse: "\e63d";
 @fa-var-facebook-f: "\f39e";
 @fa-var-square-google-plus: "\f0d4";
 @fa-var-google-plus-square: "\f0d4";
+@fa-var-web-awesome: "\e682";
 @fa-var-mandalorian: "\f50f";
 @fa-var-first-order-alt: "\f50a";
 @fa-var-osi: "\f41a";
@@ -2292,6 +2320,7 @@
 @fa-var-spotify: "\f1bc";
 @fa-var-optin-monster: "\f23c";
 @fa-var-fly: "\f417";
+@fa-var-square-bluesky: "\e6a3";
 @fa-var-aviato: "\f421";
 @fa-var-itunes: "\f3b4";
 @fa-var-cuttlefish: "\f38c";
@@ -2301,6 +2330,7 @@
 @fa-var-soundcloud: "\f1be";
 @fa-var-digg: "\f1a6";
 @fa-var-tencent-weibo: "\f1d5";
+@fa-var-letterboxd: "\e62d";
 @fa-var-symfony: "\f83d";
 @fa-var-maxcdn: "\f136";
 @fa-var-etsy: "\f2d7";
@@ -2323,6 +2353,7 @@
 @fa-var-superpowers: "\f2dd";
 @fa-var-resolving: "\f3e7";
 @fa-var-xbox: "\f412";
+@fa-var-square-web-awesome-stroke: "\e684";
 @fa-var-searchengin: "\f3eb";
 @fa-var-tiktok: "\e07b";
 @fa-var-square-facebook: "\f082";
@@ -2334,6 +2365,7 @@
 @fa-var-hubspot: "\f3b2";
 @fa-var-deploydog: "\f38e";
 @fa-var-twitch: "\f1e8";
+@fa-var-flutter: "\e694";
 @fa-var-ravelry: "\f2d9";
 @fa-var-mixer: "\e056";
 @fa-var-square-lastfm: "\f203";
@@ -2347,6 +2379,7 @@
 @fa-var-dropbox: "\f16b";
 @fa-var-instagram: "\f16d";
 @fa-var-cmplid: "\e360";
+@fa-var-upwork: "\e641";
 @fa-var-facebook: "\f09a";
 @fa-var-gripfire: "\f3ac";
 @fa-var-jedi-order: "\f50e";
@@ -2358,6 +2391,7 @@
 @fa-var-trade-federation: "\f513";
 @fa-var-autoprefixer: "\f41c";
 @fa-var-whatsapp: "\f232";
+@fa-var-square-upwork: "\e67c";
 @fa-var-slideshare: "\f1e7";
 @fa-var-google-play: "\f3ab";
 @fa-var-viadeo: "\f2a9";
@@ -2384,6 +2418,7 @@
 @fa-var-readme: "\f4d5";
 @fa-var-html5: "\f13b";
 @fa-var-sellsy: "\f213";
+@fa-var-square-web-awesome: "\e683";
 @fa-var-sass: "\f41e";
 @fa-var-wirsindhandwerk: "\e2d0";
 @fa-var-wsh: "\e2d0";
@@ -2396,6 +2431,7 @@
 @fa-var-apper: "\f371";
 @fa-var-fort-awesome: "\f286";
 @fa-var-waze: "\f83f";
+@fa-var-bluesky: "\e671";
 @fa-var-cc-jcb: "\f24b";
 @fa-var-snapchat: "\f2ab";
 @fa-var-snapchat-ghost: "\f2ab";
@@ -2405,6 +2441,7 @@
 @fa-var-square-behance: "\f1b5";
 @fa-var-behance-square: "\f1b5";
 @fa-var-supple: "\f3f9";
+@fa-var-webflow: "\e65c";
 @fa-var-rebel: "\f1d0";
 @fa-var-css3: "\f13c";
 @fa-var-staylinked: "\f3f5";
@@ -2975,6 +3012,8 @@
   sign-in-alt: @fa-var-sign-in-alt;
   venus: @fa-var-venus;
   passport: @fa-var-passport;
+  thumbtack-slash: @fa-var-thumbtack-slash;
+  thumb-tack-slash: @fa-var-thumb-tack-slash;
   heart-pulse: @fa-var-heart-pulse;
   heartbeat: @fa-var-heartbeat;
   people-carry-box: @fa-var-people-carry-box;
@@ -3095,6 +3134,7 @@
   arrow-up-from-ground-water: @fa-var-arrow-up-from-ground-water;
   martini-glass: @fa-var-martini-glass;
   glass-martini-alt: @fa-var-glass-martini-alt;
+  square-binary: @fa-var-square-binary;
   rotate-left: @fa-var-rotate-left;
   rotate-back: @fa-var-rotate-back;
   rotate-backward: @fa-var-rotate-backward;
@@ -3267,6 +3307,7 @@
   couch: @fa-var-couch;
   cedi-sign: @fa-var-cedi-sign;
   italic: @fa-var-italic;
+  table-cells-column-lock: @fa-var-table-cells-column-lock;
   church: @fa-var-church;
   comments-dollar: @fa-var-comments-dollar;
   democrat: @fa-var-democrat;
@@ -3513,6 +3554,7 @@
   grin-squint: @fa-var-grin-squint;
   hand-holding-dollar: @fa-var-hand-holding-dollar;
   hand-holding-usd: @fa-var-hand-holding-usd;
+  chart-diagram: @fa-var-chart-diagram;
   bacterium: @fa-var-bacterium;
   hand-pointer: @fa-var-hand-pointer;
   drum-steelpan: @fa-var-drum-steelpan;
@@ -3545,6 +3587,7 @@
   shield-virus: @fa-var-shield-virus;
   dice-six: @fa-var-dice-six;
   mosquito-net: @fa-var-mosquito-net;
+  file-fragment: @fa-var-file-fragment;
   bridge-water: @fa-var-bridge-water;
   person-booth: @fa-var-person-booth;
   text-width: @fa-var-text-width;
@@ -3726,6 +3769,7 @@
   plug-circle-plus: @fa-var-plug-circle-plus;
   place-of-worship: @fa-var-place-of-worship;
   grip-vertical: @fa-var-grip-vertical;
+  hexagon-nodes: @fa-var-hexagon-nodes;
   arrow-turn-up: @fa-var-arrow-turn-up;
   level-up: @fa-var-level-up;
   u: @fa-var-u;
@@ -3991,6 +4035,7 @@
   tree-city: @fa-var-tree-city;
   play: @fa-var-play;
   font: @fa-var-font;
+  table-cells-row-lock: @fa-var-table-cells-row-lock;
   rupiah-sign: @fa-var-rupiah-sign;
   magnifying-glass: @fa-var-magnifying-glass;
   search: @fa-var-search;
@@ -4114,6 +4159,7 @@
   photo-film: @fa-var-photo-film;
   photo-video: @fa-var-photo-video;
   folder-minus: @fa-var-folder-minus;
+  hexagon-nodes-bolt: @fa-var-hexagon-nodes-bolt;
   store: @fa-var-store;
   arrow-trend-up: @fa-var-arrow-trend-up;
   plug-circle-minus: @fa-var-plug-circle-minus;
@@ -4201,6 +4247,7 @@
   shield-blank: @fa-var-shield-blank;
   arrow-up-short-wide: @fa-var-arrow-up-short-wide;
   sort-amount-up-alt: @fa-var-sort-amount-up-alt;
+  comment-nodes: @fa-var-comment-nodes;
   house-medical: @fa-var-house-medical;
   golf-ball-tee: @fa-var-golf-ball-tee;
   golf-ball: @fa-var-golf-ball;
@@ -4334,7 +4381,6 @@
   warning: @fa-var-warning;
   database: @fa-var-database;
   share: @fa-var-share;
-  arrow-turn-right: @fa-var-arrow-turn-right;
   mail-forward: @fa-var-mail-forward;
   bottle-droplet: @fa-var-bottle-droplet;
   mask-face: @fa-var-mask-face;
@@ -4392,6 +4438,7 @@
   mug-saucer: @fa-var-mug-saucer;
   coffee: @fa-var-coffee;
   brush: @fa-var-brush;
+  file-half-dashed: @fa-var-file-half-dashed;
   mask: @fa-var-mask;
   magnifying-glass-minus: @fa-var-magnifying-glass-minus;
   search-minus: @fa-var-search-minus;
@@ -4411,6 +4458,7 @@
   bug-slash: @fa-var-bug-slash;
   arrow-up-from-water-pump: @fa-var-arrow-up-from-water-pump;
   bone: @fa-var-bone;
+  table-cells-row-unlock: @fa-var-table-cells-row-unlock;
   user-injured: @fa-var-user-injured;
   face-sad-tear: @fa-var-face-sad-tear;
   sad-tear: @fa-var-sad-tear;
@@ -4475,6 +4523,7 @@
   yoast: @fa-var-yoast;
   cloudflare: @fa-var-cloudflare;
   ups: @fa-var-ups;
+  pixiv: @fa-var-pixiv;
   wpexplorer: @fa-var-wpexplorer;
   dyalog: @fa-var-dyalog;
   bity: @fa-var-bity;
@@ -4495,6 +4544,8 @@
   centercode: @fa-var-centercode;
   glide-g: @fa-var-glide-g;
   drupal: @fa-var-drupal;
+  jxl: @fa-var-jxl;
+  dart-lang: @fa-var-dart-lang;
   hire-a-helper: @fa-var-hire-a-helper;
   creative-commons-by: @fa-var-creative-commons-by;
   unity: @fa-var-unity;
@@ -4510,6 +4561,7 @@
   contao: @fa-var-contao;
   square-font-awesome: @fa-var-square-font-awesome;
   deskpro: @fa-var-deskpro;
+  brave: @fa-var-brave;
   sistrix: @fa-var-sistrix;
   square-instagram: @fa-var-square-instagram;
   instagram-square: @fa-var-instagram-square;
@@ -4566,6 +4618,7 @@
   centos: @fa-var-centos;
   adn: @fa-var-adn;
   cloudsmith: @fa-var-cloudsmith;
+  opensuse: @fa-var-opensuse;
   pied-piper-alt: @fa-var-pied-piper-alt;
   square-dribbble: @fa-var-square-dribbble;
   dribbble-square: @fa-var-dribbble-square;
@@ -4578,6 +4631,7 @@
   debian: @fa-var-debian;
   openid: @fa-var-openid;
   instalod: @fa-var-instalod;
+  files-pinwheel: @fa-var-files-pinwheel;
   expeditedssl: @fa-var-expeditedssl;
   sellcast: @fa-var-sellcast;
   square-twitter: @fa-var-square-twitter;
@@ -4594,6 +4648,7 @@
   itunes-note: @fa-var-itunes-note;
   golang: @fa-var-golang;
   kickstarter: @fa-var-kickstarter;
+  square-kickstarter: @fa-var-square-kickstarter;
   grav: @fa-var-grav;
   weibo: @fa-var-weibo;
   uncharted: @fa-var-uncharted;
@@ -4614,9 +4669,11 @@
   laravel: @fa-var-laravel;
   hotjar: @fa-var-hotjar;
   bluetooth-b: @fa-var-bluetooth-b;
+  square-letterboxd: @fa-var-square-letterboxd;
   sticker-mule: @fa-var-sticker-mule;
   creative-commons-zero: @fa-var-creative-commons-zero;
   hips: @fa-var-hips;
+  css: @fa-var-css;
   behance: @fa-var-behance;
   reddit: @fa-var-reddit;
   discord: @fa-var-discord;
@@ -4625,6 +4682,7 @@
   cc-discover: @fa-var-cc-discover;
   wpbeginner: @fa-var-wpbeginner;
   confluence: @fa-var-confluence;
+  shoelace: @fa-var-shoelace;
   mdb: @fa-var-mdb;
   dochub: @fa-var-dochub;
   accessible-icon: @fa-var-accessible-icon;
@@ -4666,6 +4724,7 @@
   y-combinator: @fa-var-y-combinator;
   empire: @fa-var-empire;
   envira: @fa-var-envira;
+  google-scholar: @fa-var-google-scholar;
   square-gitlab: @fa-var-square-gitlab;
   gitlab-square: @fa-var-gitlab-square;
   studiovinari: @fa-var-studiovinari;
@@ -4710,6 +4769,7 @@
   blogger-b: @fa-var-blogger-b;
   opencart: @fa-var-opencart;
   vine: @fa-var-vine;
+  signal-messenger: @fa-var-signal-messenger;
   paypal: @fa-var-paypal;
   gitlab: @fa-var-gitlab;
   typo3: @fa-var-typo3;
@@ -4721,6 +4781,7 @@
   bootstrap: @fa-var-bootstrap;
   odnoklassniki: @fa-var-odnoklassniki;
   nfc-symbol: @fa-var-nfc-symbol;
+  mintbit: @fa-var-mintbit;
   ethereum: @fa-var-ethereum;
   speaker-deck: @fa-var-speaker-deck;
   creative-commons-nc-eu: @fa-var-creative-commons-nc-eu;
@@ -4729,9 +4790,11 @@
   ello: @fa-var-ello;
   gofore: @fa-var-gofore;
   bimobject: @fa-var-bimobject;
+  brave-reverse: @fa-var-brave-reverse;
   facebook-f: @fa-var-facebook-f;
   square-google-plus: @fa-var-square-google-plus;
   google-plus-square: @fa-var-google-plus-square;
+  web-awesome: @fa-var-web-awesome;
   mandalorian: @fa-var-mandalorian;
   first-order-alt: @fa-var-first-order-alt;
   osi: @fa-var-osi;
@@ -4754,6 +4817,7 @@
   spotify: @fa-var-spotify;
   optin-monster: @fa-var-optin-monster;
   fly: @fa-var-fly;
+  square-bluesky: @fa-var-square-bluesky;
   aviato: @fa-var-aviato;
   itunes: @fa-var-itunes;
   cuttlefish: @fa-var-cuttlefish;
@@ -4763,6 +4827,7 @@
   soundcloud: @fa-var-soundcloud;
   digg: @fa-var-digg;
   tencent-weibo: @fa-var-tencent-weibo;
+  letterboxd: @fa-var-letterboxd;
   symfony: @fa-var-symfony;
   maxcdn: @fa-var-maxcdn;
   etsy: @fa-var-etsy;
@@ -4785,6 +4850,7 @@
   superpowers: @fa-var-superpowers;
   resolving: @fa-var-resolving;
   xbox: @fa-var-xbox;
+  square-web-awesome-stroke: @fa-var-square-web-awesome-stroke;
   searchengin: @fa-var-searchengin;
   tiktok: @fa-var-tiktok;
   square-facebook: @fa-var-square-facebook;
@@ -4796,6 +4862,7 @@
   hubspot: @fa-var-hubspot;
   deploydog: @fa-var-deploydog;
   twitch: @fa-var-twitch;
+  flutter: @fa-var-flutter;
   ravelry: @fa-var-ravelry;
   mixer: @fa-var-mixer;
   square-lastfm: @fa-var-square-lastfm;
@@ -4809,6 +4876,7 @@
   dropbox: @fa-var-dropbox;
   instagram: @fa-var-instagram;
   cmplid: @fa-var-cmplid;
+  upwork: @fa-var-upwork;
   facebook: @fa-var-facebook;
   gripfire: @fa-var-gripfire;
   jedi-order: @fa-var-jedi-order;
@@ -4820,6 +4888,7 @@
   trade-federation: @fa-var-trade-federation;
   autoprefixer: @fa-var-autoprefixer;
   whatsapp: @fa-var-whatsapp;
+  square-upwork: @fa-var-square-upwork;
   slideshare: @fa-var-slideshare;
   google-play: @fa-var-google-play;
   viadeo: @fa-var-viadeo;
@@ -4846,6 +4915,7 @@
   readme: @fa-var-readme;
   html5: @fa-var-html5;
   sellsy: @fa-var-sellsy;
+  square-web-awesome: @fa-var-square-web-awesome;
   sass: @fa-var-sass;
   wirsindhandwerk: @fa-var-wirsindhandwerk;
   wsh: @fa-var-wsh;
@@ -4858,6 +4928,7 @@
   apper: @fa-var-apper;
   fort-awesome: @fa-var-fort-awesome;
   waze: @fa-var-waze;
+  bluesky: @fa-var-bluesky;
   cc-jcb: @fa-var-cc-jcb;
   snapchat: @fa-var-snapchat;
   snapchat-ghost: @fa-var-snapchat-ghost;
@@ -4867,6 +4938,7 @@
   square-behance: @fa-var-square-behance;
   behance-square: @fa-var-behance-square;
   supple: @fa-var-supple;
+  webflow: @fa-var-webflow;
   rebel: @fa-var-rebel;
   css3: @fa-var-css3;
   staylinked: @fa-var-staylinked;

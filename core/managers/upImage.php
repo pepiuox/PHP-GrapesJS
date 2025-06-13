@@ -1,8 +1,15 @@
 <?php
 
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 /* Upload images */
 if ($_FILES) {
-    $targetDir = "../uploads";
+    $protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") || $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
+    $imgDir = $protocol.$_SERVER['HTTP_HOST']. "/build/uploads";
+    $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/build/uploads";
+
     $resultArray = array();
     foreach ($_FILES as $file) {
         $fileName = $file['name'];
@@ -10,8 +17,8 @@ if ($_FILES) {
         $fileSize = $file['size'];
         $fileType = $file['type'];
 
-        $targetFilePath = $targetDir . '/' . $fileName;
-
+        $targetFilePath = $targetDir .'/'. $fileName;
+        $targetFileSrc = $imgDir .'/'. $fileName;
         if (move_uploaded_file($tmpName, $targetFilePath)) {
             if ($file['error'] != UPLOAD_ERR_OK) {
                 error_log($file['error']);
@@ -22,7 +29,7 @@ if ($_FILES) {
             $result = array(
                 'name' => $fileName,
                 'type' => 'image',
-                'src' => $targetFilePath,
+                'src' => $targetFileSrc,
                 'height' => $height,
                 'width' => $width
             );

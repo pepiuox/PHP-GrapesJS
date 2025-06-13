@@ -33,8 +33,8 @@ if ($num_ct > 0) {
                                 echo '<div class="captionImag">' . "\n";
                                 echo '<span>' . $rowt['caption_en'] . '</span>' . "\n";
                                 echo '<div class="controls">' . "\n";
-                                echo '<a class="play"><img src="' . SITE_PATH . 'img/play.png" /></a>' . "\n";
-                                echo '<a class="pause"><img src="' . SITE_PATH . 'img/pause.png" /></a>' . "\n";
+                                echo '<a class="play"><img src="' . SITE_PATH.'assets/img/play.png" /></a>' . "\n";
+                                echo '<a class="pause"><img src="' . SITE_PATH.'assets/img/pause.png" /></a>' . "\n";
                                 echo '</div>' . "\n";
                                 echo '</div>' . "\n";
 
@@ -44,9 +44,9 @@ if ($num_ct > 0) {
                         </ul>
                     </div>
                     <div class="galleryPreviewArrows">
-                        <a href="#" class="previousSlideArrow"><img src="<?php echo SITE_PATH; ?>assets/images/arrow-l.png"/></a>
-                        <a href="#" class="stopSlideArrow"><img src="<?php echo SITE_PATH; ?>assets/images/arrow-l.png"/></a>
-                        <a href="#" class="nextSlideArrow"><img src="<?php echo SITE_PATH; ?>assets/images/arrow-r.png"/></a>
+                        <a href="#" class="previousSlideArrow"><img src="<?php echo SITE_PATH; ?>assets/img/arrow-l.png"/></a>
+                        <a href="#" class="stopSlideArrow"><img src="<?php echo SITE_PATH; ?>assets/img/arrow-l.png"/></a>
+                        <a href="#" class="nextSlideArrow"><img src="<?php echo SITE_PATH; ?>assets/img/arrow-r.png"/></a>
                     </div>
                 </div> 
                 <div class="galleryContent">

@@ -6,8 +6,8 @@ if (isset($_POST["submit"])) {
     }
 }
 ?>
-<link href="<?php echo B_URL; ?>css/sortablemenu.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo B_URL; ?>js/sortablemenu.js" type="text/javascript"></script>
+<link href="<?php echo SITE_PATH; ?>assets/css/sortablemenu.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo SITE_PATH; ?>assets/js/sortablemenu.js" type="text/javascript"></script>
 
 <style>
     #sortable-row {
@@ -55,7 +55,7 @@ if (isset($_POST["submit"])) {
             <?php
 
             function mmenu($parent) {
-                global $database;
+                global $conn;
                 $menu = "";
                 $result = $conn->query("SELECT id, language, pos, title, link, image, parent, sort FROM pages WHERE parent='$parent' ORDER BY pos");
                 while ($rmen = $result->fetch_array()) {

@@ -1,13 +1,20 @@
 <?php
-$rout = str_replace('\\', '/', dirname(__DIR__));
-/* Upload image */
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+/* Upload images */
 if ($_FILES) {
-    $targetDir = $rout."/managers/uploads";
+    $protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") || $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
+    $imgDir = $protocol.$_SERVER['HTTP_HOST']. "/build/uploads";
+    $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/build/uploads";
+    /* Upload image */
 
     $resultArray = array();
     foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
         $file_name = basename($_FILES['file']['name'][$key]);
-        $targetFilePath = $targetDir . '/' . $fileName;
+        $targetFilePath = $targetDir .'/'. $fileName;
         $file_size = $_FILES['file']['size'][$key];
         $file_tmp = $_FILES['file']['tmp_name'][$key];
         $file_type = $_FILES['file']['type'][$key];
@@ -33,7 +40,7 @@ if ($_FILES) {
         }
     }
 
-    function Get_ImagesToFolder($targetDir) {
+    function GetImagesToFolder($targetDir,$imgDir) {
         $ImagesArray = [];
         $file_display = [
             'jpg',
@@ -51,13 +58,13 @@ if ($_FILES) {
             foreach ($dir_contents as $file) {
                 $file_type = pathinfo($file, PATHINFO_EXTENSION);
                 if (in_array($file_type, $file_display) == true) {
-                    $ImagesArray[] = $file;
+                    $ImagesArray[] = $imgDir.'/'.$file;
                 }
             }
             return $ImagesArray;
         }
     }
 
-    $ImagesA = Get_ImagesToFolder($targetDir);
+    $ImagesA = GetImagesToFolder($targetDir,$imgDir);
     echo json_encode($ImagesA);
 }

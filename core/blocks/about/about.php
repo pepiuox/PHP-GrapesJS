@@ -1,11 +1,11 @@
 <!-- about block -->
 <?php
-$row = $conn->query("SELECT * FROM `my_info` WHERE `idPro` = '1' AND active = '1'")->fetch_assoc();
+$row = mysqli_fetch_array($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '1' AND active = '1'"));
 $num_ct = count($row);
 
 if ($num_ct > 0) {
     ?>  
-    <div class="about">
+    <div class="row">
         <div class="col-md-4">
             <div class="infocontact">
 
@@ -14,18 +14,18 @@ if ($num_ct > 0) {
                 </div>
                 <div class="tinfo">
                     <?php
-                    echo '<ul class="myinfo">' . "\n";
+                    echo '<ul class="myinfo">'."\n";
                     echo '<li><span> ';
                     if ($lng == 1) {
                         echo 'Currently in ';
                     } else {
                         echo 'Actualmente en ';
                     }
-                    echo new_location . '</span></li>' . "\n";
-                    echo '<li><img src="' . SITE_PATH . 'img/whatsapp.png" />:<span> ' . whatsapp . '</span></li>' . "\n";
-                    echo '<li><img src="' . SITE_PATH . 'img/message.png" />:<span> <a href="mailto:' . ADDRESS_CONTACT . '">' . ADDRESS_CONTACT . '</a></span></li>' . "\n";
-
-                    echo '</ul>' . "\n";
+                    echo new_location . '</span></li>'."\n";
+                    echo '<li><img src="' . SITE_PATH.'assets/img/whatsapp.png" />:<span> ' . whatsapp . '</span></li>'."\n";
+                    echo '<li><img src="' . SITE_PATH.'assets/img/message.png" />:<span> <a href="mailto:' . ADDRESS_CONTACT . '">' . ADDRESS_CONTACT . '</a></span></li>'."\n";
+                                       
+                    echo '</ul>'."\n";
                     ?>           
                 </div>
 

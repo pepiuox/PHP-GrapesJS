@@ -301,10 +301,10 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <p>
                     <a class="btn btn-secondary" href='dashboard/galleries/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/galleries/add'>Nueva Galeria</a> 
                 </p>
-                <link href="<?php echo B_URL; ?>dist/css/lightgallery.css" rel="stylesheet">
-                <link href="<?php echo B_URL; ?>css/responsiveslides.css" rel="stylesheet">
-                <script src="<?php echo B_URL; ?>js/jquery.min.js" type="text/javascript"></script>
-                <script src="<?php echo B_URL; ?>js/responsiveslides.min.js" type="text/javascript"></script> 
+                <link href="<?php echo SITE_PATH; ?>assets/dist/css/lightgallery.css" rel="stylesheet">
+                <link href="<?php echo SITE_PATH; ?>assets/css/responsiveslides.css" rel="stylesheet">
+                <script src="<?php echo SITE_PATH; ?>assets/js/jquery.min.js" type="text/javascript"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/js/responsiveslides.min.js" type="text/javascript"></script> 
                 <style>
                     .imagegal{
                         width: 480px;
@@ -340,15 +340,15 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                                 });
                 </script>
                 <script src="https://cdn.jsdelivr.net/picturefill/2.3.1/picturefill.min.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lightgallery.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-fullscreen.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-thumbnail.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-video.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-autoplay.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-zoom.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-hash.js"></script>
-                <script src="<?php echo B_URL; ?>dist/js/lg-pager.js"></script>
-                <script src="<?php echo B_URL; ?>lib/jquery.mousewheel.min.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lightgallery.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-fullscreen.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-thumbnail.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-video.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-autoplay.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-zoom.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-hash.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/dist/js/lg-pager.js"></script>
+                <script src="<?php echo SITE_PATH; ?>assets/lib/jquery.mousewheel.min.js"></script>
             </div>
         </div>
         <?php

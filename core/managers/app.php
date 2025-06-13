@@ -1,5 +1,6 @@
 
 <?php
+
 include "db.php";
 $res = array("error" => false);
 
@@ -9,26 +10,24 @@ if (isset($_GET["action"])) {
     $action = $_GET["action"];
 }
 
-if ($action == "read") {$result = $conn->query("SELECT * FROM menu LEFT JOIN page ON menu.page_id = page.id");
-        $datos = array();
-            while ($row = $result->fetch_assoc()) {
-                array_push($datos, $row);
-            }
+if ($action == "read") {
+    $result = $conn->query("SELECT * FROM menu LEFT JOIN page ON menu.page_id = page.id");
+    $datos = array();
+    while ($row = $result->fetch_assoc()) {
+        array_push($datos, $row);
+    }
 
-            $res["datos"] = $datos;               
-        
-    
+    $res["datos"] = $datos;
 }
 // Create form
 
 if ($action == "create") {
 
-    $sort= $_POST['sort'];
- $page_id= $_POST['page_id'];
- $title_page= $_POST['title_page'];
- $link_page= $_POST['link_page'];
- $parent_id= $_POST['parent_id'];
-
+    $sort = $_POST['sort'];
+    $page_id = $_POST['page_id'];
+    $title_page = $_POST['title_page'];
+    $link_page = $_POST['link_page'];
+    $parent_id = $_POST['parent_id'];
 
     $result = $conn->query("INSERT INTO menu(sort , page_id , title_page , link_page , parent_id) VALUES ('$sort' , '$page_id' , '$title_page' , '$link_page' , '$parent_id')");
 
@@ -45,13 +44,12 @@ if ($action == "create") {
 // update form
 
 if ($action == "update") {
-    $idMenu= $_POST['idMenu'];
- $sort= $_POST['sort'];
- $page_id= $_POST['page_id'];
- $title_page= $_POST['title_page'];
- $link_page= $_POST['link_page'];
- $parent_id= $_POST['parent_id'];
-
+    $idMenu = $_POST['idMenu'];
+    $sort = $_POST['sort'];
+    $page_id = $_POST['page_id'];
+    $title_page = $_POST['title_page'];
+    $link_page = $_POST['link_page'];
+    $parent_id = $_POST['parent_id'];
 
     $result = $conn->query("UPDATE menu SET sort ='$sort' , page_id ='$page_id' , title_page ='$title_page' , link_page ='$link_page' , parent_id ='$parent_id' WHERE idMenu ='$idMenu' ");
 

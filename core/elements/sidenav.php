@@ -72,6 +72,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="<?php echo SITE_PATH; ?>admin/dashboard/menu_builder" class="nav-link <?php
+                        if ($cms === 'menu_builder') {
+                            echo 'active';
+                        }
+                        ?>">
+                            <i class="nav-icon fas fa-bars"></i>
+                            <p>
+                                Menu builder                  
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="<?php echo SITE_PATH; ?>admin/dashboard/menu" class="nav-link <?php
                         if ($cms === 'menu') {
                             echo 'active';
@@ -79,7 +91,7 @@
                         ?>">
                             <i class="nav-icon fas fa-bars"></i>
                             <p>
-                                Menu template                  
+                                Menu template color                  
                             </p>
                         </a>
                     </li>

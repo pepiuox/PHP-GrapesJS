@@ -305,7 +305,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 <?php
                 $id = (int) $_GET['id'];
                 $conn->query("DELETE FROM `multimedia_gal` WHERE `id` = '$id' ");
-                echo ($database->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
+                echo ($conn->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
                 ?> 
             </div>
             <?php

@@ -14,14 +14,14 @@ $num_ct = count($rowts);
 
 if ($num_ct > 0) {
     ?>
-    <div class="galleries">
+    <div class="col_full">
         <div class="galleryShow">  
             <div class="row">
                 <div class="col-md-11">
                 </div>
                 <div class="col-md-1">
                     <div class="controls">                    
-                        <a onclick="$(document).toggleFullScreen()"><img src="<?php echo SITE_PATH; ?>assets/images/e-arrows.png" /></a>                                                 
+                        <a onclick="$(document).toggleFullScreen()"><img src="<?php echo SITE_PATH; ?>assets/img/e-arrows.png" /></a>                                                 
                     </div>
                 </div>
             </div>

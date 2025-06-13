@@ -17,7 +17,7 @@ if (isset($_POST['idp'])) {
     $stmt->close();
 
     if ($save === 1) {
-        echo "Save Data";
+        echo "Saved Page";
     } else {
         echo "Failed";
     }

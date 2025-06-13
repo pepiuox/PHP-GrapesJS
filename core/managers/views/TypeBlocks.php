@@ -76,7 +76,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 if (isset($_POST['submitted'])) {
                     $sql = "UPDATE `type_blocks` SET  `type_block` =  '{$_POST['type_block']}'   WHERE `id` = '$id' ";
                     $conn->query($sql) or die($conn->error);
-                    echo ($database->affected_rows) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
+                    echo ($conn->affected_rows) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
                 $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_blocks` WHERE `id` = '$id' "));
@@ -126,7 +126,7 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             <?php
             $id = (int) $_GET['id'];
             $conn->query("DELETE FROM `type_blocks` WHERE `id` = '$id' ");
-            echo ($database->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
+            echo ($conn->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
         </div>
         <?php

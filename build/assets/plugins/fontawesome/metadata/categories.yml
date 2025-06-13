@@ -431,6 +431,7 @@ business:
     - tag
     - tags
     - thumbtack
+    - thumbtack-slash
     - timeline
     - trademark
     - vault
@@ -505,6 +506,7 @@ charts-diagrams:
     - chart-area
     - chart-bar
     - chart-column
+    - chart-diagram
     - chart-gantt
     - chart-line
     - chart-pie
@@ -514,6 +516,8 @@ charts-diagrams:
     - diagram-predecessor
     - diagram-project
     - diagram-successor
+    - hexagon-nodes
+    - hexagon-nodes-bolt
     - square-poll-horizontal
     - square-poll-vertical
   label: Charts + Diagrams
@@ -569,6 +573,7 @@ coding:
     - box-archive
     - bug
     - bug-slash
+    - chart-diagram
     - circle-nodes
     - code
     - code-branch
@@ -577,6 +582,8 @@ coding:
     - code-fork
     - code-merge
     - code-pull-request
+    - comment-nodes
+    - css
     - cube
     - cubes
     - diagram-project
@@ -590,6 +597,8 @@ coding:
     - font-awesome
     - gear
     - gears
+    - hexagon-nodes
+    - hexagon-nodes-bolt
     - keyboard
     - laptop-code
     - microchip
@@ -601,8 +610,10 @@ coding:
     - shield
     - shield-halved
     - sitemap
+    - square-binary
     - terminal
     - user-secret
+    - web-awesome
     - window-maximize
     - window-minimize
     - window-restore
@@ -618,6 +629,7 @@ communication:
     - comment
     - comment-dots
     - comment-medical
+    - comment-nodes
     - comment-slash
     - comment-sms
     - comments
@@ -767,6 +779,7 @@ design:
     - vector-square
     - wand-magic
     - wand-magic-sparkles
+    - web-awesome
   label: Design
 devices-hardware:
   icons:
@@ -1029,6 +1042,8 @@ files:
     - file-csv
     - file-excel
     - file-export
+    - file-fragment
+    - file-half-dashed
     - file-image
     - file-import
     - file-lines
@@ -1787,6 +1802,7 @@ maps:
     - location-pin-lock
     - magnet
     - magnifying-glass
+    - magnifying-glass-location
     - magnifying-glass-minus
     - magnifying-glass-plus
     - map
@@ -1836,6 +1852,7 @@ maps:
     - tags
     - taxi
     - thumbtack
+    - thumbtack-slash
     - ticket
     - ticket-simple
     - traffic-light
@@ -1991,6 +2008,8 @@ medical-health:
     - crutch
     - disease
     - dna
+    - droplet
+    - droplet-slash
     - eye
     - eye-dropper
     - file-medical
@@ -2000,6 +2019,7 @@ medical-health:
     - flask
     - flask-vial
     - hand-dots
+    - hand-holding-droplet
     - hand-holding-medical
     - head-side-cough
     - head-side-cough-slash
@@ -2063,6 +2083,7 @@ medical-health:
     - teeth-open
     - thermometer
     - tooth
+    - truck-droplet
     - truck-medical
     - user-doctor
     - user-nurse
@@ -2199,6 +2220,7 @@ music-audio:
     - volume-low
     - volume-off
     - volume-xmark
+    - wave-square
   label: Music + Audio
 nature:
   icons:
@@ -2490,6 +2512,7 @@ shapes:
     - shapes
     - shield
     - square
+    - square-binary
     - star
     - ticket-simple
   label: Shapes
@@ -2560,11 +2583,13 @@ shopping:
 social:
   icons:
     - bell
+    - bluesky
     - cake-candles
     - camera
     - circle-user
     - comment
     - envelope
+    - facebook
     - hashtag
     - heart
     - icons
@@ -2578,6 +2603,7 @@ social:
     - share
     - share-from-square
     - share-nodes
+    - square-bluesky
     - square-poll-horizontal
     - square-poll-vertical
     - square-share-nodes
@@ -2585,6 +2611,7 @@ social:
     - thumbs-down
     - thumbs-up
     - thumbtack
+    - thumbtack-slash
     - user
     - user-group
     - user-plus
@@ -2593,6 +2620,9 @@ social:
   label: Social
 spinners:
   icons:
+    - arrow-rotate-left
+    - arrow-rotate-right
+    - arrows-rotate
     - arrows-spin
     - asterisk
     - atom
@@ -2610,6 +2640,8 @@ spinners:
     - palette
     - ring
     - rotate
+    - rotate-left
+    - rotate-right
     - slash
     - snowflake
     - spinner
@@ -2688,7 +2720,10 @@ text-formatting:
     - superscript
     - table
     - table-cells
+    - table-cells-column-lock
     - table-cells-large
+    - table-cells-row-lock
+    - table-cells-row-unlock
     - table-columns
     - table-list
     - text-height
@@ -3057,4 +3092,5 @@ writing:
     - signature
     - square-pen
     - thumbtack
+    - thumbtack-slash
   label: Writing
