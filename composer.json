@@ -34,12 +34,13 @@
     }],
     "support": {},
     "require": {
-        "composer/composer": "2.7.7",
-        "phpmailer/phpmailer": "^6.9.1"
+        "composer/composer": "2.6.4",
+        "phpmailer/phpmailer": "^6.8.0",
+        "ramsey/uuid": "^4.7"
     },
     "autoload": {
         "psr-4": {
-            "PepiuoX\\": "classes/"
+            "PepiuoX\\": "src/core/"
         }
     },
     "repositories": []

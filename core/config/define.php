@@ -1,0 +1,37 @@
+<?php
+define('DOMAIN_SITE','//www.php-grapesjs.com/');
+ define('SITE_NAME','PHP GrapesJS');
+ define('SITE_BRAND_IMG','icon-pepiuox.png');
+ define('SITE_PATH','http://localhost:130/');
+ define('SITE_DESCRIPTION','Your description for your domains');
+ define('SITE_KEYWORDS','Your keywords for your domains');
+ define('SITE_CLASSIFICATION','Your classification for your domains');
+ define('SITE_EMAIL','contact@pepiuox.net');
+ define('SITE_IMAGE','dashboard');
+ define('SITE_ADMIN','dashboard');
+ define('SITE_CONTROL','users');
+ define('SITE_CONFIG','siteconf');
+ define('SITE_LANGUAGE_1','English');
+ define('SITE_LANGUAGE_2','Spanish');
+ define('FOLDER_IMAGES','uploads');
+ define('SITE_CREATOR','admin');
+ define('SITE_EDITOR','admin, editor');
+ define('SITE_BUILDER','builder');
+ define('SITE_LIST','list');
+ define('NAME_CONTACT','Jose Mantilla');
+ define('PHONE_CONTACT','0051999063645');
+ define('EMAIL_CONTACT','contact@pepiuox.net');
+ define('ADDRESS','Lima - Peru');
+ define('TWITTER','@pepiuox');
+ define('FACEBOOKID','pepiuox30675');
+ define('SKYPE','pepiuox');
+ define('TELEGRAM','pepiuox');
+ define('WHATSAPP','+51 999063645');
+ define('created','2022-01-08 08:42:41');
+ define('updated','2025-03-28 23:18:47');
+ define('SUPERADMIN_NAME','Super Admin');
+ define('SUPERADMIN_LEVEL','9');
+ define('ADMIN_NAME','Admin');
+ define('ADMIN_LEVEL','5');
+ define('SECURE_HASH','a323dd668edc79a1a294ce4d7ef25f242e55697384877f8fcd57d67fead56249');
+ define('SECURE_TOKEN','vrHPYiZV9bytr{I4Js5WoIuxJhTq5P9ATa({s(Cj1Dj%S67scb}z8#V0pC@ZjeZe5VOF[FK[wDGFCM{vLNsPo4OT)%r@veC#yASk8vwZh%oQ)j1YFlDu}1iUnUzEhJrO');?>
