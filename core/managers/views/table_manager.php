@@ -13,7 +13,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 if (isset($_POST['addtable'])) {
                     echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/table_manager/add">';
                 }
-                $linkedit = 'dashboard/table_manager/editor/';
+                $linkedit = SITE_PATH.'admin/dashboard/table_manager/editor/';
                 $result0 = $conn->query("SHOW COLUMNS FROM table_settings");
                 $bq = array();
                 echo '<form class="row form-horizontal" method="POST">' . "\n";
@@ -25,7 +25,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '<tr>' . "\n";
                 while ($row0 = $result0->fetch_array()) {
 
-                    if ($row0['Field'] == 'IdTbset') {
+                    if ($row0['Field'] === 'IdTbset') {
                         continue;
                     } else {
                         $remp = str_replace("_", " ", $row0['Field']);
@@ -112,7 +112,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         if (defined('TBL')) {
             $tble = TBL;
 
-            $vfile = 'qtmp.php';
+            $vfile = URL.'/managers/qtmp.php';
             if (file_exists($vfile)) {
                 unlink($vfile);
             }
@@ -124,7 +124,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if ($result->num_rows > 0) {
                 echo '<h4>This table has already been added in the query builder.</h4> ' . "\n";
                 echo '<script>' . "\n";
-                echo 'window.location.href = "'.SITE_PATH.'admin/dashboard/table_manager/editor&tbl=' . $tble . '"' . "\n";
+                echo 'window.location.href = "'.SITE_PATH.'admin/dashboard/table_manager/editor/' . $tble . '"' . "\n";
                 echo '</script>' . "\n";
             } else {
 
@@ -149,7 +149,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $dq .= implode(", \n", $addq);
                 $dq .= '";';
 
-                $redir = '<meta http-equiv="refresh" content="0;url=../table_manager/editor/' . $tble . '">';
+                $redir = '<meta http-equiv="refresh" content="0;url="'.SITE_PATH.'admin/dashboard/table_manager/editor/' . $tble . '">';
                 $content = '<?php' . "\n";
                 $content .= '//This is temporal file only for add new row' . "\n";
                 $content .= "if(isset(\$_POST['addtable'])){" . "\n";
@@ -175,7 +175,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 file_put_contents($vfile, $content, FILE_APPEND | LOCK_EX);
 
-                include_once 'qtmp.php';
+                include_once URL.'/managers/qtmp.php';
             }
         }
         ?>
@@ -213,7 +213,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <script>
                         let select = document.querySelector('#addtb');
                         select.addEventListener('change', function () {
-                        let url = '../table_manager/add/' + this.value;
+                        let url = '<?php echo SITE_PATH; ?>admin/dashboard/table_manager/add/' + this.value;
                         window.location.replace(url);
                         });
                     </script>
@@ -294,7 +294,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                let url = '../table_manager/editor&tbl=' + this.value;
+                                let url = '<?php echo SITE_PATH; ?>admin/dashboard/table_manager/editor/' + this.value;
                                 window.location.replace(url);
                                 });
                             </script>
@@ -434,7 +434,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <script>
                                 let select = document.querySelector('#selecttb');
                                 select.addEventListener('change', function () {
-                                let url = '<?php echo SITE_PATH; ?>admin/dashboard/table_manager/editor&tbl=' + this.value;
+                                let url = '<?php echo SITE_PATH; ?>admin/dashboard/table_manager/editor/' + this.value;
                                 window.location.replace(url);
                                 });
                             </script>

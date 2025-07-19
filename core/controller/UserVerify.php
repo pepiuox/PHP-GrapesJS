@@ -29,6 +29,11 @@ class UserVerify {
         }
     }
 
+    protected function encKey($len = 64) {
+        return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
+    }
+
+
     /*
      * Function Verify(){
      * User e-mail verification on verify.php
@@ -64,11 +69,9 @@ class UserVerify {
 
                     $uid = $urw['iduv'];
 
-                    function encKey($len = 64) {
-                        return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
-                    }
+                    
 
-                    $mhash = encKey();
+                    $mhash = $this->encKey();
 
                     $verified = 1;
                     $bann = 0;
