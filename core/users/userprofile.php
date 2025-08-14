@@ -23,8 +23,24 @@ $w = '';
 if (defined('WS')) {
     $w = WS;
 }
+$id = '';
+if (defined('IDP')) {
+    $id = IDP;
+}
+$tble = '';
+if (defined('TBL')) {
+    $tble = TBL;
+}
+
+$vpages = $vp->vPages($cms);
 
 if ($login->isLoggedIn() === true) {
+$name = "ckid";
+$value = $_SESSION["username"];
+$expire = time() + (3600 * 24); // 30 days
+$path = "/";
+
+setcookie($name, $value, $expire, $path);
 ?> 
       <!-- Navbar -->
     <?php include $source . '/core/elements/navbar.php'; ?>

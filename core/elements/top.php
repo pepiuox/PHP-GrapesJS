@@ -37,11 +37,7 @@ if (!empty($title)) {
     <title><?php echo $fname . ' - ' . SITE_NAME; ?></title>
     <?php
 }
-    ?>
 
-
-
-<?php
 $actth = 'Yes';
 $bsdft = 'Yes';
 $theme = $conn->prepare(
@@ -64,7 +60,6 @@ if ($nt > 0) {
     <?php
 }
     ?>
-
 <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/adminlte/css/adminlte.min.css">   
 <!-- Font Awesome -->
 <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome/css/all.min.css">
@@ -75,8 +70,10 @@ if ($nt > 0) {
 <script src="<?php echo SITE_PATH; ?>assets/js/menu.js" type="text/javascript"></script>
 <style>
 #wrapper, .container-fluid{
-margin:0;
-padding:0;
+    height: 100%;
+    width: 100%;
+    margin:0px;
+    padding:0px;
 }
 </style>
 

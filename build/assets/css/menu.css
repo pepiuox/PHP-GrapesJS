@@ -1,7 +1,13 @@
 .dropdown:hover >.dropdown-menu{
     display: block !important;
 }
-
+/* Assigning the above animation to all dropdown menus */
+.dropdown-menu{
+    &.show{
+        -webkit-animation: fadeIn 0.3s alternate; /* Safari 4.0 - 8.0 */
+         animation: fadeIn 0.3s alternate;
+    }
+}
 .dropdown-submenu:hover > .dropdown-menu{
     display: block !important;
     left: 100%;
@@ -30,6 +36,7 @@
 .dropdown-menu li {
 position: relative;
 }
+.dropdown-hover-all .dropdown-menu, .dropdown-hover > .dropdown-menu.dropend { margin-left:-1px !important }
 .dropdown-menu .dropdown-submenu {
 display: none;
 position: absolute;
@@ -110,3 +117,113 @@ pointer-events: none;
     		overflow-x: hidden;
     	}
     }
+
+
+/* Setting the font family for this example */
+*{
+  font-family: "Poppins", "Roboto", Arial, sans-serif;
+}
+
+/* Animation to fade in the dropdown menus */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
+
+/* Mega Menu adjustments */
+.nav-item.dropdown.dropdown-mega{
+    position: static;
+    .dropdown-menu{
+        width: 90%;
+        top: auto;
+        left: 5%;
+    }
+}
+
+/* Complete styles for main navbar toggler and hamburger menu */
+.navbar-toggler{
+    border: none;
+    padding: 0;
+    outline: none;
+    &:focus{
+        box-shadow: none;
+    }
+    .hamburger-toggle{
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        z-index: 11;
+        float: right;
+        .hamburger {
+            position: absolute;
+            transform: translate(-50%, -50%) rotate(0deg);
+            left: 50%;
+            top: 50%;
+            width: 50%;
+            height: 50%;
+            pointer-events: none;
+            span {
+                width: 100%;
+                height: 4px;
+                position: absolute;
+                background: #333;
+                border-radius: 2px;
+                z-index: 1;
+                transition: transform 0.2s cubic-bezier(0.77,0.2,0.05,1.0), background 0.2s cubic-bezier(0.77,0.2,0.05,1.0), all 0.2s ease-in-out;
+                left: 0px;
+                &:first-child{
+                    top: 10%;
+                    transform-origin: 50% 50%;
+                    transform: translate(0% -50%) !important;
+                }
+                &:nth-child(2){
+                    top: 50%;
+                    transform: translate(0,-50%);
+                }
+                &:last-child{
+                    left: 0px;
+                    top: auto;
+                    bottom: 10%;
+                    transform-origin: 50% 50%;
+                }
+            }
+            &.active{
+                span {
+                    position: absolute;
+                    margin: 0;
+                    &:first-child{
+                        top: 45%;
+                        transform: rotate(45deg);
+                    }
+                    &:nth-child(2){
+                        left: 50%;
+                        width: 0px;
+                    }
+                    &:last-child{
+                        top: 45%;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.icons{
+  display: inline-flex;
+  margin-left: auto;
+  a{
+    transition: all 0.2s ease-in-out;
+    padding: 0.2rem 0.4rem;
+    color: #ccc !important;
+    text-decoration: none;
+    &:hover{
+      color: white;
+      text-shadow: 0 0 30px white;
+    }
+  }
+}

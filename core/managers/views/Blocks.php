@@ -1,13 +1,14 @@
 <?php
-if (isset($_GET['w']) && !empty($_GET['w'])) {
-    $w = $_GET['w'];
-    if ($w === 'list') {
-        ?>
-        <div class="container"> 
-            <p>
-                <a class="btn btn-secondary" href='dashboard/blocks/add'>Agregar Nuevo Bloque</a> 
-            </p>
-            <h3>Lista de bloques </h3>
+if ($login->isLoggedIn() === true && $level->levels() === 9) {
+    if (isset($_GET['w']) && !empty($_GET['w'])) {
+        $w = $_GET['w'];
+        if ($w === 'list') {
+?>
+                    <div class="container"> 
+                        <p>
+                            <a class="btn btn-secondary" href='dashboard/blocks/add'>Agregar Nuevo Bloque</a> 
+                        </p>
+                        <h3>Lista de bloques </h3>
             <?php
             echo "<table class='table' border=1 >";
             echo "<thead>";
@@ -48,11 +49,11 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
             echo "</tfoot>";
             echo "</table>";
             ?>
-        </div>
-        <?php
-    } elseif ($w === 'add') {
-        ?> 
-        <div class="container"> 
+                    </div>
+            <?php
+        } elseif ($w === 'add') {
+            ?> 
+                    <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `blocks` ( `blockId` ,  `active` ,  `pageId`  ) VALUES(  '{$_POST['blockId']}' ,  '{$_POST['active']}' ,  '{$_POST['pageId']}'  ) ";
@@ -61,65 +62,65 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                 echo '<meta http-equiv="refresh" content="0">';
             }
             ?>
-            <form action='' method='POST'> 
-                <div class="container">
-                    <label class="form-label">Tipo de Bloque:</label>
-                    <?php
-                    $stp1 = "SELECT * FROM type_blocks";
-                    $quertp1 = $conn->query($stp1);
-                    ?> 
-                    <select class="form-select" name='blockId' id='blockId'/>                                     
-                    <?php
-                    while ($tp1 = mysqli_fetch_array($quertp1)) {
-                        ?>     
-                        <option value="<?php echo $tp1['id']; ?>"><?php echo $tp1['type_block']; ?></option>
-                        <?php
-                    }
-                    ?>
-                    </select>  
-                </div> 
-                <div class="container">
-                    <label class="form-label">Activo:</label>
-                    <select class="form-select" name='active' id='active'>
-                        <?php
-                        $acti = array("No", "Si");
-                        reset($acti);
-                        foreach ($acti as $key) {
-                            $val = $key;
-                            ?>     
-                            <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
-                            <?php
-                        }
-                        ?>     
-                    </select>
-                </div> 
-                <div class="container">
-                    <label class="form-label">Página:</label>
-                    <?php
-                    $sqp1 = "SELECT * FROM pages";
-                    $queryp1 = $conn->query($sqp1);
-                    ?> 
-                    <select class="form-select" name='pageId' id='pageId'>                            
-                        <option>Selecciona una página </option>
-                        <?php
-                        while ($rp1 = mysqli_fetch_array($queryp1)) {
-                            ?>     
-                            <option value="<?php echo $rp1['id']; ?>"><?php echo $rp1['title']; ?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                </div> 
-                <div class="container">
-                    <input class="btn btn-primary" type='submit' value='Agregar Bloque' />
-                    <input type='hidden' value='1' name='submitted' />
-                </div> 
-            </form> 
-        </div>
-        <?php
-    } elseif ($w === 'edit') {
-        ?> 
-        <div class="container"> 
+                        <form action='' method='POST'> 
+                            <div class="container">
+                                <label class="form-label">Tipo de Bloque:</label>
+            <?php
+            $stp1 = "SELECT * FROM type_blocks";
+            $quertp1 = $conn->query($stp1);
+            ?> 
+                                <select class="form-select" name='blockId' id='blockId'/>                                     
+            <?php
+            while ($tp1 = mysqli_fetch_array($quertp1)) {
+            ?>     
+                                        <option value="<?php echo $tp1['id']; ?>"><?php echo $tp1['type_block']; ?></option>
+                <?php
+            }
+                ?>
+                                </select>  
+                            </div> 
+                            <div class="container">
+                                <label class="form-label">Activo:</label>
+                                <select class="form-select" name='active' id='active'>
+            <?php
+            $acti = array("No", "Si");
+            reset($acti);
+            foreach ($acti as $key) {
+                $val = $key;
+            ?>     
+                                            <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+                <?php
+            }
+                ?>     
+                                </select>
+                            </div> 
+                            <div class="container">
+                                <label class="form-label">Página:</label>
+            <?php
+            $sqp1 = "SELECT * FROM pages";
+            $queryp1 = $conn->query($sqp1);
+            ?> 
+                                <select class="form-select" name='pageId' id='pageId'>                            
+                                    <option>Selecciona una página </option>
+            <?php
+            while ($rp1 = $queryp1->fetch_array()) {
+            ?>     
+                                            <option value="<?php echo $rp1['id']; ?>"><?php echo $rp1['title']; ?></option>
+                <?php
+            }
+                ?>
+                                </select>
+                            </div> 
+                            <div class="container">
+                                <input class="btn btn-primary" type='submit' value='Agregar Bloque' />
+                                <input type='hidden' value='1' name='submitted' />
+                            </div> 
+                        </form> 
+                    </div>
+            <?php
+        } elseif ($w === 'edit') {
+            ?> 
+                    <div class="container"> 
             <?php
             if (isset($_GET['idB'])) {
                 $idB = (int) $_GET['idB'];
@@ -131,101 +132,102 @@ if (isset($_GET['w']) && !empty($_GET['w'])) {
                     echo '<meta http-equiv="refresh" content="0">';
                 }
                 $row = $conn->query("SELECT * FROM `blocks` WHERE `idB` = '$idB' ")->fetch_assoc();
-                ?>
-                <p>
-                    <a class="btn btn-secondary" href='dashboard/blocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
-                </p>
-                <form action='' method='POST'> 
-                    <div class="container">
-                        <label class="form-label">Bloque:</label>
-                        <label class="form-label">Tipo de Bloque:</label>
+            ?>
+                                <p>
+                                    <a class="btn btn-secondary" href='dashboard/blocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
+                                </p>
+                                <form action='' method='POST'> 
+                                    <div class="container">
+                                        <label class="form-label">Bloque:</label>
+                                        <label class="form-label">Tipo de Bloque:</label>
+                <?php
+                $stp1 = "SELECT * FROM type_blocks";
+                $quertp1 = $conn->query($stp1);
+                ?> 
+                                        <select class="form-select" name='blockId' id='blockId'/>                                     
+                <?php
+                while ($tp1 = mysqli_fetch_array($quertp1)) {
+                    if ($tp1['id'] == $row['blockId']) {
+                ?>     
+                                                        <option value="<?php echo $tp1['id']; ?>" selected><?php echo $tp1['type_block']; ?></option>
                         <?php
-                        $stp1 = "SELECT * FROM type_blocks";
-                        $quertp1 = $conn->query($stp1);
-                        ?> 
-                        <select class="form-select" name='blockId' id='blockId'/>                                     
+                    } else {
+                        ?>     
+                                                        <option value="<?php echo $tp1['id']; ?>"><?php echo $tp1['type_block']; ?></option>
                         <?php
-                        while ($tp1 = mysqli_fetch_array($quertp1)) {
-                            if ($tp1['id'] == $row['blockId']) {
-                                ?>     
-                                <option value="<?php echo $tp1['id']; ?>" selected><?php echo $tp1['type_block']; ?></option>
-                                <?php
-                            } else {
-                                ?>     
-                                <option value="<?php echo $tp1['id']; ?>"><?php echo $tp1['type_block']; ?></option>
-                                <?php
-                            }
-                        }
+                    }
+                }
                         ?>
-                        </select>  
-                    </div> 
-                    <div class="container">
-                        <label class="form-label">Activo:</label>
-                        <select class="form-select" name='active' id='active'>
-                            <?php
-                            $acti = array("No", "Si");
+                                        </select>  
+                                    </div> 
+                                    <div class="container">
+                                        <label class="form-label">Activo:</label>
+                                        <select class="form-select" name='active' id='active'>
+                <?php
+                $acti = array("No", "Si");
 
-                            reset($acti);
+                reset($acti);
 
-                            foreach ($acti as $key) {
-                                $val = $key;
-                                if ($row['active'] == $key) {
-                                    ?>     
-                                    <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
-                                    <?php
-                                } else {
-                                    ?>     
-                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>     
-                        </select>
-                    </div> 
-                    <div class="container"><label class="form-label">Página:</label>
+                foreach ($acti as $key) {
+                    $val = $key;
+                    if ($row['active'] == $key) {
+                ?>     
+                                                            <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
                         <?php
-                        $sqp1 = "SELECT * FROM pages";
-                        $queryp1 = $conn->query($sqp1);
-                        ?> 
-                        <select class="form-select" name='pageId' id='pageId'>                            
-                            <option>Selecciona una página </option>
-                            <?php
-                            while ($rp1 = mysqli_fetch_array($queryp1)) {
-                                if ($rp1['id'] == $row['pageId']) {
-                                    ?>     
-                                    <option value="<?php echo $rp1['id']; ?>" selected><?php echo $rp1['title']; ?></option>
-                                    <?php
-                                } else {
-                                    ?>     
-                                    <option value="<?php echo $rp1['id']; ?>"><?php echo $rp1['title']; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div> 
-                    <div class="container">
-                        <input class="btn btn-primary" type='submit' value='Editar Bloque' />
-                        <input type='hidden' value='1' name='submitted' />
-                    </div> 
-                </form> 
+                    } else {
+                        ?>     
+                                                            <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+                        <?php
+                    }
+                }
+                        ?>     
+                                        </select>
+                                    </div> 
+                                    <div class="container"><label class="form-label">Página:</label>
+                <?php
+                $sqp1 = "SELECT * FROM pages";
+                $queryp1 = $conn->query($sqp1);
+                ?> 
+                                        <select class="form-select" name='pageId' id='pageId'>                            
+                                            <option>Selecciona una página </option>
+                <?php
+                while ($rp1 = mysqli_fetch_array($queryp1)) {
+                    if ($rp1['id'] == $row['pageId']) {
+                ?>     
+                                                            <option value="<?php echo $rp1['id']; ?>" selected><?php echo $rp1['title']; ?></option>
+                        <?php
+                    } else {
+                        ?>     
+                                                            <option value="<?php echo $rp1['id']; ?>"><?php echo $rp1['title']; ?></option>
+                        <?php
+                    }
+                }
+                        ?>
+                                        </select>
+                                    </div> 
+                                    <div class="container">
+                                        <input class="btn btn-primary" type='submit' value='Editar Bloque' />
+                                        <input type='hidden' value='1' name='submitted' />
+                                    </div> 
+                                </form> 
             <?php } ?> 
-        </div>
-        <?php
-    } elseif ($w === 'delete') {
-        ?> 
-        <div class="container"> 
+                    </div>
+            <?php
+        } elseif ($w === 'delete') {
+            ?> 
+                    <div class="container"> 
             <?php
             $idB = (int) $_GET['idB'];
             $conn->query("DELETE FROM `blocks` WHERE `idB` = '$idB' ");
             //echo "Bloque Eliminado.<br /> ";
             header("Location: listBlock.php");
             ?> 
-        </div>
-        <?php
-    } else {
-        header('Location: dashboard.php');
-        exit;
+                    </div>
+            <?php
+        } else {
+            header('Location: dashboard.php');
+            exit;
+        }
     }
 }
 ?> 

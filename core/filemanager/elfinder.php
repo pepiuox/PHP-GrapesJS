@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-    <title>elFinder 2.1.x source version with PHP connector</title>
-    <script src="../../build/assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+<?php
+$protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") || $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
+$baseweb = $protocol . $_SERVER["HTTP_HOST"] . "/";
+?>
+    <script src="<?= $baseweb;?>assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
     <!-- Require JS (REQUIRED) -->
     <!-- Rename "main.default.js" to "main.js" and edit it if you need configure elFInder options or any things -->
     <script data-main="./main.default.js" src="./require.min.js"></script>
@@ -63,9 +60,6 @@
         }
       });
     </script>
-  </head>
-  <body>
+
     <!-- Element where elFinder will be created (REQUIRED) -->
     <div id="elfinder"></div>
-  </body>
-</html>

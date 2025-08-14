@@ -238,10 +238,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         ?>
                 <script type="text/javascript">
                 var images = <?php echo $storeImage; ?>;
-                var editor = grapesjs.init({
-                height: '100%',
+                var editor = grapesjs.init({              
                 container: '#gjs',
                 fromElement: true,
+                height: '100vh',
+                width: 'auto',
                 showOffsets: true,
                 noticeOnUnload: false,
                 storageType: '',
@@ -364,7 +365,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 label: 'Justify',
                 className: 'fa fa-align-justify'
                 }
-                ],
+                ]
                 },
                 {
                 property: 'text-decoration',
@@ -434,78 +435,78 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 type: 'radio',
                 defaults: 'row',
                 list: [{
-                value: 'row',
-                name: 'Row',
-                className: 'icons-flex icon-dir-row',
-                title: 'Row'
-                }, {
-                value: 'row-reverse',
-                name: 'Row reverse',
-                className: 'icons-flex icon-dir-row-rev',
-                title: 'Row reverse'
-                }, {
-                value: 'column',
-                name: 'Column',
-                title: 'Column',
-                className: 'icons-flex icon-dir-col'
-                }, {
-                value: 'column-reverse',
-                name: 'Column reverse',
-                title: 'Column reverse',
-                className: 'icons-flex icon-dir-col-rev'
-                }],
+                    value: 'row',
+                    name: 'Row',
+                    className: 'icons-flex icon-dir-row',
+                    title: 'Row'
+                    }, {
+                    value: 'row-reverse',
+                    name: 'Row reverse',
+                    className: 'icons-flex icon-dir-row-rev',
+                    title: 'Row reverse'
+                    }, {
+                    value: 'column',
+                    name: 'Column',
+                    title: 'Column',
+                    className: 'icons-flex icon-dir-col'
+                    }, {
+                    value: 'column-reverse',
+                    name: 'Column reverse',
+                    title: 'Column reverse',
+                    className: 'icons-flex icon-dir-col-rev'
+                }]
                 }, {
                 name: 'Justify',
                 property: 'justify-content',
                 type: 'radio',
                 defaults: 'flex-start',
                 list: [{
-                value: 'flex-start',
-                className: 'icons-flex icon-just-start',
-                title: 'Start'
-                }, {
-                value: 'flex-end',
-                title: 'End',
-                className: 'icons-flex icon-just-end'
-                }, {
-                value: 'space-between',
-                title: 'Space between',
-                className: 'icons-flex icon-just-sp-bet'
-                }, {
-                value: 'space-around',
-                title: 'Space around',
-                className: 'icons-flex icon-just-sp-ar'
-                }, {
-                value: 'center',
-                title: 'Center',
-                className: 'icons-flex icon-just-sp-cent'
-                }],
+                    value: 'flex-start',
+                    className: 'icons-flex icon-just-start',
+                    title: 'Start'
+                    }, {
+                    value: 'flex-end',
+                    title: 'End',
+                    className: 'icons-flex icon-just-end'
+                    }, {
+                    value: 'space-between',
+                    title: 'Space between',
+                    className: 'icons-flex icon-just-sp-bet'
+                    }, {
+                    value: 'space-around',
+                    title: 'Space around',
+                    className: 'icons-flex icon-just-sp-ar'
+                    }, {
+                    value: 'center',
+                    title: 'Center',
+                    className: 'icons-flex icon-just-sp-cent'
+                }]
                 }, {
                 name: 'Align',
                 property: 'align-items',
                 type: 'radio',
                 defaults: 'center',
                 list: [{
-                value: 'flex-start',
-                title: 'Start',
-                className: 'icons-flex icon-al-start'
-                }, {
-                value: 'flex-end',
-                title: 'End',
-                className: 'icons-flex icon-al-end'
-                }, {
-                value: 'stretch',
-                title: 'Stretch',
-                className: 'icons-flex icon-al-str'
-                }, {
-                value: 'center',
-                title: 'Center',
-                className: 'icons-flex icon-al-center'
-                }],
+                    value: 'flex-start',
+                    title: 'Start',
+                    className: 'icons-flex icon-al-start'
+                    }, {
+                    value: 'flex-end',
+                    title: 'End',
+                    className: 'icons-flex icon-al-end'
+                    }, {
+                    value: 'stretch',
+                    title: 'Stretch',
+                    className: 'icons-flex icon-al-str'
+                    }, {
+                    value: 'center',
+                    title: 'Center',
+                    className: 'icons-flex icon-al-center'
+                }]
                 }, {
                 name: 'Flex Children',
                 property: 'label-parent-flex',
-                type: 'integer',
+                type: 'integer'
                 }, {
                 name: 'Order',
                 property: 'order',

@@ -1,13 +1,13 @@
 <div class="card mb-4">
     <div class="card-body">
-		<div id="btn-row">
-			<button type="button" id="btn-perfil" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#edprofile">
-			  Editar perfil
-			</button>
-			<button type="button" id="btn-info" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#edinfo">
-			  Editar info
-			</button>	
-		</div>				  
+	<div id="btn-row">
+            <button type="button" id="btn-perfil" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#edprofile">
+	Editar perfil
+            </button>
+            <button type="button" id="btn-info" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#edinfo">
+	Editar info
+            </button>	
+	</div>				  
         <div class="row">
               <div class="col-sm-3">
                 <p class="mb-0">Nombre completo</p>

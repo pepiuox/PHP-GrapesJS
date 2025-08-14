@@ -134,7 +134,7 @@ function third($sid, $plink)
         $slink = $plink . "/" . $row["link"];
 
         if (in_array($row["id"], $parents)) {
-            echo '<li><a class="dropdown-item" href="' .
+            echo '<li class="dropdown-hover"><a class="dropdown-item" href="' .
                 $slink .
                 '">' .
                 $row["title"] .
@@ -153,6 +153,7 @@ function third($sid, $plink)
     }
     echo "</ul>" . "\n";
 }
+
 if(empty($menu)){
     $menu = 1;
 }

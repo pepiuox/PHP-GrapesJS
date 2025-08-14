@@ -71,10 +71,10 @@ if ($pages->GoPage() === true) {
             echo '</style>' . "\n";
         }
 ?>
-                </head>
-                <body>
-                <div id="wrapper">
-                <div class='container-fluid min-h-screen' id="content-page">
+                        </head>
+                        <body>
+                        <div id="wrapper">
+                        <div class='container-fluid min-h-screen' id="content-page">
         <?php
         require_once "elements/menu.php";
         if ($typepage === 'File') {
@@ -91,25 +91,47 @@ if ($pages->GoPage() === true) {
             }
             echo $string . "\n";
         }
-        require_once "elements/footer.php";
         ?>
-        </div>
-        </div>
-        </body>
-        </html>
+                </div>
+        <?php require_once "elements/footer.php"; ?>
+                </div>
+                </body>
+                </html>
         <?php
     }
 } else {
     $tempURL = explode('/', $_SERVER['REQUEST_URI']);
     $tempBASE = $tempURL[1];
     $tempURI = $tempURL[2];
+    if (!empty($tempURL[3])) {
+        define('CMS', $tempURL[3]);
+    }
+    if (!empty($tempURL[4])) {
+
+        if (is_numeric($tempURL[4]) === TRUE) {
+            define('IDP', $tempURL[4]);
+        } else {
+            define('WS', $tempURL[4]);
+        }
+    }
+    if (!empty($tempURL[5])) {
+        if (is_numeric($tempURL[5]) === TRUE) {
+            define('IDP', $tempURL[5]);
+        } else {
+            define('TBL', $tempURL[5]);
+        }
+    }
+    if (!empty($tempURL[6])) {
+        define('IDP', $tempURL[6]);
+    }
 
     if ($tempBASE === "signin") {
         require_once "elements/top.php";
         ?>
-        </head>
-        <div id="wrapper">
-            <div class='container-fluid min-h-screen' id="content-page">
+                </head>
+                <body>
+                <div id="wrapper">
+                    <div class='container-fluid min-h-screen' id="content-page">
         <?php
         require_once "elements/menu.php";
         if ($tempURI === "login") {
@@ -125,56 +147,36 @@ if ($pages->GoPage() === true) {
         } else if ($tempURI === "forgot-pin") {
             require_once "pages/forgot/" . $tempURI . ".php";
         }
-        require_once 'elements/footer.php';
         ?>
-        </div>
-        </div>
-        </body>
-        </html>
+                </div>
+        <?php require_once "elements/footer.php"; ?>
+                </div>
+                
+                </body>
+                </html>
         <?php
     } else if ($tempBASE === "admin") {
 
         if ($tempURI === "dashboard") {
             include 'elements/header_dashboard.php';
         ?>
-                 </head>
-                 <body class="hold-transition sidebar-mini">
-                 <div class="wrapper">  
+                             </head>
+                             <body class="hold-transition sidebar-mini">
+                             <div class="wrapper">  
             <?php
-            if (!empty($tempURL[3])) {
-                define('CMS', $tempURL[3]);
-            }
-            if (!empty($tempURL[4])) {
-                
-                if (is_numeric($tempURL[4])=== TRUE) {
-                    define('IDP', $tempURL[4]);
-                } else {
-                    define('WS', $tempURL[4]);
-                }
-            }
-            if (!empty($tempURL[5])) {
-                if (is_numeric($tempURL[5])=== TRUE) {
-                    define('IDP', $tempURL[5]);
-                } else {
-                    define('TBL', $tempURL[5]);
-                }              
-            }
-            if (!empty($tempURL[6])) {
-                define('IDP', $tempURL[6]);
-            }
             require_once "managers/" . $tempURI . ".php";
             ?>
-                 </div>
-                 </body>
-                 </html>
+                             </div>
+                             </body>
+                             </html>
             <?php
         }
 
         if ($tempURI === "builder") {
             include 'elements/top_build.php';
             ?>   
-                  </head>
-               <body id="builder">  
+                              </head>
+                           <body id="builder">  
             <?php
             if (!empty($tempURL[3])) {
                 define('PAG', $tempURL[3]);
@@ -184,9 +186,9 @@ if ($pages->GoPage() === true) {
             }
             require_once "managers/" . $tempURI . ".php";
             ?>
-                 
-                 </body>
-                 </html>
+                             
+                             </body>
+                             </html>
             <?php
         }
             ?>
@@ -194,9 +196,9 @@ if ($pages->GoPage() === true) {
     } else if ($tempBASE === "profile") {
         include 'elements/header.php';
         ?>
-                </head>
-        <body class="hold-transition sidebar-mini">
-        <div class="wrapper">  
+                        </head>
+                <body class="hold-transition sidebar-mini">
+                <div class="wrapper">  
         <?php
         if (!empty($tempURL[3])) {
             define('USR', $tempURL[3]);
@@ -206,16 +208,16 @@ if ($pages->GoPage() === true) {
         }
         require_once "users/" . $tempURI . ".php";
         ?>
-         </div>
-         </body>
-         </html>
+                 </div>
+                 </body>
+                 </html>
         <?php
     } else {
         header("Location " . $pg404);
         die();
     }
         ?>
-          
+              
     <?php
 }
     ?>

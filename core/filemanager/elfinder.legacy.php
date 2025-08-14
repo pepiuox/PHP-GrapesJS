@@ -47,7 +47,7 @@ $baseweb = $protocol . $_SERVER["HTTP_HOST"] . "/";
           {
             cssAutoLoad: false, // Disable CSS auto loading
             baseUrl: './', // Base URL to css/*, js/*
-            url: '<?php echo $baseweb; ?>core/filemanager/php/connector.php', // connector URL (REQUIRED)
+            url: '<?php echo $baseweb; ?>core/filemanager/php/connector.minimal.php', // connector URL (REQUIRED)
             // , lang: 'ru'                    // language (OPTIONAL)
             resizable: false,
                 onlyMimes: ["image"],

@@ -33,6 +33,8 @@ class UsersClass {
     protected $gc;
     public $protocol;
     public $loginp;
+    private $path;
+   
 
     /*
      * __constructor()
@@ -51,9 +53,12 @@ class UsersClass {
         $this->conn = $conn;
         $this->syst = SITE_PATH;
         $this->logp = SITE_PATH . "signin/login";
+
         $this->uca = new UsersCodeAccess();
         $this->gc = new GetCodeDeEncrypt();
-        $this->expiry = time() + 3600;
+        
+        $this->expiry = time() + (3600 * 24);
+        $this->path = "/";
         $this->ip = $this->getUserIP();
         $this->protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") || $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
         $this->baseurl = $this->protocol . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]);
@@ -129,7 +134,6 @@ class UsersClass {
         return true;
     }
 
-
     /*
      * Function Login()
      * Function that validates user login data, cross-checks with database.    
@@ -138,6 +142,7 @@ class UsersClass {
      *
      * @return void
      */
+
     private function Login() {
         if (isset($_POST["signin"])) {
 //set login attempt if not set
@@ -174,10 +179,10 @@ class UsersClass {
                             $remember = trim($_POST["remember"]);
 
                             if ($remember === "Yes") {
-                                define("COOKIE_EXPIRE", $this->expiry + 36000); //7 days by default
+                                define("COOKIE_EXPIRE", $this->expiry); //1 days by default
                                 define("COOKIE_PATH", "/"); //Avaible in whole domain
                             } else {
-                                define("COOKIE_EXPIRE", $this->expiry); //7 days by default
+                                define("COOKIE_EXPIRE", $this->expiry); //1 days by default
                                 define("COOKIE_PATH", "/"); //Avaible in whole domain
                             }
                         }
@@ -381,8 +386,8 @@ class UsersClass {
                                                     $stoken,
                                                     $shash
                                             );
-                                            setcookie("cknm", $usnm, time() + $this->expiry );
-                                            setcookie("ckid", $usid, time() + $this->expiry );
+                                                                              
+
                                             $_SESSION["SuccessMessage"] = "Congratulations you now have access!";
                                             unset($_SESSION["attempt"]);
                                             unset($_SESSION["attempt_again"]);
@@ -683,9 +688,11 @@ class UsersClass {
     public function logout() {
         if (isset($_POST["logout"])) {
             if (!empty($_SESSION["user_id"])) {
-                if (isset($_COOKIE["cknm"]) && isset($_COOKIE["ckid"])) {
-                    setcookie("cknm", "", time() - $this->expiry);
-                    setcookie("ckid", "", time() - $this->expiry);
+                if (isset($_COOKIE["ckid"])) {
+                    // Get the cookie value.
+                    
+                    setcookie('ckid', '', $this->expiry - (3600 * 24), $this->path);
+
                 }
                 $_SESSION = [];
                 /* Unset PHP session variables */

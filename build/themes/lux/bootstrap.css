@@ -1,13 +1,13 @@
 @charset "UTF-8";
 /*!
- * Bootswatch v5.3.6 (https://bootswatch.com)
+ * Bootswatch v5.3.7 (https://bootswatch.com)
  * Theme: lux
  * Copyright 2012-2025 Thomas Park
  * Licensed under MIT
  * Based on Bootstrap
 */
 /*!
- * Bootstrap  v5.3.6 (https://getbootstrap.com/)
+ * Bootstrap  v5.3.7 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
@@ -5184,7 +5184,7 @@ textarea.form-control-lg {
   --bs-toast-border-radius: var(--bs-border-radius);
   --bs-toast-box-shadow: var(--bs-box-shadow);
   --bs-toast-header-color: var(--bs-secondary-color);
-  --bs-toast-header-bg: rgba(var(--bs-body-bg-rgb), 0.85);
+  --bs-toast-header-bg: transparent;
   --bs-toast-header-border-color: var(--bs-border-color-translucent);
   width: var(--bs-toast-max-width);
   max-width: 100%;
@@ -5609,8 +5609,8 @@ textarea.form-control-lg {
   --bs-popover-header-padding-x: 1rem;
   --bs-popover-header-padding-y: 0.5rem;
   --bs-popover-header-font-size: 1rem;
-  --bs-popover-header-color: #1a1a1a;
-  --bs-popover-header-bg: var(--bs-secondary-bg);
+  --bs-popover-header-color: var(--bs-popover-header-color);
+  --bs-popover-header-bg: transparent;
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: 1rem;
   --bs-popover-body-color: var(--bs-body-color);
@@ -12022,4 +12022,22 @@ th {
 .card .h5,
 .card .h6 {
   color: inherit;
+}
+
+.modal-dialog {
+  box-shadow: var(--bs-box-shadow);
+}
+
+.popover {
+  --bs-popover-border-color: transparent;
+  box-shadow: var(--bs-box-shadow);
+}
+.popover .popover-arrow {
+  --bs-popover-border-width: 1px;
+}
+
+[data-bs-theme=dark] .modal-content,
+[data-bs-theme=dark] .popover,
+[data-bs-theme=dark] .toast {
+  background-color: #272727;
 }

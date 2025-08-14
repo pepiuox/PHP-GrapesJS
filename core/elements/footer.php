@@ -1,5 +1,5 @@
-<div class="container-fluid bg-primary">
-    <div class="row">
+<div class="container-fluid shadow <?php echo $background; ?>" data-bs-theme="<?php echo $color; ?>">
+    <div class="row sticky-bottom">
         <div class="col-md-12 text-center p-4"><?php echo '© '. date("Y").' Copyright: '. SITE_NAME .' - Develop by PePiuoX'; ?></div>
     </div>
 </div>
@@ -12,10 +12,6 @@
                 $(this).addClass("active");
             });
         });
-    });
-</script>
-<script>
-    $(document).ready(function () {
         $(".nav-tabs a").click(function () {
             $(this).tab('show');
         });

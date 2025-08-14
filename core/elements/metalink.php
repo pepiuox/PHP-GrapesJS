@@ -1,7 +1,6 @@
 <!-- start icon devices compatibility --> 
 <link rel="shortcut icon" href="<?php echo SITE_PATH; ?>assets/images/favicon.ico"/>
 <link rel="icon" sizes="16x16 32x32 64x64" href="<?php echo SITE_PATH; ?>assets/images/favicon.ico"/>
-<link rel="icon" type="image/png" sizes="196x196" href="<?php echo SITE_PATH; ?>assets/images/favicon-192.png"/>
 <link rel="icon" type="image/png" sizes="160x160" href="<?php echo SITE_PATH; ?>assets/images/favicon-160.png"/>
 <link rel="icon" type="image/png" sizes="96x96" href="<?php echo SITE_PATH; ?>assets/images/favicon-96.png"/>
 <link rel="icon" type="image/png" sizes="64x64" href="<?php echo SITE_PATH; ?>assets/images/favicon-64.png"/>
@@ -17,8 +16,6 @@
 <link rel="apple-touch-icon" sizes="152x152" href="<?php echo SITE_PATH; ?>assets/images/favicon-152.png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo SITE_PATH; ?>assets/images/favicon-180.png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo SITE_PATH; ?>assets/images/apple-touch-icon.png"/>
-<link rel="icon" type="image/png" href="<?php echo SITE_PATH; ?>assets/images/favicon-32x32.png" sizes="32x32"/>
-<link rel="icon" type="image/png" href="<?php echo SITE_PATH; ?>assets/images/favicon-16x16.png" sizes="16x16"/>
 <link rel="manifest" href="<?php echo SITE_PATH; ?>assets/images/manifest.json"/>
 <link rel="mask-icon" href="<?php echo SITE_PATH; ?>assets/images/safari-pinned-tab.svg" color="#30778b"/>
 <meta name="msapplication-TileColor" content="#da532c">

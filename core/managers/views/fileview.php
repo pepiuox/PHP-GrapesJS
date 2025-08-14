@@ -138,7 +138,8 @@
         background-image: url(../img/folder.png);
     }
 </style>
-<script src="../js/sorttable.js"></script>   
+<script src="<?= SITE_PATH; ?>build/assets/js/jquery-sortable.js" type="text/javascript"></script>
+  
 <div class="container">
     <h3>Contenido de Archivos</h3>
     <table class="sortable">
@@ -152,9 +153,9 @@
         </thead>
         <tbody>
             <?php
-            //$nfiles = B_URL."upload/";
+            $nfiles = URL."/build/uploads/";
             // Opens directory
-            $myDirectory = opendir("../upload/");
+            $myDirectory = opendir($nfiles);
 
             // Gets each entry
             while ($entryName = readdir($myDirectory)) {
@@ -267,10 +268,10 @@
                     // Print 'em
                     echo "
           <tr class='$class'>
-            <td><a class='selimg' href='" . B_URL . "upload/$namehref'>$name</a></td>
-            <td><a href='" . B_URL . "upload/$namehref'>$extn</a></td>
-            <td><a href='" . B_URL . "upload/$namehref'>$size</a></td>
-            <td sorttable_customkey='$timekey'><a href='" . B_URL . "upload/$namehref'>$modtime</a></td>
+            <td><a class='selimg' href='" . SITE_PATH . "uploads/$namehref'>$name</a></td>
+            <td><a href='" . SITE_PATH . "uploads/$namehref'>$extn</a></td>
+            <td><a href='" . SITE_PATH . "uploads/$namehref'>$size</a></td>
+            <td sorttable_customkey='$timekey'><a href='" .SITE_PATH . "uploads/$namehref'>$modtime</a></td>
           </tr>";
                 }
             }

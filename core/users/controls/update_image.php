@@ -79,18 +79,18 @@ if (isset($_POST["imgfile"])) {
 
 }
 ?>
-		  <form method="post" enctype="multipart/form-data">
-			  <div class="row">
-			  <div id="display_image text-center">
-			  <img id="uploaded image" src="<?php echo $_SESSION['folderusr'] . $rpro["profile_image"]; ?>" class="img-fluid" alt="<?php 
+<form method="post" enctype="multipart/form-data">
+<div class="row">
+<div id="display_image text-center">
+<img id="uploaded image" src="<?php echo $_SESSION['folderusr'] . $rpro["profile_image"]; ?>" class="img-fluid" alt="<?php 
 					echo $rpro["firstname"] . " " . $rpro["lastname"]; ?>">
-			  </div>
-				<div class="form-group">
-				  <input type="file" class="form-control" id="image" name="image" onchange="FileValidation(event)" >
-				</div>
-			  </div>
-			  <input type="submit" id="imgfile" name="imgfile" class="btn btn-primary" value="Guadar cambios">
-		  </form>
+</div>
+<div class="form-group">
+<input type="file" class="form-control" id="image" name="image" onchange="FileValidation(event)" >
+</div>
+</div>
+<input type="submit" id="imgfile" name="imgfile" class="btn btn-primary" value="Guadar cambios">
+</form>
 <script>
 FileValidation = (event) => {
 	var uploaded_image = document.getElementById('uploaded image');
@@ -104,8 +104,7 @@ FileValidation = (event) => {
     }
 };
 </script>
-		  
-      </div>
+</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>       
       </div>

@@ -1,5 +1,8 @@
-<div class="container"> 
-    <h3>Editar de Perfil Visual</h3> 
+<?php
+if ($login->isLoggedIn() === true && $level->levels() === 9) {
+    ?>
+    <div class="container"> 
+        <h3>Editar de Perfil Visual</h3> 
     <?php
     $row = mysqli_fetch_array($conn->query("SELECT * FROM `my_info` WHERE active = '1' AND `idPro` = '1' "));
     if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
@@ -25,94 +28,95 @@
         echo '<meta http-equiv="refresh" content="0">';
     }
     ?>                      
-    <form action='' method='POST'>                     
-        <div class='col-md-6'>
-            <label class="form-label">Nombres:</label>
-            <input type="text" class="form-control" name='first_name' id='first_name' value='<?php echo $row['first_name']; ?>' />
-            <label class="form-label">Apellidos:</label>
-            <input type="text" class="form-control" name='last_name' id='last_name' value='<?php echo $row['last_name']; ?>' />
-            <label class="form-label">Edad:</label>
-            <input type="text" class="form-control" name='age' id='age' value='<?php echo $row['age']; ?>' />
-            <label class="form-label">Genero:</label>
-            <select class="form-select" name='gender' id='gender'>
-                <?php
-                $aage = array("Mujer", "Varon");
-                foreach ($aage as $key => $val) {
-                    if ($row['gender'] == $key) {
-                        ?>     
-                        <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
-                        <?php
-                    } else {
-                        ?>     
-                        <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
-                        <?php
-                    }
-                }
-                ?>     
-            </select>
-            <label class="form-label">Activar:</label>
-            <select class="form-select" name='active' id='active'>
-                <?php
-                $acti = array("No", "Si");
-                foreach ($acti as $key => $val) {
-                    if ($row['active'] == $key) {
-                        ?>     
-                        <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
-                        <?php
-                    } else {
-                        ?>     
-                        <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
-                        <?php
-                    }
-                }
-                ?>     
-            </select>
-        </div> 
-        <div class='col-md-6'>
-            <label class="form-label">Imagen:</label>                                 
-            <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $('#imageUpload').on('click', function (event) {
-                        event.preventDefault();
-                        $.popupWindow('elfinder/elfinder.html', {
-                            height: 420,
-                            width: 750
+        <form action='' method='POST'>                     
+            <div class='col-md-6'>
+                <label class="form-label">Nombres:</label>
+                <input type="text" class="form-control" name='first_name' id='first_name' value='<?php echo $row['first_name']; ?>' />
+                <label class="form-label">Apellidos:</label>
+                <input type="text" class="form-control" name='last_name' id='last_name' value='<?php echo $row['last_name']; ?>' />
+                <label class="form-label">Edad:</label>
+                <input type="text" class="form-control" name='age' id='age' value='<?php echo $row['age']; ?>' />
+                <label class="form-label">Genero:</label>
+                <select class="form-select" name='gender' id='gender'>
+    <?php
+    $aage = array("Mujer", "Varon");
+    foreach ($aage as $key => $val) {
+        if ($row['gender'] == $key) {
+            ?>     
+                                    <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
+            <?php
+        } else {
+            ?>     
+                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+            <?php
+        }
+    }
+    ?>     
+                </select>
+                <label class="form-label">Activar:</label>
+                <select class="form-select" name='active' id='active'>
+    <?php
+    $acti = array("No", "Si");
+    foreach ($acti as $key => $val) {
+        if ($row['active'] == $key) {
+            ?>     
+                                    <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
+            <?php
+        } else {
+            ?>     
+                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+            <?php
+        }
+    }
+    ?>     
+                </select>
+            </div> 
+            <div class='col-md-6'>
+                <label class="form-label">Imagen:</label>                                 
+                <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#imageUpload').on('click', function (event) {
+                            event.preventDefault();
+                            $.popupWindow('elfinder/elfinder.html', {
+                                height: 420,
+                                width: 750
+                            });
                         });
                     });
-                });
 
-                function processFile(file) {
-                    $('#picture').html('<img src="' + file + '" />');
-                    $('#image').val(file);
-                }
-            </script>
+                    function processFile(file) {
+                        $('#picture').html('<img src="' + file + '" />');
+                        $('#image').val(file);
+                    }
+                </script>
+                <div class="container">
+                    <img class="img-fluid" src="<?php echo $row['image']; ?>" />                            
+                </div>
+                <div class="container">
+                    <input type="text" name='image' id='image' placeholder="Imagen Url" value='<?php echo $row['image']; ?>' readonly/>                            
+                    <input type="button" id="imageUpload" value='Seleccionar Imagen' />
+                </div>                    
+            </div> 
+            <div class="container"><label class="form-label">Descripción personal / Ingles:</label>                                                               
+                <textarea class="form-control" name='description_en' id='description_en'><?php echo $row['description_en']; ?></textarea>
+                <script>
+                    CKEDITOR.replace('description_en', {
+                        filebrowserBrowseUrl: 'elFinder/elfinder.html'
+                    });
+                </script>
+            </div> 
+            <div class="container"><label class="form-label">Descripción personal / Español:</label>                                                               
+                <textarea class="form-control" name='description_es' id='description_es'><?php echo $row['description_es']; ?></textarea>
+                <script>
+                    CKEDITOR.replace('description_es', {
+                        filebrowserBrowseUrl: 'elFinder/elfinder.html'
+                    });
+                </script>
+            </div> 
             <div class="container">
-                <img class="img-fluid" src="<?php echo $row['image']; ?>" />                            
-            </div>
-            <div class="container">
-                <input type="text" name='image' id='image' placeholder="Imagen Url" value='<?php echo $row['image']; ?>' readonly/>                            
-                <input type="button" id="imageUpload" value='Seleccionar Imagen' />
-            </div>                    
-        </div> 
-        <div class="container"><label class="form-label">Descripción personal / Ingles:</label>                                                               
-            <textarea class="form-control" name='description_en' id='description_en'><?php echo $row['description_en']; ?></textarea>
-            <script>
-                CKEDITOR.replace('description_en', {
-                    filebrowserBrowseUrl: 'elFinder/elfinder.html'
-                });
-            </script>
-        </div> 
-        <div class="container"><label class="form-label">Descripción personal / Español:</label>                                                               
-            <textarea class="form-control" name='description_es' id='description_es'><?php echo $row['description_es']; ?></textarea>
-            <script>
-                CKEDITOR.replace('description_es', {
-                    filebrowserBrowseUrl: 'elFinder/elfinder.html'
-                });
-            </script>
-        </div> 
-        <div class="container">
-            <input class="btn btn-secondary" type='submit' value='Editar Perfil' /><input type='hidden' value='1' name='submitted' />
-        </div> 
-    </form>   
-</div>            
+                <input class="btn btn-secondary" type='submit' value='Editar Perfil' /><input type='hidden' value='1' name='submitted' />
+            </div> 
+        </form>   
+    </div>            
+<?php } ?>

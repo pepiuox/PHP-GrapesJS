@@ -12,18 +12,18 @@ if (!empty($myMenu['type_menu'])) {
             <!-- Content left Sidebar -->
         </div>
         <div class="col-md-9">           
-            <?php
-            $mBlocks = $conn->query("SELECT id, type_block,idB, blockID, active, pageId FROM type_blocks, blocks WHERE type_blocks.id=blocks.blockId  AND active='1' AND pageId ='$bid'");
-            while ($block = $mBlocks->fetch_array()) {
-                if (!empty($bid)) {
-                    ?>
-                    <div class="container myBlock">                    
-                        <?php require_once 'blocks/' . $block['type_block'] . '/' . $block['type_block'] . '.php'; ?>                                      
-                    </div>
-                    <?php
-                }
-            }
-            ?>        
+<?php
+$mBlocks = $conn->query("SELECT id, type_block,idB, blockID, active, pageId FROM type_blocks, blocks WHERE type_blocks.id=blocks.blockId  AND active='1' AND pageId ='$bid'");
+while ($block = $mBlocks->fetch_array()) {
+    if (!empty($bid)) {
+?>
+<div class="container myBlock">                    
+        <?php require_once 'blocks/' . $block['type_block'] . '/' . $block['type_block'] . '.php'; ?>                                      
+</div>
+        <?php
+    }
+}
+        ?>        
         </div>
     </div>
 </div>

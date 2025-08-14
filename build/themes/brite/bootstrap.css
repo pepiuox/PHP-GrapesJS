@@ -1,13 +1,13 @@
 @charset "UTF-8";
 /*!
- * Bootswatch v5.3.5 (https://bootswatch.com)
+ * Bootswatch v5.3.7 (https://bootswatch.com)
  * Theme: brite
  * Copyright 2012-2025 Thomas Park
  * Licensed under MIT
  * Based on Bootstrap
 */
 /*!
- * Bootstrap  v5.3.6 (https://getbootstrap.com/)
+ * Bootstrap  v5.3.7 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
@@ -12258,6 +12258,9 @@ textarea.form-control-lg {
 .btn-group .btn {
   margin-left: 0;
 }
+.btn-group > .btn.active {
+  z-index: 0;
+}
 
 .btn-group .btn:hover, .btn-group .btn:active, .btn-group .btn:focus,
 .btn-group-vertical .btn:hover,
@@ -12329,6 +12332,10 @@ a {
 }
 .form-range:focus::-moz-range-thumb {
   box-shadow: none;
+}
+
+.nav:not(.nav-tabs, .nav-pills) .nav-link.active {
+  font-weight: 700;
 }
 
 .nav-tabs {
@@ -12450,10 +12457,10 @@ a {
 [data-bs-theme=dark] .page-link:hover {
   --bs-pagination-hover-color: #fff;
 }
-[data-bs-theme=dark] .nav-underline .nav-link {
+[data-bs-theme=dark] .nav .nav-link {
   --bs-nav-link-color: #fff;
 }
-[data-bs-theme=dark] .nav-underline .nav-link:hover, [data-bs-theme=dark] .nav-underline .nav-link:focus {
+[data-bs-theme=dark] .nav .nav-link:hover, [data-bs-theme=dark] .nav .nav-link:focus {
   --bs-nav-link-hover-color: #fff;
 }
 [data-bs-theme=dark] .breadcrumb a {

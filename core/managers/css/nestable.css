@@ -1,0 +1,11 @@
+/*!
+*
+* NestableJS
+* Copyright (c) 2019 Karl Saunders
+* Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
+* and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+*
+* Version: 0.2.0
+*
+*/
+.nst-container{position:absolute}.nst-list li{list-style:none}.nst-item{position:relative}.nst-item .nst-content{border:1px solid rgba(0,0,0,.25);border-radius:3px;padding:6px 12px 6px 30px;margin-bottom:5px;background-color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;justify-content:space-between}.nst-item.nst-error>.nst-content{border-color:#b71c1c;background-color:#ffebee}.nst-item .nst-button{position:absolute;width:20px;height:20px;top:5px;background-color:transparent;border:none;padding:0;left:7px;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}.nst-item.nst-collapsed .nst-list{display:none}.nst-error.nst-placeholder{border-color:#b71c1c;background-color:#ffebee;position:relative}.nst-active>.nst-content{background-color:#bbdefb}.nst-handle{cursor:move}.nst-placeholder{border:1px dashed #999;border-radius:3px;margin-bottom:5px;box-sizing:border-box;background-color:#e1f5fe}.nst-list{padding:0;margin:0;box-sizing:border-box}li>.nst-list{padding-left:20px;box-sizing:border-box}
