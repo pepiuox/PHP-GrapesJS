@@ -181,9 +181,7 @@ if ($pages->GoPage() === true) {
             if (!empty($tempURL[3])) {
                 define('PAG', $tempURL[3]);
             }
-            if (!empty($tempURL[4])) {
-                define('IDP', $tempURL[4]);
-            }
+            
             require_once "managers/" . $tempURI . ".php";
             ?>
                              

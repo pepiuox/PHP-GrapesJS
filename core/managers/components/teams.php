@@ -300,3 +300,540 @@
         </div>
     </div>
 </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-1">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Our Team</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries.</p>
+          </div>
+        </div>
+    
+        <div class="row-50"></div>
+    
+        <div class="row">
+          <div class="col-sm-3 text-left">
+            <div class="fdb-box p-0">
+              <img alt="image" class="img-fluid rounded-0" src="<?php echo SITE_PATH; ?>assets/images/people/1.jpg">
+    
+              <div class="content p-3">
+                <h3><strong>Sara Doe</strong></h3>
+                <p>Founder</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 text-left">
+            <div class="fdb-box p-0">
+              <img alt="image" class="img-fluid rounded-0" src="<?php echo SITE_PATH; ?>assets/images/people/2.jpg">
+    
+              <div class="content p-3">
+                <h3><strong>Sara Doe</strong></h3>
+                <p>Founder</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3 text-left">
+            <div class="fdb-box p-0">
+              <img alt="image" class="img-fluid rounded-0" src="<?php echo SITE_PATH; ?>assets/images/people/3.jpg">
+    
+              <div class="content p-3">
+                <h3><strong>Sara Doe</strong></h3>
+                <p>Founder</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3 text-left">
+            <div class="fdb-box p-0">
+              <img alt="image" class="img-fluid rounded-0" src="<?php echo SITE_PATH; ?>assets/images/people/6.jpg">
+    
+              <div class="content p-3">
+                <h3><strong>Sara Doe</strong></h3>
+                <p>Founder</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-2">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Meet Our Team</h1>
+          </div>
+        </div>
+    
+        <div class="row-50"></div>
+    
+        <div class="row text-center justify-content-center">
+          <div class="col-sm-3 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/4.jpg">
+    
+            <h2>Sara Doe</h2>
+            <p>Founder</p>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/5.jpg">
+    
+            <h2>Sara Doe</h2>
+            <p>Founder</p>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/7.jpg">
+    
+            <h2>Sara Doe</h2>
+    
+            <p>Founder</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-3">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Meet Our Team</h1>
+          </div>
+        </div>
+    
+        <div class="row-70"></div>
+    
+        <div class="row text-center justify-content-center mb-5">
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/1.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/6.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/7.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/8.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+        </div>
+    
+        <div class="row justify-content-center text-center">
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/2.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/3.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/5.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p><em>Founder</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-4">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Team</h1>
+          </div>
+        </div>
+    
+        <div class="row text-center mt-5">
+          <div class="col-3">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/5.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>A wonderful serenity has taken possession of my entire soul.</p>
+          </div>
+    
+          <div class="col-3">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/6.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>Pityful a rethoric question ran over her cheek.</p>
+          </div>
+    
+          <div class="col-3">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/3.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>And if she hasn’t been rewritten, then they are still using her.</p>
+          </div>
+    
+          <div class="col-3">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/2.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>Wild Question Marks, but the Little Blind Text didn’t listen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-5">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Meet Our Team</h1>
+          </div>
+        </div>
+    
+        <div class="row-70"></div>
+    
+        <div class="row text-center justify-content-center">
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/1.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/6.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/5.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/8.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+        </div>
+    
+        <div class="row justify-content-center text-center mt-5">
+          <div class="col-sm-2  m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/3.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/9.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/7.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+    
+          <div class="col-sm-2 m-sm-auto">
+            <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/2.jpg">
+    
+            <h3><strong>Sara Doe</strong></h3>
+            <p>"Wild Question Marks, but the Little Blind"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-6">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Team</h1>
+          </div>
+        </div>
+    
+        <div class="row text-center mt-5">
+          <div class="col-4">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/9.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics.</p>
+          </div>
+    
+          <div class="col-4">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/1.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>One morning, when Gregor Samsa woke from troubled dreams.</p>
+          </div>
+    
+          <div class="col-4">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/3.jpg">
+            <h3><strong>John Smith</strong></h3>
+            <p>Position</p>
+            <p>A small river named Duden flows by their place and supplies it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-7">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Team</h1>
+          </div>
+        </div>
+    
+        <div class="row-70"></div>
+    
+        <div class="row justify-content-center">
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/2.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/8.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/6.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row-50"></div>
+    
+        <div class="row justify-content-center">
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/4.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/1.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/3.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row-50"></div>
+    
+        <div class="row justify-content-center">
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/5.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/9.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-3 m-sm-auto">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded-circle" src="<?php echo SITE_PATH; ?>assets/images/people/7.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3>Employee Name</h3>
+                <p>Position</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 team-8">
+      <div class="container">
+        <div class="row text-center justify-content-center">
+          <div class="col-8">
+            <h1>Our Amazing Team</h1>
+            <p class="lead">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+          </div>
+        </div>
+    
+        <div class="row-100"></div>
+    
+        <div class="row justify-content-center text-left">
+          <div class="col-sm-6">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/8.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3><strong>Employee Name</strong></h3>
+                <p class="lead">Position</p>
+    
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-6">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/7.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3><strong>Employee Name</strong></h3>
+                <p class="lead">Position</p>
+    
+                <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row-70"></div>
+    
+        <div class="row justify-content-center text-left">
+          <div class="col-sm-6">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/9.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3><strong>Employee Name</strong></h3>
+                <p class="lead">Position</p>
+    
+                <p>One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-sm-6">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/people/4.jpg">
+              </div>
+    
+              <div class="col-8">
+                <h3><strong>Employee Name</strong></h3>
+                <p class="lead">Position</p>
+    
+                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>

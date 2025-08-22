@@ -1082,3 +1082,1296 @@
         </div>
     </div>
 </li>
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center justify-content-sm-center no-gutters">
+          <div class="col-12 col-sm-8 col-md-3 m-auto">
+            <h3><strong>Feature 1</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+          </div>
+    
+          <div class="col-12 col-sm-8 col-md-3 m-auto pt-3 pt-md-0">
+            <h3><strong>Feature 2</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+    
+          <div class="col-12 col-sm-8 col-md-3 m-auto pt-3 pt-md-0">
+            <h3><strong>Feature 3</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+        </div>
+    
+        <div class="row text-center justify-content-md-center pt-3 pt-md-5">
+          <div class="col-12 col-sm-8 col-md-3 m-auto">
+            <h3><strong>Feature 4</strong></h3>
+            <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth</p>
+          </div>
+    
+          <div class="col-12 col-sm-8 col-md-3 m-auto pt-3 pt-md-0">
+            <h3><strong>Feature 5</strong></h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day.</p>
+          </div>
+    
+          <div class="col-12 col-sm-8 col-md-3 m-auto pt-3 pt-md-0">
+            <h3><strong>Feature 6</strong></h3>
+            <p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-left justify-content-sm-center">
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto">
+            <h3><strong>Feature 1</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia.</p>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto pt-3 pt-md-0 pt-lg-0">
+            <h3><strong>Feature 2</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the.</p>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto pt-3 pt-lg-0">
+            <h3><strong>Feature 3</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with.</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto pt-3 pt-lg-0">
+            <h3><strong>Feature 4</strong></h3>
+            <p>But nothing the copy said could convince her and so it didn’t take long</p>
+          </div>
+        </div>
+    
+        <div class="row text-left justify-content-sm-center pt-3 pt-lg-5">
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto">
+            <h3><strong>Feature 5</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia.</p>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto pt-3 pt-md-0 pt-lg-0">
+            <h3><strong>Feature 6</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the.</p>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto pt-3 pt-lg-0">
+            <h3><strong>Feature 7</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with.</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-3 col-xl-2 ml-xl-auto mr-xl-auto pt-3 pt-lg-0">
+            <h3><strong>Feature 8</strong></h3>
+            <p>But nothing the copy said could convince her and so it didn’t take long</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>Features</h1>
+          </div>
+        </div>
+    
+        <div class="row text-left justify-content-center pt-5">
+          <div class="col-12 col-md-6 col-lg-5 m-auto">
+            <h3><strong>Feature One</strong></h3>
+    
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+          </div>
+          <div class="col-12 col-md-6 col-lg-5 m-auto pt-3 pt-md-0">
+            <h3><strong>Feature Two</strong></h3>
+    
+            <p class="lead">Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line.</p>
+          </div>
+        </div>
+    
+        <div class="row text-left justify-content-center pt-lg-4">
+          <div class="col-12 col-md-6 col-lg-5 m-auto pt-3 pt-lg-0">
+            <h3><strong>Feature Three</strong></h3>
+    
+            <p class="lead">On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times.</p>
+          </div>
+          <div class="col-12 col-md-6 col-lg-5 m-auto pt-3 pt-lg-0">
+            <h3><strong>Feature Four</strong></h3>
+    
+            <p class="lead">A small river named Duden flows by their place far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5 bg-dark" style="background-image: url(imgs/hero/purple.svg);">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <h1>PePiuoX Design Blocks</h1>
+          </div>
+        </div>
+    
+        <div class="row-70"></div>
+    
+        <div class="row text-center justify-content-sm-center no-gutters">
+          <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto">
+            <div class="fdb-box fdb-touch">
+              <h2>Feature 1</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+              <p class="mt-4"><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+            </div>
+          </div>
+          <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
+            <div class="fdb-box fdb-touch">
+              <h2>Feature 2</h2>
+              <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+              <p class="mt-4"><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+            </div>
+          </div>
+          <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-3 m-auto pt-5 pt-xl-0">
+            <div class="fdb-box fdb-touch">
+              <h2>Feature 3</h2>
+              <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+              <p class="mt-4"><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-lg-6 col-xl-5">
+            <h1>Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+    
+            <div class="row pt-4 pt-xl-5">
+              <div class="col-12 col-md-5">
+                <h4><strong>Feature One</strong></h4>
+                <p>A small river named Duden flows</p>
+              </div>
+              <div class="col-12 col-md-5 m-auto pt-3 pt-md-0">
+                <h4><strong>Feature Two</strong></h4>
+                <p>Separated they live in Bookmarksgrove</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-8 col-lg-6 m-auto mr-lg-0 ml-lg-auto pt-5 pt-lg-0">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/scrum.svg">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-8 col-lg-6 m-md-auto ml-lg-0 mr-lg-auto">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/features.svg">
+          </div>
+          <div class="col-12 col-lg-6 col-xl-5 ml-sm-auto pt-5 pt-lg-0">
+            <h1>Design Blocks</h1>
+    
+            <div class="row pt-4 pt-xl-5">
+              <div class="col-12 col-sm-6 col-xl-5">
+                <h4><strong>Feature One</strong></h4>
+                <p>Far far away, behind the word mountains</p>
+              </div>
+              <div class="col-12 col-sm-6 col-xl-5 m-auto pt-3 pt-sm-0">
+                <h4><strong>Feature Two</strong></h4>
+                <p>Separated they live in Bookmarksgrove</p>
+              </div>
+            </div>
+    
+            <div class="row pt-3">
+              <div class="col-12 col-sm-6 col-xl-5">
+                <h4><strong>Feature Three</strong></h4>
+                <p>A small river named Duden flows by me</p>
+              </div>
+              <div class="col-12 col-sm-6 col-xl-5 m-auto pt-3 pt-sm-0">
+                <h4><strong>Feature Four</strong></h4>
+                <p>Separated they live in Bookmarksgrove</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12 col-sm-6 col-lg-5 col-xl-4 m-auto">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+            <h3><strong>Feature 1</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-5 col-xl-4 m-auto pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/github.svg">
+            <h3><strong>Feature 2</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>Features</h1>
+            <img alt="image" class="img-fluid mt-5" src="<?php echo SITE_PATH; ?>assets/images/draws/email.svg">
+          </div>
+        </div>
+    
+        <div class="row text-center justify-content-center mt-5 pt-5">
+          <div class="col-12 col-sm-4 col-lg-3 m-md-auto">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+            <h3><strong>Feature 1</strong></h3>
+          </div>
+    
+          <div class="col-12 col-sm-4 col-lg-3 m-auto pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map.svg">
+            <h3><strong>Feature 2</strong></h3>
+          </div>
+    
+          <div class="col-12 col-sm-4 col-lg-3 m-auto pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/package.svg">
+            <h3><strong>Feature 3</strong></h3>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>Features</h1>
+          </div>
+        </div>
+    
+        <div class="row text-center justify-content-center mt-5">
+          <div class="col-12 col-sm-4 col-xl-3 m-md-auto">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+            <h3><strong>Feature 1</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+          </div>
+    
+          <div class="col-12 col-sm-4 col-xl-3 m-auto pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+            <h3><strong>Feature 2</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large ocean.</p>
+          </div>
+    
+          <div class="col-12 col-sm-4 col-xl-3 m-auto pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+            <h3><strong>Feature 3</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>Features</h1>
+          </div>
+        </div>
+        <div class="row text-center justify-content-center mt-5">
+          <div class="col-12 col-sm-6 col-lg-3">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+            <h3><strong>Feature One</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-3 pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+            <h3><strong>Feature Two</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-3 pt-4 pt-lg-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/life-buoy.svg">
+            <h3><strong>Feature Three</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-3 pt-4 pt-lg-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/package.svg">
+            <h3><strong>Feature Four</strong></h3>
+            <p>Duden flows by their place far far away, behind the word mountains.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>Features</h1>
+          </div>
+        </div>
+        <div class="row text-left mt-5">
+          <div class="col-12 col-md-4">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature One</strong></h3>
+                <p>Far far away, behind the word mountains, far from the countries</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-3 pt-sm-4 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Two</strong></h3>
+                <p>Even the all-powerful Pointing has no control about the blind texts.</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-3 pt-sm-4 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Three</strong></h3>
+                <p>A small river named Duden flows by their place and supplies it</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row text-left pt-3 pt-sm-4 pt-md-5">
+          <div class="col-12 col-md-4">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Four</strong></h3>
+                <p>Duden flows by their place far far away, behind the word mountains.</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-3 pt-sm-4 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/life-buoy.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Five</strong></h3>
+                <p>Separated they live in Bookmarksgrove right at the coast</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-3 pt-sm-4 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layout.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Six</strong></h3>
+                <p>On her way she met a copy. The copy warned the Little Blind Text.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>Features</h1>
+          </div>
+        </div>
+        <div class="row text-left mt-5">
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature One</strong></h3>
+                <p>Even the all-powerful Pointing has no control about the blind texts</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 pt-3 pt-sm-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/layout.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Two</strong></h3>
+                <p>Separated they live in Bookmarksgrove right at the coast</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 pt-3 pt-lg-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/life-buoy.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Three</strong></h3>
+                <p>A small river named Duden flows by their place and supplies it</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 pt-3 pt-lg-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Four</strong></h3>
+                <p>Far far away, behind the word mountains, far from the countries</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row text-left pt-3 pt-lg-5">
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Five</strong></h3>
+                <p>On her way she met a copy. The copy warned the Little Blind Text.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 pt-3 pt-sm-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/package.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Six</strong></h3>
+                <p>Far far away, behind the word mountains, far from the countries</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 pt-3 pt-lg-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Seven</strong></h3>
+                <p>Duden flows by their place far far away, behind the word mountains.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3 pt-3 pt-lg-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Eight</strong></h3>
+                <p>Separated they live in Bookmarksgrove right at the coast</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-lg-right align-items-center">
+          <div class="col-12 col-sm-6 col-lg-3">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+            <h4><strong>Feature One</strong></h4>
+            <p>Far far away, behind the word mountains is hope.</p>
+    
+            <img alt="image" class="fdb-icon mt-3 mt-xl-5" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+            <h4><strong>Feature Two</strong></h4>
+            <p>On her way she met a copy of the Little Blind Text.</p>
+    
+            <img alt="image" class="fdb-icon mt-3 mt-xl-5" src="<?php echo SITE_PATH; ?>assets/images/icons/map.svg">
+            <h4><strong>Feature Three</strong></h4>
+            <p>Even the all-powerful has no control about the blind texts</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-lg-3 text-left pt-3 pt-sm-0 order-lg-12">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+            <h4><strong>Feature Four</strong></h4>
+            <p>Duden flows by their place, behind the word mountains.</p>
+    
+            <img alt="image" class="fdb-icon mt-3 mt-xl-5" src="<?php echo SITE_PATH; ?>assets/images/icons/package.svg">
+            <h4><strong>Feature Five</strong></h4>
+            <p>Separated they live in Bookmark right at the coast</p>
+    
+            <img alt="image" class="fdb-icon mt-3 mt-xl-5" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+            <h4><strong>Feature Six</strong></h4>
+            <p>A small river named Duden flows by their place and supplies it</p>
+          </div>
+    
+          <div class="col-7 col-sm-4 col-lg-4 m-auto pt-5 pt-lg-0 order-lg-1">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/simple-iphone.svg">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-right align-items-center">
+          <div class="col-7 col-md-4 m-auto">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/simple-iphone.svg">
+          </div>
+    
+          <div class="col-12 col-md-7 col-lg-5 m-auto text-left pt-5 pt-md-0">
+            <div class="row pb-lg-5">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Seven</strong></h3>
+                <p>Even the all-powerful Pointing has no control about the blind texts.</p>
+              </div>
+            </div>
+    
+            <div class="row pt-4 pt-md-5 pb-lg-5">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Seven</strong></h3>
+                <p>Duden flows by their place far far away, behind the word mountains.</p>
+              </div>
+            </div>
+    
+    
+            <div class="row pt-4 pt-md-5">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Seven</strong></h3>
+                <p>A small river named Duden flows by their place and supplies it.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-right align-items-center">
+          <div class="col-12 col-lg-6 col-xl-5 m-lg-auto text-left">
+            <h1>Features</h1>
+            <p class="h3 pb-xl-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+    
+            <div class="row pt-5">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+              </div>
+              <div class="col-9">
+                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences.</p>
+              </div>
+            </div>
+    
+            <div class="row pt-5">
+              <div class="col-9 text-right">
+                <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, there live the blind texts.</p>
+              </div>
+    
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-7 col-sm-4 m-auto pt-5 pt-md-0">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/simple-iphone.svg">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center pb-xl-5">
+          <div class="col-12 col-md-8 text-center">
+            <h1>PePiuoX Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+        </div>
+    
+        <div class="row text-right align-items-center-lg align-items-end pt-5">
+          <div class="col-7 col-sm-4 m-auto mb-md-0 mt-md-0 m-lg-auto">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/simple-iphone.svg">
+          </div>
+    
+          <div class="col-12 col-md-7 col-lg-6 col-xl-5 m-auto text-left pt-5 pt-md-0">
+            <h3><strong>Feature One</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences.</p>
+    
+            <h3 class="mt-4 mt-xl-5"><strong>Feature Two</strong></h3>
+            <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, there live the blind texts.</p>
+    
+            <h3 class="mt-4 mt-xl-5"><strong>Feature Three</strong></h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col text-left">
+            <h1>PePiuoX Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+          <div class="col-10">
+            <img alt="image" class="img-fluid mt-5" src="<?php echo SITE_PATH; ?>assets/images/draws/android.svg">
+          </div>
+        </div>
+    
+        <div class="row text-left pt-5">
+          <div class="col-12 col-md-4">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/github.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature One</strong></h3>
+                <p>Far far away, behind the word mountains, far from the countries</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-4 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Two</strong></h3>
+                <p>Separated they live in Bookmarksgrove right at the coast</p>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-4 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/life-buoy.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Three</strong></h3>
+                <p>A small river named Duden flows by their place and supplies it</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 text-center">
+            <h1>Features</h1>
+          </div>
+        </div>
+    
+        <div class="row text-center mt-5">
+          <div class="col-12 col-sm-4">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+            <h3><strong>Feature One</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts</p>
+          </div>
+    
+          <div class="col-12 col-sm-4 pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+            <h3><strong>Feature Two</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. </p>
+          </div>
+    
+          <div class="col-12 col-sm-4 pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+            <h3><strong>Feature Three</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country,</p>
+          </div>
+        </div>
+    
+        <div class="row mt-5 justify-content-center">
+          <div class="col-8">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/product-tour.svg">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 text-left">
+            <h1>PePiuoX Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+        </div>
+    
+        <div class="row text-left mt-5">
+          <div class="col-12 col-sm-8 col-md-4 col-lg-3 m-sm-auto mr-md-auto ml-md-0">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/blue.svg">
+            <h3><strong>Feature One</strong></h3>
+            <p>Far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+    
+          <div class="col-12 col-sm-8 col-md-4 col-lg-3 m-sm-auto pt-5 pt-md-0">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/red.svg">
+            <h3><strong>Feature Two</strong></h3>
+            <p> It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
+          </div>
+    
+          <div class="col-12 col-sm-8 col-md-4 col-lg-3 m-sm-auto ml-md-auto mr-md-0 pt-5 pt-md-0">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/yellow.svg">
+            <h3><strong>Feature Three</strong></h3>
+            <p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 text-left">
+            <h1>PePiuoX Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+    
+            <img alt="image" class="img-fluid mt-5" src="<?php echo SITE_PATH; ?>assets/images/draws/android.svg">
+          </div>
+        </div>
+    
+        <div class="row text-left pt-5">
+          <div class="col-12 col-md-6">
+            <h3><strong>Feature One</strong></h3>
+    
+            <p>Far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with
+              the necessary regelialia. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.</p>
+    
+            <p><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+          </div>
+          <div class="col-12 col-md-6 pt-4 pt-md-0">
+            <h3><strong>Feature Two</strong></h3>
+    
+            <p> It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life. The Big Oxmox advised her not to do so, because there
+              were thousands of bad Commas, wild Question Marks and devious Semikoli. On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from
+              its origin.</p>
+    
+            <p><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 text-left">
+            <h1>PePiuoX Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. On her way she met a copy.
+              The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text.</p>
+          </div>
+        </div>
+    
+        <div class="row text-left pt-5">
+          <div class="col-12 col-sm-6 col-md-5">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+            <h3><strong>Feature One</strong></h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-5 ml-sm-auto pt-5 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/package.svg">
+            <h3><strong>Feature Two</strong></h3>
+            <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center pb-5">
+          <div class="col-12 text-center">
+            <h1>PePiuoX Design Blocks</h1>
+          </div>
+        </div>
+    
+        <div class="row text-left align-items-center pt-5 pb-md-5">
+          <div class="col-4 col-md-5">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/designer.svg">
+          </div>
+    
+          <div class="col-12 col-md-5 m-md-auto">
+            <h2><strong>Feature One</strong></h2>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            <p><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+          </div>
+        </div>
+    
+        <div class="row text-left align-items-center pt-5 pb-md-5">
+          <div class="col-4 col-md-5 m-md-auto order-md-5">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/design-life.svg">
+          </div>
+    
+          <div class="col-12 col-md-5">
+            <h2><strong>Feature Two</strong></h2>
+            <p class="lead">Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+            <p><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+          </div>
+        </div>
+    
+        <div class="row text-left align-items-center pt-5">
+          <div class="col-4 col-md-5">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/design-community.svg">
+          </div>
+    
+          <div class="col-12 col-md-5 m-md-auto">
+            <h2><strong>Feature Three</strong></h2>
+            <p class="lead">On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn
+              around.
+            </p>
+            <p><a href="https://pepiuox.net">Learn More <i class="fas fa-angle-right"></i></a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-10 col-lg-8 text-left">
+            <h1>PePiuoX Design Blocks is simply ahead the word mountains</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+    
+            <p class="lead"><a href="https://pepiuox.net">Explore all features <i class="fas fa-angle-right"></i></a></p>
+          </div>
+        </div>
+    
+        <div class="row text-center no-gutters pt-5">
+          <div class="col-12 col-md-10 col-lg-8">
+            <div class="row">
+              <div class="col-8 col-sm-5 col-md-2 m-auto">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/github.svg">
+                <h4>Feature One</h4>
+              </div>
+              <div class="col-8 col-sm-5 col-md-2 m-auto pt-5 pt-sm-0">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+                <h4>Feature Two</h4>
+              </div>
+              <div class="col-8 col-sm-5 col-md-2 m-auto pt-5 pt-md-0">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+                <h4>Feature Three</h4>
+              </div>
+              <div class="col-8 col-sm-5 col-md-2 m-auto pt-5 pt-md-0">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+                <h4>Feature Four</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row align-items-top">
+          <div class="col-12 col-md-6 col-xl-4 m-auto">
+            <h2>Learn more about the PePiuoX Design Blocks you love</h2>
+          </div>
+    
+          <div class="col-12 col-md-6 pt-5 pt-md-0">
+            <div class="row justify-content-left">
+              <div class="col-3 m-auto text-center">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+                <p><a href="https://pepiuox.net">One <i class="fas fa-angle-right"></i></a></p>
+              </div>
+              <div class="col-3 m-auto text-center">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map.svg">
+                <p><a href="https://pepiuox.net">Two <i class="fas fa-angle-right"></i></a></p>
+              </div>
+              <div class="col-3 m-auto text-center">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/life-buoy.svg">
+                <p><a href="https://pepiuox.net">Three <i class="fas fa-angle-right"></i></a></p>
+              </div>
+            </div>
+    
+            <div class="row justify-content-left mt-4 mt-xl-5">
+              <div class="col-3 m-auto text-center">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layout.svg">
+                <p><a href="https://pepiuox.net">Four <i class="fas fa-angle-right"></i></a></p>
+              </div>
+              <div class="col-3 m-auto text-center">
+                <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+                <p><a href="https://pepiuox.net">Five <i class="fas fa-angle-right"></i></a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>There is a feature for everyone</h1>
+            <p class="lead"><a href="https://pepiuox.net">See all features <i class="fas fa-angle-right"></i></a>
+            </p>
+          </div>
+        </div>
+    
+        <div class="row text-center justify-content-center mt-5">
+          <div class="col-10 col-sm-3">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/blue.svg">
+            <h3><strong>Feature One</strong></h3>
+          </div>
+          <div class="col-10 col-sm-3 pt-5 pt-sm-0">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/red.svg">
+            <h3><strong>Feature Two</strong></h3>
+          </div>
+    
+          <div class="col-10 col-sm-3 pt-5 pt-sm-0">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/purple.svg">
+            <h3><strong>Feature Three</strong></h3>
+          </div>
+    
+          <div class="col-10 col-sm-3 pt-5 pt-sm-0">
+            <img alt="image" class="img-fluid rounded" src="<?php echo SITE_PATH; ?>assets/images/hero/yellow.svg">
+            <h3><strong>Feature Four</strong></h3>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row align-items-center pb-xl-5">
+          <div class="col-12 col-md-7 col-xl-5">
+            <h1>PePiuoX Design Blocks</h1>
+            <p class="lead">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 m-sm-auto mr-md-0 ml-md-auto pt-4 pt-md-0">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/developer.svg">
+          </div>
+        </div>
+    
+        <div class="row pt-5">
+          <div class="col-12 col-sm-6 col-md-3">
+            <h3><strong>Feature One</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large ocean.</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-3 pt-3 pt-sm-0">
+            <h3><strong>Feature Two</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-3 pt-3 pt-md-0">
+            <h3><strong>Feature Three</strong></h3>
+            <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-3 pt-3 pt-md-0">
+            <h3><strong>Feature Four</strong></h3>
+            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center pb-xl-5">
+          <div class="col-8 col-sm-8 text-center">
+            <h1>PePiuoX Design Blocks</h1>
+            <img alt="image" class="img-fluid mt-5" src="<?php echo SITE_PATH; ?>assets/images/draws/development.svg">
+          </div>
+        </div>
+    
+        <div class="row text-left justify-content-center pt-5">
+          <div class="col-12 col-md-6 col-lg-5 m-sm-auto">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/github.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature One</strong></h3>
+                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-5 m-sm-auto pt-3 pt-sm-5 pt-md-0">
+            <div class="row">
+              <div class="col-3">
+                <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/icons/layers.svg">
+              </div>
+              <div class="col-9">
+                <h3><strong>Feature Two</strong></h3>
+                <p>Separated they live in Bookmarksgrove, right at the coast of the Semantics, a large language ocean.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h1>Features</h1>
+          </div>
+        </div>
+        <div class="row text-center justify-content-center mt-5">
+          <div class="col-12 col-md-4 col-lg-3 m-md-auto">
+            <h3><strong>Feature 1</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+          </div>
+    
+          <div class="col-12 col-md-4 col-lg-3 m-md-auto pt-3 pt-md-0">
+            <h3><strong>Feature 2</strong></h3>
+            <p>Separated they live in Bookmarksgrove right at the coast, a large language ocean.</p>
+          </div>
+    
+          <div class="col-12 col-md-4 col-lg-3 m-md-auto pt-3 pt-md-0">
+            <h3><strong>Feature 3</strong></h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12col-md-10 col-lg-8 text-center">
+            <h1>PePiuoX Design Blocks</h1>
+          </div>
+        </div>
+    
+        <div class="row justify-content-center text-center mt-5">
+          <div class="col-12 col-sm-6 col-md-5 col-lg-3">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/github.svg">
+            <h3><strong>Feature one longer Text</strong></h3>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-5 col-lg-3 pt-4 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/gift.svg">
+            <h3><strong>Feature two shorter</strong></h3>
+          </div>
+        </div>
+    
+        <div class="row justify-content-center text-center mt-5 mt-md-4 pt-5">
+          <div class="col-12 col-md-10 col-lg-8">
+            <img alt="image" class="img-fluid" src="<?php echo SITE_PATH; ?>assets/images/draws/social-media.svg">
+            <p><em>Coming this fall</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12 col-sm-6 col-md-3">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/monitor.svg">
+            <h3><strong>The all-powerful Pointing has no control</strong></h3>
+            <p class="mt-3"><a class="btn btn-primary" href="https://pepiuox.net">Learn</a></p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-3 pt-5 pt-sm-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/layout.svg">
+            <h3><strong>Far far away, behind the word mountains</strong></h3>
+            <p class="mt-3"><a class="btn btn-primary" href="https://pepiuox.net">Learn</a></p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-3 pt-5 pt-md-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map-pin.svg">
+            <h3><strong>The Big Oxmox advised her not to do so</strong></h3>
+            <p class="mt-3"><a class="btn btn-primary" href="https://pepiuox.net">Learn</a></p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-3 pt-5 pt-md-0">
+            <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/github.svg">
+            <h3><strong>The copy warned the Little Blind Text</strong></h3>
+            <p class="mt-3"><a class="btn btn-primary" href="https://pepiuox.net">Learn</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12 col-md-8 m-auto col-lg-4">
+            <div class="fdb-box fdb-touch">
+              <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/map.svg">
+              <h2>Feature 1</h2>
+              <p>Far far away, behind the word mountains, far from the countries.</p>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-8 m-auto col-lg-4 pt-5 pt-lg-0">
+            <div class="fdb-box fdb-touch">
+              <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/cloud.svg">
+              <h2>Feature 2</h2>
+              <p>Separated they live in Bookmarksgrove right at the coast.</p>
+            </div>
+          </div>
+    
+          <div class="col-12 col-md-8 m-auto col-lg-4 pt-5 pt-lg-0">
+            <div class="fdb-box fdb-touch">
+              <img alt="image" class="fdb-icon" src="<?php echo SITE_PATH; ?>assets/images/icons/package.svg">
+              <h2>Feature 3</h2>
+              <p>A small river named Duden flows by their place and supplies.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-left">
+          <div class="col-12 col-md-8 m-auto col-lg-4">
+            <div class="fdb-box fdb-touch">
+              <h2>Feature 1</h2>
+              <p>Far far away, behind the word mountains, far from the country Vokalia, there live the blind texts.</p>
+              <p><a href="https://pepiuox.net">Read more</a></p>
+            </div>
+          </div>
+          <div class="col-12 col-md-8 m-auto col-lg-4 pt-5 pt-lg-0">
+            <div class="fdb-box fdb-touch">
+              <h2>Feature 2</h2>
+              <p>Separated they live in Bookmarks right at the coast of the Semantics, a large language ocean.</p>
+              <p><a href="https://pepiuox.net">Read more</a></p>
+            </div>
+          </div>
+          <div class="col-12 col-md-8 m-auto col-lg-4 pt-5 pt-lg-0">
+            <div class="fdb-box fdb-touch">
+              <h2>Feature 3</h2>
+              <p>A small river named Duden flows by their small place and supplies it with the necessary regelialia.</p>
+              <p><a href="https://pepiuox.net">Read more</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-left">
+          <div class="col-12 col-md-4">
+            <h2>Feature One</h2>
+            <p><strong>Far far away</strong>, behind the word mountains, far from the countries <a href="https://pepiuox.net">Vokalia and Consonantia</a>, there live the blind texts.</p>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0">
+            <h2>Feature Two</h2>
+            <p> A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+    
+          <div class="col-12 col-md-4 pt-5 pt-sm-4 pt-md-0">
+            <h2>Feature Three</h2>
+            <p>Even the all-powerful Pointing has no control about the <strong>blind texts</strong> it is an almost unorthographic life.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+</li>

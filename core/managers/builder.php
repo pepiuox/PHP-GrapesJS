@@ -85,8 +85,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 ?>
                 <div class="app-wrap">
                 <!-- Side-Nav -->
+                <style>
+                    .panel-wrp{
+                        height: 100%;
+                    }
+                </style>
                 <div class="panel-wrp">
                 <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+                    
                 <nav class="component">
                 <ul class="nav flex-column text-white w-100">
         <?php
@@ -115,14 +121,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 <ul>
 ';
                 include $directory . $value;
-                echo '
-</ul>
+                echo '</ul>
 </li>';
             }
         }
-
         getListcomponent('components/');
-        getListcomponent('sections/');
         ?>
                 </ul>
                 </nav>

@@ -514,3 +514,379 @@
         <!-- footer copyright -->
     </footer>
 </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col">
+            <p>© 2018 PePiuoX. All Rights Reserved</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small bg-dark">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-8">
+            <ul class="nav justify-content-center justify-content-md-start">
+              <li class="nav-item">
+                <a class="nav-link active" href="https://pepiuox.net">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="col-12 col-md-4 mt-4 mt-md-0 text-center text-md-right">
+            © 2018 PePiuoX. All Rights Reserved
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row text-center align-items-center">
+          <div class="col-12 col-md-8">
+            <ul class="nav justify-content-center justify-content-md-start align-items-center">
+              <li class="nav-item">
+                <a class="nav-link active" href="https://pepiuox.net">
+                    <img alt="image" src="<?php echo SITE_PATH; ?>assets/images/logo.png" height="40">
+                  </a>
+              </li>
+              <li class="w-100 d-block d-sm-none"></li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="col-12 col-md-4 mt-4 mt-md-0 text-md-right">
+            © 2013-2018 PePiuoX
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row text-center align-items-center">
+          <div class="col-12 col-sm-6 col-md-4 text-sm-left">
+            <img alt="image" src="<?php echo SITE_PATH; ?>assets/images/logo.png" height="40">
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-4 mt-4 mt-sm-0 text-center text-sm-right text-md-center">
+            © 2013-2018 PePiuoX
+          </div>
+    
+          <div class="col-12 col-md-4 mt-4 mt-md-0 text-center text-md-right">
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-google" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6">
+            <ul class="nav justify-content-center justify-content-md-start">
+              <li class="nav-item">
+                <a class="nav-link active" href="https://pepiuox.net">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="col-12 col-md-6 mt-4 mt-md-0 text-center text-md-right">
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-google" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small bg-dark">
+      <div class="container">
+        <div class="row text-center align-items-center">
+          <div class="col">
+            <ul class="nav justify-content-center">
+              <li class="nav-item">
+                <a class="nav-link active" href="https://pepiuox.net">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Privacy Policy</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+    
+            <p class="h5 mt-5">© 2013-2018 PePiuoX</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row text-center align-items-center">
+          <div class="col-12 col-lg-2 text-lg-left">
+            <img alt="image" src="<?php echo SITE_PATH; ?>assets/images/logo.png" height="40">
+          </div>
+    
+          <div class="col mt-4 mt-lg-0 text-center">
+            <ul class="nav justify-content-center">
+              <li class="nav-item">
+                <a class="nav-link active" href="https://pepiuox.net">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Privacy Policy</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="col-12 col-lg-2 mt-4 mt-lg-0 text-lg-right">
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
+            <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-google" aria-hidden="true"></i></a>
+          </div>
+        </div>
+    
+        <div class="row mt-4">
+          <div class="col text-center">
+            © 2018 PePiuoX. All Rights Reserved
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6">
+            <ul class="nav justify-content-center justify-content-md-start">
+              <li class="nav-item">
+                <a class="nav-link active" href="https://pepiuox.net">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="col mt-4 mt-md-0 text-center text-md-right">
+            <a href="https://pepiuox.net" class="btn btn-primary">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-large">
+      <div class="container">
+        <div class="row align-items-top text-center">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-sm-left">
+            <h3><strong>Group 1</strong></h3>
+            <nav class="nav flex-column">
+              <a class="nav-link active" href="https://pepiuox.net">Home</a>
+              <a class="nav-link" href="https://pepiuox.net">Features</a>
+              <a class="nav-link" href="https://pepiuox.net">Pricing</a>
+              <a class="nav-link" href="https://pepiuox.net">Team</a>
+              <a class="nav-link" href="https://pepiuox.net">Contact Us</a>
+            </nav>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-5 mt-sm-0 text-sm-left">
+            <h3><strong>Group 2</strong></h3>
+            <nav class="nav flex-column">
+              <a class="nav-link active" href="https://pepiuox.net">Privacy Policy</a>
+              <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              <a class="nav-link" href="https://pepiuox.net">FAQ</a>
+              <a class="nav-link" href="https://pepiuox.net">Support</a>
+            </nav>
+          </div>
+    
+          <div class="col-12 col-md-4 col-lg-3 text-md-left mt-5 mt-md-0">
+            <h3><strong>About Us</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+          </div>
+    
+          <div class="col-12 col-lg-2 ml-auto text-lg-left mt-4 mt-lg-0">
+            <h3><strong>Follow Us</strong></h3>
+            <p class="lead">
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-google" aria-hidden="true"></i></a>
+            </p>
+          </div>
+        </div>
+    
+        <div class="row mt-3">
+          <div class="col text-center">
+            © 2018 PePiuoX. All Rights Reserved
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+ </li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-large bg-dark">
+      <div class="container">
+        <div class="row align-items-top text-center text-md-left">
+          <div class="col-12 col-sm-6 col-md-4">
+            <h3><strong>Country A</strong></h3>
+            <p>Street Address 52<br>Contact Name</p>
+            <p>+44 827 312 5002</p>
+            <p><a href="https://pepiuox.net">countrya@amazing.com</a></p>
+          </div>
+    
+          <div class="col-12 col-sm-6 col-md-4 mt-4 mt-sm-0">
+            <h3><strong>Country B</strong></h3>
+            <p>Street Address 100<br>Contact Name</p>
+            <p>+13 827 312 5002</p>
+            <p><a href="https://pepiuox.net">countryb@amazing.com</a></p>
+          </div>
+    
+          <div class="col-12 col-md-4 mt-5 mt-md-0 text-md-left">
+            <h3><strong>About Us</strong></h3>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+          </div>
+        </div>
+    
+        <div class="row mt-5">
+          <div class="col text-center">
+            © 2018 PePiuoX. All Rights Reserved
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-small">
+      <div class="container">
+        <div class="row align-items-center text-center">
+          <div class="col-12 col-lg-4 text-lg-left">
+            © 2018 PePiuoX
+          </div>
+    
+          <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+            <img alt="image" src="<?php echo SITE_PATH; ?>assets/images/logo.png" height="40">
+          </div>
+    
+          <div class="col-12 col-lg-4 text-lg-right mt-4 mt-lg-0">
+            <ul class="nav justify-content-lg-end justify-content-center">
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Privacy</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">Terms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://pepiuox.net">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>
+<li class="pi-draggable" draggable="true" ondragstart="return dragStart(event)">
+    <footer class="py-5 footer-large">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col">
+            <h3>Company Name</h3>
+            <p>70 Bowman St.<br>South Windsor, CT 06074</p>
+            <p>USA</p>
+            <p>+13 827 312 5002</p>
+          </div>
+        </div>
+    
+        <div class="row mt-4">
+          <div class="col text-center">
+            <p class="lead">
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
+              <a href="https://pepiuox.net" class="mx-2"><i class="fab fa-google" aria-hidden="true"></i></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</li>

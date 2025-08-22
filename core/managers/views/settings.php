@@ -374,6 +374,29 @@ if (isset($_POST['Update'])) {
                 </div>
             </div>
         </div>
+    <script>
+
+        $(document).ready(function() {  
+            
+            $(".tab-pane").hide(); //Hide all content
+            $("ul.nav-tabs li:first").addClass("active").show(); //Activate first tab
+            $(".tab-pane:first").show(); //Show first tab content
+                                       
+            $("ul.nav-tabs li").click(function() {
+                           
+    		$("ul.nav-tabs li").find("a").removeClass("active"); //Remove any "active" class
+                $(this).find("a").addClass("active"); //Add "active" class to selected tab
+                $(this).show();    		
+    		$(".tab-pane").hide(); //Hide all tab content
+                //Find the href attribute value to identify the active tab + content
+    		var activeTab = $(this).find("a").attr("href");                                
+                $(activeTab).addClass("active").show();                
+    		$(activeTab).fadeIn(); //Fade in the active ID content                
+    		return false;
+            });
+        });
+        
+    </script>
     </div>
 </div>
 
