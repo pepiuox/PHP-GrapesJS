@@ -27,7 +27,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         if ($pnumr > 0) {
             while ($prow = $presult->fetch_array()) {
                 echo '<tr><td>';
-                echo '<a href="' . SITE_PATH . $prow['link'] . '" target="_blank"><i class="fas fa-eye" aria-hidden="true"></i></a>';
+                echo '<a href="' . SITE_PATH . $prow['link'] . '" target="_blank"><i class="fas fa-eye" style="color:blue" aria-hidden="true"></i></a>';
                 echo '</td><td>' . "\n";
                 echo $prow['title'];
                 echo '</td><td>' . "\n";
@@ -39,9 +39,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</td><td>' . "\n";
                 echo '<a href="edit_page/' . $prow['id'] . '"><i class="fas fa-edit" aria-hidden="true"></i></a>';
                 echo '</td><td>' . "\n";
-                echo '<a href="../builder/pages/' . $prow['id'] . '"><i class="fas fa-cog" aria-hidden="true"></i></i></a>';
+                echo '<a href="../builder/pages/' . $prow['id'] . '"><i class="fas fa-cog" style="color:green" aria-hidden="true"></i></i></a>';
                 echo '</td><td>' . "\n";
-                echo '<a href="delete_page/' . $prow['id'] . '"><i class="fas fa-trash-alt" aria-hidden="true"></i></a>';
+                echo '<a href="delete_page/' . $prow['id'] . '" class=""btn btn-danger"><i class="fas fa-trash-alt" style="color:red" aria-hidden="true"></i></a>';
                 echo '</td></tr>';
             }
         } else {

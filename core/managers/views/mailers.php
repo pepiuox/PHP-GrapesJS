@@ -375,26 +375,61 @@ if (isset($_POST['Update'])) {
             </div>
         </div>
     <script>
+        $('.nav-tabs a.nav-link').click(function(){
+                
+                $('.nav-tabs a[href="'+href+'"]').show();
+                $('#tab-content .tab-pane').show();
+            });
         $(document).ready(function() {  
-            
+                    //When page loads...
             $(".tab-pane").hide(); //Hide all content
             $("ul.nav-tabs li:first").addClass("active").show(); //Activate first tab
             $(".tab-pane:first").show(); //Show first tab content
                                        
+                //On Click Event
             $("ul.nav-tabs li").click(function() {
-                           
-    		$("ul.nav-tabs li").find("a").removeClass("active"); //Remove any "active" class
-                $(this).find("a").addClass("active"); //Add "active" class to selected tab
-                $(this).show();    		
+                var href = $(this).attr('href');
+                alert($(this).attr("href"));
+    		$("ul.nav-tabs li").removeClass("active"); //Remove any "active" class
+    		$(this).addClass("active"); //Add "active" class to selected tab
     		$(".tab-pane").hide(); //Hide all tab content
-                //Find the href attribute value to identify the active tab + content
-    		var activeTab = $(this).find("a").attr("href");                                
-                $(activeTab).addClass("active").show();                
-    		$(activeTab).fadeIn(); //Fade in the active ID content                
+
+    		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to
+                    identify the active tab + content
+    		$(activeTab).fadeIn(); //Fade in the active ID content
     		return false;
             });
         });
         
+        $(document).ready( function(){
+            SelectTab(1); //or use other method  to set active class to tab
+            ShowInitialTabContent();
+
+        });
+        function SelectTab(tabindex)
+        {
+            $('.nav-tabs li.nav-item').removeClass('active');
+            $('.nav-tabs li.nav-item').eq(tabindex).addClass('active'); 
+            //tabindex start at 0 
+        }
+        function FindActiveDiv()
+        {  
+            var DivName = $('.nav-tabs .active a').attr('href');  
+            return DivName;
+        }
+        function RemoveFocusNonActive()
+        {
+            $('.nav-tabs  a').not('.active').blur();  
+        }
+        function ShowInitialTabContent()
+        {
+            RemoveFocusNonActive();
+            var DivName = FindActiveDiv();
+            if (DivName)
+            {
+                $(DivName).addClass('active'); 
+            } 
+        }
     </script>
     </div>
 </div>

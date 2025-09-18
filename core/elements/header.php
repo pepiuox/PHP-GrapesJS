@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
         <title><?php echo SITE_NAME; ?> | <?php echo str_replace('_',' ',ucfirst($fname)); ?></title>
+        <link rel="shortcut icon" href="<?php echo SITE_PATH; ?>assets/images/favicon.ico"/>
         <!-- Font Awesome -->
         <link rel="stylesheet" href="<?php echo SITE_PATH; ?>assets/plugins/fontawesome/css/all.min.css">        
         <!-- Theme style -->

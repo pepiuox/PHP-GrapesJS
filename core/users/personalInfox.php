@@ -3,51 +3,51 @@
   <div class="col-md-12">
 <div class="card">
  <div class="card-body">
-  <?php
-  $userid = $_SESSION['user_id'];
-  $hash = $_SESSION['hash'];
+<?php
+$userid = $_SESSION['user_id'];
+$hash = $_SESSION['hash'];
 
-  if (isset($_POST['editrow'])) {
+if (isset($_POST['editrow'])) {
 
-$firstname = protect($_POST["firstname"]);
-$lastname = protect($_POST["lastname"]);
-$gender = protect($_POST["gender"]);
-$age = protect($_POST["age"]);
-$avatar = protect($_POST["avatar"]);
-$birthday = protect($_POST["birthday"]);
-$public_phone = protect($_POST["public_phone"]);
-$website = protect($_POST["website"]);
-$social_media = protect($_POST["social_media"]);
-$profession = protect($_POST["profession"]);
-$occupation = protect($_POST["occupation"]);
-$public_email = protect($_POST["public_email"]);
-$address = protect($_POST["address"]);
-$followers_count = protect($_POST["followers_count"]);
-$profile_image = protect($_POST["profile_image"]);
-$profile_cover = protect($_POST["profile_cover"]);
-$profile_bio = protect($_POST["profile_bio"]);
-$language = protect($_POST["language"]);
-$query = "UPDATE profiles SET avatar = ?, birthday = ?, public_phone = ?, website = ?, social_media = ?, profession = ?, occupation = ?, public_email = ?, address = ?, profile_image = ?, profile_cover = ?, profile_bio = ?, language = ? WHERE idp = ? AND mkhash = ? ";
-$up1 = $conn->prepare($query);
-$up1->bind_param("sisssssssssssss", $avatar, $birthday, $public_phone, $website, $social_media, $profession, $occupation, $public_email, $address, $profile_image, $profile_cover, $profile_bio, $language, $userid, $hash);
-$up1->execute();
-$inst1 = $up1->affected_rows;
-$up1->close();
-if ($inst1 > 0) {
- $_SESSION["success"] = "The data was updated correctly.";
- header("Location: profile.php");
- exit;
-} else {
- $_SESSION["error"] = "Error updating data: " . $conn->error;
+    $firstname = protect($_POST["firstname"]);
+    $lastname = protect($_POST["lastname"]);
+    $gender = protect($_POST["gender"]);
+    $age = protect($_POST["age"]);
+    $avatar = protect($_POST["avatar"]);
+    $birthday = protect($_POST["birthday"]);
+    $public_phone = protect($_POST["public_phone"]);
+    $website = protect($_POST["website"]);
+    $social_media = protect($_POST["social_media"]);
+    $profession = protect($_POST["profession"]);
+    $occupation = protect($_POST["occupation"]);
+    $public_email = protect($_POST["public_email"]);
+    $address = protect($_POST["address"]);
+    $followers_count = protect($_POST["followers_count"]);
+    $profile_image = protect($_POST["profile_image"]);
+    $profile_cover = protect($_POST["profile_cover"]);
+    $profile_bio = protect($_POST["profile_bio"]);
+    $language = protect($_POST["language"]);
+    $query = "UPDATE profiles SET avatar = ?, birthday = ?, public_phone = ?, website = ?, social_media = ?, profession = ?, occupation = ?, public_email = ?, address = ?, profile_image = ?, profile_cover = ?, profile_bio = ?, language = ? WHERE idp = ? AND mkhash = ? ";
+    $up1 = $conn->prepare($query);
+    $up1->bind_param("sisssssssssssss", $avatar, $birthday, $public_phone, $website, $social_media, $profession, $occupation, $public_email, $address, $profile_image, $profile_cover, $profile_bio, $language, $userid, $hash);
+    $up1->execute();
+    $inst1 = $up1->affected_rows;
+    $up1->close();
+    if ($inst1 > 0) {
+        $_SESSION["success"] = "The data was updated correctly.";
+        header("Location: profile.php");
+        exit;
+    } else {
+        $_SESSION["error"] = "Error updating data: " . $conn->error;
+    }
 }
-  }
-  $respro = $conn->prepare("SELECT * FROM users_profiles WHERE idp = ? AND mkhash = ? ");
-  $respro->bind_param("ss", $userid, $hash);
-  $respro->execute();
-  $prof = $respro->get_result();
-  $rpro = $prof->fetch_assoc();
-  $respro->close();
-  ?> 
+$respro = $conn->prepare("SELECT * FROM users_profiles WHERE idp = ? AND mkhash = ? ");
+$respro->bind_param("ss", $userid, $hash);
+$respro->execute();
+$prof = $respro->get_result();
+$rpro = $prof->fetch_assoc();
+$respro->close();
+?> 
 
   <form role="form" id="edit_profiles" method="POST">
 <div class="form-group">
