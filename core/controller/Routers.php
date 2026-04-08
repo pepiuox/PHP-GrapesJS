@@ -14,7 +14,7 @@ class Routers {
     protected $conn;
     public $url;
     public $host;
-    public $basename;
+    public $basepage;
     public $protocol;
     public $escaped_url;
     public $url_path;
@@ -22,6 +22,7 @@ class Routers {
     public $active = 1;
     public $parent = 0;
     public $pg404;
+    private $columns;
 
     public function __construct() {
         global $conn;
@@ -34,11 +35,12 @@ class Routers {
         $this->url = $this->protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
         $this->escaped_url = htmlspecialchars($this->url, ENT_QUOTES, "UTF-8");
         $this->url_path = parse_url($this->escaped_url, PHP_URL_PATH);
-        $this->basename = pathinfo($this->url_path, PATHINFO_BASENAME);
-        $columns = ['id',
-            'system_path',
+        $this->basepage = pathinfo($this->url_path, PATHINFO_BASENAME);
+        $this->columns = ['id',
+            'language',
             'view_page',
             'title',
+            'slug',
             'link',
             'url',
             'keyword',
@@ -47,36 +49,77 @@ class Routers {
             'type',
             'menu',
             'path_file',
-            'content',
-            'style',
-            'language'];
+            'html_content',
+            'css_content',
+            'php_content',
+            'js_content',
+            'parent'];
+    }
+
+    public function loadPage() {
+        if ($this->host === $this->url) {
+            $rpx = $this->InitPage();
+        } elseif (isset($this->basepage) && !empty($this->basepage)) {
+
+            $npg = $this->Pages();
+            if ($npg == $this->url) {
+                $rpx = $this->PageDataWeb();
+            } else {
+                header("Location: $npg");
+                die();
+            }
+        } else {
+            return $this->routePages();
+        }
     }
 
     public function InitPage() {
+        if ($this->host === $this->url) {
+            $stmt = $this->conn->prepare(
+                    "SELECT * FROM pages WHERE startpage = ? AND active = ? "
+            );
+            $stmt->bind_param("ii", $this->startpage, $this->active);
+            $stmt->execute();
+            $rs = $stmt->get_result();
+            $stmt->close();
+
+            if ($rs->num_rows === 1) {
+                return $rs->fetch_assoc();
+            }
+        } else {
+            return $this->PageDataWeb();
+        }
+    }
+
+    public function PageDataWeb() {
         $stmt = $this->conn->prepare(
-                "SELECT * FROM pages WHERE startpage = ? AND active = ? "
+                "SELECT * FROM pages WHERE link = ? AND active = ? "
         );
-        $stmt->bind_param("ii", $this->startpage, $this->active);
+        $stmt->bind_param("si", $this->basepage, $this->active);
         $stmt->execute();
         $rs = $stmt->get_result();
         $stmt->close();
+        $nm = $rs->num_rows;
 
-        if ($rs->num_rows == 1) {
+        if ($nm > 0) {
             return $rs->fetch_assoc();
+        } else {
+            return null;
         }
     }
 
     public function GoPage() {
-        $page = $this->basename;
+        $page = $this->basepage;
         if ($page === "home" || $page === "inicio" || empty($page)) {
             return true;
         } else {
-            $spg = $this->conn->prepare("SELECT * FROM pages WHERE link = ? AND active = ? ");
+
+            $spg = $this->conn->prepare("SELECT link, active  FROM pages WHERE link = ? AND active = ? ");
             $spg->bind_param("si", $page, $this->active);
             $spg->execute();
             $rs = $spg->get_result();
             $nm = $rs->num_rows;
-            if ($nm > 0) {
+            if ($nm === 1) {
                 return true;
             } else {
                 return false;
@@ -86,8 +129,8 @@ class Routers {
 
     public function routePages() {
         $nm = "";
-        $page = $this->basename;
-        if ($page === "home" || $page === "inicio") {
+
+        if ($this->basepage === "home" || $this->basepage === "inicio") {
             header("Location: $this->host");
             die();
         } else if (isset($_GET['url']) && !empty($_GET['url'])) {
@@ -107,32 +150,15 @@ class Routers {
                 die();
             }
         } else {
-            return;
+            return false;
         }
     }
 
-    public function PageDataWeb($basename) {
-        $stmt = $this->conn->prepare(
-                "SELECT * FROM pages WHERE link = ? AND active = ? "
-        );
-        $stmt->bind_param("si", $basename, $this->active);
-        $stmt->execute();
-        $rs = $stmt->get_result();
-        $stmt->close();
-        $nm = $rs->num_rows;
-
-        if ($nm === 1) {
-            return $rs->fetch_assoc();
-        } else {
-            return null;
-        }
-    }
-
-    public function Pages($plink) {
+    public function Pages() {
         $pg = $this->conn->prepare(
-                "SELECT system_path, link, startpage, type, path_file, parent, active FROM pages WHERE link = ? AND active = ? "
+                "SELECT link, startpage, parent, active FROM pages WHERE link = ? AND active = ? "
         );
-        $pg->bind_param("si", $plink, $this->active);
+        $pg->bind_param("si", $this->basepage, $this->active);
         $pg->execute();
         $rs = $pg->get_result();
         $pg->close();
@@ -145,11 +171,7 @@ class Routers {
                 $link = $this->GetParent($row["parent"]);
                 return $this->host . $link . "/" . $row["link"];
             } else {
-                if (empty($row["system_path"])) {
-                    return $this->host . $row["link"];
-                } else {
-                    return $this->host . $row["system_path"] . $row["link"];
-                }
+                return $this->host . $row["link"];
             }
         } else {
             return $this->pg404;

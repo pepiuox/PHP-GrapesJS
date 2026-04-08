@@ -75,7 +75,7 @@ $usrm = $this->gc->ende_crypter(
                 $uname = $urw['username'];
                 $forgot_password_key = $this->enfKey();
                 $inactive = 0;
-                $stmt = $this->conn->prepare("UPDATE uverify SET password_key = ?, is_activated = ? WHERE email = ?");
+                $stmt = $this->conn->prepare("UPDATE uverify SET password_key = ?, is_activate = ? WHERE email = ?");
                 $stmt->bind_param("sis", $forgot_password_key, $inactive, $usrm);
                 $stmt->execute();
                 $stmt->close();
@@ -134,7 +134,7 @@ $usrm = $this->gc->ende_crypter(
 
                 $forgot_pin_key = $this->gc->getKeyCode();
                 $inactive = 0;
-                $stmt = $this->conn->prepare("UPDATE uverify SET pin_key = ?, is_activated = ? WHERE email = ?");
+                $stmt = $this->conn->prepare("UPDATE uverify SET pin_key = ?, is_activate = ? WHERE email = ?");
                 $stmt->bind_param("sis", $forgot_pin_key, $inactive, $email);
                 $stmt->execute();
                 $stmt->close();

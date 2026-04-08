@@ -39,9 +39,8 @@ if ($pages->GoPage() === true) {
     } else {
         $pages->routePages();
     }
-
+/*
     $bid = $rpx["id"];
-    $syspath = $rpx['system_path'];
     $viewpg = $rpx['view_page'];
     $title = $rpx["title"];
     $plink = $rpx["link"];
@@ -52,12 +51,12 @@ if ($pages->GoPage() === true) {
     $typepage = $rpx["type"];
     $menu = $rpx["menu"];
     $pfile = $rpx["path_file"];
-    $content = $rpx["content"];
-    $style = $rpx["style"];
+    $html_content = $rpx["html_content"];
+    $css_content = $rpx["css_content"];
     $lng = $rpx["language"];
 
     $visitor->pageViews($title);
-
+*/
     $language = $_SESSION["language"] = $lng;
     $request = $_SERVER["REQUEST_URI"];
 
@@ -67,14 +66,14 @@ if ($pages->GoPage() === true) {
 
         if ($typepage === 'Design') {
             echo '<style>' . "\n";
-            echo decodeContent($style) . "\n";
+            echo decodeContent($css_content) . "\n";
             echo '</style>' . "\n";
         }
 ?>
-                        </head>
-                        <body>
-                        <div id="wrapper">
-                        <div class='container-fluid min-h-screen' id="content-page">
+        </head>
+            <body>
+                <div id="wrapper">
+                <div class='container-fluid min-h-screen' id="content-page">
         <?php
         require_once "elements/menu.php";
         if ($typepage === 'File') {
@@ -84,8 +83,8 @@ if ($pages->GoPage() === true) {
                 require_once $pfile . ".php";
             }
         } else if ($typepage === 'Design') {
-            $string = decodeContent($content);
-            if (!empty($content)) {
+            $string = decodeContent($html_content);
+            if (!empty($html_content)) {
                 $string = str_replace("<body>", "", $string);
                 $string = str_replace("</body>", "", $string);
             }
@@ -95,8 +94,8 @@ if ($pages->GoPage() === true) {
                 </div>
         <?php require_once "elements/footer.php"; ?>
                 </div>
-                </body>
-                </html>
+            </body>
+        </html>
         <?php
     }
 } else {
@@ -128,10 +127,10 @@ if ($pages->GoPage() === true) {
     if ($tempBASE === "signin") {
         require_once "elements/top.php";
         ?>
-                </head>
-                <body>
-                <div id="wrapper">
-                    <div class='container-fluid min-h-screen' id="content-page">
+</head>
+    <body>
+        <div id="wrapper">
+              <div class='container-fluid min-h-screen' id="content-page">
         <?php
         require_once "elements/menu.php";
         if ($tempURI === "login") {
@@ -148,45 +147,43 @@ if ($pages->GoPage() === true) {
             require_once "pages/forgot/" . $tempURI . ".php";
         }
         ?>
-                </div>
+            </div>
         <?php require_once "elements/footer.php"; ?>
-                </div>
-                
-                </body>
-                </html>
+        </div>
+    </body>
+</html>
         <?php
     } else if ($tempBASE === "admin") {
 
         if ($tempURI === "dashboard") {
             include 'elements/header_dashboard.php';
         ?>
-                             </head>
-                             <body class="hold-transition sidebar-mini">
-                             <div class="wrapper">  
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">  
             <?php
             require_once "managers/" . $tempURI . ".php";
             ?>
-                             </div>
-                             </body>
-                             </html>
+        </div>
+        </body>
+</html>
             <?php
         }
 
         if ($tempURI === "builder") {
             include 'elements/top_build.php';
             ?>   
-                              </head>
-                           <body id="builder">  
+    </head>
+    <body id="builder">  
             <?php
             if (!empty($tempURL[3])) {
                 define('PAG', $tempURL[3]);
             }
-            
+
             require_once "managers/" . $tempURI . ".php";
             ?>
-                             
-                             </body>
-                             </html>
+    </body>
+</html>
             <?php
         }
             ?>
@@ -194,9 +191,9 @@ if ($pages->GoPage() === true) {
     } else if ($tempBASE === "profile") {
         include 'elements/header.php';
         ?>
-                        </head>
-                <body class="hold-transition sidebar-mini">
-                <div class="wrapper">  
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">  
         <?php
         if (!empty($tempURL[3])) {
             define('USR', $tempURL[3]);
@@ -206,16 +203,16 @@ if ($pages->GoPage() === true) {
         }
         require_once "users/" . $tempURI . ".php";
         ?>
-                 </div>
-                 </body>
-                 </html>
+        </div>
+    </body>
+</html>
         <?php
     } else {
         header("Location " . $pg404);
         die();
     }
         ?>
-              
+                  
     <?php
 }
     ?>

@@ -217,7 +217,7 @@ class UsersClass {
                         );
 
                         $stmt = $this->conn->prepare(
-                                "SELECT * FROM uverify WHERE email = ? AND mkpin = ? AND is_activated = ?"
+                                "SELECT * FROM uverify WHERE email = ? AND mkpin = ? AND is_activate = ?"
                         );
                         $stmt->bind_param("ssi", $usrm, $upin, $isact);
                         $stmt->execute();
@@ -257,10 +257,10 @@ class UsersClass {
 
                             $uar = $usac->fetch_assoc();
 
-                            if ($uar["is_active"] === $urw["is_activated"]) {
+                            if ($uar["is_active"] === $urw["is_activate"]) {
                                 if (
-                                        $urw["is_activated"] === 1 &&
-                                        $urw["banned"] === 0
+                                        $urw["is_activate"] === 1 &&
+                                        $urw["is_banned"] === 0
                                 ) {
 
                                     $secret_key = $urw["mktoken"];
@@ -373,7 +373,9 @@ class UsersClass {
                                             $_SESSION["username"] = $user;
                                             $_SESSION["user_id"] = $nid;
                                             $_SESSION["levels"] = $level;
-                                            $_SESSION["hash"] = $enck;
+                                            $_SESSION["hash"] = $enck;  
+                                            $_SESSION['email'] = $cml;
+                                            $_SESSION['logged_in'] = true;
                                             $usnm = $this->gc->ende_crypter(
                                                     "encrypt",
                                                     $_SESSION["username"],
@@ -478,7 +480,7 @@ class UsersClass {
                     die();
                 } else {
                     $urw = $result->fetch_assoc();
-                    if ($urw["is_activated"] === 1 && $urw["banned"] === 0) {
+                    if ($urw["is_activate"] === 1 && $urw["banned"] === 0) {
                         $email = $urw["email"];
                         $user = $urw["username"];
                         $passw = $urw["password"];
@@ -852,6 +854,10 @@ class UsersClass {
 
     public function isAgent() {
         return $this->userlevel == AGENT_LEVEL;
+    }
+    
+    public function isEditor() {
+        return $this->userlevel == EDITOR_LEVEL;
     }
 
     public function isMember() {

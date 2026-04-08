@@ -107,6 +107,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             }
 
             $title = protect($_POST['title']); // Page name
+            $slug = protect(strtolower(str_replace(" ", "-", $_POST['slug']))); // Page slug
             $link = protect(strtolower(str_replace(" ", "-", $_POST['link']))); // Page link
             $keyword = protect($_POST['keyword']);
             $classification = protect($_POST['classification']);
@@ -179,7 +180,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title" name="title">
         </div>
-        </div><div class="col-md-6">
+        </div><div class="col-md-3">
+        <div class="form-group">
+        <label for="slug">Slug</label>
+        <input type="text" class="form-control" id="slug" name="slug">
+        </div>
+        </div><div class="col-md-3">
         <div class="form-group">
         <label for="link">Link</label>
         <input type="text" class="form-control" id="link" name="link">
@@ -268,6 +274,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         let ttl = document.getElementById("title").value;
         ttl = ttl.toLowerCase();
         ttl = ttl.replace(/ /g, "-");
+        document.getElementById("slug").value = ttl;
         document.getElementById("link").value = ttl;
         }
         </script>
@@ -330,6 +337,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 }
 
                 $title = protect($_POST['title']);
+                $slug = protect(strtolower(str_replace(" ", "-", $_POST['slug'])));
                 $link = protect(strtolower(str_replace(" ", "-", $_POST['link'])));
                 $keyword = protect($_POST['keyword']);
                 $classification = protect($_POST['classification']);
@@ -413,7 +421,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 <label for="title">Title</label>
 <input type="text" class="form-control" id="title" name="title" value="' . $row['title'] . '">
   </div>' . "\n";
-                    echo '</div><div class="col-md-6">' . "\n";
+                    echo '</div><div class="col-md-3">' . "\n";
+                    echo '<div class="form-group">
+<label for="slug">Slug</label>
+<input type="text" class="form-control" id="slug" name="slug" value="' . $row['slug'] . '">
+  </div>' . "\n";
+                    echo '</div><div class="col-md-3">' . "\n";
                     echo '<div class="form-group">
 <label for="link">Link</label>
 <input type="text" class="form-control" id="link" name="link" value="' . $row['link'] . '">
@@ -502,6 +515,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     let ttl = document.getElementById("title").value;
                     ttl = ttl.toLowerCase();
                     ttl = ttl.replace(/ /g, "-");
+                    document.getElementById("slug").value = ttl;
                     document.getElementById("link").value = ttl;
                     }
                     </script>

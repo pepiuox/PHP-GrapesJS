@@ -60,14 +60,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         if (isset($build) && !empty($build)) {
 
-            $erow = $conn->prepare("SELECT id, title, link, content, style, parent FROM $build WHERE id=?");
+            $erow = $conn->prepare("SELECT id, title, slug, link, html_content, css_content, parent FROM $build WHERE id=?");
             $erow->bind_param('i', $id);
             $erow->execute();
             $result = $erow->get_result();
             $row = $result->fetch_assoc();
 
-            $pcontent = $row['content'];
-            $pstyle = $row['style'];
+            $pcontent = $row['html_content'];
+            $pstyle = $row['css_content'];
             if ($row['parent'] === 0) {
                 $plink = $row['link'];
             } else {
@@ -223,10 +223,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 </div>
         <?php
 
-        function Savedata($tbl, $content, $style, $idp) {
-            $sql = "UPDATE $tbl SET  content = ?, style = ? WHERE id = ?";
+        function Savedata($tbl, $html_content, $css_content, $idp) {
+            $sql = "UPDATE $tbl SET  html_content = ?, css_content = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssi", protect($content), protect($style), $idp);
+            $stmt->bind_param("ssi", protect($html_content), protect($css_content), $idp);
             $stmt->execute();
             $save = $stmt->affected_rows;
             $stmt->close();
@@ -586,7 +586,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 'grapesjs-project-manager',
                 'grapesjs-component-code-editor'
                 ],
-                    pluginsOpts: {
+                pluginsOpts: {
                     'gjs-blocks-basic': {
                         flexGrid: true
                     },

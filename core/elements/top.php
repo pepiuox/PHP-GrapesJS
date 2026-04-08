@@ -40,7 +40,7 @@ if (!empty($title)) {
 
 $actth = 'Yes';
 $bsdft = 'Yes';
-$theme = $conn->prepare(
+$theme = $this->conn->prepare(
         "SELECT * FROM themes WHERE base_default = ? AND active_theme = ? "
 );
 $theme->bind_param("ss", $bsdft, $actth);

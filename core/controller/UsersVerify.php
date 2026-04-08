@@ -60,7 +60,7 @@ class UsersVerify {
      * Function uVerify(){
      * User e-mail verification on verify.php
      * E-mail and activation code are cross-referenced with database, if both are correct
-     * is_activated is updated in database.
+     * is_activate is updated in database.
      */
     /**/
 
@@ -126,7 +126,7 @@ class UsersVerify {
 							$bann = 0;
 							$status = 1;
                         
-							$stmt1 = $this->conn->prepare("UPDATE uverify SET mkhash = ?, activation_code = ?, is_activated = ?, banned = ?  WHERE iduv = ?  AND usercode = ? AND mkhash = ?");
+							$stmt1 = $this->conn->prepare("UPDATE uverify SET mkhash = ?, activation_code = ?, is_activate = ?, banned = ?  WHERE iduv = ?  AND usercode = ? AND mkhash = ?");
 							$stmt1->bind_param("ssiisss", $mhash, $cchng, $verified, $bann, $uid, $uscod, $this->hash);
 							$stmt1->execute();
 							$res1 = $stmt1->affected_rows;

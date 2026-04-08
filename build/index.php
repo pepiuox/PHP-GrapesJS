@@ -14,5 +14,5 @@ if (!isset($_SESSION)) {
 $source = str_replace('\\', '/', dirname(__DIR__));
 define("URL", $source);
 
-require_once URL.'/core/view.php';
+require_once URL.'/core/dispatcher.php';
 ?>

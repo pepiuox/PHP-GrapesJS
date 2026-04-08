@@ -28,7 +28,7 @@ class Paths {
         $this->conn = $conn;
 
         $this->protocol = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ||
-            $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
+                $_SERVER["SERVER_PORT"] == 443 ? "https://" : "http://";
         $this->host = $this->protocol . $_SERVER["HTTP_HOST"] . "/";
         $this->pg404 = $this->host . "error/404";
         $this->url = $this->protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
@@ -37,9 +37,9 @@ class Paths {
         $this->basename = pathinfo($this->url_path, PATHINFO_BASENAME);
     }
 
-    public function SystemPath($plink) {
+    public function PagesPath($plink) {
         $pg = $this->conn->prepare(
-            "SELECT system_path, link, startpage, type, path_file, parent, active FROM pages WHERE link = ? AND active = ? "
+                "SELECT view_page, link, startpage, type, path_file, parent, active FROM pages WHERE link = ? AND active = ? "
         );
         $pg->bind_param("si", $plink, $this->active);
         $pg->execute();
@@ -48,11 +48,14 @@ class Paths {
         if ($rs->num_rows == 1) {
             $row = $rs->fetch_assoc();
 
-            if (!empty($row["system_path"])) {
-                return $this->host . $row["system_path"] . $row["link"];
+            if ($row["view_page"] == 'public') {
+                if ($row["parent"] > 0) {
+                    $link = $this->GetParent($row["parent"]);
+                    return $this->host . $link . "/" . $row["link"];
+                } 
             } else {
 
-                return $this->host . $row["link"];
+                return $this->pg404;
             }
         }
     }

@@ -38,7 +38,7 @@ class UsersUpdates{
         $verified = 1;
         $bann = 0;
         $cchng = '';
-        $stmt = $this->conn->prepare("UPDATE uverify SET mkhash = ?, is_activated = ?, banned = ? activation_code = ? WHERE iduv = ? AND mkhash = ? AND  activation_code = ?");
+        $stmt = $this->conn->prepare("UPDATE uverify SET mkhash = ?, is_activate = ?, banned = ? activation_code = ? WHERE iduv = ? AND mkhash = ? AND  activation_code = ?");
         $stmt->bind_param("siissss", $mhash, $verified, $bann, $cchng, $uid, $hash_code, $act_code);
         $stmt->execute();
         if ($stmt->affected_rows === 1) {

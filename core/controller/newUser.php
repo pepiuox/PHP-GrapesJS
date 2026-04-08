@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class newUser {
+class NewUser {
 
     public $baseurl;
     protected $connection;
@@ -207,7 +207,7 @@ class newUser {
                     $is_actd = 0;
 
                     // adding data in table uverify
-                    $stmt1 = $this->connection->prepare("INSERT INTO uverify (iduv,username,email,password,mktoken,mkkey,mkhash,mkpin,activation_code,is_activated,banned) "
+                    $stmt1 = $this->connection->prepare("INSERT INTO uverify (iduv,username,email,password,mktoken,mkkey,mkhash,mkpin,activation_code,is_activate,banned) "
                             . "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                     $stmt1->bind_param("sssssssssii", $newid, $username, $email, $pass, $ekey, $eiv, $enck, $pin, $code, $is_actd, $ban);
                     $stmt1->execute();

@@ -1,0 +1,26 @@
+# Denegar acceso directo a archivos PHP
+<FilesMatch "\.(php|inc)$">
+    Require all denied
+</FilesMatch>
+
+# Permitir solo archivos específicos
+<FilesMatch "^(index|upload|download|preview|delete)\.php$">
+    Require all granted
+</FilesMatch>
+
+# Proteger directorio uploads
+<Directory "uploads">
+    Require all denied
+</Directory>
+
+# Permitir acceso a archivos en uploads
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|doc|docx|xls|xlsx|txt|zip|rar|mp3|mp4)$">
+    Require all granted
+</FilesMatch>
+
+# Headers de seguridad
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options nosniff
+    Header set X-Frame-Options DENY
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

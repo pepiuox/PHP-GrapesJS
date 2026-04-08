@@ -157,7 +157,7 @@ function third($sid, $plink)
 if(empty($menu)){
     $menu = 1;
 }
-$rmenu = $conn->prepare("SELECT * FROM menu_options WHERE id=?");
+$rmenu = $this->conn->prepare("SELECT * FROM menu_options WHERE id=?");
 $rmenu->bind_param("i", $menu);
 $rmenu->execute();
 $rsmenu = $rmenu->get_result();

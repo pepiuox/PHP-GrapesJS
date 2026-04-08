@@ -253,7 +253,7 @@ elseif($cspuser === 'products'){
 
                     // adding data in table uverify
                     $stmt1 = $this->conn->prepare(
-                        "INSERT INTO uverify (iduv,usercode,username,email,password,usr_type,mktoken,mkkey,mkhash,mkpin,activation_code,is_activated,banned) " .
+                        "INSERT INTO uverify (iduv,usercode,username,email,password,usr_type,mktoken,mkkey,mkhash,mkpin,activation_code,is_activate,banned) " .
                             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
                     $stmt1->bind_param(

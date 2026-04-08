@@ -337,7 +337,7 @@ class installUser {
 
                     // adding data in table uverify
                     $stmt1 = $this->connection->prepare(
-                        "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,level,level_key,is_activated,verified,banned) " .
+                        "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,level,level_key,is_activate,verified,banned) " .
                         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
                     $stmt1->bind_param(

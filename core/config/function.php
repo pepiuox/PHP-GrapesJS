@@ -19,8 +19,6 @@ function decodeContent($str) {
         return htmlspecialchars_decode(html_entity_decode($str, ENT_QUOTES));
     }
 }
-
-
 /*
  * nparent() 
  * This function gives us a list of pages, for add parent page in add.php

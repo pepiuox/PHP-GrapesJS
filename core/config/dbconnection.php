@@ -4,7 +4,6 @@ include 'error_report.php';
 include 'Database.php';
 $link = new Database();
 $conn = $link->MysqliConnection();
-require_once 'Routers.php';
 require_once 'function.php';
 include_once 'define.php';
 

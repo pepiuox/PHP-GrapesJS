@@ -13,18 +13,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
             <?php
             echo '<table class="table" border=1 cellpadding=0 cellspacing=0 >' . "\n";
-            echo "<thead>";
-            echo '<tr class="title">';
-            echo "<th><b>Paginá</b></th>";
-            echo "<th><b>Título</b></th>";
-            echo "<th><b>Imagen</b></th>";
-            echo "<th><b>Origen</b></th>";
-            echo "<th><b>Id Video</b></th>";
-            echo "<th><b>Activo</b></th>";
-            echo "<th></th><th></th><th></th>";
-            echo "</tr>";
-            echo "</thead>";
-            echo "<tbody>";
+            echo "<thead>". "\n";
+            echo '<tr class="title">'. "\n";
+            echo "<th><b>Paginá</b></th>". "\n";
+            echo "<th><b>Título</b></th>". "\n";
+            echo "<th><b>Imagen</b></th>". "\n";
+            echo "<th><b>Origen</b></th>". "\n";
+            echo "<th><b>Id Video</b></th>". "\n";
+            echo "<th><b>Activo</b></th>". "\n";
+            echo "<th></th><th></th><th></th>". "\n";
+            echo "</tr>". "\n";
+            echo "</thead>". "\n";
+            echo "<tbody>". "\n";
             $result = $conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM pages) `page` ON videos.idVd=page.id") or trigger_error($conn->error);
             while ($row = $result->fetch_array()) {
                 foreach ($row AS $key => $value) {

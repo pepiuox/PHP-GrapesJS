@@ -5,7 +5,7 @@
 //  Author     : PePiuoX
 //  Email      : contact@pepiuox.net
 //
-class formCRUD {
+class FormCRUD {
 
     protected $conn;
     public $tname;

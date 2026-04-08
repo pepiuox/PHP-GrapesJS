@@ -107,9 +107,9 @@ if (isset($_POST['Update'])) {
             foreach ($fname as $val) {
                 if ($val->name === 'ID_Site') {
                     continue;
-                } elseif ($val->name === 'CREATE') {
+                } elseif ($val->name === 'created_at') {
                     continue;
-                } elseif ($val->name === 'UPDATED') {
+                } elseif ($val->name === 'updated_at') {
                     continue;
                 }
                 $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
@@ -134,6 +134,70 @@ if (isset($_POST['Update'])) {
         exit;
     }
 }
+if (isset($_POST['UpdateSecures'])) {
+    if ($_FILES) {
+        extract($_FILES);
+        foreach ($_FILES as $k => $v) {
+            $v = $k;
+            UploadImage($v);
+        }
+    }
+
+    /* update table */
+    foreach ($_POST as $k => $v) {
+        if ($_POST['UpdateSecures'] === $v) {
+            continue;
+        }
+        $vals[] = "`" . $k . "` = '" . $v . "'";
+    }
+    $vupdates = implode(", ", $vals);
+    $update = ("UPDATE site_security SET $vupdates WHERE `idSs` = '1'");
+
+    if ($conn->query($update) === TRUE) {
+        $definefiles = '../config/define.php';
+
+        $_SESSION['SuccessMessage'] = "Web Site Secures Configuration : Updated.";
+        $sql = "SELECT * FROM site_secures WHERE `idSs` = '1'";
+
+        if ($result = $conn->query($sql)) {
+            $fname = $result->fetch_fields();
+            $fdata = $result->fetch_assoc();
+
+            foreach ($fname as $val) {
+                if ($val->name === 'idSs') {
+                    continue;
+                } elseif ($val->name === 'site') {
+                    continue;
+                } elseif ($val->name === 'created_at') {
+                    continue;
+                } elseif ($val->name === 'updated_at') {
+                    continue;
+                }
+                $fldname[] = "define('" . $val->name . "','" . $fdata[$val->name] . "');" . "\n";
+            }
+
+            if (!file_exists($definefiles)) {
+                $ndef = '<?php' . "\n";
+                $ndef .= implode(" ", $fldname);
+                $ndef .= '?>' . "\n";
+                file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+            } else {
+                unlink($definefiles);
+                $ndef = '<?php' . "\n";
+                $ndef .= implode("\n ", $fldname);
+                $ndef .= '?>' . "\n";
+                file_put_contents($definefiles, $ndef, FILE_APPEND | LOCK_EX);
+            }
+        }
+    } else {
+        $_SESSION['ErrorMessage'] = "Updated settings : Error.";
+        header("Location: ../siteconf");
+        exit;
+    }
+}
+
+$result1 = $conn->query("SELECT * FROM `site_security` WHERE `idSs` = '1'") or trigger_error($conn->error);
+$confsm = $result1->fetch_assoc();
 ?>
 <div class="container">            
     <div class="row">
@@ -195,7 +259,7 @@ if (isset($_POST['Update'])) {
                                     <input type="file" class="form-control" id="SITE_IMAGE" name="SITE_IMAGE" value="<?php echo $confs["SITE_IMAGE"]; ?>">
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="Update" class="btn btn-primary">Save site info</button>
                                 </div>
                             </form>
                         </div>
@@ -228,7 +292,7 @@ if (isset($_POST['Update'])) {
                                     <input type="text" class="form-control" id="FOLDER_IMAGES" name="FOLDER_IMAGES" value="<?php echo $confs["FOLDER_IMAGES"]; ?>">
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="Update" class="btn btn-primary">Save site controls</button>
                                 </div>
                             </form>
                         </div>
@@ -253,7 +317,7 @@ if (isset($_POST['Update'])) {
                                     <input type="text" class="form-control" id="SITE_LIST" name="SITE_LIST" value="<?php echo $confs["SITE_LIST"]; ?>">
                                 </div> 
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="Update" class="btn btn-primary">Save build editor</button>
                                 </div>
                             </form>
                         </div>
@@ -278,7 +342,7 @@ if (isset($_POST['Update'])) {
                                     <textarea type="text" class="form-control" id="ADDRESS" name="ADDRESS"><?php echo $confs["ADDRESS"]; ?></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="Update" class="btn btn-primary">Save site contact</button>
                                 </div>
                             </form>
                         </div>
@@ -288,26 +352,26 @@ if (isset($_POST['Update'])) {
                                 <hr>
                                 <div class="form-group">
                                     <label for="TWITTER">TWITTER:</label>
-                                    <input type="text" class="form-control" id="TWITTER" name="TWITTER" value="<?php echo $confs["TWITTER"]; ?>">
+                                    <input type="text" class="form-control" id="TWITTER" name="TWITTER" value="<?php echo $confs["TWITTER"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="FACEBOOKID">FACEBOOKID:</label>
-                                    <input type="text" class="form-control" id="FACEBOOKID" name="FACEBOOKID" value="<?php echo $confs["FACEBOOKID"]; ?>">
+                                    <input type="text" class="form-control" id="FACEBOOKID" name="FACEBOOKID" value="<?php echo $confs["FACEBOOKID"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SKYPE">SKYPE:</label>
-                                    <input type="text" class="form-control" id="SKYPE" name="SKYPE" value="<?php echo $confs["SKYPE"]; ?>">
+                                    <input type="text" class="form-control" id="SKYPE" name="SKYPE" value="<?php echo $confs["SKYPE"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="TELEGRAM">TELEGRAM:</label>
-                                    <input type="text" class="form-control" id="TELEGRAM" name="TELEGRAM" value="<?php echo $confs["TELEGRAM"]; ?>">
+                                    <input type="text" class="form-control" id="TELEGRAM" name="TELEGRAM" value="<?php echo $confs["TELEGRAM"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="WHATSAPP">WHATSAPP:</label>
-                                    <input type="text" class="form-control" id="WHATSAPP" name="WHATSAPP" value="<?php echo $confs["WHATSAPP"]; ?>">
+                                    <input type="text" class="form-control" id="WHATSAPP" name="WHATSAPP" value="<?php echo $confs["WHATSAPP"] ?? ''; ?>">
                                 </div> 
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="Update" class="btn btn-primary">Save social media</button>
                                 </div>
                             </form>
                         </div>
@@ -318,22 +382,22 @@ if (isset($_POST['Update'])) {
                                 <hr>
                                 <div class="form-group">
                                     <label for="MAILSERVER">SMTP Mail Server:</label>
-                                    <input type="text" class="form-control" id="MAILSERVER" name="MAILSERVER" value="<?php echo $confs["MAILSERVER"]; ?>">
+                                    <input type="text" class="form-control" id="MAILSERVER" name="MAILSERVER" value="<?php echo $confsm["MAILSERVER"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="PORTSERVER">Port Server:</label>
-                                    <input type="text" class="form-control" id="PORTSERVER" name="PORTSERVER" value="<?php echo $confs["PORTSERVER"]; ?>">
+                                    <input type="text" class="form-control" id="PORTSERVER" name="PORTSERVER" value="<?php echo $confsm["PORTSERVER"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="USEREMAIL">Email Account:</label>
-                                    <input type="text" class="form-control" id="USEREMAIL" name="USEREMAIL" value="<?php echo $confs["USEREMAIL"]; ?>">
+                                    <input type="text" class="form-control" id="USEREMAIL" name="USEREMAIL" value="<?php echo $confsm["USEREMAIL"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="PASSMAIL">Password:</label>
-                                    <input type="text" class="form-control" id="PASSMAIL" name="PASSMAIL" value="<?php echo $confs["PASSMAIL"]; ?>">
+                                    <input type="text" class="form-control" id="PASSMAIL" name="PASSMAIL" value="<?php echo $confsm["PASSMAIL"] ?? ''; ?>">
                                 </div> 
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="UpdateSecures" class="btn btn-primary">Save mail settings</button>
                                 </div>
                             </form>
                         </div>
@@ -343,30 +407,30 @@ if (isset($_POST['Update'])) {
                                 <hr>
                                 <div class="form-group">
                                     <label for="SUPERADMIN_NAME">SUPERADMIN NAME:</label>
-                                    <input type="text" class="form-control" id="SUPERADMIN_NAME" name="SUPERADMIN_NAME" value="<?php echo $confs["SUPERADMIN_NAME"]; ?>">
+                                    <input type="text" class="form-control" id="SUPERADMIN_NAME" name="SUPERADMIN_NAME" value="<?php echo $confsm["SUPERADMIN_NAME"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SUPERADMIN_LEVEL">SUPERADMIN LEVEL:</label>
-                                    <input type="text" class="form-control" id="SUPERADMIN_LEVEL" name="SUPERADMIN_LEVEL" value="<?php echo $confs["SUPERADMIN_LEVEL"]; ?>">
+                                    <input type="text" class="form-control" id="SUPERADMIN_LEVEL" name="SUPERADMIN_LEVEL" value="<?php echo $confsm["SUPERADMIN_LEVEL"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="ADMIN_NAME">ADMIN NAME:</label>
-                                    <input type="text" class="form-control" id="ADMIN_NAME" name="ADMIN_NAME" value="<?php echo $confs["ADMIN_NAME"]; ?>">
+                                    <input type="text" class="form-control" id="ADMIN_NAME" name="ADMIN_NAME" value="<?php echo $confsm["ADMIN_NAME"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="ADMIN_LEVEL">ADMIN LEVEL:</label>
-                                    <input type="text" class="form-control" id="ADMIN_LEVEL" name="ADMIN_LEVEL" value="<?php echo $confs["ADMIN_LEVEL"]; ?>">
+                                    <input type="text" class="form-control" id="ADMIN_LEVEL" name="ADMIN_LEVEL" value="<?php echo $confsm["ADMIN_LEVEL"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SECURE_HASH">SECURE HASH:</label>
-                                    <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo $confs["SECURE_HASH"]; ?>">
+                                    <input type="text" class="form-control" id="SECURE_HASH" name="SECURE_HASH" value="<?php echo $confsm["SECURE_HASH"] ?? ''; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="SECURE_TOKEN">SECURE TOKEN:</label>
-                                    <input type="text" class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" value="<?php echo $confs["SECURE_TOKEN"]; ?>">
+                                    <input type="text" class="form-control" id="SECURE_TOKEN" name="SECURE_TOKEN" value="<?php echo $confsm["SECURE_TOKEN"] ?? ''; ?>">
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" name="Update" class="btn btn-primary">Save</button>
+                                    <button type="submit" name="UpdateSecures" class="btn btn-primary">Save secure settings</button>
                                 </div>
                             </form>
                         </div>

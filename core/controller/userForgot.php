@@ -67,7 +67,7 @@ class userForgot {
 
                 $forgot_password_key = enfKey();
                 $inactive = 0;
-                $stmt = $this->connection->prepare("UPDATE uverify SET password_key = ?, is_activated = ? WHERE email = ?");
+                $stmt = $this->connection->prepare("UPDATE uverify SET password_key = ?, is_activate = ? WHERE email = ?");
                 $stmt->bind_param("sis", $forgot_password_key, $inactive, $email);
                 $stmt->execute();
                 $stmt->close();
@@ -130,7 +130,7 @@ class userForgot {
 
                 $forgot_pin_key = enfKey();
                 $inactive = 0;
-                $stmt = $this->connection->prepare("UPDATE uverify SET pin_key = ?, is_activated = ? WHERE email = ?");
+                $stmt = $this->connection->prepare("UPDATE uverify SET pin_key = ?, is_activate = ? WHERE email = ?");
                 $stmt->bind_param("sis", $forgot_pin_key, $inactive, $email);
                 $stmt->execute();
                 $stmt->close();

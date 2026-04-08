@@ -5,6 +5,11 @@
 //  Author     : PePiuoX
 //  Email      : contact@pepiuox.net
 //
+/**
+ * Description of multiDomains
+ *
+ * @author PePiuoX
+ */
 class multiDomains {
 
     protected $conn;

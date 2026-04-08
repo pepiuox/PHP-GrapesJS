@@ -38,7 +38,7 @@ class UserVerify {
      * Function Verify(){
      * User e-mail verification on verify.php
      * E-mail and activation code are cross-referenced with database, if both are correct
-     * is_activated is updated in database.
+     * is_activate is updated in database.
      */
     /**/
 
@@ -69,8 +69,6 @@ class UserVerify {
 
                     $uid = $urw['iduv'];
 
-                    
-
                     $mhash = $this->encKey();
 
                     $verified = 1;
@@ -78,7 +76,7 @@ class UserVerify {
                     $status = 1;
                     $cclean = 'NULL';
 
-                    $stmt1 = $this->connection->prepare("UPDATE uverify SET mkhash = ?, activation_code = ?, is_activated = ?, banned = ?  WHERE iduv = ?");
+                    $stmt1 = $this->connection->prepare("UPDATE uverify SET mkhash = ?, activation_code = ?, is_activate = ?, banned = ?  WHERE iduv = ?");
                     $stmt1->bind_param("ssiis", $mhash, $cclean, $verified, $bann, $uid);
                     $stmt1->execute();
                     $res1 = $stmt1->affected_rows;
@@ -112,7 +110,7 @@ class UserVerify {
         $verified = 1;
         $bann = 0;
         $cclean = '';
-        $stmt = $this->connection->prepare("UPDATE uverify SET mkhash = ?, is_activated = ?, banned = ? activation_code = ? WHERE iduv = ? AND mkhash = ? AND  activation_code = ?");
+        $stmt = $this->connection->prepare("UPDATE uverify SET mkhash = ?, is_activate = ?, banned = ? activation_code = ? WHERE iduv = ? AND mkhash = ? AND  activation_code = ?");
         $stmt->bind_param("siissss", $mhash, $verified, $bann, $cclean, $uid, $hash_code, $act_code);
         $stmt->execute();
         if ($stmt->affected_rows === 1) {

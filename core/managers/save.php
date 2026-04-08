@@ -9,7 +9,7 @@ if (isset($_POST['idp'])) {
     $content = $_POST['content'];
     $style = $_POST['style'];
 
-    $sql = "UPDATE $tbl SET  content = ?, style = ? WHERE id = ?";
+    $sql = "UPDATE $tbl SET  html_content = ?, css_content = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssi", protect($content), protect($style), $idp);
     $stmt->execute();

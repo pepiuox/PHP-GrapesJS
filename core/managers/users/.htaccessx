@@ -1,0 +1,29 @@
+# Denegar acceso a config/
+<FilesMatch "^\.ht">
+    Require all denied
+</FilesMatch>
+
+<Directory "config">
+    Require all denied
+</Directory>
+
+<Directory "includes">
+    Require all denied
+</Directory>
+
+# Proteger contra ataques comunes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Proteger contra SQL injection
+    RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00) [NC,OR]
+    RewriteCond %{QUERY_STRING} (exec|declare|union|select|insert|drop|update|md5|benchmark) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# Headers de seguridad
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options nosniff
+    Header set X-Frame-Options DENY
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

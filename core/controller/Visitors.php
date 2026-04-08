@@ -83,7 +83,7 @@ class Visitors {
     }
 
     public function findUserIP($ip) {
-        $stmt = $this->connection->prepare('SELECT * FROM visitor WHERE ip = ? ORDER BY updated DESC LIMIT 0,1');
+        $stmt = $this->connection->prepare('SELECT * FROM visitor WHERE ip = ? ORDER BY updated_at DESC LIMIT 0,1');
         $stmt->bind_param('s', $ip);
         $stmt->execute();
         return $stmt->get_result();
@@ -94,7 +94,7 @@ class Visitors {
         $nums = $rest->num_rows;
         if ($nums > 0) {
             $row = $rest->fetch_assoc();
-            $startdate = $row['updated'];
+            $startdate = $row['updated_at'];
             $enddate = $this->timestamp;
             $dif = $this->differenceInHours($startdate, $enddate);
             if ($dif >= 24) {
@@ -104,7 +104,7 @@ class Visitors {
 
                 $this->CounterVisitor();
             } else {
-                $stmt = $this->connection->prepare("UPDATE visitor SET updated = ? WHERE ip = ? AND updated = ?");
+                $stmt = $this->connection->prepare("UPDATE visitor SET updated_at = ? WHERE ip = ? AND updated_at = ?");
                 $stmt->bind_param('sss', $enddate, $ip, $startdate);
                 $stmt->execute();
             }

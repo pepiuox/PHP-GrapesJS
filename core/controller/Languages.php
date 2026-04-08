@@ -5,7 +5,6 @@
 //  Author     : PePiuoX
 //  Email      : contact@pepiuox.net
 //
-/*
 class Languages{
 	
 	public function __construct(){
@@ -25,4 +24,4 @@ class Languages{
 		}
 	}
 }
-*/
+
