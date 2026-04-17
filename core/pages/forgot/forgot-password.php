@@ -7,6 +7,7 @@
 //
 $login = new UsersClass();
 $forgotpass = new userForgot();
+$menu = 1;
 if ($login->isLoggedIn() === true) {
     ?>
      <script>

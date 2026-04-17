@@ -146,8 +146,7 @@ class Routers {
                 header("Location: $link");
                 die();
             } else {
-                header("Location: $this->host");
-                die();
+               return false;
             }
         } else {
             return false;

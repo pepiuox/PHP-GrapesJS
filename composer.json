@@ -33,11 +33,7 @@
         "role": "Project Manager"
     }],
     "support": {},
-    "require": {
-        "composer/composer": "2.6.4",
-        "phpmailer/phpmailer": "^6.8.0",
-        "ramsey/uuid": "^4.7"
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "PepiuoX\\": "src/core/"

@@ -1,7 +1,7 @@
 {
     "name": "php-grapesjs",
     "description": "Free and Open Source Web Builder Framework",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Jose Mantilla",
     "sideEffects": [
         "*.vue",

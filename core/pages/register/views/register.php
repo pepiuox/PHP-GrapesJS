@@ -72,7 +72,7 @@
           <!-- /.col -->
         </div>
       </form> 
-<?php include_once $source.'/core/pages/options.php'; ?>
+<?php include_once URL.'/core/pages/options.php'; ?>
     </div>
     <!-- /.form-box -->
   </div>

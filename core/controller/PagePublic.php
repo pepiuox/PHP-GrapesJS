@@ -28,10 +28,10 @@ class PagePublic {
             echo '</style>' . "\n";
         }
 ?>
-                    </head>
-                    <body>
-                    <div id="wrapper">
-                    <div class='container-fluid min-h-screen' id="content-page">
+                            </head>
+                            <body>
+                            <div id="wrapper">
+                            <div class='container-fluid min-h-screen' id="content-page">
         <?php
         include_once URL . "/core/elements/menu.php";
         if ($rp['type'] === 'File') {
@@ -49,11 +49,11 @@ class PagePublic {
             echo $string . "\n";
         }
         ?>
-                    </div>
+                            </div>
         <?php include_once URL . "/core/elements/footer.php"; ?>
-                    </div>
-                    </body>
-                    </html>
+                            </div>
+                            </body>
+                            </html>
         <?php
     }
 }
