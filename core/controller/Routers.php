@@ -126,13 +126,12 @@ class Routers {
             }
         }
     }
-
+// This functtion returns
     public function routePages() {
         $nm = "";
 
         if ($this->basepage === "home" || $this->basepage === "inicio") {
-            header("Location: $this->host");
-            die();
+            return $this->host;
         } else if (isset($_GET['url']) && !empty($_GET['url'])) {
             $id = (int) $_GET['url'];
             $spg = $this->conn->prepare("SELECT * FROM pages WHERE id = ? AND active = ? ");
@@ -142,9 +141,7 @@ class Routers {
             $nm = $rs->num_rows;
             if ($nm > 0) {
                 $rpx = $rs->fetch_assoc();
-                $link = $this->Pages($rpx['link']);
-                header("Location: $link");
-                die();
+                return $this->Pages($rpx['link']);
             } else {
                return false;
             }

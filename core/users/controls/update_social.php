@@ -19,7 +19,7 @@ if (isset($_POST['editsm'])) {
     $tiktok = protect($_POST['tiktok']);
     $tumblr = protect($_POST['tumblr']);
     $linkedin = protect($_POST['linkedin']);
-    $updsm = $conn->prepare("UPDATE users_social_media SET website = ?, whatsapp = ?, instagram = ?, facebook = ?, telegram = ?, youtube = ?, twitter = ?, tiktok = ?, tumblr = ?, linkedin = ? WHERE usercode = ?");
+    $updsm = $this->conn->prepare("UPDATE users_social_media SET website = ?, whatsapp = ?, instagram = ?, facebook = ?, telegram = ?, youtube = ?, twitter = ?, tiktok = ?, tumblr = ?, linkedin = ? WHERE usercode = ?");
     $updsm->bind_param("sssssssssss", $website, $whatsapp, $instagram, $facebook, $telegram, $youtube, $twitter, $tiktok, $tumblr, $linkedin, $ucode);
     $updsm->execute();
     $updsm->close();

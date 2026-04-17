@@ -27,7 +27,7 @@ if ($cms == "list_posts") {
                     </thead>
                     <tbody>
                         <?php
-                        $presult = $conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON category = categoryId");
+                        $presult = $this->conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON category = categoryId");
                         $pnumr = $presult->num_rows;
                         if ($pnumr > 0) {
                             while ($prow = $presult->fetch_array()) {
@@ -125,7 +125,7 @@ if ($cms == "list_posts") {
         $sql = "INSERT INTO blog_posts (title, link, category, image, keyword, classification, description, menu, hidden_blog, published)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ssissssiii', $title, $link, $category, $image, $keyword, $classification, $description, $menu, $hidden_blog, $published);
         $stmt->execute();
         if ($stmt->error) {
@@ -158,7 +158,7 @@ if ($cms == "list_posts") {
                         <div class="form-group">
                             <label for="category">Category:</label>
                             <?php
-                            $catg = $conn->query("SELECT * FROM categories");
+                            $catg = $this->conn->query("SELECT * FROM categories");
                             $ncat = $catg->num_rows;
                             if ($ncat > 0) {
                                 ?>
@@ -310,7 +310,7 @@ if ($cms == "list_posts") {
         $published = $_POST['published'];
 
         $sql = "UPDATE blog_posts SET title=?', link=?, category=?, image=?, keyword=?, classification=?, description=?, menu=', hidden_blog=?, published=? WHERE id=?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ssissssiiii', $title, $link, $category, $image, $keyword, $classification, $description, $menu, $hidden_blog, $published, $id);
         $stmt->execute();
         if ($stmt->error) {
@@ -322,7 +322,7 @@ if ($cms == "list_posts") {
         $stmt->close();
     }
     $sql = "SELECT * FROM blog_posts WHERE id=?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -349,7 +349,7 @@ if ($cms == "list_posts") {
                         <div class="form-group">
                             <label for="category">Category:</label>
                             <?php
-                            $catg = $conn->query("SELECT * FROM categories");
+                            $catg = $this->conn->query("SELECT * FROM categories");
                             $ncat = $catg->num_rows;
                             if ($ncat > 0) {
                                 ?>
@@ -444,7 +444,7 @@ if ($cms == "list_posts") {
 } elseif ($cms == "delete_post") {
     if (isset($_POST['submit'])) {
         $sql = "DELETE FROM blog_posts WHERE id='$id'";
-        if ($conn->query($sql) === TRUE) {
+        if ($this->conn->query($sql) === TRUE) {
             echo '<div class="alert alert-primary" role="alert">';
             echo "<h4>Post deleted successfully</h4>";
             echo '</div>';
@@ -455,7 +455,7 @@ window.setTimeout(function() {
 </script>";
         } else {
             echo '<div class="alert alert-danger" role="alert">';
-            echo "Error deleting record: " . $conn->error;
+            echo "Error deleting record: " . $this->conn->error;
             echo '</div>';
         }
     }

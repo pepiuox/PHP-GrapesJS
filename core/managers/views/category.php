@@ -14,7 +14,7 @@ if ($w == "list") {
                         <tbody>
                             <?php
                             $sql = "SELECT * FROM categories";
-                            $rest = $conn->query($sql);
+                            $rest = $this->conn->query($sql);
                             if ($rest->num_rows > 0) {
                                 while ($row = $rest->fetch_array()) {
                                     echo '<tr>';
@@ -40,7 +40,7 @@ if ($w == "list") {
         $category_name = protect($_POST['category_name']);
         $description = protect($_POST['description']);
         $sql = "INSERT INTO categories (category_name,description) VALUES (?,?)";
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ss', $category_name, $description);
         $stmt->execute();
         if ($stmt->error) {
@@ -86,7 +86,7 @@ if ($w == "list") {
             $category_name = protect($_POST['category_name']);
             $description = protect($_POST['description']);
             $sql = "UPDATE categories SET category_name = ?, description = ? WHERE categoryId = ?";
-            $stmt = $conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ssi', $category_name, $description, $id);
             $stmt->execute();
             if ($stmt->error) {
@@ -97,7 +97,7 @@ if ($w == "list") {
             $stmt->close();
         }
         $sql = "SELECT * FROM categories WHERE categoryId=?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -137,7 +137,7 @@ if ($w == "list") {
         $id = $_GET['id'];
         if (isset($_POST['delete'])) {
             $sql = "DELETE FROM categories WHERE categoryId = ?";
-            $stmt = $conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('i', $id);
             $stmt->execute();
             if ($stmt->error) {

@@ -4,7 +4,7 @@
 Editar redes
 </button>
 <?php
-$redes = $conn->prepare(
+$redes = $this->conn->prepare(
         "SELECT * FROM users_social_media WHERE usercode = ? "
 );
 $redes->bind_param("s", $ucode);

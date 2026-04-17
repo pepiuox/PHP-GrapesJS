@@ -25,7 +25,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>". "\n";
             echo "</thead>". "\n";
             echo "<tbody>". "\n";
-            $result = $conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM pages) `page` ON videos.idVd=page.id") or trigger_error($conn->error);
+            $result = $this->conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM pages) `page` ON videos.idVd=page.id") or trigger_error($conn->error);
             while ($row = $result->fetch_array()) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;

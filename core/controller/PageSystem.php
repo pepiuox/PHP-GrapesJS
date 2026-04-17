@@ -25,6 +25,28 @@ class PageSystem {
         $tempBASE = $this->tempURL[1];
         $tempURI = $this->tempURL[2];
 
+        if (!empty($this->tempURL[3])) {
+            define('CMS', $this->tempURL[3]);
+        }
+        if (!empty($this->tempURL[4])) {
+
+            if (is_numeric($this->tempURL[4]) === TRUE) {
+                define('IDP', $this->tempURL[4]);
+            } else {
+                define('WS', $this->tempURL[4]);
+            }
+        }
+        if (!empty($this->tempURL[5])) {
+            if (is_numeric($this->tempURL[5]) === TRUE) {
+                define('IDP', $this->tempURL[5]);
+            } else {
+                define('TBL', $this->tempURL[5]);
+            }
+        }
+        if (!empty($this->tempURL[6])) {
+            define('IDP', $this->tempURL[6]);
+        }
+
         if ($tempBASE === "signin") {
             include_once URL . "/core/elements/top.php";
             ?>
@@ -128,26 +150,6 @@ class PageSystem {
             <?php
         }
 
-        if (!empty($this->tempURL[3])) {
-            define('CMS', $this->tempURL[3]);
-        }
-        if (!empty($this->tempURL[4])) {
 
-            if (is_numeric($this->tempURL[4]) === TRUE) {
-                define('IDP', $this->tempURL[4]);
-            } else {
-                define('WS', $this->tempURL[4]);
-            }
-        }
-        if (!empty($this->tempURL[5])) {
-            if (is_numeric($this->tempURL[5]) === TRUE) {
-                define('IDP', $this->tempURL[5]);
-            } else {
-                define('TBL', $this->tempURL[5]);
-            }
-        }
-        if (!empty($this->tempURL[6])) {
-            define('IDP', $this->tempURL[6]);
-        }
     }
 }

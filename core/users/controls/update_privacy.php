@@ -18,12 +18,12 @@ $name_company = protect($_POST["name_company"]);
 $ruc_number = protect($_POST["ruc_number"]); 
 
 $sql = "UPDATE users_privacy SET nationality = ?, type_document = ?, number_document = ?, name_company = ?, ruc_number = ? WHERE usercode = ?";
-$stmt = $uconn>prepare($sql);
+$stmt = $this->conn>prepare($sql);
 $stmt->bind_param('ssssss', $nationality, $type_document, $number_document, $name_company, $ruc_number, $ucode );
 $stmt->execute();
 $stmt->close();
 }
-$upry = $conn->prepare("SELECT nationality, type_document, number_document, name_company, ruc_number FROM users_privacy WHERE usercode = ?");
+$upry = $this->conn->prepare("SELECT nationality, type_document, number_document, name_company, ruc_number FROM users_privacy WHERE usercode = ?");
 $upry->bind_param('s', $ucode);
 $upry->execute();
 $pry = $upry->get_result();

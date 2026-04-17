@@ -14,7 +14,7 @@ if ($w == "list") {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $conn->query("SELECT * FROM themes");
+                    $result = $this->conn->query("SELECT * FROM themes");
                     $numr = $result->num_rows;
                     if ($numr > 0) {
                         while ($prow = $result->fetch_array()) {
@@ -72,7 +72,7 @@ if ($w == "list") {
                                 $font_size = $_POST['font_size'];
 
                                 $query = "UPDATE `theme_settings` SET container = '$container', spacer = '$spacer', radius = '$radius', radius_sm = '$radius_sm', radius_lg = '$radius_lg', font_size = '$font_size' WHERE idts='$id' ";
-                                if ($conn->query($query) === TRUE) {
+                                if ($this->conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 
                                     echo "<script>
@@ -81,10 +81,10 @@ window.onload = function() {
 }
 </script>";
                                 } else {
-                                    echo "Error updating data: " . $conn->error;
+                                    echo "Error updating data: " . $this->conn->error;
                                 }
                             }
-                            $rts = $conn->query("SELECT * FROM theme_settings WHERE idts='$id'");
+                            $rts = $this->conn->query("SELECT * FROM theme_settings WHERE idts='$id'");
                             $ts = $rts->fetch_assoc();
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_settings" method="POST">
@@ -132,7 +132,7 @@ window.onload = function() {
                                 $custom_dark = $_POST['custom_dark_color'];
 
                                 $sql = "UPDATE theme_palette SET primary_color = ?, secondary_color = ', info_color = ?, light_color = ?, dark_color = ?, success_color = ?, warning_color = ?, danger_color = ?, custom_color = ?, custom_light_color = ?, custom_dark_color = ? WHERE idtp = ? ";
-                                $stmt = $conn->prepare($sql);
+                                $stmt = $this->conn->prepare($sql);
                                 $stmt->bind_param("ssssssssssss", $primary, $secondary, $info, $light, $dark, $success, $warning, $danger, $custom, $custom_light, $custom_dark, $id);
                                 if ($stmt->error) {
                                     echo "FAILURE!!! " . $stmt->error;
@@ -142,7 +142,7 @@ window.onload = function() {
                                 }
                             }
                             $sql = "SELECT * FROM theme_palette WHERE idtp=?";
-                            $rtp = $conn->prepare($sql);
+                            $rtp = $this->conn->prepare($sql);
                             $rtp->bind_param("s", $id);
                             $rtp->execute();
                             $result = $rtp->get_result(); // get the mysqli result
@@ -279,7 +279,7 @@ window.onload = function() {
                                 $weight = $_POST['weight'];
 
                                 $query = "UPDATE `theme_lead_font` SET size = '$size', weight = '$weight' WHERE idtlf='$id' ";
-                                if ($conn->query($query) === TRUE) {
+                                if ($this->conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 
                                     echo "<script>
@@ -288,10 +288,10 @@ window.onload = function() {
 }
 </script>";
                                 } else {
-                                    echo "Error updating data: " . $conn->error;
+                                    echo "Error updating data: " . $this->conn->error;
                                 }
                             }
-                            $rtlf = $conn->query("SELECT * FROM theme_lead_font WHERE idtlf='$id'");
+                            $rtlf = $this->conn->query("SELECT * FROM theme_lead_font WHERE idtlf='$id'");
                             $tlf = $rtlf->fetch_assoc();
                             ?>
                             <form class="row form-horizontal" role="form" id="add_theme_lead_font" method="POST">
@@ -324,15 +324,15 @@ window.onload = function() {
                                 $line_weight = $_POST['line_weight'];
 
                                 $query = "UPDATE `theme_headings_font` SET family = '$family', weight = '$weight', line_weight = '$line_weight' WHERE idthf='$id' ";
-                                if ($conn->query($query) === TRUE) {
+                                if ($this->conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                     
                                 } else {
-                                    echo "Error updating data: " . $conn->error;
+                                    echo "Error updating data: " . $this->conn->error;
                                 }
                             }
-                            $rthf = $conn->query("SELECT * FROM theme_headings_font WHERE idthf='$id'");
+                            $rthf = $this->conn->query("SELECT * FROM theme_headings_font WHERE idthf='$id'");
                             $thf = $rthf->fetch_assoc();
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_headings_font" method="POST">
@@ -366,15 +366,15 @@ echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/the
                                 $line_height = $_POST['line_height'];
 
                                 $query = "UPDATE `theme_base_font` SET family = '$family', size = '$size', weight = '$weight', line_height = '$line_height' WHERE idtbf='$id' ";
-                                if ($conn->query($query) === TRUE) {
+                                if ($this->conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 
                                     echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                 } else {
-                                    echo "Error updating data: " . $conn->error;
+                                    echo "Error updating data: " . $this->conn->error;
                                 }
                             }
-                            $rtbf = $conn->query("SELECT * FROM theme_base_font WHERE idtbf='$id'");
+                            $rtbf = $this->conn->query("SELECT * FROM theme_base_font WHERE idtbf='$id'");
                             $tbf = $rtbf->fetch_assoc();
                             ?>
                             <form class="row form-horizontal" role="form" id="add_theme_base_font" method="POST">
@@ -415,15 +415,15 @@ echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/the
                                 //$links_color = $_POST['links_color'];
 
                                 $query = "UPDATE `theme_base_colors` SET body_color = '$body_color', text_color = '$text_color', links_color = '$links_color' WHERE idtbc='$id'";
-                                if ($conn->query($query) === TRUE) {
+                                if ($this->conn->query($query) === TRUE) {
                                     echo "The data was updated correctly.";
 echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                     
                                 } else {
-                                    echo "Error updating data: " . $conn->error;
+                                    echo "Error updating data: " . $this->conn->error;
                                 }
                             }
-                            $rtbc = $conn->query("SELECT * FROM theme_base_colors WHERE idtbc='$id'");
+                            $rtbc = $this->conn->query("SELECT * FROM theme_base_colors WHERE idtbc='$id'");
                             $tbc = $rtbc->fetch_assoc();
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_base_colors" method="POST">

@@ -182,14 +182,14 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <?php
-                            $pages = $conn->query("SELECT * FROM pages");
+                            $pages = $this->conn->query("SELECT * FROM pages");
                             while ($page = $pages->fetch_array()) {
                                 $plink = $page['link'];
                                 $ptitle = $page['title'];
                                 $pparent = $page['parent'];
                                 echo'<li class="nav-item">'."\n";
                                 if ($pparent > 0) {
-                                    $parent = $conn->query("SELECT * FROM pages where id=$pparent");
+                                    $parent = $this->conn->query("SELECT * FROM pages where id=$pparent");
                                     $pagep = $parent->fetch_assoc();
                                     echo '<a href="' . SITE_PATH . $pagep['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
                                 } else {
@@ -265,14 +265,14 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <?php
-                            $posts = $conn->query("SELECT * FROM blog_posts");
+                            $posts = $this->conn->query("SELECT * FROM blog_posts");
                             while ($post = $posts->fetch_array()) {
                                 $plink = $post['link'];
                                 $ptitle = $post['title'];
                                 $category = $poste['category_id'];
                                 echo'<li class="nav-item">';
                                 if ($category > 0) {
-                                    $categ = $conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON categoryID=category_id where category_id=$category");
+                                    $categ = $this->conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON categoryID=category_id where category_id=$category");
                                     $pcatg = $categ->fetch_assoc();
                                     echo '<a href="' . SITE_PATH . $pcatg['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
                                 } else {

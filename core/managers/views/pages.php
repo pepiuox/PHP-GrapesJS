@@ -22,7 +22,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </thead>
         <tbody>
         <?php
-        $presult = $conn->query("SELECT * FROM pages");
+        $presult = $this->conn->query("SELECT * FROM pages");
         $pnumr = $presult->num_rows;
         if ($pnumr > 0) {
             while ($prow = $presult->fetch_array()) {
@@ -118,7 +118,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $change = 0;
 
             if ($startpage === 1) {
-                $qlv1 = $conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
+                $qlv1 = $this->conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
                 $qlv1->bind_param("i", $startpage);
                 $qlv1->execute();
                 $presult = $qlv1->get_result();
@@ -126,7 +126,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 if ($presult->num_rows > 0) {
                     $dt = $presult->fetch_assoc();
                     $idsp = $dt['id'];
-                    $updp = $conn->prepare("UPDATE pages SET startpage=? WHERE id=?");
+                    $updp = $this->conn->prepare("UPDATE pages SET startpage=? WHERE id=?");
                     $updp->bind_param("ii", $change, $idsp);
                     $updp->execute();
                     $updp->close();
@@ -141,10 +141,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 // Insert info in table PAGE 
             $sql = "INSERT INTO pages (title, link, keyword, classification, description, image, startpage, parent, active) "
                     . "VALUES (?,?,?,?,?,?,?,?,?)";
-            $updp = $conn->prepare($sql);
+            $updp = $this->conn->prepare($sql);
             $updp->bind_param("ssssssiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active);
             $updp->execute();
-            $last_id = $conn->insert_id;
+            $last_id = $this->conn->insert_id;
             $updp->close();
 
             if (!empty($last_id)) {
@@ -152,10 +152,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 // Insert info in table MENU
                 $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) "
                         . "VALUES (?, ?, ?, ?)";
-                $updpm = $conn->prepare($sqlm);
+                $updpm = $this->conn->prepare($sqlm);
                 $updpm->bind_param("issi", $last_id, $title, $link, $parent);
                 $updpm->execute();
-                $last_idm = $conn->insert_id;
+                $last_idm = $this->conn->insert_id;
                 $updpm->close();
                 if (!empty($last_idm)) {
                     $_SESSION['SuccessMessage'] = "Page " . $title . " : Created ";
@@ -355,7 +355,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $active = protect($_POST['active']);
 
                 if ($startpage === 1) {
-                    $qlv1 = $conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
+                    $qlv1 = $this->conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
                     $qlv1->bind_param("i", $startpage);
                     $qlv1->execute();
                     $presult = $qlv1->get_result();
@@ -363,21 +363,21 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     if ($presult->num_rows > 0) {
                         $dt = $presult->fetch_assoc();
                         $idsp = $dt['id'];
-                        $updp = $conn->prepare("UPDATE page SET startpage=? WHERE id=?");
+                        $updp = $this->conn->prepare("UPDATE page SET startpage=? WHERE id=?");
                         $updp->bind_param("ii", $change, $idsp);
                         $updp->execute();
                         $updp->close();
                     }
                 }
 
-                $qlv = $conn->prepare("UPDATE page SET title = ?, link = ?, keyword = ?, classification = ?, description= ?, image = ?, startpage = ?, parent = ?, active = ? WHERE id = ?");
+                $qlv = $this->conn->prepare("UPDATE page SET title = ?, link = ?, keyword = ?, classification = ?, description= ?, image = ?, startpage = ?, parent = ?, active = ? WHERE id = ?");
                 $qlv->bind_param("ssssssiiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active, $id);
                 $nn = $qlv->affected_rows;
                 $qlv->execute();
 
                 if ($nn === 0) {
 
-                    $qlv1 = $conn->prepare("UPDATE menu SET title_page = ?, link_page = ?, parent_id = ? WHERE page_id = ?");
+                    $qlv1 = $this->conn->prepare("UPDATE menu SET title_page = ?, link_page = ?, parent_id = ? WHERE page_id = ?");
                     $qlv1->bind_param("ssii", $title, $link, $parent, $id);
                     $nn1 = $qlv1->affected_rows;
                     $qlv1->execute();
@@ -407,7 +407,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($id) && !empty($id)) {
                 
-                $qlv2 = $conn->prepare("SELECT * FROM pages WHERE id = ?");
+                $qlv2 = $this->conn->prepare("SELECT * FROM pages WHERE id = ?");
                 $qlv2->bind_param("i", $id);
                 $qlv2->execute();
                 $presult = $qlv2->get_result();
@@ -529,7 +529,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         if (isset($_POST['submit'])) {
             $sql = "DELETE FROM pages WHERE id='$id'";
-            if ($conn->query($sql) === TRUE) {
+            if ($this->conn->query($sql) === TRUE) {
                 echo '<div class="alert alert-primary" role="alert">';
                 echo "<h4>Record deleted successfully</h4>";
                 echo '</div>';
@@ -540,7 +540,7 @@ window.location.href = '../list_pages';
 </script>";
             } else {
                 echo '<div class="alert alert-danger" role="alert">';
-                echo "Error deleting record: " . $conn->error;
+                echo "Error deleting record: " . $this->conn->error;
                 echo '</div>';
             }
         }

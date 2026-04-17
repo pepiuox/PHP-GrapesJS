@@ -20,7 +20,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `blocks` LEFT JOIN `type_blocks` ON blocks.blockId = type_blocks.id LEFT JOIN (SELECT id AS npage , title FROM pages)`page` ON blocks.pageId=page.npage");
+            $result = $this->conn->query("SELECT * FROM `blocks` LEFT JOIN `type_blocks` ON blocks.blockId = type_blocks.id LEFT JOIN (SELECT id AS npage , title FROM pages)`page` ON blocks.pageId=page.npage");
             while ($row = $result->fetch_array()) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
@@ -57,7 +57,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_POST['submitted'])) {
                 $sql = "INSERT INTO `blocks` ( `blockId` ,  `active` ,  `pageId`  ) VALUES(  '{$_POST['blockId']}' ,  '{$_POST['active']}' ,  '{$_POST['pageId']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                $this->conn->query($sql) or die($this->conn->error);
                 echo "Bloque Agregado.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -67,7 +67,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <label class="form-label">Tipo de Bloque:</label>
             <?php
             $stp1 = "SELECT * FROM type_blocks";
-            $quertp1 = $conn->query($stp1);
+            $quertp1 = $this->conn->query($stp1);
             ?> 
                                 <select class="form-select" name='blockId' id='blockId'/>                                     
             <?php
@@ -98,7 +98,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <label class="form-label">Página:</label>
             <?php
             $sqp1 = "SELECT * FROM pages";
-            $queryp1 = $conn->query($sqp1);
+            $queryp1 = $this->conn->query($sqp1);
             ?> 
                                 <select class="form-select" name='pageId' id='pageId'>                            
                                     <option>Selecciona una página </option>
@@ -127,11 +127,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 if (isset($_POST['submitted'])) {
 
                     $sql = "UPDATE `blocks` SET  `blockId` =  '{$_POST['blockId']}' ,  `active` =  '{$_POST['active']}' ,  `pageId` =  '{$_POST['pageId']}'   WHERE `idB` = '$idB' ";
-                    $conn->query($sql) or die($conn->error);
+                    $this->conn->query($sql) or die($this->conn->error);
                     echo "Bloque Editado.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = $conn->query("SELECT * FROM `blocks` WHERE `idB` = '$idB' ")->fetch_assoc();
+                $row = $this->conn->query("SELECT * FROM `blocks` WHERE `idB` = '$idB' ")->fetch_assoc();
             ?>
                                 <p>
                                     <a class="btn btn-secondary" href='dashboard/blocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
@@ -142,7 +142,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         <label class="form-label">Tipo de Bloque:</label>
                 <?php
                 $stp1 = "SELECT * FROM type_blocks";
-                $quertp1 = $conn->query($stp1);
+                $quertp1 = $this->conn->query($stp1);
                 ?> 
                                         <select class="form-select" name='blockId' id='blockId'/>                                     
                 <?php
@@ -186,7 +186,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <div class="container"><label class="form-label">Página:</label>
                 <?php
                 $sqp1 = "SELECT * FROM pages";
-                $queryp1 = $conn->query($sqp1);
+                $queryp1 = $this->conn->query($sqp1);
                 ?> 
                                         <select class="form-select" name='pageId' id='pageId'>                            
                                             <option>Selecciona una página </option>
@@ -218,7 +218,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             $idB = (int) $_GET['idB'];
-            $conn->query("DELETE FROM `blocks` WHERE `idB` = '$idB' ");
+            $this->conn->query("DELETE FROM `blocks` WHERE `idB` = '$idB' ");
             //echo "Bloque Eliminado.<br /> ";
             header("Location: listBlock.php");
             ?> 

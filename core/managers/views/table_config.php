@@ -4,7 +4,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
     extract($_POST);
     $check_exist_qry = "SELECT * FROM table_config";
-    $run_qry = $conn->query($check_exist_qry);
+    $run_qry = $this->conn->query($check_exist_qry);
     $total_found = $run_qry->num_rows;
     if ($total_found > 0) {
         $my_value = $run_qry->fetch_assoc();
@@ -24,7 +24,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         if ($total_found > 0) {
             // update
             $upd_qry = "UPDATE table_config SET table_name='" . $all_table_value . "' WHERE tcon_Id='1'";
-            $restup = $conn->query($upd_qry);
+            $restup = $this->conn->query($upd_qry);
             if (!$restup) {
                 $_SESSION['ErrorMessage'] = 'There was an error updating.';
             } else {
@@ -33,7 +33,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         } else {
             // insert
             $ins_qry = "INSERT INTO table_config(table_name) VALUES('" . $all_table_value . "')";
-            $restadd = $conn->query($ins_qry);
+            $restadd = $this->conn->query($ins_qry);
             if (!$restadd) {
                 $_SESSION['ErrorMessage'] = 'There was an error adding.';
             } else {
@@ -47,7 +47,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <form class="row form-horizontal" method="post">
             <div class="col_md_12">
                 <?php
-                if ($result = $conn->query("SELECT DATABASE()")) {
+                if ($result = $this->conn->query("SELECT DATABASE()")) {
                     $row = $result->fetch_row();
                     printf("<h5>Default database is %s </h5>.\n", $row[0]);
                     $result->close();
@@ -77,7 +77,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $i = 0;
                     $x = 0;
 
-                    $result = $conn->query("SHOW TABLES FROM $row[0]");
+                    $result = $this->conn->query("SHOW TABLES FROM $row[0]");
                     $tableNames = array();
                     while ($row = mysqli_fetch_row($result)) {
                         $tableNames[] = $row[0];

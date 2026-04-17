@@ -43,7 +43,7 @@ $path = "/";
 setcookie($name, $value, $expire, $path);
 ?> 
       <!-- Navbar -->
-    <?php include $source . '/core/elements/navbar.php'; ?>
+    <?php include URL . '/core/elements/navbar.php'; ?>
       <!-- /.navbar -->
       <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -64,7 +64,7 @@ setcookie($name, $value, $expire, $path);
     <!-- Sidebar -->
     <div class="sidebar"> 
      <!-- Sidebar Menu -->
-    <?php include $source . '/core/elements/sidenav.php'; ?>
+    <?php include URL . '/core/elements/sidenav.php'; ?>
      <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -110,7 +110,7 @@ setcookie($name, $value, $expire, $path);
 
     <!-- Main content -->
     <section class="content">
-    <?php include $source . '/core/elements/alerts.php'; ?>
+    <?php include URL . '/core/elements/alerts.php'; ?>
     <?php
     if ($user == 'pinfo') {
         include 'personalInfo.php';

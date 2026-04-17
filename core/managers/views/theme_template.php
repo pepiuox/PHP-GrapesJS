@@ -31,7 +31,7 @@ if ($w == "list") {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $conn->query("SELECT * FROM themes ");
+                    $result = $this->conn->query("SELECT * FROM themes ");
                     $numr = $result->num_rows;
                     if ($numr > 0) {
                         while ($prow = $result->fetch_array()) {
@@ -63,31 +63,31 @@ if ($w == "list") {
         $base_default = $_POST['base_default'];
         $active_theme = $_POST['active_theme'];
 
-        $stmt = $conn->prepare("INSERT INTO themes (theme_id, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?)");
+        $stmt = $this->conn->prepare("INSERT INTO themes (theme_id, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?)");
         $stmt->bind_param("sssss", $idtheme, $theme_name, $theme, $base_default, $active_theme);
         $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
+        $stmt = $this->conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
         $stmt->bind_param("s", $idtheme);
         $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_base_font (idtbf) VALUES (?)");
+        $stmt = $this->conn->prepare("INSERT INTO theme_base_font (idtbf) VALUES (?)");
         $stmt->bind_param("s", $idtheme);
         $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_headings_font (idthf) VALUES (?)");
+        $stmt = $this->conn->prepare("INSERT INTO theme_headings_font (idthf) VALUES (?)");
         $stmt->bind_param("s", $idtheme);
         $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_lead_font (idtlf) VALUES (?)");
+        $stmt = $this->conn->prepare("INSERT INTO theme_lead_font (idtlf) VALUES (?)");
         $stmt->bind_param("s", $idtheme);
         $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_palette (idtp) VALUES (?)");
+        $stmt = $this->conn->prepare("INSERT INTO theme_palette (idtp) VALUES (?)");
         $stmt->bind_param("s", $idtheme);
         $stmt->execute();
 
-        $stmt = $conn->prepare("INSERT INTO theme_settings (idts) VALUES (?)");
+        $stmt = $this->conn->prepare("INSERT INTO theme_settings (idts) VALUES (?)");
         $stmt->bind_param("s", $idtheme);
         $stmt->execute();
         $stmt->close();
@@ -152,15 +152,15 @@ if(is_numeric($id)=== TRUE){
             $active_theme = $_POST["active_theme"];
 
             $query = "UPDATE themes SET theme_name = '$theme_name', theme_bootstrap = '$theme_bootstrap', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
-            if ($conn->query($query) === TRUE) {
+            if ($this->conn->query($query) === TRUE) {
                 $_SESSION["success"] = "The data was updated correctly.";
  echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/theme_template/list">' . "\n";
                 
             } else {
-                $_SESSION["error"] = "Error updating data: " . $conn->error;
+                $_SESSION["error"] = "Error updating data: " . $this->conn->error;
             }
         }
-        $rtt = $conn->query("SELECT * FROM themes WHERE theme_id='$id'");
+        $rtt = $this->conn->query("SELECT * FROM themes WHERE theme_id='$id'");
         $tt = $rtt->fetch_assoc();
         ?> 
         <div class="container">

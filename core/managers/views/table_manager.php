@@ -14,7 +14,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/table_manager/add">';
                 }
                 $linkedit = SITE_PATH.'admin/dashboard/table_manager/editor/';
-                $result0 = $conn->query("SHOW COLUMNS FROM table_settings");
+                $result0 = $this->conn->query("SHOW COLUMNS FROM table_settings");
                 $bq = array();
                 echo '<form class="row form-horizontal" method="POST">' . "\n";
                 echo '<div class="col-auto">' . "\n";
@@ -37,7 +37,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '</tr>' . "\n";
                 echo '</thead>' . "\n";
                 echo '<tbody>' . "\n";
-                $tbset = $conn->query("SELECT * FROM table_settings");
+                $tbset = $this->conn->query("SELECT * FROM table_settings");
                 $tbnums = $tbset->num_rows;
                 if ($tbnums > 0) {
                     while ($tbs = $tbset->fetch_array()) {
@@ -118,7 +118,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             }
 
             $query = "SELECT table_name FROM table_column_settings WHERE table_name = '$tble'";
-            $result = $conn->query($query);
+            $result = $this->conn->query($query);
 
             // Return the number of rows in result set
             if ($result->num_rows > 0) {
@@ -130,12 +130,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 $ncol = $c->getID($tble);
 
-                if (!$conn) {
+                if (!$this->conn) {
                     die('Error: Could not connect: ' . mysqli_error());
                 }
 
                 $sql = "SELECT * FROM " . $tble;
-                $qresult = $conn->query($sql);
+                $qresult = $this->conn->query($sql);
                 $dq = '$query = "INSERT INTO table_column_settings (table_name, col_name, col_type) VALUES' . "\n";
                 $addq = array();
                 $colsn = $c->viewColumns($tble);
@@ -153,21 +153,21 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $content = '<?php' . "\n";
                 $content .= '//This is temporal file only for add new row' . "\n";
                 $content .= "if(isset(\$_POST['addtable'])){" . "\n";
-                $content .= "\$result = \$conn->query(\"SELECT table_name FROM table_column_settings WHERE table_name = '" . $tble . "'\");" . "\n";
+                $content .= "\$result = \$this->conn->query(\"SELECT table_name FROM table_column_settings WHERE table_name = '" . $tble . "'\");" . "\n";
                 $content .= "if (\$result->num_rows > 0) {" . "\n";
                 $content .= "echo 'This table already exists, It was already added.';" . "\n";
                 $content .= "}else{" . "\n";
                 $content .= $dq . "\n";
-                $content .= 'if ($conn->query($query) === TRUE) {' . "\n";
+                $content .= 'if ($this->conn->query($query) === TRUE) {' . "\n";
                 $content .= "\$ins_qry = \"INSERT INTO table_settings(table_name) VALUES('" . $tble . "')\";" . "\n";
-                $content .= 'if ($conn->query($ins_qry) === TRUE){' . "\n";
+                $content .= 'if ($this->conn->query($ins_qry) === TRUE){' . "\n";
                 $content .= 'echo "Record added successfully";' . "\n";
                 $content .= "echo '" . $redir . "';" . "\n";
                 $content .= '} else {' . "\n";
-                $content .= 'echo "Error added record: " . $conn->error;' . "\n";
+                $content .= 'echo "Error added record: " . $this->conn->error;' . "\n";
                 $content .= '}' . "\n";
                 $content .= '} else {' . "\n";
-                $content .= 'echo "Error added record: " . $conn->error;' . "\n";
+                $content .= 'echo "Error added record: " . $this->conn->error;' . "\n";
                 $content .= '}' . "\n";
                 $content .= '}' . "\n";
                 $content .= '}' . "\n";
@@ -183,7 +183,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <div class="row">
                 <h2>Add table to admin for option settings.</h2>
                 <?php
-                if ($result = $conn->query("SELECT * FROM table_config")) {
+                if ($result = $this->conn->query("SELECT * FROM table_config")) {
                     $total_found = $result->num_rows;
 
                     if ($total_found > 0) {
@@ -232,7 +232,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <?php
     } elseif ($w == "editor") {
         
-        $result = $conn->query("SELECT table_name FROM table_settings");
+        $result = $this->conn->query("SELECT table_name FROM table_settings");
         $total_found = $result->num_rows;
         $rc = array();
         if ($total_found > 0) {
@@ -267,11 +267,11 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $colset = implode(", ", $col);
 
             $upset = "UPDATE table_settings SET $colset WHERE table_name='$tble'";
-            if ($conn->query($upset) === TRUE) {
+            if ($this->conn->query($upset) === TRUE) {
                 echo "Record updated successfully";
                 echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/table_manager/list">' . "\n";
             } else {
-                echo "Error updating record: " . $conn->error;
+                echo "Error updating record: " . $this->conn->error;
             }
         }
         ?>
@@ -326,7 +326,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <?php
                     //
                     //extract($_POST);
-                    $result0 = $conn->query("SHOW COLUMNS FROM table_settings");
+                    $result0 = $this->conn->query("SHOW COLUMNS FROM table_settings");
                     $bq = array();
                     // start form
                     echo '<form class="row form-horizontal" method="POST">' . "\n";
@@ -348,7 +348,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     echo '</tr>' . "\n";
                     echo '</thead>' . "\n";
                     echo '<tbody>' . "\n";
-                    $tbset = $conn->query("SELECT * FROM table_settings WHERE table_name='$tble'");
+                    $tbset = $this->conn->query("SELECT * FROM table_settings WHERE table_name='$tble'");
                     $tbnums = $tbset->num_rows;
                     if ($tbnums > 0) {
                         while ($tbs = $tbset->fetch_array()) {
@@ -405,7 +405,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <?php
     } elseif ($w == "set") {
 
-        if ($result = $conn->query("SELECT table_name FROM table_settings")) {
+        if ($result = $this->conn->query("SELECT table_name FROM table_settings")) {
             $total_found = $result->num_rows;
 
             $rc = array();

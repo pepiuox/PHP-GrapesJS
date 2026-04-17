@@ -22,7 +22,7 @@ if ($w == "list") {
                 </thead>
                 <tbody>
                     <?php
-                    $mopt = $conn->query("SELECT * FROM $tble");
+                    $mopt = $this->conn->query("SELECT * FROM $tble");
                     while ($mnop = $mopt->fetch_array()) {
                         echo '
                         <tr>
@@ -59,16 +59,16 @@ if ($w == "list") {
 
         $sql = "INSERT INTO plugins_app (plugins, plugins_opts, script, css, buttons, plugins_script, plugins_css) "
                 . "VALUES ('$plugins', '$plugins_opts', '$script', '$css', '$buttons', '$plugins_script', '$plugins_css')";
-        if ($conn->query($sql) === TRUE) {
+        if ($this->conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly';
             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/plugins/list">' . "\n";
             header('Location: ../plugins/list');
             exit;
         } else {
-            $_SESSION['error'] = 'Error: ' . $conn->error;
+            $_SESSION['error'] = 'Error: ' . $this->conn->error;
         }
 
-        $conn->close();
+        $this->conn->close();
     }
     ?>
     <div class="container">
@@ -140,16 +140,16 @@ if ($w == "list") {
         $plugins_css = $_POST["plugins_css"];
 
         $query = "UPDATE `$tble` SET plugins = '$plugins', plugins_opts = '$plugins_opts', script = '$script', css = '$css', buttons = '$buttons', plugins_script = '$plugins_script', plugins_css = '$plugins_css' WHERE id=$id ";
-        if ($conn->query($query) === TRUE) {
+        if ($this->conn->query($query) === TRUE) {
             $_SESSION["success"] = "The data was updated correctly.";
             header("Location: ../plugins/list");
             exit;
         } else {
-            $_SESSION["error"] = "Error updating data: " . $conn->error;
+            $_SESSION["error"] = "Error updating data: " . $this->conn->error;
         }
     }
 
-    $mopt = $conn->query("SELECT * FROM $tble WHERE id='$id'")->fetch_assoc();
+    $mopt = $this->conn->query("SELECT * FROM $tble WHERE id='$id'")->fetch_assoc();
     ?>
     <div class="container">
         <div class="row">
@@ -229,7 +229,7 @@ if ($w == "list") {
                     }
                     if (isset($_POST["deleterow"])) {
 
-                        if ($conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
+                        if ($this->conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
                             $_SESSION['success'] = "Record deleted successfully";
                             header('Location: ../plugins/list');
                             exit;

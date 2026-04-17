@@ -37,7 +37,7 @@ $vpages = $vp->vPages($cms);
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     ?>
                 <!-- Navbar -->
-                <?php include $source . '/core/elements/navbar.php'; ?>
+                <?php include URL . '/core/elements/navbar.php'; ?>
                  <!-- /.navbar -->
                 <!-- Main Sidebar Container -->
                 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -59,7 +59,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <div class="sidebar">
                 <!-- Sidebar Menu -->
                 <?php
-                include_once $source . '/core/elements/sidenav.php';
+                include_once URL . '/core/elements/sidenav.php';
                 ?>
                 <!-- /.sidebar-menu -->
                 </div>
@@ -87,7 +87,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <!-- /.content-header -->
                 <!-- Main content -->
                 <section class="content">
-                <?php include_once $source . '/core/elements/alerts.php'; ?>
+                <?php include_once URL . '/core/elements/alerts.php'; ?>
                 <!-- Main row -->
                 <?php
                 include_once $vp->ViewIncludes($cms);

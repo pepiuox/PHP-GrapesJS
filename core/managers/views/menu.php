@@ -15,7 +15,7 @@ if (isset($w) && !empty($w)) {
                 </thead>
                 <tbody>
                     <?php
-                    $mopt = $conn->query("SELECT * FROM $tble");
+                    $mopt = $this->conn->query("SELECT * FROM $tble");
                     while ($mnop = $mopt->fetch_array()) {
                         echo '
                      <tr>
@@ -51,14 +51,14 @@ if (isset($w) && !empty($w)) {
 
         $sql = "INSERT INTO menu_options (id_menu, fluid, placement, aligment, background, color) "
                 . "VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
-        if ($conn->query($sql) === TRUE) {
+        if ($this->conn->query($sql) === TRUE) {
             $_SESSION['success'] = 'The data was added correctly.';
             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n"; 
         } else {
-            $_SESSION['error'] = 'Error: ' . $conn->error;
+            $_SESSION['error'] = 'Error: ' . $this->conn->error;
         }
 
-        $conn->close();
+        $this->conn->close();
     }
     ?>
     <div class="container">
@@ -145,15 +145,15 @@ if (isset($w) && !empty($w)) {
         $color = $_POST["color"];
 
         $query = "UPDATE menu_options SET id_menu = '$id_menu', fluid = '$fluid', placement = '$placement', aligment = '$aligment', background = '$background', color = '$color' WHERE id=$id ";
-        if ($conn->query($query) === TRUE) {
+        if ($this->conn->query($query) === TRUE) {
             $_SESSION['success'] = "The data was updated correctly.";
             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n"; 
         } else {
-            $_SESSION['error'] = "Error updating data: " . $conn->error;
+            $_SESSION['error'] = "Error updating data: " . $this->conn->error;
         }
     }
 
-    $rest = $conn->query("SELECT * FROM menu_options WHERE id='$id'");
+    $rest = $this->conn->query("SELECT * FROM menu_options WHERE id='$id'");
     $mopt = $rest->fetch_assoc();
     ?>
     <div class="container">
@@ -217,7 +217,7 @@ if (isset($w) && !empty($w)) {
                     }
                     if (isset($_POST["deleterow"])) {
 
-                        if ($conn->query("DELETE FROM menu_options WHERE id='$id'") === TRUE) {
+                        if ($this->conn->query("DELETE FROM menu_options WHERE id='$id'") === TRUE) {
                             $_SESSION['success'] = "Record deleted successfully";
                             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n"; 
                         } else {

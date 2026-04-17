@@ -1,5 +1,5 @@
 <?php
-$result = $conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'") or trigger_error($conn->error);
+$result = $this->conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'") or trigger_error($this->conn->error);
 $confs = $result->fetch_assoc();
 
 /*
@@ -94,13 +94,13 @@ if (isset($_POST['Update'])) {
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
 
-    if ($conn->query($update) === TRUE) {
+    if ($this->conn->query($update) === TRUE) {
         $definefiles = '../config/define.php';
 
         $_SESSION['SuccessMessage'] = "Web Site Configuration : Updated.";
         $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
 
-        if ($result = $conn->query($sql)) {
+        if ($result = $this->conn->query($sql)) {
             $fname = $result->fetch_fields();
             $fdata = $result->fetch_assoc();
 
@@ -153,13 +153,13 @@ if (isset($_POST['UpdateSecures'])) {
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_security SET $vupdates WHERE `idSs` = '1'");
 
-    if ($conn->query($update) === TRUE) {
+    if ($this->conn->query($update) === TRUE) {
         $definefiles = '../config/define.php';
 
         $_SESSION['SuccessMessage'] = "Web Site Secures Configuration : Updated.";
         $sql = "SELECT * FROM site_secures WHERE `idSs` = '1'";
 
-        if ($result = $conn->query($sql)) {
+        if ($result = $this->conn->query($sql)) {
             $fname = $result->fetch_fields();
             $fdata = $result->fetch_assoc();
 
@@ -196,7 +196,7 @@ if (isset($_POST['UpdateSecures'])) {
     }
 }
 
-$result1 = $conn->query("SELECT * FROM `site_security` WHERE `idSs` = '1'") or trigger_error($conn->error);
+$result1 = $this->conn->query("SELECT * FROM `site_security` WHERE `idSs` = '1'") or trigger_error($conn->error);
 $confsm = $result1->fetch_assoc();
 ?>
 <div class="container">            
