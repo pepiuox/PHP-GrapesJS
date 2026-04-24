@@ -60,7 +60,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         if (isset($build) && !empty($build)) {
 
-            $erow = $conn->prepare("SELECT id, title, slug, link, html_content, css_content, parent FROM $build WHERE id=?");
+            $erow = $this->conn->prepare("SELECT id, title, slug, link, html_content, css_content, parent FROM $build WHERE id=?");
             $erow->bind_param('i', $id);
             $erow->execute();
             $result = $erow->get_result();
@@ -71,7 +71,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if ($row['parent'] === 0) {
                 $plink = $row['link'];
             } else {
-                $prow = $conn->prepare("SELECT id, link FROM $build WHERE id=?");
+                $prow = $this->conn->prepare("SELECT id, link FROM $build WHERE id=?");
                 $prow->bind_param('i', $row['parent']);
                 $prow->execute();
                 $presult = $prow->get_result();
@@ -225,7 +225,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         function Savedata($tbl, $html_content, $css_content, $idp) {
             $sql = "UPDATE $tbl SET  html_content = ?, css_content = ? WHERE id = ?";
-            $stmt = $conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("ssi", protect($html_content), protect($css_content), $idp);
             $stmt->execute();
             $save = $stmt->affected_rows;

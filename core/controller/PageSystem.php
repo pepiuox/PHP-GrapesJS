@@ -20,7 +20,7 @@ class PageSystem {
     }
 
     public function viewPageSystem() {
-        global $fname, $lang;
+        global $fname, $lang, $alertpg;
 
         $tempBASE = $this->tempURL[1];
         $tempURI = $this->tempURL[2];

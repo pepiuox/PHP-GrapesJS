@@ -1,5 +1,15 @@
 <?php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+/**
+ * Description of MyCRUD
+ *
+ * @author PePiuoX
+ */
 class MyCRUD {
 
     protected $connection;

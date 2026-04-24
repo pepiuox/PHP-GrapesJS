@@ -6,7 +6,7 @@
 //  Email      : contact@pepiuox.net
 //
 
-$path = 'http://localhost:83/concrete5-8.5.4/';
+$path = URL;
 require 'addCart';
 
 $dbprd = $dbconnect->PdoConnection('ecommerce');
