@@ -22,6 +22,7 @@ $rp = $pages->InitPage();
 
 
 $request = $_SERVER["REQUEST_URI"];
+// Show pages in data base for view public or front end
 if ($pages->GoPage() === true) {
     if ($rp != null) {
         if ($rp['view_page'] === "public") {
@@ -33,7 +34,10 @@ if ($pages->GoPage() === true) {
         }
     }
 } else {
+// Show pages of back end or manager system
     if($pages->routePages() == false){
         $viewS->viewPageSystem();
+        $title = $pages->GetTitle();
+        $visitor->pageViews($title);
     }
 }

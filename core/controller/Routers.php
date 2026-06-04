@@ -91,6 +91,11 @@ class Routers {
         }
     }
 
+    public function GetTitle(){
+        $url = $_SERVER['REQUEST_URI'];
+       return basename(parse_url($url, PHP_URL_PATH));
+    }
+
     public function PageDataWeb() {
         $stmt = $this->conn->prepare(
                 "SELECT * FROM pages WHERE link = ? AND active = ? "
@@ -107,7 +112,7 @@ class Routers {
             return null;
         }
     }
-
+    // This functtion GotoPages
     public function GoPage() {
         $page = $this->basepage;
         if ($page === "home" || $page === "inicio" || empty($page)) {
@@ -126,7 +131,7 @@ class Routers {
             }
         }
     }
-// This functtion returns
+// This functtion routePages
     public function routePages() {
         $nm = "";
 
