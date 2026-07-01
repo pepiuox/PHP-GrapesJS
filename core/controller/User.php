@@ -1,6 +1,16 @@
 <?php
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+/**
+ * Description of User
+ *
+ * @author PePiuoX
+ */
 
-// classes/User.php
 class User {
 
     private $conn;

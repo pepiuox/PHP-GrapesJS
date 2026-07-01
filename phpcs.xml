@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ruleset name="PHP-GrapesJS">
+    <description>My projects coding standard</description>
+
+    <file>src/</file>
+    <file>tests/</file>
+
+    <rule ref="PSR12"/>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+</ruleset>

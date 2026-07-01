@@ -1,0 +1,29 @@
+{
+    "language_server": {
+        "enabled": true
+    },
+    "composer": {
+        "enabled": true
+    },
+    "php_code_sniffer": {
+        "enabled": true,
+        "standard": "PSR12"
+    },
+    "phpstan": {
+        "enabled": true,
+        "config": "phpstan.neon"
+    },
+    "psalm": {
+        "enabled": true
+    },
+    "php_cs_fixer": {
+        "enabled": true,
+        "config": ".php-cs-fixer.php"
+    },
+    "completion": {
+        "enabled": true
+    },
+    "indexer": {
+        "enabled": true
+    }
+}

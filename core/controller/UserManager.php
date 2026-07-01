@@ -1,7 +1,15 @@
 <?php
-
-// classes/UserManager.php
-
+//
+//  This application develop by PEPIUOX.
+//  Created by : Lab eMotion
+//  Author     : PePiuoX
+//  Email      : contact@pepiuox.net
+//
+/**
+ * Description of UserManager
+ *
+ * @author PePiuoX
+ */
 class UserManager {
 
     private $table = 'users';

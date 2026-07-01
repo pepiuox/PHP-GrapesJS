@@ -1,0 +1,8 @@
+{
+    "php.validate.enable": false,
+    "intelephense.files.maxSize": 5000000,
+    "[php]": {
+        "editor.defaultFormatter": "junstyle.php-cs-fixer",
+        "editor.formatOnSave": true
+    }
+}

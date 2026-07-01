@@ -1,0 +1,10 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    checkAdvancedUnionTypes: true
+    checkUninitializedProperties: true
+    checkExplicitMixed: true

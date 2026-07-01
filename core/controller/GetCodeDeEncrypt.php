@@ -13,11 +13,34 @@ class GetCodeDeEncrypt{
     }
 
     // This function check that they do not have html symbols 
-    public function procheck($string) {
-        $str = htmlentities(stripslashes($string), ENT_QUOTES);
-        return htmlspecialchars(trim($str), ENT_QUOTES);
-    }
+   public function procheck($string) {
+    // Eliminar stripslashes() - es inseguro
+    $str = htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    return htmlspecialchars(trim($str), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+}
+    public function ende_crypter($action, $string, $secret_key, $secret_iv) {
+    $encrypt_method = 'AES-256-GCM'; // Mejor que CBC
     
+    // Usar derivación de clave más segura
+    $key = openssl_pbkdf2($secret_key, $secret_iv, 32, 10000, 'sha256');
+    
+    if ($action === 'encrypt') {
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($encrypt_method));
+        $tag = '';
+        $encrypted = openssl_encrypt($string, $encrypt_method, $key, OPENSSL_RAW_DATA, $iv, $tag);
+        return base64_encode($iv . $tag . $encrypted);
+    } 
+    
+    if ($action === 'decrypt') {
+        $data = base64_decode($string);
+        $iv_len = openssl_cipher_iv_length($encrypt_method);
+        $iv = substr($data, 0, $iv_len);
+        $tag = substr($data, $iv_len, 16);
+        $ciphertext = substr($data, $iv_len + 16);
+        return openssl_decrypt($ciphertext, $encrypt_method, $key, OPENSSL_RAW_DATA, $iv, $tag);
+    }
+}
+/*
     public function ende_crypter($action, $string, $secret_key, $secret_iv) {
         $output = false;
         $encrypt_method = 'AES-256-CBC';
@@ -32,7 +55,7 @@ class GetCodeDeEncrypt{
         }
         return $output;
     }
-    
+    */
 // sha1(crypt(uniqid(), random_int(10000000, 99999999))); // Get 40 string
 // sha1(bin2hex(mt_rand())); // Get 40 string
 // sha1(uniqid(mt_rand(), TRUE)); // Get 40 string
@@ -66,6 +89,21 @@ public function iRandKey($length) {
         return $randomString;
     }
 // Generate random code for usercode = 64 strings
+public function getRandomString(int $length, bool $crypto_secure = true): string {
+    $characters = $this->characters;
+    $max = strlen($characters) - 1;
+    $randomString = '';
+    
+    for ($i = 0; $i < $length; $i++) {
+        if ($crypto_secure && function_exists('random_int')) {
+            $randomString .= $characters[random_int(0, $max)];
+        } else {
+            $randomString .= $characters[mt_rand(0, $max)];
+        }
+    }
+    return $randomString;
+}
+/*
 public function getRandomString($length) {
     $characters = $this->characters;
     $charactersLength = strlen($characters);
@@ -75,7 +113,7 @@ public function getRandomString($length) {
     }
     return $randomString;
 }
-
+*/
 public function getRandKey()
 {
     $length = 64;
@@ -133,4 +171,51 @@ public function generateRandStr($length) {
         }
         return $randstr;
     }
+    // Método unificado para reemplazar todos
+public function generateSecureToken(int $length = 64, string $mode = 'hex'): string {
+    $bytes = $this->getSecureBytes($length);
+    
+    return match($mode) {
+        'hex' => bin2hex($bytes),
+        'base64' => substr(str_replace(['+', '/', '='], '', base64_encode($bytes)), 0, $length),
+        'hash' => substr(hash('sha256', $bytes), 0, $length),
+        'alphanum' => $this->bytesToAlphanumeric($bytes, $length),
+        default => bin2hex($bytes)
+    };
+}
+
+private function getSecureBytes(int $length): string {
+    return function_exists('random_bytes') 
+        ? random_bytes($length) 
+        : openssl_random_pseudo_bytes($length);
+}
+/**
+ * Genera un string aleatorio criptográficamente seguro
+ * 
+ * @param int $length Longitud deseada (1-1024)
+ * @param string $alphabet Caracteres permitidos (opcional)
+ * @return string
+ * @throws InvalidArgumentException Si la longitud es inválida
+ */
+public function generateSecureRandomString(int $length, ?string $alphabet = null): string {
+    if ($length < 1 || $length > 1024) {
+        throw new InvalidArgumentException('Length must be between 1 and 1024');
+    }
+    
+    $alphabet = $alphabet ?? $this->charSet;
+    $alphabetLength = strlen($alphabet);
+    
+    if ($alphabetLength < 2) {
+        throw new InvalidArgumentException('Alphabet must contain at least 2 characters');
+    }
+    
+    $result = '';
+    $maxIndex = $alphabetLength - 1;
+    
+    for ($i = 0; $i < $length; $i++) {
+        $result .= $alphabet[random_int(0, $maxIndex)];
+    }
+    
+    return $result;
+}
 }

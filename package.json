@@ -1,7 +1,7 @@
 {
     "name": "php-grapesjs",
     "description": "Free and Open Source Web Builder Framework",
-    "version": "0.0.3",
+    "version": "0.0.6",
     "author": "Jose Mantilla",
     "sideEffects": [
         "*.vue",
@@ -14,5 +14,24 @@
     },
     "dependencies": {
         "php-grapesjs": "file:"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-html coverage/",
+        "cs-check": "phpcs",
+        "cs-fix": "php-cs-fixer fix",
+        "psalm": "psalm",
+        "psalm-fix": "psalm --alter",
+        "phpstan": "phpstan analyse",
+        "analyse": [
+            "@cs-check",
+            "@psalm",
+            "@phpstan"
+        ],
+        "setup": [
+            "composer install",
+            "cp -n .env.example .env"
+        ],
+        "language-server": "phpactor language-server"
     }
 }

@@ -29,6 +29,6 @@ class UsersActions{
         } else {
             /* Error occurred, return given name by default */
             return NULL;
-        }     
+        }
     }
 }

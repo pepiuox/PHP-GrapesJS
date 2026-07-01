@@ -33,11 +33,40 @@
         "role": "Project Manager"
     }],
     "support": {},
-    "require": {},
+    "require": {
+        "php": "^8.2",
+        "vlucas/phpdotenv": "v5.6.3",
+        "nikic/php-parser": "5.7.0"
+    },
+    "require-dev": {
+        "vimeo/psalm": "6.16.1",
+        "phpstan/phpstan": "2.2.3",
+        "squizlabs/php_codesniffer": "4.0.1",
+        "phpunit/phpunit": "13.1.8",
+        "friendsofphp/php-cs-fixer": "v3.95.11",
+        "phpactor/phpactor": "2026.06.25.0",
+        "phpactor/language-server": "7.0.1"
+    },
     "autoload": {
         "psr-4": {
-            "PepiuoX\\": "src/core/"
+            "PepiuoX\\": "core/controller"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "cs-fix": "vendor/bin/php-cs-fixer fix",
+        "cs-check": "vendor/bin/phpcs",
+        "psalm": "vendor/bin/psalm",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "all-checks": [
+            "@cs-check",
+            "@psalm",
+            "@phpstan",
+            "@test"
+        ],
+        "post-install-cmd": [
+            "cp -n .env.example .env || true"
+        ]
     },
     "repositories": []
 }

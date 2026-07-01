@@ -864,5 +864,3 @@ class UsersClass {
         return $this->userlevel == AGENT_MEMBER_LEVEL;
     }
 }
-
-/* End class UsersClass */
