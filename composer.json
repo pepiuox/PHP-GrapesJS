@@ -35,16 +35,16 @@
     "support": {},
     "require": {
         "php": "^8.2",
-        "vlucas/phpdotenv": "v5.6.3",
-        "nikic/php-parser": "5.7.0"
+        "vlucas/phpdotenv": "v5.6.4",
+        "nikic/php-parser": "v5.8.0"
     },
     "require-dev": {
         "vimeo/psalm": "6.16.1",
-        "phpstan/phpstan": "2.2.3",
-        "squizlabs/php_codesniffer": "4.0.1",
-        "phpunit/phpunit": "13.1.8",
-        "friendsofphp/php-cs-fixer": "v3.95.11",
-        "phpactor/phpactor": "2026.06.25.0",
+        "phpstan/phpstan": "2.2.8",
+        "squizlabs/php_codesniffer": "4.0.4",
+        "phpunit/phpunit": "13.3.1",
+        "friendsofphp/php-cs-fixer": "v3.95.21",
+        "phpactor/phpactor": "2026.07.22.0",
         "phpactor/language-server": "7.0.1"
     },
     "autoload": {

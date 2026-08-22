@@ -2,7 +2,7 @@
 define('DOMAIN_SITE','//www.php-grapesjs.com/');
  define('SITE_NAME','PHP GrapesJS');
  define('SITE_BRAND_IMG','icon-pepiuox.png');
- define('SITE_PATH','http://localhost:130/');
+ define('SITE_PATH','http://localhost:150/');
  define('SITE_DESCRIPTION','Your description for your domains');
  define('SITE_KEYWORDS','Your keywords for your domains');
  define('SITE_CLASSIFICATION','Your classification for your domains');

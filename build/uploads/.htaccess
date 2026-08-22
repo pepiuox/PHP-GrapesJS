@@ -1,0 +1,10 @@
+# Deshabilitar ejecución de PHP en el directorio de uploads
+<FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Opcional: Forzar que los archivos se sirvan como descargas o con tipos MIME estrictos
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    ForceType image/jpeg
+</FilesMatch>

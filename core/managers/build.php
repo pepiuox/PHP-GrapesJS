@@ -249,6 +249,32 @@ function saveContent() {
         }
     });
 }
+function uploadImages() {
+    var files = $('#gjs-am-uploadFile')[0].files[0];
+    formData.append('file', files);
+    aler(files);
+    /*
+     *   var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+     *   var formData = new FormData();
+     *   for(var i in files){
+     *   formData.append('file-'+i, files[i]) //containing all the selected images from local
+}*/
+    $.ajax({
+        type: 'post',
+        url: '<?php echo SITE_PATH; ?>core/managers/upload_image.php',
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData: false
+    }).done(function(result) {
+        var myJSON = [];
+        $.each(result['data'], function(key, value) {
+            myJSON[key] = value;
+        });
+        var images = myJSON;
+        editor.AssetManager.add(images); //adding images to asset manager of GrapesJS
+    });
+}
 </script>
 <?php
 // core/managers/save.php

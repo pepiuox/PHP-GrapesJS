@@ -41,8 +41,8 @@ class PagePublic {
                 include_once $rp['path_file'] . ".php";
             }
         } else if ($rp['type'] === 'Design') {
-            $string = decodeContent($rp['html_content']);
-            if (!empty($rp['html_conten'])) {
+            $string = decodeContent($rp['content']);
+            if (!empty($rp['content'])) {
                 $string = str_replace("<body>", "", $string);
                 $string = str_replace("</body>", "", $string);
             }
