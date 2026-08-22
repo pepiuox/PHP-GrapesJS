@@ -295,11 +295,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Validación básica de tabla permitida (seguridad)
-    $allowed_tables = ['pages', 'blog_posts'];
-    if (!in_array($tbl, $allowed_tables)) {
-        echo json_encode(["status" => "error", "message" => "Tabla no permitida"]);
-        exit;
+    // Validación básica de tabla permitida (seguridad) - map to literal to prevent tainted-callable
+    switch ($tbl) {
+        case 'pages': $tbl = 'pages'; break;
+        case 'blog_posts': $tbl = 'blog_posts'; break;
+        default:
+            echo json_encode(["status" => "error", "message" => "Tabla no permitida"]);
+            exit;
     }
 
     try {
