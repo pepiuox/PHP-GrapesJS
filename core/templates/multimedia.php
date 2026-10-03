@@ -1,7 +1,9 @@
 <!-- Multimedia Template -->
 <?php
-$mMenu = $conn->query("SELECT id, type_menu FROM type_menu where id='$men'");
-$myMenu = $mMenu->fetch_array();
+$mMenuStmt = $conn->prepare("SELECT id, type_menu FROM type_menu where id=?");
+$mMenuStmt->bind_param("s", $men);
+$mMenuStmt->execute();
+$myMenu = $mMenuStmt->get_result()->fetch_array();
 if (!empty($myMenu['type_menu'])) {
     include 'require/' . $myMenu['type_menu'] . '.php';
 }
@@ -10,7 +12,10 @@ if (!empty($myMenu['type_menu'])) {
     <div class="row">    
         <div class="w-100">           
 <?php
-$mBlocks = $conn->query("SELECT id, type_block,idB, blockID, active, pageId FROM type_blocks, blocks WHERE type_blocks.id=blocks.blockId  AND active='1' AND pageId ='$bid'");
+$mBlocksStmt = $conn->prepare("SELECT id, type_block,idB, blockID, active, pageId FROM type_blocks, blocks WHERE type_blocks.id=blocks.blockId  AND active='1' AND pageId =?");
+$mBlocksStmt->bind_param("s", $bid);
+$mBlocksStmt->execute();
+$mBlocks = $mBlocksStmt->get_result();
 while ($block = $mBlocks->fetch_array()) {
     if (!empty($bid)) {
 ?>
