@@ -1,275 +1,306 @@
 <?php
-// classes/PageStatistics.php
-class PageStatistics {
-    private $conn;
-    private $table = 'page_statistics';
-    
-    public function __construct($db) {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+declare(strict_types=1);
+
+/**
+ * Estadísticas de páginas con PDO.
+ * Migrado con inyección de dependencias y validaciones.
+ *
+ * CORRECCIONES:
+ * - Inyección de dependencias PDO (no crea new Database() internamente)
+ * - Validación de filtros
+ * - Tipado estricto
+ * - Sanitización de fechas
+ * - Límites de paginación seguros
+ */
+class PageStatistics
+{
+    private PDO $conn;
+    private string $table = 'page_statistics';
+
+    public function __construct(PDO $db)
+    {
+        $this->conn = $db;
     }
-    
+
     /**
-     * Registrar una visita a una página
+     * Registra una visita a una página.
      */
-    public function registerVisit($page_id, $page_version = '1.0') {
+    public function registerVisit(int $page_id, string $page_version = '1.0'): bool
+    {
+        if ($page_id <= 0) {
+            return false;
+        }
+
+        // ✅ Validar versión
+        if (!preg_match('/^[a-zA-Z0-9\.\-]+$/', $page_version)) {
+            $page_version = '1.0';
+        }
+
         try {
-            // Primero verificamos si ya existen estadísticas para esta página
-            $query = "SELECT id, visits FROM " . $this->table . " WHERE page_id = :page_id";
+            $this->conn->beginTransaction();
+
+            $query = "SELECT id, visits FROM {$this->table} WHERE page_id = :page_id";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-            $stmt->execute();
-            
+            $stmt->execute([':page_id' => $page_id]);
+
             if ($stmt->rowCount() > 0) {
-                // Actualizar estadísticas existentes
-                $row = $stmt->fetch();
-                $new_visits = $row['visits'] + 1;
-                
-                $updateQuery = "UPDATE " . $this->table . " 
-                               SET visits = :visits, 
-                                   last_visit = NOW(),
-                                   version = :version,
-                                   updated_at = NOW()
-                               WHERE page_id = :page_id";
-                
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $new_visits = (int) $row['visits'] + 1;
+
+                $updateQuery = "UPDATE {$this->table}
+                SET visits = :visits, last_visit = NOW(),
+                version = :version, updated_at = NOW()
+                WHERE page_id = :page_id";
                 $updateStmt = $this->conn->prepare($updateQuery);
-                $updateStmt->bindParam(':visits', $new_visits, PDO::PARAM_INT);
-                $updateStmt->bindParam(':version', $page_version);
-                $updateStmt->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-                
-                return $updateStmt->execute();
+                $result = $updateStmt->execute([
+                    ':visits'   => $new_visits,
+                    ':version'  => $page_version,
+                    ':page_id'  => $page_id,
+                ]);
             } else {
-                // Crear nuevas estadísticas
-                $insertQuery = "INSERT INTO " . $this->table . " 
-                               (page_id, visits, version, last_visit, created_at, updated_at) 
-                               VALUES (:page_id, 1, :version, NOW(), NOW(), NOW())";
-                
+                $insertQuery = "INSERT INTO {$this->table}
+                (page_id, visits, version, last_visit, created_at, updated_at)
+                VALUES (:page_id, 1, :version, NOW(), NOW(), NOW())";
                 $insertStmt = $this->conn->prepare($insertQuery);
-                $insertStmt->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-                $insertStmt->bindParam(':version', $page_version);
-                
-                return $insertStmt->execute();
+                $result = $insertStmt->execute([
+                    ':page_id' => $page_id,
+                    ':version' => $page_version,
+                ]);
             }
-        } catch(PDOException $exception) {
-            error_log("Error registering visit: " . $exception->getMessage());
+
+            $this->conn->commit();
+            return (bool) $result;
+
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log('Error registering visit: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Obtener estadísticas de una página específica
+     * Obtiene estadísticas de una página específica.
      */
-    public function getPageStatistics($page_id) {
+    public function getPageStatistics(int $page_id): array|false
+    {
+        if ($page_id <= 0) {
+            return false;
+        }
+
         try {
-            $query = "SELECT ps.*, p.title, p.slug, p.created_at as page_created, 
-                             p.updated_at as page_updated, p.status
-                      FROM " . $this->table . " ps
-                      JOIN pages p ON ps.page_id = p.id
-                      WHERE ps.page_id = :page_id";
-            
+            $query = "SELECT ps.*, p.title, p.slug, p.created_at as page_created,
+            p.updated_at as page_updated, p.status
+            FROM {$this->table} ps
+            JOIN pages p ON ps.page_id = p.id
+            WHERE ps.page_id = :page_id";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            return $stmt->fetch();
-        } catch(PDOException $exception) {
-            error_log("Error getting page statistics: " . $exception->getMessage());
+            $stmt->execute([':page_id' => $page_id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error getting page statistics: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Obtener todas las estadísticas con información de páginas
+     * Obtiene todas las estadísticas con filtros.
+     * ✅ Validación de filtros
      */
-    public function getAllStatistics($filters = []) {
+    public function getAllStatistics(array $filters = []): array|false
+    {
         try {
             $whereConditions = [];
             $params = [];
-            
-            $query = "SELECT ps.*, p.title, p.slug, p.created_at as page_created, 
-                             p.updated_at as page_updated, p.status,
-                             (SELECT COUNT(*) FROM page_statistics WHERE visits > 0) as total_pages_with_visits,
-                             (SELECT SUM(visits) FROM page_statistics) as total_visits_all
-                      FROM " . $this->table . " ps
-                      JOIN pages p ON ps.page_id = p.id";
-            
-            // Aplicar filtros
-            if (!empty($filters['start_date'])) {
+
+            $query = "SELECT ps.*, p.title, p.slug, p.created_at as page_created,
+            p.updated_at as page_updated, p.status
+            FROM {$this->table} ps
+            JOIN pages p ON ps.page_id = p.id";
+
+            // ✅ Validar fechas
+            if (!empty($filters['start_date']) && $this->isValidDate($filters['start_date'])) {
                 $whereConditions[] = "ps.created_at >= :start_date";
                 $params[':start_date'] = $filters['start_date'];
             }
-            
-            if (!empty($filters['end_date'])) {
+            if (!empty($filters['end_date']) && $this->isValidDate($filters['end_date'])) {
                 $whereConditions[] = "ps.created_at <= :end_date";
                 $params[':end_date'] = $filters['end_date'];
             }
-            
-            if (!empty($filters['version'])) {
+            if (!empty($filters['version']) && preg_match('/^[a-zA-Z0-9\.\-]+$/', $filters['version'])) {
                 $whereConditions[] = "ps.version = :version";
                 $params[':version'] = $filters['version'];
             }
-            
-            if (!empty($filters['status'])) {
+            if (!empty($filters['status']) && in_array($filters['status'], ['published', 'draft', 'archived'], true)) {
                 $whereConditions[] = "p.status = :status";
                 $params[':status'] = $filters['status'];
             }
-            
+
             if (!empty($whereConditions)) {
                 $query .= " WHERE " . implode(" AND ", $whereConditions);
             }
-            
-            // Ordenar
+
             $query .= " ORDER BY ps.visits DESC, ps.last_visit DESC";
-            
-            // Límite para paginación
-            if (!empty($filters['limit'])) {
-                $query .= " LIMIT :limit";
-                if (!empty($filters['offset'])) {
-                    $query .= " OFFSET :offset";
-                }
-            }
-            
+
+            // ✅ Límites seguros
+            $limit = isset($filters['limit']) ? max(1, min((int) $filters['limit'], 1000)) : 100;
+            $offset = isset($filters['offset']) ? max(0, (int) $filters['offset']) : 0;
+            $query .= " LIMIT :limit OFFSET :offset";
+
             $stmt = $this->conn->prepare($query);
-            
-            // Vincular parámetros
+
             foreach ($params as $key => $value) {
-                $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                $stmt->bindValue($key, $value, $paramType);
+                $stmt->bindValue($key, $value);
             }
-            
-            // Vincular límite y offset si existen
-            if (!empty($filters['limit'])) {
-                $stmt->bindValue(':limit', (int)$filters['limit'], PDO::PARAM_INT);
-                if (!empty($filters['offset'])) {
-                    $stmt->bindValue(':offset', (int)$filters['offset'], PDO::PARAM_INT);
-                }
-            }
-            
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
             $stmt->execute();
-            
-            return $stmt->fetchAll();
-        } catch(PDOException $exception) {
-            error_log("Error getting all statistics: " . $exception->getMessage());
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log('Error getting all statistics: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Obtener estadísticas resumidas
+     * Obtiene estadísticas resumidas.
      */
-    public function getSummaryStatistics() {
+    public function getSummaryStatistics(): array|false
+    {
         try {
-            $query = "SELECT 
-                COUNT(DISTINCT ps.page_id) as total_pages_tracked,
-                SUM(ps.visits) as total_visits,
-                AVG(ps.visits) as average_visits_per_page,
-                MAX(ps.visits) as max_visits,
-                MIN(ps.visits) as min_visits,
-                COUNT(DISTINCT ps.version) as different_versions,
-                MAX(ps.last_visit) as most_recent_visit,
-                MIN(ps.created_at) as first_tracked_page
-            FROM " . $this->table . " ps
+            $query = "SELECT
+            COUNT(DISTINCT ps.page_id) as total_pages_tracked,
+            SUM(ps.visits) as total_visits,
+            AVG(ps.visits) as average_visits_per_page,
+            MAX(ps.visits) as max_visits,
+            MIN(ps.visits) as min_visits,
+            COUNT(DISTINCT ps.version) as different_versions,
+            MAX(ps.last_visit) as most_recent_visit,
+            MIN(ps.created_at) as first_tracked_page
+            FROM {$this->table} ps
             JOIN pages p ON ps.page_id = p.id
             WHERE p.status = 'published'";
-            
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            
-            return $stmt->fetch();
-        } catch(PDOException $exception) {
-            error_log("Error getting summary statistics: " . $exception->getMessage());
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error getting summary statistics: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Actualizar versión de página
+     * Actualiza versión de página.
      */
-    public function updatePageVersion($page_id, $new_version) {
+    public function updatePageVersion(int $page_id, string $new_version): bool
+    {
+        if ($page_id <= 0) {
+            return false;
+        }
+        if (!preg_match('/^[a-zA-Z0-9\.\-]+$/', $new_version)) {
+            return false;
+        }
+
         try {
-            $query = "UPDATE " . $this->table . " 
-                     SET version = :version, updated_at = NOW()
-                     WHERE page_id = :page_id";
-            
+            $query = "UPDATE {$this->table}
+            SET version = :version, updated_at = NOW()
+            WHERE page_id = :page_id";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':version', $new_version);
-            $stmt->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-            
-            return $stmt->execute();
-        } catch(PDOException $exception) {
-            error_log("Error updating page version: " . $exception->getMessage());
+            return $stmt->execute([
+                ':version' => $new_version,
+                ':page_id' => $page_id,
+            ]);
+        } catch (PDOException $e) {
+            error_log('Error updating page version: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Obtener páginas más visitadas
+     * Obtiene páginas más visitadas.
      */
-    public function getMostVisitedPages($limit = 10) {
+    public function getMostVisitedPages(int $limit = 10): array|false
+    {
+        // ✅ Límite seguro
+        $limit = max(1, min($limit, 100));
+
         try {
             $query = "SELECT ps.*, p.title, p.slug, p.status,
-                             p.created_at as page_created, p.updated_at as page_updated
-                      FROM " . $this->table . " ps
-                      JOIN pages p ON ps.page_id = p.id
-                      WHERE p.status = 'published'
-                      ORDER BY ps.visits DESC
-                      LIMIT :limit";
-            
+            p.created_at as page_created, p.updated_at as page_updated
+            FROM {$this->table} ps
+            JOIN pages p ON ps.page_id = p.id
+            WHERE p.status = 'published'
+            ORDER BY ps.visits DESC
+            LIMIT :limit";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
-            
-            return $stmt->fetchAll();
-        } catch(PDOException $exception) {
-            error_log("Error getting most visited pages: " . $exception->getMessage());
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error getting most visited pages: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Obtener estadísticas por período de tiempo
+     * Obtiene estadísticas por período de tiempo.
      */
-    public function getVisitsByDateRange($start_date, $end_date) {
+    public function getVisitsByDateRange(string $start_date, string $end_date): array|false
+    {
+        // ✅ Validar fechas
+        if (!$this->isValidDate($start_date) || !$this->isValidDate($end_date)) {
+            return false;
+        }
+
         try {
-            $query = "SELECT 
-                DATE(ps.created_at) as visit_date,
-                COUNT(*) as pages_created,
-                SUM(ps.visits) as total_visits,
-                GROUP_CONCAT(DISTINCT ps.version) as versions_used
-            FROM " . $this->table . " ps
+            $query = "SELECT DATE(ps.created_at) as visit_date,
+            COUNT(*) as pages_created,
+            SUM(ps.visits) as total_visits
+            FROM {$this->table} ps
             JOIN pages p ON ps.page_id = p.id
             WHERE DATE(ps.created_at) BETWEEN :start_date AND :end_date
             GROUP BY DATE(ps.created_at)
             ORDER BY visit_date DESC";
-            
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':start_date', $start_date);
-            $stmt->bindParam(':end_date', $end_date);
-            $stmt->execute();
-            
-            return $stmt->fetchAll();
-        } catch(PDOException $exception) {
-            error_log("Error getting visits by date range: " . $exception->getMessage());
+            $stmt->execute([
+                ':start_date' => $start_date,
+                ':end_date'   => $end_date,
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error getting visits by date range: ' . $e->getMessage());
             return false;
         }
     }
-    
+
     /**
-     * Resetear contador de visitas (para testing o cambios mayores)
+     * Resetear contador de visitas.
      */
-    public function resetVisits($page_id) {
-        try {
-            $query = "UPDATE " . $this->table . " 
-                     SET visits = 0, updated_at = NOW()
-                     WHERE page_id = :page_id";
-            
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':page_id', $page_id, PDO::PARAM_INT);
-            
-            return $stmt->execute();
-        } catch(PDOException $exception) {
-            error_log("Error resetting visits: " . $exception->getMessage());
+    public function resetVisits(int $page_id): bool
+    {
+        if ($page_id <= 0) {
             return false;
         }
+
+        try {
+            $query = "UPDATE {$this->table}
+            SET visits = 0, updated_at = NOW()
+            WHERE page_id = :page_id";
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute([':page_id' => $page_id]);
+        } catch (PDOException $e) {
+            error_log('Error resetting visits: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Valida formato de fecha.
+     */
+    private function isValidDate(string $date): bool
+    {
+        $d = DateTime::createFromFormat('Y-m-d', $date);
+        return $d && $d->format('Y-m-d') === $date;
     }
 }

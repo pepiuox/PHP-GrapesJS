@@ -1,113 +1,216 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class SessionClass {
+declare(strict_types=1);
 
-    protected $conn;
-    private static $_instance;
+/**
+ * Manejador de sesiones personalizado con PDO.
+ *
+ * CORRECCIONES CRÍTICAS:
+ * - Typo: setsession_set_save_handler → session_set_save_handler
+ * - SQL Injection eliminado en read(), write(), destroy()
+ * - MySQLi → PDO
+ * - Prepared statements
+ * - Validación de inputs
+ * - Tipado estricto
+ */
+class SessionClass
+{
+    private PDO $conn;
+    private static ?SessionClass $_instance = null;
 
-    public static function getInstance() {
-        if (!(self::$_instance instanceof self)) {
+    public static function getInstance(): SessionClass
+    {
+        if (!(self::$_instance instanceof SessionClass)) {
             self::$_instance = new self();
         }
         return self::$_instance;
     }
 
-// getInstance
+    public function __construct(?PDO $db = null)
+    {
+        if ($db === null) {
+            throw new InvalidArgumentException('Conexión PDO requerida');
+        }
 
-    public function __construct() {
-        global $conn;
-        $this->conn = $conn;
-        setsession_set_save_handler(
-                array($this, "open"), array($this, "close"),
-                array($this, "read"), array($this, "write"),
-                array($this, "destroy"), array($this, "gc")
+        $this->conn = $db;
+
+        // ✅ BUG CORREGIDO: setsession_set_save_handler → session_set_save_handler
+        session_set_save_handler(
+            [$this, "open"],
+            [$this, "close"],
+            [$this, "read"],
+            [$this, "write"],
+            [$this, "destroy"],
+            [$this, "gc"]
         );
 
-        $createTable = "CREATE TABLE IF NOT EXISTS `setsession`( " .
-                "`ssID` VARCHAR(128), " .
-                "`data` MEDIUMBLOB, " .
-                "`timestamp` INT, " .
-                "`ip` VARCHAR(20), " .
-                "PRIMARY KEY (`ssID` ), " .
-                "KEY (`timestamp`, `ssID`))";
+        // ✅ Crear tabla si no existe
+        $this->createTable();
 
-        $this->conn->query($createTable);
+        // ✅ Registrar shutdown function para cerrar sesión
+        register_shutdown_function('session_write_close');
     }
 
-// construct
+    private function createTable(): void
+    {
+        $createTable = "CREATE TABLE IF NOT EXISTS `setsession` (
+            `ssID` VARCHAR(128) NOT NULL,
+            `data` MEDIUMBLOB,
+            `timestamp` INT UNSIGNED NOT NULL,
+            `ip` VARCHAR(45) NOT NULL,
+            PRIMARY KEY (`ssID`),
+            KEY `idx_timestamp` (`timestamp`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
-
-
-    public function __destruct() {
-        setsession_write_close();
+        $this->conn->exec($createTable);
     }
 
-    public function open($path, $id) {
-        // do nothing
-        return (true);
+    public function __destruct()
+    {
+        session_write_close();
     }
 
-    public function close() {
-        // do nothing
-        return (true);
+    public function open(string $path, string $id): bool
+    {
+        return true;
     }
 
-    public function read($id) {
-        $escapedID = mysqli_escape_string($id);
-        $query = sprintf("SELECT * FROM setsession WHERE ssID = '%s'", $escapedID);
-        $res = $this->conn->query($query);
+    public function close(): bool
+    {
+        return true;
+    }
 
-        if ((!$res) || (!mysqli_num_rows($res))) {
-            $timestamp = time();
-            $query = sprintf("INSERT INTO setsession (ssID, timestamp) VALUES ('%s', %s)", $escapedID, $timestamp);
-            $this->conn->query($query);
+    /**
+     * Lee datos de sesión.
+     *
+     * ✅ CORREGIDO: SQL Injection eliminado, ahora usa prepared statements
+     */
+    public function read(string $id): string
+    {
+        // ✅ Validar formato de ID de sesión
+        if (!preg_match('/^[a-zA-Z0-9,-]{22,256}$/', $id)) {
             return '';
-        } elseif (($row = mysqli_fetch_assoc($res))) {
-            $query = "UPDATE setsession SET timestamp = ";
-            $query .= time();
-            $query .= sprintf(" WHERE ssID = '%s'", $escapedID);
-            $this->conn->query($query);
-            return $row['data'];
-        } // elseif
+        }
 
-        return "";
+        try {
+            // ✅ Prepared statement en lugar de interpolación
+            $query = "SELECT data FROM setsession WHERE ssID = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([':id' => $id]);
+
+            if ($stmt->rowCount() === 0) {
+                // ✅ Insertar nueva sesión
+                $timestamp = time();
+                $ip = filter_var($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0', FILTER_VALIDATE_IP) ?: '0.0.0.0';
+
+                $insert = $this->conn->prepare(
+                    "INSERT INTO setsession (ssID, timestamp, ip) VALUES (:id, :ts, :ip)"
+                );
+                $insert->execute([
+                    ':id' => $id,
+                    ':ts' => $timestamp,
+                    ':ip' => $ip
+                ]);
+
+                return '';
+            }
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // ✅ Actualizar timestamp
+            $update = $this->conn->prepare(
+                "UPDATE setsession SET timestamp = :ts WHERE ssID = :id"
+            );
+            $update->execute([
+                ':ts' => time(),
+                             ':id' => $id
+            ]);
+
+            return (string) ($row['data'] ?? '');
+
+        } catch (PDOException $e) {
+            error_log('SessionClass::read error: ' . $e->getMessage());
+            return '';
+        }
     }
 
-// read
+    /**
+     * Escribe datos de sesión.
+     *
+     * ✅ CORREGIDO: SQL Injection eliminado, ahora usa prepared statements
+     */
+    public function write(string $id, string $data): bool
+    {
+        // ✅ Validar formato de ID de sesión
+        if (!preg_match('/^[a-zA-Z0-9,-]{22,256}$/', $id)) {
+            return false;
+        }
 
-    public function write($id, $data) {
-        $query = "REPLACE INTO setsession (ssID, data, ip, timestamp) ";
-        $query .= sprintf("VALUES ('%s', '%s', '%s', %s)",
-                mysqli_escape_string($id), mysqli_escape_string($data),
-                $_SERVER['REMOTE_ADDR'], time());
-        $this->conn->query($query);
-        return (true);
+        try {
+            $ip = filter_var($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0', FILTER_VALIDATE_IP) ?: '0.0.0.0';
+            $timestamp = time();
+
+            // ✅ Prepared statement en lugar de interpolación
+            $query = "REPLACE INTO setsession (ssID, data, ip, timestamp)
+            VALUES (:id, :data, :ip, :ts)";
+            $stmt = $this->conn->prepare($query);
+
+            return $stmt->execute([
+                ':id'   => $id,
+                ':data' => $data,
+                ':ip'   => $ip,
+                ':ts'   => $timestamp
+            ]);
+
+        } catch (PDOException $e) {
+            error_log('SessionClass::write error: ' . $e->getMessage());
+            return false;
+        }
     }
 
-// write
+    /**
+     * Destruye una sesión.
+     *
+     * ✅ CORREGIDO: SQL Injection eliminado, ahora usa prepared statements
+     */
+    public function destroy(string $id): bool
+    {
+        // ✅ Validar formato de ID de sesión
+        if (!preg_match('/^[a-zA-Z0-9,-]{22,256}$/', $id)) {
+            return false;
+        }
 
-    public function destroy($id) {
-        $escapedID = mysqli_escape_string($id);
-        $query = sprintf("DELETE FROM setsession WHERE ssID = %s", $escapedID);
-        $res = $this->conn->query($query);
-        return (mysqli_affected_rows($res) == 1);
+        try {
+            // ✅ Prepared statement en lugar de interpolación
+            $query = "DELETE FROM setsession WHERE ssID = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([':id' => $id]);
+
+            return $stmt->rowCount() === 1;
+
+        } catch (PDOException $e) {
+            error_log('SessionClass::destroy error: ' . $e->getMessage());
+            return false;
+        }
     }
 
-// destroy
+    /**
+     * Garbage collection.
+     */
+    public function gc(int $lifetime): bool
+    {
+        try {
+            $query = "DELETE FROM setsession WHERE :now - timestamp > :lifetime";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                ':now'      => time(),
+                           ':lifetime' => $lifetime
+            ]);
 
-    public function gc($lifetime) {
-        $query = "DELETE FROM setsession WHERE ";
-        $query = sprintf("%s - timestamp > %s", time(), $lifetime);
-        $this->conn->query($query);
-        return (true);
+            return true;
+
+        } catch (PDOException $e) {
+            error_log('SessionClass::gc error: ' . $e->getMessage());
+            return false;
+        }
     }
-
-// gc
 }
-
-// SessionClass

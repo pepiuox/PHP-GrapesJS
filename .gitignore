@@ -3,6 +3,7 @@
 .sass-cache/
 .project
 .idea
+.env
 npm-debug.log*
 yarn-error.log
 yarn.lock
@@ -13,6 +14,7 @@ img/
 images/
 private/
 vendor/
+nbproject/
 coverage/
 /locale/
 node_modules/

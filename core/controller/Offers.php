@@ -1,34 +1,24 @@
 <?php
 //
 //  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
+//  Already using PDO - Minor cleanup applied
 //
-/**
- * Description of Offers
- *
- * @author Lab-eMotion
- */
 class Offers {
-
     protected $conn;
     public $sth;
 
-//constructor
-    public function __construct($db) {
+    public function __construct(PDO $db) {
         $this->conn = $db;
     }
 
-    public function productOffers($name, $colour) {
+    public function productOffers(string $name, string $colour): string {
         return "{$name}: {$colour}";
     }
 
-    /*
-      $result = $this->conn->prepare("SELECT name, colour FROM fruit");
-      $result->execute();
-
-      $result = $sth->fetchAll(PDO::FETCH_FUNC, "fruit");
-     * */
+    /**
+     * Ejemplo de uso con PDO::FETCH_FUNC (ya estaba bien)
+     * $result = $this->conn->prepare("SELECT name, colour FROM fruit");
+     * $result->execute();
+     * $rows = $result->fetchAll(PDO::FETCH_FUNC, [$this, 'productOffers']);
+     */
 }
-

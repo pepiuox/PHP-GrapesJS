@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * Configuración del router con validación de rutas.
+ */
 return [
     'cache' => [
         'enabled' => true,
@@ -13,5 +18,9 @@ return [
     'max_parent_depth' => 10,
 'use_compressed_cache' => true,
 'preload_common_pages' => ['home', 'about', 'contact']
+],
+'security' => [
+    'allowed_slugs_pattern' => '/^[a-z0-9\-]+$/',
+'max_slug_length' => 100
 ]
 ];

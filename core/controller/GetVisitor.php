@@ -1,181 +1,273 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class GetVisitor {
-    protected $getip;
-    public $baseurl;
-    protected $conn;
-    private $timestamp;
-    public $date;
-    protected $hash;
-    protected $token;
-    private $session;
-    public $gc;
+declare(strict_types=1);
 
-    public function __construct() {
-        global $conn;
+/**
+ * Gestor de visitantes con tracking de IP, páginas vistas y sesiones.
+ */
+class GetVisitor
+{
+    protected PDO $conn;
+    protected string $getip;
+    public string $baseurl;
+    private string $timestamp;
+    public DateTime $date;
+    protected string $hash;
+    protected string $token;
+    private string $session = '';
+    public GetCodeDeEncrypt $gc;
+
+    public function __construct(PDO $conn)
+    {
         $this->conn = $conn;
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         $this->date = new DateTime();
         $this->timestamp = $this->date->format('Y-m-d H:i:s');
-        $this->hash = SECURE_HASH;
-        $this->token = SECURE_TOKEN;
+        $this->hash = defined('SECURE_HASH') ? SECURE_HASH : '';
+        $this->token = defined('SECURE_TOKEN') ? SECURE_TOKEN : '';
         $this->gc = new GetCodeDeEncrypt();
+
         $this->getip = $this->getUserIP();
 
-        $_SESSION['session_visit'] = $this->gc->ende_crypter('encrypt', $this->getip, $this->hash, $this->token);
-        $this->session = $_SESSION['session_visit'];
+        // Encriptar IP para sesión
+        $this->session = $this->gc->ende_crypter(
+            'encrypt',
+            $this->getip,
+            $this->hash,
+            $this->token
+        );
+        $_SESSION['session_visit'] = $this->session;
 
-        $this->VisitUpdate($this->getip);
+        $this->visitUpdate($this->getip);
 
         if (!empty($this->session)) {
-            $this->guest_online();
+            $this->guestOnline();
         }
     }
 
-    /* get number of pages
-     * 
+    /**
+     * Obtiene el número de páginas registradas.
      */
-
-    public function numpages() {
-
-        return $this->conn->query("SELECT id FROM pages")->num_rows;
+    public function numpages(): int
+    {
+        $stmt = $this->conn->query("SELECT COUNT(*) FROM pages");
+        return (int) $stmt->fetchColumn();
     }
 
-    public function checkUserIP($ip) {
-        $num = $this->findUserIP($ip);
-        return $num->num_rows;
+    /**
+     * Verifica si una IP ya existe en la base de datos.
+     */
+    public function checkUserIP(string $ip): int
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT COUNT(*) FROM visitor WHERE ip = :ip"
+        );
+        $stmt->execute([':ip' => $ip]);
+        return (int) $stmt->fetchColumn();
     }
 
-    public function findUserIP($ip) {
-        $stmt = $this->conn->prepare('SELECT * FROM visitor WHERE ip = ? ORDER BY updated_at DESC LIMIT 0,1');
-        $stmt->bind_param('s', $ip);
-        $stmt->execute();
-        return $stmt->get_result();
+    /**
+     * Busca la última visita de una IP.
+     */
+    public function findUserIP(string $ip): ?array
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM visitor WHERE ip = :ip ORDER BY updated_at DESC LIMIT 1"
+        );
+        $stmt->execute([':ip' => $ip]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false ? $result : null;
     }
 
-    public function VisitUpdate($ip) {
-        $rest = $this->findUserIP($ip);
-        $nums = $rest->num_rows;
-        if ($nums > 0) {
-            $row = $rest->fetch_assoc();
+    /**
+     * Actualiza o inserta la visita del usuario.
+     */
+    public function visitUpdate(string $ip): void
+    {
+        $row = $this->findUserIP($ip);
+
+        if ($row !== null) {
             $startdate = $row['updated_at'];
             $enddate = $this->timestamp;
             $dif = $this->differenceInHours($startdate, $enddate);
-            if ($dif >= 24) {
-                $stmt = $this->conn->prepare("INSERT INTO visitor (ip) VALUES (?)");
-                $stmt->bind_param("s", $this->getip);
-                $stmt->execute();
 
-                $this->CounterVisitor();
+            if ($dif >= 24) {
+                $stmt = $this->conn->prepare(
+                    "INSERT INTO visitor (ip) VALUES (:ip)"
+                );
+                $stmt->execute([':ip' => $this->getip]);
+                $this->counterVisitor();
             } else {
-                $stmt = $this->conn->prepare("UPDATE visitor SET updated_at = ? WHERE ip = ? AND updated_at = ?");
-                $stmt->bind_param('sss', $enddate, $this->getip, $startdate);
-                $stmt->execute();
+                $stmt = $this->conn->prepare(
+                    "UPDATE visitor SET updated_at = :enddate
+                    WHERE ip = :ip AND updated_at = :startdate"
+                );
+                $stmt->execute([
+                    ':enddate'   => $enddate,
+                    ':ip'        => $this->getip,
+                    ':startdate' => $startdate,
+                ]);
             }
         } else {
-            $stmt = $this->conn->prepare("INSERT INTO visitor (ip) VALUES (?)");
-            $stmt->bind_param("s", $this->getip);
-            $stmt->execute();
+            // Primera visita
+            $this->conn->beginTransaction();
+            try {
+                $stmt = $this->conn->prepare(
+                    "INSERT INTO visitor (ip) VALUES (:ip)"
+                );
+                $stmt->execute([':ip' => $this->getip]);
 
-            $stmt1 = $this->conn->prepare("INSERT INTO active_guests (ip) VALUES (?)");
-            $stmt1->bind_param("s", $this->getip);
-            $stmt1->execute();
+                $stmt = $this->conn->prepare(
+                    "INSERT INTO active_guests (ip) VALUES (:ip)"
+                );
+                $stmt->execute([':ip' => $this->getip]);
 
-            $this->CounterVisitor();
-        }
-    }
-
-    public function getUserIP() {
-        // Get real visitor IP behind CloudFlare network
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        }
-        $client = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote = $_SERVER['REMOTE_ADDR'];
-
-        if (filter_var($client, FILTER_VALIDATE_IP)) {
-            $ip = $client;
-        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-            $ip = $forward;
-        } else {
-            $ip = $remote;
-        }
-        return $ip;
-    }
-
-    public function CounterVisitor() {
-        $this->conn->query("UPDATE counter SET counter = counter + 1");
-    }
-
-// Calculate the time between two hours
-    public function differenceInHours($startdate, $enddate) {
-        $starttimestamp = strtotime($startdate);
-        $endtimestamp = strtotime($enddate);
-        $difference = round(abs($endtimestamp - $starttimestamp) / 3600, 2);
-        return $difference;
-    }
-
-// Insert the IP and title of the page visited during the day
-    public function pageViews($title) {
-
-        $stmt = $this->conn->prepare('SELECT * FROM pageviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
-        $stmt->bind_param('ss', $title, $this->getip);
-        $stmt->execute();
-        $rows = $stmt->get_result();
-        if ($rows->num_rows > 0) {
-            $row = $rows->fetch_assoc();
-            $startdate = $row['date_view'];
-            $enddate = $this->timestamp;
-            $dif = $this->differenceInHours($startdate, $enddate);
-            if ($dif >= 24) {
-                $stmt = $this->conn->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
-                $stmt->bind_param('ss', $title, $this->getip);
-                $stmt->execute();
+                $this->conn->commit();
+                $this->counterVisitor();
+            } catch (PDOException $e) {
+                $this->conn->rollBack();
+                error_log('GetVisitor visitUpdate error: ' . $e->getMessage());
             }
-        } else {
-            $stmt = $this->conn->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
-            $stmt->bind_param('ss', $title, $this->getip);
-            $stmt->execute();
         }
     }
 
-    public function guest_online() {
+    /**
+     * Obtiene la IP real del visitante de forma segura.
+     *
+     * 🔒 SEGURIDAD: Solo confía en headers de proxy si están configurados.
+     * Previene IP spoofing mediante HTTP_X_FORWARDED_FOR falso.
+     */
+    public function getUserIP(): string
+    {
+        // CloudFlare
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])
+            && filter_var($_SERVER['HTTP_CF_CONNECTING_IP'], FILTER_VALIDATE_IP)) {
+            return $_SERVER['HTTP_CF_CONNECTING_IP'];
+            }
 
-        $current_time = $this->timestamp;
+            // Si hay un proxy de confianza configurado
+            $trustedProxies = defined('TRUSTED_PROXIES') ? TRUSTED_PROXIES : [];
+        $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
-        $stmt = $this->conn->prepare("SELECT session FROM total_visitors WHERE session = ?");
-        $stmt->bind_param('s', $this->session);
-        $stmt->execute();
-        $session_exist = $stmt->get_result();
-        $session_check = $session_exist->num_rows;
+        if (in_array($remoteAddr, $trustedProxies, true)) {
+            // Solo confiar en X-Forwarded-For si el proxy es de confianza
+            if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                $clientIp = trim($ips[0]);
+                if (filter_var($clientIp, FILTER_VALIDATE_IP)) {
+                    return $clientIp;
+                }
+            }
+        }
 
-        if ($session_check == 0 && $this->session != "") {
-            $stmt = $this->conn->prepare("INSERT INTO total_visitors (session, time) VALUES (?,?)");
-            $stmt->bind_param('ss', $this->session, $current_time);
-            $stmt->execute();
-        } else {
-            $stmt = $this->conn->prepare("UPDATE total_visitors SET time = ? WHERE session = ?");
-            $stmt->bind_param('ss', $current_time, $this->session);
-            $stmt->execute();
+        // Fallback: REMOTE_ADDR (la más confiable sin proxy)
+        if (filter_var($remoteAddr, FILTER_VALIDATE_IP)) {
+            return $remoteAddr;
+        }
+
+        return '0.0.0.0';
+    }
+
+    /**
+     * Incrementa el contador global de visitas.
+     */
+    public function counterVisitor(): void
+    {
+        try {
+            $this->conn->exec("UPDATE counter SET counter = counter + 1");
+        } catch (PDOException $e) {
+            error_log('GetVisitor counterVisitor error: ' . $e->getMessage());
         }
     }
 
-    public function totalOnline() {
+    /**
+     * Calcula la diferencia en horas entre dos fechas.
+     */
+    public function differenceInHours(string $startdate, string $enddate): float
+    {
+        $start = strtotime($startdate);
+        $end = strtotime($enddate);
 
-        $time = strtotime($this->timestamp);
-        $tim = $time - (60 * 60); //one hour
-        $timeout = date("Y-m-d H:i:s", $tim);
+        if ($start === false || $end === false) {
+            return 0.0;
+        }
 
-        $stmt = $this->conn->prepare("SELECT * FROM total_visitors WHERE time >= ?");
-        $stmt->bind_param('s', $timeout);
-        $stmt->execute();
-        $select_total = $stmt->get_result();
-        return $select_total->num_rows;
+        return round(abs($end - $start) / 3600, 2);
+    }
+
+    /**
+     * Registra la visita a una página específica.
+     */
+    public function pageViews(string $title): void
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT date_view FROM pageviews
+            WHERE page = :page AND ip = :ip
+            ORDER BY date_view DESC LIMIT 1"
+        );
+        $stmt->execute([
+            ':page' => $title,
+            ':ip'   => $this->getip,
+        ]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $dif = $this->differenceInHours($row['date_view'], $this->timestamp);
+            if ($dif < 24) {
+                return; // Ya visitó esta página en las últimas 24h
+            }
+        }
+
+        $stmt = $this->conn->prepare(
+            "INSERT INTO pageviews (page, ip) VALUES (:page, :ip)"
+        );
+        $stmt->execute([
+            ':page' => $title,
+            ':ip'   => $this->getip,
+        ]);
+    }
+
+    /**
+     * Registra/actualiza la sesión del visitante online.
+     */
+    public function guestOnline(): void
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT COUNT(*) FROM total_visitors WHERE session = :session"
+        );
+        $stmt->execute([':session' => $this->session]);
+        $exists = (int) $stmt->fetchColumn() > 0;
+
+        if (!$exists && $this->session !== '') {
+            $stmt = $this->conn->prepare(
+                "INSERT INTO total_visitors (session, time) VALUES (:session, :time)"
+            );
+            $stmt->execute([
+                ':session' => $this->session,
+                ':time'    => $this->timestamp,
+            ]);
+        } else {
+            $stmt = $this->conn->prepare(
+                "UPDATE total_visitors SET time = :time WHERE session = :session"
+            );
+            $stmt->execute([
+                ':time'    => $this->timestamp,
+                ':session' => $this->session,
+            ]);
+        }
+    }
+
+    /**
+     * Obtiene el total de usuarios online en la última hora.
+     */
+    public function totalOnline(): int
+    {
+        $timeout = date('Y-m-d H:i:s', time() - 3600);
+
+        $stmt = $this->conn->prepare(
+            "SELECT COUNT(*) FROM total_visitors WHERE time >= :timeout"
+        );
+        $stmt->execute([':timeout' => $timeout]);
+        return (int) $stmt->fetchColumn();
     }
 }

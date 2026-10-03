@@ -1,208 +1,282 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class statistic {
+declare(strict_types=1);
 
-    public function __contruct() {
+/**
+ * Estadísticas de visitas con PDO.
+ * Migrado a PDO con corrección de bugs críticos.
+ *
+ * CORRECCIONES CRÍTICAS:
+ * - Typo: __contruct() → __construct()
+ * - Bug: "*POST: " . $_POST → json_encode($_POST)
+ * - IP spoofing eliminado: solo usa REMOTE_ADDR (o CF_CONNECTING_IP si CloudFlare)
+ * - file_get_contents con timeout
+ * - Validación de path antes de escribir
+ * - Inyección de dependencias PDO
+ */
+class Statistic
+{
+    private PDO $conn;
+    private string $archivo;
+    private string $ignoreIp;
+
+    /**
+     * ✅ Lista blanca de propósitos para ip_info
+     */
+    private const IP_PURPOSES = [
+        'location', 'address', 'city', 'state',
+        'region', 'country', 'countrycode'
+    ];
+
+    public function __construct(PDO $connection, string $ignoreIp = '127.0.0.1')
+    {
+        $this->conn = $connection;
+        $this->ignoreIp = $ignoreIp;
+
+        // ✅ Validar path antes de escribir
+        $basePath = defined('URL') ? URL : __DIR__ . '/..';
+        $this->archivo = rtrim($basePath, '/') . '/fls/visitas.txt';
+
+        // ✅ Verificar que el directorio exista y sea escribible
+        $dir = dirname($this->archivo);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0755, true);
+        }
 
         $this->write_visita();
     }
 
-//función que escribe la IP del cliente en un archivo de texto    
-    public function write_visita() {
+    /**
+     * Escribe la IP del cliente en un archivo de texto.
+     *
+     * ✅ CORREGIDO: bug "*POST: " . $_POST → json_encode
+     * ✅ CORREGIDO: validación de IP antes de escribir
+     */
+    public function write_visita(): void
+    {
+        $new_ip = $this->get_client_ip();
 
-//Indicar ruta de archivo válida
-        $archivo = URL."/fls/visitas.txt";
+        // ✅ Validar IP
+        if (!filter_var($new_ip, FILTER_VALIDATE_IP)) {
+            return;
+        }
 
-//Si que quiere ignorar la propia IP escribirla aquí, esto se podría automatizar
-        $ip = "127.0.0.1";
-        $new_ip = get_client_ip();
+        // ✅ Ignorar IP propia
+        if ($new_ip === $this->ignoreIp) {
+            return;
+        }
 
-        if ($new_ip !== $ip) {
-            $now = new DateTime();
+        // ✅ Verificar que el archivo sea escribible
+        if (!is_writable(dirname($this->archivo))) {
+            error_log('statistic: directorio no escribible: ' . dirname($this->archivo));
+            return;
+        }
 
-//Distinguir el tipo de petición, 
-// tiene importancia en mi contexto pero no es obligatorio
+        $now = new DateTime();
 
-            if (!$_GET) {
-                $datos = "*POST: " . $_POST;
-            } else {
-//Saber a qué URL se accede
-                $peticion = explode('/', $_GET['PATH_INFO']);
-                $datos = str_pad($peticion[0], 10) . ' ' . $peticion[1];
+        // ✅ CORREGIDO: bug "*POST: " . $_POST → json_encode
+        if (empty($_GET)) {
+            // ✅ json_encode en lugar de concatenar array
+            $datos = '*POST: ' . json_encode($_POST, JSON_UNESCAPED_UNICODE);
+        } else {
+            // ✅ Validar PATH_INFO
+            $pathInfo = $_GET['PATH_INFO'] ?? '';
+            if (!is_string($pathInfo)) {
+                $pathInfo = '';
             }
-            $txt = str_pad($new_ip, 25) . " " .
-                    str_pad($now->format('Y-m-d H:i:s'), 25) . " " .
-                    str_pad(ip_info($new_ip, "Country"), 25) . " " . json_encode($datos);
-
-            $myfile = file_put_contents($archivo, $txt . PHP_EOL, FILE_APPEND);
-        }
-    }
-
-//Obtiene la IP del cliente
-    public function get_client_ip() {
-        $ipaddress = '';
-        if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if (getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if (getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if (getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if (getenv('HTTP_FORWARDED'))
-            $ipaddress = getenv('HTTP_FORWARDED');
-        else if (getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
-        else
-            $ipaddress = 'UNKNOWN';
-        return $ipaddress;
-    }
-
-//Obtiene la info de la IP del cliente desde geoplugin
-
-    public function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
-        $output = NULL;
-        if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
-            $ip = $_SERVER["REMOTE_ADDR"];
-            if ($deep_detect) {
-                if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP))
-                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP))
-                    $ip = $_SERVER['HTTP_CLIENT_IP'];
-            }
-        }
-        $purpose = str_replace(array("name", "\n", "\t", " ", "-", "_"), NULL, strtolower(trim($purpose)));
-        $support = array("country", "countrycode", "state", "region", "city", "location", "address");
-        $continents = array(
-            "AF" => "Africa",
-            "AN" => "Antarctica",
-            "AS" => "Asia",
-            "EU" => "Europe",
-            "OC" => "Australia (Oceania)",
-            "NA" => "North America",
-            "SA" => "South America"
-        );
-        if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
-            $ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
-            if (@strlen(trim($ipdat->geoplugin_countryCode)) == 2) {
-                switch ($purpose) {
-                    case "location":
-                        $output = array(
-                            "city" => @$ipdat->geoplugin_city,
-                            "state" => @$ipdat->geoplugin_regionName,
-                            "country" => @$ipdat->geoplugin_countryName,
-                            "country_code" => @$ipdat->geoplugin_countryCode,
-                            "continent" => @$continents[strtoupper($ipdat->geoplugin_continentCode)],
-                            "continent_code" => @$ipdat->geoplugin_continentCode
-                        );
-                        break;
-                    case "address":
-                        $address = array($ipdat->geoplugin_countryName);
-                        if (@strlen($ipdat->geoplugin_regionName) >= 1)
-                            $address[] = $ipdat->geoplugin_regionName;
-                        if (@strlen($ipdat->geoplugin_city) >= 1)
-                            $address[] = $ipdat->geoplugin_city;
-                        $output = implode(", ", array_reverse($address));
-                        break;
-                    case "city":
-                        $output = @$ipdat->geoplugin_city;
-                        break;
-                    case "state":
-                        $output = @$ipdat->geoplugin_regionName;
-                        break;
-                    case "region":
-                        $output = @$ipdat->geoplugin_regionName;
-                        break;
-                    case "country":
-                        $output = @$ipdat->geoplugin_countryName;
-                        break;
-                    case "countrycode":
-                        $output = @$ipdat->geoplugin_countryCode;
-                        break;
-                }
-            }
-        }
-        return $output;
-    }
-
-    public function get_ip_address() {
-
-// Check for shared Internet/ISP IP
-        if (!empty($_SERVER['HTTP_CLIENT_IP']) && validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
-            return $_SERVER['HTTP_CLIENT_IP'];
+            $peticion = explode('/', $pathInfo);
+            $seg0 = isset($peticion[0]) ? substr($peticion[0], 0, 10) : '';
+            $seg1 = isset($peticion[1]) ? substr($peticion[1], 0, 100) : '';
+            $datos = str_pad($seg0, 10) . ' ' . $seg1;
         }
 
-// Check for IP addresses passing through proxies
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        // ✅ Obtener país con timeout
+        $country = $this->ip_info($new_ip, 'Country') ?? 'Unknown';
 
-// Check if multiple IP addresses exist in var
-            if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',') !== false) {
-                $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                foreach ($iplist as $ip) {
-                    if (validate_ip($ip))
-                        return $ip;
-                }
-            } else {
-                if (validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']))
-                    return $_SERVER['HTTP_X_FORWARDED_FOR'];
-            }
-        }
-        if (!empty($_SERVER['HTTP_X_FORWARDED']) && validate_ip($_SERVER['HTTP_X_FORWARDED']))
-            return $_SERVER['HTTP_X_FORWARDED'];
-        if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
-            return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-        if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
-            return $_SERVER['HTTP_FORWARDED_FOR'];
-        if (!empty($_SERVER['HTTP_FORWARDED']) && validate_ip($_SERVER['HTTP_FORWARDED']))
-            return $_SERVER['HTTP_FORWARDED'];
+        $txt = str_pad($new_ip, 25) . ' ' .
+        str_pad($now->format('Y-m-d H:i:s'), 25) . ' ' .
+        str_pad($country, 25) . ' ' .
+        json_encode($datos, JSON_UNESCAPED_UNICODE);
 
-// Return unreliable IP address since all else failed
-        return $_SERVER['REMOTE_ADDR'];
+        // ✅ LOCK_EX para prevenir race conditions
+        @file_put_contents($this->archivo, $txt . PHP_EOL, FILE_APPEND | LOCK_EX);
+
+        // ✅ También registrar en BD si está disponible
+        $this->logVisitToDatabase($new_ip, $country);
     }
 
     /**
-     * Ensures an IP address is both a valid IP address and does not fall within
-     * a private network range.
+     * Registra visita en base de datos.
      */
-    public function validate_ip($ip) {
+    private function logVisitToDatabase(string $ip, string $country): void
+    {
+        try {
+            $path = $_SERVER['REQUEST_URI'] ?? '/';
+            $userAgent = substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 500);
 
-        if (strtolower($ip) === 'unknown')
-            return false;
-
-// Generate IPv4 network address
-        $ip = ip2long($ip);
-
-// If the IP address is set and not equivalent to 255.255.255.255
-        if ($ip !== false && $ip !== -1) {
-// Make sure to get unsigned long representation of IP address
-// due to discrepancies between 32 and 64 bit OSes and
-// signed numbers (ints default to signed in PHP)
-            $ip = sprintf('%u', $ip);
-
-// Do private network range checking
-            if ($ip >= 0 && $ip <= 50331647)
-                return false;
-            if ($ip >= 167772160 && $ip <= 184549375)
-                return false;
-            if ($ip >= 2130706432 && $ip <= 2147483647)
-                return false;
-            if ($ip >= 2851995648 && $ip <= 2852061183)
-                return false;
-            if ($ip >= 2886729728 && $ip <= 2887778303)
-                return false;
-            if ($ip >= 3221225984 && $ip <= 3221226239)
-                return false;
-            if ($ip >= 3232235520 && $ip <= 3232301055)
-                return false;
-            if ($ip >= 4294967040)
-                return false;
+            $stmt = $this->conn->prepare(
+                'INSERT INTO visit_logs (ip_address, country, path, user_agent, visited_at)
+            VALUES (:ip, :country, :path, :ua, NOW())'
+            );
+            $stmt->execute([
+                ':ip'      => $ip,
+                ':country' => substr($country, 0, 100),
+                           ':path'    => substr($path, 0, 500),
+                           ':ua'      => $userAgent,
+            ]);
+        } catch (PDOException $e) {
+            error_log('statistic logVisitToDatabase error: ' . $e->getMessage());
         }
-        return true;
+    }
+
+    /**
+     * Obtiene la IP del cliente.
+     *
+     * ✅ CORREGIDO: solo usa REMOTE_ADDR (previene IP spoofing)
+     * ✅ Excepción: CloudFlare (HTTP_CF_CONNECTING_IP) si es confiable
+     */
+    public function get_client_ip(): string
+    {
+        // ✅ CloudFlare (solo si es de confianza en tu infraestructura)
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                return $ip;
+            }
+        }
+
+        // ✅ REMOTE_ADDR es el más confiable
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+
+        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+            return '0.0.0.0';
+        }
+
+        return $ip;
+    }
+
+    /**
+     * Obtiene info de la IP desde geoplugin.
+     *
+     * ✅ CORREGIDO: timeout en file_get_contents
+     * ✅ CORREGIDO: validación de propósito
+     */
+    public function ip_info(?string $ip = null, string $purpose = 'location'): mixed
+    {
+        // ✅ Validar IP
+        if ($ip === null || !filter_var($ip, FILTER_VALIDATE_IP)) {
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+            if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+                return null;
+            }
+        }
+
+        // ✅ Validar propósito contra lista blanca
+        $purpose = strtolower(trim($purpose));
+        $purpose = str_replace([' ', '-', '_'], '', $purpose);
+        if (!in_array($purpose, self::IP_PURPOSES, true)) {
+            return null;
+        }
+
+        // ✅ Contexto con timeout (previene DoS)
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => 5, // ✅ Timeout de 5 segundos
+                'user_agent' => 'Statistic/1.0',
+            ],
+        ]);
+
+        $url = 'http://www.geoplugin.net/json.gp?ip=' . urlencode($ip);
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            return null;
+        }
+
+        $ipdat = @json_decode($response);
+        if (!$ipdat || !isset($ipdat->geoplugin_countryCode)) {
+            return null;
+        }
+
+        if (strlen(trim((string) $ipdat->geoplugin_countryCode)) !== 2) {
+            return null;
+        }
+
+        $continents = [
+            'AF' => 'Africa', 'AN' => 'Antarctica', 'AS' => 'Asia',
+            'EU' => 'Europe', 'OC' => 'Australia (Oceania)',
+            'NA' => 'North America', 'SA' => 'South America',
+        ];
+
+        return match ($purpose) {
+            'location' => [
+                'city'           => (string) ($ipdat->geoplugin_city ?? ''),
+                'state'          => (string) ($ipdat->geoplugin_regionName ?? ''),
+                'country'        => (string) ($ipdat->geoplugin_countryName ?? ''),
+                'country_code'   => (string) ($ipdat->geoplugin_countryCode ?? ''),
+                'continent'      => $continents[strtoupper((string) ($ipdat->geoplugin_continentCode ?? ''))] ?? 'Unknown',
+                'continent_code' => (string) ($ipdat->geoplugin_continentCode ?? ''),
+            ],
+            'address' => implode(', ', array_filter([
+                (string) ($ipdat->geoplugin_city ?? ''),
+                                                    (string) ($ipdat->geoplugin_regionName ?? ''),
+                                                    (string) ($ipdat->geoplugin_countryName ?? ''),
+            ])),
+            'city'          => (string) ($ipdat->geoplugin_city ?? ''),
+            'state', 'region' => (string) ($ipdat->geoplugin_regionName ?? ''),
+            'country'       => (string) ($ipdat->geoplugin_countryName ?? ''),
+            'countrycode'   => (string) ($ipdat->geoplugin_countryCode ?? ''),
+            default         => null,
+        };
+    }
+
+    /**
+     * Obtiene estadísticas de visitas.
+     */
+    public function getVisitStats(int $days = 30): array
+    {
+        $days = max(1, min($days, 365));
+
+        try {
+            $stmt = $this->conn->prepare(
+                'SELECT DATE(visited_at) as date, COUNT(*) as visits,
+                                         COUNT(DISTINCT ip_address) as unique_ips
+                                         FROM visit_logs
+                                         WHERE visited_at >= DATE_SUB(NOW(), INTERVAL :days DAY)
+            GROUP BY DATE(visited_at)
+            ORDER BY date DESC'
+            );
+            $stmt->bindValue(':days', $days, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('statistic getVisitStats error: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Obtiene países más visitados.
+     */
+    public function getTopCountries(int $limit = 10): array
+    {
+        $limit = max(1, min($limit, 100));
+
+        try {
+            $stmt = $this->conn->prepare(
+                'SELECT country, COUNT(*) as visits,
+                                         COUNT(DISTINCT ip_address) as unique_ips
+                                         FROM visit_logs
+                                         WHERE country IS NOT NULL AND country != ""
+                                         GROUP BY country
+                                         ORDER BY visits DESC
+                                         LIMIT :limit'
+            );
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('statistic getTopCountries error: ' . $e->getMessage());
+            return [];
+        }
     }
 }
-?>

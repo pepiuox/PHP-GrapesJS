@@ -7,60 +7,56 @@
 //
 class AdminProcess
 {
-    /* Class constructor */
-
     public $session;
-    protected $conn;
+    protected PDO $conn;
     public $form;
 
-    public function __construct()
+    public function __construct(PDO $conn, $session, $form)
     {
-        global $session, $uconn, $form;
         $this->session = $session;
         $this->conn = $conn;
         $this->form = $form;
-        /* Make sure administrator is accessing page */
+
+        /* Verificar que el administrador esté accediendo */
         if (!$this->session->isAdmin()) {
             header("Location: ../index.php");
             return;
         }
 
-        if (isset($_POST["subjoin"])) {
-            /* Admin submitted update user valid form */
-            $this->procRegisterUser();
-        } elseif (isset($_POST["subupdvalid"])) {
-            /* Admin submitted update user valid form */
-            $this->procUpdateValid();
-        } elseif (isset($_POST["subupdlevel"])) {
-            /* Admin submitted update user level form */
-            $this->procUpdateLevel();
-        } elseif (isset($_POST["subdeluser"])) {
-            /* Admin submitted Eliminar Usuario form */
-            $this->procDeleteUser();
-        } elseif (isset($_POST["subdelinact"])) {
-            /* Admin submitted delete inactive users form */
-            $this->procDeleteInactive();
-        } elseif (isset($_POST["subbanuser"])) {
-            /* Admin submitted ban user form */
-            $this->procBanUser();
-        } elseif (isset($_POST["subdelbanned"])) {
-            /* Admin submitted delete banned user form */
-            $this->procDeleteBannedUser();
-        } else {
-            /* Should not get here, redirect to home page */
+        /* Router de acciones */
+        $actions = [
+            'subjoin'      => 'procRegisterUser',
+            'subupdvalid'  => 'procUpdateValid',
+            'subupdlevel'  => 'procUpdateLevel',
+            'subdeluser'   => 'procDeleteUser',
+            'subdelinact'  => 'procDeleteInactive',
+            'subbanuser'   => 'procBanUser',
+            'subdelbanned' => 'procDeleteBannedUser',
+        ];
+
+        $executed = false;
+        foreach ($actions as $postKey => $method) {
+            if (isset($_POST[$postKey])) {
+                $this->$method();
+                $executed = true;
+                break;
+            }
+        }
+
+        if (!$executed) {
             header("Location: ../index.php");
             exit;
         }
     }
 
-    public function procRegisterUser()
+    public function procRegisterUser(): void
     {
         $_POST = $this->session->cleanInput($_POST);
-        /* Convert username to all lowercase (by option) */
-        if (ALL_LOWERCASE) {
+
+        if (defined('ALL_LOWERCASE') && ALL_LOWERCASE) {
             $_POST["user"] = strtolower($_POST["user"]);
         }
-        /* Registration attempt */
+
         $retval = $this->session->register(
             $_POST["user"],
             $_POST["pass"],
@@ -68,187 +64,208 @@ class AdminProcess
             $_POST["name"]
         );
 
-        /* Registration Successful */
         if ($retval == 0) {
             $_SESSION["reguname"] = $_POST["user"];
             $_SESSION["regsuccess"] = true;
-            header("Location: " . $this->session->referrer);
-            exit;
-        } /* Error found with form */ elseif ($retval == 1) {
+        } elseif ($retval == 1) {
             $_SESSION["value_array"] = $_POST;
             $_SESSION["error_array"] = $this->form->getErrorArray();
-            header("Location: " . $this->session->referrer);
-            exit;
-        } /* Registration attempt failed */ elseif ($retval == 2) {
+        } elseif ($retval == 2) {
             $_SESSION["reguname"] = $_POST["user"];
             $_SESSION["regsuccess"] = false;
+        }
+
+        header("Location: " . $this->session->referrer);
+        exit;
+    }
+
+    public function procUpdateValid(): void
+    {
+        $subuser = $this->checkUsername("valuser");
+
+        if ($this->form->num_errors > 0) {
+            $_SESSION["value_array"] = $_POST;
+            $_SESSION["error_array"] = $this->form->getErrorArray();
             header("Location: " . $this->session->referrer);
             exit;
         }
+
+        // ✅ CORREGIDO: usa prepared statements
+        $query = "UPDATE uverify SET valid = :valid WHERE username = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            ':valid' => (int) $_POST["updvalid"],
+                       ':username' => $subuser,
+        ]);
+
+        header("Location: " . $this->session->referrer);
+        exit;
     }
 
-    /**
-     * procUpdateValid - If the submitted username is correct,
-     * their user valid is updated according to the admin's
-     * request.
-     */
-    public function procUpdateValid()
+    public function procUpdateLevel(): void
     {
-        /* Username error checking */
-        $subuser = $this->checkUsername("valuser");
-
-        /* Errors exist, have user correct them */
-        if ($this->form->num_errors > 0) {
-            $_SESSION["value_array"] = $_POST;
-            $_SESSION["error_array"] = $this->form->getErrorArray();
-            header("Location: " . $this->session->referrer);
-        } /* Update user valid */ else {
-            $this->conn->validUserField(
-                $subuser,
-                "valid",
-                (int) $_POST["updvalid"]
-            );
-            header("Location: " . $this->session->referrer);
-        }
-    }
-
-    /**
-     * procUpdateLevel - If the submitted username is correct,
-     * their user level is updated according to the admin's
-     * request.
-     */
-    public function procUpdateLevel()
-    {
-        /* Username error checking */
         $subuser = $this->checkUsername("upduser");
 
-        /* Errors exist, have user correct them */
         if ($this->form->num_errors > 0) {
             $_SESSION["value_array"] = $_POST;
             $_SESSION["error_array"] = $this->form->getErrorArray();
             header("Location: " . $this->session->referrer);
-        } /* Update user level */ else {
-            $this->conn->updateUserField(
-                $subuser,
-                "userlevel",
-                (int) $_POST["updlevel"]
-            );
-            header("Location: " . $this->session->referrer);
+            exit;
         }
+
+        // ✅ CORREGIDO: usa prepared statements
+        $query = "UPDATE uverify SET level = :level WHERE username = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            ':level' => (int) $_POST["updlevel"],
+                       ':username' => $subuser,
+        ]);
+
+        header("Location: " . $this->session->referrer);
+        exit;
     }
 
-    /**
-     * procDeleteUser - If the submitted username is correct,
-     * the user is deleted from the database.
-     */
-    public function procDeleteUser()
+    public function procDeleteUser(): void
     {
-        /* Username error checking */
         $subuser = $this->checkUsername("deluser");
 
-        /* Errors exist, have user correct them */
         if ($this->form->num_errors > 0) {
             $_SESSION["value_array"] = $_POST;
             $_SESSION["error_array"] = $this->form->getErrorArray();
             header("Location: " . $this->session->referrer);
-        } /* Eliminar Usuario from database */ else {
-            $q = "DELETE FROM uverify WHERE username = '$subuser'";
-            $this->conn->query($q);
-            header("Location: " . $this->session->referrer);
+            exit;
         }
-    }
 
-    /**
-     * procDeleteInactive - All inactive users are deleted from
-     * the database, not including administrators. Inactivity
-     * is defined by the number of days specified that have
-     * gone by that the user has not logged in.
-     */
-    public function procDeleteInactive()
-    {
-        $inact_time = $this->session->time - $_POST["inactdays"] * 24 * 60 * 60;
-        $q =
-            "DELETE FROM uverify WHERE timestamp < $inact_time " .
-            "AND level != " .
-            ADMIN_LEVEL;
-        $this->conn->query($q);
+        // 🔒 CORREGIDO: SQL injection crítico eliminado
+        $query = "DELETE FROM uverify WHERE username = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':username' => $subuser]);
+
         header("Location: " . $this->session->referrer);
+        exit;
     }
 
-    /**
-     * procBanUser - If the submitted username is correct,
-     * the user is banned from the member system, which entails
-     * removing the username from the users table and adding
-     * it to the banned users table.
-     */
-    public function procBanUser()
+    public function procDeleteInactive(): void
     {
-        /* Username error checking */
+        $inactDays = (int) ($_POST["inactdays"] ?? 0);
+        if ($inactDays <= 0) {
+            header("Location: " . $this->session->referrer);
+            exit;
+        }
+
+        $inactTime = time() - ($inactDays * 24 * 60 * 60);
+        $adminLevel = defined('ADMIN_LEVEL') ? ADMIN_LEVEL : 9;
+
+        // 🔒 CORREGIDO: SQL injection crítico eliminado
+        $query = "DELETE FROM uverify
+        WHERE timestamp < :inact_time AND level != :admin_level";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            ':inact_time' => $inactTime,
+            ':admin_level' => $adminLevel,
+        ]);
+
+        header("Location: " . $this->session->referrer);
+        exit;
+    }
+
+    public function procBanUser(): void
+    {
         $subuser = $this->checkUsername("banuser");
 
-        /* Errors exist, have user correct them */
         if ($this->form->num_errors > 0) {
             $_SESSION["value_array"] = $_POST;
             $_SESSION["error_array"] = $this->form->getErrorArray();
             header("Location: " . $this->session->referrer);
-        } /* Ban user from member system */ else {
-            $q = "DELETE FROM uverify WHERE username = '$subuser'";
-            $this->conn->query($q);
-
-            $q = "INSERT INTO banned_users VALUES ('$subuser', $this->session->time)";
-            $this->conn->query($q);
-            header("Location: " . $this->session->referrer);
+            exit;
         }
+
+        // 🔒 CORREGIDO: SQL injection crítico eliminado
+        $this->conn->beginTransaction();
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM uverify WHERE username = :username");
+            $stmt->execute([':username' => $subuser]);
+
+            $stmt = $this->conn->prepare(
+                "INSERT INTO banned_users (username, timestamp) VALUES (:username, :time)"
+            );
+            $stmt->execute([
+                ':username' => $subuser,
+                ':time' => time(),
+            ]);
+
+            $this->conn->commit();
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log("Error banning user: " . $e->getMessage());
+        }
+
+        header("Location: " . $this->session->referrer);
+        exit;
     }
 
-    /**
-     * procDeleteBannedUser - If the submitted username is correct,
-     * the user is deleted from the banned users table, which
-     * enables someone to register with that username again.
-     */
-    public function procDeleteBannedUser()
+    public function procDeleteBannedUser(): void
     {
-        /* Username error checking */
         $subuser = $this->checkUsername("delbanuser", true);
 
-        /* Errors exist, have user correct them */
         if ($this->form->num_errors > 0) {
             $_SESSION["value_array"] = $_POST;
             $_SESSION["error_array"] = $this->form->getErrorArray();
             header("Location: " . $this->session->referrer);
-        } /* Eliminar Usuario from database */ else {
-            $q = "DELETE FROM banned_users WHERE username = '$subuser'";
-            $this->conn->query($q);
-            header("Location: " . $this->session->referrer);
+            exit;
         }
+
+        // 🔒 CORREGIDO: SQL injection crítico eliminado
+        $query = "DELETE FROM banned_users WHERE username = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':username' => $subuser]);
+
+        header("Location: " . $this->session->referrer);
+        exit;
     }
 
     /**
-     * checkUsername - Helper function for the above processing,
-     * it makes sure the submitted username is valid, if not,
-     * it adds the appropritate error to the form.
+     * Valida el username enviado por el formulario.
      */
-    public function checkUsername($uname, $ban = false)
+    public function checkUsername(string $uname, bool $ban = false): string
     {
-        /* Username error checking */
-        $subuser = $_POST[$uname];
-        $field = $uname; //Use field name for username
-        if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
+        $subuser = trim($_POST[$uname] ?? '');
+        $field = $uname;
+
+        if ($subuser === '' || strlen($subuser) === 0) {
             $this->form->setError($field, "* Usuario no aceptado<br>");
-        } else {
-            /* Make sure username is in database */
-            $subuser = stripslashes($subuser);
-            if (
-                strlen($subuser) < 5 ||
-                strlen($subuser) > 30 ||
-                !preg_match("/^([0-9a-z])+$/i", $subuser) ||
-                (!$ban && !$this->conn->usernameTaken($subuser))
-            ) {
-                $this->form->setError($field, "* El usuario no existe<br>");
-            }
+            return '';
         }
+
+        $subuser = stripslashes($subuser);
+
+        if (strlen($subuser) < 5 || strlen($subuser) > 30) {
+            $this->form->setError($field, "* Longitud de usuario inválida<br>");
+            return '';
+        }
+
+        if (!preg_match("/^([0-9a-z])+$/i", $subuser)) {
+            $this->form->setError($field, "* Caracteres no permitidos<br>");
+            return '';
+        }
+
+        if (!$ban && !$this->usernameExists($subuser)) {
+            $this->form->setError($field, "* El usuario no existe<br>");
+            return '';
+        }
+
         return $subuser;
     }
-}
 
+    /**
+     * Verifica si un username existe en la base de datos (usando PDO).
+     */
+    private function usernameExists(string $username): bool
+    {
+        $query = "SELECT COUNT(*) FROM uverify WHERE username = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':username' => $username]);
+        return (int) $stmt->fetchColumn() > 0;
+    }
+}
 ?>

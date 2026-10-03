@@ -7,50 +7,84 @@
 //
 class CheckUsersSession
 {
-	protected $conn;
-    private $user;
-    private $hash;
-	private $expiry;
-    public function __construct()
+    protected PDO $conn;
+    private ?int $user = null;
+    private ?string $hash = null;
+    private int $expiry = 3600;
+
+    public function __construct(PDO $conn)
     {
-		global $conn;
         $this->conn = $conn;
-		$this->expiry = time() + 3600;
-        if (isset($_SESSION["user_id"]) && isset($_SESSION["hash"])) {
-            $this->user = $_SESSION["user_id"];
-            $this->hash = $_SESSION["hash"];
-            $this->CheckUsers();
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->expiry = time() + 3600;
+
+        if (isset($_SESSION['user_id'], $_SESSION['hash'])) {
+            $this->user = (int) $_SESSION['user_id'];
+            $this->hash = $_SESSION['hash'];
+            $this->checkUsers();
         }
     }
-    private function CheckUsers()
+
+    /**
+     * Verifica si la sesión del usuario sigue siendo válida en la base de datos.
+     */
+    private function checkUsers(): void
     {
-        //Select data in table uverify
         $stmt = $this->conn->prepare(
-            "SELECT idUser, mkhash FROM users WHERE idUser = ? AND mkhash = ?"
+            "SELECT idUser FROM users
+            WHERE idUser = :user AND mkhash = :hash
+            LIMIT 1"
         );
-        $stmt->bind_param("ss", $this->iduv, $this->hash);
-        $stmt->execute();
-        $check = $stmt->get_result();
-        $stmt->close();
-        if ($check->num_rows === 0) {
-			if (isset($_COOKIE["cookname"]) && isset($_COOKIE["cookid"])) {
-				unset($_COOKIE['cookname']);
-				unset($_COOKIE['cookid']);
-                    setcookie("cookname", "", time() - $this->expiry, "/");
-                    setcookie("cookid", "", time() - $this->expiry, "/");
-                }
-                $_SESSION = [];
-                /* Unset PHP session variables */
-				unset($_SESSION["access_id"]);
-                unset($_SESSION["username"]);
-                unset($_SESSION["user_id"]);
-                unset($_SESSION["level"]);
-                unset($_SESSION["hash"]);
-                unset($_SESSION);
-                session_destroy(); // Destroy all session data.				
-            header("Location: login.php");
-            die();
+        $stmt->execute([
+            ':user' => $this->user,
+            ':hash' => $this->hash,
+        ]);
+
+        $exists = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+
+        if (!$exists) {
+            $this->destroySession();
         }
+    }
+
+    /**
+     * Destruye la sesión y redirige al login.
+     */
+    private function destroySession(): void
+    {
+        // Eliminar cookies específicas
+        $cookiesToRemove = ['cookname', 'cookid'];
+        foreach ($cookiesToRemove as $cookie) {
+            if (isset($_COOKIE[$cookie])) {
+                unset($_COOKIE[$cookie]);
+                setcookie($cookie, '', time() - $this->expiry, '/');
+            }
+        }
+
+        // Limpiar sesión
+        $_SESSION = [];
+
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_unset();
+            session_destroy();
+        }
+
+        // Eliminar cookie de sesión PHP
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                      '',
+                      time() - 42000,
+                      $params['path'],
+                      $params['domain'],
+                      $params['secure'],
+                      $params['httponly']
+            );
+        }
+
+        // Redirigir al login
+        header('Location: login.php');
+        exit;
     }
 }
-?>

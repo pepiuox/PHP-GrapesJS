@@ -1,696 +1,550 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
+declare(strict_types=1);
+
 /**
- * Session.php
- * 
+ * Gestión de sesiones y autenticación de usuarios.
+ * Migrado a PDO con seguridad mejorada.
+ *
+ * CORRECCIONES CRÍTICAS:
+ * - md5() reemplazado por password_hash()/password_verify()
+ * - SQL Injection en updateUserField() corregido (column name injection)
+ * - Cookies seguras (HttpOnly, Secure, SameSite)
+ * - mt_rand() reemplazado por random_int()
+ * - Regex de email mejorada (usando filter_var)
+ * - stripslashes() eliminado (deprecado)
+ * - CSRF protection añadida
+ * - Rate limiting en login
  */
-class Session {
+class Session
+{
+    public Form $form;
+    public Mailer $mailer;
+    protected PDO $conn;
+    private string $username;
+    private string $userid;
+    private int $userlevel;
+    public int $time;
+    public bool $logged_in;
+    public array $userinfo = [];
+    public string $url;
+    public string $referrer;
 
-    public $form;
-    public $mailer;
-    protected $conn;
-    private $username;     //Username given on sign-up
-    private $userid;       //Random value generated on current login
-    private $userlevel;    //The level to which the user pertains
-    public $time;         //Time user was active (page loaded)
-    public $logged_in;    //True if user is logged in, false otherwise
-    public $userinfo = array();  //The array holding all user info
-    public $url;          //The page url current being viewed
-    public $referrer;     //Last recorded site page viewed
-
-    /**
-     * Note: referrer should really only be considered the actual
-     * page referrer in process.php, any other time it may be
-     * inaccurate.
-     */
-    /* Class constructor */
-
-    public function __construct() {
-        global $conn;
-        $this->conn = $conn;
+    public function __construct(PDO $connection, Form $form, Mailer $mailer)
+    {
+        $this->conn = $connection;
+        $this->form = $form;
+        $this->mailer = $mailer;
         $this->time = time();
         $this->startSession();
     }
 
     /**
-     * startSession - Performs all the actions necessary to 
-     * initialize this session object. Tries to determine if the
-     * the user has logged in already, and sets the variables 
-     * accordingly. Also takes advantage of this page load to
-     * update the active visitors tables.
+     * Configuración segura de sesión.
      */
-    public function startSession() {
+    private function configureSession(): void
+    {
+        // ✅ Configuración segura de cookies de sesión
+        $cookieParams = [
+            'lifetime' => 0,
+            'path'     => '/',
+            'domain'   => '',
+            'secure'   => true,
+            'httponly'  => true,
+            'samesite'  => 'Strict',
+        ];
+        session_set_cookie_params($cookieParams);
 
-        session_start();   //Tell PHP to start the session
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.use_only_cookies', '1');
+        ini_set('session.cookie_httponly', '1');
+        ini_set('session.cookie_secure', '1');
+        ini_set('session.cookie_samesite', 'Strict');
+    }
 
-        /* Determine if user is logged in */
+    public function startSession(): void
+    {
+        $this->configureSession();
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $this->logged_in = $this->checkLogin();
 
-        /**
-         * Set guest value to users not logged in, and update
-         * active guests table accordingly.
-         */
         if (!$this->logged_in) {
             $this->username = $_SESSION['username'] = GUEST_NAME;
             $this->userlevel = GUEST_LEVEL;
-            $this->conn->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
-        }
-        /* Update users active timestamp */ else {
-            $this->conn->addActiveUser($this->username, $this->time);
-        }
-
-        /* Remove inactive visitors from database */
-        $this->conn->removeInactiveUsers();
-        $this->conn->removeInactiveGuests();
-
-        /* Set referrer page */
-        if (isset($_SESSION['url'])) {
-            $this->referrer = $_SESSION['url'];
+            $this->addActiveGuest($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0', $this->time);
         } else {
-            $this->referrer = "/";
+            $this->addActiveUser($this->username, $this->time);
         }
 
-        /* Set current url */
-        $this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'];
+        $this->removeInactiveUsers();
+        $this->removeInactiveGuests();
+
+        $this->referrer = $_SESSION['referrer'] ?? '/';
+        $this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'] ?? '/';
     }
 
-    /**
-     * checkLogin - Checks if the user has already previously
-     * logged in, and a session with the user has already been
-     * established. Also checks to see if user has been remembered.
-     * If so, the database is queried to make sure of the user's 
-     * authenticity. Returns true if the user has logged in.
-     */
-    public function checkLogin() {
-
-        /* Check if user has been remembered */
-        if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
+    public function checkLogin(): bool
+    {
+        // ✅ Verificar cookies "remember me"
+        if (isset($_COOKIE['cookname'], $_COOKIE['cookid'])) {
             $this->username = $_SESSION['username'] = $_COOKIE['cookname'];
             $this->userid = $_SESSION['user_id'] = $_COOKIE['cookid'];
         }
 
-        /* Username and userid have been set and not guest */
-        if (isset($_SESSION['username']) && isset($_SESSION['user_id']) &&
-                $_SESSION['username'] != GUEST_NAME) {
-            /* Confirm that username and userid are valid */
-            if ($this->conn->confirmUserID($_SESSION['username'], $_SESSION['user_id']) != 0) {
-                /* Variables are incorrect, user not logged in */
-                unset($_SESSION['username']);
-                unset($_SESSION['user_id']);
+        if (isset($_SESSION['username'], $_SESSION['user_id']) &&
+            $_SESSION['username'] !== GUEST_NAME) {
+
+            if ($this->confirmUserID($_SESSION['username'], $_SESSION['user_id']) !== 0) {
+                unset($_SESSION['username'], $_SESSION['user_id']);
                 return false;
             }
 
-            /* User is logged in, set class variables */
-            $this->userinfo = $this->conn->getUserInfo($_SESSION['username']);
-            $this->username = $this->userinfo['username'];
-            $this->userid = $this->userinfo['user_id'];
-            $this->userlevel = $this->userinfo['userlevel'];
-            return true;
-        }
-        /* User not logged in */ else {
+            $this->userinfo = $this->getUserInfo($_SESSION['username']);
+        if (empty($this->userinfo)) {
             return false;
         }
+
+        $this->username  = $this->userinfo['username'];
+        $this->userid    = $this->userinfo['user_id'];
+        $this->userlevel = (int) $this->userinfo['userlevel'];
+        return true;
+            }
+
+            return false;
     }
 
     /**
-     * login - The user has submitted his username and password
-     * through the login form, this public function checks the authenticity
-     * of that information in the database and creates the session.
-     * Effectively logging in the user if all goes well.
+     * Login con password_hash/password_verify.
+     *
+     * ✅ CORREGIDO: ahora usa password_verify() en lugar de md5()
      */
-    public function login($subuser, $subpass, $subremember) {
-
-        /* Username error checking */
-        $field = "user";  //Use field name for username
-        if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
-            $this->form->setError($field, "* You did not enter the Username ");
-        } else {
-            /* Check if username is not alphanumeric */
-            if (!preg_match("/^([0-9a-z])*$/", $subuser)) {
-                $this->form->setError($field, "* Username is non-alphanumeric ");
-            }
+    public function login(string $subuser, string $subpass, bool $subremember): bool
+    {
+        // ✅ CSRF validation
+        if (!Utils::verifyCSRFToken($_POST['csrf_token'] ?? null)) {
+            $this->form->setError('csrf', 'Token CSRF inválido');
+            return false;
         }
 
-        /* Password error checking */
-        $field = "pass";  //Use field name for password
-        if (!$subpass) {
-            $this->form->setError($field, "* You did not enter the password ");
+        // ✅ Rate limiting
+        if (!$this->checkLoginRateLimit()) {
+            $this->form->setError('user', 'Demasiados intentos. Intente más tarde.');
+            return false;
         }
 
-        /* Return if form errors exist */
+        $field = 'user';
+        $subuser = trim($subuser);
+        if (empty($subuser)) {
+            $this->form->setError($field, '* Ingrese el nombre de usuario');
+        } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $subuser)) {
+            $this->form->setError($field, '* Nombre de usuario no alfanumérico');
+        }
+
+        $field = 'pass';
+        if (empty($subpass)) {
+            $this->form->setError($field, '* Ingrese la contraseña');
+        }
+
         if ($this->form->num_errors > 0) {
             return false;
         }
 
-        /* Checks that username is in database and password is correct */
-        $subuser = stripslashes($subuser);
-        $result = $this->conn->confirmUserPass($subuser, md5($subpass));
+        // ✅ Obtener usuario de BD
+        $stmt = $this->conn->prepare(
+            'SELECT username, password, userlevel FROM users WHERE username = :u LIMIT 1'
+        );
+        $stmt->execute([':u' => $subuser]);
+        $user = $stmt->fetch();
 
-        /* Check error codes */
-        if ($result == 1) {
-            $field = "user";
-            $this->form->setError($field, "* User not found ");
-        } else if ($result == 2) {
-            $field = "pass";
-            $this->form->setError($field, "* Invalid password");
-        }
-
-        /* Return if form errors exist */
-        if ($this->form->num_errors > 0) {
+        if (!$user) {
+            $this->form->setError('user', '* Usuario no encontrado');
+            $this->recordLoginAttempt();
             return false;
         }
 
-        /* Username and password correct, register session variables */
-        $this->userinfo = $this->conn->getUserInfo($subuser);
+        // ✅ password_verify() en lugar de md5()
+        if (!password_verify($subpass, $user['password'])) {
+            $this->form->setError('pass', '* Contraseña inválida');
+            $this->recordLoginAttempt();
+            return false;
+        }
+
+        // ✅ Login exitoso
+        $this->userinfo = $this->getUserInfo($subuser);
         $this->username = $_SESSION['username'] = $this->userinfo['username'];
         $this->userid = $_SESSION['user_id'] = $this->generateRandID();
-        $this->userlevel = $this->userinfo['userlevel'];
+        $this->userlevel = (int) $this->userinfo['userlevel'];
 
-        /* Insert userid into database and update active users table */
-        $this->conn->updateUserField($this->username, "user_id", $this->userid);
-        $this->conn->addActiveUser($this->username, $this->time);
-        $this->conn->removeActiveGuest($_SERVER['REMOTE_ADDR']);
+        // ✅ Regenerar ID de sesión tras login
+        session_regenerate_id(true);
 
-        /**
-         * This is the cool part: the user has requested that we remember that
-         * he's logged in, so we set two cookies. One to hold his username,
-         * and one to hold his random value userid. It expires by the time
-         * specified in constants.php. Now, next time he comes to our site, we will
-         * log him in automatically, but only if he didn't log out before he left.
-         */
+        $this->updateUserFieldSecure($this->username, 'user_id', $this->userid);
+        $this->addActiveUser($this->username, $this->time);
+        $this->removeActiveGuest($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+
+        // ✅ Cookies seguras
         if ($subremember) {
-            setcookie("cookname", $this->username, time() + COOKIE_EXPIRE, COOKIE_PATH);
-            setcookie("cookid", $this->userid, time() + COOKIE_EXPIRE, COOKIE_PATH);
+            $cookieOptions = [
+                'expires'  => time() + COOKIE_EXPIRE,
+                'path'     => COOKIE_PATH,
+                'domain'   => '',
+                'secure'   => true,
+                'httponly'  => true,
+                'samesite'  => 'Strict',
+            ];
+            setcookie('cookname', $this->username, $cookieOptions);
+            setcookie('cookid', $this->userid, $cookieOptions);
         }
 
-        /* Login completed successfully */
+        $this->resetLoginRateLimit();
         return true;
     }
 
-    /**
-     * logout - Gets called when the user wants to be logged out of the
-     * website. It deletes any cookies that were stored on the users
-     * computer as a result of him wanting to be remembered, and also
-     * unsets session variables and demotes his user level to guest.
-     */
-    public function logout() {
-
-        /**
-         * Delete cookies - the time must be in the past,
-         * so just negate what you added when creating the
-         * cookie.
-         */
-        if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
-            setcookie("cookname", "", time() - COOKIE_EXPIRE, COOKIE_PATH);
-            setcookie("cookid", "", time() - COOKIE_EXPIRE, COOKIE_PATH);
+    public function logout(): void
+    {
+        if (isset($_COOKIE['cookname'], $_COOKIE['cookid'])) {
+            $cookieOptions = [
+                'expires'  => time() - 3600,
+                'path'     => COOKIE_PATH,
+                'domain'   => '',
+                'secure'   => true,
+                'httponly'  => true,
+                'samesite'  => 'Strict',
+            ];
+            setcookie('cookname', '', $cookieOptions);
+            setcookie('cookid', '', $cookieOptions);
         }
 
-        /* Unset PHP session variables */
-        unset($_SESSION['username']);
-        unset($_SESSION['user_id']);
-
-        /* Reflect fact that user has logged out */
+        $_SESSION = [];
         $this->logged_in = false;
 
-        /**
-         * Remove from active users table and add to
-         * active guests tables.
-         */
-        $this->conn->removeActiveUser($this->username);
-        $this->conn->addActiveGuest($_SERVER['REMOTE_ADDR'], $this->time);
+        $this->removeActiveUser($this->username);
+        $this->addActiveGuest($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0', $this->time);
 
-        /* Set user level to guest */
         $this->username = GUEST_NAME;
         $this->userlevel = GUEST_LEVEL;
+
+        session_destroy();
     }
 
     /**
-     * register - Gets called when the user has just submitted the
-     * registration form. Determines if there were any errors with
-     * the entry fields, if so, it records the errors and returns
-     * 1. If no errors were found, it registers the new user and
-     * returns 0. Returns 2 if registration failed.
+     * Registro con password_hash.
+     *
+     * ✅ CORREGIDO: ahora usa password_hash() en lugar de md5()
      */
-    public function register($subuser, $subpass, $subemail) {
-
-        /* Username error checking */
-        $field = "user";  //Use field name for username
-        if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
-            $this->form->setError($field, "* Nombre de usuario no introducido");
-        } else {
-            /* Spruce up username, check length */
-            $subuser = stripslashes($subuser);
-            if (strlen($subuser) < 5) {
-                $this->form->setError($field, "* Nombre de usuario debajo de los 5 caracteres");
-            } else if (strlen($subuser) > 30) {
-                $this->form->setError($field, "* Nombre de usuario por encima de 30 caracteres");
-            }
-            /* Check if username is not alphanumeric */ else if (!preg_match("/^([0-9a-z_])+$/", $subuser)) {
-                $this->form->setError($field, "* Nombre de usuario no alfanumérico");
-            }
-            /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
-                $this->form->setError($field, "* Nombre de usuario palabra reservada");
-            }
-            /* Check if username is already in use */ else if ($this->conn->usernameTaken($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario ya está en uso");
-            }
-            /* Check if username is banned */ else if ($this->conn->usernameBanned($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario prohibido");
-            }
+    public function register(string $subuser, string $subpass, string $subemail): int
+    {
+        // ✅ CSRF validation
+        if (!Utils::verifyCSRFToken($_POST['csrf_token'] ?? null)) {
+            $this->form->setError('csrf', 'Token CSRF inválido');
+            return 1;
         }
 
-        /* Password error checking */
-        $field = "pass";  //Use field name for password
-        if (!$subpass) {
-            $this->form->setError($field, "* La contraseña no entrodujo");
-        } else {
-            /* Spruce up password and check length */
-            $subpass = stripslashes($subpass);
-            if (strlen($subpass) < 5) {
-                $this->form->setError($field, "* Contraseña demasiado corta");
-            }
-            /* Check if password is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", ($subpass = trim($subpass)))) {
-                $this->form->setError($field, "* La contraseña no es alfanumérico");
-            }
-            /**
-             * Note: I trimmed the password only after I checked the length
-             * because if you fill the password field up with spaces
-             * it looks like a lot more characters than 4, so it looks
-             * kind of stupid to report "password too short".
-             */
+        $subuser = trim($subuser);
+        $subemail = trim($subemail);
+
+        // Validación username
+        if (empty($subuser)) {
+            $this->form->setError('user', '* Nombre de usuario no introducido');
+        } elseif (strlen($subuser) < 5 || strlen($subuser) > 30) {
+            $this->form->setError('user', '* Nombre de usuario debe tener entre 5 y 30 caracteres');
+        } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $subuser)) {
+            $this->form->setError('user', '* Nombre de usuario no alfanumérico');
+        } elseif (strcasecmp($subuser, GUEST_NAME) === 0) {
+            $this->form->setError('user', '* Nombre de usuario reservado');
+        } elseif ($this->usernameTaken($subuser)) {
+            $this->form->setError('user', '* Nombre de usuario ya está en uso');
+        } elseif ($this->usernameBanned($subuser)) {
+            $this->form->setError('user', '* Nombre de usuario prohibido');
         }
 
-        /* Email error checking */
-        $field = "email";  //Use field name for email
-        if (!$subemail || strlen($subemail = trim($subemail)) == 0) {
-            $this->form->setError($field, "* El correo electrónico no entró");
-        } else {
-            /* Check if valid email address */
-            $regex = "/^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
-                    . "@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
-                    . "\.([a-z]{2,}){1}$/";
-            if (!preg_match($regex, $subemail)) {
-                $this->form->setError($field, "* El correo electrónico no es válido");
-            }
-            $subemail = stripslashes($subemail);
+        // Validación password
+        if (empty($subpass)) {
+            $this->form->setError('pass', '* Contraseña no introducida');
+        } elseif (strlen($subpass) < 8) {
+            $this->form->setError('pass', '* Contraseña demasiado corta (mínimo 8 caracteres)');
         }
 
-        /* Errors exist, have user correct them */
+        // ✅ Validación email con filter_var (más robusta que regex)
+        if (empty($subemail)) {
+            $this->form->setError('email', '* Email no introducido');
+        } elseif (!filter_var($subemail, FILTER_VALIDATE_EMAIL)) {
+            $this->form->setError('email', '* Email no válido');
+        }
+
         if ($this->form->num_errors > 0) {
-            return 1;  //Errors with form
-        }
-        /* No errors, add the new account to the */ else {
-            if ($this->conn->addNewUser($subuser, md5($subpass), $subemail)) {
-                if (EMAIL_WELCOME) {
-                    $this->mailer->sendWelcome($subuser, $subemail, $subpass);
-                }
-                return 0;  //Nueva user added succesfully
-            } else {
-                return 2;  //Registration attempt failed
-            }
-        }
-    }
-
-    public function SessionMasterRegister($subuser, $subpass, $subemail) {
-
-        /* Username error checking */
-        $field = "user";  //Use field name for username
-        if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
-            $this->form->setError($field, "* Nombre de usuario no introducido");
-        } else {
-            /* Spruce up username, check length */
-            $subuser = stripslashes($subuser);
-            if (strlen($subuser) < 6) {
-                $this->form->setError($field, "* Nombre de usuario debajo de los 6 caracteres");
-            } else if (strlen($subuser) > 30) {
-                $this->form->setError($field, "* Nombre de usuario por encima de 30 caracteres");
-            }
-            /* Check if username is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", $subuser)) {
-                $this->form->setError($field, "* Nombre de usuario no alfanumérico");
-            }
-            /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
-                $this->form->setError($field, "* Nombre de usuario palabra reservada");
-            }
-            /* Check if username is already in use */ else if ($this->conn->usernameTaken($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario ya está en uso");
-            }
-            /* Check if username is banned */ else if ($this->conn->usernameBanned($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario prohibido");
-            }
+            return 1;
         }
 
-        /* Password error checking */
-        $field = "pass";  //Use field name for password
-        if (!$subpass) {
-            $this->form->setError($field, "* La contraseña no entrodujo");
-        } else {
-            /* Spruce up password and check length */
-            $subpass = stripslashes($subpass);
-            if (strlen($subpass) < 4) {
-                $this->form->setError($field, "* Contraseña demasiado corta");
+        // ✅ password_hash() en lugar de md5()
+        $passwordHash = password_hash($subpass, PASSWORD_BCRYPT, ['cost' => 12]);
+
+        if ($this->addNewUser($subuser, $passwordHash, $subemail)) {
+            if (defined('EMAIL_WELCOME') && EMAIL_WELCOME) {
+                $this->mailer->sendWelcome($subuser, $subemail, $subpass);
             }
-            /* Check if password is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", ($subpass = trim($subpass)))) {
-                $this->form->setError($field, "* La contraseña no alfanumérico");
-            }
-            /**
-             * Note: I trimmed the password only after I checked the length
-             * because if you fill the password field up with spaces
-             * it looks like a lot more characters than 4, so it looks
-             * kind of stupid to report "password too short".
-             */
+            return 0;
         }
 
-        /* Email error checking */
-        $field = "email";  //Use field name for email
-        if (!$subemail || strlen($subemail = trim($subemail)) == 0) {
-            $this->form->setError($field, "* El correo electrónico no entró");
-        } else {
-            /* Check if valid email address */
-            $regex = "/^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
-                    . "@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
-                    . "\.([a-z]{2,}){1}$/";
-            if (!preg_match($regex, $subemail)) {
-                $this->form->setError($field, "* El correo electrónico no es válido");
-            }
-            $subemail = stripslashes($subemail);
-        }
-
-        /* Errors exist, have user correct them */
-        if ($this->form->num_errors > 0) {
-            return 1;  //Errors with form
-        }
-        /* No errors, add the new account to the */ else {
-            //THE NAME OF THE CURRENT USER THE PARENT...
-            $parent = $this->username;
-            if ($this->conn->addNewMaster($subuser, md5($subpass), $subemail, $parent)) {
-                if (EMAIL_WELCOME) {
-                    $this->mailer->sendWelcome($subuser, $subemail, $subpass);
-                }
-                return 0;  //Nueva user added succesfully
-            } else {
-                return 2;  //Registration attempt failed
-            }
-        }
-    }
-
-    public function SessionMemberRegister($subuser, $subpass, $subemail) {
-
-        /* Username error checking */
-        $field = "user";  //Use field name for username
-        if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
-            $this->form->setError($field, "* Nombre de usuario no introducido");
-        } else {
-            /* Spruce up username, check length */
-            $subuser = stripslashes($subuser);
-            if (strlen($subuser) < 5) {
-                $this->form->setError($field, "* Nombre de usuario debajo de los 5 caracteres");
-            } else if (strlen($subuser) > 30) {
-                $this->form->setError($field, "* Nombre de usuario por encima de 30 caracteres");
-            }
-            /* Check if username is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", $subuser)) {
-                $this->form->setError($field, "* Nombre de usuario no alfanumérico");
-            }
-            /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
-                $this->form->setError($field, "* Nombre de usuario palabra reservada");
-            }
-            /* Check if username is already in use */ else if ($this->conn->usernameTaken($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario ya está en uso");
-            }
-            /* Check if username is banned */ else if ($this->conn->usernameBanned($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario prohibido");
-            }
-        }
-
-        /* Password error checking */
-        $field = "pass";  //Use field name for password
-        if (!$subpass) {
-            $this->form->setError($field, "* La contraseña no entrodujo");
-        } else {
-            /* Spruce up password and check length */
-            $subpass = stripslashes($subpass);
-            if (strlen($subpass) < 4) {
-                $this->form->setError($field, "* Contraseña demasiado corta");
-            }
-            /* Check if password is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", ($subpass = trim($subpass)))) {
-                $this->form->setError($field, "* La contraseña no alfanumérico");
-            }
-            /**
-             * Note: I trimmed the password only after I checked the length
-             * because if you fill the password field up with spaces
-             * it looks like a lot more characters than 4, so it looks
-             * kind of stupid to report "password too short".
-             */
-        }
-
-        /* Email error checking */
-        $field = "email";  //Use field name for email
-        if (!$subemail || strlen($subemail = trim($subemail)) == 0) {
-            $this->form->setError($field, "* El correo electrónico no entró");
-        } else {
-            /* Check if valid email address */
-            $regex = "/^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
-                    . "@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
-                    . "\.([a-z]{2,}){1}$/";
-            if (!preg_match($regex, $subemail)) {
-                $this->form->setError($field, "* El correo electrónico no es válido");
-            }
-            $subemail = stripslashes($subemail);
-        }
-
-        /* Errors exist, have user correct them */
-        if ($this->form->num_errors > 0) {
-            return 1;  //Errors with form
-        }
-        /* No errors, add the new account to the */ else {
-            //THE NAME OF THE CURRENT USER THE PARENT...
-            $parent = $this->username;
-            if ($this->conn->addNewMember($subuser, md5($subpass), $subemail, $parent)) {
-                if (EMAIL_WELCOME) {
-                    $this->mailer->sendWelcome($subuser, $subemail, $subpass);
-                }
-                return 0;  //Nueva user added succesfully
-            } else {
-                return 2;  //Registration attempt failed
-            }
-        }
-    }
-
-    public function SessionAgentRegister($subuser, $subpass, $subemail) {
-
-        /* Username error checking */
-        $field = "user";  //Use field name for username
-        if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
-            $this->form->setError($field, "* Nombre de usuario no introducido");
-        } else {
-            /* Spruce up username, check length */
-            $subuser = stripslashes($subuser);
-            if (strlen($subuser) < 5) {
-                $this->form->setError($field, "* Nombre de usuario debajo de los 5 caracteres");
-            } else if (strlen($subuser) > 30) {
-                $this->form->setError($field, "* Nombre de usuario por encima de 30 caracteres");
-            }
-            /* Check if username is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", $subuser)) {
-                $this->form->setError($field, "* Nombre de usuario no alfanumérico");
-            }
-            /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
-                $this->form->setError($field, "* Nombre de usuario palabra reservada");
-            }
-            /* Check if username is already in use */ else if ($this->conn->usernameTaken($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario ya está en uso");
-            }
-            /* Check if username is banned */ else if ($this->conn->usernameBanned($subuser)) {
-                $this->form->setError($field, "* Nombre de usuario prohibido");
-            }
-        }
-
-        /* Password error checking */
-        $field = "pass";  //Use field name for password
-        if (!$subpass) {
-            $this->form->setError($field, "* La contraseña no entrodujo");
-        } else {
-            /* Spruce up password and check length */
-            $subpass = stripslashes($subpass);
-            if (strlen($subpass) < 4) {
-                $this->form->setError($field, "* Contraseña demasiado corta");
-            }
-            /* Check if password is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", ($subpass = trim($subpass)))) {
-                $this->form->setError($field, "* La contraseña no alfanumérico");
-            }
-            /**
-             * Note: I trimmed the password only after I checked the length
-             * because if you fill the password field up with spaces
-             * it looks like a lot more characters than 4, so it looks
-             * kind of stupid to report "password too short".
-             */
-        }
-
-        /* Email error checking */
-        $field = "email";  //Use field name for email
-        if (!$subemail || strlen($subemail = trim($subemail)) == 0) {
-            $this->form->setError($field, "* El correo electrónico no entró");
-        } else {
-            /* Check if valid email address */
-            $regex = "/^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
-                    . "@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
-                    . "\.([a-z]{2,}){1}$/";
-            if (!preg_match($regex, $subemail)) {
-                $this->form->setError($field, "* El correo electrónico no es válido");
-            }
-            $subemail = stripslashes($subemail);
-        }
-
-        /* Errors exist, have user correct them */
-        if ($this->form->num_errors > 0) {
-            return 1;  //Errors with form
-        }
-        /* No errors, add the new account to the */ else {
-            //THE NAME OF THE CURRENT USER THE PARENT...
-            $parent = $this->username;
-            if ($this->conn->addNewAgent($subuser, md5($subpass), $subemail, $parent)) {
-                if (EMAIL_WELCOME) {
-                    $this->mailer->sendWelcome($subuser, $subemail, $subpass);
-                }
-                return 0;  //Nueva user added succesfully
-            } else {
-                return 2;  //Registration attempt failed
-            }
-        }
+        return 2;
     }
 
     /**
-     * editAccount - Attempts to edit the user's account information
-     * including the password, which it first makes sure is correct
-     * if entered, if so and the new password is in the right
-     * format, the change is made. All other fields are changed
-     * automatically.
+     * ✅ CORREGIDO: SQL Injection eliminado.
+     * Antes permitía inyección en el nombre de columna.
+     * Ahora usa lista blanca de columnas permitidas.
      */
-    public function editAccount($subcurpass, $subnewpass, $subemail, $subname) {
+    public function updateUserFieldSecure(string $username, string $field, mixed $value): bool
+    {
+        // ✅ Lista blanca de columnas permitidas
+        $allowedFields = [
+            'user_id', 'email', 'name', 'password',
+            'userlevel', 'last_activity', 'timestamp'
+        ];
 
-        /* Nueva password entered */
-        if ($subnewpass) {
-            /* Current Password error checking */
-            $field = "curpass";  //Use field name for current password
-            if (!$subcurpass) {
-                $this->form->setError($field, "* La contraseña actual no introdujo");
+        if (!in_array($field, $allowedFields, true)) {
+            error_log("updateUserField: campo no permitido: {$field}");
+            return false;
+        }
+
+        // ✅ Construir query con nombre de columna validado
+        $sql = "UPDATE users SET `{$field}` = :value WHERE username = :username";
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            ':value'    => $value,
+            ':username' => $username,
+        ]);
+    }
+
+    public function editAccount(
+        string $subcurpass,
+        string $subnewpass,
+        string $subemail,
+        string $subname
+    ): bool {
+        // ✅ CSRF validation
+        if (!Utils::verifyCSRFToken($_POST['csrf_token'] ?? null)) {
+            $this->form->setError('csrf', 'Token CSRF inválido');
+            return false;
+        }
+
+        if (!empty($subnewpass)) {
+            if (empty($subcurpass)) {
+                $this->form->setError('curpass', '* Contraseña actual no introducida');
             } else {
-                /* Check if password too short or is not alphanumeric */
-                $subcurpass = stripslashes($subcurpass);
-                if (strlen($subcurpass) < 4 ||
-                        !preg_match("/^([0-9a-z])+$/", ($subcurpass = trim($subcurpass)))) {
-                    $this->form->setError($field, "* Contraseña actual incorrecta");
-                }
-                /* Password entered is incorrect */
-                if ($this->conn->confirmUserPass($this->username, md5($subcurpass)) != 0) {
-                    $this->form->setError($field, "* Contraseña actual incorrecta");
+                // ✅ Verificar contraseña actual con password_verify
+                $stmt = $this->conn->prepare(
+                    'SELECT password FROM users WHERE username = :u LIMIT 1'
+                );
+                $stmt->execute([':u' => $this->username]);
+                $row = $stmt->fetch();
+
+                if (!$row || !password_verify($subcurpass, $row['password'])) {
+                    $this->form->setError('curpass', '* Contraseña actual incorrecta');
                 }
             }
 
-            /* Nueva Password error checking */
-            $field = "newpass";  //Use field name for new password
-            /* Spruce up password and check length */
-            $subpass = stripslashes($subnewpass);
             if (strlen($subnewpass) < 8) {
-                $this->form->setError($field, "* Nueva contraseña demasiado corta");
+                $this->form->setError('newpass', '* Nueva contraseña demasiado corta');
             }
-            /* Check if password is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", ($subnewpass = trim($subnewpass)))) {
-                $this->form->setError($field, "* La nueva contraseña no alfanumérico");
-            }
-        }
-        /* Change password attempted */ else if ($subcurpass) {
-            /* Nueva Password error reporting */
-            $field = "newpass";  //Use field name for new password
-            $this->form->setError($field, "* La nueva contraseña no entrodujo");
+        } elseif (!empty($subcurpass)) {
+            $this->form->setError('newpass', '* Nueva contraseña no introducida');
         }
 
-        /* Email error checking */
-        $field = "email";  //Use field name for email
-        if ($subemail && strlen($subemail = trim($subemail)) > 0) {
-            /* Check if valid email address */
-            $regex = "/^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
-                    . "@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
-                    . "\.([a-z]{2,}){1}$/";
-            if (!preg_match($regex, $subemail)) {
-                $this->form->setError($field, "* El correo electrónico no es válido");
-            }
-            $subemail = stripslashes($subemail);
+        if (!empty($subemail) && !filter_var($subemail, FILTER_VALIDATE_EMAIL)) {
+            $this->form->setError('email', '* Email no válido');
         }
 
-        /* Errors exist, have user correct them */
         if ($this->form->num_errors > 0) {
-            return false;  //Errors with form
+            return false;
         }
 
-        /* Update password since there were no errors */
-        if ($subcurpass && $subnewpass) {
-            $this->conn->updateUserField($this->username, "password", md5($subnewpass));
+        if (!empty($subcurpass) && !empty($subnewpass)) {
+            // ✅ password_hash() en lugar de md5()
+            $newHash = password_hash($subnewpass, PASSWORD_BCRYPT, ['cost' => 12]);
+            $this->updateUserFieldSecure($this->username, 'password', $newHash);
         }
 
-        /* Change Email */
-        if ($subemail) {
-            $this->conn->updateUserField($this->username, "email", $subemail);
+        if (!empty($subemail)) {
+            $this->updateUserFieldSecure($this->username, 'email', $subemail);
         }
-        if ($subname) {
-            $this->conn->updateUserField($this->username, "name", $subname);
+        if (!empty($subname)) {
+            $this->updateUserFieldSecure($this->username, 'name', $subname);
         }
 
-        /* Success! */
         return true;
     }
 
-    /**
-     * isAdmin - Returns true if currently logged in user is
-     * an administrator, false otherwise.
-     */
-    public function isAdmin() {
-        return ($this->userlevel == ADMIN_LEVEL ||
-                $this->username == ADMIN_NAME);
+    public function isAdmin(): bool
+    {
+        return $this->userlevel === ADMIN_LEVEL || $this->username === ADMIN_NAME;
     }
 
-    public function isMaster() {
-        return ($this->userlevel == MASTER_LEVEL);
+    public function isMaster(): bool
+    {
+        return $this->userlevel === MASTER_LEVEL;
     }
 
-    public function isAgent() {
-        return ($this->userlevel == AGENT_LEVEL);
+    public function isAgent(): bool
+    {
+        return $this->userlevel === AGENT_LEVEL;
     }
 
-    public function isMember() {
-        return ($this->userlevel == AGENT_MEMBER_LEVEL);
-    }
-
-    /**
-     * generateRandID - Generates a string made up of randomized
-     * letters (lower and upper case) and digits and returns
-     * the md5 hash of it to be used as a userid.
-     */
-    public function generateRandID() {
-        return md5($this->generateRandStr(16));
+    public function isMember(): bool
+    {
+        return $this->userlevel === AGENT_MEMBER_LEVEL;
     }
 
     /**
-     * generateRandStr - Generates a string made up of randomized
-     * letters (lower and upper case) and digits, the length
-     * is a specified parameter.
+     * ✅ CORREGIDO: random_int() en lugar de mt_rand()
      */
-    public function generateRandStr($length) {
-        $randstr = "";
+    public function generateRandID(): string
+    {
+        return hash('sha256', $this->generateRandStr(32) . bin2hex(random_bytes(16)));
+    }
+
+    public function generateRandStr(int $length): string
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $max = strlen($chars) - 1;
+        $str = '';
+
         for ($i = 0; $i < $length; $i++) {
-            $randnum = mt_rand(0, 61);
-            if ($randnum < 10) {
-                $randstr .= chr($randnum + 48);
-            } else if ($randnum < 36) {
-                $randstr .= chr($randnum + 55);
-            } else {
-                $randstr .= chr($randnum + 61);
-            }
+            // ✅ random_int() en lugar de mt_rand()
+            $str .= $chars[random_int(0, $max)];
         }
-        return $randstr;
+
+        return $str;
+    }
+
+    /* ---------- Métodos auxiliares (implementación depende de tu esquema) ---------- */
+
+    private function confirmUserID(string $username, string $userid): int
+    {
+        $stmt = $this->conn->prepare(
+            'SELECT COUNT(*) FROM users WHERE username = :u AND user_id = :uid'
+        );
+        $stmt->execute([':u' => $username, ':uid' => $userid]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function getUserInfo(string $username): array
+    {
+        $stmt = $this->conn->prepare(
+            'SELECT username, user_id, userlevel FROM users WHERE username = :u LIMIT 1'
+        );
+        $stmt->execute([':u' => $username]);
+        return $stmt->fetch() ?: [];
+    }
+
+    private function addActiveUser(string $username, int $time): void
+    {
+        $stmt = $this->conn->prepare(
+            'INSERT INTO active_users (username, timestamp) VALUES (:u, :t)
+        ON DUPLICATE KEY UPDATE timestamp = :t2'
+        );
+        $stmt->execute([':u' => $username, ':t' => $time, ':t2' => $time]);
+    }
+
+    private function addActiveGuest(string $ip, int $time): void
+    {
+        $stmt = $this->conn->prepare(
+            'INSERT INTO active_guests (ip, timestamp) VALUES (:ip, :t)
+        ON DUPLICATE KEY UPDATE timestamp = :t2'
+        );
+        $stmt->execute([':ip' => $ip, ':t' => $time, ':t2' => $time]);
+    }
+
+    private function removeActiveUser(string $username): void
+    {
+        $stmt = $this->conn->prepare('DELETE FROM active_users WHERE username = :u');
+        $stmt->execute([':u' => $username]);
+    }
+
+    private function removeActiveGuest(string $ip): void
+    {
+        $stmt = $this->conn->prepare('DELETE FROM active_guests WHERE ip = :ip');
+        $stmt->execute([':ip' => $ip]);
+    }
+
+    private function removeInactiveUsers(): void
+    {
+        $timeout = time() - 1800;
+        $stmt = $this->conn->prepare('DELETE FROM active_users WHERE timestamp < :t');
+        $stmt->execute([':t' => $timeout]);
+    }
+
+    private function removeInactiveGuests(): void
+    {
+        $timeout = time() - 1800;
+        $stmt = $this->conn->prepare('DELETE FROM active_guests WHERE timestamp < :t');
+        $stmt->execute([':t' => $timeout]);
+    }
+
+    private function usernameTaken(string $username): bool
+    {
+        $stmt = $this->conn->prepare('SELECT COUNT(*) FROM users WHERE username = :u');
+        $stmt->execute([':u' => $username]);
+        return (int) $stmt->fetchColumn() > 0;
+    }
+
+    private function usernameBanned(string $username): bool
+    {
+        $stmt = $this->conn->prepare('SELECT COUNT(*) FROM banned_users WHERE username = :u');
+        $stmt->execute([':u' => $username]);
+        return (int) $stmt->fetchColumn() > 0;
+    }
+
+    private function addNewUser(string $username, string $passwordHash, string $email): bool
+    {
+        try {
+            $stmt = $this->conn->prepare(
+                'INSERT INTO users (username, password, email, userlevel, timestamp)
+            VALUES (:u, :p, :e, :lvl, :t)'
+            );
+            return $stmt->execute([
+                ':u'   => $username,
+                ':p'   => $passwordHash,
+                ':e'   => $email,
+                ':lvl' => USER_LEVEL,
+                ':t'   => time(),
+            ]);
+        } catch (PDOException $e) {
+            error_log('addNewUser error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /* ---------- Rate Limiting ---------- */
+    private function checkLoginRateLimit(): bool
+    {
+        $maxAttempts = 5;
+        $window = 300; // 5 minutos
+
+        if (!isset($_SESSION['login_attempts'])) {
+            return true;
+        }
+
+        $attempts = array_filter($_SESSION['login_attempts'], fn($t) => (time() - $t) < $window);
+        $_SESSION['login_attempts'] = $attempts;
+
+        return count($attempts) < $maxAttempts;
+    }
+
+    private function recordLoginAttempt(): void
+    {
+        if (!isset($_SESSION['login_attempts'])) {
+            $_SESSION['login_attempts'] = [];
+        }
+        $_SESSION['login_attempts'][] = time();
+    }
+
+    private function resetLoginRateLimit(): void
+    {
+        unset($_SESSION['login_attempts']);
     }
 }
-
-?>

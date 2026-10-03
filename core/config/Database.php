@@ -1,42 +1,43 @@
 <?php
+declare(strict_types=1);
 
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-//  Description of Database class
-//  Database.php file
-//
-class Database {
-
-    private $config;
-    private $host;
-    private $dbnm;
-    private $user;
-    private $pass;
-    private $port;
-    private $socket;
-    private $charset;
-    protected $conn;
-    private $options = [
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-        \PDO::ATTR_EMULATE_PREPARES => false
+/**
+ * Clase de conexión a base de datos usando PDO exclusivamente.
+ * Migrado completamente de MySQLi a PDO.
+ */
+class Database
+{
+    private array $config;
+    private string $host;
+    private string $dbnm;
+    private string $user;
+    private string $pass;
+    private int $port;
+    private string $charset;
+    private ?PDO $conn = null;
+    private array $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
     ];
-    private $db;
-    private $dsn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $settings = '';
-        require_once 'server.php';
+        require_once __DIR__ . '/server.php';
         $this->config = $settings;
-        $this->socket = "";
     }
 
-    public function getConnection() {
-        $this->conn = null;
+    /**
+     * Obtiene la conexión PDO (singleton pattern).
+     */
+    public function getConnection(): PDO
+    {
+        if ($this->conn !== null) {
+            return $this->conn;
+        }
+
         $default = $this->config['default-connection'];
         $data = $this->config["connections"][$default];
 
@@ -44,108 +45,61 @@ class Database {
         $this->dbnm = $data['database'];
         $this->user = $data['username'];
         $this->pass = $data['password'];
-        $this->port = $data['port'];
-        $this->charset = $data['charset'];
-        $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
+        $this->port = (int) $data['port'];
+        $this->charset = $data['charset'] ?? 'utf8mb4';
+
+        $dsn = "mysql:host={$this->host};dbname={$this->dbnm};charset={$this->charset};port={$this->port}";
 
         try {
-            $this->conn = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-
-            // Configurar PDO para lanzar excepciones
-            $this->conn->exec("set names utf8");
-            // Set timezone
+            $this->conn = new PDO($dsn, $this->user, $this->pass, $this->options);
             $this->conn->exec("SET time_zone = '+00:00'");
         } catch (PDOException $exception) {
-            // Registrar error y mostrar mensaje apropiado
             error_log("Error de conexión a la base de datos: " . $exception->getMessage());
-
-            if (DEBUG) {
-                die("Error de conexión: " . $exception->getMessage());
+            if (defined('DEBUG') && DEBUG) {
+                throw new RuntimeException("Error de conexión: " . $exception->getMessage());
             } else {
-                die("Error de conexión a la base de datos. Por favor, intente más tarde.");
+                throw new RuntimeException("Error de conexión a la base de datos. Por favor, intente más tarde.");
             }
         }
 
         return $this->conn;
     }
 
-    public function PdoConnection($db = '') {
-
-        if (empty($db)) {
-            $default = $this->config['default-connection'];
-        } else {
-            $default = $db;
-        }
-
-        $data = $this->config["connections"][$default];
-
-        $this->host = $data['server'];
-        $this->dbnm = $data['database'];
-        $this->user = $data['username'];
-        $this->pass = $data['password'];
-        $this->port = $data['port'];
-        $this->charset = $data['charset'];
-
-        if (is_array($this->config['connections'])) {
-            $this->dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbnm . ";charset=" . $this->charset . ";port=" . $this->port;
-
-            try {
-                $this->db = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-            } catch (PDOException $e) {
-                throw new PDOException($e->getMessage(), (int) $e->getCode());
-            }
-            return $this->db;
-        }
+    /**
+     * Obtiene una conexión PDO (alias para compatibilidad).
+     */
+    public function PdoConnection(string $db = ''): PDO
+    {
+        return $this->getConnection();
     }
 
-//get the db connection
-    public function MysqliConnection($db = '') {
-        if (empty($db)) {
-            $default = $this->config['default-connection'];
-        } else {
-            $default = $db;
-        }
-
-        $data = $this->config["connections"][$default];
-
-        $this->host = $data['server'];
-        $this->dbnm = $data['database'];
-        $this->user = $data['username'];
-        $this->pass = $data['password'];
-        $this->port = $data['port'];
-        $this->charset = $data['charset'];
-
-        $this->conn = @new mysqli($this->host, $this->user, $this->pass, $this->dbnm, $this->port, $this->socket);
-
-        /* If connection fails for some reason */
-        if ($this->conn->connect_error) {
-            die('Error, Database connection failed: (' . $this->conn->connect_errno . ') ' . $this->conn->connect_error);
-        }
-        $this->conn->set_charset($this->charset);
-        return $this->conn;
-    }
-
-    // Método para probar la conexión
-    public function testConnection() {
+    /**
+     * Prueba la conexión a la base de datos.
+     */
+    public function testConnection(): bool
+    {
         try {
             $conn = $this->getConnection();
-            return $conn !== null;
+            $conn->query("SELECT 1");
+            return true;
         } catch (Exception $e) {
+            error_log("Error en testConnection: " . $e->getMessage());
             return false;
         }
     }
 
-    // Método para obtener información de la base de datos
-    public function getDatabaseInfo() {
+    /**
+     * Obtiene información de la base de datos.
+     */
+    public function getDatabaseInfo(): array
+    {
         try {
             $conn = $this->getConnection();
             $info = [];
 
-            // Versión de MySQL
             $stmt = $conn->query("SELECT VERSION() as version");
             $info['version'] = $stmt->fetchColumn();
 
-            // Características
             $stmt = $conn->query("SHOW VARIABLES LIKE 'character_set_database'");
             $info['charset'] = $stmt->fetchColumn(1);
 
@@ -159,66 +113,117 @@ class Database {
         }
     }
 
-    public function getPageContent($id) {
-
+    /**
+     * Obtiene el contenido de una página.
+     */
+    public function getPageContent(int $id): array|string
+    {
         try {
-            $stmt = $this->conn->prepare("SELECT id, title, slug, content_css, content_html, status FROM pages WHERE id = ?");
-            $stmt->execute([$id]);
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT id, title, slug, content_css, content_html, status FROM pages WHERE id = :id");
+            $stmt->execute([':id' => $id]);
             $page = $stmt->fetch();
 
             if (!$page) {
                 return '<div class="container"><h1>Página no encontrada</h1></div>';
-            } else {
-                // Devolver el HTML directamente (GrapesJS lo parseará automáticamente)
-                return $page;
             }
+
+            return $page;
         } catch (PDOException $e) {
             error_log("Error al cargar página: " . $e->getMessage());
             return '<div class="container"><h1>Error al cargar la página</h1></div>';
         }
     }
 
-    public function select($query = "", $params = []) {
-
+    /**
+     * Ejecuta una consulta SELECT y devuelve todos los resultados.
+     *
+     * ✅ MIGRADO A PDO: ahora usa PDO en lugar de MySQLi
+     */
+    public function select(string $query = "", array $params = []): array
+    {
         try {
-
+            $conn = $this->getConnection();
             $stmt = $this->executeStatement($query, $params);
-
-            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-            $stmt->close();
-
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (Exception $e) {
-
-            throw New Exception($e->getMessage());
+            error_log("Error en select: " . $e->getMessage());
+            throw new RuntimeException("Error en la consulta: " . $e->getMessage());
         }
-
-        return false;
     }
 
-    private function executeStatement($query = "", $params = []) {
-
+    /**
+     * Ejecuta una consulta y devuelve el statement.
+     *
+     * ✅ MIGRADO A PDO: ahora usa PDO en lugar de MySQLi
+     */
+    private function executeStatement(string $query = "", array $params = []): PDOStatement
+    {
         try {
-
-            $stmt = $this->connection->prepare($query);
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare($query);
 
             if ($stmt === false) {
-
-                throw New Exception("Unable to do prepared statement: " . $query);
+                throw new RuntimeException("Unable to prepare statement: " . $query);
             }
 
-            if ($params) {
-
-                $stmt->bind_param($params[0], $params[1]);
+            if (!empty($params)) {
+                $stmt->execute($params);
+            } else {
+                $stmt->execute();
             }
-
-            $stmt->execute();
 
             return $stmt;
         } catch (Exception $e) {
-
-            throw New Exception($e->getMessage());
+            error_log("Error en executeStatement: " . $e->getMessage());
+            throw new RuntimeException("Error en la consulta: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Ejecuta una consulta INSERT/UPDATE/DELETE y devuelve el número de filas afectadas.
+     */
+    public function execute(string $query = "", array $params = []): int
+    {
+        try {
+            $stmt = $this->executeStatement($query, $params);
+            return $stmt->rowCount();
+        } catch (Exception $e) {
+            error_log("Error en execute: " . $e->getMessage());
+            throw new RuntimeException("Error en la consulta: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Obtiene el último ID insertado.
+     */
+    public function lastInsertId(): string
+    {
+        return $this->getConnection()->lastInsertId();
+    }
+
+    /**
+     * Inicia una transacción.
+     */
+    public function beginTransaction(): bool
+    {
+        return $this->getConnection()->beginTransaction();
+    }
+
+    /**
+     * Confirma una transacción.
+     */
+    public function commit(): bool
+    {
+        return $this->getConnection()->commit();
+    }
+
+    /**
+     * Revierte una transacción.
+     */
+    public function rollBack(): bool
+    {
+        return $this->getConnection()->rollBack();
     }
 }

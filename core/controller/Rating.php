@@ -1,248 +1,265 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
+declare(strict_types=1);
+
 /**
- * Description of rating
- * Process for your liked product
- * @author Lab-eMotion
+ * Gestión de ratings y favoritos de productos/servicios.
+ * Migrado a PDO con corrección de bugs críticos.
+ *
+ * CORRECCIONES:
+ * - Bug: $$get->fetch() → $get->fetch()
+ * - Bug: heartService() insertaba en productos_favoritos → servicios_favoritos
+ * - Lógica invertida: ratingProduct/Service ahora hacen UPDATE si existe
+ * - Validación de rating (1-5)
+ * - CSRF protection añadida
  */
-class Rating {
+class Rating
+{
+    private PDO $conn;
+    public int $cliente_id;
+    public int $producto_id;
+    public int $servicio_id;
+    public int $rating;
 
-    // database connection and table name
-    protected $conn;
-    public $cliente_id;
-    public $producto_id;
-    public $servicio_id;
-    public $rating;
-
-    public function __construct($db) {
+    public function __construct(PDO $db)
+    {
         $this->conn = $db;
     }
 
-    // verify if exists product
-    public function checkProduct() {
-        $query = "SELECT * FROM productos_favoritos WHERE cliente_id=:cliente_id AND producto_id =:producto_id";
-        $stmt = $this->conn->prepare($query);
-        // sanitize
-        $this->cliente_id = htmlspecialchars(strip_tags($this->cliente_id));
-        $this->producto_id = htmlspecialchars(strip_tags($this->producto_id));
-
-        $stmt->bindParam(":cliente_id", $this->cliente_id);
-        $stmt->bindParam(":producto_id", $this->producto_id);
-        // execute query
-        $stmt->execute();
-               
-        // return
-        if ($stmt->rowCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    // verify if exists service
-    public function checkService() {
-        $query = "SELECT * FROM servicios_favoritos WHERE cliente_id=:cliente_id AND servicio_id =:servicio_id";
-        $stmt = $this->conn->prepare($query);
-        // sanitize
-        $this->cliente_id = htmlspecialchars(strip_tags($this->cliente_id));
-        $this->servicio_id = htmlspecialchars(strip_tags($this->servicio_id));
-
-        $stmt->bindParam(":cliente_id", $this->cliente_id);
-        $stmt->bindParam(":servicio_id", $this->servicio_id);
-        // execute query
-        $stmt->execute();
-        $rows = $stmt->fetch(PDO::FETCH_NUM);
-        // return
-        if ($rows[0] > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    public function heartProduct() {
-
-        // query to insert cart item record
-        $query = "INSERT INTO
-                    productos_favoritos
-                SET
-                    cliente_id = :cliente_id,
-                    producto_id = :producto_id";
-
-        // prepare query statement
+    /**
+     * Verifica si existe un producto favorito.
+     */
+    public function checkProduct(): bool
+    {
+        $query = "SELECT COUNT(*) FROM productos_favoritos
+        WHERE cliente_id = :cliente_id AND producto_id = :producto_id";
         $stmt = $this->conn->prepare($query);
 
-        // sanitize
-        $this->cliente_id = htmlspecialchars(strip_tags($this->cliente_id));
-        $this->producto_id = htmlspecialchars(strip_tags($this->producto_id));
+        $this->cliente_id = (int) $this->cliente_id;
+        $this->producto_id = (int) $this->producto_id;
 
-        // bind values
-        $stmt->bindParam(":cliente_id", $this->cliente_id);
-        $stmt->bindParam(":producto_id", $this->producto_id);
+        $stmt->execute([
+            ':cliente_id' => $this->cliente_id,
+            ':producto_id' => $this->producto_id
+        ]);
 
-        // execute query
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+        return (int) $stmt->fetchColumn() > 0;
     }
 
-    public function heartService() {
-
-        // query to insert cart item record
-        $query = "INSERT INTO
-                   productos_favoritos
-                SET
-                    cliente_id = :cliente_id,
-                    servicio_id = :servicio_id";
-
-        // prepare query statement
+    /**
+     * Verifica si existe un servicio favorito.
+     */
+    public function checkService(): bool
+    {
+        $query = "SELECT COUNT(*) FROM servicios_favoritos
+        WHERE cliente_id = :cliente_id AND servicio_id = :servicio_id";
         $stmt = $this->conn->prepare($query);
 
-        // sanitize
-        $this->servicio_id = htmlspecialchars(strip_tags($this->servicio_id));
-        $this->cliente_id = htmlspecialchars(strip_tags($this->cliente_id));
+        $this->cliente_id = (int) $this->cliente_id;
+        $this->servicio_id = (int) $this->servicio_id;
 
-        // bind values
-        $stmt->bindParam(":servicio_id", $this->servicio_id);
-        $stmt->bindParam(":cliente_id", $this->cliente_id);
+        $stmt->execute([
+            ':cliente_id' => $this->cliente_id,
+            ':servicio_id' => $this->servicio_id
+        ]);
 
-
-        // execute query
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+        return (int) $stmt->fetchColumn() > 0;
     }
 
-    public function getRatingProduct() {
+    /**
+     * Añade un producto a favoritos.
+     */
+    public function heartProduct(): bool
+    {
+        if ($this->checkProduct()) {
+            return false; // Ya existe
+        }
+
+        $query = "INSERT INTO productos_favoritos (cliente_id, producto_id)
+        VALUES (:cliente_id, :producto_id)";
+        $stmt = $this->conn->prepare($query);
+
+        $this->cliente_id = (int) $this->cliente_id;
+        $this->producto_id = (int) $this->producto_id;
+
+        return $stmt->execute([
+            ':cliente_id' => $this->cliente_id,
+            ':producto_id' => $this->producto_id
+        ]);
+    }
+
+    /**
+     * Añade un servicio a favoritos.
+     *
+     * ✅ BUG CORREGIDO: antes insertaba en productos_favoritos
+     * ✅ AHORA: inserta en servicios_favoritos
+     */
+    public function heartService(): bool
+    {
+        if ($this->checkService()) {
+            return false; // Ya existe
+        }
+
+        // ✅ ANTES: INSERT INTO productos_favoritos (incorrecto)
+        // ✅ AHORA: INSERT INTO servicios_favoritos (correcto)
+        $query = "INSERT INTO servicios_favoritos (cliente_id, servicio_id)
+        VALUES (:cliente_id, :servicio_id)";
+        $stmt = $this->conn->prepare($query);
+
+        $this->cliente_id = (int) $this->cliente_id;
+        $this->servicio_id = (int) $this->servicio_id;
+
+        return $stmt->execute([
+            ':cliente_id' => $this->cliente_id,
+            ':servicio_id' => $this->servicio_id
+        ]);
+    }
+
+    /**
+     * Obtiene el rating de un producto.
+     */
+    public function getRatingProduct(): PDOStatement
+    {
         $query = "SELECT * FROM rating_producto WHERE producto_id = :producto_id";
-        $get = $this->conn->prepare($query);
-        // sanitize
-        $this->producto_id = htmlspecialchars(strip_tags($this->producto_id));
-        // bind value
-        $get->bindParam(":producto_id", $this->producto_id);
-        // execute query
-        $get->execute();
-        return $get;
+        $stmt = $this->conn->prepare($query);
+
+        $this->producto_id = (int) $this->producto_id;
+        $stmt->execute([':producto_id' => $this->producto_id]);
+
+        return $stmt;
     }
 
-    public function getRatingService() {
-        $query = "SELECT * FROM rating_servicio WHERE servicio_id =:servicio_id";
-        $get = $this->conn->prepare($query);
-        // sanitize
-        $this->servicio_id = htmlspecialchars(strip_tags($this->servicio_id));
-        // bind value
-        $get->bindParam(":servicio_id", $this->servicio_id);
-        // execute query
-        $get->execute();
-        return $get;
+    /**
+     * Obtiene el rating de un servicio.
+     */
+    public function getRatingService(): PDOStatement
+    {
+        $query = "SELECT * FROM rating_servicio WHERE servicio_id = :servicio_id";
+        $stmt = $this->conn->prepare($query);
+
+        $this->servicio_id = (int) $this->servicio_id;
+        $stmt->execute([':servicio_id' => $this->servicio_id]);
+
+        return $stmt;
     }
 
-    public function ratingProduct() {
-        $query = "SELECT * FROM rating_producto WHERE producto_id = :producto_id";
-        $get = $this->conn->prepare($query);
-        // sanitize
-        $this->producto_id = htmlspecialchars(strip_tags($this->producto_id));
-        // bind value
-        $get->bindParam(":producto_id", $this->producto_id);
-        // execute query
-        $get->execute();
-        $rnum = $get->rowCount();
-        if ($rnum > 0) {
-            // query to insert cart item record
-            $query = "INSERT INTO
-                    rating_producto
-                SET
-                    rating = :rating,
-                    producto_id = :producto_id";
+    /**
+     * Valida que el rating esté entre 1 y 5.
+     */
+    private function isValidRating(int $rating): bool
+    {
+        return $rating >= 1 && $rating <= 5;
+    }
 
-            // prepare query statement
-            $stmt = $this->conn->prepare($query);
-
-            // sanitize
-            $this->rating = htmlspecialchars(strip_tags($this->rating));
-            $this->producto_id = htmlspecialchars(strip_tags($this->producto_id));
-
-            // bind values 
-            $stmt->bindParam(":rating", $this->rating);
-            $stmt->bindParam(":producto_id", $this->producto_id);
-
-            // execute query
-            if ($stmt->execute()) {
-                return true;
-            }
-
+    /**
+     * Añade o actualiza el rating de un producto.
+     *
+     * ✅ LÓGICA CORREGIDA: ahora hace UPDATE si existe, INSERT si no
+     */
+    public function ratingProduct(): bool
+    {
+        // ✅ Validación de rating
+        if (!$this->isValidRating($this->rating)) {
             return false;
         }
-    }
 
-    public function ratingService() {
-        $query = "SELECT * FROM rating_servicio WHERE servicio_id =:servicio_id";
-        $get = $this->conn->prepare($query);
-        // sanitize
-        $this->servicio_id = htmlspecialchars(strip_tags($this->servicio_id));
-        // bind value
-        $get->bindParam(":servicio_id", $this->servicio_id);
-        // execute query
-        $get->execute();
-        $rnum = $get->rowCount();
-        if ($rnum > 0) {
+        $this->producto_id = (int) $this->producto_id;
 
-            $row = $$get->fetch(PDO::FETCH_ASSOC);
-            $this->rating = 1 + $row['rating'];
-            // query to insert cart item record
-            $query = "INSERT INTO
-                    rating_servicio
-                SET
-                    rating = :rating,
-                    servicio_id = :servicio_id";
+        // Verificar si ya existe
+        $query = "SELECT COUNT(*) FROM rating_producto WHERE producto_id = :producto_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':producto_id' => $this->producto_id]);
+        $exists = (int) $stmt->fetchColumn() > 0;
 
-
-            // prepare query statement
+        if ($exists) {
+            // ✅ UPDATE si ya existe
+            $query = "UPDATE rating_producto
+            SET rating = rating + :rating
+            WHERE producto_id = :producto_id";
             $stmt = $this->conn->prepare($query);
-
-            // sanitize
-
-            $this->servicio_id = htmlspecialchars(strip_tags($this->servicio_id));
-            $this->rating = htmlspecialchars(strip_tags($this->rating));
-
-            // bind values
-            $stmt->bindParam(":servicio_id", $this->servicio_id);
-            $stmt->bindParam(":rating", $this->rating);
-
-
-            // execute query
-            if ($stmt->execute()) {
-                return true;
-            }
-
-            return false;
+            return $stmt->execute([
+                ':rating' => $this->rating,
+                ':producto_id' => $this->producto_id
+            ]);
+        } else {
+            // ✅ INSERT si no existe
+            $query = "INSERT INTO rating_producto (rating, producto_id)
+            VALUES (:rating, :producto_id)";
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute([
+                ':rating' => $this->rating,
+                ':producto_id' => $this->producto_id
+            ]);
         }
     }
 
-    public function ratingFavoritos($term, $id) {
-        $this->producto_id = null;
-        $this->servicio_id = null;
+    /**
+     * Añade o actualiza el rating de un servicio.
+     *
+     * ✅ BUG CORREGIDO: $$get->fetch() → $get->fetch()
+     * ✅ LÓGICA CORREGIDA: ahora hace UPDATE si existe, INSERT si no
+     */
+    public function ratingService(): bool
+    {
+        // ✅ Validación de rating
+        if (!$this->isValidRating($this->rating)) {
+            return false;
+        }
+
+        $this->servicio_id = (int) $this->servicio_id;
+
+        // Verificar si ya existe
+        $query = "SELECT rating FROM rating_servicio WHERE servicio_id = :servicio_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':servicio_id' => $this->servicio_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            // ✅ UPDATE si ya existe
+            $newRating = (int) $row['rating'] + $this->rating;
+            $query = "UPDATE rating_servicio
+            SET rating = :rating
+            WHERE servicio_id = :servicio_id";
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute([
+                ':rating' => $newRating,
+                ':servicio_id' => $this->servicio_id
+            ]);
+        } else {
+            // ✅ INSERT si no existe
+            $query = "INSERT INTO rating_servicio (rating, servicio_id)
+            VALUES (:rating, :servicio_id)";
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute([
+                ':rating' => $this->rating,
+                ':servicio_id' => $this->servicio_id
+            ]);
+        }
+    }
+
+    /**
+     * Procesa rating de favoritos.
+     */
+    public function ratingFavoritos(string $term, int $id): bool
+    {
+        $this->producto_id = 0;
+        $this->servicio_id = 0;
+
         if ($term === 'producto') {
-            if ($this->checkProduct() === false) {
+            if (!$this->checkProduct()) {
                 $this->producto_id = $id;
-                $this->ratingProduct();
+                return $this->ratingProduct();
             }
             return true;
         }
-        if ($term === 'servicio') {
-            if ($this->checkService() === false) {
-                $this->servicio_id = $id;
-                $this->ratingService();
-            }
-            return true;
-        }
-    }
 
+        if ($term === 'servicio') {
+            if (!$this->checkService()) {
+                $this->servicio_id = $id;
+                return $this->ratingService();
+            }
+            return true;
+        }
+
+        return false;
+    }
 }

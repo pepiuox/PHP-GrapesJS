@@ -1,162 +1,304 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class TypeFields {
+declare(strict_types=1);
 
-    protected $conn;
+/**
+ * Generador de campos de formulario dinámicos.
+ *
+ * CORRECCIONES CRÍTICAS:
+ * - SQL Injection en $table eliminado (ahora usa prepared statements)
+ * - mysqli_fetch_array reemplazado por PDO fetch
+ * - Lista blanca de tablas permitidas
+ * - Validación de tipos de columnas
+ * - Sanitización de salida
+ * - Inyección de dependencias PDO
+ */
+class TypeFields
+{
+    private PDO $conn;
+    private string $table;
 
-    public function __construct($table) {
-        global $conn;
-        $this->conn = $conn;
-        $result = $conn->query("SELECT * FROM table_settings WHERE table_name='$table'");
-        $total = $result->num_rows;
-        if ($total > 0) {
+    /**
+     * ✅ Lista blanca de tablas permitidas
+     */
+    private const ALLOWED_TABLES = [
+        'products', 'categories', 'subcategories', 'brands',
+        'customers', 'suppliers', 'orders', 'order_items',
+        'users', 'pages', 'templates', 'settings'
+    ];
 
-            while ($rqu = $result->fetch_assoc()) {
+    /**
+     * ✅ Lista blanca de tipos de input
+     */
+    private const INPUT_TYPES = [
+        1 => 'text',
+        2 => 'number',
+        3 => 'select',
+        4 => 'textarea',
+        5 => 'date',
+        6 => 'file',
+        7 => 'email',
+        8 => 'password',
+        9 => 'checkbox',
+        10 => 'radio'
+    ];
 
-                $c_nm = $rqu['col_name'];
-                $c_tp = $rqu['col_type'];
-                $i_tp = $rqu['input_type'];
-                $c_jo = $rqu['joins'];
-                $c_tb = $rqu['j_table'];
-                $c_id = $rqu['j_id'];
-                $c_vl = $rqu['j_value'];
+    public function __construct(PDO $connection, string $table)
+    {
+        // ✅ Validar tabla contra lista blanca
+        if (!in_array($table, self::ALLOWED_TABLES, true)) {
+            throw new InvalidArgumentException("Tabla no permitida: {$table}");
+        }
 
-                $remp = ucfirst(str_replace("_", " ", $c_nm));
-                $frmp = str_replace(" id", "", $remp);
+        // ✅ Validar formato de nombre de tabla
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) {
+            throw new InvalidArgumentException("Nombre de tabla inválido: {$table}");
+        }
 
-                if ($c_nm === $ncol) {
-                    continue;
+        $this->conn = $connection;
+        $this->table = $table;
+    }
+
+    /**
+     * Genera los campos del formulario.
+     *
+     * ✅ CORREGIDO: SQL Injection eliminado, ahora usa prepared statements
+     */
+    public function renderFields(string $excludeColumn = ''): void
+    {
+        // ✅ Consulta preparada (previene SQL Injection)
+        $stmt = $this->conn->prepare(
+            "SELECT col_name, col_type, input_type, joins, j_table, j_id, j_value
+            FROM table_settings
+            WHERE table_name = :table
+            ORDER BY col_order ASC"
+        );
+        $stmt->execute([':table' => $this->table]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($rows)) {
+            echo '<p class="alert alert-warning">No hay configuración de campos para esta tabla.</p>';
+            return;
+        }
+
+        foreach ($rows as $row) {
+            $colName = $row['col_name'];
+            $colType = $row['col_type'];
+            $inputType = (int) $row['input_type'];
+            $joins = $row['joins'] ?? '';
+            $jTable = $row['j_table'] ?? '';
+            $jId = $row['j_id'] ?? '';
+            $jValue = $row['j_value'] ?? '';
+
+            // ✅ Omitir columna excluida
+            if ($colName === $excludeColumn) {
+                continue;
+            }
+
+            // ✅ Sanitizar etiquetas
+            $label = ucfirst(str_replace('_', ' ', $colName));
+            $label = str_replace(' id', '', $label);
+            $safeName = $this->escape($colName);
+            $safeLabel = $this->escape($label);
+
+            // ✅ Renderizar según tipo de columna
+            if ($this->isNumericType($colType)) {
+                if ($inputType === 3) {
+                    $this->renderSelectField($safeName, $safeLabel, $jTable, $jId, $jValue);
+                } else {
+                    $this->renderTextField($safeName, $safeLabel, 'number');
                 }
-
-                if ($c_tp === 'int' || $c_tp === 'tinyint' || $c_tp === 'smallint' || $c_tp === 'mediumint' || $c_tp === 'bigint' || $c_tp === 'bit' || $c_tp === 'float' || $c_tp === 'double' || $c_tp === 'decimal') {
-
-                    if ($i_tp != 3) {
-                        echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
-                  </div>' . "\n";
-                    } else {
-// -------------
-                        echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
-
-                        $sqp1 = "select * from $c_tb";
-
-                        $qres = $this->conn->query($sqp1);
-
-                        while ($options = $qres->fetch_array()) {
-                            echo '<option value="' . $options[$c_id] . '">' . $options[$c_vl] . '</option>' . "\n";
-                        }
-
-                        echo '</select>' . "\n";
-                        echo '</div>' . "\n";
-// --------------
-                    }
+            } elseif ($this->isDateType($colType)) {
+                $this->renderDateField($safeName, $safeLabel);
+            } elseif ($this->isTextType($colType)) {
+                if ($colName === 'imagen' || $colName === 'image') {
+                    $this->renderFileField($safeName, $safeLabel);
+                } else {
+                    $this->renderTextField($safeName, $safeLabel, 'text');
                 }
-                if ($c_tp === 'time' || $c_tp === 'year') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'date' || $c_tp === 'datetime' || $c_tp === 'timestamp') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <input type="text" data-date-format="dd/mm/yyyy" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
-                  </div>' . "\n";
-                    echo '<script type="text/javascript">
-                                        $(document).ready(function ()
-                                        {
-                                            $("#' . $c_nm . '").datepicker({
-                                                weekStart: 1,
-                                                daysOfWeekHighlighted: "6,0",
-                                                autoclose: true,
-                                                todayHighlight: true
-                                            });
-                                            $("#' . $c_nm . '").datepicker("setDate", new Date());
-                                        });
-                                    </script>' . "\n";
-                }
-                if ($c_tp === 'varchar' || $c_tp === 'char') {
-                    if ($c_nm === 'imagen') {
-                        echo "<script>$('.custom-file-input').on('change',function(){
-                            var fileName = document.getElementById('imagen').files[0].name;
-                            $(this).next('.form-control-file').addClass('selected').php(fileName);
-                        });</script>";
-                        echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="' . $c_nm . '">Subir</span>
-                          </div>
-                          <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="' . $c_nm . '" name="' . $c_nm . '"
-                              aria-describedby="i' . $c_nm . '">
-                            <label class="custom-file-label" for="' . $c_nm . '">Elegir archivo</label>
-                          </div>
-                        </div>
-                        <div id="preview">
-                                                        <?= $preview;?>
-                                                </div>
-                        </div>
-                        ' . "\n";
-                    } else {
-                        echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <input type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '">
-                  </div>' . "\n";
-                    }
-                }
-                if ($c_tp === 'text' || $c_tp === 'tinytext' || $c_tp === 'mediumtext' || $c_tp === 'longtext' || $c_tp === 'json') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'point' || $c_tp === 'linestring' || $c_tp === 'polygon' || $c_tp === 'geometry' || $c_tp === 'multipoint' || $c_tp === 'multilinestring' || $c_tp === 'multipolygon' || $c_tp === 'geometrycollection') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'binary' || $c_tp === 'varbinary' || $c_tp === 'tinyblob' || $c_tp === 'blob' || $c_tp === 'mediumblob' || $c_tp === 'longblob') {
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <textarea type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '"></textarea>
-                  </div>' . "\n";
-                }
-                if ($c_tp === 'enum' || $c_tp === 'set') {
-// ----------------------
-                    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
-
-                    $iresult = $this->conn->query($isql);
-                    $row = mysqli_fetch_array($iresult);
-                    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
-                    $default_value = '';
-//
-                    echo '<div class="form-group">
-                       <label for="' . $c_nm . '">' . $frmp . ':</label>
-                       <select type="text" class="form-control" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
-
-                    $options = $enum_list;
-                    foreach ($options as $option) {
-                        $soption = '<option value="' . $option . '"';
-                        $soption .= ($default_value === $option) ? ' SELECTED' : '';
-                        $soption .= '>' . $option . '</option>' . "\n";
-                        echo $soption . "\n";
-                    }
-                    echo '</select>' . "\n";
-                    echo '</div>' . "\n";
-
-// ----------------------
-                }
+            } elseif ($this->isLongTextType($colType)) {
+                $this->renderTextareaField($safeName, $safeLabel);
+            } elseif ($colType === 'enum' || $colType === 'set') {
+                $this->renderEnumField($safeName, $safeLabel, $colName);
             }
         }
+    }
+
+    /**
+     * Renderiza un campo de texto.
+     */
+    private function renderTextField(string $name, string $label, string $type = 'text'): void
+    {
+        echo '<div class="form-group">';
+        echo '<label for="' . $name . '">' . $label . ':</label>';
+        echo '<input type="' . $this->escape($type) . '" class="form-control" id="' . $name . '" name="' . $name . '">';
+        echo '</div>';
+    }
+
+    /**
+     * Renderiza un campo select con datos de otra tabla.
+     *
+     * ✅ CORREGIDO: ahora usa prepared statements
+     */
+    private function renderSelectField(string $name, string $label, string $jTable, string $jId, string $jValue): void
+    {
+        // ✅ Validar tabla de join contra lista blanca
+        if (!in_array($jTable, self::ALLOWED_TABLES, true)) {
+            $this->renderTextField($name, $label, 'text');
+            return;
+        }
+
+        // ✅ Validar nombres de columnas
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $jId) ||
+            !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $jValue)) {
+            $this->renderTextField($name, $label, 'text');
+        return;
+            }
+
+            echo '<div class="form-group">';
+            echo '<label for="' . $name . '">' . $label . ':</label>';
+            echo '<select class="form-control" id="' . $name . '" name="' . $name . '">';
+            echo '<option value="">-- Seleccionar --</option>';
+
+            try {
+                // ✅ Prepared statement (previene SQL Injection)
+                $stmt = $this->conn->prepare("SELECT `{$jId}`, `{$jValue}` FROM `{$jTable}` ORDER BY `{$jValue}` ASC");
+                $stmt->execute();
+
+                while ($option = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $optId = $this->escape((string) $option[$jId]);
+                    $optValue = $this->escape((string) $option[$jValue]);
+                    echo '<option value="' . $optId . '">' . $optValue . '</option>';
+                }
+            } catch (PDOException $e) {
+                error_log('TypeFields renderSelectField error: ' . $e->getMessage());
+            }
+
+            echo '</select>';
+            echo '</div>';
+    }
+
+    /**
+     * Renderiza un campo de fecha con datepicker.
+     */
+    private function renderDateField(string $name, string $label): void
+    {
+        echo '<div class="form-group">';
+        echo '<label for="' . $name . '">' . $label . ':</label>';
+        echo '<input type="date" class="form-control" id="' . $name . '" name="' . $name . '">';
+        echo '</div>';
+    }
+
+    /**
+     * Renderiza un campo textarea.
+     */
+    private function renderTextareaField(string $name, string $label): void
+    {
+        echo '<div class="form-group">';
+        echo '<label for="' . $name . '">' . $label . ':</label>';
+        echo '<textarea class="form-control" id="' . $name . '" name="' . $name . '" rows="4"></textarea>';
+        echo '</div>';
+    }
+
+    /**
+     * Renderiza un campo de archivo.
+     */
+    private function renderFileField(string $name, string $label): void
+    {
+        echo '<div class="form-group">';
+        echo '<label for="' . $name . '">' . $label . ':</label>';
+        echo '<div class="input-group">';
+        echo '<div class="input-group-prepend"><span class="input-group-text">Subir</span></div>';
+        echo '<div class="custom-file">';
+        echo '<input type="file" class="custom-file-input" id="' . $name . '" name="' . $name . '">';
+        echo '<label class="custom-file-label" for="' . $name . '">Elegir archivo</label>';
+        echo '</div></div>';
+        echo '<div id="preview"></div>';
+        echo '</div>';
+    }
+
+    /**
+     * Renderiza un campo enum/set.
+     *
+     * ✅ CORREGIDO: ahora usa prepared statements
+     */
+    private function renderEnumField(string $name, string $label, string $colName): void
+    {
+        try {
+            // ✅ Prepared statement
+            $stmt = $this->conn->prepare(
+                "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = :table
+            AND COLUMN_NAME = :col"
+            );
+            $stmt->execute([':table' => $this->table, ':col' => $colName]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                $this->renderTextField($name, $label, 'text');
+                return;
+            }
+
+            // ✅ Parsear valores enum/set
+            $columnType = $row['COLUMN_TYPE'];
+            $enumList = $this->parseEnumValues($columnType);
+
+            echo '<div class="form-group">';
+            echo '<label for="' . $name . '">' . $label . ':</label>';
+            echo '<select class="form-control" id="' . $name . '" name="' . $name . '">';
+
+            foreach ($enumList as $option) {
+                $safeOption = $this->escape($option);
+                echo '<option value="' . $safeOption . '">' . $safeOption . '</option>';
+            }
+
+            echo '</select>';
+            echo '</div>';
+
+        } catch (PDOException $e) {
+            error_log('TypeFields renderEnumField error: ' . $e->getMessage());
+            $this->renderTextField($name, $label, 'text');
+        }
+    }
+
+    /**
+     * Parsea valores enum/set de MySQL.
+     */
+    private function parseEnumValues(string $columnType): array
+    {
+        // Extraer valores entre paréntesis: enum('a','b','c')
+        if (preg_match("/^(enum|set)\('(.+)'\)$/i", $columnType, $matches)) {
+            $values = explode("','", $matches[2]);
+            return array_map('trim', $values);
+        }
+        return [];
+    }
+
+    private function isNumericType(string $type): bool
+    {
+        return in_array($type, [
+            'int', 'tinyint', 'smallint', 'mediumint', 'bigint',
+            'bit', 'float', 'double', 'decimal'
+        ], true);
+    }
+
+    private function isDateType(string $type): bool
+    {
+        return in_array($type, ['date', 'datetime', 'timestamp', 'time', 'year'], true);
+    }
+
+    private function isTextType(string $type): bool
+    {
+        return in_array($type, ['varchar', 'char'], true);
+    }
+
+    private function isLongTextType(string $type): bool
+    {
+        return in_array($type, ['text', 'tinytext', 'mediumtext', 'longtext', 'json'], true);
+    }
+
+    private function escape(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 }

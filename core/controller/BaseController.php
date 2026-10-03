@@ -1,58 +1,80 @@
 <?php
-
-class BaseController {
-
+class BaseController
+{
     /**
-     * __call magic method.
+     * Magic method para manejar llamadas a métodos inexistentes.
      */
-    public function __call($name, $arguments) {
-
-        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
+    public function __call($name, $arguments)
+    {
+        $this->sendOutput('', ['HTTP/1.1 404 Not Found']);
     }
 
     /**
-     * Get URI elements.
-     *
-     * @return array
+     * Obtiene los segmentos de la URI.
      */
-    protected function getUriSegments() {
-
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $uri = explode('/', $uri);
-
-        return $uri;
+    protected function getUriSegments(): array
+    {
+        $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+        return array_values(array_filter(explode('/', $uri)));
     }
 
     /**
-     * Get querystring params.
-     *
-     * @return array
+     * Obtiene los parámetros del query string.
      */
-    protected function getQueryStringParams() {
-
-        return parse_str($_SERVER['QUERY_STRING'], $query);
+    protected function getQueryStringParams(): array
+    {
+        $params = [];
+        parse_str($_SERVER['QUERY_STRING'] ?? '', $params);
+        return $params;
     }
 
     /**
-     * Send API output.
-     *
-     * @param mixed $data
-     * @param string $httpHeader
+     * Obtiene el cuerpo de la petición (JSON).
      */
-    protected function sendOutput($data, $httpHeaders = array()) {
+    protected function getJsonInput(): array
+    {
+        $input = file_get_contents('php://input');
+        return json_decode($input, true) ?: [];
+    }
 
+    /**
+     * Envía respuesta JSON.
+     */
+    protected function sendJson($data, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    /**
+     * Envía salida HTTP con headers personalizados.
+     */
+    protected function sendOutput($data, array $httpHeaders = []): void
+    {
         header_remove('Set-Cookie');
 
-        if (is_array($httpHeaders) && count($httpHeaders)) {
-
-            foreach ($httpHeaders as $httpHeader) {
-
-                header($httpHeader);
-            }
+        foreach ($httpHeaders as $httpHeader) {
+            header($httpHeader);
         }
 
         echo $data;
-
         exit;
     }
+
+    /**
+     * Valida que los campos requeridos estén presentes.
+     */
+    protected function validateRequired(array $data, array $fields): array
+    {
+        $missing = [];
+        foreach ($fields as $field) {
+            if (!isset($data[$field]) || trim($data[$field]) === '') {
+                $missing[] = $field;
+            }
+        }
+        return $missing;
+    }
 }
+?>

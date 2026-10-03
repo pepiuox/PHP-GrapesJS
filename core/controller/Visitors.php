@@ -1,213 +1,198 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class Visitors {
+declare(strict_types=1);
 
-    protected $getip;
-    public $baseurl;
-    protected $connection;
-    private $timestamp;
-    public $date;
-    protected $hash;
-    protected $token;
-    private $session;
+/**
+ * Gestión de visitantes, sesiones activas y contador de páginas.
+ * Migrado de MySQLi a PDO con inyección de dependencias.
+ */
+class Visitors
+{
+    private PDO $db;
+    private string $baseurl;
+    private string $timestamp;
+    private string $hash;
+    private string $token;
+    private string $userIp;
+    private string $session;
 
-    public function __construct() {
-        global $conn;
-        $this->connection = $conn;
-        $this->date = new DateTime();
-        $this->timestamp = $this->date->format('Y-m-d H:i:s');
-        $this->hash = SECURE_HASH;
-        $this->token = SECURE_TOKEN;
-        $this->getip = $this->getUserIP();
+    public function __construct(PDO $connection, string $baseUrl = '')
+    {
+        $this->db        = $connection;
+        $this->baseurl   = $baseUrl;
+        $this->timestamp = (new DateTime())->format('Y-m-d H:i:s');
+        $this->hash      = defined('SECURE_HASH')  ? SECURE_HASH  : '';
+        $this->token     = defined('SECURE_TOKEN') ? SECURE_TOKEN : '';
+        $this->userIp    = $this->resolveUserIp();
 
-        $_SESSION['session_visit'] = $this->ende_crypter('encrypt', $this->getip, $this->hash, $this->token);
-        $this->session = $_SESSION['session_visit'];
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        $this->VisitUpdate($this->getip);
+        $_SESSION['session_visit'] = $this->endeCrypter(
+            'encrypt', $this->userIp, $this->hash, $this->token
+        );
+        $this->session = (string) $_SESSION['session_visit'];
 
-        if (!empty($this->session)) {
+        $this->visitUpdate($this->userIp);
+
+        if ($this->session !== '') {
             $this->guestOnline();
         }
     }
 
-    /* get number of pages
-     * 
-     */
-
-    public function numPages() {
-
-        return $this->connection->query("SELECT id FROM pages")->num_rows;
+    /* ---------- Contadores ---------- */
+    public function numPages(): int
+    {
+        return (int) $this->db->query("SELECT COUNT(id) FROM pages")->fetchColumn();
     }
 
-    /* get number of visitor
-     * 
-     */
-
-    public function numVisitor() {
-
-        return $this->connection->query("SELECT ip FROM active_guests")->num_rows;
+    public function numVisitor(): int
+    {
+        return (int) $this->db->query("SELECT COUNT(ip) FROM active_guests")->fetchColumn();
     }
 
-    /* get number of users
-     * 
-     */
-
-    public function numUsers() {
-
-        return $this->connection->query("SELECT verified FROM users WHERE verified='1'")->num_rows;
+    public function numUsers(): int
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(id) FROM users WHERE verified = :v");
+        $stmt->execute([':v' => 1]);
+        return (int) $stmt->fetchColumn();
     }
 
-    private function ende_crypter($action, $string, $secret_key, $secret_iv) {
-        $output = false;
-        $encrypt_method = 'AES-256-CBC';
-// hash
-        $key = hash('sha256', $secret_key);
-// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
-        $iv = substr(hash('sha256', $secret_iv), 0, 16);
-        if ($action == 'encrypt') {
-            $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
-        } else if ($action == 'decrypt') {
-            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+    /* ---------- Criptografía ---------- */
+    private function endeCrypter(string $action, string $string, string $key, string $ivSource): string
+    {
+        $method = 'AES-256-CBC';
+        $keyHash = hash('sha256', $key, true);
+        $iv = substr(hash('sha256', $ivSource, true), 0, 16);
+
+        if ($action === 'encrypt') {
+            return base64_encode(openssl_encrypt($string, $method, $keyHash, 0, $iv));
         }
-        return $output;
+        return (string) openssl_decrypt(base64_decode($string), $method, $keyHash, 0, $iv);
     }
 
-    public function checkUserIP($ip) {
-        $num = $this->findUserIP($ip);
-        return $num->num_rows;
-    }
-
-    public function findUserIP($ip) {
-        $stmt = $this->connection->prepare('SELECT * FROM visitor WHERE ip = ? ORDER BY updated_at DESC LIMIT 0,1');
-        $stmt->bind_param('s', $ip);
-        $stmt->execute();
-        return $stmt->get_result();
-    }
-
-    public function VisitUpdate($ip) {
-        $rest = $this->findUserIP($ip);
-        $nums = $rest->num_rows;
-        if ($nums > 0) {
-            $row = $rest->fetch_assoc();
-            $startdate = $row['updated_at'];
-            $enddate = $this->timestamp;
-            $dif = $this->differenceInHours($startdate, $enddate);
-            if ($dif >= 24) {
-                $stmt = $this->connection->prepare("INSERT INTO visitor (ip) VALUES (?)");
-                $stmt->bind_param("s", $ip);
-                $stmt->execute();
-
-                $this->CounterVisitor();
-            } else {
-                $stmt = $this->connection->prepare("UPDATE visitor SET updated_at = ? WHERE ip = ? AND updated_at = ?");
-                $stmt->bind_param('sss', $enddate, $ip, $startdate);
-                $stmt->execute();
-            }
+    /* ---------- IP del visitante (segura) ---------- */
+    private function resolveUserIp(): string
+    {
+        // CloudFlare (solo si es de confianza en tu infraestructura)
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
         } else {
-            $stmt = $this->connection->prepare("INSERT INTO visitor (ip) VALUES (?)");
-            $stmt->bind_param("s", $ip);
-            $stmt->execute();
-
-            $stmt1 = $this->connection->prepare("INSERT INTO active_guests (ip) VALUES (?)");
-            $stmt1->bind_param("s", $ip);
-            $stmt1->execute();
-
-            $this->CounterVisitor();
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
         }
-    }
 
-    public function getUserIP() {
-        // Get real visitor IP behind CloudFlare network
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        }
-        $client = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote = $_SERVER['REMOTE_ADDR'];
-
-        if (filter_var($client, FILTER_VALIDATE_IP)) {
-            $ip = $client;
-        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-            $ip = $forward;
-        } else {
-            $ip = $remote;
+        // Rechazamos HTTP_CLIENT_IP y HTTP_X_FORWARDED_FOR por ser spoofeables
+        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+            $ip = '0.0.0.0';
         }
         return $ip;
     }
 
-    public function CounterVisitor() {
-        $this->connection->query("UPDATE counter SET counter = counter + 1");
+    /* ---------- Visitas ---------- */
+    public function checkUserIp(string $ip): int
+    {
+        return $this->findUserIp($ip)->rowCount();
     }
 
-// Calculate the time between two hours
-    public function differenceInHours($startdate, $enddate) {
-        $starttimestamp = strtotime($startdate);
-        $endtimestamp = strtotime($enddate);
-        $difference = round(abs($endtimestamp - $starttimestamp) / 3600, 2);
-        return $difference;
+    private function findUserIp(string $ip): PDOStatement
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM visitor WHERE ip = :ip ORDER BY updated_at DESC LIMIT 1"
+        );
+        $stmt->execute([':ip' => $ip]);
+        return $stmt;
     }
 
-// Insert the IP and title of the page visited during the day
-    public function pageViews($title) {
+    public function visitUpdate(string $ip): void
+    {
+        $row = $this->findUserIp($ip)->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $this->connection->prepare('SELECT * FROM pagesviews WHERE page = ? AND ip = ? ORDER BY date_view DESC LIMIT 0,1');
-        $stmt->bind_param('ss', $title, $this->getip);
-        $stmt->execute();
-        $rows = $stmt->get_result();
-        if ($rows->num_rows > 0) {
-            $row = $rows->fetch_assoc();
-            $startdate = $row['date_view'];
-            $enddate = $this->timestamp;
-            $dif = $this->differenceInHours($startdate, $enddate);
-            if ($dif >= 24) {
-                $stmt = $this->connection->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
-                $stmt->bind_param('ss', $title, $this->getip);
-                $stmt->execute();
+        if ($row) {
+            $diffHours = $this->differenceInHours($row['updated_at'], $this->timestamp);
+            if ($diffHours >= 24) {
+                $stmt = $this->db->prepare("INSERT INTO visitor (ip, updated_at) VALUES (:ip, :ts)");
+                $stmt->execute([':ip' => $ip, ':ts' => $this->timestamp]);
+                $this->counterVisitor();
+            } else {
+                $stmt = $this->db->prepare(
+                    "UPDATE visitor SET updated_at = :end WHERE ip = :ip AND updated_at = :start"
+                );
+                $stmt->execute([':end' => $this->timestamp, ':ip' => $ip, ':start' => $row['updated_at']]);
             }
         } else {
-            $stmt = $this->connection->prepare("INSERT INTO pageviews (page,ip) VALUES (?,?)");
-            $stmt->bind_param('ss', $title, $this->getip);
-            $stmt->execute();
+            $this->db->beginTransaction();
+            try {
+                $s1 = $this->db->prepare("INSERT INTO visitor (ip, updated_at) VALUES (:ip, :ts)");
+                $s1->execute([':ip' => $ip, ':ts' => $this->timestamp]);
+
+                $s2 = $this->db->prepare("INSERT INTO active_guests (ip) VALUES (:ip)");
+                $s2->execute([':ip' => $ip]);
+
+                $this->db->commit();
+                $this->counterVisitor();
+            } catch (PDOException $e) {
+                $this->db->rollBack();
+                error_log('visitUpdate error: ' . $e->getMessage());
+            }
         }
     }
 
-    public function guestOnline() {
+    public function counterVisitor(): void
+    {
+        $this->db->query("UPDATE counter SET counter = counter + 1");
+    }
 
-        $current_time = $this->timestamp;
+    private function differenceInHours(string $start, string $end): float
+    {
+        $s = strtotime($start);
+        $e = strtotime($end);
+        if ($s === false || $e === false) return 0.0;
+        return round(abs($e - $s) / 3600, 2);
+    }
 
-        $stmt = $this->connection->prepare("SELECT session FROM total_visitors WHERE session = ?");
-        $stmt->bind_param('s', $this->session);
-        $stmt->execute();
-        $session_exist = $stmt->get_result();
-        $session_check = $session_exist->num_rows;
+    /* ---------- Vistas por página ---------- */
+    public function pageViews(string $title): void
+    {
+        $stmt = $this->db->prepare(
+            "SELECT date_view FROM pagesviews
+            WHERE page = :page AND ip = :ip
+            ORDER BY date_view DESC LIMIT 1"
+        );
+        $stmt->execute([':page' => $title, ':ip' => $this->userIp]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($session_check == 0 && $this->session != "") {
-            $stmt = $this->connection->prepare("INSERT INTO total_visitors (session, time) VALUES (?,?)");
-            $stmt->bind_param('ss', $this->session, $current_time);
-            $stmt->execute();
+        if ($row && $this->differenceInHours($row['date_view'], $this->timestamp) < 24) {
+            return;
+        }
+
+        $ins = $this->db->prepare("INSERT INTO pageviews (page, ip, date_view) VALUES (:p, :i, :d)");
+        $ins->execute([':p' => $title, ':i' => $this->userIp, ':d' => $this->timestamp]);
+    }
+
+    /* ---------- Sesiones online ---------- */
+    public function guestOnline(): void
+    {
+        $stmt = $this->db->prepare("SELECT 1 FROM total_visitors WHERE session = :s");
+        $stmt->execute([':s' => $this->session]);
+
+        if ($stmt->fetchColumn() === false) {
+            $ins = $this->db->prepare(
+                "INSERT INTO total_visitors (session, time) VALUES (:s, :t)"
+            );
+            $ins->execute([':s' => $this->session, ':t' => $this->timestamp]);
         } else {
-            $stmt = $this->connection->prepare("UPDATE total_visitors SET time = ? WHERE session = ?");
-            $stmt->bind_param('ss', $current_time, $this->session);
-            $stmt->execute();
+            $upd = $this->db->prepare(
+                "UPDATE total_visitors SET time = :t WHERE session = :s"
+            );
+            $upd->execute([':t' => $this->timestamp, ':s' => $this->session]);
         }
     }
 
-    public function totalOnline() {
-
-        $time = strtotime($this->timestamp);
-        $tim = $time - (60 * 60); //one hour
-        $timeout = date("Y-m-d H:i:s", $tim);
-
-        $stmt = $this->connection->prepare("SELECT * FROM total_visitors WHERE time>= ?");
-        $stmt->bind_param('s', $timeout);
-        $stmt->execute();
-        $select_total = $stmt->get_result();
-        return $select_total->num_rows;
+    public function totalOnline(): int
+    {
+        $timeout = date('Y-m-d H:i:s', strtotime($this->timestamp) - 3600);
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM total_visitors WHERE time >= :t");
+        $stmt->execute([':t' => $timeout]);
+        return (int) $stmt->fetchColumn();
     }
 }

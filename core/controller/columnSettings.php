@@ -5,63 +5,59 @@
 //  Author     : PePiuoX
 //  Email      : contact@pepiuox.net
 //
-class columnSettings {
+class ColumnSettings
+{
+    protected PDO $conn;
 
-    protected $conn;
-
-    public function __construct() {
-        global $conn;
+    public function __construct(PDO $conn)
+    {
         $this->conn = $conn;
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function setList($value) {
-        if ($value === 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+    public function setList(int $value): bool
+    {
+        return $value === 1;
     }
 
-    public function setView($value) {
-        if ($value === 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+    public function setView(int $value): bool
+    {
+        return $value === 1;
     }
 
-    public function setAdd($value) {
-        if ($value === 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+    public function setAdd(int $value): bool
+    {
+        return $value === 1;
     }
 
-    public function setUpdate($value) {
-        if ($value === 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+    public function setUpdate(int $value): bool
+    {
+        return $value === 1;
     }
 
-    public function colSettings($tname, $cname) {
+    /**
+     * Obtiene la configuración de una columna específica.
+     *
+     * @return string|null JSON con la configuración o null si no existe
+     */
+    public function colSettings(string $tname, string $cname): ?string
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM table_column_settings
+            WHERE name_table = :tname AND col_name = :cname
+            LIMIT 1"
+        );
+        $stmt->execute([
+            ':tname' => $tname,
+            ':cname' => $cname,
+        ]);
 
-        $stmt = $this->conn->prepare("SELECT * FROM table_column_settings WHERE name_table=? AND col_name=?");
-        $stmt->bind_param("ss", $tname, $cname);
-        $stmt->execute();
-        $rts = $stmt->get_result();
-        $stmt->close();
-        $nm = $rts->num_rows;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($nm > 0) {
-            $row = $rts->fetch_assoc();
-            return json_encode($row, true);
-        } else {
-            echo 'Error in Database';
+        if ($row) {
+            return json_encode($row, JSON_UNESCAPED_UNICODE);
         }
-        
+
+        return null;
     }
 }
-?>

@@ -1,21 +1,20 @@
 <?php
 /**
  * PageCacheManager - Sistema de caché inteligente para páginas
- * Detecta automáticamente cambios en la base de datos y regenera caché
+ * Migrado a PDO & Secured by AI Assistant
  *
  * @author PEPIUOX
- * @version 2.0
+ * @version 3.0
  */
 class PageCacheManager {
-
-    private $conn;
-    private $cacheDir;
-    private $metaDir;
-    private $contentDir;
-    private $cacheTTL;
-    private $enableCompression;
-    private $cacheHits = 0;
-    private $cacheMisses = 0;
+    private PDO $conn;
+    private string $cacheDir;
+    private string $metaDir;
+    private string $contentDir;
+    private int $cacheTTL;
+    private bool $enableCompression;
+    private int $cacheHits = 0;
+    private int $cacheMisses = 0;
 
     // Estados de caché
     const CACHE_VALID = 'valid';
@@ -25,11 +24,8 @@ class PageCacheManager {
 
     /**
      * Constructor
-     *
-     * @param mysqli $conn Conexión a base de datos
-     * @param array $config Configuración opcional
      */
-    public function __construct($conn, array $config = []) {
+    public function __construct(PDO $conn, array $config = []) {
         $this->conn = $conn;
 
         // Configuración por defecto
@@ -40,18 +36,17 @@ class PageCacheManager {
         // Crear subdirectorios
         $this->metaDir = $this->cacheDir . '/meta';
         $this->contentDir = $this->cacheDir . '/content';
-
         $this->initializeDirectories();
     }
 
     /**
      * Inicializa la estructura de directorios
      */
-    private function initializeDirectories() {
+    private function initializeDirectories(): void {
         foreach ([$this->cacheDir, $this->metaDir, $this->contentDir] as $dir) {
             if (!is_dir($dir)) {
                 if (!mkdir($dir, 0755, true)) {
-                    throw new Exception("No se pudo crear el directorio: $dir");
+                    throw new Exception("No se pudo crear el directorio: {$dir}");
                 }
             }
         }
@@ -59,13 +54,8 @@ class PageCacheManager {
 
     /**
      * Obtiene una página (con caché automático)
-     *
-     * @param string $slug Slug o URL de la página
-     * @param bool $forceRefresh Forzar regeneración del caché
-     * @return array|null Datos de la página o null si no existe
      */
-    public function getPage($slug, $forceRefresh = false) {
-        // Limpiar slug
+    public function getPage(string $slug, bool $forceRefresh = false): ?array {
         $slug = $this->normalizeSlug($slug);
         $cacheKey = $this->generateCacheKey($slug);
 
@@ -82,7 +72,6 @@ class PageCacheManager {
 
         // Cargar desde base de datos
         $pageData = $this->loadPageFromDatabase($slug);
-
         if ($pageData) {
             // Guardar en caché
             $this->saveToCache($cacheKey, $slug, $pageData);
@@ -94,11 +83,8 @@ class PageCacheManager {
 
     /**
      * Obtiene múltiples páginas con una sola consulta
-     *
-     * @param array $slugs Lista de slugs
-     * @return array Páginas cacheadas o cargadas
      */
-    public function getMultiplePages(array $slugs) {
+    public function getMultiplePages(array $slugs): array {
         $results = [];
         $missedSlugs = [];
 
@@ -120,7 +106,6 @@ class PageCacheManager {
         // Cargar páginas faltantes de una vez
         if (!empty($missedSlugs)) {
             $pagesFromDB = $this->loadMultiplePagesFromDatabase($missedSlugs);
-
             foreach ($pagesFromDB as $slug => $pageData) {
                 $cacheKey = $this->generateCacheKey($slug);
                 $this->saveToCache($cacheKey, $slug, $pageData);
@@ -132,13 +117,9 @@ class PageCacheManager {
     }
 
     /**
-     * Carga página desde caché
-     *
-     * @param string $cacheKey Clave única del caché
-     * @param string $slug Slug de la página
-     * @return array|null Datos cacheados o null
+     * Carga página desde caché (con verificación de integridad)
      */
-    private function loadFromCache($cacheKey, $slug) {
+    private function loadFromCache(string $cacheKey, string $slug): ?array {
         $metaFile = $this->metaDir . '/' . $cacheKey . '.meta';
         $contentFile = $this->contentDir . '/' . $cacheKey . '.cache';
 
@@ -147,8 +128,8 @@ class PageCacheManager {
             return null;
         }
 
-        // Cargar metadatos
-        $meta = unserialize(file_get_contents($metaFile));
+        // Cargar metadatos (usar JSON en lugar de serialize para seguridad)
+        $meta = json_decode(file_get_contents($metaFile), true);
         if (!$meta) {
             return null;
         }
@@ -172,18 +153,30 @@ class PageCacheManager {
             $content = gzuncompress($content);
         }
 
-        return unserialize($content);
+        // Verificar integridad con hash
+        $data = json_decode($content, true);
+        if (!$data || !isset($data['hash'])) {
+            return null;
+        }
+
+        // Verificar que el hash coincida
+        $expectedHash = $data['hash'];
+        unset($data['hash']);
+        $actualHash = hash('sha256', json_encode($data));
+
+        if ($expectedHash !== $actualHash) {
+            error_log("PageCache: Hash mismatch for {$slug}");
+            $this->invalidateCache($cacheKey);
+            return null;
+        }
+
+        return $data;
     }
 
     /**
-     * Guarda página en caché
-     *
-     * @param string $cacheKey Clave única del caché
-     * @param string $slug Slug de la página
-     * @param array $pageData Datos de la página
-     * @return bool Éxito de la operación
+     * Guarda página en caché (con hash de integridad)
      */
-    private function saveToCache($cacheKey, $slug, array $pageData) {
+    public function saveToCache(string $cacheKey, string $slug, array $pageData): bool {
         // Preparar metadatos
         $meta = [
             'slug' => $slug,
@@ -195,14 +188,16 @@ class PageCacheManager {
             'expires_at' => time() + $this->cacheTTL
         ];
 
-        // Guardar metadatos
+        // Guardar metadatos (usar JSON)
         $metaFile = $this->metaDir . '/' . $cacheKey . '.meta';
-        if (file_put_contents($metaFile, serialize($meta), LOCK_EX) === false) {
+        if (file_put_contents($metaFile, json_encode($meta), LOCK_EX) === false) {
             return false;
         }
 
-        // Guardar contenido
-        $content = serialize($pageData);
+        // Añadir hash de integridad al contenido
+        $pageData['hash'] = hash('sha256', json_encode($pageData));
+
+        $content = json_encode($pageData);
         if ($this->enableCompression) {
             $content = gzcompress($content, 9);
         }
@@ -212,13 +207,9 @@ class PageCacheManager {
     }
 
     /**
-     * Verifica cambios en la base de datos
-     *
-     * @param string $slug Slug de la página
-     * @param int $lastKnownTime Última modificación conocida
-     * @return bool True si hay cambios
+     * Verifica cambios en la base de datos (migrado a PDO)
      */
-    private function checkForDatabaseChanges($slug, $lastKnownTime) {
+    private function checkForDatabaseChanges(string $slug, int $lastKnownTime): bool {
         $stmt = $this->conn->prepare("
         SELECT
         MAX(GREATEST(
@@ -227,17 +218,18 @@ class PageCacheManager {
         )) as last_modified
         FROM pages p
         LEFT JOIN pages_contents pc ON p.id = pc.idPage
-        WHERE (p.slug = ? OR p.link = ?)
+        WHERE (p.slug = :slug1 OR p.link = :slug2)
         AND p.active = 1
         ORDER BY pc.version DESC
         LIMIT 1
         ");
 
-        $stmt->bind_param("ss", $slug, $slug);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $stmt->close();
+        $stmt->execute([
+            ':slug1' => $slug,
+            ':slug2' => $slug
+        ]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row && $row['last_modified']) {
             $lastModified = strtotime($row['last_modified']);
@@ -248,12 +240,9 @@ class PageCacheManager {
     }
 
     /**
-     * Carga página desde base de datos
-     *
-     * @param string $slug Slug de la página
-     * @return array|null Datos de la página
+     * Carga página desde base de datos (migrado a PDO)
      */
-    private function loadPageFromDatabase($slug) {
+    private function loadPageFromDatabase(string $slug): ?array {
         $stmt = $this->conn->prepare("
         SELECT
         p.*,
@@ -265,17 +254,18 @@ class PageCacheManager {
         GREATEST(p.updated_at, pc.updated_at) as last_modified
         FROM pages p
         LEFT JOIN pages_contents pc ON p.id = pc.idPage
-        WHERE (p.slug = ? OR p.link = ?)
+        WHERE (p.slug = :slug1 OR p.link = :slug2)
         AND p.active = 1
         ORDER BY pc.version DESC
         LIMIT 1
         ");
 
-        $stmt->bind_param("ss", $slug, $slug);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $pageData = $result->fetch_assoc();
-        $stmt->close();
+        $stmt->execute([
+            ':slug1' => $slug,
+            ':slug2' => $slug
+        ]);
+
+        $pageData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Si no hay contenido en pages_contents, usar valores por defecto
         if ($pageData && !isset($pageData['html_content'])) {
@@ -287,20 +277,16 @@ class PageCacheManager {
             $pageData['last_modified'] = $pageData['updated_at'] ?? date('Y-m-d H:i:s');
         }
 
-        return $pageData;
+        return $pageData ?: null;
     }
 
     /**
-     * Carga múltiples páginas con una consulta
-     *
-     * @param array $slugs Lista de slugs
-     * @return array Páginas cargadas
+     * Carga múltiples páginas con una consulta (migrado a PDO)
      */
-    private function loadMultiplePagesFromDatabase(array $slugs) {
+    private function loadMultiplePagesFromDatabase(array $slugs): array {
         if (empty($slugs)) return [];
 
         $placeholders = implode(',', array_fill(0, count($slugs), '?'));
-        $types = str_repeat('s', count($slugs));
 
         $stmt = $this->conn->prepare("
         SELECT
@@ -314,32 +300,26 @@ class PageCacheManager {
                                      GREATEST(p.updated_at, pc.updated_at) as last_modified
                                      FROM pages p
                                      LEFT JOIN pages_contents pc ON p.id = pc.idPage
-                                     WHERE (p.slug IN ($placeholders) OR p.link IN ($placeholders))
+                                     WHERE (p.slug IN ({$placeholders}) OR p.link IN ({$placeholders}))
         AND p.active = 1
         ORDER BY pc.version DESC
         ");
 
         $params = array_merge($slugs, $slugs);
-        $stmt->bind_param($types . $types, ...$params);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->execute($params);
 
         $pages = [];
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $pages[$row['slug']] = $row;
         }
 
-        $stmt->close();
         return $pages;
     }
 
     /**
      * Invalida caché de una página específica
-     *
-     * @param string $cacheKey Clave del caché o slug
-     * @return bool Éxito
      */
-    public function invalidateCache($cacheKey) {
+    public function invalidateCache(string $cacheKey): bool {
         // Si es un slug, generar cache key
         if (strpos($cacheKey, '/') !== false || strpos($cacheKey, '.') === false) {
             $cacheKey = $this->generateCacheKey($this->normalizeSlug($cacheKey));
@@ -349,9 +329,11 @@ class PageCacheManager {
         $contentFile = $this->contentDir . '/' . $cacheKey . '.cache';
 
         $success = true;
+
         if (file_exists($metaFile)) {
             $success = $success && unlink($metaFile);
         }
+
         if (file_exists($contentFile)) {
             $success = $success && unlink($contentFile);
         }
@@ -361,10 +343,8 @@ class PageCacheManager {
 
     /**
      * Invalida caché de todas las páginas
-     *
-     * @return int Número de archivos eliminados
      */
-    public function invalidateAllCache() {
+    public function invalidateAllCache(): int {
         $count = 0;
 
         foreach (glob($this->metaDir . '/*.meta') as $file) {
@@ -380,15 +360,14 @@ class PageCacheManager {
 
     /**
      * Limpia caché expirado
-     *
-     * @return int Número de archivos eliminados
      */
-    public function cleanExpiredCache() {
+    public function cleanExpiredCache(): int {
         $count = 0;
         $now = time();
 
         foreach (glob($this->metaDir . '/*.meta') as $metaFile) {
-            $meta = unserialize(file_get_contents($metaFile));
+            $meta = json_decode(file_get_contents($metaFile), true);
+
             if ($meta && $meta['expires_at'] < $now) {
                 $cacheKey = basename($metaFile, '.meta');
                 if ($this->invalidateCache($cacheKey)) {
@@ -402,11 +381,8 @@ class PageCacheManager {
 
     /**
      * Precalienta caché para páginas populares
-     *
-     * @param array $slugs Lista de slugs a precargar
-     * @return array Resultados de la precarga
      */
-    public function warmupCache(array $slugs) {
+    public function warmupCache(array $slugs): array {
         $results = [
             'success' => 0,
             'failed' => 0,
@@ -415,6 +391,7 @@ class PageCacheManager {
 
         foreach ($slugs as $slug) {
             $pageData = $this->loadPageFromDatabase($slug);
+
             if ($pageData) {
                 $cacheKey = $this->generateCacheKey($slug);
                 if ($this->saveToCache($cacheKey, $slug, $pageData)) {
@@ -433,10 +410,8 @@ class PageCacheManager {
 
     /**
      * Obtiene estadísticas del caché
-     *
-     * @return array Estadísticas
      */
-    public function getCacheStats() {
+    public function getCacheStats(): array {
         $totalFiles = count(glob($this->contentDir . '/*.cache'));
         $totalSize = 0;
         $oldestFile = null;
@@ -445,11 +420,13 @@ class PageCacheManager {
         foreach (glob($this->contentDir . '/*.cache') as $file) {
             $size = filesize($file);
             $totalSize += $size;
+
             $mtime = filemtime($file);
 
             if ($oldestFile === null || $mtime < $oldestFile['mtime']) {
                 $oldestFile = ['file' => basename($file), 'mtime' => $mtime];
             }
+
             if ($newestFile === null || $mtime > $newestFile['mtime']) {
                 $newestFile = ['file' => basename($file), 'mtime' => $mtime];
             }
@@ -461,7 +438,7 @@ class PageCacheManager {
             'total_size_mb' => round($totalSize / 1048576, 2),
             'cache_hits' => $this->cacheHits,
             'cache_misses' => $this->cacheMisses,
-            'hit_ratio' => $this->cacheHits + $this->cacheMisses > 0
+            'hit_ratio' => ($this->cacheHits + $this->cacheMisses) > 0
             ? round(($this->cacheHits / ($this->cacheHits + $this->cacheMisses)) * 100, 2)
             : 0,
             'oldest_cache' => $oldestFile ? date('Y-m-d H:i:s', $oldestFile['mtime']) : null,
@@ -473,21 +450,15 @@ class PageCacheManager {
 
     /**
      * Genera clave única para caché
-     *
-     * @param string $slug Slug normalizado
-     * @return string Clave MD5
      */
-    private function generateCacheKey($slug) {
-        return md5($slug . '_page_cache_v2');
+    public function generateCacheKey(string $slug): string {
+        return md5($slug . '_page_cache_v3');
     }
 
     /**
      * Normaliza el slug para búsqueda consistente
-     *
-     * @param string $slug Slug original
-     * @return string Slug normalizado
      */
-    private function normalizeSlug($slug) {
+    private function normalizeSlug(string $slug): string {
         // Eliminar barra inicial/final
         $slug = trim($slug, '/');
 
@@ -507,12 +478,12 @@ class PageCacheManager {
      */
     public function __destruct() {
         // Opcional: Guardar estadísticas en log
-        if ($this->cacheHits + $this->cacheMisses > 0) {
+        if (($this->cacheHits + $this->cacheMisses) > 0) {
             error_log(sprintf(
                 "PageCache Stats - Hits: %d, Misses: %d, Ratio: %.2f%%",
                 $this->cacheHits,
                 $this->cacheMisses,
-                $this->cacheHits + $this->cacheMisses > 0
+                ($this->cacheHits + $this->cacheMisses) > 0
                 ? ($this->cacheHits / ($this->cacheHits + $this->cacheMisses)) * 100
                 : 0
             ));

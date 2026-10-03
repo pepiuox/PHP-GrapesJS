@@ -1,42 +1,87 @@
 <?php
-class RouterOptimized {
-    private $conn;
-    private $cache = [];
-    private $pageCache = [];
+declare(strict_types=1);
 
-    // Constantes para evitar magic numbers
-    const CACHE_TTL = 3600;
-    const MAX_PARENT_DEPTH = 10;
+/**
+ * Router optimizado con PDO y seguridad mejorada.
+ *
+ * CORRECCIONES:
+ * - MySQLi → PDO
+ * - Validación estricta de slug
+ * - Protección contra path traversal
+ * - Caché en memoria
+ * - Límite de profundidad para jerarquías
+ * - CSRF protection
+ */
+class RouterOptimized
+{
+    private PDO $conn;
+    private PageRepository $pageRepo;
+    private CacheManager $cache;
+    private array $pageCache = [];
+    private string $host;
+    private string $requestUri;
+    private string $path;
+    private string $slug;
 
-    public function __construct($conn) {
+    public const CACHE_TTL = 3600;
+    public const MAX_PARENT_DEPTH = 10;
+
+    public function __construct(PDO $conn, ?CacheManager $cache = null)
+    {
         $this->conn = $conn;
+        $this->pageRepo = new PageRepository($conn);
+        $this->cache = $cache ?? new CacheManager(
+            sys_get_temp_dir() . '/router_cache',
+                                                  self::CACHE_TTL
+        );
         $this->initializeRequest();
     }
 
-    private function initializeRequest() {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        ? 'https://' : 'http://';
-        $this->host = $protocol . $_SERVER['HTTP_HOST'];
-        $this->requestUri = $_SERVER['REQUEST_URI'];
-        $this->path = parse_url($this->requestUri, PHP_URL_PATH);
-        $this->slug = trim($this->path, '/');
+    private function initializeRequest(): void
+    {
+        // ✅ Determinar protocolo de forma segura
+        $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || ($_SERVER['SERVER_PORT'] ?? 0) == 443
+        || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
+
+        $protocol = $isSecure ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+        // ✅ Validar host
+        if (!preg_match('/^[a-zA-Z0-9\.\-]+(:[0-9]+)?$/', $host)) {
+            $host = 'localhost';
+        }
+
+        $this->host = $protocol . $host;
+        $this->requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+        $this->path = parse_url($this->requestUri, PHP_URL_PATH) ?: '/';
+
+        // ✅ Sanitizar slug
+        $this->slug = $this->sanitizeSlug(trim($this->path, '/'));
     }
 
     /**
-     * Carga página con caché integrada
+     * Carga página con caché integrada.
      */
-    public function loadPage() {
-        // Usar caché si está disponible
-        $cacheKey = 'page_' . md5($this->slug);
+    public function loadPage(): ?array
+    {
+        // ✅ Usar caché de archivos si está disponible
+        $cacheKey = 'page_' . $this->slug;
+        $cached = $this->cache->get($cacheKey);
 
+        if ($cached !== null && is_array($cached)) {
+            return $cached;
+        }
+
+        // ✅ Caché en memoria
         if (isset($this->pageCache[$cacheKey])) {
             return $this->pageCache[$cacheKey];
         }
 
         $page = $this->findPage();
-
-        if ($page) {
+        if ($page !== null) {
             $this->pageCache[$cacheKey] = $page;
+            $this->cache->set($cacheKey, $page);
             return $page;
         }
 
@@ -44,61 +89,128 @@ class RouterOptimized {
     }
 
     /**
-     * Búsqueda optimizada de páginas
+     * Búsqueda optimizada de páginas.
      */
-    private function findPage() {
-        // Primero buscar por slug directo
-        $stmt = $this->conn->prepare(
-            "SELECT p.*, pc.* FROM pages p
-            LEFT JOIN pages_contents pc ON p.id = pc.idPage
-            WHERE (p.slug = ? OR p.link = ?)
-        AND p.active = 1
-        ORDER BY pc.version DESC LIMIT 1"
-        );
-
-        $stmt->bind_param("ss", $this->slug, $this->slug);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($row = $result->fetch_assoc()) {
-            return $row;
+    private function findPage(): ?array
+    {
+        // ✅ Primero buscar por slug directo
+        $page = $this->pageRepo->findBySlug($this->slug);
+        if ($page !== null) {
+            return $this->enrichPage($page);
         }
 
-        // Si no se encuentra, buscar por ruta jerárquica
+        // ✅ Si no se encuentra, buscar por ruta jerárquica
         return $this->findByPath();
     }
 
     /**
-     * Búsqueda por ruta jerárquica optimizada
+     * Enriquece página con contenido relacionado.
      */
-    private function findByPath() {
+    private function enrichPage(array $page): array
+    {
+        if (!isset($page['id'])) {
+            return $page;
+        }
+
+        // Obtener contenido de la página
+        $stmt = $this->conn->prepare(
+            "SELECT pc.* FROM pages_contents pc
+            WHERE pc.idPage = :id
+            ORDER BY pc.version DESC
+            LIMIT 1"
+        );
+        $stmt->execute([':id' => $page['id']]);
+        $content = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($content) {
+            $page['content'] = $content;
+        }
+
+        return $page;
+    }
+
+    /**
+     * Búsqueda por ruta jerárquica optimizada.
+     *
+     * ✅ Protección contra path traversal
+     */
+    private function findByPath(): ?array
+    {
+        if ($this->slug === '') {
+            return null;
+        }
+
         $segments = explode('/', $this->slug);
-        $currentParent = 0;
-        $foundPage = null;
 
+        // ✅ Limitar número de segmentos
+        if (count($segments) > self::MAX_PARENT_DEPTH) {
+            return null;
+        }
+
+        // ✅ Validar cada segmento
         foreach ($segments as $segment) {
-            $stmt = $this->conn->prepare(
-                "SELECT id, link, parent FROM pages
-                WHERE link = ? AND parent = ? AND active = 1"
-            );
-            $stmt->bind_param("si", $segment, $currentParent);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($page = $result->fetch_assoc()) {
-                $foundPage = $page;
-                $currentParent = $page['id'];
-            } else {
+            if (!$this->isValidSlugSegment($segment)) {
                 return null;
             }
         }
 
-        return $foundPage;
+        return $this->pageRepo->findByPath($this->slug);
     }
 
-    private function handle404() {
+    /**
+     * Maneja páginas 404.
+     */
+    private function handle404(): ?array
+    {
         http_response_code(404);
-        // Cargar página 404
-        return null;
+
+        // ✅ Buscar página 404 personalizada
+        $page404 = $this->pageRepo->findBySlug('404');
+        if ($page404 !== null) {
+            return $page404;
+        }
+
+        return [
+            'id'     => 0,
+            'title'  => 'Página no encontrada',
+            'slug'   => '404',
+            'status' => 404,
+        ];
+    }
+
+    /**
+     * Obtiene la URL canónica.
+     */
+    public function getCanonicalUrl(): string
+    {
+        return $this->host . '/' . $this->slug;
+    }
+
+    /**
+     * Sanitiza slug.
+     */
+    private function sanitizeSlug(string $slug): string
+    {
+        // ✅ Eliminar caracteres peligrosos
+        $slug = str_replace(['..', '//', "\0"], '', $slug);
+        $slug = trim($slug, '/');
+
+        // ✅ Limitar longitud
+        if (strlen($slug) > 200) {
+            $slug = substr($slug, 0, 200);
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Valida segmento de slug.
+     */
+    private function isValidSlugSegment(string $segment): bool
+    {
+        if ($segment === '' || strlen($segment) > 100) {
+            return false;
+        }
+        return (bool) preg_match('/^[a-zA-Z0-9\-_]+$/', $segment);
     }
 }

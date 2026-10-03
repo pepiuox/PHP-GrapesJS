@@ -1,117 +1,181 @@
 <?php
+declare(strict_types=1);
 
-class db {
+/**
+ * Wrapper de base de datos con PDO.
+ * Mantiene la misma API que la versión MySQLi para compatibilidad.
+ *
+ * Uso:
+ *   $db = new db($pdo);
+ *   $db->query("SELECT * FROM users WHERE id = ?", $userId)->fetchAll();
+ */
+class db
+{
+    protected PDO $connection;
+    protected ?PDOStatement $query = null;
+    public int $query_count = 0;
 
-    protected $connection;
-    protected $query;
-    public $query_count = 0;
-
-    public function __construct() {
-        global $conn;
-        $this->connection = $conn;
+    public function __construct(PDO $connection)
+    {
+        $this->connection = $connection;
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
-    public function query($query) {
-        if ($this->query = $this->connection->prepare($query)) {
-            if (func_num_args() > 1) {
-                $x = func_get_args();
-                $args = array_slice($x, 1);
-                $types = '';
-                $args_ref = array();
-                foreach ($args as $k => &$arg) {
-                    if (is_array($args[$k])) {
-                        foreach ($args[$k] as $j => &$a) {
-                            $types .= $this->_gettype($args[$k][$j]);
-                            $args_ref[] = &$a;
+    /**
+     * Ejecuta una consulta con parámetros opcionales.
+     *
+     * @param string $query SQL con placeholders (?)
+     * @param mixed ...$params Parámetros a vincular
+     * @return self
+     */
+    public function query(string $query, ...$params): self
+    {
+        try {
+            $this->query = $this->connection->prepare($query);
+
+            if (!empty($params)) {
+                // Aplanar arrays anidados (compatibilidad con versión anterior)
+                $flatParams = [];
+                foreach ($params as $param) {
+                    if (is_array($param)) {
+                        foreach ($param as $p) {
+                            $flatParams[] = $p;
                         }
                     } else {
-                        $types .= $this->_gettype($args[$k]);
-                        $args_ref[] = &$arg;
+                        $flatParams[] = $param;
                     }
                 }
-                array_unshift($args_ref, $types);
-                call_user_func_array(array($this->query, 'bind_param'), $args_ref);
+
+                $this->query->execute($flatParams);
+            } else {
+                $this->query->execute();
             }
-            $this->query->execute();
-            if ($this->query->errno) {
-                die('Unable to process MySQL query (check your params) - ' . $this->query->error);
-            }
+
             $this->query_count++;
-        } else {
-            die('Unable to prepare statement (check your syntax) - ' . $this->connection->error);
+        } catch (PDOException $e) {
+            error_log('Database error: ' . $e->getMessage());
+            throw new RuntimeException('Database query failed: ' . $e->getMessage());
         }
+
         return $this;
     }
 
-    public function fetchAll() {
-        $params = array();
-        $meta = $this->query->result_metadata();
-        while ($field = $meta->fetch_field()) {
-            $params[] = &$row[$field->name];
+    /**
+     * Obtiene todos los resultados como array asociativo.
+     */
+    public function fetchAll(): array
+    {
+        if ($this->query === null) {
+            return [];
         }
-        call_user_func_array(array($this->query, 'bind_result'), $params);
-        $result = array();
-        while ($this->query->fetch()) {
-            $r = array();
-            foreach ($row as $key => $val) {
-                $r[$key] = $val;
-            }
-            $result[] = $r;
-        }
-        $this->query->close();
-        return $result;
+        return $this->query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function fetchArray() {
-        $params = array();
-        $meta = $this->query->result_metadata();
-        while ($field = $meta->fetch_field()) {
-            $params[] = &$row[$field->name];
+    /**
+     * Obtiene una sola fila como array asociativo.
+     */
+    public function fetchArray(): array
+    {
+        if ($this->query === null) {
+            return [];
         }
-        call_user_func_array(array($this->query, 'bind_result'), $params);
-        $result = array();
-        while ($this->query->fetch()) {
-            foreach ($row as $key => $val) {
-                $result[$key] = $val;
-            }
-        }
-        $this->query->close();
-        return $result;
+        $row = $this->query->fetch(PDO::FETCH_ASSOC);
+        return $row !== false ? $row : [];
     }
 
-    public function numRows() {
-        $this->query->store_result();
-        return $this->query->num_rows;
-    }
-
-    public function insertedId() {
-        return $this->query->insert_id;
-    }
-
-    public function close() {
-        return $this->connection->close();
-    }
-
-    public function affectedRows() {
-        return $this->query->affected_rows;
-    }
-
-    private function _gettype($var) {
-        if (is_string($var)) {
-            return 's';
+    /**
+     * Obtiene una sola fila como objeto.
+     */
+    public function fetchObject(): ?object
+    {
+        if ($this->query === null) {
+            return null;
         }
+        $row = $this->query->fetch(PDO::FETCH_OBJ);
+        return $row !== false ? $row : null;
+    }
 
-        if (is_float($var)) {
-            return 'd';
+    /**
+     * Cuenta el número de filas afectadas/devueltas.
+     */
+    public function numRows(): int
+    {
+        if ($this->query === null) {
+            return 0;
         }
+        return $this->query->rowCount();
+    }
 
-        if (is_int($var)) {
-            return 'i';
+    /**
+     * Obtiene el ID del último insert.
+     */
+    public function insertedId(): string
+    {
+        return $this->connection->lastInsertId();
+    }
+
+    /**
+     * Cierra el cursor del statement.
+     */
+    public function close(): bool
+    {
+        if ($this->query !== null) {
+            $this->query->closeCursor();
+            $this->query = null;
         }
+        return true;
+    }
 
-        return 'b';
+    /**
+     * Obtiene el número de filas afectadas.
+     */
+    public function affectedRows(): int
+    {
+        if ($this->query === null) {
+            return 0;
+        }
+        return $this->query->rowCount();
+    }
+
+    /**
+     * Obtiene la conexión PDO subyacente.
+     */
+    public function getConnection(): PDO
+    {
+        return $this->connection;
+    }
+
+    /**
+     * Inicia una transacción.
+     */
+    public function beginTransaction(): bool
+    {
+        return $this->connection->beginTransaction();
+    }
+
+    /**
+     * Confirma una transacción.
+     */
+    public function commit(): bool
+    {
+        return $this->connection->commit();
+    }
+
+    /**
+     * Revierte una transacción.
+     */
+    public function rollBack(): bool
+    {
+        return $this->connection->rollBack();
+    }
+
+    /**
+     * Verifica si hay una transacción activa.
+     */
+    public function inTransaction(): bool
+    {
+        return $this->connection->inTransaction();
     }
 }
-
-?>
- 

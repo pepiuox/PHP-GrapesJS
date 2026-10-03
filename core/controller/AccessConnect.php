@@ -1,5 +1,4 @@
 <?php
-
 //
 //  This application develop by PEPIUOX.
 //  Created by : Lab eMotion
@@ -7,7 +6,6 @@
 //  Email      : contact@pepiuox.net
 //
 class AccessConnect {
-
     protected $conn;
 
     public function __construct() {
@@ -15,30 +13,24 @@ class AccessConnect {
         $this->conn = $conn;
     }
 
-    /* get number of visitor
-     *
-     */
-
+    /* get number of visitor */
     private function activeGuests() {
-        return $this->conn->query("SELECT ip FROM active_guests")->num_rows;
+        $stmt = $this->conn->query("SELECT ip FROM active_guests");
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return count($results);
     }
 
     public function numVisitor() {
         return $this->activeGuests();
     }
 
-    /* get number of users
-     *
-     */
-
+    /* get number of users */
     private function verifiedUser() {
         $ver = 1;
         $stmt = $this->conn->prepare("SELECT verified FROM users WHERE verified = ?");
-        $stmt->bind_param("i", $ver);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        return $result->num_rows;
+        $stmt->execute([$ver]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return count($results);
     }
 
     public function numUsers() {
@@ -47,18 +39,14 @@ class AccessConnect {
 
     public function getUserInfo($username) {
         $stmt = $this->conn->prepare(
-            "SELECT iduv, email, level  FROM uverify WHERE username = ?"
+            "SELECT iduv, email, level FROM uverify WHERE username = ?"
         );
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        if ($result->num_rows == 1) {
-            /* Return result array */
-            $dbarray = $result->fetch_assoc();
-            return $dbarray;
+        $stmt->execute([$username]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($results) == 1) {
+            return $results[0];
         } else {
-            /* Error occurred, return given name by default */
             return null;
         }
     }
@@ -67,20 +55,14 @@ class AccessConnect {
         $stmt = $this->conn->prepare(
             "SELECT username FROM uverify WHERE username = ?"
         );
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
+        $stmt->execute([$username]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($result->num_rows == 1) {
-            /* Return result array */
-            $dbarray = $result->fetch_assoc();
-            return $dbarray["username"];
+        if (count($results) == 1) {
+            return $results[0]["username"];
         } else {
-            /* Error occurred, return given name by default */
             return null;
         }
     }
 }
-
 ?>

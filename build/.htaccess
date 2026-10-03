@@ -1,97 +1,183 @@
 <IfModule mod_rewrite.c>
-        DirectoryIndex index.php
-	RewriteEngine On
-        RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-	RewriteBase /
-        ## Begin - Rewrite rules to block out some common exploits.
-	# If you experience problems on your site block out the operations listed below
-	# This attempts to block the most common type of exploit `attempts` to PhpGrapesjs
-	#        
-	# Block out any script trying to base64_encode data within the URL.
-	RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
-	# Block out any script that includes a <script> tag in URL.
-	RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-	# Block out any script trying to set a PHP GLOBALS variable via URL.
-	RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
-	# Block out any script trying to modify a _REQUEST variable via URL.
-	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-	# Return 403 Forbidden header and show the content of the root homepage
-	RewriteRule .* index.php [F,L]
-	#
+    DirectoryIndex index.php
+    RewriteEngine On
+    RewriteBase /
+
+    # Pasar el header de autorización al entorno
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    ## BEGIN - Reglas mejoradas para bloquear exploits comunes
+    # Bloquear base64_encode en la URL
+    RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [NC,OR]
+
+    # Bloquear inyección de JavaScript en URL
+    RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+
+    # Bloquear manipulación de variables GLOBALS
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [NC,OR]
+
+    # Bloquear manipulación de variables _REQUEST
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [NC,OR]
+
+    # Bloquear intentos de inclusión de archivos remotos
+    RewriteCond %{QUERY_STRING} (ftp|http|https|php):// [NC,OR]
+
+    # Bloquear intentos de ejecución de comandos
+    RewriteCond %{QUERY_STRING} (exec|system|shell_exec|passthru|popen|proc_open) [NC,OR]
+
+    # Bloquear intentos de SQL injection
+    RewriteCond %{QUERY_STRING} (union.*select|select.*from|drop.*table|delete.*from|insert.*into) [NC,OR]
+
+    # Bloquear intentos de path traversal
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC,OR]
+
+    # Bloquear null bytes
+    RewriteCond %{QUERY_STRING} \0 [NC]
+
+    # Retornar 403 Forbidden
+    RewriteRule .* - [F,L]
+    ## END - Reglas de exploits
+
+    # Si el archivo solicitado es index.php, no hacer nada más
     RewriteRule ^index\.php$ - [L]
-	RewriteCond %{REQUEST_FILENAME} !-f
+
+    # Redirigir todas las solicitudes no existentes a index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^.*$ index.php [QSA,L]
-	RewriteCond %{REQUEST_FILENAME}/index.html !-f
-	RewriteCond %{REQUEST_FILENAME}/index.php !-f
-
-    Redirect 301 "/home" "/"
-	Redirect 301 "/inicio" "/"
-    #Redirect 301 "/system" "/admin"
-    #Redirect 301 "/login" "/signin"
-    #Redirect 301 "/user" "/profile"
 </IfModule>
+
 <IfModule mod_headers.c>
-        # Make sure proxies don't deliver the wrong content
-        # Header always set Content-Security-Policy: upgrade-insecure-requests        
-        # This one can be a pain in the A** to set up, which is why I commented it out.
-        Header set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-        Header append Vary User-Agent env=!dont-vary
-        Header always append X-Frame-Options SAMEORIGIN
-        Header always set Content-Security-Policy "upgrade-insecure-requests;"
-        # This is the Xss header you are looking for
-        Header set X-XSS-Protection "1; mode=block"   
-        Header set X-Content-Type-Options nosniff
-        Header set X-Frame-Options "SAMEORIGIN"
-        # Disable server signature
-        Header set ServerSignature "Off"
-        Header set ServerTokens "Prod"
-        # Control Cross-Domain Policies
-        Header set X-Permitted-Cross-Domain-Policies "master-only"
-        # Charset UTF-8
-        # Header set Content-Type "text/html; charset=UTF-8"
-        # 
-        Header set Content-Security-Policy "default-src 'self'; child-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
-        Header set Access-Control-Allow-Origin "*"
-        IndexIgnore *.zip *.css *.js *.pyt    
-        Options -MultiViews -Indexes        
+    # Forzar HTTPS (descomentar si tienes SSL)
+    # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
-</IfModule>
-<IfModule mod_security.c>
-        SecFilterEngine On
-                # ^Turn the filtering engine On or Off
-        SecFilterScanPOST On
-                # ^Should mod_security inspect POST payloads
-        SecFilterSelective "HTTP_USER_AGENT|HTTP_HOST" "^$"
-                # ^Require HTTP_USER_AGENT and HTTP_HOST in all requests
-        SecFilter "../"
-                # ^Prevent path traversal (..) attacks
-        SecFilter "<[[:space:]]*script"
-                # ^Weaker XSS protection but allows common HTML tags
-        SecFilter "<(.|n)+>"
-                # ^Prevent XSS atacks (HTML/Javascript injection)
-        SecFilter "delete[[:space:]]+from"
-        SecFilter "insert[[:space:]]+into"
-        SecFilter "select.+from"
-        SecFilter "drop[[:space:]]table"
-                # ^Very crude filters to prevent SQL injection attacks
-        SecFilterSelective ARG_PHPSESSID "!^[0-9a-z]*$"
-        SecFilterSelective COOKIE_PHPSESSID "!^[0-9a-z]*$"
-                # ^Protecting from XSS attacks through the PHP session cookie
-        SecFilterDefaultAction "deny,log,status:500"
-                # ^Action to take by default
-</IfModule>
-                # Block access to backup and source files.
-                # These files may be left by some text editors and can pose a great security
-                # danger when anyone has access to them.
+    # Prevenir clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
 
-<FilesMatch "(^#.*#|.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op])|~)$">
-        Order allow,deny
-        Deny from all
-        Satisfy All
+    # Prevenir MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Protección XSS mejorada
+    Header set X-XSS-Protection "1; mode=block"
+
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Content-Security-Policy mejorada
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://ajax.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+
+    # Permissions-Policy (antiguamente Feature-Policy)
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), battery=(), accelerometer=(), gyroscope=(), magnetometer=()"
+
+    # Cross-Domain Policies
+    Header set X-Permitted-Cross-Domain-Policies "master-only"
+
+    # Deshabilitar información del servidor
+    Header set Server "Secure-Server"
+
+    # Cache-Control para recursos estáticos
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|woff|woff2|ttf|svg|eot)$">
+        Header set Cache-Control "max-age=2592000, public"
+    </FilesMatch>
+
+    # Cache-Control para HTML
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+        Header set Pragma "no-cache"
+    </FilesMatch>
+
+    # CORS - restringir orígenes específicos (ajustar según necesidad)
+    # Header set Access-Control-Allow-Origin "https://tudominio.com"
+
+    # Vary header para mejor caching
+    Header append Vary "Accept-Encoding"
+</IfModule>
+
+<IfModule mod_security2.c>
+    # Configuración para ModSecurity 2.x (más actualizado)
+    SecRuleEngine On
+
+    # Prevenir path traversal
+    SecRule REQUEST_URI "\.\./" "id:1,phase:1,deny,status:403,msg:'Path Traversal Attack'"
+
+    # Prevenir ataques XSS
+    SecRule REQUEST_HEADERS|REQUEST_FILENAME|REQUEST_URI|REQUEST_BODY "(<script|<iframe|<object|<embed|<applet|<meta)" \
+        "id:2,phase:2,deny,status:403,msg:'XSS Attack Detected'"
+
+    # Prevenir SQL Injection
+    SecRule REQUEST_HEADERS|REQUEST_FILENAME|REQUEST_URI|REQUEST_BODY "(select.*from|delete.*from|insert.*into|update.*set|union.*select|drop.*table|truncate.*table)" \
+        "id:3,phase:2,deny,status:403,msg:'SQL Injection Attack'"
+
+    # Validar cookies de sesión PHP
+    SecRule ARGS:PHPSESSID "!^[0-9a-z]*$" "id:4,phase:2,deny,status:403,msg:'Invalid Session ID'"
+    SecRule COOKIES:PHPSESSID "!^[0-9a-z]*$" "id:5,phase:2,deny,status:403,msg:'Invalid Session ID'"
+
+    # Restringir métodos HTTP
+    SecRule REQUEST_METHOD "^(TRACE|TRACK|DELETE|PUT)" \
+        "id:6,phase:1,deny,status:405,msg:'HTTP Method Not Allowed'"
+</IfModule>
+
+<FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op]|backup|old|orig|save|temp|tmp|~)$|^composer\.(json|lock)$|^\.env$|^\.git|^\.ht)">
+    Require all denied
 </FilesMatch>
+
 <IfModule mod_negotiation.c>
-        # Options +SymLinksIfOwnerMatch
-        Options -MultiViews
-        # other code
+    Options -MultiViews -Indexes
 </IfModule>
+
+# Prevenir acceso a archivos sensibles
+<Files "*.ht*">
+    Require all denied
+</Files>
+
+<Files "*.env*">
+    Require all denied
+</Files>
+
+<Files "composer.*">
+    Require all denied
+</Files>
+
+# Deshabilitar listado de directorios
+Options -Indexes
+
+# Proteger contra ataques de denegación de servicio (DoS)
+<IfModule mod_evasive.c>
+    DOSHashTableSize 3097
+    DOSPageCount 2
+    DOSPageInterval 1
+    DOSSiteCount 50
+    DOSSiteInterval 1
+    DOSBlockingPeriod 10
+</IfModule>
+
+# Aumentar límites de seguridad PHP (si se usa con PHP-FPM)
+<IfModule mod_php7.c>
+    php_value max_execution_time 30
+    php_value memory_limit 256M
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+    php_value max_input_time 60
+    php_value max_input_vars 1000
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_value max_execution_time 30
+    php_value memory_limit 256M
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+    php_value max_input_time 60
+    php_value max_input_vars 1000
+</IfModule>
+
+# Redirecciones permanentes (descomentar según necesidad)
+# Redirect 301 "/home" "/"
+# Redirect 301 "/inicio" "/"
+# Redirect 301 "/system" "/admin"
+# Redirect 301 "/login" "/signin"
+# Redirect 301 "/user" "/profile"
+
+# Error documents personalizados (opcional)
+# ErrorDocument 403 /403.html
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html

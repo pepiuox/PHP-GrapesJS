@@ -1,24 +1,29 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
+declare(strict_types=1);
+
 /**
- * Description of userChange
+ * Cambio de contraseña y PIN de usuarios.
+ * Migrado a PDO con corrección de bugs críticos.
  *
- * @author PePiuoX
+ * CORRECCIONES CRÍTICAS:
+ * - SQL inválido: mkhash=, (falta valor)
+ * - Variable mal escrita: $$enck
+ * - SQL inválido: SELECT idUser, FROM (coma extra)
+ * - SQL inválido: UPDATE uverify mkpin= (falta SET)
+ * - Inyección SQL directa en updatePIN()
+ * - Funciones movidas fuera de métodos
+ * - CSRF protection añadida
+ * - hash_equals para comparación segura
  */
-class userChange {
+class UserChange
+{
+    private PDO $connection;
+    private string $baseurl;
 
-    public $baseurl;
-    protected $connection;
-
-    public function __construct() {
-        global $conn;
+    public function __construct(PDO $conn)
+    {
         $this->connection = $conn;
-        $this->baseurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+        $this->baseurl = "http://" . ($_SERVER['HTTP_HOST'] ?? 'localhost') . dirname($_SERVER['PHP_SELF'] ?? '/');
 
         if (isset($_POST["changePassword"])) {
             $this->updatePassword();
@@ -28,229 +33,339 @@ class userChange {
         }
     }
 
-    /*
-     * function updatePassword()
-     * Get information from Password Reset Form, if the email & token key are correct, update the passwordin database.
-     * This is the third and final step of password reset.
+    /**
+     * Actualiza la contraseña del usuario.
      */
+    private function updatePassword(): void
+    {
+        if (!isset($_POST['updatePassword'])) {
+            return;
+        }
 
-    private function updatePassword() {
-        if (isset($_POST['updatePassword'])) {
-            if (isset($_GET['email']) && isset($_GET['key']) && isset($_GET['hash'])) {
-// Require credentials for DB connection.
+        // ✅ CSRF validation
+        if (!Utils::verifyCSRFToken($_POST['csrf_token'] ?? null)) {
+            $_SESSION['ErrorMessage'] = 'Token CSRF inválido';
+            return;
+        }
 
-                $email = htmlentities($_GET['email']);
-                $changekey = htmlentities($_GET['key']);
-                $hash = htmlentities($_GET['hash']);
+        if (!isset($_GET['email'], $_GET['key'], $_GET['hash'])) {
+            $_SESSION['ErrorMessage'] = 'Parámetros de recuperación inválidos';
+            return;
+        }
 
-                $chck = $this->connection->prepare("SELECT * FROM change_pass WHERE email=? AND mkhash=? AND password_key=?");
-                $chck->bind_param("sss", $email, $hash, $changekey);
-                $chck->execute();
-                $okey = $chck->get_result();
-                $chck->close();
+        // Sanitizar parámetros GET
+        $email = filter_var($_GET['email'], FILTER_SANITIZE_EMAIL);
+        $changekey = ctype_alnum($_GET['key']) ? $_GET['key'] : '';
+        $hash = ctype_alnum($_GET['hash']) ? $_GET['hash'] : '';
 
-                $ct = $okey->fetch_assoc();
-                $nowTime = date("Y-m-d H:i:s");
-                $et = $ct['expire'];
+        if ($email === '' || $changekey === '' || $hash === '') {
+            $_SESSION['ErrorMessage'] = 'Parámetros de recuperación inválidos';
+            return;
+        }
 
-                if ($nowTime >= $et) {
-                    $_SESSION['ErrorMessage'] = 'Time expired to reset your password.';
-                    header('Location: index.php');
-                    exit;
-                }
-                if (!empty($password3) && !empty($email)) {
-                    // User input from Forgot password form(passwordResetForm.php).
-                    $vemail = trim($_POST['vemail']);
-                    $recoveryphrase = trim($_POST['recoveryphrase']);
-                    $password2 = trim($_POST['password2']);
-                    $password3 = trim($_POST['password3']);
+        // Verificar token de recuperación
+        $chck = $this->connection->prepare(
+            "SELECT * FROM change_pass WHERE email = :e AND mkhash = :h AND password_key = :k"
+        );
+        $chck->execute([':e' => $email, ':h' => $hash, ':k' => $changekey]);
+        $ct = $chck->fetch(PDO::FETCH_ASSOC);
 
-                    // Check that both entered passwords match.
-                    if ($password3 === $password2 && $vemail === $email) {
+        if (!$ct) {
+            $_SESSION['ErrorMessage'] = 'Token de recuperación inválido';
+            return;
+        }
 
-                        $stmt = $this->connection->prepare("SELECT * FROM uverify WHERE email=? AND mkhash=? AND password_key=? AND recovery_phrase=?");
-                        $stmt->bind_param("sss", $email, $hash, $changekey, $recoveryphrase);
-                        $stmt->execute();
-                        $very = $stmt->get_result();
+        $nowTime = date("Y-m-d H:i:s");
+        if ($nowTime >= $ct['expire']) {
+            $_SESSION['ErrorMessage'] = 'Tiempo expirado para restablecer la contraseña';
+            header('Location: index.php');
+            exit;
+        }
 
-                        if ($very->num_rows === 1) {
-                            $dt = $very->fetch_assoc();
-                            $duv = $dt['iduv'];
-                            $pin = $dt['mkpin'];
-
-                            function randHash($len = 32) {
-                                return substr(sha1(openssl_random_pseudo_bytes(21)), - $len);
-                            }
-
-                            function randKey($len = 32) {
-                                return substr(sha1(openssl_random_pseudo_bytes(13)), - $len);
-                            }
-
-                            function encKey($len = 32) {
-                                return substr(sha1(openssl_random_pseudo_bytes(17)), - $len);
-                            }
-
-                            $ekey = randHash();
-                            $eiv = randkey();
-                            $enck = enckey();
-
-                            define("ENCRYPT_METHOD", "AES-256-CBC");
-                            define("SECRET_KEY", $ekey);
-                            define("SECRET_IV", $eiv);
-
-                            function ende_crypter($action, $string) {
-                                $output = false;
-                                $encrypt_method = ENCRYPT_METHOD;
-                                $secret_key = SECRET_KEY;
-                                $secret_iv = SECRET_IV;
-// hash
-                                $key = hash('sha256', $secret_key);
-
-// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
-                                $iv = substr(hash('sha256', $secret_iv), 0, 16);
-                                if ($action == 'encrypt') {
-                                    $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
-                                } else if ($action == 'decrypt') {
-                                    $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-                                }
-                                return $output;
-                            }
-
-                            $securing = ende_crypter('encrypt', $password2);
-                            $cml = ende_crypter('encrypt', $email);
-                            $clenkey = '';
-                            $upd = $this->connection->query("UPDATE uverify SET password=?, mktoken=?, mkkey=?, mkhash=, password_key=? WHERE email=? AND recovery_phrase=? AND password_key=?");
-                            $upd->bind_param("sssss", $securing, $ekey, $eiv, $$enck, $clenkey, $email, $recoveryphrase, $changekey);
-                            $upd->execute();
-                            $upd->close();
-                            if ($upd === TRUE) {
-                                $stmt = $this->connection->prepare("UPDATE users SET email = ?, password = ?  WHERE idUser=? AND mkpin=?");
-                                $stmt->bind_param("sssi", $cml, $securing, $duv, $pin);
-                                $stmt->execute();
-                                $stmt->close();
-                                header('Location: index.php');
-                                exit;
-                            }
-                        } else {
-                            $_SESSION['ErrorMessage'] = 'The data does not match to update your password.';
-                        }
-                    } else {
-                        $_SESSION['ErrorMessage'] = 'Passwords do not match!';
-                    }
-                } else {
-                    $_SESSION['ErrorMessage'] = 'Please fill in all the required fields.';
-                }
-                $this->connection->close();
+        // Validar campos del formulario
+        if (empty($_POST['vemail']) || empty($_POST['recoveryphrase']) ||
+            empty($_POST['password2']) || empty($_POST['password3'])) {
+            $_SESSION['ErrorMessage'] = 'Por favor complete todos los campos requeridos';
+        return;
             }
+
+            $vemail = trim($_POST['vemail']);
+            $recoveryphrase = trim($_POST['recoveryphrase']);
+            $password2 = trim($_POST['password2']);
+            $password3 = trim($_POST['password3']);
+
+            // ✅ Comparación segura con hash_equals
+            if (!hash_equals($vemail, $email)) {
+                $_SESSION['ErrorMessage'] = 'Los datos no coinciden para actualizar su contraseña';
+                return;
+            }
+
+            if ($password3 !== $password2) {
+                $_SESSION['ErrorMessage'] = 'Las contraseñas no coinciden';
+                return;
+            }
+
+            // Validar longitud mínima de contraseña
+            if (strlen($password2) < 8) {
+                $_SESSION['ErrorMessage'] = 'La contraseña debe tener al menos 8 caracteres';
+                return;
+            }
+
+            // Verificar frase de recuperación
+            $stmt = $this->connection->prepare(
+                "SELECT * FROM uverify WHERE email = :e AND mkhash = :h AND password_key = :k AND recovery_phrase = :r"
+            );
+            $stmt->execute([':e' => $email, ':h' => $hash, ':k' => $changekey, ':r' => $recoveryphrase]);
+
+            if ($stmt->rowCount() !== 1) {
+                $_SESSION['ErrorMessage'] = 'Los datos no coinciden para actualizar su contraseña';
+                return;
+            }
+
+            $dt = $stmt->fetch(PDO::FETCH_ASSOC);
+            $duv = (int) $dt['iduv'];
+            $pin = $dt['mkpin'];
+
+            // ✅ Generar claves de encriptación
+            $ekey = self::randHash();
+            $eiv = self::randKey();
+            $enck = self::encKey();
+
+            // Encriptar contraseña y email
+            $securing = self::endeCrypter('encrypt', $password2, $ekey, $eiv);
+            $cml = self::endeCrypter('encrypt', $email, $ekey, $eiv);
+            $clenkey = '';
+
+            // ✅ TRANSACCIÓN para garantizar atomicidad
+            $this->connection->beginTransaction();
+            try {
+                // ✅ BUG CORREGIDO: ahora tiene todos los valores correctamente
+                $upd = $this->connection->prepare(
+                    "UPDATE uverify SET
+                    password = :pass,
+                    mktoken = :mt,
+                    mkkey = :mk,
+                    mkhash = :mh,
+                    password_key = :pk
+                    WHERE email = :e AND recovery_phrase = :r AND password_key = :k"
+                );
+                $upd->execute([
+                    ':pass' => $securing,
+                    ':mt' => $ekey,
+                    ':mk' => $eiv,
+                    ':mh' => $enck,
+                    ':pk' => $clenkey,
+                    ':e' => $email,
+                    ':r' => $recoveryphrase,
+                    ':k' => $changekey
+                ]);
+
+                if ($upd->rowCount() !== 1) {
+                    throw new Exception('No se pudo actualizar uverify');
+                }
+
+                $stmt2 = $this->connection->prepare(
+                    "UPDATE users SET email = :e, password = :p WHERE idUser = :id AND mkpin = :pin"
+                );
+                $stmt2->execute([
+                    ':e' => $cml,
+                    ':p' => $securing,
+                    ':id' => $duv,
+                    ':pin' => $pin
+                ]);
+
+                if ($stmt2->rowCount() !== 1) {
+                    throw new Exception('No se pudo actualizar users');
+                }
+
+                $this->connection->commit();
+
+                header('Location: index.php');
+                exit;
+
+            } catch (Exception $e) {
+                $this->connection->rollBack();
+                error_log('UserChange updatePassword error: ' . $e->getMessage());
+                $_SESSION['ErrorMessage'] = 'Error al actualizar la contraseña';
+            }
+    }
+
+    /**
+     * Actualiza el PIN del usuario.
+     *
+     * ✅ CORREGIDO: Inyección SQL eliminada, ahora usa prepared statements
+     */
+    private function updatePIN(): void
+    {
+        if (!isset($_POST['updatePIN'])) {
+            return;
+        }
+
+        // ✅ CSRF validation
+        if (!Utils::verifyCSRFToken($_POST['csrf_token'] ?? null)) {
+            $_SESSION['ErrorMessage'] = 'Token CSRF inválido';
+            return;
+        }
+
+        if (!isset($_GET['email'], $_GET['key'], $_GET['hash'])) {
+            $_SESSION['ErrorMessage'] = 'Parámetros de recuperación inválidos';
+            return;
+        }
+
+        // Sanitizar parámetros GET
+        $email = filter_var($_GET['email'], FILTER_SANITIZE_EMAIL);
+        $changekey = ctype_alnum($_GET['key']) ? $_GET['key'] : '';
+        $hash = ctype_alnum($_GET['hash']) ? $_GET['hash'] : '';
+
+        if ($email === '' || $changekey === '' || $hash === '') {
+            $_SESSION['ErrorMessage'] = 'Parámetros de recuperación inválidos';
+            return;
+        }
+
+        // Verificar token de recuperación
+        $chck = $this->connection->prepare(
+            "SELECT * FROM change_pin WHERE email = :e AND mkhash = :h AND password_key = :k"
+        );
+        $chck->execute([':e' => $email, ':h' => $hash, ':k' => $changekey]);
+        $ct = $chck->fetch(PDO::FETCH_ASSOC);
+
+        if (!$ct) {
+            $_SESSION['ErrorMessage'] = 'Token de recuperación inválido';
+            return;
+        }
+
+        $nowTime = date("Y-m-d H:i:s");
+        if ($nowTime >= $ct['expire']) {
+            $_SESSION['ErrorMessage'] = 'Tiempo expirado para restablecer el PIN';
+            header('Location: index.php');
+            exit;
+        }
+
+        // Validar campos del formulario
+        if (empty($_POST['vemail']) || empty($_POST['recoveryphrase'])) {
+            $_SESSION['ErrorMessage'] = 'Por favor complete todos los campos requeridos';
+            return;
+        }
+
+        $vemail = trim($_POST['vemail']);
+        $recoveryphrase = trim($_POST['recoveryphrase']);
+
+        // ✅ Comparación segura con hash_equals
+        if (!hash_equals($vemail, $email)) {
+            $_SESSION['ErrorMessage'] = 'Los datos no coinciden para actualizar su PIN';
+            return;
+        }
+
+        // ✅ CORREGIDO: Ahora usa prepared statements en lugar de inyección SQL
+        $very = $this->connection->prepare(
+            "SELECT * FROM uverify WHERE email = :e AND pin_key = :k AND recovery_phrase = :r"
+        );
+        $very->execute([':e' => $email, ':k' => $changekey, ':r' => $recoveryphrase]);
+
+        if ($very->rowCount() !== 1) {
+            $_SESSION['ErrorMessage'] = 'Los datos no coinciden para actualizar su PIN';
+            return;
+        }
+
+        $dt = $very->fetch(PDO::FETCH_ASSOC);
+        $duv = (int) $dt['iduv'];
+
+        // ✅ CORREGIDO: Ahora usa prepared statements
+        $fnal = $this->connection->prepare(
+            "SELECT idUser FROM users WHERE email = :e"
+        );
+        $checkm = self::endeCrypter('encrypt', $email, $dt['mktoken'], $dt['mkkey']);
+        $fnal->execute([':e' => $checkm]);
+
+        if ($fnal->rowCount() !== 1) {
+            $_SESSION['ErrorMessage'] = 'Usuario no encontrado';
+            return;
+        }
+
+        $rt = $fnal->fetch(PDO::FETCH_ASSOC);
+
+        if ($duv !== (int) $rt['idUser']) {
+            $_SESSION['ErrorMessage'] = 'Datos de usuario inconsistentes';
+            return;
+        }
+
+        // Generar PIN de 6 dígitos
+        $cpin = random_int(0, 999999);
+        $npin = str_pad((string) $cpin, 6, '0', STR_PAD_LEFT);
+        $clenkey = '';
+
+        // ✅ TRANSACCIÓN para garantizar atomicidad
+        $this->connection->beginTransaction();
+        try {
+            // ✅ BUG CORREGIDO: ahora usa SET correctamente
+            $upd = $this->connection->prepare(
+                "UPDATE uverify SET mkpin = :pin, pin_key = :pk
+                WHERE email = :e AND recovery_phrase = :r"
+            );
+            $upd->execute([
+                ':pin' => $npin,
+                ':pk' => $clenkey,
+                ':e' => $email,
+                ':r' => $recoveryphrase
+            ]);
+
+            if ($upd->rowCount() !== 1) {
+                throw new Exception('No se pudo actualizar uverify');
+            }
+
+            $stmt2 = $this->connection->prepare(
+                "UPDATE users SET mkpin = :pin WHERE idUser = :id AND mkpin = :oldpin"
+            );
+            $stmt2->execute([
+                ':pin' => $npin,
+                ':id' => $duv,
+                ':oldpin' => $dt['mkpin']
+            ]);
+
+            if ($stmt2->rowCount() !== 1) {
+                throw new Exception('No se pudo actualizar users');
+            }
+
+            $this->connection->commit();
+
+            header('Location: index.php');
+            exit;
+
+        } catch (Exception $e) {
+            $this->connection->rollBack();
+            error_log('UserChange updatePIN error: ' . $e->getMessage());
+            $_SESSION['ErrorMessage'] = 'Error al actualizar el PIN';
         }
     }
 
-    /* End updatePassword() */
-
-    /*
-     * function updatePassword()
-     * Get information from Password Reset Form, if the email & token key are correct, update the passwordin database.
-     * This is the third and final step of password reset.
+    /**
+     * ✅ Funciones movidas fuera de métodos y mejoradas
      */
-
-    private function updatePIN() {
-        if (isset($_POST['updatePIN'])) {
-            if (isset($_GET['email']) && isset($_GET['key']) && isset($_GET['hash'])) {
-                // Require credentials for DB connection.
-
-
-                $email = htmlentities($_GET['email']);
-                $changekey = htmlentities($_GET['key']);
-                $hash = htmlentities($_GET['hash']);
-
-                $chck = $this->connection->prepare("SELECT * FROM change_pin WHERE email=? AND mkhash=? AND password_key=?");
-                $chck->bind_param("sss", $email, $hash, $changekey);
-                $chck->execute();
-                $okey = $chck->get_result();
-                $chck->close();
-
-                $ct = $okey->fetch_assoc();
-                $nowTime = date("Y-m-d H:i:s");
-                $et = $ct['expire'];
-
-                if ($nowTime >= $et) {
-                    $_SESSION['ErrorMessage'] = 'Time expired to reset your PIN.';
-                    header('Location: index.php');
-                    exit;
-                }
-// User input from Forgot password form(passwordResetForm.php).
-                $vemail = trim($_POST['vemail']);
-                $recoveryphrase = trim($_POST['recoveryphrase']);
-
-// Check that both entered passwords match.
-                if ($vemail === $email) {
-                    if (!empty($recoveryphrase) && !empty($email)) {
-                        $very = $this->connection->query("SELECT * FROM uverify WHERE email='$email' AND pin_key='$changekey' AND recovery_phrase='$recoveryphrase'");
-
-                        if ($very->num_rows === 1) {
-                            $dt = $very->fetch_assoc();
-                            $duv = $dt['iduv'];
-                            $npin = '';
-                            define("ENCRYPT_METHOD", "AES-256-CBC");
-                            define("SECRET_KEY", $dt['mktoken']);
-                            define("SECRET_IV", $dt['mkkey']);
-
-                            function ende_crypter($action, $string) {
-                                $output = false;
-                                $encrypt_method = ENCRYPT_METHOD;
-                                $secret_key = SECRET_KEY;
-                                $secret_iv = SECRET_IV;
-// hash
-                                $key = hash('sha256', $secret_key);
-// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
-                                $iv = substr(hash('sha256', $secret_iv), 0, 16);
-                                if ($action == 'encrypt') {
-                                    $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
-                                } else if ($action == 'decrypt') {
-                                    $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-                                }
-                                return $output;
-                            }
-
-                            $checkm = ende_crypter('encrypt', $email);
-
-                            $fnal = $this->connection->query("SELECT idUser, FROM users WHERE email='$checkm'");
-                            $rt = $fnal->fetch_assoc();
-                            if ($fnal->num_rows === 1) {
-                                if ($duv === $rt['idUser']) {
-
-                                    $cpin = random_int(000000, 999999);
-                                    if (strlen($cpin) === 6) {
-                                        $npin = $cpin;
-                                    } else {
-                                        $npin = random_int(000000, 999999);
-                                    }
-
-                                    $clenkey = '';
-                                    $upd = $this->connection->query("UPDATE uverify mkpin='$npin', pin_key='$clenkey' WHERE email='$email' AND recovery_phrase='$recoveryphrase'");
-                                    if ($upd === TRUE) {
-                                        $stmt = $this->connection->prepare("UPDATE users SET mkpin=?  WHERE idUser=? AND mkpin=?");
-                                        $stmt->bind_param("ssi", $npin, $duv, $npin);
-                                        $stmt->execute();
-                                        $stmt->close();
-                                        header('Location: index.php');
-                                        exit;
-                                    }
-                                }
-                            }
-                        } else {
-                            $_SESSION['ErrorMessage'] = 'The data does not match to update your PIN.';
-                        }
-                    } else {
-                        $_SESSION['ErrorMessage'] = 'Please fill in all the required fields.';
-                    }
-                } else {
-                    $_SESSION['ErrorMessage'] = 'Passwords do not match!';
-                }
-            }
-            $this->connection->close();
-        }
+    private static function randHash(int $len = 32): string
+    {
+        return substr(bin2hex(random_bytes(32)), 0, $len);
     }
 
-    /* End updatePin() */
+    private static function randKey(int $len = 32): string
+    {
+        return substr(bin2hex(random_bytes(32)), 0, $len);
+    }
+
+    private static function encKey(int $len = 32): string
+    {
+        return substr(bin2hex(random_bytes(32)), 0, $len);
+    }
+
+    private static function endeCrypter(string $action, string $string, string $secret_key, string $secret_iv): string
+    {
+        $encrypt_method = 'AES-256-CBC';
+        $key = hash('sha256', $secret_key, true);
+        $iv = substr(hash('sha256', $secret_iv, true), 0, 16);
+
+        if ($action === 'encrypt') {
+            return base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
+        } else {
+            return openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+    }
 }

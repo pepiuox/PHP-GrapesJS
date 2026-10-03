@@ -1,25 +1,757 @@
+# ============================================================================
+# .htaccess - CONFIGURACIÓN DE SEGURIDAD COMPLETA
+# Proyecto: CMS - Ecommerce / Sistema de Gestión
+# Fecha: 2026-09-17
+# Compatible con: Apache 2.4+
+# ============================================================================
+
+# ============================================================================
+# 1. CONFIGURACIÓN BÁSICA
+# ============================================================================
+# Activar motor de reescritura
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Establecer directorio base
     RewriteBase /
 
-    # Block out any script trying to base64_encode data within the URL.
-    RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
-    # Block out any script that includes a <script> tag in URL.
-    RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-    # Block out any script trying to set a PHP GLOBALS variable via URL.
-    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
-    # Block out any script trying to modify a _REQUEST variable via URL.
-    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+    # Si alguna condición se cumple, retornar 403 Forbidden
+    RewriteRule .* - [F,L]
+    ## END - Reglas de seguridad
 
+    # Redirigir solicitudes de /build/ eliminando el prefijo
     RewriteCond %{THE_REQUEST} /build/([^\s?]*) [NC]
     RewriteRule ^ %1 [L,NE,R=302]
-    RewriteRule ^((?!build/).*)$ build/$1 [L,NC]
-    #RewriteRule ^(.*)$ build/index.php?$1 [L,QSA]
 
+    # Redirigir todo a la carpeta build
+    RewriteRule ^((?!build/).*)$ build/$1 [L,NC]
+
+    # Verificar si el archivo solicitado con extensión .php existe
     RewriteCond %{REQUEST_FILENAME}.php -f
-    RewriteCond %{REQUEST_FILENAME}.php -d
+    # Asegurar que no sea un directorio
+    RewriteCond %{REQUEST_FILENAME}.php !-d
+    # Si la URL no termina en slash
     RewriteCond %{REQUEST_URI} !/$
+    # Agregar extensión .php internamente
     RewriteRule ^(.*)$ $1.php [L]
-    
 </IfModule>
+
+# Establecer codificación por defecto
+AddDefaultCharset UTF-8
+
+# Establecer idioma por defecto
+DefaultLanguage es-ES
+
+# Desactivar firma del servidor (oculta versión de Apache)
+ServerSignature Off
+
+# Prevenir listing de directorios
+Options -Indexes
+
+# Prevenir seguimiento de symlinks
+Options -FollowSymLinks
+
+# Establecer directorio raíz
+<IfModule mod_headers.c>
+    # Proteger contra ataques de tipo clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Prevenir MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Activar protección XSS del navegador
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Referrer Policy - controlar información enviada en Referer
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions Policy (reemplaza Feature-Policy)
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+
+    # Prevenir que el navegador guarde caché de páginas sensibles
+    <FilesMatch "\.(php|html|htm)$">
+        Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header always set Pragma "no-cache"
+        Header always set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+    </FilesMatch>
+
+    # Cache para assets estáticos (1 año)
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|svg|webp|js|css|swf|woff|woff2|ttf|eot)$">
+        Header always set Cache-Control "public, max-age=31536000, immutable"
+        Header unset ETag
+        FileETag None
+    </FilesMatch>
+</IfModule>
+
+# ============================================================================
+# 2. FORZAR HTTPS (SSL/TLS)
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Redirigir HTTP a HTTPS
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !^https$
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Redirigir www a non-www (o viceversa, según preferencia)
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+</IfModule>
+
+# ============================================================================
+# 3. CONTENT SECURITY POLICY (CSP) - PROTECCIÓN XSS AVANZADA
+# ============================================================================
+<IfModule mod_headers.c>
+    # CSP estricta - ajustar según necesidades del proyecto
+    # Permite recursos solo del mismo origen y CDNs confiables
+    Header always set Content-Security-Policy "
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com https://cdnjs.cloudflare.com;
+        style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+        img-src 'self' data: https: blob:;
+        font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:;
+        connect-src 'self';
+        frame-src 'self';
+        media-src 'self';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'self';
+        upgrade-insecure-requests;
+    "
+</IfModule>
+
+# ============================================================================
+# 4. PROTECCIÓN CONTRA INYECCIÓN SQL
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear patrones comunes de SQL Injection en URLs
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*iframe.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*object.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*embed.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*applet.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*meta.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*style.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*form.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*img.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC,OR]
+    RewriteCond %{QUERY_STRING} (benchmark|sleep|union.*select|load_file|into.*outfile) [NC,OR]
+    RewriteCond %{QUERY_STRING} (concat|char|0x|information_schema|table_name) [NC,OR]
+    RewriteCond %{QUERY_STRING} (drop|truncate|alter|create|insert|update|delete)\s [NC,OR]
+    RewriteCond %{QUERY_STRING} (exec|execute|xp_cmdshell|sp_executesql) [NC,OR]
+    RewriteCond %{QUERY_STRING} (;|'|--|\/\*|\*\/|@@|@) [NC,OR]
+    RewriteCond %{QUERY_STRING} (0x[0-9a-f]{8,}) [NC,OR]
+    RewriteCond %{QUERY_STRING} (char\(|concat\(|0x[0-9a-f]+) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 5. PROTECCIÓN CONTRA DIRECTORY TRAVERSAL
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear intentos de traversal de directorios
+    RewriteCond %{REQUEST_URI} \.\./ [OR]
+    RewriteCond %{REQUEST_URI} \.\.\\ [OR]
+    RewriteCond %{REQUEST_URI} \.\.%2f [OR]
+    RewriteCond %{REQUEST_URI} \.\.%5c [OR]
+    RewriteCond %{REQUEST_URI} %00 [OR]
+    RewriteCond %{REQUEST_URI} /etc/passwd [OR]
+    RewriteCond %{REQUEST_URI} /proc/self [OR]
+    RewriteCond %{REQUEST_URI} /boot\.ini [OR]
+    RewriteCond %{REQUEST_URI} /windows/system32 [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 6. PROTECCIÓN CONTRA XSS EN URL
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear patrones XSS comunes
+    RewriteCond %{QUERY_STRING} (javascript|vbscript|expression|alert|confirm|prompt) [NC,OR]
+    RewriteCond %{QUERY_STRING} (onload|onerror|onclick|onmouseover|onfocus|onblur) [NC,OR]
+    RewriteCond %{QUERY_STRING} (document\.|window\.|eval\(|expression\() [NC,OR]
+    RewriteCond %{QUERY_STRING} (data:|text/html|application/x-httpd-php) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 7. PROTECCIÓN DE ARCHIVOS SENSIBLES
+# ============================================================================
+
+# Bloquear acceso a archivos de configuración
+<FilesMatch "^(composer\.(json|lock)|package\.json|yarn\.lock|\.env|\.env\..*|\.gitignore|\.gitattributes|\.htaccess|\.htpasswd|\.user\.ini|php\.ini)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Bloquear acceso a archivos de backup y temporales
+<FilesMatch "\.(bak|backup|old|orig|original|save|tmp|temp|swp|swo|sql|log|err|ini|conf|config|dist|tar|gz|zip|rar|7z)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Bloquear acceso a archivos Markdown y de documentación
+<FilesMatch "\.(md|markdown|rst|txt|csv|tsv|yaml|yml|xml|json)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Bloquear acceso a archivos de sistema
+<FilesMatch "^(Thumbs\.db|desktop\.ini|\.DS_Store|\.Spotlight-V100|\.Trashes)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ============================================================================
+# 8. PROTECCIÓN DEL PROPIO .htaccess
+# ============================================================================
+<Files .htaccess>
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# ============================================================================
+# 9. PROTECCIÓN DE DIRECTORIOS SENSIBLES
+# ============================================================================
+
+# Proteger directorio de configuración
+<IfModule mod_rewrite.c>
+    RewriteRule ^core/config/ - [F,L]
+    RewriteRule ^core/cache/ - [F,L]
+    RewriteRule ^core/logs/ - [F,L]
+    RewriteRule ^core/tmp/ - [F,L]
+    RewriteRule ^vendor/ - [F,L]
+    RewriteRule ^node_modules/ - [F,L]
+    RewriteRule ^\.git/ - [F,L]
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^\.svn/ - [F,L]
+    RewriteRule ^\.hg/ - [F,L]
+    RewriteRule ^tests/ - [F,L]
+    RewriteRule ^test/ - [F,L]
+    RewriteRule ^backup/ - [F,L]
+    RewriteRule ^backups/ - [F,L]
+    RewriteRule ^sql/ - [F,L]
+    RewriteRule ^dump/ - [F,L]
+    RewriteRule ^debug/ - [F,L]
+</IfModule>
+
+# Bloquear acceso a directorios con punto al inicio
+<IfModule mod_rewrite.c>
+    RewriteRule "(^|/)\." - [F,L]
+</IfModule>
+
+# ============================================================================
+# 10. PROTECCIÓN CONTRA USER AGENTS MALICIOSOS
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear bots de escaneo de vulnerabilidades
+    RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+    RewriteCond %{HTTP_USER_AGENT} ^- [OR]
+    RewriteCond %{HTTP_USER_AGENT} ^(java|wget|curl|libwww-perl|python|nikto|sqlmap|nmap|masscan|zgrab) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (havij|pangolin|n-stalker|nessus|openvas|acunetix|netsparker|w3af) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (libcurl|pycurl|httpclient|go-http-client) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (scrapy|httpclient|python-requests|axios|node-fetch) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (backdoor|rootkit|shell|exploit|inject) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+
+    # Bloquear bots de spam
+    RewriteCond %{HTTP_USER_AGENT} (semrush|ahrefs|mj12bot|dotbot|sogou|exabot|facebot|ia_archiver) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 11. LIMITACIÓN DE MÉTODOS HTTP
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Solo permitir métodos HTTP necesarios
+    RewriteCond %{REQUEST_METHOD} !^(GET|POST|HEAD|OPTIONS|PUT|DELETE|PATCH)$
+    RewriteRule ^(.*)$ - [F,L]
+
+    # Bloquear TRACE y TRACK (previene ataques XST)
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 12. PROTECCIÓN CONTRA HOTLINKING (IMÁGENES)
+# ============================================================================
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?tudominio\.com [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?localhost [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?127\.0\.0\.1 [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?google\. [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?bing\. [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?yahoo\. [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?facebook\.com [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?twitter\.com [NC]
+    RewriteRule \.(jpg|jpeg|png|gif|webp|svg|bmp|ico)$ - [F,NC,L]
+</IfModule>
+
+# ============================================================================
+# 13. PREVENCIÓN DE SCRAPING MASIVO
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear si no hay User-Agent
+    RewriteCond %{HTTP_USER_AGENT} ^$
+    RewriteRule ^ - [F,L]
+
+    # Bloquear si no hay Accept header
+    RewriteCond %{HTTP_ACCEPT} ^$
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 14. CONFIGURACIÓN DE PHP (si es posible desde .htaccess)
+# ============================================================================
+<IfModule mod_php7.c>
+    # Desactivar display_errors en producción
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+
+    # Desactivar register_globals (deprecado pero por seguridad)
+    php_flag register_globals Off
+
+    # Desactivar allow_url_include (previene RFI)
+    php_flag allow_url_include Off
+    php_flag allow_url_fopen On
+
+    # Activar session cookies seguras
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 1
+    php_value session.use_only_cookies 1
+    php_value session.use_strict_mode 1
+
+    # Limitar tiempo de ejecución y memoria
+    php_value max_execution_time 30
+    php_value max_input_time 60
+    php_value memory_limit 128M
+    php_value post_max_size 20M
+    php_value upload_max_filesize 20M
+
+    # Ocultar versión de PHP
+    php_flag expose_php Off
+
+    # Desactivar magic_quotes (deprecado)
+    php_flag magic_quotes_gpc Off
+    php_flag magic_quotes_runtime Off
+    php_flag magic_quotes_sybase Off
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag allow_url_include Off
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 1
+    php_value session.use_only_cookies 1
+    php_value session.use_strict_mode 1
+    php_flag expose_php Off
+</IfModule>
+
+# ============================================================================
+# 15. PROTECCIÓN CONTRA SPAM DE COMENTARIOS
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear POST sin Referer (común en bots de spam)
+    RewriteCond %{REQUEST_METHOD} POST
+    RewriteCond %{REQUEST_URI} ^(.*?)(contact|comment|form|submit|post|reply)(.*)$
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?tudominio\.com [NC]
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 16. PROTECCIÓN CONTRA ATAQUES DE FUERZA BRUTA
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Limitar acceso a páginas de login (requiere mod_evasive o similar)
+    # Esta regla es básica; para protección avanzada usar mod_evasive o fail2ban
+    RewriteCond %{REQUEST_URI} /(login|signin|admin|wp-login) [NC]
+    RewriteCond %{HTTP:X-Forwarded-For} !^127\.0\.0\.1$
+    # Aquí se puede añadir lógica adicional con mod_security
+</IfModule>
+
+# ============================================================================
+# 17. COMPRESIÓN GZIP (RENDIMIENTO)
+# ============================================================================
+<IfModule mod_deflate.c>
+    # Comprimir texto, html, javascript, css
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+
+    # Excluir navegadores antiguos con problemas
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # Asegurar que proxies no sirvan contenido incorrecto
+    Header append Vary User-Agent
+</IfModule>
+
+# ============================================================================
+# 18. EXPIRACIÓN DE CABECERAS (RENDIMIENTO)
+# ============================================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Por defecto: 1 mes
+    ExpiresDefault "access plus 1 month"
+
+    # HTML
+    ExpiresByType text/html "access plus 0 seconds"
+
+    # Imágenes
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Videos
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+
+    # CSS y JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+
+    # Fuentes
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+
+    # Otros
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+</IfModule>
+
+# ============================================================================
+# 19. PROTECCIÓN ADICIONAL CONTRA INYECCIÓN DE HEADERS
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear caracteres sospechosos en URLs
+    RewriteCond %{REQUEST_URI} ^/[^/]*[^/]*[^/]*[^/]*[^/] [OR]
+    RewriteCond %{THE_REQUEST} \.\./ [OR]
+    RewriteCond %{THE_REQUEST} \.(htaccess|htpasswd|env|git|svn) [NC,OR]
+    RewriteCond %{THE_REQUEST} /(cgi-bin|scripts|includes)/ [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 20. PROTECCIÓN CONTRA MIME SNIFFING
+# ============================================================================
+<IfModule mod_headers.c>
+    # Prevenir que el navegador intente adivinar el MIME type
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# ============================================================================
+# 21. PROTECCIÓN CONTRA CLICKJACKING
+# ============================================================================
+<IfModule mod_headers.c>
+    # Prevenir que el sitio sea embebido en iframes
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# ============================================================================
+# 22. PROTECCIÓN CONTRA XSS
+# ============================================================================
+<IfModule mod_headers.c>
+    # Activar filtro XSS del navegador
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ============================================================================
+# 23. PROTECCIÓN DE UPLOADS
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Prevenir ejecución de PHP en directorio de uploads
+    RewriteRule ^uploads/.*\.php$ - [F,L]
+    RewriteRule ^assets/uploads/.*\.php$ - [F,L]
+    RewriteRule ^images/.*\.php$ - [F,L]
+</IfModule>
+
+# Desactivar ejecución de scripts en uploads
+<Directory "uploads">
+    <FilesMatch "\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+        <IfModule mod_authz_core.c>
+            Require all denied
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+            Order allow,deny
+            Deny from all
+        </IfModule>
+    </FilesMatch>
+</Directory>
+
+# ============================================================================
+# 24. PROTECCIÓN CONTRA ATAQUES DOoS BÁSICOS
+# ============================================================================
+<IfModule mod_reqtimeout.c>
+    # Tiempo de espera para requests
+    RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
+</IfModule>
+
+# Limitar tamaño del request (previene ataques de buffer overflow)
+LimitRequestBody 10485760
+
+# ============================================================================
+# 25. PROTECCIÓN DE ARCHIVOS PHP ESPECÍFICOS
+# ============================================================================
+
+# Bloquear acceso directo a archivos de clases
+<FilesMatch "^(class|interface|trait|abstract)\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Bloquear acceso a archivos de test
+<FilesMatch "^(test|spec|phpunit|behat|codecept)\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ============================================================================
+# 26. REDIRECCIONES PERSONALIZADAS DE ERROR
+# ============================================================================
+ErrorDocument 400 /error/400
+ErrorDocument 401 /error/401
+ErrorDocument 403 /error/403
+ErrorDocument 404 /error/404
+ErrorDocument 500 /error/500
+ErrorDocument 502 /error/502
+ErrorDocument 503 /error/503
+
+# ============================================================================
+# 27. REGLAS DE REESCRITURA PARA RUTAS AMIGABLES
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Si el archivo o directorio existe, servirlo directamente
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Redirigir todo lo demás al index.php (front controller)
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# ============================================================================
+# 28. PROTECCIÓN CONTRA SCRAPERS AGRESIVOS
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear si hace demasiadas peticiones (requiere mod_evasive)
+    # Esta es una regla básica; para protección avanzada usar fail2ban
+
+    # Bloquear si el User-Agent cambia frecuentemente
+    # (implementar con mod_security o aplicación)
+</IfModule>
+
+# ============================================================================
+# 29. PROTECCIÓN DE WEBSOCKETS
+# ============================================================================
+<IfModule mod_headers.c>
+    # Solo permitir WebSockets desde el mismo origen
+    <LocationMatch "^/ws">
+        Header set Access-Control-Allow-Origin "https://tudominio.com"
+    </LocationMatch>
+</IfModule>
+
+# ============================================================================
+# 30. PROTECCIÓN ADICIONAL - CABECERAS DE SEGURIDAD
+# ============================================================================
+<IfModule mod_headers.c>
+    # Prevenir que el navegador guarde datos sensibles
+    Header always set X-Permitted-Cross-Domain-Policies "none"
+
+    # Strict-Transport-Security (HSTS) - Forzar HTTPS por 1 año
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Cross-Origin-Embedder-Policy
+    Header always set Cross-Origin-Embedder-Policy "require-corp"
+
+    # Cross-Origin-Opener-Policy
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+
+    # Cross-Origin-Resource-Policy
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+</IfModule>
+
+# ============================================================================
+# 31. PROTECCIÓN CONTRA RCE (REMOTE CODE EXECUTION)
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear patrones comunes de RCE
+    RewriteCond %{QUERY_STRING} (system|exec|passthru|shell_exec|popen|proc_open) [NC,OR]
+    RewriteCond %{QUERY_STRING} (eval|assert|preg_replace.*\/e) [NC,OR]
+    RewriteCond %{QUERY_STRING} (create_function|call_user_func|include|require) [NC,OR]
+    RewriteCond %{QUERY_STRING} (file_get_contents|file_put_contents|fopen|fwrite) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 32. PROTECCIÓN CONTRA LFI/RFI
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear Local File Inclusion
+    RewriteCond %{QUERY_STRING} (file|page|path|dest|redirect|uri|url|src|img|href|doc|file|document|folder|root|pg|style|pdf|template|plate|view|ruta|contenido|arch|sitio|cel|pagina|archivo|inc|include|locate|show) [NC]
+    RewriteCond %{QUERY_STRING} (ftp|https?|php://|data://|expect://|input://|zip://|phar://) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 33. BLOQUEO DE IPs SOSPECHOSAS (OPCIONAL)
+# ============================================================================
+# Descomentar y añadir IPs que quieras bloquear
+# <IfModule mod_authz_core.c>
+#     Require all granted
+#     Require not ip 192.168.1.100
+#     Require not ip 10.0.0.0/8
+# </IfModule>
+
+# ============================================================================
+# 34. PROTECCIÓN DE ENDPOINTS API
+# ============================================================================
+<IfModule mod_headers.c>
+    # CORS - Solo permitir origen específico
+    <FilesMatch "\.(php)$">
+        Header set Access-Control-Allow-Origin "https://tudominio.com"
+        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        Header set Access-Control-Max-Age "3600"
+        Header set Access-Control-Allow-Credentials "true"
+    </FilesMatch>
+</IfModule>
+
+# ============================================================================
+# 35. PROTECCIÓN CONTRA ENUMERACIÓN DE USUARIOS
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear intentos de enumeración de usuarios en WordPress (si aplica)
+    RewriteCond %{REQUEST_URI} ^/wp-json/wp/v2/users [OR]
+    RewriteCond %{QUERY_STRING} ^author=\d+
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================================================
+# 36. PROTECCIÓN CONTRA XML-RPC (si no se usa)
+# ============================================================================
+<Files xmlrpc.php>
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# ============================================================================
+# 37. PROTECCIÓN CONTRA WPOPTIMIZE Y WP-CRON (si no se usa)
+# ============================================================================
+<Files wp-cron.php>
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# ============================================================================
+# 38. PROTECCIÓN DE ARCHIVOS README Y LICENCIA
+# ============================================================================
+<FilesMatch "^(README|readme|LICENSE|CHANGELOG|CONTRIBUTING|AUTHORS|COPYING)(\.md|\.txt|\.rst)?$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ============================================================================
+# 39. PROTECCIÓN CONTRA SCANNERS DE VULNERABILIDADES
+# ============================================================================
+<IfModule mod_rewrite.c>
+    # Bloquear acceso a paths comunes de scanners
+    RewriteRule ^(phpmyadmin|pma|mysql|adminer|dbadmin|sqlbuddy|webmin|phpinfo|info|php-info)(/|$) - [F,L]
+    RewriteRule ^(wp-admin|wp-includes|wp-content/uploads)(/|$) - [F,L]
+    RewriteRule ^(administrator|admin|backend|cpanel|whm)(/|$) - [F,L]
+</IfModule>
+
+# ============================================================================
+# 40. CONFIGURACIÓN FINAL
+# ============================================================================
+
+# Desactivar ETags (puede causar problemas con proxies)
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# Mejorar rendimiento con Keep-Alive
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+</IfModule>
+
+# ============================================================================
+# FIN DEL ARCHIVO .htaccess
+# ============================================================================

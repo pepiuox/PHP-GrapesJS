@@ -1,117 +1,131 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class DashboardRoutes {
+declare(strict_types=1);
 
-    public function ViewIncludes($cms) {
-        $view = '';
-        if ($cms === 'list_posts') {
-            $view = 'views/blog_posts.php';
-        } elseif ($cms === 'add_post') {
-            $view = 'views/blog_posts.php';
-        } elseif ($cms === 'edit_post') {
-            $view = 'views/blog_posts.php';
-        } elseif ($cms === 'delete_post') {
-            $view = 'views/blog_posts.php';
-        } elseif ($cms === 'post_category') {
-            $view = 'views/category.php';
-        } elseif ($cms === 'list_pages') {
-            $view = 'views/pages.php';
-        } elseif ($cms === 'add_page') {
-            $view = 'views/pages.php';
-        } elseif ($cms === 'edit_page') {
-            $view = 'views/pages.php';
-        } elseif ($cms === 'delete_page') {
-            $view = 'views/pages.php';
-        } elseif ($cms === 'siteconf') {
-            $view = 'views/settings.php';
-        } elseif ($cms === 'themes') {
-            $view = 'views/themes.php';
-        } elseif ($cms === 'files') {
-            $view = 'views/files.php';
-        } elseif ($cms === 'theme_template') {
-            $view = 'views/theme_template.php';
-        } elseif ($cms === 'menu_builder') {
-            $view = 'views/menu_builder.php';
-        } elseif ($cms === 'menu') {
-            $view = 'views/menu.php';
-        } elseif ($cms === 'plugins') {
-            $view = 'views/plugins.php';
-        } elseif ($cms === 'users') {
-            $view = 'admin.php';
-        } elseif ($cms === 'adduser') {
-            $view = 'adduser.php';
-        } elseif ($cms === 'table_crud') {
-            $view = 'views/table_crud.php';
-        } elseif ($cms === 'column_manager') {
-            $view = 'views/column_manager.php';
-        } elseif ($cms === 'table_config') {
-            $view = 'views/table_config.php';
-        } elseif ($cms === 'table_manager') {
-            $view = 'views/table_manager.php';
-        } elseif ($cms === 'volunteer') {
-            $view = 'views/volunteer.php';
-        } elseif ($cms === 'search') {
-            $view = 'views/search.php';
-        } else {
-            $view = 'views/dashboard.php';
-        }
-        return $view;
+/**
+ * Gestor de rutas del dashboard.
+ * Usa arrays de mapeo en lugar de múltiples if/elseif.
+ */
+class DashboardRoutes
+{
+    /**
+     * Mapeo de rutas a vistas.
+     */
+    private array $viewMap = [
+        'list_posts'      => 'views/blog_posts.php',
+        'add_post'        => 'views/blog_posts.php',
+        'edit_post'       => 'views/blog_posts.php',
+        'delete_post'     => 'views/blog_posts.php',
+        'post_category'   => 'views/category.php',
+        'list_pages'      => 'views/pages.php',
+        'add_page'        => 'views/pages.php',
+        'edit_page'       => 'views/pages.php',
+        'delete_page'     => 'views/pages.php',
+        'siteconf'        => 'views/settings.php',
+        'themes'          => 'views/themes.php',
+        'files'           => 'views/files.php',
+        'theme_template'  => 'views/theme_template.php',
+        'menu_builder'    => 'views/menu_builder.php',
+        'menu'            => 'views/menu.php',
+        'plugins'         => 'views/plugins.php',
+        'users'           => 'admin.php',
+        'adduser'         => 'adduser.php',
+        'table_crud'      => 'views/table_crud.php',
+        'column_manager'  => 'views/column_manager.php',
+        'table_config'    => 'views/table_config.php',
+        'table_manager'   => 'views/table_manager.php',
+        'volunteer'       => 'views/volunteer.php',
+        'search'          => 'views/search.php',
+    ];
+
+    /**
+     * Mapeo de rutas a títulos de página.
+     */
+    private array $titleMap = [
+        'list_posts'      => 'List Posts',
+        'add_post'        => 'Add Post',
+        'edit_post'       => 'Edit Post',
+        'delete_post'     => 'Delete Post',
+        'post_category'   => 'Post Categories',
+        'list_pages'      => 'Page List',
+        'add_page'        => 'Add Page',
+        'edit_page'       => 'Edit Page',
+        'delete_page'     => 'Delete Page',
+        'siteconf'        => 'Site Definitions',
+        'themes'          => 'Themes',
+        'files'           => 'Files',
+        'theme_template'  => 'Theme Template',
+        'menu_builder'    => 'Menu builder',
+        'menu'            => 'Menu Template Color',
+        'plugins'         => 'Plugins App',
+        'table_crud'      => 'Table CRUD',
+        'column_manager'  => 'Column Manager',
+        'table_config'    => 'Table Config',
+        'table_manager'   => 'Table Manager',
+        'volunteer'       => 'Volunteer',
+        'search'          => 'Search',
+    ];
+
+    /**
+     * Obtiene la vista correspondiente a una ruta.
+     *
+     * @param string $cms Ruta solicitada
+     * @return string Ruta al archivo de vista
+     */
+    public function ViewIncludes(string $cms): string
+    {
+        // 🔒 Validar que el CMS no contenga caracteres peligrosos
+        $cms = $this->sanitizeRoute($cms);
+
+        return $this->viewMap[$cms] ?? 'views/dashboard.php';
     }
 
-    public function vPages($cms = '') {
-        $vpages = '';
-        if ($cms === 'list_posts') {
-            $vpages = 'List Posts';
-        } elseif ($cms === 'add_post') {
-            $vpages = 'Add Post';
-        } elseif ($cms === 'edit_post') {
-            $vpages = 'Edit Post';
-        } elseif ($cms === 'delete_post') {
-            $vpages = 'Delete Post';
-        } elseif ($cms === 'post_category') {
-            $vpages = 'Post Categories';
-        } elseif ($cms === 'list_pages') {
-            $vpages = 'Page List';
-        } elseif ($cms === 'add_page') {
-            $vpages = 'Add Page';
-        } elseif ($cms === 'edit_page') {
-            $vpages = 'Edit Page';
-        } elseif ($cms === 'delete_page') {
-            $vpages = 'Delete Page';
-        } elseif ($cms === 'siteconf') {
-            $vpages = 'Site Definitions';
-        } elseif ($cms === 'themes') {
-            $vpages = 'Themes';
-        } elseif ($cms === 'files') {
-            $vpages = 'Files';
-        } elseif ($cms === 'theme_template') {
-            $vpages = 'Theme Template';
-        } elseif ($cms === 'menu_builder') {
-            $vpages = 'Menu builder';
-        } elseif ($cms === 'menu') {
-            $vpages = 'Menu Template Color';
-        } elseif ($cms === 'plugins') {
-            $vpages = 'Plugins App';
-        } elseif ($cms === 'table_crud') {
-            $vpages = 'Table CRUD';
-        } elseif ($cms === 'column_manager') {
-            $vpages = 'Column Manager';
-        } elseif ($cms === 'table_config') {
-            $vpages = 'Table Config';
-        } elseif ($cms === 'table_manager') {
-            $vpages = 'Table Manager';
-        } elseif ($cms === 'volunteer') {
-            $vpages = 'Volunteer';
-        } elseif ($cms === 'search') {
-            $vpages = 'Search';
-        } else {
-            $vpages = 'Dashboard';
+    /**
+     * Obtiene el título de página correspondiente a una ruta.
+     *
+     * @param string $cms Ruta solicitada
+     * @return string Título de la página
+     */
+    public function vPages(string $cms = ''): string
+    {
+        $cms = $this->sanitizeRoute($cms);
+
+        return $this->titleMap[$cms] ?? 'Dashboard';
+    }
+
+    /**
+     * Registra una nueva ruta personalizada.
+     */
+    public function registerRoute(string $cms, string $view, string $title): self
+    {
+        $cms = $this->sanitizeRoute($cms);
+        $this->viewMap[$cms] = $view;
+        $this->titleMap[$cms] = $title;
+        return $this;
+    }
+
+    /**
+     * Obtiene todas las rutas registradas.
+     */
+    public function getAllRoutes(): array
+    {
+        return $this->viewMap;
+    }
+
+    /**
+     * Sanitiza una ruta para prevenir path traversal.
+     */
+    private function sanitizeRoute(string $route): string
+    {
+        $route = trim($route);
+
+        // Solo permitir caracteres alfanuméricos y guiones bajos
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $route)) {
+            return '';
         }
-        return $vpages;
+
+        // Prevenir path traversal
+        $route = str_replace(['..', '/', '\\'], '', $route);
+
+        return $route;
     }
 }

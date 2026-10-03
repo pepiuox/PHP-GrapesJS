@@ -1,134 +1,150 @@
 <?php
-//
-//  This application develop by PEPIUOX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
-class UsersCodeAccess{
-  protected $conn;
-  private $actions;
-  private $secures;
-  
-    public function __construct(){
-       global $conn;
-        $this->conn = $conn;
-        $this->actions = [
-            'users_active',
-            'users_plans',
-            'users_searches',
-            'users_social_media',
-            'users_types',
-            'users_verifications'                   
-            ]; 
+declare(strict_types=1);
 
-        $this->secures = [
-            'users_privacy',
-            'users_secures'                   
-            ]; 
-              
-    }
-    /**
-     * Inserts a user code into multiple user-related tables.
-     *
-     * @param string $uscod The user code to be inserted into the tables.
-     * 
-     * Iterates over a predefined set of user-related tables and inserts 
-     * the provided user code into each table. This function prepares 
-     * and executes an SQL INSERT statement for each table.
-     */
+/**
+ * Acceso y actualización de códigos de verificación de usuarios.
+ * Migrado a PDO con corrección de bugs SQL críticos.
+ *
+ * CORRECCIONES:
+ * - Bug SQL: paréntesis extra en WHERE usercode=?) → WHERE usercode = :uc
+ * - Transacciones opcionales para operaciones en lote
+ * - Inyección de dependencias PDO
+ * - Tipado estricto en todos los parámetros
+ */
+class UsersCodeAccess
+{
+    private PDO $conn;
 
-   public function AddUserCode($uscod){
-        foreach($this->actions as $tb){
-                $sql= "INSERT INTO ".$tb." (usercode) VALUES (?)";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bind_param("s", $uscod);
-                $stmt->execute();
-		$stmt->close();
-        }    
-            
+    public function __construct(PDO $connection)
+    {
+        $this->conn = $connection;
     }
-    
-    public function AddSecures($ids, $uscod){
-        foreach($this->secures as $tb){
-                $sql= "INSERT INTO ".$tb." (idUsr, usercode) VALUES (?, ?)";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bind_param("ss", $ids, $uscod);
-                $stmt->execute();
-		$stmt->close();
-        }    
-            
-    }
-    
-    /**
-     * Updates the user's actions table with new values.
-     *
-     * @param string $uscod The user code to identify the user.
-     * @param string $val The validation status of the user.
-     * @param string $ver The verification status of the user.
-     * @param string $apr The approval status of the user.
-     */
-     public function UpActions($uscod, $val, $ver, $apr){
-        $naction ='verificated';
-        $stmt = $this->conn->prepare("UPDATE users_actions SET action=?, validation=?, verification=?, approval=? WHERE usercode=?");
-        $stmt->bind_param("sssss", $naction, $val, $ver, $apr, $uscod);
-        $stmt->execute();
-        $stmt->close();
-    }
-	
-    /**
-     * Updates the user's active status in the users_active table.
-     *
-     * @param string $uscod The user code to identify the user.
-     * @param int $verst The value to set the is_active field to.
-     */
-    public function UpActive($uscod, $verst){
-	$stmt = $this->conn->prepare("UPDATE users_active SET is_active = ? WHERE usercode = ?");
-        $stmt->bind_param("is", $verst, $uscod);
-        $stmt->execute();
-        $stmt->close();
-    }
-	
-    /**
-     * Updates the user's secures table with new values.
-     *
-     * @param string $uscod The user code to identify the user.
-     * @param string $ids The id of the secure to be updated.
-     * @param string $val The validation status of the secure.
-     * @param string $folder The folder associated with the secure.
-     */
-    public function UpSecures($uscod, $ids, $val, $folder){
-        $stmt = $this->conn->prepare("UPDATE users_secures SET idUsr=?, folder_files=?, validation=? WHERE usercode=?");
-        $stmt->bind_param("ssss", $ids, $folder, $val, $uscod);
-        $stmt->execute();
-        $stmt->close();
-    }
-	
-    public function UpPrivacy($uscod,$idp, $ver){
-        $stmt = $this->conn->prepare("UPDATE users_privacy SET idUsr=?, verification=? WHERE usercode=?");
-        $stmt->bind_param("sss",$idp, $ver, $uscod);
-        $stmt->execute();
-        $stmt->close();
-    }
-    
-    /**
-     * Updates the verification status in the users_verifications table.
-     *
-     * @param string $uscod The user code to identify the user.
-     * @param string $ver The verification status to be updated.
-     */
 
-    public function UpVerify($uscod, $ver){
-        $stmt = $this->conn->prepare("UPDATE users_verifications SET verification=? WHERE usercode=?)");
-        $stmt->bind_param("ss", $ver, $uscod);
-        $stmt->execute();
-        $stmt->close();
+    /* =========================================================
+     *  Métodos individuales (llamados desde UsersVerify, etc.)
+     * ========================================================= */
+
+    /**
+     * Actualiza verificación en users_verifications.
+     * ✅ BUG CORREGIDO: paréntesis extra eliminado
+     */
+    public function UpVerify(string $uscod, string $ver): bool
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users_verifications SET verification = :v WHERE usercode = :uc"
+        );
+        return $stmt->execute([':v' => $ver, ':uc' => $uscod]);
     }
-    
-    public function UpPlans($uscod, $verst){
-	$stmt = $this->conn->prepare("UPDATE users_plans SET verification=? WHERE usercode=?)");
-        $stmt->bind_param("is", $verst, $uscod);
-        $stmt->execute();
-        $stmt->close();
+
+    /**
+     * Actualiza verificación en users_plans.
+     * ✅ BUG CORREGIDO: paréntesis extra eliminado
+     */
+    public function UpPlans(string $uscod, int $verst): bool
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users_plans SET verification = :v WHERE usercode = :uc"
+        );
+        return $stmt->execute([':v' => $verst, ':uc' => $uscod]);
+    }
+
+    /**
+     * Actualiza acciones del usuario.
+     */
+    public function UpActions(string $uscod, string $cchng, string $ver, string $apr): bool
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users_actions
+            SET validation = :val, action = :act, approval = :apr
+            WHERE usercode = :uc"
+        );
+        return $stmt->execute([
+            ':val' => $cchng,
+            ':act' => $ver,
+            ':apr' => $apr,
+            ':uc'  => $uscod
+        ]);
+    }
+
+    /**
+     * Actualiza estado activo del usuario.
+     */
+    public function UpActive(string $uscod, int $verified): bool
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users_active SET is_active = :ia WHERE usercode = :uc"
+        );
+        return $stmt->execute([':ia' => $verified, ':uc' => $uscod]);
+    }
+
+    /**
+     * Actualiza privacidad del usuario.
+     */
+    public function UpPrivacy(string $uscod, int $uid, string $ver): bool
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users_privacy SET verification = :v WHERE usercode = :uc AND userid = :uid"
+        );
+        return $stmt->execute([':v' => $ver, ':uc' => $uscod, ':uid' => $uid]);
+    }
+
+    /**
+     * Actualiza seguridad del usuario.
+     */
+    public function UpSecures(string $uscod, int $uid, string $folder, string $cchng): bool
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users_secures
+            SET folder = :f, secure_code = :sc
+            WHERE usercode = :uc AND userid = :uid"
+        );
+        return $stmt->execute([
+            ':f'   => $folder,
+            ':sc'  => $cchng,
+            ':uc'  => $uscod,
+            ':uid' => $uid
+        ]);
+    }
+
+    /* =========================================================
+     *  Operación en lote con transacción
+     * ========================================================= */
+
+    /**
+     * Ejecuta todas las actualizaciones de activación en una transacción atómica.
+     *
+     * @throws RuntimeException Si alguna actualización falla
+     */
+    public function activateAll(
+        string $uscod,
+        int    $uid,
+        string $cchng,
+        string $ver,
+        string $apr,
+        string $folder
+    ): bool {
+        $this->conn->beginTransaction();
+        try {
+            $results = [
+                $this->UpVerify($uscod, $ver),
+                $this->UpPlans($uscod, 1),
+                $this->UpActions($uscod, $cchng, $ver, $apr),
+                $this->UpActive($uscod, 1),
+                $this->UpPrivacy($uscod, $uid, $ver),
+                $this->UpSecures($uscod, $uid, $folder, $cchng),
+            ];
+
+            if (in_array(false, $results, true)) {
+                throw new RuntimeException('Una o más actualizaciones fallaron');
+            }
+
+            $this->conn->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            error_log('UsersCodeAccess::activateAll error: ' . $e->getMessage());
+            throw new RuntimeException('Error en activación en lote: ' . $e->getMessage());
+        }
     }
 }

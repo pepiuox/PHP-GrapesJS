@@ -1,250 +1,210 @@
 <?php
-//
-//  This application develop by PePiuoX.
-//  Created by : Lab eMotion
-//  Author     : PePiuoX
-//  Email      : contact@pepiuox.net
-//
+declare(strict_types=1);
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-/**
- * Description of UserVerify
- *
- * @author PePiuoX
- */
-class UsersVerify {
 
-    protected $conn;
-    private $uca;
-    public $gc;
-	private $pt;
-    private $code;
-    private $hash;
-    
-    /**
-     * UsersVerify constructor.
-     * 
-     * The constructor method for the UsersVerify class.
-     * This method is called when an object is created from the class and it
-     * allows the class to initialize the attributes of the class.
-     * 
-     * @param void
-     * @return void
-     */
-    public function __construct() {
-        global $conn;
-        $this->conn = $conn;
-		$this->uca = new UsersCodeAccess();
-        $this->gc = new GetCodeDeEncrypt();
-		$this->pt = new Protect();
-		// Require credentials for DB connection.
-        if (isset($_GET['vcode']) && isset($_GET['usr'])) {
-            $this->code = $_SESSION['vcode'] = $this->pt->secureStr($_GET['vcode']);
-            $this->hash = $_SESSION['urs'] = $this->pt->secureStr($_GET['usr']);
+/**
+ * Verificación de usuarios con PHPMailer.
+ * Migrado a PDO, con transacciones y comparación segura de tokens.
+ */
+class UsersVerify
+{
+    private PDO $conn;
+    private UsersCodeAccess $uca;
+    private GetCodeDeEncrypt $gc;
+    private Protect $pt;
+    private string $code = '';
+    private string $hash = '';
+
+    public function __construct(PDO $connection)
+    {
+        $this->conn = $connection;
+        $this->uca  = new UsersCodeAccess();
+        $this->gc   = new GetCodeDeEncrypt();
+        $this->pt   = new Protect();
+
+        $this->includes();
+
+        if (isset($_GET['vcode'], $_GET['usr'])) {
+            // Guardamos en sesión solo tras validar formato
+            $vcode = $this->pt->secureStr($_GET['vcode']);
+            $usr   = $this->pt->secureStr($_GET['usr']);
+            if (ctype_alnum($vcode) && ctype_alnum($usr)) {
+                $_SESSION['vcode'] = $this->code = $vcode;
+                $_SESSION['urs']   = $this->hash = $usr;
+            }
         }
 
         if (isset($_POST['bverify'])) {
             $this->uVerify();
         }
-       $this->includes();
-    }
-	
-    private function includes(){
-        require_once "../PHPMailer/src/Exception.php";
-        require_once "../PHPMailer/src/PHPMailer.php";
-        require_once "../PHPMailer/src/SMTP.php";
     }
 
-    /*
-     * Function uVerify(){
-     * User e-mail verification on verify.php
-     * E-mail and activation code are cross-referenced with database, if both are correct
-     * is_activate is updated in database.
-     */
-    /**/
+    private function includes(): void
+    {
+        require_once __DIR__ . "/../PHPMailer/src/Exception.php";
+        require_once __DIR__ . "/../PHPMailer/src/PHPMailer.php";
+        require_once __DIR__ . "/../PHPMailer/src/SMTP.php";
+    }
 
     /**
-     * Verifies user email based on the activation code and hash provided via POST request.
-     * 
-     * This function cross-references the provided activation code and hash with the database.
-     * If they match, the user's account is activated, various user-related tables are updated,
-     * and a confirmation email is sent. If any validation fails, an error message is set.
-     * 
-     * @return void
+     * Verifica email + código usando comparación segura contra timing-attacks.
      */
-
-    private function uVerify() {
-        if (isset($_POST['bverify'])) {
-            if (!empty($_POST['code']) && !empty($_POST['hash'])) {
-
-// Variables for uVerify()
-                $act_code = $this->pt->secureStr($_POST['code']);
-                $hash_code = $this->pt->secureStr($_POST['hash']);
-		
-                if ($this->code === $act_code && $this->hash === $hash_code) {
-                    		    
-// Cross-reference e-mail and activation_code in database with values from URL.
-                    $stmt = $this->conn->prepare("SELECT iduv, usercode, email, usr_type FROM uverify WHERE mkhash = ? AND activation_code = ?");
-                    $stmt->bind_param("ss", $hash_code, $act_code);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-					$stmt->close();
-					
-                    if ($result->num_rows === 1) {
-                        
-                        $urw = $result->fetch_assoc();                       
-                        $uid = $urw['iduv'];
-						$uscod = $urw['usercode'];
-						$username = $urw['username'];
-						$email = $urw['email'];
-						$usrtype = $urw['usr_type']; 
-						if($usrtype === 'cliente'){
-							$valusr = '3';
-						}elseif($usrtype === 'servicios'){
-							$valusr = '5';
-						}elseif($usrtype === 'productor'){
-							$valusr = '7';
-						}
-						
-
-						$astmt = $this->conn->prepare("SELECT usercode, action, validation FROM users_actions WHERE usercode = ? AND validation = ?");
-						$astmt->bind_param("ss", $uscod, $act_code);
-						$astmt->execute();
-						$aresult = $astmt->get_result();
-						$astmt->close();
-						$urac = $aresult->fetch_assoc();
-					
-					    if($urac['action'] === 'validation'){
-				
-							$mhash = $this->gc->randHash();
-							$cchng = $this->gc->getIdCode();
-							$apr = $this->gc->getRandKey();
-							$ver = $this->gc->getIdCode();
-							$folder = $this->gc->randLengthString(19);
-							$verified = 1;
-							$bann = 0;
-							$status = 1;
-                        
-							$stmt1 = $this->conn->prepare("UPDATE uverify SET mkhash = ?, activation_code = ?, is_activate = ?, banned = ?  WHERE iduv = ?  AND usercode = ? AND mkhash = ?");
-							$stmt1->bind_param("ssiisss", $mhash, $cchng, $verified, $bann, $uid, $uscod, $this->hash);
-							$stmt1->execute();
-							$res1 = $stmt1->affected_rows;
-							$stmt1->close();
-
-							$stmt2 = $this->conn->prepare("UPDATE users SET verified = ?, status = ?, email_verified = ? WHERE idUser = ? AND usercode = ?");
-							$stmt2->bind_param("iisss", $verified, $status, $cchng, $uid, $uscod);
-							$stmt2->execute();
-							$res2 = $stmt2->affected_rows;
-							$stmt2->close();
- 
-							$stmt3 = $this->conn->prepare("UPDATE users_profiles SET mkhash = ? WHERE idp = ? AND usercode = ? AND mkhash = ?");
-							$stmt3->bind_param("ssss", $mhash, $uid, $uscod, $this->hash);
-							$stmt3->execute();
-							$res3 = $stmt3->affected_rows;
-							$stmt3->close();
-			
-							$stmt4 = $this->conn->prepare("UPDATE users_info SET active = ? WHERE userid = ? AND usercode = ?");
-							$stmt4->bind_param("iss", $verified, $uid, $uscod);
-							$stmt4->execute();
-							$res4 = $stmt4->affected_rows;
-							$stmt4->close();
-							
-							$stmt5 = $this->conn->prepare("UPDATE users_types SET user_type = ?, val_user = ? WHERE usercode = ?");
-							$stmt5->bind_param("sis", $usrtype, $valusr, $uscod);
-							$stmt5->execute();
-							$res5 = $stmt5->affected_rows;
-							$stmt5->close();
-						
-							$this->uca->UpActions($uscod, $cchng, $ver, $apr);
-							$this->uca->UpActive($uscod, $verified);			
-							$this->uca->UpPlans($uscod, $verified);
-							$this->uca->UpPrivacy($uscod, $uid, $ver);
-							$this->uca->UpSecures($uscod, $uid, $folder, $cchng);
-							$this->uca->UpVerify($uscod, $ver);			
-			 
-							if ($res1 === 1 && $res2 === 1 && $res3 === 1 && $res4 === 1 && $res5 === 1) {
-								
-								unset($_SESSION['vcode']);
-								unset($_SESSION['usr']);
-								$this->sendPMailer($email, $username);
-								$_SESSION['SuccessMessage'] = 'Success when verifying the activation of your account! ';
-								header('Location: login.php');
-
-							} else {
-								$_SESSION['ErrorMessage'] = 'Error in verifying the activation of your account! ';
-							}
-						}else {
-                            $_SESSION['ErrorMessage'] = 'Error in actions from activation of your account! ';
-                        }
-                    } else {
-						$_SESSION['ErrorMessage'] = 'Error in verifying the activation of your account! ';
-                    }
-                }
-            } else {
-                $_SESSION['ErrorMessage'] = 'Error in verifying the activation of your account, please contact support! ';
-            }
+    private function uVerify(): void
+    {
+        if (empty($_POST['code']) || empty($_POST['hash'])) {
+            $_SESSION['ErrorMessage'] = 'Datos de verificación incompletos.';
+            return;
         }
+
+        $actCode  = $this->pt->secureStr($_POST['code']);
+        $hashPost = $this->pt->secureStr($_POST['hash']);
+
+        // Comparación segura (timing-safe)
+        if (!hash_equals($this->code, $actCode) || !hash_equals($this->hash, $hashPost)) {
+            $_SESSION['ErrorMessage'] = 'Código o hash inválidos.';
+            return;
+        }
+
+        $stmt = $this->conn->prepare(
+            "SELECT iduv, usercode, email, username, usr_type
+            FROM uverify WHERE mkhash = :h AND activation_code = :c"
+        );
+        $stmt->execute([':h' => $hashPost, ':c' => $actCode]);
+
+        if ($stmt->rowCount() !== 1) {
+            $_SESSION['ErrorMessage'] = 'No se encontró el registro de verificación.';
+            return;
+        }
+        $urw = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $uid      = (int) $urw['iduv'];
+        $uscod    = $urw['usercode'];
+        $username = $urw['username'];
+        $email    = $urw['email'];
+        $usrtype  = $urw['usr_type'];
+
+        $valusr = match ($usrtype) {
+            'cliente'    => '3',
+            'servicios'  => '5',
+            'productor'  => '7',
+            default      => '0',
+        };
+
+        // Validar acción previa
+        $as = $this->conn->prepare(
+            "SELECT action FROM users_actions WHERE usercode = :u AND validation = :v"
+        );
+        $as->execute([':u' => $uscod, ':v' => $actCode]);
+        $urac = $as->fetch(PDO::FETCH_ASSOC);
+
+        if (($urac['action'] ?? '') !== 'validation') {
+            $_SESSION['ErrorMessage'] = 'Acción de activación no válida.';
+            return;
+        }
+
+        $mhash    = $this->gc->randHash();
+        $cchng    = $this->gc->getIdCode();
+        $apr      = $this->gc->getRandKey();
+        $ver      = $this->gc->getIdCode();
+        $folder   = $this->gc->randLengthString(19);
+        $verified = 1;
+        $bann     = 0;
+        $status   = 1;
+
+        /* ---------- Transacción atómica ---------- */
+        $this->conn->beginTransaction();
+        try {
+            $s1 = $this->conn->prepare(
+                "UPDATE uverify SET mkhash=:mh, activation_code=:ac, is_activate=:ia, banned=:b
+                WHERE iduv=:id AND usercode=:u AND mkhash=:oh"
+            );
+            $s1->execute([
+                ':mh'=>$mhash, ':ac'=>$cchng, ':ia'=>$verified, ':b'=>$bann,
+                ':id'=>$uid, ':u'=>$uscod, ':oh'=>$this->hash
+            ]);
+
+            $s2 = $this->conn->prepare(
+                "UPDATE users SET verified=:v, status=:st, email_verified=:ev
+                WHERE idUser=:id AND usercode=:u"
+            );
+            $s2->execute([':v'=>$verified, ':st'=>$status, ':ev'=>$cchng, ':id'=>$uid, ':u'=>$uscod]);
+
+            $s3 = $this->conn->prepare(
+                "UPDATE users_profiles SET mkhash=:mh WHERE idp=:id AND usercode=:u AND mkhash=:oh"
+            );
+            $s3->execute([':mh'=>$mhash, ':id'=>$uid, ':u'=>$uscod, ':oh'=>$this->hash]);
+
+            $s4 = $this->conn->prepare(
+                "UPDATE users_info SET active=:a WHERE userid=:id AND usercode=:u"
+            );
+            $s4->execute([':a'=>$verified, ':id'=>$uid, ':u'=>$uscod]);
+
+            $s5 = $this->conn->prepare(
+                "UPDATE users_types SET user_type=:t, val_user=:vu WHERE usercode=:u"
+            );
+            $s5->execute([':t'=>$usrtype, ':vu'=>$valusr, ':u'=>$uscod]);
+
+            $this->uca->UpActions($uscod, $cchng, $ver, $apr);
+            $this->uca->UpActive($uscod, $verified);
+            $this->uca->UpPlans($uscod, $verified);
+            $this->uca->UpPrivacy($uscod, $uid, $ver);
+            $this->uca->UpSecures($uscod, $uid, $folder, $cchng);
+            $this->uca->UpVerify($uscod, $ver);
+
+            $this->conn->commit();
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log('UsersVerify transaction failed: ' . $e->getMessage());
+            $_SESSION['ErrorMessage'] = 'Error interno al activar la cuenta.';
+            return;
+        }
+
+        unset($_SESSION['vcode'], $_SESSION['usr']);
+        $this->sendPMailer($email, $username);
+        $_SESSION['SuccessMessage'] = '¡Cuenta verificada y activada correctamente!';
+        header('Location: login.php');
+        exit;
     }
 
-    /* End Verify() */
-	private function sendPMailer($email, $username)
+    private function sendPMailer(string $email, string $username): void
     {
-		$usrml = $this->gc->ende_crypter(
-            "decrypt",
-            $email,
-            SECURE_TOKEN,
-            SECURE_HASH
-        );
-		$usrnm = $this->gc->ende_crypter(
-            "decrypt",
-            $username,
-            SECURE_TOKEN,
-            SECURE_HASH
-        );
-        $usr = $this->gc->ende_crypter(
-            "decrypt",
-            USEREMAIL,
-            SECURE_TOKEN,
-            SECURE_HASH
-        );
-        $pas = $this->gc->ende_crypter(
-            "decrypt",
-            PASSMAIL,
-            SECURE_TOKEN,
-            SECURE_HASH
-        );
+        $usrml = $this->gc->ende_crypter("decrypt", $email,    SECURE_TOKEN, SECURE_HASH);
+        $usrnm = $this->gc->ende_crypter("decrypt", $username, SECURE_TOKEN, SECURE_HASH);
+        $usr   = $this->gc->ende_crypter("decrypt", USEREMAIL, SECURE_TOKEN, SECURE_HASH);
+        $pas   = $this->gc->ende_crypter("decrypt", PASSMAIL, SECURE_TOKEN, SECURE_HASH);
+
+        // Escapado para prevenir XSS en el HTML del email
+        $safeName  = htmlspecialchars($usrnm, ENT_QUOTES, 'UTF-8');
+        $safeEmail = filter_var($usrml, FILTER_VALIDATE_EMAIL) ? $usrml : '';
+        if ($safeEmail === '') return;
 
         $subject = "Su cuenta está verificada y activada.";
-        // This should be changed to an email that you would like to send activation e-mail from.
-        $body = "<html>
-<body><p><b>Hola " . $usrnm . ".</b>";
-        $body .=
-            "<br>Tu cuenta está activada." .
-            "<br>"; // Input the URL of your website.
-        $body .= "Por favor crea tu frase de recuperación.</p></body></html>";
-        $mail = new PHPMailer(true);
-        //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
-        $mail->isSMTP(); //Send using SMTP
-        $mail->Host = MAILSERVER; //Set the SMTP server to send through
-        $mail->SMTPAuth = true; //Enable SMTP authentication
-        $mail->Username = $usr; //SMTP username
-        $mail->Password = $pas; //SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
-        $mail->Port = PORTSERVER; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $body    = "<html><body>"
+        . "<p><b>Hola {$safeName}.</b></p>"
+        . "<p>Tu cuenta está activada.<br>Por favor crea tu frase de recuperación.</p>"
+        . "</body></html>";
 
-        $mail->setFrom($usr, SITE_NAME);
-        $mail->addAddress($usrml, $usrnm);
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-
-        $mail->Body = $body;
-
-        if (!$mail->send()) {
-            echo "<h4>Message could not be sent. Mailer Error: {$mail->ErrorInfo}</h4>";
-        } else {
-            echo "<h4>The email message was sent. Thank you for registering</h4>";
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host       = MAILSERVER;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $usr;
+            $mail->Password   = $pas;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = PORTSERVER;
+            $mail->CharSet    = 'UTF-8';
+            $mail->setFrom($usr, SITE_NAME);
+            $mail->addAddress($safeEmail, $safeName);
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body    = $body;
+            $mail->send();
+        } catch (Exception $e) {
+            error_log('Mailer Error: ' . $mail->ErrorInfo);
         }
     }
 }

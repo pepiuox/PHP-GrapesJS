@@ -1,178 +1,176 @@
 <?php
+declare(strict_types=1);
 
 /**
- * Cookie manager.
+ * Gestor seguro de cookies con soporte para SameSite y atributos modernos.
  */
-class Cookie {
+class Cookie
+{
+    private string $name = '';
+    private string $value = '';
+    private int $time;
+    private string $path = '/';
+    private string $domain = '';
+    private bool $secure = false;
+    private bool $httpOnly = true;
+    private string $sameSite = 'Lax'; // Lax, Strict, None
 
-    /**
-     * Cookie name - the name of the cookie.
-     * @var bool
-     */
-    private $name;
+    public function __construct()
+    {
+        $this->time = time() + 3600;
 
-    /**
-     * Cookie value
-     * @var string
-     */
-    private $value;
-
-    /**
-     * Cookie life time
-     * @var DateTime
-     */
-    private $time;
-
-    /**
-     * Cookie domain
-     * @var bool
-     */
-    private $domain = false;
-
-    /**
-     * Cookie path
-     * @var bool
-     */
-    private $path;
-
-    /**
-     * Cookie secure
-     * @var bool
-     */
-    private $secure = false;
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
- $this->time = time() + 3600;
+        // Detectar HTTPS automáticamente
+        $this->secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || ($_SERVER['SERVER_PORT'] ?? 0) == 443;
     }
 
     /**
-     * Create or Update cookie.
+     * Crea o actualiza la cookie.
      */
-    public function create() {
-        return setcookie($this->getName(), $this->getValue(), $this->getTime(), $this->getPath(), $this->getDomain(), $this->getSecure(), true);
+    public function create(): bool
+    {
+        if ($this->name === '') {
+            throw new RuntimeException('Cookie name is required');
+        }
+
+        // PHP 7.3+ soporta array con opciones (incluye SameSite)
+        if (PHP_VERSION_ID >= 70300) {
+            return setcookie($this->name, $this->value, [
+                'expires'  => $this->time,
+                'path'     => $this->path,
+                'domain'   => $this->domain,
+                'secure'   => $this->secure,
+                'httponly' => $this->httpOnly,
+                'samesite' => $this->sameSite,
+            ]);
+        }
+
+        // Fallback para PHP < 7.3
+        $cookieValue = urlencode($this->name) . '=' . urlencode($this->value);
+        $cookieValue .= '; expires=' . gmdate('D, d M Y H:i:s T', $this->time);
+        $cookieValue .= '; path=' . $this->path;
+
+        if ($this->domain !== '') {
+            $cookieValue .= '; domain=' . $this->domain;
+        }
+        if ($this->secure) {
+            $cookieValue .= '; secure';
+        }
+        if ($this->httpOnly) {
+            $cookieValue .= '; httponly';
+        }
+        $cookieValue .= '; samesite=' . $this->sameSite;
+
+        header('Set-Cookie: ' . $cookieValue, false);
+        $_COOKIE[$this->name] = $this->value;
+        return true;
     }
 
     /**
-     * Return a cookie
-     * @return mixed
+     * Obtiene el valor de la cookie.
      */
-    public function get() {
-        return $_COOKIE[$this->getName()];
+    public function get(): ?string
+    {
+        return $_COOKIE[$this->name] ?? null;
     }
 
     /**
-     * Delete cookie.
-     * @return bool
+     * Elimina la cookie.
      */
-    public function delete() {
-        return setcookie($this->name, '', time() - 3600, $this->getPath(), $this->getDomain(), $this->getSecure(), true);
+    public function delete(): bool
+    {
+        $this->value = '';
+        $this->time  = time() - 3600;
+        return $this->create();
     }
 
-    /**
-     * @param $domain
-     */
-    public function setDomain($domain) {
-        $this->domain = $domain;
+    // ========== SETTERS ==========
+
+    public function setName(string $name): self
+    {
+        if (!preg_match('/^[a-zA-Z0-9_\-]+$/', $name)) {
+            throw new InvalidArgumentException('Invalid cookie name');
+        }
+        $this->name = $name;
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getDomain() {
-        return $this->domain;
-    }
-
-    /**
-     * @param $id
-     */
-    public function setName($id) {
-        $this->name = $id;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setValue($value) {
+    public function setValue(string $value): self
+    {
         $this->value = $value;
+        return $this;
     }
 
     /**
-     * @return string
+     * Establece el tiempo de expiración.
+     *
+     * @param string $time Formato relativo (+1hour, +1day, etc) o timestamp Unix
      */
-    public function getValue() {
-        return $this->value;
+    public function setTime($time): self
+    {
+        if (is_numeric($time)) {
+            $this->time = (int) $time;
+        } else {
+            $date = new DateTime();
+            $date->modify((string) $time);
+            $this->time = $date->getTimestamp();
+        }
+        return $this;
     }
 
-    /**
-     * @param $path
-     */
-    public function setPath($path) {
+    public function setPath(string $path): self
+    {
         $this->path = $path;
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPath() {
-        return $this->path;
+    public function setDomain(string $domain): self
+    {
+        $this->domain = $domain;
+        return $this;
     }
 
-    /**
-     * @param $secure
-     */
-    public function setSecure($secure) {
+    public function setSecure(bool $secure): self
+    {
         $this->secure = $secure;
+        return $this;
+    }
+
+    public function setHttpOnly(bool $httpOnly): self
+    {
+        $this->httpOnly = $httpOnly;
+        return $this;
     }
 
     /**
-     * @return bool
+     * Establece el atributo SameSite.
+     *
+     * @param string $sameSite Lax, Strict o None
      */
-    public function getSecure() {
-        return $this->secure;
+    public function setSameSite(string $sameSite): self
+    {
+        $valid = ['Lax', 'Strict', 'None'];
+        if (!in_array($sameSite, $valid, true)) {
+            throw new InvalidArgumentException(
+                "SameSite must be one of: " . implode(', ', $valid)
+            );
+        }
+        // Si es None, secure debe ser true
+        if ($sameSite === 'None') {
+            $this->secure = true;
+        }
+        $this->sameSite = $sameSite;
+        return $this;
     }
 
-    /**
-     * @param $time
-     */
-    public function setTime($time) {
-        // Create a date
-        $date = new DateTime();
-        // Modify it (+1hours; +1days; +20years; -2days etc)
-        $date->modify($time);
-        // Store the date in UNIX timestamp.
-        $this->time = $date->getTimestamp();
-    }
+    // ========== GETTERS ==========
 
-    /**
-     * @return bool|int
-     */
-    public function getTime() {
-        return $this->time;
-    }
+    public function getName(): string { return $this->name; }
+    public function getValue(): string { return $this->value; }
+    public function getTime(): int { return $this->time; }
+    public function getPath(): string { return $this->path; }
+    public function getDomain(): string { return $this->domain; }
+    public function getSecure(): bool { return $this->secure; }
+    public function getHttpOnly(): bool { return $this->httpOnly; }
+    public function getSameSite(): string { return $this->sameSite; }
 }
-
-
-
-// Set cookie name
-//                                            $this->cookie->setName('ckid');
-// Set cookie value
-//                                            $this->cookie->setValue($usid);
-// Set cookie expiration time
-//                                            $this->cookie->setTime("+1hour");
-//                                            $this->cookie->setPath("/");
-// Create the cookie
-// 
-//          $this->cookie->create();
-// Delete the cookie.
-                  //  $this->cookie->delete();
-?> 

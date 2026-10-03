@@ -1,0 +1,194 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Pasar el header de autorización al entorno
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    ## BEGIN - Reglas de seguridad mejoradas para prevenir exploits
+    # Bloquear base64_encode en la URL
+    RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [NC,OR]
+
+    # Bloquear inyección de JavaScript en URL
+    RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+
+    # Bloquear manipulación de variables GLOBALS
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [NC,OR]
+
+    # Bloquear manipulación de variables _REQUEST
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [NC,OR]
+
+    # Bloquear inclusión de archivos remotos
+    RewriteCond %{QUERY_STRING} (ftp|http|https|php):// [NC,OR]
+
+    # Bloquear ejecución de comandos del sistema
+    RewriteCond %{QUERY_STRING} (exec|system|shell_exec|passthru|popen|proc_open|pcntl_exec) [NC,OR]
+
+    # Bloquear SQL injection
+    RewriteCond %{QUERY_STRING} (union.*select|select.*from|drop.*table|delete.*from|insert.*into|update.*set) [NC,OR]
+
+    # Bloquear path traversal
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC,OR]
+
+    # Bloquear null bytes
+    RewriteCond %{QUERY_STRING} \0 [NC,OR]
+
+    # Bloquear eval() y assert()
+    RewriteCond %{QUERY_STRING} (eval|assert)\( [NC,OR]
+
+    # Bloquear ataques de inclusión de archivos (LFI/RFI)
+    RewriteCond %{QUERY_STRING} (include|require)(_once)?\( [NC,OR]
+
+    # Bloquear caracteres peligrosos en la URL
+    RewriteCond %{REQUEST_URI} [\<\>\"\'\%\(\)\[\]\{\}\|\\\^\`] [NC,OR]
+
+    # Bloquear User-Agents maliciosos comunes
+    RewriteCond %{HTTP_USER_AGENT} (mysql|psql|pg_dump|wget|curl|bin/bash|python|perl|ruby|java) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (libwww|libwww-perl|masscan|zgrab|nmap|nikto|burp|sqlmap|havij) [NC]
+
+    # Si alguna condición se cumple, retornar 403 Forbidden
+    RewriteRule .* - [F,L]
+    ## END - Reglas de seguridad
+
+    # Redirigir solicitudes de /build/ eliminando el prefijo
+    RewriteCond %{THE_REQUEST} /build/([^\s?]*) [NC]
+    RewriteRule ^ %1 [L,NE,R=302]
+
+    # Redirigir todo a la carpeta build
+    RewriteRule ^((?!build/).*)$ build/$1 [L,NC]
+
+    # Verificar si el archivo solicitado con extensión .php existe
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    # Asegurar que no sea un directorio
+    RewriteCond %{REQUEST_FILENAME}.php !-d
+    # Si la URL no termina en slash
+    RewriteCond %{REQUEST_URI} !/$
+    # Agregar extensión .php internamente
+    RewriteRule ^(.*)$ $1.php [L]
+
+    # Prevenir acceso a archivos sensibles vía rewrite
+    RewriteRule ^(?:build/)?(?:\.env|composer\.(?:json|lock)|\.git|README\.md)$ - [F,L]
+
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Forzar HTTPS (descomentar si usas SSL)
+    # Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+    # Prevenir clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Prevenir MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Protección XSS mejorada
+    Header set X-XSS-Protection "1; mode=block"
+
+    # Control de referer
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Content-Security-Policy básica (ajustar según necesidades)
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+
+    # Permissions-Policy mejorada
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), battery=(), accelerometer=(), gyroscope=(), magnetometer=()"
+
+    # Cross-Domain Policies
+    Header set X-Permitted-Cross-Domain-Policies "master-only"
+
+    # Ocultar información del servidor
+    Header set Server "Secure-Server"
+
+    # Cache-Control para diferentes tipos de archivos
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|woff|woff2|ttf|svg|eot|webp|avif)$">
+        Header set Cache-Control "max-age=2592000, public, immutable"
+    </FilesMatch>
+
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+        Header set Pragma "no-cache"
+    </FilesMatch>
+
+    # Vary header para mejor compatibilidad con caché
+    Header append Vary "Accept-Encoding"
+</IfModule>
+
+# Proteger archivos sensibles
+<FilesMatch "^(\.env|composer\.(json|lock)|\.git|README\.md|CHANGELOG\.md|CONTRIBUTING\.md|LICENSE|\.htaccess|\.htpasswd)$">
+    Require all denied
+</FilesMatch>
+
+# Proteger directorios específicos
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Deshabilitar MultiViews para evitar ataques de negociación de contenido
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+
+# Prevenir acceso a archivos de backup y temporales
+<FilesMatch "\.(bak|backup|old|orig|save|temp|tmp|~|swp|swo|sql|log|sh|inc|ini|conf|config|dist|fla|psd)$">
+    Require all denied
+</FilesMatch>
+
+# Protección adicional contra métodos HTTP peligrosos
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|DELETE|PUT|OPTIONS) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# Configuración de seguridad para PHP (si está disponible)
+<IfModule mod_php7.c>
+    php_flag expose_php Off
+    php_value max_execution_time 30
+    php_value memory_limit 256M
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+    php_value max_input_time 60
+    php_value max_input_vars 1000
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+    php_value error_log /dev/null
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_flag expose_php Off
+    php_value max_execution_time 30
+    php_value memory_limit 256M
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+    php_value max_input_time 60
+    php_value max_input_vars 1000
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+    php_value error_log /dev/null
+</IfModule>
+
+# Prevenir ataques de denegación de servicio (DoS)
+<IfModule mod_evasive20.c>
+    DOSHashTableSize 3097
+    DOSPageCount 2
+    DOSPageInterval 1
+    DOSSiteCount 50
+    DOSSiteInterval 1
+    DOSBlockingPeriod 10
+    DOSEmailNotify admin@tudominio.com
+</IfModule>
+
+# Protección contra ataques de fuerza bruta
+<IfModule mod_ratelimit.c>
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 100
+</IfModule>
+
+# Redirecciones 301 (descomentar según necesidad)
+# Redirect 301 /old-page /new-page
+
+# Error documents personalizados (opcional)
+# ErrorDocument 403 /error/403.html
+# ErrorDocument 404 /error/404.html
+# ErrorDocument 500 /error/500.html

@@ -5,10 +5,6 @@
 //  Author     : PePiuoX
 //  Email      : contact@pepiuox.net
 //
-/*
- * This class check level from users:
- */
-
 class AccessLevel
 {
     protected $conn;
@@ -26,30 +22,22 @@ class AccessLevel
         }
     }
 
-    /* This functions verify if exits user level in the users_roles table
-     *
-     * This function get the level of the user
-     *
-     * @return int user level
-     */
     public function levels()
     {
         $stmt = $this->conn->prepare(
             "SELECT iduv, level FROM uverify WHERE iduv = ? AND level = ?"
         );
-        $stmt->bind_param("ss", $this->user_id, $this->level);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-
-        $lvls = $result->fetch_assoc();
+        $stmt->execute([$this->user_id, $this->level]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $lvls = $results[0] ?? [];
 
         $this->userrole = $this->Roles($this->level);
         $rol = $this->userrole["name"];
         $rolrq = $this->userrole["required"];
         $rold = $this->userrole["default_role"];
+
         if ($rolrq === 1) {
-            if ($lvls["level"] === $rol) {
+            if (isset($lvls["level"]) && $lvls["level"] === $rol) {
                 if ($rold === 9) {
                     return 9;
                 } elseif ($rold === 5) {
@@ -65,22 +53,14 @@ class AccessLevel
         }
     }
 
-    /**
-     * This function retrieve all the information about a user role
-     *
-     * @param string $level the level of the user
-     * @return array user role information
-     */
     private function Roles($level)
     {
         $stmt = $this->conn->prepare(
             "SELECT idRol, name, required, default_role FROM users_roles WHERE name = ?"
         );
-        $stmt->bind_param("s", $level);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        return $result->fetch_assoc();
+        $stmt->execute([$level]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results[0] ?? [];
     }
 
     public function DefaulRoles()
@@ -97,20 +77,16 @@ class AccessLevel
         return $this->rolePermissions($rol);
     }
 
-    /* This functions get id and name if exits user level in the users_roles table
-     *
-     */
     private function rolePermissions($idr)
     {
         $stmt = $this->conn->prepare(
             "SELECT idRp, permission_id FROM users_role_permissions WHERE role_id = ?"
         );
-        $stmt->bind_param("s", $idr);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        $rpres = $result->fetch_array();
-        $idp = $rpres["permission_id"];
+        $stmt->execute([$idr]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rpres = $results[0] ?? [];
+
+        $idp = $rpres["permission_id"] ?? null;
         return $this->Permissions($idp);
     }
 
@@ -119,12 +95,9 @@ class AccessLevel
         $stmt = $this->conn->prepare(
             "SELECT name, description, category, required FROM users_permissions WHERE idPer = ?"
         );
-        $stmt->bind_param("s", $idp);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        return $result->fetch_array();
+        $stmt->execute([$idp]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results[0] ?? [];
     }
 }
-
 ?>
