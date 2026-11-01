@@ -26,6 +26,7 @@ class UsersLikes
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
         $this->date = new DateTime();
 
         // ✅ Validación estricta de sesiones

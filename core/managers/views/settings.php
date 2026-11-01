@@ -1,6 +1,7 @@
 <?php
-$result = $this->conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'") or trigger_error($this->conn->error);
-$confs = $result->fetch_assoc();
+global $conn;
+$result = $conn->query("SELECT * FROM `site_configuration` WHERE `ID_Site` = '1'");
+$confs = $result->fetch(PDO::FETCH_ASSOC);
 
 /*
  * Upload images before update table
@@ -8,10 +9,8 @@ $confs = $result->fetch_assoc();
 
 function UploadImage($image) {
     global $conn;
-    // Check image using getimagesize function and get size
-    // if a valid number is got then uploaded file is an image
+    // Check if a file was actually sent for this field
     if (!empty($_FILES[$image]["name"])) {
-        $nimage = $_FILES[$image]["name"];
         if (isset($_FILES[$image])) {
 
             // directory name to store the uploaded image files
@@ -19,65 +18,35 @@ function UploadImage($image) {
             // if not already exists, please create it in the root of the
             // project folder
             $targetDir = "../uploads/";
-            $targetFile = $targetDir . basename($_FILES[$image]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+            // Validate and save with a server-generated name: the client filename is
+            // only used to read the extension, never to build the destination path.
+            $upload_error = null;
+            $nimage = \PepiuoX\Security\Upload::storeImage($_FILES[$image], $targetDir, 2000000, $upload_error);
 
-            $check = getimagesize($_FILES[$image]["tmp_name"]);
-            if ($check !== false) {
-                // $_SESSION['SuccessMessage'] = "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
+            // Check if the upload was rejected
+            if ($nimage === null) {
+                $_SESSION['ErrorMessage'] = "Sorry, your file was not uploaded.";
+                if ($upload_error !== null) {
+                    $_SESSION['ErrorMessage'] .= " " . $upload_error;
+                }
             } else {
-                // $_SESSION['ErrorMessage'] = "File is not an image.";
-                $uploadOk = 0;
-            }
-        }
-
-        // Check if the file already exists in the same path
-        if (file_exists($targetFile)) {
-            // $_SESSION['ErrorMessage'] = "Sorry, file already exists.";
-            $uploadOk = 0;
-        }
-
-        // Check file size and throw error if it is greater than
-        // the predefined value, here it is 2000000
-        if ($_FILES[$image]["size"] > 2000000) {
-            // $_SESSION['ErrorMessage'] = "Sorry, your file is too large.";
-            $uploadOk = 0;
-        }
-
-        // Check for uploaded file formats and allow only 
-        // jpg, png, jpeg and gif
-        // If you want to allow more formats, declare it here
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            // $_SESSION['ErrorMessage'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            $_SESSION['ErrorMessage'] = "Sorry, your file was not uploaded.";
-        } else {
-            if (move_uploaded_file($_FILES[$image]["tmp_name"], $targetFile)) {
                 $id = 1;
+                $image = \PepiuoX\Security\SqlIdentifier::assert($image);
                 $upim = $conn->prepare("UPDATE site_configuration SET $image = ? WHERE `ID_Site` = ?");
-                $upim->bind_param("si", $nimage, $id);
-                $upim->execute();
-                $upim->close();
+                $upim->execute([$nimage, $id]);
+                $upim->closeCursor();
 
-                $_SESSION['SuccessMessage'] = "The file " . htmlspecialchars(basename($_FILES[$image]["name"])) . " has been uploaded.";
-            } else {
-                $_SESSION['ErrorMessage'] = "Sorry, there was an error uploading your file.";
+                $_SESSION['SuccessMessage'] = "The file " . htmlspecialchars($nimage, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . " has been uploaded.";
             }
         }
     }
 }
 
-extract($_POST);
+extract($_POST, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
 
 if (isset($_POST['Update'])) {
     if ($_FILES) {
-        extract($_FILES);
+        extract($_FILES, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
         foreach ($_FILES as $k => $v) {
             $v = $k;
             UploadImage($v);
@@ -85,24 +54,32 @@ if (isset($_POST['Update'])) {
     }
 
     /* update table */
+    $valsParams = [];
     foreach ($_POST as $k => $v) {
         if ($_POST['Update'] === $v) {
             continue;
         }
-        $vals[] = "`" . $k . "` = '" . $v . "'";
+        // ✅ Excluir el campo CSRF: no es una columna de la tabla.
+        if ($k === 'csrf_token') {
+            continue;
+        }
+        $k = \PepiuoX\Security\SqlIdentifier::assert($k);
+        $vals[] = "`" . $k . "` = :" . $k;
+        $valsParams[":" . $k] = $v;
     }
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_configuration SET $vupdates WHERE `ID_Site` = '1'");
 
-    if ($this->conn->query($update) === TRUE) {
+    $stmt = $conn->prepare($update);
+    if ($stmt->execute($valsParams) !== false) {
         $definefiles = '../config/define.php';
 
         $_SESSION['SuccessMessage'] = "Web Site Configuration : Updated.";
         $sql = "SELECT * FROM site_configuration WHERE `ID_Site` = '1'";
 
-        if ($result = $this->conn->query($sql)) {
-            $fname = $result->fetch_fields();
-            $fdata = $result->fetch_assoc();
+        if ($result = $conn->query($sql)) {
+            $fdata = $result->fetch(PDO::FETCH_ASSOC);
+            $fname = array_map(function ($k) { return (object) array('name' => $k); }, array_keys((array) $fdata));
 
             foreach ($fname as $val) {
                 if ($val->name === 'ID_Site') {
@@ -136,7 +113,7 @@ if (isset($_POST['Update'])) {
 }
 if (isset($_POST['UpdateSecures'])) {
     if ($_FILES) {
-        extract($_FILES);
+        extract($_FILES, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
         foreach ($_FILES as $k => $v) {
             $v = $k;
             UploadImage($v);
@@ -144,24 +121,32 @@ if (isset($_POST['UpdateSecures'])) {
     }
 
     /* update table */
+    $valsParams = [];
     foreach ($_POST as $k => $v) {
         if ($_POST['UpdateSecures'] === $v) {
             continue;
         }
-        $vals[] = "`" . $k . "` = '" . $v . "'";
+        // ✅ Excluir el campo CSRF: no es una columna de la tabla.
+        if ($k === 'csrf_token') {
+            continue;
+        }
+        $k = \PepiuoX\Security\SqlIdentifier::assert($k);
+        $vals[] = "`" . $k . "` = :" . $k;
+        $valsParams[":" . $k] = $v;
     }
     $vupdates = implode(", ", $vals);
     $update = ("UPDATE site_security SET $vupdates WHERE `idSs` = '1'");
 
-    if ($this->conn->query($update) === TRUE) {
+    $stmt = $conn->prepare($update);
+    if ($stmt->execute($valsParams) !== false) {
         $definefiles = '../config/define.php';
 
         $_SESSION['SuccessMessage'] = "Web Site Secures Configuration : Updated.";
         $sql = "SELECT * FROM site_secures WHERE `idSs` = '1'";
 
-        if ($result = $this->conn->query($sql)) {
-            $fname = $result->fetch_fields();
-            $fdata = $result->fetch_assoc();
+        if ($result = $conn->query($sql)) {
+            $fdata = $result->fetch(PDO::FETCH_ASSOC);
+            $fname = array_map(function ($k) { return (object) array('name' => $k); }, array_keys((array) $fdata));
 
             foreach ($fname as $val) {
                 if ($val->name === 'idSs') {
@@ -196,8 +181,8 @@ if (isset($_POST['UpdateSecures'])) {
     }
 }
 
-$result1 = $this->conn->query("SELECT * FROM `site_security` WHERE `idSs` = '1'") or trigger_error($conn->error);
-$confsm = $result1->fetch_assoc();
+$result1 = $conn->query("SELECT * FROM `site_security` WHERE `idSs` = '1'");
+$confsm = $result1->fetch(PDO::FETCH_ASSOC);
 ?>
 <div class="container">            
     <div class="row">
@@ -220,6 +205,7 @@ $confsm = $result1->fetch_assoc();
                     <div class="tab-content">
                         <div class="active tab-pane" role="tabpanel" id="website">
                             <form action="" method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Web Site SEO</h4>
                                 <hr>
                                 <div class="form-group">
@@ -265,6 +251,7 @@ $confsm = $result1->fetch_assoc();
                         </div>
                         <div class="tab-pane" role="tabpanel" id="controls">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Site Settings</h4>
                                 <hr>
                                 <div class="form-group">
@@ -298,6 +285,7 @@ $confsm = $result1->fetch_assoc();
                         </div>
                         <div class="tab-pane" role="tabpanel" id="builder">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Builder and Editor</h4>
                                 <hr>
                                 <div class="form-group">
@@ -323,6 +311,7 @@ $confsm = $result1->fetch_assoc();
                         </div>
                         <div class="tab-pane" role="tabpanel" id="contact">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Contact Info</h4>
                                 <hr>
                                 <div class="form-group">
@@ -348,6 +337,7 @@ $confsm = $result1->fetch_assoc();
                         </div>
                         <div class="tab-pane" role="tabpanel" id="social">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Social media</h4>
                                 <hr>
                                 <div class="form-group">
@@ -378,6 +368,7 @@ $confsm = $result1->fetch_assoc();
 
                         <div class="tab-pane" role="tabpanel" id="emailserver">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Email Settings</h4>
                                 <hr>
                                 <div class="form-group">
@@ -403,6 +394,7 @@ $confsm = $result1->fetch_assoc();
                         </div>
                         <div class="tab-pane" role="tabpanel" id="security">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <h4>Security and Admin</h4>
                                 <hr>
                                 <div class="form-group">

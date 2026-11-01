@@ -27,9 +27,9 @@ class Routers
     public string $pg404;
     private array $columns;
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
         $this->initializeUrls();
         $this->initColumns();
     }

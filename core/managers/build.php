@@ -278,7 +278,13 @@ function uploadImages() {
 </script>
 <?php
 // core/managers/save.php
-require_once 'tu_archivo_de_conexion_pdo.php'; // Ajusta según tu estructura
+// ✅ El archivo requerido era un marcador sin completar ("tu_archivo_de_conexion_pdo.php"):
+// no existe en el proyecto, la conexión nunca se creaba y `$pdo` no estaba definido, así
+// que el `$pdo->prepare()` de abajo lanzaba un error fatal. Se usa el bootstrap canónico
+// ($conn), igual que core/managers/save.php.
+if (!isset($conn)) {
+    require_once dirname(__DIR__) . '/config/dbconnection.php';
+}
 
 header('Content-Type: application/json');
 
@@ -301,6 +307,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["status" => "error", "message" => "Tabla no permitida"]);
         exit;
     }
+    $tbl = \PepiuoX\Security\SqlIdentifier::fromWhitelist($tbl, $allowed_tables);
 
     try {
         $sql = "UPDATE $tbl SET
@@ -311,7 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         updated_at = CURRENT_TIMESTAMP
         WHERE id = :id";
 
-        $stmt = $pdo->prepare($sql);
+        $stmt = $conn->prepare($sql);
         $stmt->execute([
             ':html' => $html,
             ':css'  => $css,

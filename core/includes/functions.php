@@ -20,6 +20,18 @@ function PathUrl(){
  * @param int $status_code Código de estado HTTP (opcional)
  */
 function redirect($url, $status_code = 302) {
+    // ✅ Endurecido: esta función la usan muchos puntos con datos que pueden venir del
+    // usuario. Sin esto se permitía:
+    //   - inyección de cabeceras HTTP (CRLF) → redirección/inyección de respuesta;
+    //   - esquemas peligrosos → XSS (`javascript:`, `data:`, `vbscript:`);
+    //   - rutas de fichero (`file:`).
+    $url = str_replace(["\r", "\n", "\0", '%0d', '%0a'], '', (string) $url);
+    $url = trim($url);
+
+    if ($url === '' || preg_match('/^\s*(javascript|data|vbscript|file)\s*:/i', $url)) {
+        $url = '/';
+    }
+
     header("Location: $url", true, $status_code);
     exit();
 }
@@ -53,10 +65,12 @@ function generate_csrf_token() {
  * @return bool True si es válido, false en caso contrario
  */
 function validate_csrf_token($token) {
-    if (!isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']) {
+    // ✅ Comparación en TIEMPO CONSTANTE: `!==` abandona en el primer byte distinto y
+    // filtra información por temporización. `hash_equals()` no.
+    if (!isset($_SESSION['csrf_token']) || !is_string($token) || $token === '') {
         return false;
     }
-    return true;
+    return hash_equals((string) $_SESSION['csrf_token'], $token);
 }
 
 /**

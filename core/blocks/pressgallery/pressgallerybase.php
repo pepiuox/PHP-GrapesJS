@@ -1,9 +1,10 @@
 <!-- press gallery block -->
 <?php
-$rslider = $conn->query("SELECT idPr, galId, image, title, subtitle, description, printing_date, type_press FROM press_gal LEFT JOIN (SELECT idGal,name, pageId FROM galleries)galleries ON press_gal.galId=galleries.idGal WHERE pageId = '$bid'");
+$rslider = $conn->prepare("SELECT idPr, galId, image, title, subtitle, description, printing_date, type_press FROM press_gal LEFT JOIN (SELECT idGal,name, pageId FROM galleries)galleries ON press_gal.galId=galleries.idGal WHERE pageId = :bid");
+$rslider->execute([':bid' => $bid]);
 $rows = array();
 
-while ($row = $rslider->fetch_array()) {
+while ($row = $rslider->fetch(PDO::FETCH_ASSOC)) {
     $rows[] = $row;
 }
 $num_cnt = count($rows);

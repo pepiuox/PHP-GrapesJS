@@ -7,7 +7,7 @@
             <?php
             $resultc = $conn->query("SELECT value FROM config");
             $array = array();
-            while ($rowt = $resultc->fetch_row()) {
+            while ($rowt = $resultc->fetch(PDO::FETCH_NUM)) {
                 $array[] = $rowt;
             }
             echo '<p>';
@@ -125,6 +125,7 @@
         ?>
         <h3>Contact</h3>         
         <form class="br" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
             <div class="col-md-12">
                 <label>Nombre:</label>
                 <input id='name' name='name' type="text" value=""/>

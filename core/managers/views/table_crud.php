@@ -8,10 +8,10 @@ $c = new MyCRUD();
 if ($w == "select") {
 
     if ($result = $c->selectData("SELECT * FROM table_config")) {
-        $total_found = $result->num_rows;
+        $total_found = $result->rowCount();
 
         if ($total_found > 0) {
-            $row = $result->fetch_assoc();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
             $tableNames = explode(',', $row['table_name']);
         }
     }
@@ -23,6 +23,7 @@ if ($w == "select") {
             </div>
             <div class="col-md-6">
                 <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <div class="form-group">
                         <label class="control-label" for="selecttb">Select Table</label> <select
                             id="selecttb" name="selecttb" class="form-control">
@@ -150,7 +151,7 @@ if ($w == "select") {
 
     if (isset($_POST["deleterow"])) {
 
-        if ($c->selectData("DELETE FROM $tble WHERE $ncol='$id'") === TRUE) {
+        if ($c->selectData("DELETE FROM " . \PepiuoX\Security\SqlIdentifier::assert($tble) . " WHERE " . \PepiuoX\Security\SqlIdentifier::assert($ncol) . "=:id", [':id' => $id]) !== false) {
             $_SESSION['success'] = "Record deleted successfully";
         } else {
             $_SESSION['error'] = "Error deleting record";

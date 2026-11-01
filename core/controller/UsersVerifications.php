@@ -20,6 +20,7 @@ class UsersVerifications
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
 
         // Validación estricta de sesión
         if (!isset($_SESSION['access_id']) || !is_string($_SESSION['access_id'])) {

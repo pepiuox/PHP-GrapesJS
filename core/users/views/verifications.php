@@ -9,14 +9,21 @@ $image_document_back = $_POST["image_document_back"];
 $payment_document = $_POST["payment_document"]; 
 
 $query = "UPDATE users_verifications SET verification = ?, is_verify = ?, portraid_date = ?, image_document_front = ?, image_document_back = ?, payment_document = ? WHERE usercode = ?";
-$updated = $conn->prepare($sql);
-$updated->bind_param('sissssi', $verification, $is_verify, $portraid_date, $image_document_front, $image_document_back, $payment_document, $id );
-$updated->execute();
-$updated->close();
+// ✅ Correcciones: (1) prepare() recibía `$sql` (indefinido) en lugar de `$query`;
+// (2) `$id` nunca se definía → el UPDATE no afectaba a ninguna fila.
+// La columna es `usercode` → $_SESSION['access_id'] (ver core/users/personalInfo.php).
+$rowId = $_SESSION['access_id'] ?? null;
+
+if ($rowId !== null) {
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$verification, $is_verify, $portraid_date, $image_document_front, $image_document_back, $payment_document, $rowId]);
+    $stmt->closeCursor();
+}
 }
 ?> 
 
 <form role="form" id="edit_users_verifications" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 
 <div class="form-group">
   <label for="verification" class ="control-label col-md-6">Verification:</label>

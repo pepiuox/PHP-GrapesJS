@@ -27,8 +27,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `my_info`") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `my_info`");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
                 }
@@ -71,8 +71,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `my_info` ( `first_name` ,  `last_name` ,  `age` ,  `gender` ,  `description_en` ,  `description_es` ,  `image` ,  `active`  ) VALUES( ,  '{$_POST['first_name']}' ,  '{$_POST['last_name']}' ,  '{$_POST['age']}' ,  '{$_POST['gender']}' ,  '{$_POST['description']}' ,  '{$_POST['image']}' ,  '{$_POST['active']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                // ✅ Corregido: `VALUES( ,` era SQL inválido y sobraba/faltaba un valor.
+                // El formulario envía `description_en` y `description_es` (ver líneas 100/109)
+                // y la rama de edición ya usa ambos; ahora el alta hace lo mismo.
+                $sql = "INSERT INTO `my_info` ( `first_name` ,  `last_name` ,  `age` ,  `gender` ,  `description_en` ,  `description_es` ,  `image` ,  `active`  ) VALUES( :first_name ,  :last_name ,  :age ,  :gender ,  :description_en ,  :description_es ,  :image ,  :active  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':first_name' => $_POST['first_name'], ':last_name' => $_POST['last_name'], ':age' => $_POST['age'], ':gender' => $_POST['gender'], ':description_en' => $_POST['description_en'] ?? '', ':description_es' => $_POST['description_es'] ?? '', ':image' => $_POST['image'], ':active' => $_POST['active']]);
                 echo "Fila Agregada.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -81,7 +85,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> 
                         </p>
                         <h3>Agregar a Perfil</h3> 
-                        <form action='' method='POST'>                 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>                 
                             <div class='col-md-6'>
                                 <label class="form-label">Nombres:</label><br /><input type="text" class="form-control" name='first_name' id='first_name'/>
                             </div> 
@@ -142,18 +147,22 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $idPro = (int) $_GET['id'];
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `my_info` SET  `idUser` =  '{$_POST['idUser']}' ,  `first_name` =  '{$_POST['first_name']}' ,  `last_name` =  '{$_POST['last_name']}' ,  `age` =  '{$_POST['age']}' ,  `gender` =  '{$_POST['gender']}' ,  `description_en` =  '{$_POST['description_en']}' ,  `description_es` =  '{$_POST['description_es']}' ,  `image` =  '{$_POST['image']}' ,  `active` =  '{$_POST['active']}'   WHERE `idPro` = '$idPro' ";
-                    $conn->query($sql) or die($conn->error);
-                    echo ($conn->affected_rows) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
+                    $sql = "UPDATE `my_info` SET  `idUser` =  :idUser ,  `first_name` =  :first_name ,  `last_name` =  :last_name ,  `age` =  :age ,  `gender` =  :gender ,  `description_en` =  :description_en ,  `description_es` =  :description_es ,  `image` =  :image ,  `active` =  :active   WHERE `idPro` = :idPro ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':idUser' => $_POST['idUser'], ':first_name' => $_POST['first_name'], ':last_name' => $_POST['last_name'], ':age' => $_POST['age'], ':gender' => $_POST['gender'], ':description_en' => $_POST['description_en'], ':description_es' => $_POST['description_es'], ':image' => $_POST['image'], ':active' => $_POST['active'], ':idPro' => $idPro]);
+                    echo ($stmt->rowCount()) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = mysqli_fetch_assoc($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '$idPro' "));
+                $stmt = $conn->prepare("SELECT * FROM `my_info` WHERE `idPro` = :idPro ");
+                $stmt->execute([':idPro' => $idPro]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                                 <p>
                                     <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/profiles/add'>Nuevo perfil</a> 
                                 </p>
                                 <h3>Editar de profile</h3> 
-                                <form action='' method='POST'>                     
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>                     
                                     <div class='col-md-6'>
                                         <label class="form-label">First Name:</label>
                                         <input type="text" class="form-control" name='first_name' id='first_name' value='<?php echo $row['first_name']; ?>' />
@@ -210,7 +219,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $idPro = (int) $_GET['id'];
             }
-            $row = mysqli_fetch_assoc($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '$idPro' "));
+            $stmt = $conn->prepare("SELECT * FROM `my_info` WHERE `idPro` = :idPro ");
+            $stmt->execute([':idPro' => $idPro]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                         <p>
                             <a class='button' href='dashboard/profiles/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/profiles/add'>Nuevo perfil</a> 
@@ -253,8 +264,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         <h3>Eliminado de profile</h3> 
             <?php
             $idPro = (int) $_GET['id'];
-            $conn->query("DELETE FROM `my_info` WHERE `idPro` = '$idPro' ");
-            echo ($conn->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
+            $stmt = $conn->prepare("DELETE FROM `my_info` WHERE `idPro` = :idPro ");
+            $stmt->execute([':idPro' => $idPro]);
+            echo ($stmt->rowCount()) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
                     </div>
             <?php

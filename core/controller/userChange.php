@@ -123,7 +123,7 @@ class UserChange
             }
 
             $dt = $stmt->fetch(PDO::FETCH_ASSOC);
-            $duv = (int) $dt['iduv'];
+            $duv = (string) $dt['iduv'];
             $pin = $dt['mkpin'];
 
             // ✅ Generar claves de encriptación
@@ -268,7 +268,7 @@ class UserChange
         }
 
         $dt = $very->fetch(PDO::FETCH_ASSOC);
-        $duv = (int) $dt['iduv'];
+        $duv = (string) $dt['iduv'];
 
         // ✅ CORREGIDO: Ahora usa prepared statements
         $fnal = $this->connection->prepare(

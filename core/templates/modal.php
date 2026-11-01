@@ -7,6 +7,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" action="">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="pageTitle" class="form-label">Título de la Página</label>

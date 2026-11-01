@@ -250,6 +250,7 @@ $additional_css = ['../assets/css/admin.css'];
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST" action="">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                 <div class="modal-body">
                     <input type="hidden" id="modalUserId" name="user_id">
                     

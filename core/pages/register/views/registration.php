@@ -6,6 +6,7 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg"><?php echo $lang[$fname]['box_msg']; ?></p>
             <form action="register.php" method="post" class="form-inline d-flex justify-content-center">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                 <div class="input-group mb-3">
                     <input type="text" name="username" id="username" class="form-control" placeholder="<?php echo $lang['username']; ?>">
                     <div class="input-group-append">

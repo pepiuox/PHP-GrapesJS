@@ -1,4 +1,5 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     if (isset($_GET['w']) && !empty($_GET['w'])) {
         $w = $_GET['w'];
@@ -25,8 +26,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>". "\n";
             echo "</thead>". "\n";
             echo "<tbody>". "\n";
-            $result = $this->conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM pages) `page` ON videos.idVd=page.id") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `videos` LEFT JOIN (SELECT id, title AS tp FROM pages) `page` ON videos.idVd=page.id");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
                 }
@@ -76,8 +77,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container">
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `videos` ( `pageId` ,  `title` ,  `image` ,  `description_en` ,  `description_es`,  `source` ,  `idlink` ,  `active`  ) VALUES(  '{$_POST['pageId']}' ,  '{$_POST['title']}' ,  '{$_POST['image']}' ,  '{$_POST['description_en']}',  '{$_POST['description_es']}' ,  '{$_POST['source']}' ,  '{$_POST['idlink']}' ,  '{$_POST['active']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                $sql = "INSERT INTO `videos` ( `pageId` ,  `title` ,  `image` ,  `description_en` ,  `description_es`,  `source` ,  `idlink` ,  `active`  ) VALUES(  :pageId ,  :title ,  :image ,  :description_en ,  :description_es ,  :source ,  :idlink ,  :active  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':pageId' => $_POST['pageId'], ':title' => $_POST['title'], ':image' => $_POST['image'], ':description_en' => $_POST['description_en'], ':description_es' => $_POST['description_es'], ':source' => $_POST['source'], ':idlink' => $_POST['idlink'], ':active' => $_POST['active']]);
                 echo "Video Agregada.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -87,7 +89,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         </p>
                         <h3>Agregar Video</h3> 
 
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <div class='col-md-6'><label class="form-label">Imagen:</label>
                                 <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
                                 <script type="text/javascript">
@@ -123,7 +126,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <select class="form-select" name='pageId' id='pageId'/>                             
                                     <option>-- Selecciona Página -- </option>
             <?php
-            while ($tp1 = mysqli_fetch_array($quertp1)) {
+            while ($tp1 = $quertp1->fetch(PDO::FETCH_ASSOC)) {
             ?>     
                                             <option value="<?php echo $tp1['id']; ?>"><?php echo $tp1['title']; ?></option>
                 <?php
@@ -191,16 +194,20 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['idVd']) && !empty($_GET['idVd'])) {
                 $idVd = (int) $_GET['idVd'];
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `videos` SET  `pageId` =  '{$_POST['pageId']}' ,  `title` =  '{$_POST['title']}' ,  `image` =  '{$_POST['image']}' ,  `description_en` =  '{$_POST['description_en']}',  `description_es` =  '{$_POST['description_es']}' ,  `source` =  '{$_POST['source']}' ,  `idlink` =  '{$_POST['idlink']}' ,  `active` =  '{$_POST['active']}'   WHERE `idVd` = '$idVd' ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "UPDATE `videos` SET  `pageId` =  :pageId ,  `title` =  :title ,  `image` =  :image ,  `description_en` =  :description_en,  `description_es` =  :description_es ,  `source` =  :source ,  `idlink` =  :idlink ,  `active` =  :active   WHERE `idVd` = :idVd ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':pageId' => $_POST['pageId'], ':title' => $_POST['title'], ':image' => $_POST['image'], ':description_en' => $_POST['description_en'], ':description_es' => $_POST['description_es'], ':source' => $_POST['source'], ':idlink' => $_POST['idlink'], ':active' => $_POST['active'], ':idVd' => $idVd]);
                     echo "Video Editado.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `videos` WHERE `idVd` = '$idVd' "));
+                $stmt = $conn->prepare("SELECT * FROM `videos` WHERE `idVd` = :idVd ");
+            $stmt->execute([':idVd' => $idVd]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                                 <a class='button' href='dashboard/videos/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/videos/add'>Nueva Video</a> 
                                 <h3>Editar de video</h3> 
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class='col-md-6'>
                                         <label class="form-label">Imagen de página:</label>  
                                         <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
@@ -236,7 +243,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                             <select class="form-select" name='pageId' id='pageId'>                            
                                                 <option>Selecciona una página </option>
                 <?php
-                while ($rp1 = mysqli_fetch_array($queryp1)) {
+                while ($rp1 = $queryp1->fetch(PDO::FETCH_ASSOC)) {
                     if ($rp1['id'] == $row['pageId']) {
                 ?>     
                                                                 <option value="<?php echo $rp1['id']; ?>" selected><?php echo $rp1['title']; ?></option>
@@ -326,7 +333,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['idVd']) && !empty($_GET['idVd'])) {
                 $idVd = (int) $_GET['idVd'];
             }
-            $row = mysqli_fetch_array($conn->query("SELECT * FROM `videos` WHERE `idVd` = '$idVd' "));
+            $stmt = $conn->prepare("SELECT * FROM `videos` WHERE `idVd` = :idVd ");
+            $stmt->execute([':idVd' => $idVd]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                         <p>
                             <a class='button' href='dashboard/videos/list'>Retornar a la Lista</a> - <a class='button' href='dashboard/videos/add'>Nueva Video</a> 
@@ -368,7 +377,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
             <?php
             $idVd = (int) $_GET['idVd'];
-            $conn->query("DELETE FROM `videos` WHERE `idVd` = '$idVd' ");
+            $stmt = $conn->prepare("DELETE FROM `videos` WHERE `idVd` = :idVd ");
+            $stmt->execute([':idVd' => $idVd]);
             echo "Video Eliminado.<br /> ";
             ?> 
 

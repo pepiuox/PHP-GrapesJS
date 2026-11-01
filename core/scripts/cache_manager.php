@@ -1,12 +1,28 @@
 <?php
+declare(strict_types=1);
 
-require_once __DIR__ . '/../includes/PageCacheManager.php';
-require_once __DIR__ . '/../config/database.php';
+use PepiuoX\Database\Connection;
 
-$conn = getDatabaseConnection(); // Tu función de conexión
+/**
+ * Utilidad de línea de comandos para gestionar la caché de páginas.
+ *
+ * Correcciones aplicadas (el script no podía ejecutarse):
+ *  1. `PageCacheManager` vive en `core/controller/`, no en `core/includes/`
+ *     → la ruta anterior no existía (require_once fallaba).
+ *  2. El archivo de conexión es `config/Database.php` con **D** mayúscula
+ *     (`database.php` funcionaba sólo en sistemas de archivos insensibles a mayúsculas).
+ *  3. `getDatabaseConnection()` no está definida en ninguna parte del proyecto.
+ *     Se usa la conexión canónica PDO (`PepiuoX\Database\Connection`).
+ *  4. La clase se cargaba a mano; ahora lo resuelve el autoloader único.
+ */
+
+require_once dirname(__DIR__) . '/Autoload.php';
+
+$link = new Connection();
+$conn = $link->getConnection();
 
 $cache = new PageCacheManager($conn, [
-    'cache_dir' => __DIR__ . '/../cache/pages',
+    'cache_dir' => dirname(__DIR__) . '/cache/pages',
     'cache_ttl' => 7200,
     'enable_compression' => true
 ]);

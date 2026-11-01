@@ -80,7 +80,12 @@ class Database
      */
     public function insert(string $table, array $data): int|string
     {
-        $columns = implode(', ', array_keys($data));
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+        $columnNames = array_map(
+            static fn ($col): string => \PepiuoX\Security\SqlIdentifier::assert((string) $col),
+            array_keys($data)
+        );
+        $columns = implode(', ', $columnNames);
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
         $sql = "INSERT INTO `{$table}` ({$columns}) VALUES ({$placeholders})";
@@ -94,7 +99,11 @@ class Database
      */
     public function update(string $table, array $data, string $where, array $whereParams = []): int
     {
-        $set = implode(', ', array_map(fn($col) => "`{$col}` = ?", array_keys($data)));
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+        $set = implode(', ', array_map(
+            fn ($col) => \PepiuoX\Security\SqlIdentifier::quote((string) $col) . ' = ?',
+            array_keys($data)
+        ));
         $sql = "UPDATE `{$table}` SET {$set} WHERE {$where}";
         $stmt = $this->query($sql, array_merge(array_values($data), $whereParams));
         return $stmt->rowCount();
@@ -105,6 +114,7 @@ class Database
      */
     public function delete(string $table, string $where, array $params = []): int
     {
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
         $sql = "DELETE FROM `{$table}` WHERE {$where}";
         $stmt = $this->query($sql, $params);
         return $stmt->rowCount();

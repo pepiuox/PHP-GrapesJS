@@ -60,22 +60,9 @@ class SessionManager
      */
     private static function configureSecureSession(): void
     {
-        // ✅ Cookies seguras
-        $cookieParams = [
-            'lifetime' => self::SESSION_LIFETIME,
-            'path'     => '/',
-            'domain'   => '',
-            'secure'   => true,      // ✅ Solo HTTPS
-            'httponly'  => true,      // ✅ No accesible por JS
-            'samesite'  => 'Strict',  // ✅ Protección CSRF
-        ];
-        session_set_cookie_params($cookieParams);
-
-        ini_set('session.use_strict_mode', '1');
-        ini_set('session.use_only_cookies', '1');
-        ini_set('session.cookie_httponly', '1');
-        ini_set('session.cookie_secure', '1');
-        ini_set('session.cookie_samesite', 'Strict');
+        // ✅ Delegado en la configuración central (antes no tenía efecto: la sesión ya
+        // estaba activa, y `secure = true` impedía además el login por HTTP).
+        \PepiuoX\Security\SessionConfig::apply(self::SESSION_LIFETIME);
     }
 
     /**

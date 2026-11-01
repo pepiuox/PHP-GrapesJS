@@ -1,8 +1,9 @@
 <!-- video block -->
 <?php
-$rslider = $conn->query("SELECT idVd, pageId, description, source, idlink FROM videos WHERE active='1' AND pageId = '$bid' LIMIT 1");
+$rslider = $conn->prepare("SELECT idVd, pageId, description, source, idlink FROM videos WHERE active='1' AND pageId = :bid LIMIT 1");
+$rslider->execute([':bid' => $bid]);
 $rows = array();
-while ($row = $rslider->fetch_array()) {
+while ($row = $rslider->fetch(PDO::FETCH_ASSOC)) {
     $rows[] = $row;
 }
 $num_cnt = count($rows);
@@ -71,7 +72,9 @@ if ($num_cnt > 0) {
 
                         <?php
                         if ($row['description'] == '') {
-                            $crow = mysqli_fetch_array($conn->query("SELECT * FROM `page` WHERE `id` = '$bid' "));
+                            $stmt = $conn->prepare("SELECT * FROM `pages` WHERE `id` = :bid ");
+                            $stmt->execute([':bid' => $bid]);
+                            $crow = $stmt->fetch(PDO::FETCH_ASSOC);
                             echo $crow['content'];
                         } else {
                             echo $row['description'];

@@ -29,27 +29,25 @@ if (isset($_POST['editrow'])) {
     $language = protect($_POST["language"]);
     $query = "UPDATE profiles SET avatar = ?, birthday = ?, public_phone = ?, website = ?, social_media = ?, profession = ?, occupation = ?, public_email = ?, address = ?, profile_image = ?, profile_cover = ?, profile_bio = ?, language = ? WHERE idp = ? AND mkhash = ? ";
     $up1 = $conn->prepare($query);
-    $up1->bind_param("sisssssssssssss", $avatar, $birthday, $public_phone, $website, $social_media, $profession, $occupation, $public_email, $address, $profile_image, $profile_cover, $profile_bio, $language, $userid, $hash);
-    $up1->execute();
-    $inst1 = $up1->affected_rows;
-    $up1->close();
+    $up1->execute([$avatar, $birthday, $public_phone, $website, $social_media, $profession, $occupation, $public_email, $address, $profile_image, $profile_cover, $profile_bio, $language, $userid, $hash]);
+    $inst1 = $up1->rowCount();
+    $up1->closeCursor();
     if ($inst1 > 0) {
         $_SESSION["success"] = "The data was updated correctly.";
         header("Location: profile.php");
         exit;
     } else {
-        $_SESSION["error"] = "Error updating data: " . $conn->error;
+        $_SESSION["error"] = "Error updating data: " . $conn->errorInfo()[2];
     }
 }
 $respro = $conn->prepare("SELECT * FROM users_profiles WHERE idp = ? AND mkhash = ? ");
-$respro->bind_param("ss", $userid, $hash);
-$respro->execute();
-$prof = $respro->get_result();
-$rpro = $prof->fetch_assoc();
-$respro->close();
+$respro->execute([$userid, $hash]);
+$rpro = $respro->fetch(PDO::FETCH_ASSOC);
+$respro->closeCursor();
 ?> 
 
   <form role="form" id="edit_profiles" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="form-group">
  <label for="firstname" class ="control-label col-sm-3">Firstname:</label>
  <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $rpro['firstname']; ?>">

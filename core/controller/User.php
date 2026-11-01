@@ -27,6 +27,7 @@ class User
     public function __construct(PDO $db)
     {
         $this->conn = $db;
+        $this->table_name = \PepiuoX\Security\SqlIdentifier::assert($this->table_name);
     }
 
     public function getUserById(int $user_id): ?array

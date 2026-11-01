@@ -8,60 +8,27 @@
       <div class="modal-body">
 
 <?php
+global $conn;
 // Check if image file is a actual image or fake image
 if (isset($_POST["imgfile"])) {
 	if (!empty($_FILES['image']['name'])) {
 		$errors = array();
-	$filename = $_FILES["image"]["name"];
     $target_dir = $_SESSION['folderusr'];
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES["image"]["tmp_name"]);
-	 $dirtemp = $target_dir."temp/".$filename."";
-    if ($check !== false) {
-        $errors[] = "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        $errors[] = "File is not an image.";
-        $uploadOk = 0;
-    }
-
-// Check if file already exists
-    if (file_exists($target_file)) {
-        $errors[] = "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-
-// Check file size
-    if ($_FILES["file"]["size"] > 1024000) {
-        $errors[] = "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-
-// Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        $errors[] = "Sorry, only JPG, JPEG & PNG files are allowed.";
-        $uploadOk = 0;
-    }
-
-// Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        $errors[] = "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-			
-			$imgq = $this->conn->prepare("UPDATE users_profiles SET profile_image = ? WHERE idp = ?  AND mkhash = ?");
-                $imgq->bind_param("sss", $filename, $userid, $hash);
-                $nn = $imgq->affected_rows;
-                $imgq->execute();
-                $imgq->close();
-            $_SESSION['success'] = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
+    // Nombre generado por el servidor; nunca se usa el nombre del cliente en la ruta.
+    $upload_error = null;
+    $filename = \PepiuoX\Security\Upload::storeImage($_FILES["image"], $target_dir, \PepiuoX\Security\Upload::DEFAULT_MAX_BYTES, $upload_error);
+    if ($filename !== null) {
+			$imgq = $conn->prepare("UPDATE users_profiles SET profile_image = ? WHERE idp = ?  AND mkhash = ?");
+                $imgq->execute([$filename, $userid, $hash]);
+                $nn = $imgq->rowCount();
+                $imgq->closeCursor();
+            $_SESSION['success'] = "The file " . htmlspecialchars($filename, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . " has been uploaded.";
 			echo '<script></script>';
 			
-        } else {
-            $errors[] = "Sorry, there was an error uploading your file.";
+    } else {
+        $errors[] = "Sorry, your file was not uploaded.";
+        if ($upload_error !== null) {
+            $errors[] = $upload_error;
         }
     }
 	if (empty($errors) === true) {
@@ -80,6 +47,7 @@ if (isset($_POST["imgfile"])) {
 }
 ?>
 <form method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="row">
 <div id="display_image text-center">
 <img id="uploaded image" src="<?php echo $_SESSION['folderusr'] . $rpro["profile_image"]; ?>" class="img-fluid" alt="<?php 

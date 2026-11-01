@@ -3,7 +3,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     if (isset($_POST["submit"])) {
         $id_ary = explode(",", $_POST["row_order"]);
         for ($i = 1; $i < count($id_ary); $i++) {
-            $conn->query("UPDATE pages SET position='" . $i . "' WHERE id=" . $id_ary[$i]);
+            $stmt = $conn->prepare("UPDATE pages SET position=:position WHERE id=:id");
+            $stmt->execute([':position' => $i, ':id' => $id_ary[$i]]);
         }
     }
 
@@ -137,6 +138,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 </script>
                 <div class="container">
                     <form id="menuorder" method="POST" />
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <h4>Sort Menu.</h4>
                     <input type="hidden" name="row_order" id="row_order" /> 
                     <div class="switch-container">
@@ -147,8 +149,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         global $conn;
         $menu = "";
       
-        $result = $conn->query("SELECT id, language, position, title, link, image, parent, sort FROM pages WHERE parent='$parent' ORDER BY position");
-        while ($rmen = $result->fetch_array()) {
+        $result = $conn->prepare("SELECT id, language, position, title, link, image, parent, sort FROM pages WHERE parent=:parent ORDER BY position");
+        $result->execute([':parent' => $parent]);
+        while ($rmen = $result->fetch(PDO::FETCH_ASSOC)) {
             $menu .= "  <li name='menulist' id='{$rmen['id']}'><a href='" . SITE_PATH . "admin/dashboard/edit_page/{$rmen['id']}'>" . $rmen['title'] . "</a>\n";
             if ($rmen['sort'] > 0) {
                 $menu .= "   <ul class='sortable'>\n";

@@ -17,14 +17,27 @@ if (isset($_POST['editrow'])) {
     $created = $_POST["created"];
     $updated = $_POST["updated"];
 
-    $query = "UPDATE users_info SET usercode = ?, firstname = ?, lastname = ?, gender = ?, age = ?, birthday = ?, phone = ?, country = ?, state = ?, city = ?, address1 = ?, address2 = ?, is_active = ?, created = ?, updated = ? WHERE userid = ?";
-    $updated = $conn->prepare($sql);
-    $updated->bind_param('ssssisssssssissi', $usercode, $firstname, $lastname, $gender, $age, $birthday, $phone, $country, $state, $city, $address1, $address2, $is_active, $created, $updated, $id);
-    $updated->execute();
-    $updated->close();
+    $query = "UPDATE users_info SET usercode = ?, firstname = ?, lastname = ?, gender = ?, age = ?, birthday = ?, phone = ?, country = ?, state = ?, city = ?, address1 = ?, address2 = ?, is_active = ?, created_at = ?, updated_at = ? WHERE userid = ?";
+
+    // ✅ Correcciones aplicadas a este bloque:
+    //   1) Se pasaba `$sql` a prepare(), pero la sentencia está en `$query` → $sql indefinido.
+    //   2) El parámetro `$id` nunca se definía → el UPDATE no afectaba a ninguna fila
+    //      (`WHERE userid = NULL` no coincide con nada) y se perdía el cambio en silencio.
+    //      Se usa la convención de la aplicación (ver core/users/personalInfo.php):
+    //      la PK de las tablas de perfil corresponde a $_SESSION['user_id'].
+    //   3) `$updated` (valor del POST) era sobrescrito por el statement antes de usarse
+    //      como parámetro; ahora el statement va en `$stmt`.
+    $rowId = $_SESSION['user_id'] ?? null;
+
+    if ($rowId !== null) {
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$usercode, $firstname, $lastname, $gender, $age, $birthday, $phone, $country, $state, $city, $address1, $address2, $is_active, $created, $updated, $rowId]);
+        $stmt->closeCursor();
+    }
 }
 ?> 
 <form role="form" id="edit_users_info" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="form-group">
    <label for="usercode" class ="control-label col-md-6">Usercode:</label>
    <input type="text" class="form-control" id="usercode" name="usercode" value="">

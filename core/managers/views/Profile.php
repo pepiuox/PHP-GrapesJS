@@ -4,7 +4,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     <div class="container"> 
         <h3>Editar de Perfil Visual</h3> 
     <?php
-    $row = mysqli_fetch_array($conn->query("SELECT * FROM `my_info` WHERE active = '1' AND `idPro` = '1' "));
+    $row = $conn->query("SELECT * FROM `my_info` WHERE active = '1' AND `idPro` = '1' ")->fetch(PDO::FETCH_ASSOC);
     if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
         foreach ($row AS $key => $value) {
             $row[$key] = stripslashes($value);
@@ -17,18 +17,16 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $ds = $_POST['description_es'];
         $im = $_POST['image'];
         $ac = $_POST['active'];
-        $sql = "UPDATE `my_info` SET  `first_name` =  '$fn' ,  `last_name` =  '$ln' ,  `age` =  '$ag' ,  `gender` =  '$gd', `description_en` =  '$dn', `description_es` =  '$ds', `image` =  '$im', `active` =  '$ac'  WHERE idPro = '1' ";
-        $conn->query($sql);
-        if ($conn->connect_errno) {
-            printf("Error en actualizar: %s\n", $conn->connect_error);
-            exit;
-        } else {
-            echo 'Se edito el perfil';
-        }
+        $sql = "UPDATE `my_info` SET  `first_name` =  :first_name ,  `last_name` =  :last_name ,  `age` =  :age ,  `gender` =  :gender, `description_en` =  :description_en, `description_es` =  :description_es, `image` =  :image, `active` =  :active  WHERE idPro = '1' ";
+        // ✅ PDO: los errores lanzan PDOException; no existen $conn->connect_errno/connect_error.
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':first_name' => $fn, ':last_name' => $ln, ':age' => $ag, ':gender' => $gd, ':description_en' => $dn, ':description_es' => $ds, ':image' => $im, ':active' => $ac]);
+        echo 'Se edito el perfil';
         echo '<meta http-equiv="refresh" content="0">';
     }
     ?>                      
-        <form action='' method='POST'>                     
+        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>                     
             <div class='col-md-6'>
                 <label class="form-label">Nombres:</label>
                 <input type="text" class="form-control" name='first_name' id='first_name' value='<?php echo $row['first_name']; ?>' />

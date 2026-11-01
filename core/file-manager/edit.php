@@ -134,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 
                                 <div class="col-md-9">
                                     <form method="POST" action="">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                         <div class="mb-3">
                                             <label for="original_name" class="form-label">Nombre del Archivo</label>
                                             <input type="text" class="form-control" id="original_name" 

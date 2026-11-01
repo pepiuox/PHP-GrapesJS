@@ -1,0 +1,267 @@
+<?php
+
+/* Protect html content in your query
+ * 
+ */
+
+function protect($str) {
+    // ✅ PDO: ya no se escapa a mano (se usan prepared statements).
+    // Esta función sólo sanea la SALIDA HTML.
+    $str = trim($str);
+    $str = stripslashes($str);
+    $str = htmlentities($str, ENT_QUOTES);
+    $str = htmlspecialchars($str, ENT_QUOTES);
+    return $str;
+}
+
+function decodeContent($str) {
+    if (!empty($str)) {
+        return htmlspecialchars_decode(html_entity_decode($str, ENT_QUOTES));
+    }
+}
+/*
+ * nparent() 
+ * This function gives us a list of pages, for add parent page in add.php
+ */
+
+function nparent() {
+    global $conn;
+    $result = $conn->query("SELECT * FROM pages");
+    $numr = $result->rowCount();
+    $sp = "";
+    if ($numr > 0) {
+        $sp .= '<select class="form-select" name="parent" id="parent">' . "\n";
+        $sp .= '<option>Select a parent</option>' . "\n";
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
+        }
+        $sp .= '</select>' . "\n";
+    } else {
+        $sp .= '<select class="form-select" name="parent" id="parent">' . "\n";
+        $sp .= '<option>There are no pages yet</option>' . "\n";
+        $sp .= '</select>' . "\n";
+    }
+
+    return $sp;
+}
+
+function vwparent($parent) {
+    global $conn;
+    if ($parent > 0) {
+        $result = $conn->prepare("SELECT * FROM pages WHERE id=:parent");
+        $result->execute([':parent' => $parent]);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        echo $row['title'];
+    }
+}
+
+function sparent($parent) {
+    global $conn;
+
+    $result = $conn->query("SELECT * FROM pages");
+    $sp = "";
+    $sp .= '<select class="form-select" name="parent" id="parent">';
+    $sp .= '<option>Select a parent</option>';
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        $select = $parent == $row['id'] ? ' selected' : null;
+        $sp .= '<option value="' . $row['id'] . '"' . $select . '>' . $row['title'] . '</option>';
+    }
+    $sp .= '</select>';
+    return $sp;
+}
+
+function pparent($parent) {
+    global $conn;
+    $result = $conn->query("SELECT * FROM pages");
+    echo '<select class="form-select" name="parent" id="parent">' . "\n";
+    echo '<option>Select a parent</option>' . "\n";
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        $select = $parent == $row['id'] ? ' selected' : null;
+        echo '<option value="' . $row['id'] . '"' . $select . '>' . $row['title'] . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+}
+
+function slmenu() {
+    global $conn;
+    $result = $conn->query("SELECT * FROM menu_options");
+    echo '<select class="form-select" name="menu" id="menu">' . "\n";
+    echo '<option>Select a menu</option>' . "\n";
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+
+        echo '<option value="' . $row['id'] . '">' . $row['id_menu'] . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+}
+
+function menuopt($menu) {
+    global $conn;
+    $result = $conn->query("SELECT * FROM menu_options");
+    echo '<select class="form-select" name="menu" id="menu">' . "\n";
+    echo '<option>Select a menu</option>' . "\n";
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        $select = $menu == $row['id'] ? ' selected' : null;
+        echo '<option value="' . $row['id'] . '"' . $select . '>' . $row['id_menu'] . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+}
+
+function enum_values($table, $field, $enum) {
+    global $conn;
+    $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+    $field = \PepiuoX\Security\SqlIdentifier::assert($field);
+    $type = $conn->query("SHOW COLUMNS FROM " . \PepiuoX\Security\SqlIdentifier::quote($table) . " WHERE Field = '" . $field . "'")->fetch(PDO::FETCH_ASSOC)['Type'];
+    preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+    $enum = explode("','", $matches[1]);
+    $frmp = ucfirst(str_replace("_", " ", $field));
+    echo '<div class="form-group">
+                       <label for="' . $field . '">' . $frmp . ':</label>
+                       <select class="form-select" id="' . $field . '" name="' . $field . '" >' . "\n";
+    foreach ($enum as $option) {
+        $soption = '<option value="' . $option . '"';
+        $soption .= ($enum === $option) ? ' SELECTED' : '';
+        $soption .= '>' . $option . '</option>';
+        echo $soption . "\n";
+    }
+    echo '</select>' . "\n";
+    echo '</div>' . "\n";
+}
+
+function selType($tble, $c_nm, $enum) {
+    global $conn;
+    $sql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :tble AND COLUMN_NAME = :c_nm";
+
+    $iresult = $conn->prepare($sql);
+    $iresult->execute([':tble' => $tble, ':c_nm' => $c_nm]);
+    $row = $iresult->fetch(PDO::FETCH_ASSOC);
+    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
+
+    $frmp = ucfirst(str_replace("_", " ", $c_nm));
+    //
+    echo '<div class="form-group">
+                       <label for="' . $c_nm . '">' . $frmp . ':</label>
+                       <select class="form-select" id="' . $c_nm . '" name="' . $c_nm . '" >' . "\n";
+    $default_value = $enum;
+    foreach ($enum_list as $option) {
+        $soption = '<option value="' . $option . '"';
+        $soption .= ($default_value === $option) ? ' SELECTED' : '';
+        $soption .= '>' . $option . '</option>';
+        echo $soption . "\n";
+    }
+    echo '</select>' . "\n";
+    echo '</div>' . "\n";
+}
+
+function enumsel($tble, $labelc, $nrow = '') {
+    global $conn;
+    $remp = ucfirst(str_replace("_", " ", $labelc));
+    $frmp = str_replace(" id", "", $remp);
+
+    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :tble AND COLUMN_NAME = :labelc";
+    $iresult = $conn->prepare($isql);
+    $iresult->execute([':tble' => $tble, ':labelc' => $labelc]);
+    $row = $iresult->fetch(PDO::FETCH_ASSOC);
+    $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
+    $default_value = $nrow;
+    //
+    echo '<div class="form-group">
+        <label for="' . $labelc . '" class ="control-label col-sm-3">' . $frmp . ':</label>
+            <select class="form-select" id="' . $labelc . '" name="' . $labelc . '" >' . "\n";
+
+    $options = $enum_list;
+    foreach ($options as $option) {
+        $soption = '<option value="' . $option . '"';
+        $soption .= ($default_value === $option) ? ' SELECTED' : '';
+        $soption .= '>' . $option . '</option>';
+        echo $soption . "\n";
+    }
+    echo '</select>' . "\n";
+    echo '</div>' . "\n";
+}
+
+function action($selected) {
+    $acti = array([0, 'NO'], [1, 'YES']);
+    foreach ($acti as list($key, $val)) {
+        $select = $selected == $key ? ' selected' : null;
+        echo '<option value="' . $key . '"' . $select . '>' . $val . '</option>' . "\n";
+    }
+}
+
+function startpg($selected) {
+    $acti = array([0, 'NO'], [1, 'YES']);
+    foreach ($acti as list($key, $val)) {
+        $select = $selected == $key ? ' selected' : null;
+        echo '<option value="' . $key . '"' . $select . '>' . $val . '</option>' . "\n";
+    }
+}
+
+function vwaction($selected) {
+    $acti = array([0, 'NO'], [1, 'YES']);
+    foreach ($acti as list($key, $val)) {
+        if ($selected == $key) {
+            echo $val;
+        }
+    }
+}
+
+function clean_string($string) {
+
+    $string = trim($string);
+
+    $string = str_replace(
+            array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+            $string
+    );
+
+    $string = str_replace(
+            array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+            $string
+    );
+
+    $string = str_replace(
+            array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+            $string
+    );
+
+    $string = str_replace(
+            array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
+            $string
+    );
+
+    $string = str_replace(
+            array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
+            $string
+    );
+
+    $string = str_replace(
+            array('ñ', 'Ñ', 'ç', 'Ç'),
+            array('n', 'N', 'c', 'C',),
+            $string
+    );
+
+    $string = str_replace(' ', '-', $string);
+
+    /*
+      $string = str_replace(
+      array("\", "¨", "º", "-", "~",
+      "#", "@", "|", "!", """,
+      "·", "$", "%", "&", "/",
+      "(", ")", "?", "'", "¡",
+      "¿", "[", "^", "<code>", "]",
+      "+", "}", "{", "¨", "´",
+      ">", "< ", ";", ",", ":",
+      ".", " "),
+      '',
+      $string
+      );
+     */
+
+    return $string;
+}
+
+?>

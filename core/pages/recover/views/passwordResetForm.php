@@ -12,6 +12,7 @@ if (!empty($_GET['key']) && !empty($_GET['hash'])) {
                 <p class="login-box-msg"><?php echo $lang[$fname]['box_msg']; ?></p>
 
                 <form action="passwordResetForm.php" method="post" class="form-inline d-flex justify-content-center">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <div class="input-group mb-3">
                         <input type="text" name="recoveryphrase" id="recoveryphrase" class="form-control" placeholder="Recover phrase">
                         <div class="input-group-append">

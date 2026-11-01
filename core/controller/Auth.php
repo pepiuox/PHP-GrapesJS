@@ -36,16 +36,20 @@ class Auth {
         }
 
         // Configurar cookie de sesión por 30 días
+        // ✅ Se usa el formato de opciones (PHP 7.3+) en lugar de la firma posicional:
+        // la versión anterior pasaba los argumentos hasta `httponly` y **no incluía
+        // `samesite`**, por lo que al re-crear la cookie se perdía el atributo SameSite
+        // que fija PepiuoX\Security\SessionConfig. `secure` se toma de los parámetros
+        // vigentes, de modo que sigue siendo condicional a HTTPS.
         $sessionParams = session_get_cookie_params();
-        setcookie(
-            session_name(),
-                  session_id(),
-                  time() + (30 * 24 * 60 * 60),
-                  $sessionParams['path'],
-                  $sessionParams['domain'],
-                  $sessionParams['secure'],
-                  $sessionParams['httponly']
-        );
+        setcookie(session_name(), session_id(), [
+            'expires' => time() + (30 * 24 * 60 * 60),
+            'path' => $sessionParams['path'],
+            'domain' => $sessionParams['domain'],
+            'secure' => (bool) $sessionParams['secure'],
+            'httponly' => (bool) $sessionParams['httponly'],
+            'samesite' => $sessionParams['samesite'] ?: 'Lax',
+        ]);
 
         // Guardar token en base de datos
         $token = bin2hex(random_bytes(32));

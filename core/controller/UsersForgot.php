@@ -30,9 +30,9 @@ class UsersForgot
     private const MAX_ATTEMPTS = 3;
     private const RATE_WINDOW = 900; // 15 minutos
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
         $this->gc = new GetCodeDeEncrypt();
         $this->date = new DateTime();
         $this->timestamp = $this->date->format('Y-m-d H:i:s');
@@ -304,9 +304,9 @@ class UsersForgot
         }
 
         $chck = $this->conn->prepare(
-            'SELECT * FROM forgot_pass WHERE mkhash = ? AND password_key = ?'
+            'SELECT * FROM forgot_pass WHERE password_key = ?'
         );
-        $chck->execute([$hash, $forgotkey]);
+        $chck->execute([$forgotkey]);
         $ct = $chck->fetch(PDO::FETCH_ASSOC);
 
         if (!$ct) {
@@ -356,7 +356,7 @@ class UsersForgot
             }
 
             $dt = $stmt->fetch(PDO::FETCH_ASSOC);
-            $duv = (int) $dt['iduv'];
+            $duv = (string) $dt['iduv'];
             $pin = $dt['mkpin'];
 
             $ekey = self::generateSecureToken(32);
@@ -431,9 +431,9 @@ class UsersForgot
         }
 
         $chck = $this->conn->prepare(
-            'SELECT * FROM forgot_pin WHERE mkhash = ? AND password_key = ?'
+            'SELECT * FROM forgot_pin WHERE pin_key = ?'
         );
-        $chck->execute([$hash, $forgotkey]);
+        $chck->execute([$forgotkey]);
         $ct = $chck->fetch(PDO::FETCH_ASSOC);
 
         if (!$ct) {
@@ -467,7 +467,7 @@ class UsersForgot
         }
 
         $dt = $very->fetch(PDO::FETCH_ASSOC);
-        $duv = (int) $dt['iduv'];
+        $duv = (string) $dt['iduv'];
 
         $checkm = $this->gc->ende_crypter('encrypt', $vemail, $dt['mktoken'], $dt['mkkey']);
         $fnal = $this->conn->prepare(

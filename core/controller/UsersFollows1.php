@@ -12,7 +12,7 @@ declare(strict_types=1);
  * - CSRF protection añadida
  * - Validación de sesiones
  */
-class UsersFollows
+class UsersFollows1
 {
     private PDO $conn;
     private DateTime $date;
@@ -24,6 +24,7 @@ class UsersFollows
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
         $this->date = new DateTime();
 
         // ✅ Validación estricta de sesiones

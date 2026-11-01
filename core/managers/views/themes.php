@@ -1,4 +1,5 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
 if ($w == "list") {
     ?>
@@ -14,10 +15,10 @@ if ($w == "list") {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $this->conn->query("SELECT * FROM themes");
-                    $numr = $result->num_rows;
+                    $result = $conn->query("SELECT * FROM themes");
+                    $numr = $result->rowCount();
                     if ($numr > 0) {
-                        while ($prow = $result->fetch_array()) {
+                        while ($prow = $result->fetch(PDO::FETCH_ASSOC)) {
                             echo '<tr>
                         <td><!--Button -->
                             <a id="edittemplate" name="edittemplate" title="Edit Template" class="btn btn-success" href="'.SITE_PATH.'admin/dashboard/theme_template/list"><i class="fas fa-edit"></i> List</a>
@@ -71,8 +72,9 @@ if ($w == "list") {
                                 $radius_lg = $_POST['radius_lg'];
                                 $font_size = $_POST['font_size'];
 
-                                $query = "UPDATE `theme_settings` SET container = '$container', spacer = '$spacer', radius = '$radius', radius_sm = '$radius_sm', radius_lg = '$radius_lg', font_size = '$font_size' WHERE idts='$id' ";
-                                if ($this->conn->query($query) === TRUE) {
+                                $query = "UPDATE `theme_settings` SET container = :container, spacer = :spacer, radius = :radius, radius_sm = :radius_sm, radius_lg = :radius_lg, font_size = :font_size WHERE idts=:id ";
+                                $stmt = $conn->prepare($query);
+                                if ($stmt->execute([':container' => $container, ':spacer' => $spacer, ':radius' => $radius, ':radius_sm' => $radius_sm, ':radius_lg' => $radius_lg, ':font_size' => $font_size, ':id' => $id]) !== false) {
                                     echo "The data was updated correctly.";
 
                                     echo "<script>
@@ -81,13 +83,15 @@ window.onload = function() {
 }
 </script>";
                                 } else {
-                                    echo "Error updating data: " . $this->conn->error;
+                                    echo "Error updating data: " . $conn->errorInfo()[2];
                                 }
                             }
-                            $rts = $this->conn->query("SELECT * FROM theme_settings WHERE idts='$id'");
-                            $ts = $rts->fetch_assoc();
+                            $rts = $conn->prepare("SELECT * FROM theme_settings WHERE idts=:id");
+                            $rts->execute([':id' => $id]);
+                            $ts = $rts->fetch(PDO::FETCH_ASSOC);
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_settings" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <?php enum_values('theme_settings', "container", $ts["container"]); ?>
                                 <?php enum_values('theme_settings', 'spacer', $ts['spacer']); ?>                            
                                 <div class="form-group">
@@ -132,23 +136,22 @@ window.onload = function() {
                                 $custom_dark = $_POST['custom_dark_color'];
 
                                 $sql = "UPDATE theme_palette SET primary_color = ?, secondary_color = ', info_color = ?, light_color = ?, dark_color = ?, success_color = ?, warning_color = ?, danger_color = ?, custom_color = ?, custom_light_color = ?, custom_dark_color = ? WHERE idtp = ? ";
-                                $stmt = $this->conn->prepare($sql);
-                                $stmt->bind_param("ssssssssssss", $primary, $secondary, $info, $light, $dark, $success, $warning, $danger, $custom, $custom_light, $custom_dark, $id);
-                                if ($stmt->error) {
-                                    echo "FAILURE!!! " . $stmt->error;
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute([$primary, $secondary, $info, $light, $dark, $success, $warning, $danger, $custom, $custom_light, $custom_dark, $id]);
+                                if ($stmt->errorInfo()[2]) {
+                                    echo "FAILURE!!! " . $stmt->errorInfo()[2];
                                 } else {
                                     echo "The data was updated correctly.";
                                     echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                 }
                             }
                             $sql = "SELECT * FROM theme_palette WHERE idtp=?";
-                            $rtp = $this->conn->prepare($sql);
-                            $rtp->bind_param("s", $id);
-                            $rtp->execute();
-                            $result = $rtp->get_result(); // get the mysqli result
-                            $tp = $result->fetch_assoc();
+                            $rtp = $conn->prepare($sql);
+                            $rtp->execute([$id]);
+                            $tp = $rtp->fetch(PDO::FETCH_ASSOC);
                             ?> 
                             <form class="row form-horizontal" role="form" id="edit_theme_palette" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="primary_color" class ="control-label col-sm-3">Primary:</label>
                                     <input type="text" class="form-control" id="primary_color" name="primary_color" value="<?php echo $tp['primary_color']; ?>">
@@ -278,8 +281,9 @@ window.onload = function() {
                                 $size = $_POST['size'];
                                 $weight = $_POST['weight'];
 
-                                $query = "UPDATE `theme_lead_font` SET size = '$size', weight = '$weight' WHERE idtlf='$id' ";
-                                if ($this->conn->query($query) === TRUE) {
+                                $query = "UPDATE `theme_lead_font` SET size = :size, weight = :weight WHERE idtlf=:id ";
+                                $stmt = $conn->prepare($query);
+                                if ($stmt->execute([':size' => $size, ':weight' => $weight, ':id' => $id]) !== false) {
                                     echo "The data was updated correctly.";
 
                                     echo "<script>
@@ -288,13 +292,15 @@ window.onload = function() {
 }
 </script>";
                                 } else {
-                                    echo "Error updating data: " . $this->conn->error;
+                                    echo "Error updating data: " . $conn->errorInfo()[2];
                                 }
                             }
-                            $rtlf = $this->conn->query("SELECT * FROM theme_lead_font WHERE idtlf='$id'");
-                            $tlf = $rtlf->fetch_assoc();
+                            $rtlf = $conn->prepare("SELECT * FROM theme_lead_font WHERE idtlf=:id");
+                            $rtlf->execute([':id' => $id]);
+                            $tlf = $rtlf->fetch(PDO::FETCH_ASSOC);
                             ?>
                             <form class="row form-horizontal" role="form" id="add_theme_lead_font" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="size" class ="control-label col-sm-3">Size:</label>
                                     <input type="text" class="form-control" id="size" name="size" value="<?php echo $tlf['size']; ?>">
@@ -323,19 +329,22 @@ window.onload = function() {
                                 $weight = $_POST['weight'];
                                 $line_weight = $_POST['line_weight'];
 
-                                $query = "UPDATE `theme_headings_font` SET family = '$family', weight = '$weight', line_weight = '$line_weight' WHERE idthf='$id' ";
-                                if ($this->conn->query($query) === TRUE) {
+                                $query = "UPDATE `theme_headings_font` SET family = :family, weight = :weight, line_weight = :line_weight WHERE idthf=:id ";
+                                $stmt = $conn->prepare($query);
+                                if ($stmt->execute([':family' => $family, ':weight' => $weight, ':line_weight' => $line_weight, ':id' => $id]) !== false) {
                                     echo "The data was updated correctly.";
 echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                     
                                 } else {
-                                    echo "Error updating data: " . $this->conn->error;
+                                    echo "Error updating data: " . $conn->errorInfo()[2];
                                 }
                             }
-                            $rthf = $this->conn->query("SELECT * FROM theme_headings_font WHERE idthf='$id'");
-                            $thf = $rthf->fetch_assoc();
+                            $rthf = $conn->prepare("SELECT * FROM theme_headings_font WHERE idthf=:id");
+                            $rthf->execute([':id' => $id]);
+                            $thf = $rthf->fetch(PDO::FETCH_ASSOC);
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_headings_font" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="family" class ="control-label col-sm-3">Family:</label>
                                     <input type="text" class="form-control" id="family" name="family" value="<?php echo $thf['family']; ?>">
@@ -365,19 +374,22 @@ echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/the
                                 $weight = $_POST['weight'];
                                 $line_height = $_POST['line_height'];
 
-                                $query = "UPDATE `theme_base_font` SET family = '$family', size = '$size', weight = '$weight', line_height = '$line_height' WHERE idtbf='$id' ";
-                                if ($this->conn->query($query) === TRUE) {
+                                $query = "UPDATE `theme_base_font` SET family = :family, size = :size, weight = :weight, line_height = :line_height WHERE idtbf=:id ";
+                                $stmt = $conn->prepare($query);
+                                if ($stmt->execute([':family' => $family, ':size' => $size, ':weight' => $weight, ':line_height' => $line_height, ':id' => $id]) !== false) {
                                     echo "The data was updated correctly.";
 
                                     echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                 } else {
-                                    echo "Error updating data: " . $this->conn->error;
+                                    echo "Error updating data: " . $conn->errorInfo()[2];
                                 }
                             }
-                            $rtbf = $this->conn->query("SELECT * FROM theme_base_font WHERE idtbf='$id'");
-                            $tbf = $rtbf->fetch_assoc();
+                            $rtbf = $conn->prepare("SELECT * FROM theme_base_font WHERE idtbf=:id");
+                            $rtbf->execute([':id' => $id]);
+                            $tbf = $rtbf->fetch(PDO::FETCH_ASSOC);
                             ?>
                             <form class="row form-horizontal" role="form" id="add_theme_base_font" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="family" class ="control-label col-sm-3">Family:</label>
                                     <input type="text" class="form-control" id="family" name="family" value="<?php echo $tbf['family']; ?>">
@@ -408,25 +420,28 @@ echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/the
                                 $_POST = array_map('stripslashes', $_POST);
 
                                 //collect form data
-                                extract($_POST);
+                                extract($_POST, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
 
                                 //$body_color = $_POST['body_color'];
                                 //$text_color = $_POST['text_color'];
                                 //$links_color = $_POST['links_color'];
 
-                                $query = "UPDATE `theme_base_colors` SET body_color = '$body_color', text_color = '$text_color', links_color = '$links_color' WHERE idtbc='$id'";
-                                if ($this->conn->query($query) === TRUE) {
+                                $query = "UPDATE `theme_base_colors` SET body_color = :body_color, text_color = :text_color, links_color = :links_color WHERE idtbc=:id";
+                                $stmt = $conn->prepare($query);
+                                if ($stmt->execute([':body_color' => $body_color, ':text_color' => $text_color, ':links_color' => $links_color, ':id' => $id]) !== false) {
                                     echo "The data was updated correctly.";
 echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/themes/options/'.$id.'">' . "\n";
                                     
                                 } else {
-                                    echo "Error updating data: " . $this->conn->error;
+                                    echo "Error updating data: " . $conn->errorInfo()[2];
                                 }
                             }
-                            $rtbc = $this->conn->query("SELECT * FROM theme_base_colors WHERE idtbc='$id'");
-                            $tbc = $rtbc->fetch_assoc();
+                            $rtbc = $conn->prepare("SELECT * FROM theme_base_colors WHERE idtbc=:id");
+                            $rtbc->execute([':id' => $id]);
+                            $tbc = $rtbc->fetch(PDO::FETCH_ASSOC);
                             ?> 
                             <form class="row form-horizontal" role="form" id="add_theme_base_colors" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="body_color" class ="control-label col-sm-3">Body:</label>
                                     <input type="text" class="form-control" id="body_color" name="body_color" value="<?php echo $tbc['body_color']; ?>">

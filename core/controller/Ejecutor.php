@@ -82,6 +82,7 @@ class Ejecutor
                 }
 
                 // Obtener columnas de la tabla
+                $table = \PepiuoX\Security\SqlIdentifier::assert($table);
                 $stmt = $this->conn->prepare("SHOW COLUMNS FROM `{$table}`");
                 $stmt->execute();
                 $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -103,7 +104,7 @@ class Ejecutor
                 $searchParam = '%' . $search . '%';
 
                 foreach ($textColumns as $col) {
-                    $conditions[] = "`{$col}` LIKE ?";
+                    $conditions[] = \PepiuoX\Security\SqlIdentifier::quote($col) . " LIKE ?";
                     $params[] = $searchParam;
                 }
 
@@ -180,6 +181,8 @@ class Ejecutor
             return ['error' => 'Search term too short'];
         }
 
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+
         try {
             // Si no se especifican columnas, obtener las de texto
             if (empty($columns)) {
@@ -198,7 +201,7 @@ class Ejecutor
             $searchParam = '%' . $search . '%';
 
             foreach ($columns as $col) {
-                $conditions[] = "`{$col}` LIKE ?";
+                $conditions[] = \PepiuoX\Security\SqlIdentifier::quote($col) . " LIKE ?";
                 $params[] = $searchParam;
             }
 

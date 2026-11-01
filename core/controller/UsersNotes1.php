@@ -11,7 +11,7 @@ declare(strict_types=1);
  * - Sanitización de contenido de notas (XSS)
  * - Inyección de dependencias PDO
  */
-class UsersNotes
+class UsersNotes1
 {
     private PDO $conn;
     private string $ucode;
@@ -20,6 +20,7 @@ class UsersNotes
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
 
         if (!isset($_SESSION['access_id']) || !is_string($_SESSION['access_id'])) {
             throw new RuntimeException('Sesión de usuario no válida');

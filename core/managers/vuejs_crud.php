@@ -23,6 +23,7 @@ if (file_exists($connfile)) {
     }
     if (!empty($_GET["tbl"])) {
         $tbl = protect($_GET["tbl"]);
+        $tbl = \PepiuoX\Security\SqlIdentifier::assert($tbl);
         $tble = ucfirst(str_replace('_', ' ', $tbl));
 
         if (substr($tbl, -1) == 's') {
@@ -37,22 +38,30 @@ if (file_exists($connfile)) {
         $result = $conn->query($sql);
 
         $cname = array();
+        $inParams = array();
+        $upAll = array();
+        $idParam = '';
         $i = 0;
-        while ($result->field_count > $i) {
-            $nam = $result->fetch_field();
+        /* ✅ PDO: columnCount() + getColumnMeta() reemplazan field_count + fetch_field(). */
+        while ($result->columnCount() > $i) {
+            $nam = (object) $result->getColumnMeta($i);
             if ($i === 0) {
                 $idcol = $nam->name;
-                $whre = $nam->name . " ='$" . $nam->name . "'";
+                $whre = \PepiuoX\Security\SqlIdentifier::assert($nam->name) . " =:" . \PepiuoX\Security\SqlIdentifier::assert($nam->name);
                 $vpost = "$" . $nam->name . " = \$_POST['" . $nam->name . "'];";
+                $idParam = "':" . $nam->name . "' => $" . $nam->name;
+                $upAll[] = "':" . $nam->name . "' => $" . $nam->name;
             }
 
             $cnames[] = $nam->name;
             $uposts[] = "$" . $nam->name . "= \$_POST['" . $nam->name . "'];" . "\n";
             if ($i != 0) {
                 $varc[] = $nam->name . ' :""';
-                $cols[] = $nam->name;
-                $varnames[] = "'$" . $nam->name . "'";
-                $upnames[] = $nam->name . " ='$" . $nam->name . "'";
+                $cols[] = \PepiuoX\Security\SqlIdentifier::assert($nam->name);
+                $varnames[] = ":" . $nam->name;
+                $upnames[] = \PepiuoX\Security\SqlIdentifier::assert($nam->name) . " =:" . \PepiuoX\Security\SqlIdentifier::assert($nam->name);
+                $inParams[] = "':" . $nam->name . "' => $" . $nam->name;
+                $upAll[] = "':" . $nam->name . "' => $" . $nam->name;
                 $cposts[] = "$" . $nam->name . "= \$_POST['" . $nam->name . "'];" . "\n";
             }
             $i = $i + 1;
@@ -61,9 +70,10 @@ if (file_exists($connfile)) {
         // start joins
         $ths = array();
         $qnames = array();
-        $num = $result->field_count;
+        $num = $result->columnCount();
         if ($num > 0) {
-            while ($nam = $result->fetch_field()) {
+            for ($c = 0; $c < $num; $c++) {
+                $nam = (object) $result->getColumnMeta($c);
                 $qnames[] = $nam->name;
             }
             foreach ($qnames as $qname) {
@@ -79,9 +89,10 @@ if (file_exists($connfile)) {
 
         function getJoin($tbl, $cname) {
             global $conn;
-            $joinquery = $conn->query("SELECT * FROM table_column_settings WHERE table_name='$tbl' AND col_name='$cname'");
-            if ($joinquery->num_rows > 0) {
-                $resjoin = $joinquery->fetch_assoc();
+            $joinquery = $conn->prepare("SELECT * FROM table_column_settings WHERE table_name=:table_name AND col_name=:col_name");
+            $joinquery->execute([':table_name' => $tbl, ':col_name' => $cname]);
+            if ($joinquery->rowCount() > 0) {
+                $resjoin = $joinquery->fetch(PDO::FETCH_ASSOC);
                 $coln = $resjoin['j_value'];
                 if (!empty($coln)) {
                     return $coln;
@@ -95,9 +106,10 @@ if (file_exists($connfile)) {
 
         function getSelect($tbl, $cname) {
             global $conn;
-            $joinquery = $conn->query("SELECT * FROM table_column_settings WHERE table_name='$tbl' AND col_name='$cname'");
-            if ($joinquery->num_rows > 0) {
-                $resjoin = $joinquery->fetch_assoc();
+            $joinquery = $conn->prepare("SELECT * FROM table_column_settings WHERE table_name=:table_name AND col_name=:col_name");
+            $joinquery->execute([':table_name' => $tbl, ':col_name' => $cname]);
+            if ($joinquery->rowCount() > 0) {
+                $resjoin = $joinquery->fetch(PDO::FETCH_ASSOC);
                 $coln = $resjoin['j_value'];
                 if (!empty($coln)) {
                     return $coln;
@@ -111,16 +123,18 @@ if (file_exists($connfile)) {
 
         function optsel($jtable, $jid, $jvalue) {
             global $conn;
+            $jtable = \PepiuoX\Security\SqlIdentifier::assert($jtable);
             $sels = $conn->query("SELECT * FROM $jtable");
-            while ($sel = $sels->fetch_array()) {
+            while ($sel = $sels->fetch(PDO::FETCH_ASSOC)) {
                 echo '<option value="' . $sel[$jid] . '">' . $sel[$jvalue] . '</option>';
             }
         }
 
         function inpSel($tbl, $cname) {
             global $conn;
-            $qsl = $conn->query("SELECT * FROM table_column_settings WHERE table_name='$tbl' AND col_name='$cname'");
-            while ($row = $qsl->fetch_array()) {
+            $qsl = $conn->prepare("SELECT * FROM table_column_settings WHERE table_name=:table_name AND col_name=:col_name");
+            $qsl->execute([':table_name' => $tbl, ':col_name' => $cname]);
+            while ($row = $qsl->fetch(PDO::FETCH_ASSOC)) {
                 if (!empty($row['joins'])) {
                     $jtable = $row['j_table'];
                     $jvalue = $row['j_value'];
@@ -136,8 +150,9 @@ if (file_exists($connfile)) {
 
         function upSel($tbl, $cname) {
             global $conn;
-            $qsl = $conn->query("SELECT * FROM table_column_settings WHERE table_name='$tbl' AND col_name='$cname'");
-            while ($row = $qsl->fetch_array()) {
+            $qsl = $conn->prepare("SELECT * FROM table_column_settings WHERE table_name=:table_name AND col_name=:col_name");
+            $qsl->execute([':table_name' => $tbl, ':col_name' => $cname]);
+            while ($row = $qsl->fetch(PDO::FETCH_ASSOC)) {
                 if (!empty($row['joins'])) {
                     $jtable = $row['j_table'];
                     $jvalue = $row['j_value'];
@@ -153,16 +168,21 @@ if (file_exists($connfile)) {
 
         $colcs = array();
         $ljoins = array();
-        $sql1 = "SELECT * FROM table_column_settings WHERE table_name='$tbl'";
-        $result1 = $conn->query($sql1);
-        $ntq = $result1->num_rows;
+        $sql1 = "SELECT * FROM table_column_settings WHERE table_name=:table_name";
+        $result1 = $conn->prepare($sql1);
+        $result1->execute([':table_name' => $tbl]);
+        $ntq = $result1->rowCount();
         if ($ntq > 0) {
-            while ($qtb = $result1->fetch_array()) {
+            while ($qtb = $result1->fetch(PDO::FETCH_ASSOC)) {
                 $colcs[] = getJoin($tbl, $qtb['col_name']);
                 if (empty($qtb['joins'])) {
                     continue;
                 } else {
-                    $ljoins[] = $qtb['joins'] . ' ' . $qtb['j_table'] . ' ON ' . $tbl . '.' . $qtb['col_name'] . ' = ' . $qtb['j_table'] . '.' . $qtb['j_id'];
+                    $ljTable = \PepiuoX\Security\SqlIdentifier::assert($qtb['j_table']);
+                    $ljCol = \PepiuoX\Security\SqlIdentifier::assert($qtb['col_name']);
+                    $ljId = \PepiuoX\Security\SqlIdentifier::assert($qtb['j_id']);
+                    $ljJoin = \PepiuoX\Security\SqlIdentifier::fromWhitelist($qtb['joins'], ['JOIN', 'INNER JOIN', 'LEFT JOIN', 'LEFT OUTER JOIN', 'RIGHT JOIN', 'RIGHT OUTER JOIN', 'STRAIGHT JOIN', 'CROSS JOIN', 'NATURAL JOIN']);
+                    $ljoins[] = $ljJoin . ' ' . $ljTable . ' ON ' . $tbl . '.' . $ljCol . ' = ' . $ljTable . '.' . $ljId;
                 }
             }
         }
@@ -178,6 +198,8 @@ if (file_exists($connfile)) {
         $cli = implode(" , ", $varc);
         $upost = implode(" ", $uposts);
         $cpost = implode(" ", $cposts);
+        $inparams = implode(", ", $inParams);
+        $upparams = implode(", ", $upAll);
 
         // make file app.js
         $appfile = 'app.js';
@@ -297,7 +319,7 @@ if ($action == "read") {';
         if ($ntq > 0) {
             $apicontent .= '$result = $conn->query("SELECT * FROM ' . $tbl . ' ' . $rjoin . '");
         $datos = array();
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 array_push($datos, $row);
             }
 
@@ -306,7 +328,7 @@ if ($action == "read") {';
         } else {
             $apicontent .= ' $result = $conn->query("SELECT * FROM `' . $tbl . '`");
         $datos = array();
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             array_push($datos, $row);
         }
 
@@ -322,7 +344,8 @@ if ($action == "create") {
 
     ' . $cpost . '
 
-    $result = $conn->query("INSERT INTO ' . $tbl . '(' . $col . ') VALUES (' . $varname . ')");
+    $stmt = $conn->prepare("INSERT INTO ' . $tbl . '(' . $col . ') VALUES (' . $varname . ')");
+    $result = $stmt->execute([' . $inparams . ']);
 
     if ($result) {
         $res["message"] = "dato agregado exitosamente";
@@ -339,7 +362,8 @@ if ($action == "create") {
 if ($action == "update") {
     ' . $upost . '
 
-    $result = $conn->query("UPDATE ' . $tbl . ' SET ' . $upname . ' WHERE ' . $whre . ' ");
+    $stmt = $conn->prepare("UPDATE ' . $tbl . ' SET ' . $upname . ' WHERE ' . $whre . ' ");
+    $result = $stmt->execute([' . $upparams . ']);
 
     if ($result) {
         $res["message"] = "dato actualizado con éxito";
@@ -354,7 +378,8 @@ if ($action == "update") {
 if ($action == "delete") {
     ' . $vpost . '
 
-    $result = $conn->query("DELETE FROM `' . $tbl . '` WHERE ' . $whre . ' ");
+    $stmt = $conn->prepare("DELETE FROM `' . $tbl . '` WHERE ' . $whre . ' ");
+    $result = $stmt->execute([' . $idParam . ']);
 
     if ($result) {
         $res["message"] = "dato borrado exitosamente";
@@ -365,7 +390,7 @@ if ($action == "delete") {
     // $res["datos"] =$datos;
 }
 
-$conn->close();
+// ✅ PDO: no existe $conn->close(); la conexión es un singleton compartido.
 header("content-type:application/json");
 echo json_encode($res);
 die();
@@ -439,10 +464,10 @@ die();
             <?php
             if ($view === "select") {
                 if ($result = $conn->query("SELECT * FROM table_config")) {
-                    $total_found = mysqli_num_rows($result);
+                    $total_found = $result->rowCount();
 
                     if ($total_found > 0) {
-                        $row = mysqli_fetch_assoc($result);
+                        $row = $result->fetch(PDO::FETCH_ASSOC);
                         $tableNames = explode(',', $row['table_name']);
                     }
                 }
@@ -547,6 +572,7 @@ die();
                                         </div>
                                         <div class="modal-body">                                        
                                             <form method="post" class="my-form" action="javascript:void(0)">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                                 <?php
                                                 foreach ($cnames as $key => $cname) {
                                                     if ($key == 0) {
@@ -586,7 +612,8 @@ die();
                                         </button>
                                     </div>
                                     <div class="modal-body">                                    
-                                        <form method="post" class="my-form">                                       
+                                        <form method="post" class="my-form">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>                                       
                                             <?php
                                             foreach ($cnames as $key => $cname) {
                                                 if ($key == 0) {

@@ -17,25 +17,25 @@ class RecoveryPhrase
 {
     private PDO $conn;
     private string $baseurl;
-    private int $iduv;
+    private string $iduv;
     private string $usercode;
     private string $mkhash;
     private GetCodeDeEncrypt $gc;
     private Protect $pt;
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
         $this->baseurl = defined('SITE_PATH') ? SITE_PATH : '/';
         $this->gc = new GetCodeDeEncrypt();
-        $this->pt = new Protect($connection);
+        $this->pt = new Protect($this->conn);
 
         // ✅ Validación estricta de sesión
         if (!isset($_SESSION['user_id'], $_SESSION['access_id'], $_SESSION['hash'])) {
             throw new RuntimeException('Sesión de usuario no válida');
         }
 
-        $this->iduv = (int) $_SESSION['user_id'];
+        $this->iduv = (string) $_SESSION['user_id'];
         $this->usercode = (string) $_SESSION['access_id'];
         $this->mkhash = (string) $_SESSION['hash'];
 

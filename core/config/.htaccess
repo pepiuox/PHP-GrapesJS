@@ -1,4 +1,39 @@
-<FilesMatch "server.php">
-  Order deny,allow
-  Deny from all
+# ============================================================================
+# core/config/.htaccess
+# Protege las credenciales de la base de datos y el resto de la configuración.
+# ============================================================================
+#
+# PROBLEMA CORREGIDO: la versión anterior usaba sintaxis de Apache 2.2
+# (`Order deny,allow` / `Deny from all`). En Apache 2.4 esas directivas sólo
+# funcionan si está cargado `mod_access_compat`; si no lo está, Apache devuelve
+# **500 Internal Server Error** para todo este directorio (que contiene
+# `server.php` con las credenciales de la base de datos). Además, el patrón
+# sólo cubría `server.php`, dejando legibles `define.php`, `make_define.php`,
+# `error_report.php`, `dbconnection.php` y `Database.php`.
+
+# ---- Apache 2.4+ (sintaxis moderna) ---------------------------------------
+<FilesMatch "^(server|dbconnection|define|make_define|error_report|Database|loader|router|dbconnection)\.php$">
+    Require all denied
 </FilesMatch>
+
+# Ningún archivo no-PHP de este directorio debe servirse tampoco.
+<FilesMatch "\.(sql|log|bak|old|orig|save|temp|tmp|swp|swo|ini|conf|dist|json|lock|md|ya?ml)$">
+    Require all denied
+</FilesMatch>
+
+# ---- Compatibilidad con Apache 2.2 / mod_access_compat --------------------
+# Sólo se aplica si el módulo existe (si no, se ignora y manda lo de arriba).
+<IfModule mod_access_compat.c>
+    <FilesMatch "^(server|dbconnection|define|make_define|error_report|Database|loader|router)\.php$">
+        Order deny,allow
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+# Sin listado de directorios.
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# No revelar la versión del servidor.
+ServerSignature Off

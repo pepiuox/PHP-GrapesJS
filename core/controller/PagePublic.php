@@ -7,7 +7,9 @@ class PagePublic {
 
     public function __construct(PDO $conn) {
         $this->conn = $conn;
-        $this->allowedBasePath = realpath(__DIR__ . '/../core/elements');
+        // Apuntaba a core/core/elements (no existe) y devolvia false: cualquier
+        // safeInclude() se rechazaba. Los elementos viven en core/elements.
+        $this->allowedBasePath = realpath(dirname(__DIR__) . '/elements') ?: '';
     }
 
     /**
@@ -17,7 +19,9 @@ class PagePublic {
         global $fname, $title;
 
         // Validar que $rp tenga las claves necesarias
-        if (!isset($rp['type']) || !isset($rp['url'])) {
+        // La validacion original exigia url, pero pages.url esta NULL en todas las
+        // filas (la ruta se guarda en link): la portada respondia siempre 400.
+        if (!isset($rp['type']) || (!isset($rp['link']) && !isset($rp['title']))) {
             http_response_code(400);
             echo '<h1>Error: Invalid page configuration</h1>';
             return;
@@ -44,7 +48,11 @@ class PagePublic {
             include_once URL . "/core/elements/alerts.php";
 
             // VALIDACIÓN CRÍTICA: Prevenir LFI y Path Traversal
-            if ($_SERVER["REQUEST_URI"] === $rp['url']) {
+            // pages.url no se rellena: se compara la ruta pedida con link.
+            $requestPath = trim((string) (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/'), '/');
+            $pageLink = trim((string) ($rp['link'] ?? ''), '/');
+
+            if ($requestPath === $pageLink) {
                 $this->safeInclude($rp['path_file'] ?? '');
             }
         } else if ($rp['type'] === 'Design') {
@@ -85,7 +93,7 @@ class PagePublic {
         }
 
         // Verificar que está dentro del directorio permitido
-        if (strpos($full_path, $this->allowedBasePath) !== 0) {
+        if ($this->allowedBasePath === '' || strpos($full_path, $this->allowedBasePath) !== 0) {
             error_log("PagePublic: Path traversal attempt blocked: {$path_file}");
             echo '<p>Acceso denegado.</p>';
             return;

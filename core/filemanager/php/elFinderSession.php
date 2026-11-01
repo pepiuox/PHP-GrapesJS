@@ -6,23 +6,16 @@
  *
  * @package elfinder
  * @author  Naoki Sawada
- * */
-class elFinderSession implements elFinderSessionInterface {
+ **/
 
+class elFinderSession implements elFinderSessionInterface
+{
     /**
      * A flag of session started
      *
      * @var        boolean
      */
     protected $started = false;
-
-    /**
-     * To fix PHP bug that duplicate Set-Cookie header to be sent
-     *
-     * @var        boolean
-     * @see        https://bugs.php.net/bug.php?id=75554
-     */
-    protected $fixCookieRegist = false;
 
     /**
      * Array of session keys of this instance
@@ -39,6 +32,13 @@ class elFinderSession implements elFinderSessionInterface {
     protected $base64encode = false;
 
     /**
+     * Read session data and close immediately
+     *
+     * @var        boolean
+     */
+    protected $readOnly = false;
+
+    /**
      * Default options array
      *
      * @var        array
@@ -49,7 +49,8 @@ class elFinderSession implements elFinderSessionInterface {
             'default' => 'elFinderCaches',
             'netvolume' => 'elFinderNetVolumes'
         ),
-        'cookieParams' => array()
+        'cookieParams' => array(),
+        'readOnly' => false
     );
 
     /**
@@ -59,33 +60,101 @@ class elFinderSession implements elFinderSessionInterface {
      *
      * @return     self    Instanse of this class
      */
-    public function __construct($opts) {
+    public function __construct($opts)
+    {
         $this->opts = array_merge($this->opts, $opts);
         $this->base64encode = !empty($this->opts['base64encode']);
         $this->keys = $this->opts['keys'];
-        if (function_exists('apache_get_version') || $this->opts['cookieParams']) {
-            $this->fixCookieRegist = true;
+        $this->readOnly = !empty($this->opts['readOnly']);
+    }
+
+    /**
+     * Normalize cookie params for session_set_cookie_params()
+     *
+     * @return array
+     */
+    protected function getSessionCookieParams()
+    {
+        $secure = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+
+        $params = array(
+            'lifetime' => 0,
+            'path' => '/',
+            'domain' => '',
+            'secure' => $secure,
+            'httponly' => true
+        );
+
+        if (!empty($this->opts['cookieParams']) && is_array($this->opts['cookieParams'])) {
+            $params = array_merge($params, $this->opts['cookieParams']);
+        }
+
+        // absorb key case variations
+        if (isset($params['SameSite']) && !isset($params['samesite'])) {
+            $params['samesite'] = $params['SameSite'];
+            unset($params['SameSite']);
+        }
+        if (isset($params['HttpOnly']) && !isset($params['httponly'])) {
+            $params['httponly'] = $params['HttpOnly'];
+            unset($params['HttpOnly']);
+        }
+
+        return $params;
+    }
+
+    /**
+     * Apply session cookie params before session_start()
+     *
+     * @return void
+     */
+    protected function applySessionCookieParams()
+    {
+        $p = $this->getSessionCookieParams();
+
+        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            session_set_cookie_params(array(
+                'lifetime' => isset($p['lifetime']) ? (int)$p['lifetime'] : 0,
+                'path' => isset($p['path']) ? $p['path'] : '/',
+                'domain' => isset($p['domain']) ? $p['domain'] : '',
+                'secure' => !empty($p['secure']),
+                'httponly' => !empty($p['httponly']),
+                'samesite' => isset($p['samesite']) ? $p['samesite'] : 'Lax'
+            ));
+        } else {
+            // PHP 5.5 compatible
+            $path = isset($p['path']) ? $p['path'] : '/';
+            if (!empty($p['samesite'])) {
+                $path .= '; SameSite=' . $p['samesite'];
+            }
+
+            session_set_cookie_params(
+                isset($p['lifetime']) ? (int)$p['lifetime'] : 0,
+                $path,
+                isset($p['domain']) ? $p['domain'] : '',
+                !empty($p['secure']),
+                !empty($p['httponly'])
+            );
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($key, $empty = null) {
-        $closed = false;
+    public function get($key, $empty = null)
+    {
+        $openedHere = false;
+
         if (!$this->started) {
-            $closed = true;
+            $openedHere = true;
             $this->start();
         }
 
         $data = null;
+        $session =& $this->getSessionRef($key);
+        $data = $session;
 
-        if ($this->started) {
-            $session = & $this->getSessionRef($key);
-            $data = $session;
-            if ($data && $this->base64encode) {
-                $data = $this->decodeData($data);
-            }
+        if ($data && $this->base64encode) {
+            $data = $this->decodeData($data);
         }
 
         $checkFn = null;
@@ -104,41 +173,49 @@ class elFinderSession implements elFinderSessionInterface {
         }
 
         if (is_null($data) || ($checkFn && !$checkFn($data))) {
-            $session = $data = $empty;
+            $data = $empty;
         }
 
-        if ($closed) {
+        if ($openedHere && !$this->readOnly) {
             $this->close();
         }
 
         return $data;
     }
 
+
     /**
      * {@inheritdoc}
      */
-    public function start() {
-        set_error_handler(array($this, 'session_start_error'), E_NOTICE | E_WARNING);
-
-        // apache2 SAPI has a bug of session cookie register
-        // see https://bugs.php.net/bug.php?id=75554
-        // see https://github.com/php/php-src/pull/3231
-        if ($this->fixCookieRegist === true) {
-            if ((int) ini_get('session.use_cookies') === 1) {
-                if (ini_set('session.use_cookies', 0) === false) {
-                    $this->fixCookieRegist = false;
-                }
-            }
+    public function start()
+    {
+        if ($this->started) {
+            return $this;
         }
 
+        set_error_handler(array($this, 'session_start_error'), E_NOTICE | E_WARNING);
+
+        $this->applySessionCookieParams();
+
         if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            if (session_status() !== PHP_SESSION_ACTIVE && session_status() !== PHP_SESSION_NONE) {
-                session_start();
+            if (session_status() !== PHP_SESSION_ACTIVE) {
+                if ($this->readOnly && version_compare(PHP_VERSION, '7.0.0', '>=')) {
+                    session_start(array('read_and_close' => true));
+                    // read_and_close closes the PHP session immediately,
+                    // but mark this wrapper as initialized for the current operation.
+                    // close() is not needed after get() in this mode.
+                    $this->started = true;
+                    restore_error_handler();
+                    return $this;
+                } else {
+                    session_start();
+                }
             }
         } else {
             session_start();
         }
-        $this->started = session_id() ? true : false;
+
+        $this->started = (session_id() !== '');
 
         restore_error_handler();
 
@@ -152,7 +229,8 @@ class elFinderSession implements elFinderSessionInterface {
      *
      * @return mixed|null
      */
-    protected function & getSessionRef($key) {
+    protected function & getSessionRef($key)
+    {
         $session = null;
         if ($this->started) {
             list($cat, $name) = array_pad(explode('.', $key, 2), 2, null);
@@ -172,7 +250,7 @@ class elFinderSession implements elFinderSessionInterface {
                 if (!isset($_SESSION[$cat])) {
                     $_SESSION[$cat] = null;
                 }
-                $session = & $_SESSION[$cat];
+                $session =& $_SESSION[$cat];
             } else {
                 if (!isset($_SESSION[$cat]) || !is_array($_SESSION[$cat])) {
                     $_SESSION[$cat] = array();
@@ -180,7 +258,7 @@ class elFinderSession implements elFinderSessionInterface {
                 if (!isset($_SESSION[$cat][$name])) {
                     $_SESSION[$cat][$name] = null;
                 }
-                $session = & $_SESSION[$cat][$name];
+                $session =& $_SESSION[$cat][$name];
             }
         }
         return $session;
@@ -193,7 +271,8 @@ class elFinderSession implements elFinderSessionInterface {
      *
      * @return bool|mixed|string|null
      */
-    protected function decodeData($data) {
+    protected function decodeData($data)
+    {
         if ($this->base64encode) {
             if (is_string($data)) {
                 if (($data = base64_decode($data)) !== false) {
@@ -211,27 +290,9 @@ class elFinderSession implements elFinderSessionInterface {
     /**
      * {@inheritdoc}
      */
-    public function close() {
+    public function close()
+    {
         if ($this->started) {
-            if ($this->fixCookieRegist === true) {
-                // regist cookie only once for apache2 SAPI
-                $cParm = session_get_cookie_params();
-                if ($this->opts['cookieParams'] && is_array($this->opts['cookieParams'])) {
-                    $cParm = array_merge($cParm, $this->opts['cookieParams']);
-                }
-                if (version_compare(PHP_VERSION, '7.3', '<')) {
-                    setcookie(session_name(), session_id(), 0, $cParm['path'] . (!empty($cParm['SameSite']) ? '; SameSite=' . $cParm['SameSite'] : ''), $cParm['domain'], $cParm['secure'], $cParm['httponly']);
-                } else {
-                    $allows = array('expires' => true, 'path' => true, 'domain' => true, 'secure' => true, 'httponly' => true, 'samesite' => true);
-                    foreach (array_keys($cParm) as $_k) {
-                        if (!isset($allows[$_k])) {
-                            unset($cParm[$_k]);
-                        }
-                    }
-                    setcookie(session_name(), session_id(), $cParm);
-                }
-                $this->fixCookieRegist = false;
-            }
             session_write_close();
         }
         $this->started = false;
@@ -242,13 +303,14 @@ class elFinderSession implements elFinderSessionInterface {
     /**
      * {@inheritdoc}
      */
-    public function set($key, $data) {
+    public function set($key, $data)
+    {
         $closed = false;
         if (!$this->started) {
             $closed = true;
             $this->start();
         }
-        $session = & $this->getSessionRef($key);
+        $session =& $this->getSessionRef($key);
         if ($this->base64encode) {
             $data = $this->encodeData($data);
         }
@@ -268,7 +330,8 @@ class elFinderSession implements elFinderSessionInterface {
      *
      * @return string
      */
-    protected function encodeData($data) {
+    protected function encodeData($data)
+    {
         if ($this->base64encode) {
             $data = base64_encode(serialize($data));
         }
@@ -278,7 +341,8 @@ class elFinderSession implements elFinderSessionInterface {
     /**
      * {@inheritdoc}
      */
-    public function remove($key) {
+    public function remove($key)
+    {
         $closed = false;
         if (!$this->started) {
             $closed = true;
@@ -319,7 +383,7 @@ class elFinderSession implements elFinderSessionInterface {
      * @param $errno
      * @param $errstr
      */
-    protected function session_start_error($errno, $errstr) {
-        
+    protected function session_start_error($errno, $errstr)
+    {
     }
 }

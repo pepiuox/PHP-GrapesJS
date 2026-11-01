@@ -8,6 +8,7 @@
                 <h4>Change to a new PIN.</h4>
 				<h5>Your new PIN was sending to your email</h5>
                 <form method="post" class="form">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 					<div class="mb-3">
                         <label class="form-label" for="email">Confirm your emmail. <span class="red">*</span>:
                         </label> 

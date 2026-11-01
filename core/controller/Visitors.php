@@ -15,9 +15,9 @@ class Visitors
     private string $userIp;
     private string $session;
 
-    public function __construct(PDO $connection, string $baseUrl = '')
+    public function __construct(?PDO $connection = null, string $baseUrl = '')
     {
-        $this->db        = $connection;
+        $this->db        = $connection ?? \PepiuoX\Database\Connection::shared();
         $this->baseurl   = $baseUrl;
         $this->timestamp = (new DateTime())->format('Y-m-d H:i:s');
         $this->hash      = defined('SECURE_HASH')  ? SECURE_HASH  : '';

@@ -8,6 +8,7 @@ $changepass = new ChangePass();
 <div class="card-body ">
  <p class="login-box-msg">You are only one step a way from your new password</p>
  <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
   <label class="form-label" for="recoveryphrase">Enter your Recover phrase <span class="red">*</span>:</label>
   <div class="input-group mb-3">
 <input type="text" name="recoveryphrase" id="recoveryphrase" class="form-control" placeholder="Recover phrase">

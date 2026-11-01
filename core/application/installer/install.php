@@ -27,6 +27,26 @@ $laststep = "finalstep.php";
 if (file_exists($laststep)) {
     unlink($laststep);
 }
+
+/**
+ * ✅ PDO: conexión temporal del instalador.
+ *
+ * El instalador se ejecuta ANTES de que exista core/config/server.php, por lo que
+ * no puede usar el singleton global $conn y necesita crear sus propias conexiones.
+ */
+function installerPdo(string $host, string $user, string $password, string $dbname = ''): PDO
+{
+    $dsn = "mysql:host={$host};charset=utf8mb4";
+    if ($dbname !== '') {
+        $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
+    }
+
+    return new PDO($dsn, $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+}
 if (isset($_SESSION["PathInstall"])) {
     $siteinstall = $_SESSION["PathInstall"];
 } else {
@@ -44,7 +64,7 @@ $definefiles = $source . "/core/config/define.php";
 
 if (isset($_SESSION["DBConnected"]) && !empty($_SESSION["DBConnected"])) {
     if ($_SESSION["DBConnected"] === "Connected") {
-        $conn = new mysqli(
+        $conn = installerPdo(
             $_SESSION["DBHOST"],
             $_SESSION["DBUSER"],
             $_SESSION["DBPASSWORD"],
@@ -81,19 +101,20 @@ if (!file_exists($serverfile)) {
         $_SESSION["DBPASSWORD"] = $db_password;
         $_SESSION["DBNAME"] = $db_name;
 
-        $conn = new mysqli($db_host, $db_user, $db_password, $db_name);
+        // ✅ PDO: la conexión lanza PDOException si la base de datos no existe.
+        try {
+            $conn = installerPdo($db_host, $db_user, $db_password, $db_name);
 
-        /* If connection fails for some reason */
-        if ($conn->connect_error) {
-            $_SESSION["ErrorMessage"] = "The database has not been created yet, do you want to create it?";
-            $_SESSION["StepInstall"] = 2;
-            header("Location: install.php?step=2");
-            die();
-        } else {
             $_SESSION["SuccessMessage"] = "The database exists, now you need to import the data tables.";
             $_SESSION["StepInstall"] = 3;
             $_SESSION["DBConnected"] = "Connected";
             header("Location: install.php?step=3");
+            die();
+        } catch (PDOException $e) {
+            error_log("Installer: no se pudo conectar a la base de datos: " . $e->getMessage());
+            $_SESSION["ErrorMessage"] = "The database has not been created yet, do you want to create it?";
+            $_SESSION["StepInstall"] = 2;
+            header("Location: install.php?step=2");
             die();
         }
     }
@@ -109,29 +130,34 @@ if (!file_exists($serverfile)) {
     if (isset($_POST["createdb"])) {
         $createdb = $_POST["cdbn"];
 
-        $conn = new mysqli(
-            $_SESSION["DBHOST"],
-            $_SESSION["DBUSER"],
-            $_SESSION["DBPASSWORD"]
-        );
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        // ✅ PDO: conexión sin base de datos, para poder ejecutar CREATE DATABASE.
+        try {
+            $conn = installerPdo(
+                $_SESSION["DBHOST"],
+                $_SESSION["DBUSER"],
+                $_SESSION["DBPASSWORD"]
+            );
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
         }
         if ($createdb === "yes") {
             // Create database
-            $sql = "CREATE DATABASE " . $_SESSION["DBNAME"];
-            if ($conn->query($sql) === true) {
+            // ✅ Identificador validado: el nombre de la BD no puede ir como placeholder.
+            // Se usa quoteDatabase() (y no quote()) porque MySQL permite nombres de base de
+            // datos con guiones (`mi-cms`) y el patrón estricto de identificador los rechaza.
+            $sql = "CREATE DATABASE " . \PepiuoX\Security\SqlIdentifier::quoteDatabase($_SESSION["DBNAME"]);
+            try {
+                $conn->query($sql);
                 $_SESSION["SuccessMessage"] = "Database created successfully";
                 $_SESSION["StepInstall"] = 3;
                 $_SESSION["DBConnected"] = "Connected";
                 header("Location: install.php?step=3");
                 die();
-            } else {
-                $_SESSION["ErrorMessage"] = "Error creating database: " . $conn->error;
+            } catch (PDOException $e) {
+                $_SESSION["ErrorMessage"] = "Error creating database: " . $e->getMessage();
             }
         }
-        $conn->close();
+        $conn = null;
     }
 
     // Third step
@@ -155,18 +181,22 @@ if (!file_exists($serverfile)) {
             // If it has a semicolon at the end, it's the end of the query
             if (substr(trim($line), -1, 1) == ";") {
                 // Perform the query
-                $conn->query($templine) or
-                    (print 'Error performing query \'<strong>' .
+                // ✅ PDO: un error lanza PDOException; se conserva el mensaje de diagnóstico.
+                try {
+                    $conn->query($templine);
+                } catch (PDOException $e) {
+                    print 'Error performing query \'<strong>' .
                         $templine .
                         '\': ' .
-                        $conn->error .
-                        "<br /><br />");
+                        $e->getMessage() .
+                        "<br /><br />";
+                }
                 // Reset temp variable to empty
                 $templine = "";
             }
         }
         $_SESSION["SuccessMessage"] = "Tables imported successfully";
-        $conn->close();
+        $conn = null;
         $_SESSION["StepInstall"] = 4;
         header("Location: install.php?step=4");
         die();
@@ -175,39 +205,77 @@ if (!file_exists($serverfile)) {
     // Fourth step
     // Define configuration for the website
     function RandHash($len = 128) {
-        $secret = substr(sha1(openssl_random_pseudo_bytes(19)), -$len) .
-            sha1(openssl_random_pseudo_bytes(13));
-        return substr(hash("sha256", $secret), 0, $len);
+        // ✅ random_bytes() (CSPRNG) en lugar de openssl_random_pseudo_bytes().
+        return substr(hash("sha256", random_bytes(32)), 0, $len);
     }
 
     function RandKey($length = 128) {
+        // ✅ `rand()` es predecible (Mersenne Twister). Esta función genera el
+        // SECURE_TOKEN del sitio: un valor adivinable compromete el cifrado y los
+        // enlaces de verificación. Se usa random_int() (CSPRNG).
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ}#[$)%&{]@(';
         $charactersLength = strlen($characters);
         $randomString = "";
         for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
         return $randomString;
     }
 
-    extract($_POST);
+    // ✅ `extract($_POST)` sin protección permitía que el cuerpo del POST
+    // **sobrescribiera variables locales** del propio instalador: `conn`, `source`,
+    // `sql`, `tables`, `vals`, `params`, `conn`… (p. ej. `conn=<algo>` rompía o
+    // desviaba las consultas posteriores). Con EXTR_SKIP no se sobrescribe ninguna
+    // variable ya definida.
+    extract($_POST, EXTR_SKIP);
 
     if (isset($_POST["Update"])) {
         $_SESSION["SECURE_HASH"] = $_POST["SECURE_HASH"];
         $_SESSION["SECURE_TOKEN"] = $_POST["SECURE_TOKEN"];
 
+        // ✅ Se reinician por bloque: antes se acumulaban entre el bloque `Update` y el
+        // bloque `UpdateCode`, lo que habría mezclado columnas de `site_configuration`
+        // con las de `site_security` si ambos llegaran a ejecutarse.
+        $vals = [];
+        $params = [];
+        $vcnt = 0;
+        $postKeysInvalidos = [];
+
         foreach ($_POST as $k => $v) {
             if ($_POST["Update"] === $v) {
+                continue;
+            }
+            // ✅ El campo CSRF no es una columna de `site_configuration`.
+            if ($k === 'csrf_token') {
+                continue;
+            }
+            // ✅ Sólo se aceptan claves que sean identificadores válidos: un POST manipulado
+            // no puede inyectar SQL a través del nombre de la columna. Antes de este control
+            // una clave inválida provocaba una excepción sin capturar.
+            if (!\PepiuoX\Security\SqlIdentifier::isValid($k)) {
+                $postKeysInvalidos[] = $k;
                 continue;
             }
              if($k == 'DOMAIN_SITE' || $k == 'SITE_PATH'){
                 $v .= '/';
             }
-            $vals[] = "`" . $k . "`='" . $v . "'";
+            $vals[] = \PepiuoX\Security\SqlIdentifier::quote($k) . "=:v" . $vcnt;
+            $params[':v' . $vcnt] = $v;
+            $vcnt++;
         }
+
+        if ($postKeysInvalidos !== []) {
+            error_log('Instalador: claves de POST ignoradas por no ser identificadores válidos: ' . implode(', ', $postKeysInvalidos));
+        }
+
+        if ($vals === []) {
+            $_SESSION["ErrorMessage"] = "Error Updating configutations.";
+        } else {
         $vupdates = implode(", ", $vals);
         $update = "UPDATE site_configuration SET $vupdates WHERE `ID_Site`='1'";
-        if ($conn->query($update) === true) {
+        // ✅ PDO: prepare() + execute() con parámetros; lanza PDOException si falla.
+        $stmt = $conn->prepare($update);
+        if ($stmt->execute($params) !== false) {
             $_SESSION["SuccessMessage"] = "The configuration is Updated. ";
 
             $_SESSION["StepInstall"] = 4;
@@ -216,8 +284,9 @@ if (!file_exists($serverfile)) {
         } else {
             $_SESSION["ErrorMessage"] = "Error Updating configutations.";
         }
-        $conn->close();
-    }
+        $conn = null;
+        }   // cierra el else de ($vals !== [])
+    }       // cierra if (isset($_POST["Update"]))
     if (isset($_POST["UpdateCode"])) {
         $definefiles = $source . "/core/config/define.php";
         if (file_exists($definefiles)) {
@@ -225,25 +294,52 @@ if (!file_exists($serverfile)) {
         }
         $_SESSION["AlertMessage"] = "The Codes are up to date.";
 
+        // ✅ Igual que en el bloque anterior: reinicio y validación de claves.
+        $vals = [];
+        $params = [];
+        $vcnt = 0;
+        $postKeysInvalidos = [];
+
         foreach ($_POST as $k => $v) {
             if ($_POST["UpdateCode"] === $v) {
+                continue;
+            }
+            // ✅ El campo CSRF no es una columna de `site_security`.
+            if ($k === 'csrf_token') {
+                continue;
+            }
+            if (!\PepiuoX\Security\SqlIdentifier::isValid($k)) {
+                $postKeysInvalidos[] = $k;
                 continue;
             }
             if($k == 'DOMAIN_SITE' || $k == 'SITE_PATH'){
                 $v .= '/';
             }
-            $vals[] = "`" . $k . "`='" . $v . "'";
+            $vals[] = \PepiuoX\Security\SqlIdentifier::quote($k) . "=:v" . $vcnt;
+            $params[':v' . $vcnt] = $v;
+            $vcnt++;
         }
+
+        if ($postKeysInvalidos !== []) {
+            error_log('Instalador: claves de POST ignoradas por no ser identificadores válidos: ' . implode(', ', $postKeysInvalidos));
+        }
+
+        if ($vals === []) {
+            $_SESSION["ErrorMessage"] = "Error Updating configutations.";
+            $conn = null;
+        } else {
         $vupdates = implode(", ", $vals);
         $update = "UPDATE site_security SET $vupdates WHERE `idSs`='1'";
 
-        if ($conn->query($update) === true) {
+        $stmt = $conn->prepare($update);
+        if ($stmt->execute($params) !== false) {
             $sql = "SELECT * FROM site_configuration WHERE `ID_Site`='1'";
             if ($result = $conn->query($sql)) {
-                $fname = $result->fetch_fields();
-                $fdata = $result->fetch_assoc();
+                /* ✅ PDO: getColumnMeta() reemplaza mysqli_result::fetch_fields() */
+                $fdata = $result->fetch(PDO::FETCH_ASSOC);
 
-                foreach ($fname as $val) {
+                for ($c = 0; $c < $result->columnCount(); $c++) {
+                    $val = (object) $result->getColumnMeta($c);
                     if ($val->name === "ID_Site") {
                         continue;
                     } elseif ($val->name === "CREATE") {
@@ -260,10 +356,11 @@ if (!file_exists($serverfile)) {
             }
             $sql1 = "SELECT * FROM site_security WHERE `idSs`='1'";
             if ($result1 = $conn->query($sql1)) {
-                $fname1 = $result1->fetch_fields();
-                $fdata1 = $result1->fetch_assoc();
+                /* ✅ PDO: getColumnMeta() reemplaza mysqli_result::fetch_fields() */
+                $fdata1 = $result1->fetch(PDO::FETCH_ASSOC);
 
-                foreach ($fname1 as $val) {
+                for ($c = 0; $c < $result1->columnCount(); $c++) {
+                    $val = (object) $result1->getColumnMeta($c);
                     if ($val->name === "idSs") {
                         continue;
                     } elseif ($val->name === "site") {
@@ -303,8 +400,9 @@ die();
 } else {
 $_SESSION["ErrorMessage"] = "Error Updating configutations.";
 }
-$conn->close();
-}
+$conn = null;
+}   // cierra el else de ($vals !== [])
+}   // cierra if (isset($_POST["UpdateCode"]))
 // Fifth step
 // // check if exists user in table
 if (isset($_POST["verifyuser"])) {
@@ -342,7 +440,7 @@ $svcontent .= "<?php
             'password' => '" .
             $_SESSION["DBPASSWORD"] .
             "',
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
             'port' => '3306',
         ],// use different connection for another DB in this app, and change values.
          'ecommerce' => [
@@ -350,7 +448,7 @@ $svcontent .= "<?php
             'database' => 'ecommerce',
             'username' => 'user',
             'password' => 'password',
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
             'port' => '3306',
         ]
     ]
@@ -364,7 +462,7 @@ $filecontent .= "<?php" . "\n";
         $filecontent .= "include 'error_report.php';
 include 'Database.php';
 \$link = new Database();
-\$conn = \$link->MysqliConnection();
+\$conn = \$link->getConnection();
 require_once 'Routers.php';
 require_once 'function.php';
 include_once 'define.php';" . "\n\n";
@@ -511,6 +609,7 @@ die();
                     <div class="card mx-auto col-6">
                         <div class="card-body">
                             <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="mb-3">
                                     <h2>PHP GrapesJS</h2>
                                     <h4>You are about to install PHP GrapesJS.</h4>
@@ -650,20 +749,22 @@ die();
                                 <?php
     } elseif ($step == 4 || $_SESSION["StepInstall"] == 4) {
 
-        $conn = new mysqli(
+        // ✅ PDO: la conexión lanza PDOException en caso de fallo.
+        $conn = installerPdo(
             $_SESSION["DBHOST"],
             $_SESSION["DBUSER"],
             $_SESSION["DBPASSWORD"],
             $_SESSION["DBNAME"]
         );
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        try {
+            $result = $conn->query(
+                "SELECT * FROM `site_configuration` WHERE `ID_Site`='1'"
+            );
+            $confs = $result->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            trigger_error($e->getMessage());
+            $confs = [];
         }
-        ($result = $conn->query(
-            "SELECT * FROM `site_configuration` WHERE `ID_Site`='1'"
-            )) or trigger_error($conn->error);
-        $confs = $result->fetch_assoc();
         ?>
                                 <div class="alert alert-success" role="alert">
                                     <h5>Create configuration for your web site</h5>
@@ -681,6 +782,7 @@ die();
                                 <h4>Define values for the configuration</h4>
 
                                 <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <hr>
                                     <div class="form-group">
                                         <label for="DOMAIN_SITE">DOMAIN SITE:</label>
@@ -713,6 +815,7 @@ die();
                                 <hr>
                                 <h4>Save Secure installs</h4>
                                 <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <h5>Secure installs strings or codes</h5>
                                     <div class="form-group">
                                         <label for="SECURE_HASH">SECURE HASH:</label>
@@ -731,7 +834,7 @@ die();
 
                                 </form>
                                 <?php
-        $conn->close();
+        $conn = null;
     } elseif ($step == 5 || $_SESSION["StepInstall"] == 5) {
 
         require $definefiles;

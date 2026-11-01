@@ -154,7 +154,7 @@ class UsersChange
             }
 
             $dt = $stmt->fetch(PDO::FETCH_ASSOC);
-            $duv = (int) $dt['iduv'];
+            $duv = (string) $dt['iduv'];
             $pin = $dt['mkpin'];
 
             // ✅ Generar claves con random_bytes (no sha1)
@@ -283,7 +283,7 @@ class UsersChange
         }
 
         $dt = $very->fetch(PDO::FETCH_ASSOC);
-        $duv = (int) $dt['iduv'];
+        $duv = (string) $dt['iduv'];
 
         // ✅ CORREGIDO: Ahora usa prepared statements
         $checkm = $this->gc->ende_crypter('encrypt', $email, $dt['mktoken'], $dt['mkkey']);

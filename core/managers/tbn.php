@@ -9,14 +9,17 @@ if (!empty($_POST['snname'])) {
 
     function selvAsn($tbl, $sname) {
         global $conn;
-        if (!$conn) {
-            die('Error: Could not connect: ' . mysqli_error());
+        if (!($conn instanceof PDO)) {
+            die('Error: Could not connect to the database.');
         }
 
+        $tbl = \PepiuoX\Security\SqlIdentifier::assert($tbl);
         $sql = "SELECT * FROM " . $tbl;
         $qresult = $conn->query($sql);
         echo '<div class="form-group">';
-        while ($vinfo = $qresult->fetch_field()) {
+        /* ✅ PDO: getColumnMeta() reemplaza mysqli_result::fetch_field() */
+        for ($c = 0; $c < $qresult->columnCount(); $c++) {
+            $vinfo = (object) $qresult->getColumnMeta($c);
             if ($vinfo->name == $sname) {
                 echo '
                 <label class="col-md-12 control-label" for="column_as">There is the <b>' . $sname . '</b> column in the <b>' . $tbl . '</b> table, you need to configure with another name</label>

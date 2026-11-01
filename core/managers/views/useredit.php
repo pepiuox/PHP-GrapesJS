@@ -29,6 +29,7 @@
             ?>
             <div class="container" id="userupdate">
                 <form action="process.php" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <label class="form-label">Nombre: </label>
                     <p class="left">
                         <input class="left" type="text" name="name" maxlength="50" value="<?php

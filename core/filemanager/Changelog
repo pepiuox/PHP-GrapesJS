@@ -1,3 +1,87 @@
+2026-08-03  Naoki Sawada
+	* elFinder (2.1.70):
+		- Security: Fix CSRF protection for the `netmount` command
+		- Security: Fix MIME validation during ZIP archive extraction
+		- Security: Require cURL for URL uploads to prevent SSRF protection bypass in the `fsock_get_contents()` fallback
+		- Fix postMessage origin bypass and playsound DOM XSS
+
+2026-05-07  Naoki Sawada
+	* elFinder (2.1.69):
+		- Only fixes a release error; there are no changes to the functionality.
+
+2026-05-07  Naoki Sawada
+	* elFinder (2.1.68):
+		- Fixing bug where uploading large files sometimes fails (#3761)
+		- Fix incorrect URL generation in getContentUrl() (#3759)
+		- pressing minimized button ( - ) on the editor while the editor is maximized will close the editor (#3737)
+		- Update deprecated php type casts (#3739)
+		- fix(mime): normalize MIME mappings and regenerate elFinder.mimetypes.js
+		- Update Russian translation and authorship details (#3757)
+		- chore(dev): add MIME mapping generator script
+		- Use Array.isArray instead of $.isArray (#3771)
+		- added "SVG image" & "WEBP image" file type description to "Kind" column when in list view (#3738)
+		- Correctly urlencode path in setcookie(); fix Studio-42#3538 (#3754)
+		- Create SECURITY.md
+		- fix: Pixo Image Editor JS path
+		- update: [css] change font-size of preview
+		- fix: improve PHP 8 compatibility in session, cURL, and callback handling (#3780)
+		- Prepare elFinder for jQuery 4 sup (#3781)
+		- fix: example html, js
+		- build: add elfinder-minimal
+		- feat(editor): add signed callback state storage for external save handlers
+		- fix(connector): add CSRF token validation and refresh flow
+		- fix(connector): refine CSRF token refresh timing and protected commands
+		- fix(js): guard CSRF reload check when xhr is missing
+		- fix(onedrive): prefer cached Graph download URLs for file access
+		- Preserve i18n keys in mount errors
+		- fix:#3782 avoid E_STRICT on PHP 8.4+
+		- Update safe CDN versions for external JS libs
+		- Normalize MPD text/xml MIME type
+		- [i18n:ja] Update elfinder.ja.js
+		- fix(connector): normalize PHP error handling and mount failures
+		- chore(js): update default CDN library versions
+		- chore: ignore local IDE project files
+		- docs: fix correct the incorrect date
+		- [security] [VD:MySQL] normalize numeric object ids for SQL usage
+
+2026-04-17  Naoki Sawada
+	* elFinder (2.1.67):
+		[security] fix command injection vulnerability in `resize` background color handling when using the ImageMagick CLI backend
+
+2025-08-28  Naoki Sawada
+	* elFinder (2.1.66):
+		- [PHP 8.4] Fix: Curl `CURLOPT_BINARYTRANSFER` deprecated
+		- Merge pull request #3629 from Ayesh/php84-curl-depr
+		- translate to Chinese
+		- Update zh_CN.js
+		- Update Chinese help
+		- fix name
+		- Update elfinder.ko.js
+		- try copy / deleting folder if moving it doesn't work
+		- Merge pull request #3636 from vfishv/master
+		- Merge pull request #3647 from allity/patch-1
+		- Merge pull request #3653 from terrafrost/branch-1
+		- Fix #3637 FILTER_SANITIZE_STRING is deprecated (PHP 8.1)
+		- Allow image URL in theme manifest.json to be a relative link as well
+		- Update elfinder.ru.js
+		- Merge pull request #3677 from blutorange/feat-relative-image-link-in-theme-manifest
+		- Merge pull request #3682 from Ruslan-Aleev/patch-1
+		- Fixes #3684 (#3685)
+		- [OneDrive] fix Content URL
+		- Fix #3667 where the Content URL could be invalid
+		- [VD:core] Check if copying was successful when moving files in copy + delete mode
+		- Fix CVE-2025-0818 (#3723)
+		- Fixes #3689, fm.sync removes unavailable volumes. (#3690)
+		- [VD:SFTP] Make compatible with phpseclib version 2 or 3 when returned from connectCallback($options) (#3687)
+		- Add font mime kinds (WOFF, WOFF2, EOT, SFNT, generic font/*) (#3691)
+		- Ignore posted message that are not intended for ElFinder (#3692)
+		- Add option to rename command to disable alias rename (#3693)
+		- Add option commandsOptions.edit.confirmUnsavedBeforeClose (#3698)
+		- Fix build for Windows environment (#3699)
+		- Replace usage of deprecated `E_STRICT` constant (#3705)
+		- Add "WEBP" to File mimetype to kind mapping (#3712)
+		- fix translation mistakes and unification (#3719)
+
 2024-01-05  Naoki Sawada  <hypweb+elfinder@gmail.com>
 	* elFinder (2.1.65):
 		- [js] update CDNs

@@ -20,8 +20,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `press_gal`, `galleries` WHERE press_gal.galId=galleries.idGal") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `press_gal`, `galleries` WHERE press_gal.galId=galleries.idGal");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
                 }
@@ -62,8 +62,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `press_gal` ( `galId` ,  `image` , `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  '{$_POST['galId']}' ,  '{$_POST['image']}',  '{$_POST['title']}' ,  '{$_POST['subtitle']}' ,  '{$_POST['description']}' ,  '{$_POST['printing_date']}' ,  '{$_POST['type_press']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                $sql = "INSERT INTO `press_gal` ( `galId` ,  `image` , `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  :galId ,  :image ,  :title ,  :subtitle ,  :description ,  :printing_date ,  :type_press  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':galId' => $_POST['galId'], ':image' => $_POST['image'], ':title' => $_POST['title'], ':subtitle' => $_POST['subtitle'], ':description' => $_POST['description'], ':printing_date' => $_POST['printing_date'], ':type_press' => $_POST['type_press']]);
                 echo "Publicacion Agregada.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -72,7 +73,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <a class="btn btn-secondary" href='dashboard/press/list'>Retornar a la Lista</a> 
                         </p>
                         <h3>Agregar a Publicacion</h3> 
-                        <form action='' method='POST'>  
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>  
                             <div class='col-md-6'><label class="form-label">Galeria:</label>
             <?php
             $sql1 = "SELECT * FROM galleries WHERE type = '3'";
@@ -80,7 +82,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             ?>                    
                                 <select class="form-select" name='galId' id='galId'>  
                                     <option>Selecciona una galeria</option>                        
-            <?php while ($rs1 = mysqli_fetch_array($query1)) { ?>                                    
+            <?php while ($rs1 = $query1->fetch(PDO::FETCH_ASSOC)) { ?>                                    
                                             <option value="<?php echo $rs1['id']; ?>"><?php echo $rs1['gallery']; ?></option>
                 <?php
             }
@@ -156,10 +158,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['idPr']) && !empty($_GET['idPr'])) {
                 $idPr = (int) $_GET['idPr'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `press_gal` WHERE `idPr` = '$idPr' "));
+                $stmt = $conn->prepare("SELECT * FROM `press_gal` WHERE `idPr` = :idPr ");
+                $stmt->execute([':idPr' => $idPr]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `press_gal` SET  `galId` =  '{$_POST['galId']}' ,  `image` =  '{$_POST['image']}' , `title` =  '{$_POST['title']}' ,  `subtitle` =  '{$_POST['subtitle']}' ,  `description` =  '{$_POST['description']}' ,  `printing_date` =  '{$_POST['printing_date']}' ,  `type_press` =  '{$_POST['type_press']}'   WHERE `idPr` = '$idPr' ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "UPDATE `press_gal` SET  `galId` =  :galId ,  `image` =  :image , `title` =  :title ,  `subtitle` =  :subtitle ,  `description` =  :description ,  `printing_date` =  :printing_date ,  `type_press` =  :type_press   WHERE `idPr` = :idPr ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':galId' => $_POST['galId'], ':image' => $_POST['image'], ':title' => $_POST['title'], ':subtitle' => $_POST['subtitle'], ':description' => $_POST['description'], ':printing_date' => $_POST['printing_date'], ':type_press' => $_POST['type_press'], ':idPr' => $idPr]);
                     echo "Publicacion actualizado.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
@@ -168,7 +173,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <a class="btn btn-secondary" href='dashboard/press/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/press/add'>Nueva Fila</a> 
                                 </p>
                                 <h3>Editar de Publicacion</h3> 
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class='col-md-6'>
                                         <div class="container">
                                             <label class="form-label">Galeria:</label>
@@ -179,7 +185,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>  
                                                 <option>-- Seleccione galeria --</option>                            
                 <?php
-                while ($rs1 = mysqli_fetch_array($query1)) {
+                while ($rs1 = $query1->fetch(PDO::FETCH_ASSOC)) {
                     if ($rs1['idGal'] == $row['galId']) {
                 ?>     
                                                                 <option value="<?php echo $rs1['idGal']; ?>" selected><?php echo $rs1['gallery']; ?></option>
@@ -250,7 +256,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <?php
                 $acti = array("Entrevista", "Articulo", "Catalogo");
                 reset($acti);
-                while (list($key, $val) = each($acti)) {
+                foreach ($acti as $key => $val) {
                     if ($key == $row['type_press']) {
                 ?>     
                                                             <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
@@ -281,8 +287,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         <h3>Eliminado de Publicacion</h3> 
             <?php
             $idPr = (int) $_GET['idPr'];
-            $conn->query("DELETE FROM `press_gal` WHERE `idPr` = '$idPr' ");
-            echo ($conn->affected_rows) ? "Publicacion Eliminada.<br /> " : "No se Elimino.<br /> ";
+            $stmt = $conn->prepare("DELETE FROM `press_gal` WHERE `idPr` = :idPr ");
+            $stmt->execute([':idPr' => $idPr]);
+            echo ($stmt->rowCount()) ? "Publicacion Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
                     </div>
             <?php

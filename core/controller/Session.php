@@ -43,22 +43,11 @@ class Session
      */
     private function configureSession(): void
     {
-        // ✅ Configuración segura de cookies de sesión
-        $cookieParams = [
-            'lifetime' => 0,
-            'path'     => '/',
-            'domain'   => '',
-            'secure'   => true,
-            'httponly'  => true,
-            'samesite'  => 'Strict',
-        ];
-        session_set_cookie_params($cookieParams);
-
-        ini_set('session.use_strict_mode', '1');
-        ini_set('session.use_only_cookies', '1');
-        ini_set('session.cookie_httponly', '1');
-        ini_set('session.cookie_secure', '1');
-        ini_set('session.cookie_samesite', 'Strict');
+        // ✅ Delegado en la configuración central.
+        // Antes se aplicaba aquí con la sesión YA activa (el bootstrap la arranca antes),
+        // así que `session_set_cookie_params()` e `ini_set('session.*')` no tenían efecto.
+        // Además forzaba `secure = true`, lo que impide iniciar sesión por HTTP.
+        \PepiuoX\Security\SessionConfig::apply();
     }
 
     public function startSession(): void
@@ -185,15 +174,19 @@ class Session
         $this->addActiveUser($this->username, $this->time);
         $this->removeActiveGuest($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 
-        // ✅ Cookies seguras
+        // ✅ Cookies "remember me".
+        // `secure` era `true` fijo: por HTTP el navegador no envía la cookie, así que el
+        // "recordarme" no funcionaba nunca en instalaciones sin TLS. Ahora es condicional.
+        // `samesite` se unifica en `Lax` (coherente con PepiuoX\Security\SessionConfig);
+        // `Strict` rompía la navegación normal desde enlaces externos.
         if ($subremember) {
             $cookieOptions = [
                 'expires'  => time() + COOKIE_EXPIRE,
                 'path'     => COOKIE_PATH,
                 'domain'   => '',
-                'secure'   => true,
+                'secure'   => \PepiuoX\Security\SessionConfig::isHttps(),
                 'httponly'  => true,
-                'samesite'  => 'Strict',
+                'samesite'  => 'Lax',
             ];
             setcookie('cookname', $this->username, $cookieOptions);
             setcookie('cookid', $this->userid, $cookieOptions);
@@ -210,9 +203,9 @@ class Session
                 'expires'  => time() - 3600,
                 'path'     => COOKIE_PATH,
                 'domain'   => '',
-                'secure'   => true,
+                'secure'   => \PepiuoX\Security\SessionConfig::isHttps(),
                 'httponly'  => true,
-                'samesite'  => 'Strict',
+                'samesite'  => 'Lax',
             ];
             setcookie('cookname', '', $cookieOptions);
             setcookie('cookid', '', $cookieOptions);
@@ -309,6 +302,8 @@ class Session
             error_log("updateUserField: campo no permitido: {$field}");
             return false;
         }
+
+        $field = \PepiuoX\Security\SqlIdentifier::assert($field);
 
         // ✅ Construir query con nombre de columna validado
         $sql = "UPDATE users SET `{$field}` = :value WHERE username = :username";

@@ -25,9 +25,12 @@ class AddCart
     public string $creado = '';
     public string $modificado = '';
 
-    public function __construct(PDO $db)
+    public function __construct(?PDO $db = null)
     {
-        $this->conn = $db;
+        $this->conn = $db ?? \PepiuoX\Database\Connection::shared();
+
+        // PDO no permite enlazar identificadores: el nombre de tabla se valida una vez.
+        $this->table_name = \PepiuoX\Security\SqlIdentifier::assert($this->table_name);
     }
 
     public function userconnect(int $clientSession): void

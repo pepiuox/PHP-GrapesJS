@@ -18,9 +18,12 @@ class PageRepository
     private string $table = 'pages';
     private array $cache = [];
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
+
+        // PDO no permite enlazar identificadores: se valida el nombre de tabla una sola vez.
+        $this->table = \PepiuoX\Security\SqlIdentifier::assert($this->table);
     }
 
     /**

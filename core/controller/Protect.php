@@ -15,9 +15,9 @@ class Protect
 {
     private PDO $conn;
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
     }
 
     /**

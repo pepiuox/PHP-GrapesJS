@@ -18,7 +18,7 @@ class DatabaseCacheDriver implements CacheInterface
     {
         $this->db = $db;
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->table = $table;
+        $this->table = \PepiuoX\Security\SqlIdentifier::assert($table);
     }
 
     public function get(string $key, mixed $default = null): mixed
@@ -38,7 +38,10 @@ class DatabaseCacheDriver implements CacheInterface
             return $default;
         }
 
-        $value = @unserialize($row->value);
+        // ✅ `allowed_classes => false` bloquea la inyección de objetos PHP
+        // (vector de RCE/POP-chain) al deserializar datos que vienen de la base de datos.
+        // Se siguen admitiendo escalares y arrays, que es lo que se cachea aquí.
+        $value = @unserialize($row->value, ['allowed_classes' => false]);
         return $value !== false ? $value : $default;
     }
 

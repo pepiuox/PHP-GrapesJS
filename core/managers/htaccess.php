@@ -80,6 +80,7 @@ if (isset($_POST['submit'])) {
                     <div id="resp"></div>
 
                     <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="form-group row">
                             <div class="col-8">
                                 <h3>Creates your beauty url with .htaccess</h3>

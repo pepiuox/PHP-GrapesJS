@@ -1,22 +1,18 @@
 <?php
+declare(strict_types=1);
 
-class Autoload {
-   
-    static public function loader($classes) {
-        $path_app = dirname(__DIR__, 3);
-        $source = str_replace('\\', '/', $path_app);
-        $filename = $source."/core/controller/" . str_replace("\\", '/', $classes) . ".php";
-        if (file_exists($filename)) {
-            include($filename);
-            if (class_exists($classes)) {
-                return TRUE;
-            }
-        } else {
-            throw new Exception("No existe $classes.");
-        }
-        return FALSE;
-    }
-}
+/**
+ * SHIM de compatibilidad — NO añadir lógica aquí.
+ *
+ * Antes declaraba otra clase global `Autoload` (la quinta del proyecto).
+ * Ver la nota completa en `core/pages/Autoload.php`.
+ *
+ * El autoloader único del sistema es `core/Autoload.php`.
+ *
+ * Nota: este archivo lo requiere `core/application/installer/install.php`
+ * con `require_once "Autoload.php"`.
+ *
+ * @see docs/PDO-MIGRATION.md §10
+ */
 
-spl_Autoload_register('Autoload::loader');
-?>
+require_once dirname(__DIR__, 2) . '/Autoload.php';

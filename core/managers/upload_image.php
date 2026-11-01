@@ -1,19 +1,12 @@
 <?php
+require_once dirname(__DIR__) . '/Autoload.php';
+
 // 1. Forzar respuesta JSON consistente en todo el script
 header('Content-Type: application/json');
 
-// 2. Configuración segura de sesión
-if (session_status() === PHP_SESSION_NONE) {
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        // Se elimina 'domain' para evitar Host Header Injection. PHP lo maneja seguro por defecto.
-        'secure' => true,      // Solo enviar por HTTPS
-        'httponly' => true,    // Inaccesible desde JavaScript (previene robo de sesión por XSS)
-    'samesite' => 'Strict' // Protección máxima contra CSRF
-    ]);
-    session_start();
-}
+// 2. Sesión con la configuración central: `httponly`, `samesite=Lax` y `secure`
+// sólo cuando la petición es realmente HTTPS (forzarlo en HTTP rompe el login).
+\PepiuoX\Security\SessionConfig::start();
 
 // 3. Verificar autorización (DESBLOQUEAR EN PRODUCCIÓN)
 // if (!isset($_SESSION['user_id'])) {
@@ -46,72 +39,57 @@ $hasErrors = false;
 if (isset($_FILES['file']) && is_array($_FILES['file']['tmp_name'])) {
     foreach ($_FILES['file']['tmp_name'] as $key => $tmpName) {
 
-        // 6.1. Verificar errores de subida de PHP
-        $uploadError = $_FILES['file']['error'][$key];
-        if ($uploadError !== UPLOAD_ERR_OK) {
-            $uploadResults[] = ['original_name' => $_FILES['file']['name'][$key], 'status' => 'error', 'message' => 'Error en la subida (Código: ' . $uploadError . ')'];
-            $hasErrors = true;
-            continue;
-        }
-
         $fileSize = $_FILES['file']['size'][$key];
         $originalName = basename($_FILES['file']['name'][$key]);
-        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
-        // 6.2. Validar tamaño
-        if ($fileSize > MAX_FILE_SIZE) {
-            $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'El archivo excede el límite de 5 MB.'];
+        // 6.1. Guardar con un nombre generado por el servidor (mitiga path traversal
+        // y sobrescritura). `Upload::storeImage()` valida el código de error, el
+        // tamaño, la extensión y el MIME real del contenido (finfo), no
+        // `$_FILES[...]['type']`, que lo controla el cliente.
+        $file = [
+            'name'     => $originalName,
+            'tmp_name' => $tmpName,
+            'size'     => $fileSize,
+            'error'    => $_FILES['file']['error'][$key],
+        ];
+
+        $upload_error = null;
+        $secureFileName = \PepiuoX\Security\Upload::storeImage($file, $targetDir, MAX_FILE_SIZE, $upload_error);
+
+        if ($secureFileName === null) {
+            if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'Error en la subida (Código: ' . $file['error'] . ')'];
+            } elseif ($fileSize > MAX_FILE_SIZE) {
+                $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'El archivo excede el límite de 5 MB.'];
+            } elseif (!in_array(\PepiuoX\Security\Upload::extension($originalName), ALLOWED_EXTENSIONS, true)) {
+                $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'Extensión de archivo no permitida.'];
+            } elseif (in_array($upload_error, [
+                'El directorio de destino no existe o no es escribible.',
+                'No se pudo resolver el directorio de destino.',
+                'Ruta de destino no permitida.',
+                'No se pudo guardar el archivo.',
+            ], true)) {
+                // Fallo de almacenamiento (no de validación del archivo)
+                $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'Error del servidor al guardar el archivo.'];
+            } else {
+                $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'El contenido del archivo no coincide con su extensión.'];
+            }
             $hasErrors = true;
             continue;
         }
 
-        // 6.3. Validar extensión (Whitelist)
-        if (!in_array($extension, ALLOWED_EXTENSIONS)) {
-            $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'Extensión de archivo no permitida.'];
-            $hasErrors = true;
-            continue;
-        }
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'];
+        $publicUrl = $protocol . $host . '/build/uploads/' . $secureFileName;
 
-        // 6.4. Validar tipo MIME real (NO confiar en $_FILES['type'])
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mimeType = finfo_file($finfo, $tmpName);
-        finfo_close($finfo);
+        $uploadResults[] = [
+            'original_name' => $originalName,
+            'saved_as'      => $secureFileName,
+            'url'           => $publicUrl,
+            'status'        => 'success'
+        ];
 
-        if (!array_key_exists($mimeType, ALLOWED_MIME_TYPES) || ALLOWED_MIME_TYPES[$mimeType] !== $extension) {
-            $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'El contenido del archivo no coincide con su extensión.'];
-            $hasErrors = true;
-            continue;
-        }
-
-        // 6.5. Validar que sea una imagen real (previene imágenes con código PHP incrustado)
-        if (getimagesize($tmpName) === false) {
-            $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'El archivo no es una imagen válida o está corrupto.'];
-            $hasErrors = true;
-            continue;
-        }
-
-        // 6.6. Generar nombre de archivo seguro y único (Mitiga Path Traversal y sobrescritura)
-        $secureFileName = bin2hex(random_bytes(16)) . '.' . $extension;
-        $targetFilePath = $targetDir . DIRECTORY_SEPARATOR . $secureFileName;
-
-        // 6.7. Mover el archivo
-        if (move_uploaded_file($tmpName, $targetFilePath)) {
-            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
-            $host = $_SERVER['HTTP_HOST'];
-            $publicUrl = $protocol . $host . '/build/uploads/' . $secureFileName;
-
-            $uploadResults[] = [
-                'original_name' => $originalName,
-                'saved_as'      => $secureFileName,
-                'url'           => $publicUrl,
-                'status'        => 'success'
-            ];
-
-            // AQUÍ: Insertar $secureFileName en la base de datos usando Prepared Statements (PDO)
-        } else {
-            $uploadResults[] = ['original_name' => $originalName, 'status' => 'error', 'message' => 'Error del servidor al guardar el archivo.'];
-            $hasErrors = true;
-        }
+        // AQUÍ: Insertar $secureFileName en la base de datos usando Prepared Statements (PDO)
     }
 }
 

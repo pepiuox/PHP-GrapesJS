@@ -71,7 +71,7 @@ function protect($data) {
 <?php
 $resultc = $conn->query("SELECT value FROM config");
 $array = array();
-while ($rowt = $resultc->fetch_row()) {
+while ($rowt = $resultc->fetch(PDO::FETCH_NUM)) {
     $array[] = $rowt;
 }
 echo '<p>';
@@ -82,7 +82,7 @@ echo 'Telf: ' . PHONE_CONTACT;
             <br />             
             <?php
             $rsl = $conn->query("SELECT social_name, social_url FROM social_link");
-            while ($sl = $rsl->fetch_array()) {
+            while ($sl = $rsl->fetch(PDO::FETCH_ASSOC)) {
                 if (!empty($sl['social_url'])) {
                     echo '<a href="' . $sl['social_url'] . '" target="_blank"><i class="fa fa-' . $sl['social_name'] . '"></i></a>&nbsp;';
                 }
@@ -92,7 +92,8 @@ echo 'Telf: ' . PHONE_CONTACT;
     </div>        
     <div class="col_25_2">
         <h2>Contact <?php echo SITE_NAME; ?></h2>        
-        <form class="ll" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <form class="ll" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>">
             <div class="col-md-12">
                 <label>Nombre:</label>
                 <input id='name' type="text" value=""/>

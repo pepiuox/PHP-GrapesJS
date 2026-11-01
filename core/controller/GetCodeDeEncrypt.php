@@ -33,45 +33,88 @@ class GetCodeDeEncrypt {
      * - Tag de autenticación para detectar manipulación
      * - Key derivada con PBKDF2 (10,000 iteraciones, SHA-256)
      */
+        /**
+     * Cifrado/descifrado compatible con los datos ya almacenados.
+     *
+     * El CMS guarda datos cifrados y **los busca por igualdad**
+     * (`WHERE email = :e`, `WHERE mkpin = :p`). Eso exige cifrado determinista: el mismo
+     * texto con las mismas claves debe producir el mismo criptograma. Un IV aleatorio por
+     * operacion (lo que hacia la version anterior) invalida esas consultas: el SELECT
+     * nunca encuentra filas y el acceso con correo + contrasena + PIN resulta imposible.
+     *
+     * `encrypt` usa el formato historico AES-256-CBC con IV derivado de
+     * `hash('sha256', $secret_iv)`, que es el que entienden las filas existentes.
+     * `decrypt` acepta ademas AES-256-GCM (PBKDF2 10.000 y 100.000 iteraciones) escrito
+     * por las versiones intermedias, para no dejar registros ilegibles.
+     *
+     * Trade-off asumido y documentado (ADR-002): dos textos iguales producen criptogramas
+     * iguales. El esquema de datos ya dependia de esa igualdad; la correccion definitiva
+     * es una columna de indice ciego (HMAC) que permita volver al cifrado aleatorio.
+     *
+     * @param string $action     'encrypt' o 'decrypt'
+     * @param string $string     Texto plano o criptograma en base64
+     * @param string $secret_key Clave (SECRET_TOKEN del sitio o clave por usuario)
+     * @param string $secret_iv  Material de derivacion de clave/IV
+     * @return string|false Texto plano, criptograma, o false si el formato no se reconoce
+     */
     public function ende_crypter(string $action, string $string, string $secret_key, string $secret_iv): string|false {
-        $encrypt_method = 'AES-256-GCM';
-        $iv_len = openssl_cipher_iv_length($encrypt_method);
-
-        // Derivación de clave segura (PBKDF2)
-        $key = openssl_pbkdf2($secret_key, $secret_iv, 32, 100_000, 'sha256');
-
         if ($action === 'encrypt') {
-            $iv  = random_bytes($iv_len);
-            $tag = '';
-            $encrypted = openssl_encrypt(
-                $string,
-                $encrypt_method,
-                $key,
-                OPENSSL_RAW_DATA,
-                $iv,
-                $tag
-            );
-            if ($encrypted === false) return false;
-            // Formato: IV (12) + TAG (16) + ciphertext
-            return base64_encode($iv . $tag . $encrypted);
+            return $this->encryptDeterministic($string, $secret_key, $secret_iv);
         }
 
         if ($action === 'decrypt') {
+            return $this->decryptAnyFormat($string, $secret_key, $secret_iv);
+        }
+
+        return false;
+    }
+
+    /**
+     * Cifrado determinista AES-256-CBC (formato historico del CMS).
+     */
+    private function encryptDeterministic(string $string, string $secret_key, string $secret_iv): string|false {
+        $key = hash('sha256', $secret_key);
+        $iv  = substr(hash('sha256', $secret_iv), 0, 16);
+
+        $cipher = openssl_encrypt($string, 'AES-256-CBC', $key, 0, $iv);
+
+        return $cipher === false ? false : base64_encode($cipher);
+    }
+
+    /**
+     * Descifra probando los formatos historicos en orden de antiguedad.
+     */
+    private function decryptAnyFormat(string $string, string $secret_key, string $secret_iv): string|false {
+        $key = hash('sha256', $secret_key);
+        $iv  = substr(hash('sha256', $secret_iv), 0, 16);
+
+        $legacy = openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 0, $iv);
+
+        if (is_string($legacy) && $legacy !== '') {
+            return $legacy;
+        }
+
+        $ivLength = openssl_cipher_iv_length('AES-256-GCM');
+
+        foreach ([100_000, 10_000] as $iterations) {
             $data = base64_decode($string, true);
-            if ($data === false || strlen($data) < $iv_len + 16) return false;
 
-            $iv         = substr($data, 0, $iv_len);
-            $tag        = substr($data, $iv_len, 16);
-            $ciphertext = substr($data, $iv_len + 16);
+            if ($data === false || strlen($data) < $ivLength + 16) {
+                continue;
+            }
 
-            return openssl_decrypt(
-                $ciphertext,
-                $encrypt_method,
-                $key,
+            $plain = openssl_decrypt(
+                substr($data, $ivLength + 16),
+                'AES-256-GCM',
+                openssl_pbkdf2($secret_key, $secret_iv, 32, $iterations, 'sha256'),
                 OPENSSL_RAW_DATA,
-                $iv,
-                $tag
+                substr($data, 0, $ivLength),
+                substr($data, $ivLength, 16)
             );
+
+            if (is_string($plain) && $plain !== '') {
+                return $plain;
+            }
         }
 
         return false;

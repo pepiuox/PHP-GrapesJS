@@ -40,17 +40,16 @@ if (!empty($title)) {
 
 $actth = 'Yes';
 $bsdft = 'Yes';
-$theme = $this->conn->prepare(
+global $conn;
+$theme = $conn->prepare(
         "SELECT * FROM themes WHERE base_default = ? AND active_theme = ? "
 );
-$theme->bind_param("ss", $bsdft, $actth);
-$theme->execute();
-$tm = $theme->get_result();
-$theme->close();
-$nt = $tm->num_rows;
+$theme->execute([$bsdft, $actth]);
+$nt = $theme->rowCount();
 
 if ($nt > 0) {
-    $thm = $tm->fetch_assoc();
+    $thm = $theme->fetch(PDO::FETCH_ASSOC);
+    $theme->closeCursor();
 ?>
     <link href="<?php echo SITE_PATH; ?>themes/<?php echo $thm['theme_bootstrap']; ?>/bootstrap.css" rel="stylesheet" type="text/css"/>
     <?php

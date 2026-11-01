@@ -3,23 +3,20 @@ $userid = $_SESSION["user_id"];
 $hash = $_SESSION["hash"];
 $ucode = $_SESSION["access_id"];
 
-$respro = $this->conn->prepare(
+global $conn;
+$respro = $conn->prepare(
         "SELECT * FROM users_profiles p LEFT JOIN users_info i ON p.usercode = i.usercode WHERE p.idp = ? AND p.mkhash = ? "
 );
-$respro->bind_param("ss", $userid, $hash);
-$respro->execute();
-$prof = $respro->get_result();
-$respro->close();
-$rpro = $prof->fetch_assoc();
+$respro->execute([$userid, $hash]);
+$rpro = $respro->fetch(PDO::FETCH_ASSOC);
+$respro->closeCursor();
 
-$ffold = $this->conn->prepare(
+$ffold = $conn->prepare(
         "SELECT folder_files FROM users_secures WHERE usercode = ? "
 );
-$ffold->bind_param("s", $ucode);
-$ffold->execute();
-$fold = $ffold->get_result();
-$ffold->close();
-$nfl = $fold->fetch_assoc();
+$ffold->execute([$ucode]);
+$nfl = $ffold->fetch(PDO::FETCH_ASSOC);
+$ffold->closeCursor();
 $folder = $nfl['folder_files'];
 $pathf = '../files/' . $folder;
 $_SESSION['folderusr'] = $pathf . '/';

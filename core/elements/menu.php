@@ -4,11 +4,9 @@ function getLink($mid)
 {
     global $conn;
     $stmt = $conn->prepare("SELECT * FROM pages WHERE id=?");
-    $stmt->bind_param("i", $mid);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-    $row = $result->fetch_assoc();
+    $stmt->execute([$mid]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
     return "builder.php?id=" . $row["id"];
 }
 
@@ -18,21 +16,16 @@ function dropdown()
     $active = 1;
     $parent = 0;
     $stmt = $conn->prepare("SELECT * FROM pages WHERE active=?");
-    $stmt->bind_param("i", $active);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-    while ($mrow = $result->fetch_array()) {
+    $stmt->execute([$active]);
+    while ($mrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $parents[] = $mrow["parent"];
     }
+    $stmt->closeCursor();
     $stmt1 = $conn->prepare(
         "SELECT id, title, link, type, parent FROM pages WHERE parent=? AND active=?"
     );
-    $stmt1->bind_param("ii", $parent, $active);
-    $stmt1->execute();
-    $result1 = $stmt1->get_result();
-    $stmt1->close();
-    while ($row = $result1->fetch_array()) {
+    $stmt1->execute([$parent, $active]);
+    while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
         
         $mid = $row["id"];
         $plink = SITE_PATH . $row["link"];
@@ -60,6 +53,7 @@ function dropdown()
         }
         
     }
+    $stmt1->closeCursor();
 }
 
 function second($mid, $plink)
@@ -68,23 +62,18 @@ function second($mid, $plink)
     $active = 1;
 
     $stmt = $conn->prepare("SELECT * FROM pages WHERE active=?");
-    $stmt->bind_param("i", $active);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-    while ($mrow = $result->fetch_array()) {
+    $stmt->execute([$active]);
+    while ($mrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $parents[] = $mrow["parent"];
     }
+    $stmt->closeCursor();
 
     $stmt1 = $conn->prepare(
         "SELECT id, title, link, parent FROM pages WHERE parent=? AND active=?"
     );
-    $stmt1->bind_param("ii", $mid, $active);
-    $stmt1->execute();
-    $result1 = $stmt1->get_result();
-    $stmt1->close();
+    $stmt1->execute([$mid, $active]);
     echo '<ul class="dropdown-menu">' . "\n";
-    while ($row = $result1->fetch_array()) {
+    while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
         $sid = $row["id"];
         $slink = $plink . "/" . $row["link"];
         if (in_array($row["id"], $parents)) {
@@ -105,6 +94,7 @@ function second($mid, $plink)
                 "\n";
         }
     }
+    $stmt1->closeCursor();
     echo "</ul>" . "\n";
 }
 
@@ -114,22 +104,17 @@ function third($sid, $plink)
     $active = 1;
 
     $stmt = $conn->prepare("SELECT * FROM pages WHERE active=?");
-    $stmt->bind_param("i", $active);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-    while ($mrow = $result->fetch_array()) {
+    $stmt->execute([$active]);
+    while ($mrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $parents[] = $mrow["parent"];
     }
+    $stmt->closeCursor();
     $stmt1 = $conn->prepare(
         "SELECT id, title, link, parent FROM pages WHERE parent=? AND active=?"
     );
-    $stmt1->bind_param("ii", $sid, $active);
-    $stmt1->execute();
-    $result1 = $stmt1->get_result();
-    $stmt1->close();
+    $stmt1->execute([$sid, $active]);
     echo '<ul class="dropdown-menu dropdown-submenu submenu">' . "\n";
-    while ($row = $result1->fetch_array()) {
+    while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
         $sbid = $row["id"];
         $slink = $plink . "/" . $row["link"];
 
@@ -151,19 +136,18 @@ function third($sid, $plink)
                 "\n";
         }
     }
+    $stmt1->closeCursor();
     echo "</ul>" . "\n";
 }
 
 if(empty($menu)){
     $menu = 1;
 }
-$rmenu = $this->conn->prepare("SELECT * FROM menu_options WHERE id=?");
-$rmenu->bind_param("i", $menu);
-$rmenu->execute();
-$rsmenu = $rmenu->get_result();
-$rmenu->close();
-
-$rmopt = $rsmenu->fetch_assoc();
+global $conn;
+$rmenu = $conn->prepare("SELECT * FROM menu_options WHERE id=?");
+$rmenu->execute([$menu]);
+$rmopt = $rmenu->fetch(PDO::FETCH_ASSOC);
+$rmenu->closeCursor();
 $id_menu = $rmopt["id_menu"];
 $fluid = "";
 $placement = "";

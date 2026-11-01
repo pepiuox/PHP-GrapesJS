@@ -18,15 +18,27 @@ if (isset($_POST['editrow'])) {
     $created = $_POST["created"];
     $updated = $_POST["updated"];
 
-    $query = "UPDATE users_profiles SET usercode = ?, mkhash = ?, avatar = ?, profile_image = ?, profile_cover = ?, public_phone = ?, public_email = ?, social_media = ?, profession = ?, occupation = ?, profile_bio = ?, language = ?, is_active = ?, banned = ?, created = ?, updated = ? WHERE idp = ?";
-    $updated = $conn->prepare($sql);
-    $updated->bind_param('ssssssssssssiissi', $usercode, $mkhash, $avatar, $profile_image, $profile_cover, $public_phone, $public_email, $social_media, $profession, $occupation, $profile_bio, $language, $is_active, $banned, $created, $updated, $id);
-    $updated->execute();
-    $updated->close();
+    $query = "UPDATE users_profiles SET usercode = ?, mkhash = ?, avatar = ?, profile_image = ?, profile_cover = ?, public_phone = ?, public_email = ?, social_media = ?, profession = ?, occupation = ?, profile_bio = ?, language = ?, is_active = ?, banned = ?, created_at = ?, updated_at = ? WHERE idp = ?";
+
+    // ✅ Correcciones: (1) prepare() recibía `$sql` (indefinido) en lugar de `$query`;
+    //    (2) `$id` nunca se definía → el UPDATE no afectaba a ninguna fila;
+    //    (3) `$updated` (valor del POST) era sobrescrito por el statement;
+    //    (4) `users_profiles.idp` corresponde a $_SESSION['user_id']
+    //        (ver core/users/personalInfo.php, que consulta idp = $_SESSION['user_id']).
+    //   ✅ Verificado contra el esquema real: `users_profiles` tiene `created_at`/`updated_at`
+    //      (NO `created`/`updated`, que provocaban "Unknown column 'created' in 'SET'").
+    $rowId = $_SESSION['user_id'] ?? null;
+
+    if ($rowId !== null) {
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$usercode, $mkhash, $avatar, $profile_image, $profile_cover, $public_phone, $public_email, $social_media, $profession, $occupation, $profile_bio, $language, $is_active, $banned, $created, $updated, $rowId]);
+        $stmt->closeCursor();
+    }
 }
 ?> 
  
 <form role="form" id="edit_users_profiles" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="form-group">
   <label for="usercode" class ="control-label col-md-6">Usercode:</label>
   <input type="text" class="form-control" id="usercode" name="usercode" value="AArQneduR#63y$MH5)uBMG%oIdyDtt$&e8QUSA}4|nU2d$N(0D#sr7rU95203017">

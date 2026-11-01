@@ -4,12 +4,18 @@
 .project
 .idea
 .env
+
 npm-debug.log*
 yarn-error.log
 yarn.lock
 style/.sass-cache/
 stats.json
 
+.phpunit.cache/
+stogare/
+tests/
+tools/
+nbproject/
 img/
 images/
 private/

@@ -11,9 +11,11 @@ class UserManager
     private string $table = 'users';
     private string $table_name = "uverify";
 
-    public function __construct(PDO $db)
+    public function __construct(?PDO $db = null)
     {
-        $this->conn = $db;
+        $this->conn = $db ?? \PepiuoX\Database\Connection::shared();
+        $this->table = \PepiuoX\Security\SqlIdentifier::assert($this->table);
+        $this->table_name = \PepiuoX\Security\SqlIdentifier::assert($this->table_name);
     }
 
     public function login(string $username, string $password): array|false
@@ -109,7 +111,8 @@ class UserManager
         ORDER BY created_at DESC
         LIMIT :limit";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([':limit' => $limit]);
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -163,6 +166,7 @@ class UserManager
 
         foreach ($data as $key => $value) {
             if (in_array($key, $allowed_fields, true) && $key !== 'iduv') {
+                $key = \PepiuoX\Security\SqlIdentifier::assert($key);
                 $set_parts[] = "{$key} = :{$key}";
                 $params[":{$key}"] = $value;
             }

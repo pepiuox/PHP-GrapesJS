@@ -14,6 +14,7 @@
 
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
         <div class="input-group input-group-sm">
             <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
             <div class="input-group-append">
@@ -64,6 +65,7 @@
             <!-- Menu Footer-->
             <li class="dropdown-item user-footer">
                 <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
                     <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
                         Sign out

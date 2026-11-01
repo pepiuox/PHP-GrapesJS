@@ -47,17 +47,11 @@ class SecurityAccess
      */
     private function configureSession(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            // ✅ Configuración segura de sesión
-            ini_set('session.cookie_httponly', '1');
-            ini_set('session.cookie_secure', '1');
-            ini_set('session.cookie_samesite', 'Strict');
-            ini_set('session.use_strict_mode', '1');
-            ini_set('session.use_only_cookies', '1');
-            ini_set('session.cookie_lifetime', '0');
-
-            session_start();
-        }
+        // ✅ Delegado en la configuración central, que debe aplicarse ANTES de
+        // session_start(). Antes este bloque no llegaba a ejecutarse nunca porque su
+        // guarda (`session_status() === PHP_SESSION_NONE`) era falsa: el bootstrap ya
+        // había arrancado la sesión.
+        \PepiuoX\Security\SessionConfig::start();
 
         // ✅ Regenerar ID de sesión periódicamente
         if (!isset($_SESSION['_last_regeneration'])) {

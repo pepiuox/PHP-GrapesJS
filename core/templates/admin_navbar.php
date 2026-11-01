@@ -106,7 +106,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <h5 class="modal-title">Crear Nueva Página</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form id="createPageForm" method="POST" action="<?php echo BASE_URL; ?>dashboard.php">
+                <form id="createPageForm" method="POST" action="<?php echo BASE_URL; ?>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>dashboard.php">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="newPageTitle" class="form-label">Título de la Página</label>

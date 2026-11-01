@@ -8,10 +8,11 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
 
     function selrQuery($tble, $tid = '') {
         global $conn;
-        if (!$conn) {
-            die('Error: Could not connect: ' . mysqli_error());
+        if (!($conn instanceof PDO)) {
+            die('Error: Could not connect to the database.');
         }
 
+        $tble = \PepiuoX\Security\SqlIdentifier::assert($tble);
         $sql = "SELECT * FROM " . $tble;
         $qresult = $conn->query($sql);
 
@@ -19,7 +20,9 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
               <label class="col-md-12 control-label" for="column_id">Select a value to relate</label>
               <div class="col-md-12"> 
                  <select id="column_id" name="column_id" class="form-select">' . "\n";
-        while ($rinfo = $qresult->fetch_field()) {
+        /* ✅ PDO: getColumnMeta() reemplaza mysqli_result::fetch_field() */
+        for ($c = 0; $c < $qresult->columnCount(); $c++) {
+            $rinfo = (object) $qresult->getColumnMeta($c);
             $rempp = str_replace("_", " ", $rinfo->name);
             if ($rinfo->name == $tid) {
                 echo '<option value="' . $rinfo->name . '" selected>' . $rempp . '</option>' . "\n";
@@ -34,10 +37,11 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
 
     function selvQuery($tble, $tvl = '') {
         global $conn;
-        if (!$conn) {
-            die('Error: Could not connect: ' . mysqli_error());
+        if (!($conn instanceof PDO)) {
+            die('Error: Could not connect to the database.');
         }
 
+        $tble = \PepiuoX\Security\SqlIdentifier::assert($tble);
         $sql = "SELECT * FROM " . $tble;
         $qresult = $conn->query($sql);
 
@@ -45,7 +49,9 @@ if (isset($_POST['tbname']) && $_POST['tbname'] != "") {
   <label class="col-md-12 control-label" for="column_value">Select a value for show</label>
   <div class="col-md-12">
     <select id="column_value" name="column_value" class="form-select">' . "\n";
-        while ($vinfo = $qresult->fetch_field()) {
+        /* ✅ PDO: getColumnMeta() reemplaza mysqli_result::fetch_field() */
+        for ($c = 0; $c < $qresult->columnCount(); $c++) {
+            $vinfo = (object) $qresult->getColumnMeta($c);
             $vempp = str_replace("_", " ", $vinfo->name);
             echo '<option value="' . $vinfo->name . '">' . $vempp . '</option>' . "\n";
             if ($vinfo->name == $tvl) {

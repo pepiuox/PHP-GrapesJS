@@ -1,10 +1,12 @@
 <?php
+global $conn;
 if ($w == "list") {
     ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <form method="post" class="row form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <table class="table">
                         <thead>
                             <tr>
@@ -14,9 +16,9 @@ if ($w == "list") {
                         <tbody>
                             <?php
                             $sql = "SELECT * FROM categories";
-                            $rest = $this->conn->query($sql);
-                            if ($rest->num_rows > 0) {
-                                while ($row = $rest->fetch_array()) {
+                            $rest = $conn->query($sql);
+                            if ($rest->rowCount() > 0) {
+                                while ($row = $rest->fetch(PDO::FETCH_ASSOC)) {
                                     echo '<tr>';
                                     echo '<td>' . $row['category_name'] . '</td><td>' . $row['description'] . '</td>';
                                     echo '<td>';
@@ -40,15 +42,14 @@ if ($w == "list") {
         $category_name = protect($_POST['category_name']);
         $description = protect($_POST['description']);
         $sql = "INSERT INTO categories (category_name,description) VALUES (?,?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('ss', $category_name, $description);
-        $stmt->execute();
-        if ($stmt->error) {
-            echo "FAILURE! " . $stmt->error;
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$category_name, $description]);
+        if ($stmt->errorInfo()[2]) {
+            echo "FAILURE! " . $stmt->errorInfo()[2];
         } else {
             echo '<script> window.location.replace("dashboard/post_category/list"); </script>';
         }
-        $stmt->close();
+        $stmt->closeCursor();
     }
     ?>
     <div class="container">
@@ -62,6 +63,7 @@ if ($w == "list") {
             <div class="col-md-12">
 
                 <form method="post" class="row form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <div class="form-group">
                         <label for="category_name">Category name:</label>
                         <input type="text" class="form-control" id="category_name" name="category_name">
@@ -86,22 +88,19 @@ if ($w == "list") {
             $category_name = protect($_POST['category_name']);
             $description = protect($_POST['description']);
             $sql = "UPDATE categories SET category_name = ?, description = ? WHERE categoryId = ?";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param('ssi', $category_name, $description, $id);
-            $stmt->execute();
-            if ($stmt->error) {
-                echo "FAILURE! " . $stmt->error;
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$category_name, $description, $id]);
+            if ($stmt->errorInfo()[2]) {
+                echo "FAILURE! " . $stmt->errorInfo()[2];
             } else {
                 echo '<script> window.location.replace("dashboard/post_category/list"); </script>';
             }
-            $stmt->close();
+            $stmt->closeCursor();
         }
         $sql = "SELECT * FROM categories WHERE categoryId=?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         ?>
         <div class="container">
             <div class="row">
@@ -114,6 +113,7 @@ if ($w == "list") {
                 <div class="col-md-12">
 
                     <form method="post" class="row form-horizontal" role="form" id="add_categories" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="form-group">
                             <label for="category_name">Category name:</label>
                             <input type="text" class="form-control" id="category_name" name="category_name" value="<?php echo $row['category_name']; ?>">
@@ -137,15 +137,14 @@ if ($w == "list") {
         $id = $_GET['id'];
         if (isset($_POST['delete'])) {
             $sql = "DELETE FROM categories WHERE categoryId = ?";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param('i', $id);
-            $stmt->execute();
-            if ($stmt->error) {
-                echo "FAILURE! " . $stmt->error;
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+            if ($stmt->errorInfo()[2]) {
+                echo "FAILURE! " . $stmt->errorInfo()[2];
             } else {
                 echo '<script> window.location.replace("dashboard/post_category/list"); </script>';
             }
-            $stmt->close();
+            $stmt->closeCursor();
         }
     }
     ?>

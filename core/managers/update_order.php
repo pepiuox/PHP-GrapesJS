@@ -1,11 +1,15 @@
 <?php
-
+// ✅ PDO: se usa la conexión canónica global ($conn) en lugar de un connect.php inexistente.
+if (!isset($conn)) {
+    require_once __DIR__ . '/../config/dbconnection.php';
+}
 if (isset($_POST["order"])) {
-    include("connect.php");
     $order = explode(",", $_POST["order"]);
     for ($i = 0; $i < count($order); $i++) {
-        $sql = "UPDATE items SET priority='" . $i . "' WHERE id=" . $order[$i];
-        mysqli_query($conn, $sql) or die("database error:" . mysqli_error($conn));
+        $sql = "UPDATE items SET priority=:priority WHERE id=:id";
+        // ✅ PDO lanza PDOException en error: el antiguo "or die(mysqli_error())" es innecesario.
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':priority' => $i, ':id' => $order[$i]]);
     }
 }
 ?>

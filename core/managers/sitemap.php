@@ -4,8 +4,8 @@ $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
 $rs = $conn->query("select * from pages");
-$total = $rs->num_rows;
-while ($fila = $rs->fetch_object()) {
+$total = $rs->rowCount();
+while ($fila = $rs->fetch(PDO::FETCH_OBJ)) {
     $sitemap .= '<url>
     <loc>' . $fila->ruta;
     $sitemap .= '</loc>

@@ -8,6 +8,7 @@
   </div>
   <div class="modal-body">
 		<?php
+global $conn;
 //This is temporal file only for add new row
 if (isset($_POST['updateprofile'])) { 
  
@@ -21,21 +22,19 @@ $language = protect($_POST["language"]);
 
 
 $sql = "UPDATE users_profiles SET public_phone = ?, public_email = ?, social_media = ?, profession = ?, occupation = ?, profile_bio = ?, language = ? WHERE idp = ? AND usercode = ?";
-$stmt = $this->conn->prepare($sql);
-$stmt->bind_param('sssssssss', $public_phone, $public_email, $social_media, $profession, $occupation, $profile_bio, $language, $userid, $ucode );
-$stmt->execute();
-$stmt->close();
+$stmt = $conn->prepare($sql);
+$stmt->execute([$public_phone, $public_email, $social_media, $profession, $occupation, $profile_bio, $language, $userid, $ucode ]);
+$stmt->closeCursor();
 }
  
-$upro = $this->conn->prepare("SELECT public_phone, public_email, social_media, profession, occupation, profile_bio, language FROM users_profiles WHERE idp = ? AND usercode=?");
-$upro->bind_param('ss', $userid, $ucode);
-$upro->execute();
-$pro = $upro->get_result();
-$upro->close();
-$rpr = $pro->fetch_assoc();
+$upro = $conn->prepare("SELECT public_phone, public_email, social_media, profession, occupation, profile_bio, language FROM users_profiles WHERE idp = ? AND usercode=?");
+$upro->execute([$userid, $ucode]);
+$rpr = $upro->fetch(PDO::FETCH_ASSOC);
+$upro->closeCursor();
 ?> 
 
    <form role="form" id="profile" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="row">
 <div class="form-group">
    <label for="public_phone" class ="control-label col-md-6">Telefono publico:</label>

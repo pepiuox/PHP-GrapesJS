@@ -1,5 +1,8 @@
 <?php
-include_once('conn.php');
+// ✅ PDO: se usa la conexión canónica global ($conn) en lugar de un conn.php inexistente.
+if (!isset($conn)) {
+    require_once __DIR__ . '/../config/dbconnection.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,22 +19,29 @@ include_once('conn.php');
     <body>
         <?php
         $sql = "SELECT * FROM table_queries WHERE name_table='product_category'";
-        $result = $link->query($sql);
-        $rowcq = mysqli_num_rows($result);
+        $result = $conn->query($sql);
+        $rowcq = $result->rowCount();
         $r = 0;
 
         if ($r < $rowcq) {
-            $rqu = $result->fetch_assoc();
+            $rqu = $result->fetch(PDO::FETCH_ASSOC);
             $mn = $rqu['j_value'];
             $ver = '';
             if ($rqu['type'] != '' || $rqu['query'] != '') {
-                $query = "SELECT * FROM " . $rqu['name_table'] . " " . $rqu['joins'] . " (SELECT " . $rqu['j_id'] . "," . $rqu['j_value'] . " FROM " . $rqu['j_table'] . " )" . $rqu['j_table'] . " ON " . $rqu['name_table'] . "." . $rqu['col_name'] . "=" . $rqu['j_table'] . "." . $rqu['j_id'];
+                $qNameTable = \PepiuoX\Security\SqlIdentifier::assert($rqu['name_table']);
+                $qJoins = \PepiuoX\Security\SqlIdentifier::fromWhitelist($rqu['joins'], ['', 'JOIN', 'INNER JOIN', 'LEFT JOIN', 'LEFT OUTER JOIN', 'RIGHT JOIN', 'RIGHT OUTER JOIN', 'STRAIGHT JOIN', 'CROSS JOIN', 'NATURAL JOIN']);
+                $qJId = \PepiuoX\Security\SqlIdentifier::assert($rqu['j_id']);
+                $qJValue = \PepiuoX\Security\SqlIdentifier::assert($rqu['j_value']);
+                $qJTable = \PepiuoX\Security\SqlIdentifier::assert($rqu['j_table']);
+                $qColName = \PepiuoX\Security\SqlIdentifier::assert($rqu['col_name']);
 
-                $ver .= "SELECT * FROM " . $rqu['name_table'] . " " . $rqu['joins'] . " (SELECT " . $rqu['j_id'] . "," . $rqu['j_value'] . " FROM " . $rqu['j_table'] . " )" . $rqu['j_table'] . " ON " . $rqu['name_table'] . "." . $rqu['col_name'] . "=" . $rqu['j_table'] . "." . $rqu['j_id'];
+                $query = "SELECT * FROM " . $qNameTable . " " . $qJoins . " (SELECT " . $qJId . "," . $qJValue . " FROM " . $qJTable . " )" . $qJTable . " ON " . $qNameTable . "." . $qColName . "=" . $qJTable . "." . $qJId;
+
+                $ver .= "SELECT * FROM " . $qNameTable . " " . $qJoins . " (SELECT " . $qJId . "," . $qJValue . " FROM " . $qJTable . " )" . $qJTable . " ON " . $qNameTable . "." . $qColName . "=" . $qJTable . "." . $qJId;
             }
             echo $ver;
-            $result2 = $link->query($query);
-            while ($vw = $result2->fetch_assoc()) {
+            $result2 = $conn->query($query);
+            while ($vw = $result2->fetch(PDO::FETCH_ASSOC)) {
                 echo $vw[$mn] . " - " . $vw['category'] . "\n";
             }
         } else {

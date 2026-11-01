@@ -14,14 +14,23 @@ if (isset($_POST['editrow'])) {
     $address_5 = $_POST["address_5"];
 
     $query = "UPDATE users_locations SET user_type = ?, name_location_1 = ?, address_1 = ?, name_location_2 = ?, address_2 = ?, name_location_3 = ?, address_3 = ?, name_location_4 = ?, address_4 = ?, name_location_5 = ?, address_5 = ? WHERE usercode = ?";
-    $updated = $conn->prepare($sql);
-    $updated->bind_param('issssssssssi', $user_type, $name_location_1, $address_1, $name_location_2, $address_2, $name_location_3, $address_3, $name_location_4, $address_4, $name_location_5, $address_5, $id);
-    $updated->execute();
-    $updated->close();
+
+    // ✅ Correcciones: (1) prepare() recibía `$sql` (indefinido) en lugar de `$query`;
+    //    (2) `$id` nunca se definía, así que el UPDATE no afectaba a ninguna fila.
+    //    La columna es `usercode`, que según la convención de la aplicación
+    //    (core/users/personalInfo.php) corresponde a $_SESSION['access_id'].
+    $rowId = $_SESSION['access_id'] ?? null;
+
+    if ($rowId !== null) {
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$user_type, $name_location_1, $address_1, $name_location_2, $address_2, $name_location_3, $address_3, $name_location_4, $address_4, $name_location_5, $address_5, $rowId]);
+        $stmt->closeCursor();
+    }
 }
 ?> 
 
 <form role="form" id="edit_users_locations" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 
 <div class="form-group">
 <label for="user_type" class ="control-label col-md-6">User type:</label> 

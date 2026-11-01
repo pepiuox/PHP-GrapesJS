@@ -132,7 +132,11 @@ class MediaManager
                     ':filename'      => $filename,
                     ':original_name' => $originalName,
                     ':file_path'     => $uploadPath,
-                    ':file_type'     => $file['type'] ?? $extension,
+                    // ✅ `$file['type']` es una cabecera que controla el CLIENTE y se
+                    // persistía tal cual en `media.file_type` (que además se usa para
+                    // filtrar en getUserMedia con LIKE). Se guarda la extensión ya
+                    // validada y el MIME real detectado con finfo.
+                    ':file_type'     => $extension,
                     ':mime_type'     => $mimeType,
                     ':file_size'     => $file['size'],
                 ]);

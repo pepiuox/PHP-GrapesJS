@@ -9,9 +9,9 @@ class BlogPost
 {
     protected $conn;
 
-    public function __construct(PDO $conn)
+    public function __construct(?PDO $conn = null)
     {
-        $this->conn = $conn;
+        $this->conn = $conn ?? \PepiuoX\Database\Connection::shared();
     }
 
     /**

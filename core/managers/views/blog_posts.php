@@ -1,4 +1,5 @@
 <?php
+global $conn;
 $p = new Protect();
 
 $id = '';
@@ -27,10 +28,10 @@ if ($cms == "list_posts") {
                     </thead>
                     <tbody>
                         <?php
-                        $presult = $this->conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON category = categoryId");
-                        $pnumr = $presult->num_rows;
+                        $presult = $conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON category = categoryId");
+                        $pnumr = $presult->rowCount();
                         if ($pnumr > 0) {
-                            while ($prow = $presult->fetch_array()) {
+                            while ($prow = $presult->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<tr><td>';
                                 echo '<a href="' . SITE_PATH . $prow['link'] . '" target="_blank"><i class="fas fa-eye" aria-hidden="true"></i></a>';
                                 echo '</td><td>' . "\n";
@@ -66,12 +67,7 @@ if ($cms == "list_posts") {
         $file_name = '';
         if (!empty($_FILES['image']['name'])) {
             $errors = array();
-            $file_name = $_FILES['image']['name'];
-            $file_size = $_FILES['image']['size'];
-            $file_tmp = $_FILES['image']['tmp_name'];
-            $file_type = $_FILES['image']['type'];
-            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-            // $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
+            $file_ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
 
             $extensions = array(
                 "jpeg",
@@ -80,20 +76,20 @@ if ($cms == "list_posts") {
                 "gif"
             );
 
-            if (in_array($file_ext, $extensions)) {
-                if (file_exists("../uploads/" . $file_name)) {
-                    $errors[] = $file_name . " is already exists.";
-                } else {
-                    move_uploaded_file($file_tmp, "../uploads/" . $file_name);
+            // Validate and save with a server-generated name: the client filename is
+            // only used to read the extension, never to build the destination path.
+            $upload_error = null;
+            $stored = \PepiuoX\Security\Upload::storeImage($_FILES['image'], "../uploads/", 4000000, $upload_error);
+            if ($stored !== null) {
+                $file_name = $stored;
 
-                    $_SESSION['success'] = "Your file was uploaded successfully.";
-                }
-            } else {
+                $_SESSION['success'] = "Your file was uploaded successfully.";
+            } elseif (!in_array($file_ext, $extensions)) {
                 $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
-            }
-
-            if ($file_size > 4000000) {
+            } elseif ($_FILES['image']['size'] > 4000000) {
                 $errors[] = 'File size must be excately 4 MB';
+            } else {
+                $errors[] = $upload_error;
             }
 
             if (empty($errors) === true) {
@@ -122,19 +118,20 @@ if ($cms == "list_posts") {
         $hidden_blog = $_POST['hidden_blog'];
         $published = $_POST['published'];
 
+        // ✅ Corregido: había 12 marcadores `?` para 10 columnas y 10 valores, lo que
+        // provocaba "Invalid parameter number" con prepares nativos (EMULATE_PREPARES = false).
         $sql = "INSERT INTO blog_posts (title, link, category, image, keyword, classification, description, menu, hidden_blog, published)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        VALUES (?,?,?,?,?,?,?,?,?,?)";
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('ssissssiii', $title, $link, $category, $image, $keyword, $classification, $description, $menu, $hidden_blog, $published);
-        $stmt->execute();
-        if ($stmt->error) {
-            echo "FAILURE! " . $stmt->error;
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$title, $link, $category, $image, $keyword, $classification, $description, $menu, $hidden_blog, $published]);
+        if ($stmt->errorInfo()[2]) {
+            echo "FAILURE! " . $stmt->errorInfo()[2];
         } else {
-            echo "Updated {$stmt->affected_rows} category";
+            echo "Updated {$stmt->rowCount()} category";
             header('Location: dashboard/blog_posts/list');
         }
-        $stmt->close();
+        $stmt->closeCursor();
     }
     ?>
     <div class="container">                   
@@ -143,6 +140,7 @@ if ($cms == "list_posts") {
                 <div class="card-body">
                     <form method="post" class="row 
                           form-horizontal" role="form" id="add_blog_posts" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title">Title:</label>
@@ -158,14 +156,14 @@ if ($cms == "list_posts") {
                         <div class="form-group">
                             <label for="category">Category:</label>
                             <?php
-                            $catg = $this->conn->query("SELECT * FROM categories");
-                            $ncat = $catg->num_rows;
+                            $catg = $conn->query("SELECT * FROM categories");
+                            $ncat = $catg->rowCount();
                             if ($ncat > 0) {
                                 ?>
                                 <select class="form-select" id="category" name="category">
                                     <option>Select a Category</option>
                                     <?php
-                                    while ($ctg = $catg->fetch_array()) {
+                                    while ($ctg = $catg->fetch(PDO::FETCH_ASSOC)) {
                                         echo '<option value="'.$ctg['categoryId'].'">'.$ctg['category_name'].'</option>';
                                     }
                                     ?>                                   
@@ -253,12 +251,7 @@ if ($cms == "list_posts") {
         $file_name = '';
         if (!empty($_FILES['image']['name'])) {
             $errors = array();
-            $file_name = $_FILES['image']['name'];
-            $file_size = $_FILES['image']['size'];
-            $file_tmp = $_FILES['image']['tmp_name'];
-            $file_type = $_FILES['image']['type'];
-            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-            // $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
+            $file_ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
 
             $extensions = array(
                 "jpeg",
@@ -267,20 +260,20 @@ if ($cms == "list_posts") {
                 "gif"
             );
 
-            if (in_array($file_ext, $extensions)) {
-                if (file_exists("../uploads/" . $file_name)) {
-                    $errors[] = $file_name . " is already exists.";
-                } else {
-                    move_uploaded_file($file_tmp, "../uploads/" . $file_name);
+            // Validate and save with a server-generated name: the client filename is
+            // only used to read the extension, never to build the destination path.
+            $upload_error = null;
+            $stored = \PepiuoX\Security\Upload::storeImage($_FILES['image'], "../uploads/", 4000000, $upload_error);
+            if ($stored !== null) {
+                $file_name = $stored;
 
-                    $_SESSION['success'] = "Your file was uploaded successfully.";
-                }
-            } else {
+                $_SESSION['success'] = "Your file was uploaded successfully.";
+            } elseif (!in_array($file_ext, $extensions)) {
                 $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
-            }
-
-            if ($file_size > 4000000) {
+            } elseif ($_FILES['image']['size'] > 4000000) {
                 $errors[] = 'File size must be excately 4 MB';
+            } else {
+                $errors[] = $upload_error;
             }
 
             if (empty($errors) === true) {
@@ -309,24 +302,23 @@ if ($cms == "list_posts") {
         $hidden_blog = $_POST['hidden_blog'];
         $published = $_POST['published'];
 
-        $sql = "UPDATE blog_posts SET title=?', link=?, category=?, image=?, keyword=?, classification=?, description=?, menu=', hidden_blog=?, published=? WHERE id=?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('ssissssiiii', $title, $link, $category, $image, $keyword, $classification, $description, $menu, $hidden_blog, $published, $id);
-        $stmt->execute();
-        if ($stmt->error) {
-            echo "FAILURE! " . $stmt->error;
+        // ✅ Corregido: había comillas sueltas tras dos marcadores ("title=?'" y "menu='"),
+        // lo que convertía la sentencia en SQL inválido.
+        $sql = "UPDATE blog_posts SET title=?, link=?, category=?, image=?, keyword=?, classification=?, description=?, menu=?, hidden_blog=?, published=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$title, $link, $category, $image, $keyword, $classification, $description, $menu, $hidden_blog, $published, $id]);
+        if ($stmt->errorInfo()[2]) {
+            echo "FAILURE! " . $stmt->errorInfo()[2];
         } else {
-            echo "Updated {$stmt->affected_rows} category";
+            echo "Updated {$stmt->rowCount()} category";
             header('Location: dashboard/blog_posts/list');
         }
-        $stmt->close();
+        $stmt->closeCursor();
     }
     $sql = "SELECT * FROM blog_posts WHERE id=?";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
     ?>
     <div class="container">                   
         <div class="row">
@@ -334,6 +326,7 @@ if ($cms == "list_posts") {
                 <div class="card-body">
                     <form method="post" class="row 
                           form-horizontal" role="form" id="add_blog_posts" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title">Title:</label>
@@ -349,14 +342,14 @@ if ($cms == "list_posts") {
                         <div class="form-group">
                             <label for="category">Category:</label>
                             <?php
-                            $catg = $this->conn->query("SELECT * FROM categories");
-                            $ncat = $catg->num_rows;
+                            $catg = $conn->query("SELECT * FROM categories");
+                            $ncat = $catg->rowCount();
                             if ($ncat > 0) {
                                 ?>
                                 <select class="form-select" id="category" name="category">
                                     <option>Select a Category</option>
                                     <?php
-                                    while ($ctg = $catg->fetch_array()) {
+                                    while ($ctg = $catg->fetch(PDO::FETCH_ASSOC)) {
                                         echo '<option value="1">Publish</option>';
                                     }
                                     ?>
@@ -443,8 +436,9 @@ if ($cms == "list_posts") {
     <?php
 } elseif ($cms == "delete_post") {
     if (isset($_POST['submit'])) {
-        $sql = "DELETE FROM blog_posts WHERE id='$id'";
-        if ($this->conn->query($sql) === TRUE) {
+        $sql = "DELETE FROM blog_posts WHERE id=:id";
+        $stmt = $conn->prepare($sql);
+        if ($stmt->execute([':id' => $id]) !== false) {
             echo '<div class="alert alert-primary" role="alert">';
             echo "<h4>Post deleted successfully</h4>";
             echo '</div>';
@@ -455,7 +449,7 @@ window.setTimeout(function() {
 </script>";
         } else {
             echo '<div class="alert alert-danger" role="alert">';
-            echo "Error deleting record: " . $this->conn->error;
+            echo "Error deleting record: " . $conn->errorInfo()[2];
             echo '</div>';
         }
     }
@@ -474,7 +468,7 @@ window.setTimeout(function() {
 
                 <h2>Are you sure you want to delete this page</h2>
                 <?php
-                echo '<form method="post">';
+                echo '<form method="post">' . \PepiuoX\Security\Csrf::field() . '';
                 echo '<input type="submit" name="submit" class="btn btn-primary" value="Detele">' . "\n";
                 echo '</form>' . "\n";
                 ?>

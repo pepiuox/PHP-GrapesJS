@@ -21,9 +21,9 @@ class UsersVerify
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
-        $this->uca  = new UsersCodeAccess();
+        $this->uca = new UsersCodeAccess($this->conn);
         $this->gc   = new GetCodeDeEncrypt();
-        $this->pt   = new Protect();
+        $this->pt = new Protect($this->conn);
 
         $this->includes();
 
@@ -80,7 +80,7 @@ class UsersVerify
         }
         $urw = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $uid      = (int) $urw['iduv'];
+        $uid      = (string) $urw['iduv'];
         $uscod    = $urw['usercode'];
         $username = $urw['username'];
         $email    = $urw['email'];
@@ -118,7 +118,7 @@ class UsersVerify
         $this->conn->beginTransaction();
         try {
             $s1 = $this->conn->prepare(
-                "UPDATE uverify SET mkhash=:mh, activation_code=:ac, is_activate=:ia, banned=:b
+                "UPDATE uverify SET mkhash=:mh, activation_code=:ac, is_activate=:ia, is_banned=:b
                 WHERE iduv=:id AND usercode=:u AND mkhash=:oh"
             );
             $s1->execute([

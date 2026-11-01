@@ -15,6 +15,7 @@
                         </div>
                     </div>
                     <form action="recover-password.php" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="input-group mb-3">
                             <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                             <div class="input-group-append">

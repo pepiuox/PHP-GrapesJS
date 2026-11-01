@@ -24,9 +24,9 @@ class UsersUpdates
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
-        $this->uca  = new UsersCodeAccess();
+        $this->uca = new UsersCodeAccess($this->conn);
         $this->gc   = new GetCodeDeEncrypt();
-        $this->pt   = new Protect();
+        $this->pt = new Protect($this->conn);
 
         // Validación estricta de parámetros GET
         if (isset($_GET['vcode'], $_GET['usr'])) {
@@ -88,7 +88,7 @@ class UsersUpdates
         }
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $uid = (int) $row['iduv'];
+        $uid = (string) $row['iduv'];
 
         $mhash    = $this->gc->randHash();
         $verified = 1;

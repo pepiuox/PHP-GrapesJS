@@ -182,15 +182,17 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <?php
-                            $pages = $this->conn->query("SELECT * FROM pages");
-                            while ($page = $pages->fetch_array()) {
+                            global $conn;
+                            $pages = $conn->query("SELECT * FROM pages");
+                            while ($page = $pages->fetch(PDO::FETCH_ASSOC)) {
                                 $plink = $page['link'];
                                 $ptitle = $page['title'];
                                 $pparent = $page['parent'];
                                 echo'<li class="nav-item">'."\n";
                                 if ($pparent > 0) {
-                                    $parent = $this->conn->query("SELECT * FROM pages where id=$pparent");
-                                    $pagep = $parent->fetch_assoc();
+                                    $parent = $conn->prepare("SELECT * FROM pages where id=:id");
+                                    $parent->execute([':id' => $pparent]);
+                                    $pagep = $parent->fetch(PDO::FETCH_ASSOC);
                                     echo '<a href="' . SITE_PATH . $pagep['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
                                 } else {
                                     echo '<a href="' . SITE_PATH . $plink . '" target="_blank" class="nav-link ';
@@ -265,15 +267,19 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <?php
-                            $posts = $this->conn->query("SELECT * FROM blog_posts");
-                            while ($post = $posts->fetch_array()) {
+                            $posts = $conn->query("SELECT * FROM blog_posts");
+                            while ($post = $posts->fetch(PDO::FETCH_ASSOC)) {
                                 $plink = $post['link'];
                                 $ptitle = $post['title'];
-                                $category = $poste['category_id'];
+                                // ✅ La variable del bucle es `$post`: `$poste` no existía, así
+                                // que $category era null y la consulta de categoría nunca
+                                // llegaba a ejecutarse.
+                                $category = $post['category_id'];
                                 echo'<li class="nav-item">';
                                 if ($category > 0) {
-                                    $categ = $this->conn->query("SELECT * FROM blog_posts LEFT JOIN categories ON categoryID=category_id where category_id=$category");
-                                    $pcatg = $categ->fetch_assoc();
+                                    $categ = $conn->prepare("SELECT * FROM blog_posts LEFT JOIN categories ON categoryID=category_id where category_id=:category_id");
+                                    $categ->execute([':category_id' => $category]);
+                                    $pcatg = $categ->fetch(PDO::FETCH_ASSOC);
                                     echo '<a href="' . SITE_PATH . $pcatg['link'] . '/' . $plink . '" target="_blank" class="nav-link ';
                                 } else {
                                     echo '<a href="' . SITE_PATH . $plink . '" target="_blank" class="nav-link ';

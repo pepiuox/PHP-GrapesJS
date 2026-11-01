@@ -5,16 +5,15 @@ include_once $rout.'/config/dbconnection.php';
 
 if (isset($_POST['idp'])) {
     $idp = $_POST['idp'];
-    $tbl = $_POST['tbl'];
+    $tbl = \PepiuoX\Security\SqlIdentifier::assert($_POST['tbl']);
     $content = $_POST['content'];
     $style = $_POST['style'];
 
     $sql = "UPDATE $tbl SET  html_content = ?, css_content = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", protect($content), protect($style), $idp);
-    $stmt->execute();
-    $save = $stmt->affected_rows;
-    $stmt->close();
+    $stmt->execute([protect($content), protect($style), $idp]);
+    $save = $stmt->rowCount();
+    $stmt->closeCursor();
 
     if ($save === 1) {
         echo "Saved Page";

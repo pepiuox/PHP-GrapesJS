@@ -21,6 +21,7 @@ class UsersFollows
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
 
         if (!isset($_SESSION['access_id']) || !is_string($_SESSION['access_id'])) {
             throw new RuntimeException('Sesión de usuario no válida');

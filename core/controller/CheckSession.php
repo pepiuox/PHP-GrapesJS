@@ -78,7 +78,16 @@ class CheckSession
     {
         unset($_COOKIE['client_session'], $_SESSION['client_session']);
         $nval = $this->sessionKey();
-        setcookie('client_session', $nval, time() + $this->cookieLifetime, "/", "", false, true);
+        // ✅ Formato de opciones: añade `samesite` (CSRF) y hace `secure` condicional a
+        // HTTPS. Antes iba con `secure => false` fijo y sin `samesite`.
+        setcookie('client_session', $nval, [
+            'expires' => time() + $this->cookieLifetime,
+            'path' => '/',
+            'domain' => '',
+            'secure' => \PepiuoX\Security\SessionConfig::isHttps(),
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
         $_SESSION['client_session'] = $nval;
     }
 }

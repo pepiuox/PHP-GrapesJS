@@ -8,6 +8,7 @@
 </div>
 <div class="modal-body">
 <?php
+global $conn;
 if (isset($_POST['editsm'])) {
     $website = protect($_POST['website']);
     $whatsapp = protect($_POST['whatsapp']);
@@ -19,13 +20,13 @@ if (isset($_POST['editsm'])) {
     $tiktok = protect($_POST['tiktok']);
     $tumblr = protect($_POST['tumblr']);
     $linkedin = protect($_POST['linkedin']);
-    $updsm = $this->conn->prepare("UPDATE users_social_media SET website = ?, whatsapp = ?, instagram = ?, facebook = ?, telegram = ?, youtube = ?, twitter = ?, tiktok = ?, tumblr = ?, linkedin = ? WHERE usercode = ?");
-    $updsm->bind_param("sssssssssss", $website, $whatsapp, $instagram, $facebook, $telegram, $youtube, $twitter, $tiktok, $tumblr, $linkedin, $ucode);
-    $updsm->execute();
-    $updsm->close();
+    $updsm = $conn->prepare("UPDATE users_social_media SET website = ?, whatsapp = ?, instagram = ?, facebook = ?, telegram = ?, youtube = ?, twitter = ?, tiktok = ?, tumblr = ?, linkedin = ? WHERE usercode = ?");
+    $updsm->execute([$website, $whatsapp, $instagram, $facebook, $telegram, $youtube, $twitter, $tiktok, $tumblr, $linkedin, $ucode]);
+    $updsm->closeCursor();
 }
 ?>
 <form role="form" id="social_media" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="row">
 <div class="input-group mb-3">
 <label for="website" class="control-label col-md-6">Página Web:</label>

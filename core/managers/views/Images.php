@@ -19,8 +19,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr> \n";
             echo "</thead> \n";
             echo "<tbody> \n";
-            $result = $conn->query("SELECT * FROM `image_gal` LEFT JOIN galleries ON image_gal.galId=galleries.idGal") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `image_gal` LEFT JOIN galleries ON image_gal.galId=galleries.idGal");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
                 }
@@ -47,8 +47,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `image_gal` ( `galId` ,  `image` ,  `caption_en` ,`caption_es` ,`paypal_code`,  `link`   ) VALUES(  '{$_POST['galId']}' ,  '{$_POST['image']}' ,  '{$_POST['caption_en']}',  '{$_POST['caption_es']}' ,'{$_POST['paypal_code']}',  '{$_POST['link']}'   ) ";
-                $conn->query($sql) or die($conn->error);
+                $sql = "INSERT INTO `image_gal` ( `galId` ,  `image` ,  `caption_en` ,`caption_es` ,`paypal_code`,  `link`   ) VALUES(  :galId ,  :image ,  :caption_en ,  :caption_es , :paypal_code ,  :link   ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':galId' => $_POST['galId'], ':image' => $_POST['image'], ':caption_en' => $_POST['caption_en'], ':caption_es' => $_POST['caption_es'], ':paypal_code' => $_POST['paypal_code'], ':link' => $_POST['link']]);
                 echo "Imagen Agregada.<br />\n";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -57,7 +58,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> 
                         </p>
                         <h3>Agregar una Imagen</h3> 
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <div class="col-md-6">
                                 <div class="container"><label class="form-label">Galeria:</label>               
             <?php
@@ -66,7 +68,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             ?>                    
                                     <select class="form-select" name='galId' id='galId'>  
                                         <option>Selecciona una galeria</option>                        
-            <?php while ($rs1 = mysqli_fetch_array($query1)) { ?>                                    
+            <?php while ($rs1 = $query1->fetch(PDO::FETCH_ASSOC)) { ?>                                    
                                                 <option value="<?php echo $rs1['id']; ?>"><?php echo $rs1['gallery']; ?></option>
                 <?php
             }
@@ -135,18 +137,22 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `image_gal` SET  `galId` =  '{$_POST['galId']}' ,  `image` =  '{$_POST['image']}' ,  `caption_en` =  '{$_POST['caption_en']}' ,  `caption_es` =  '{$_POST['caption_es']}', `paypal_code` =  '{$_POST['paypal_code']}', `link` =  '{$_POST['link']}'  WHERE `id` = '$id' ";
-                    $conn->query($sql) or die($conn->error);
-                    printf("Imagen Editada.\n", $conn->affected_rows);
+                    $sql = "UPDATE `image_gal` SET  `galId` =  :galId ,  `image` =  :image ,  `caption_en` =  :caption_en ,  `caption_es` =  :caption_es, `paypal_code` =  :paypal_code, `link` =  :link  WHERE `id` = :id ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':galId' => $_POST['galId'], ':image' => $_POST['image'], ':caption_en' => $_POST['caption_en'], ':caption_es' => $_POST['caption_es'], ':paypal_code' => $_POST['paypal_code'], ':link' => $_POST['link'], ':id' => $id]);
+                    printf("Imagen Editada.\n", $stmt->rowCount());
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `image_gal` WHERE `id` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `image_gal` WHERE `id` = :id ");
+                $stmt->execute([':id' => $id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                                 <p>
                                     <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/images/add'>Nueva Imagen</a> 
                                 </p>
                                 <h3>Editar de Imagen para galeria</h3> 
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class="col-md-6">   
                                         <div class="container"><label class="form-label">Galeria:</label>
                                             <select class="form-select" name='galId' id='galId'> 
@@ -156,7 +162,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>  
                                                 <option>-- Seleccione galeria --</option>                            
                 <?php
-                while ($rs1 = mysqli_fetch_array($query1)) {
+                while ($rs1 = $query1->fetch(PDO::FETCH_ASSOC)) {
                     if ($rs1['idGal'] == $row['galId']) {
                 ?>     
                                                                 <option value="<?php echo $rs1['idGal']; ?>" selected><?php echo $rs1['gallery']; ?></option>
@@ -235,7 +241,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
             }
-            $row = mysqli_fetch_array($conn->query("SELECT * FROM `image_gal` LEFT JOIN galleries ON image_gal.galId=galleries.idGal WHERE `id` = '$id' "));
+            $stmt = $conn->prepare("SELECT * FROM `image_gal` LEFT JOIN galleries ON image_gal.galId=galleries.idGal WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                         <p>
                             <a class="btn btn-secondary" href='dashboard/images/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/images/add'>Nueva Imagen</a> 
@@ -269,7 +277,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         <h3>Eliminado de image_gal</h3> 
             <?php
             $id = (int) $_GET['id'];
-            $conn->query("DELETE FROM `image_gal` WHERE `id` = '$id' ");
+            $stmt = $conn->prepare("DELETE FROM `image_gal` WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
             echo "Imagen Eliminada.<br /> ";
             ?> 
                     </div>

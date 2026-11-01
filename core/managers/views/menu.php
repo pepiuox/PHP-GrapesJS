@@ -1,8 +1,9 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
 if (isset($w) && !empty($w)) {
     if ($w === "list") {
-    $tble = 'menu_options';
+    $tble = \PepiuoX\Security\SqlIdentifier::assert('menu_options');
     $titl = ucfirst(str_replace("_", " ", $tble));
     ?>
     <div class="container">
@@ -15,8 +16,8 @@ if (isset($w) && !empty($w)) {
                 </thead>
                 <tbody>
                     <?php
-                    $mopt = $this->conn->query("SELECT * FROM $tble");
-                    while ($mnop = $mopt->fetch_array()) {
+                    $mopt = $conn->query("SELECT * FROM $tble");
+                    while ($mnop = $mopt->fetch(PDO::FETCH_ASSOC)) {
                         echo '
                      <tr>
                         <td><!--Button -->
@@ -50,15 +51,15 @@ if (isset($w) && !empty($w)) {
         $color = $_POST['color'];
 
         $sql = "INSERT INTO menu_options (id_menu, fluid, placement, aligment, background, color) "
-                . "VALUES ('$id_menu', '$fluid', '$placement', '$aligment', '$background', '$color')";
-        if ($this->conn->query($sql) === TRUE) {
+                . "VALUES (:id_menu, :fluid, :placement, :aligment, :background, :color)";
+        $stmt = $conn->prepare($sql);
+        if ($stmt->execute([':id_menu' => $id_menu, ':fluid' => $fluid, ':placement' => $placement, ':aligment' => $aligment, ':background' => $background, ':color' => $color]) !== false) {
             $_SESSION['success'] = 'The data was added correctly.';
             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n"; 
         } else {
-            $_SESSION['error'] = 'Error: ' . $this->conn->error;
+            $_SESSION['error'] = 'Error: ' . $conn->errorInfo()[2];
         }
 
-        $this->conn->close();
     }
     ?>
     <div class="container">
@@ -75,6 +76,7 @@ if (isset($w) && !empty($w)) {
                     <div class="col-md-12">
                         <div class="row pt-3">
                             <form role="form" id="add_menu_options" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="id_menu" class ="control-label col-sm-3">Id menu:</label>
                                     <input type="text" class="form-control" id="id_menu" name="id_menu">
@@ -144,17 +146,19 @@ if (isset($w) && !empty($w)) {
         $background = $_POST["background"];
         $color = $_POST["color"];
 
-        $query = "UPDATE menu_options SET id_menu = '$id_menu', fluid = '$fluid', placement = '$placement', aligment = '$aligment', background = '$background', color = '$color' WHERE id=$id ";
-        if ($this->conn->query($query) === TRUE) {
+        $query = "UPDATE menu_options SET id_menu = :id_menu, fluid = :fluid, placement = :placement, aligment = :aligment, background = :background, color = :color WHERE id=:id ";
+        $stmt = $conn->prepare($query);
+        if ($stmt->execute([':id_menu' => $id_menu, ':fluid' => $fluid, ':placement' => $placement, ':aligment' => $aligment, ':background' => $background, ':color' => $color, ':id' => $id]) !== false) {
             $_SESSION['success'] = "The data was updated correctly.";
             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n"; 
         } else {
-            $_SESSION['error'] = "Error updating data: " . $this->conn->error;
+            $_SESSION['error'] = "Error updating data: " . $conn->errorInfo()[2];
         }
     }
 
-    $rest = $this->conn->query("SELECT * FROM menu_options WHERE id='$id'");
-    $mopt = $rest->fetch_assoc();
+    $rest = $conn->prepare("SELECT * FROM menu_options WHERE id=:id");
+    $rest->execute([':id' => $id]);
+    $mopt = $rest->fetch(PDO::FETCH_ASSOC);
     ?>
     <div class="container">
         <div class="row">
@@ -170,6 +174,7 @@ if (isset($w) && !empty($w)) {
                     <div class="col-md-12">
                         <div class="row pt-3">
                             <form role="form" id="edit_menu_options" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="id_menu" class ="control-label col-sm-3">Id menu:</label>
                                     <input type="text" class="form-control" id="id_menu" name="id_menu" value='<?php echo $mopt['id_menu'] ?>'>
@@ -217,7 +222,8 @@ if (isset($w) && !empty($w)) {
                     }
                     if (isset($_POST["deleterow"])) {
 
-                        if ($this->conn->query("DELETE FROM menu_options WHERE id='$id'") === TRUE) {
+                        $stmt = $conn->prepare("DELETE FROM menu_options WHERE id=:id");
+                        if ($stmt->execute([':id' => $id]) !== false) {
                             $_SESSION['success'] = "Record deleted successfully";
                             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/menu/list">' . "\n"; 
                         } else {
@@ -226,6 +232,7 @@ if (isset($w) && !empty($w)) {
                     }
                     ?>
                     <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="form-group">
                             <button type="submit" id="deleterow" name="deleterow" class="btn btn-primary"><span class="fas fa-trash-alt"></span> Delete</button>
                         </div>

@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__DIR__) . '/Autoload.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  if (isset($_FILES['files'])) {
   $errors = [];
@@ -10,24 +12,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   for ($i = 0; $i < $all_files; $i++) {
 $file_name = $_FILES['files']['name'][$i];
-$file_tmp = $_FILES['files']['tmp_name'][$i];
 $file_type = $_FILES['files']['type'][$i];
 $file_size = $_FILES['files']['size'][$i];
-$tmp = explode('.', $_FILES['files']['name'][$i]);
-$file_ext = strtolower(end($tmp));
 
-$file = $path . $file_name;
+$file = [
+ 'name' => $file_name,
+ 'tmp_name' => $_FILES['files']['tmp_name'][$i],
+ 'size' => $file_size,
+ 'error' => $_FILES['files']['error'][$i],
+ 'type' => $file_type,
+];
 
-if (!in_array($file_ext, $extensions)) {
- $errors[] = 'Extension not allowed: ' . $file_name . ' ' . $file_type;
-}
+$upload_error = null;
+$stored = \PepiuoX\Security\Upload::storeImage($file, $path, \PepiuoX\Security\Upload::DEFAULT_MAX_BYTES, $upload_error);
 
-if ($file_size > 2097152) {
- $errors[] = 'File size exceeds limit: ' . $file_name . ' ' . $file_type;
-}
-
-if (empty($errors)) {
- move_uploaded_file($file_tmp, $file);
+if ($stored === null) {
+ if (!in_array(\PepiuoX\Security\Upload::extension($file_name), $extensions, true)) {
+  $errors[] = 'Extension not allowed: ' . htmlspecialchars($file_name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . ' ' . htmlspecialchars($file_type, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+ } elseif ($file_size > \PepiuoX\Security\Upload::DEFAULT_MAX_BYTES) {
+  $errors[] = 'File size exceeds limit: ' . htmlspecialchars($file_name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . ' ' . htmlspecialchars($file_type, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+ } else {
+  $errors[] = $upload_error;
+ }
 }
   }
 

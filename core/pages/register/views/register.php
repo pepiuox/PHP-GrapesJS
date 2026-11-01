@@ -9,6 +9,7 @@
     <div class="card-body register-card-body">
       <p class="login-box-msg"> <?php echo $lang[$fname]['box_msg']; ?> </p>
       <form action="register.php" method="post" class="form-inline d-flex justify-content-center">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
         <label for="cspuser" class="col-form-label">Opción de registro</label>
         <div class="input-group mb-3">
           <select id="cspuser" name="cspuser" class="form-select" aria-label="Opciones de registro">

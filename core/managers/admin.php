@@ -72,6 +72,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         }
         ?>
                                 <form action="../process.php" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <div class="row mb-3">
 
                                         <label class="col-sm-3 col-form-label">Name:</label> 
@@ -142,6 +143,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <h4>Validate and Invalidate User</h4>
     <?php echo $form->error("valuser"); ?>
                                 <form  method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <p><b>Username:</b><br /> <input type="text" name="valuser" maxlength="30" value="<?php echo $form->value("valuser"); ?>"></p>
                                     <p><b>Validate and Invalidate:</b><br />
                                         <select name="updvalid">
@@ -157,6 +159,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <h4>Update User Level </h4>
     <?php echo $form->error("upduser"); ?>
                                 <form  method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <p><b>Username:</b><br /> <input type="text" name="upduser" maxlength="30" value="<?php echo $form->value("upduser"); ?>"></p>
                                     <p><b>Level:</b><br />
                                         <select name="updlevel">
@@ -177,6 +180,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <h4>Delete User</h4>
     <?php echo $form->error("deluser"); ?>
                                 <form method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <p><b>Username:</b><br /> <input type="text" name="deluser" maxlength="30" value="<?php echo $form->value("deluser"); ?>"></p>
                                     <input type="hidden" name="subdeluser" value="1">
                                     <input class="button" type="submit" value="Delete User">
@@ -208,6 +212,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <p>
                                     This will remove all users (non-administrators), who have not logged into the site within a certain period of time. The days spent inactive are specified. </p>
                                 <form  method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <p><b>Dias:</b><br />
                                         <select name="inactdays">
                                             <option value="3">3</option>
@@ -227,6 +232,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <p>Prohibit access to the system of a user. <br />
                                     If you only want to restrict, or it is recommended to deactivate it in any case. </p>
                                 <form  method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <p><b>Username:</b><br /> <input type="text" name="banuser" maxlength="30" value="<?php echo $form->value("banuser"); ?>"></p>
                                     <input type="hidden" name="subbanuser" value="1">
                                     <input class="button" type="submit" value="Banned User">
@@ -239,6 +245,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     ?>
                                 <h4>Remove Banned Users </h4><?php echo $form->error("delbanuser"); ?>
                                 <form  method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                     <p><b>Username:</b><br /> <input type="text" name="delbanuser" maxlength="30" value="<?php echo $form->value("delbanuser"); ?>"></p>
                                     <input type="hidden" name="subdelbanned" value="1">
                                     <input class="button" type="submit" value="Delete banned user">

@@ -79,7 +79,24 @@ require_once $source."/core/components/elements/top.php";
             $request = $_SERVER["REQUEST_URI"];
 
             if($request === $purl){
-                require_once $pfile.".php";
+                // ✅ `$pfile` viene de la BD (`pages.path_file`) y se usaba TAL CUAL en un
+                // require_once: un valor como `../../core/config/server` permitía LFI
+                // (la página la visita cualquier usuario público).
+                // Se valida antes de incluirlo, conservando la resolución original
+                // (relativa al directorio de trabajo / include_path) para valores legítimos.
+                $pfileSafe = (string) $pfile;
+
+                $pfileValido = $pfileSafe !== ''
+                    && !str_contains($pfileSafe, '..')
+                    && !str_contains($pfileSafe, "\0")
+                    && !preg_match('#(^/|^[A-Za-z]:|://)#', $pfileSafe)      // ni absoluta ni con esquema
+                    && preg_match('#^[A-Za-z0-9_\-/\.]+$#', $pfileSafe) === 1; // sólo ruta relativa simple
+
+                if ($pfileValido) {
+                    require_once $pfileSafe . ".php";
+                } else {
+                    error_log('view.php: path_file no permitido, include omitido: ' . $pfileSafe);
+                }
             }      
         }
         ?>

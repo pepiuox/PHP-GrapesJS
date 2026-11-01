@@ -6,6 +6,7 @@ $upprhase = new RecoveryPhrase();
   <div class="card">
 <div class="card-body">
  <form method="post" role="form">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
   <h3 class="cnt">Change your recovery phrase? </h3>
   <hr class="colorgraph">
   <p class="">Enter your current security phrase. Keep this phrase in a safe place as you will be asked in security cases. </p>

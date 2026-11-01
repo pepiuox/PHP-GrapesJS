@@ -28,8 +28,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `galleries` LEFT JOIN `type_gallery` ON galleries.type=type_gallery.idTG  LEFT JOIN (SELECT id, title AS npage FROM pages)`page`  ON galleries.pageID=page.id") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `galleries` LEFT JOIN `type_gallery` ON galleries.type=type_gallery.idTG  LEFT JOIN (SELECT id, title AS npage FROM pages)`page`  ON galleries.pageID=page.id");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
                 }
@@ -86,8 +86,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container">
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `galleries` ( `gallery` ,  `name` ,  `type` ,  `description` ,  `pageId`,  `active`  ) VALUES(  '{$_POST['gallery']}' ,  '{$_POST['name']}' ,  '{$_POST['type']}' ,  '{$_POST['description']}' ,  '{$_POST['pageId']}' ,  '{$_POST['active']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                $sql = "INSERT INTO `galleries` ( `gallery` ,  `name` ,  `type` ,  `description` ,  `pageId`,  `active`  ) VALUES(  :gallery ,  :name ,  :type ,  :description ,  :pageId ,  :active  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':gallery' => $_POST['gallery'], ':name' => $_POST['name'], ':type' => $_POST['type'], ':description' => $_POST['description'], ':pageId' => $_POST['pageId'], ':active' => $_POST['active']]);
                 echo "Imagen Agregada.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -96,7 +97,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <a class="btn btn-secondary" href='dashboard/gallery/list'>Retornar a la Lista</a> 
                         </p>
                         <h3>Agregar una Galeria</h3> 
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <div class="container">
                                 <label class="form-label">Nombre de galleria:</label>
                                 <input type="text" class="form-control" name='gallery' id='gallery'/>
@@ -114,7 +116,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <select class="form-select" name='type' id='type'>                             
                                     <option>-- Selecciona tipo -- </option>
             <?php
-            while ($tpg = mysqli_fetch_array($querg)) {
+            while ($tpg = $querg->fetch(PDO::FETCH_ASSOC)) {
             ?>     
                                             <option value="<?php echo $tpg['idTG']; ?>"><?php echo $tpg['type_gallery']; ?></option>
                 <?php
@@ -142,7 +144,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <select class="form-select" name='pageId' id='pageId'>                            
                                     <option>Selecciona una página </option>
             <?php
-            while ($rp1 = mysqli_fetch_array($queryp1)) {
+            while ($rp1 = $queryp1->fetch(PDO::FETCH_ASSOC)) {
             ?>     
                                             <option value="<?php echo $rp1['id']; ?>"><?php echo $rp1['title']; ?></option>
                 <?php
@@ -155,7 +157,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             $acti = array("No", "Si");
             reset($acti);
-            while (list($key, $val) = each($acti)) {
+            foreach ($acti as $key => $val) {
             ?>     
                                             <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
                 <?php
@@ -175,19 +177,23 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `galleries` SET  `gallery` =  '{$_POST['gallery']}' ,  `name` =  '{$_POST['name']}' ,  `type` =  '{$_POST['type']}' ,  `description` =  '{$_POST['description']}' ,  `pageId` =  '{$_POST['pageId']}' ,  `active` =  '{$_POST['active']}'   WHERE `idGal` = '$id' ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "UPDATE `galleries` SET  `gallery` =  :gallery ,  `name` =  :name ,  `type` =  :type ,  `description` =  :description ,  `pageId` =  :pageId ,  `active` =  :active   WHERE `idGal` = :id ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':gallery' => $_POST['gallery'], ':name' => $_POST['name'], ':type' => $_POST['type'], ':description' => $_POST['description'], ':pageId' => $_POST['pageId'], ':active' => $_POST['active'], ':id' => $id]);
                     echo "Galeria Editada.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                                 <p>
                                     <a class="btn btn-secondary" href='dashboard/gallery/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/gallery/add'>Nueva Galeria</a> 
                                 </p>
                                 <h3>Editar <?php echo $row['name']; ?></h3> 
 
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class="container">
                                         <label class="form-label">Nombre de gallery:</label>
                                         <input type="text" class="form-control" name='gallery' id='gallery' value='<?php echo $row['gallery']; ?>' />
@@ -205,7 +211,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         <select class="form-select" name='type' id='type'>                             
                                             <option>-- Selecciona tipo -- </option>
                 <?php
-                while ($tpg = mysqli_fetch_array($querg)) {
+                while ($tpg = $querg->fetch(PDO::FETCH_ASSOC)) {
                     if ($tpg['idTG'] == $row['type']) {
                 ?>     
                                                             <option value="<?php echo $tpg['idTG']; ?>" selected><?php echo $tpg['type_gallery']; ?></option>
@@ -239,7 +245,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         <select class="form-select" name='pageId' id='pageId'>                            
                                             <option>Selecciona una página </option>
                 <?php
-                while ($rp1 = mysqli_fetch_array($queryp1)) {
+                while ($rp1 = $queryp1->fetch(PDO::FETCH_ASSOC)) {
                     if ($rp1['id'] == $row['pageId']) {
                 ?>     
                                                             <option value="<?php echo $rp1['id']; ?>" selected><?php echo $rp1['title']; ?></option>
@@ -260,7 +266,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 reset($acti);
 
-                while (list($key, $val) = each($acti)) {
+                foreach ($acti as $key => $val) {
                     if ($row['active'] == $key) {
                 ?>     
                                                             <option value="<?php echo $key; ?>" selected><?php echo $val; ?></option>
@@ -308,9 +314,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
 
-                $result = $conn->query("SELECT id galId, image FROM `image_gal` WHERE `galId` = '$id' ") or trigger_error($conn->error);
+                $result = $conn->prepare("SELECT id galId, image FROM `image_gal` WHERE `galId` = :id ");
+                $result->execute([':id' => $id]);
 
-                while ($row = $result->fetch_array()) {
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             ?>
                                                 <a href="<?php echo $row['image']; ?>"><img class="scale" src="<?php echo $row['image']; ?>" /></a>
                     <?php
@@ -347,7 +354,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
             <?php
             $id = (int) $_GET['id'];
-            $conn->query("DELETE FROM `galleries` WHERE `idGal` = '$id' ");
+            $stmt = $conn->prepare("DELETE FROM `galleries` WHERE `idGal` = :id ");
+            $stmt->execute([':id' => $id]);
             echo "Galelria Eliminada.<br /> ";
             header("Location: dashboard/gallery/list");
             ?> 
@@ -359,7 +367,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['gal']) && !empty($_GET['gal'])) {
                 $id = (int) $_GET['gal'];
-                $rowg = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $rowg = $stmt->fetch(PDO::FETCH_ASSOC);
             }
             ?>
                         <p>
@@ -441,11 +451,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_POST["submitOrd"])) {
                 $id_ary = explode(",", $_POST["img_order"]);
                 for ($i = 1; $i < count($id_ary); $i++) {
-                    $conn->query("UPDATE image_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
+                    $stmt = $conn->prepare("UPDATE image_gal SET sort=:sort WHERE id=:id AND galId=:galId ");
+                    $stmt->execute([':sort' => $i, ':id' => $id_ary[$i], ':galId' => $id]);
                 }
             }
             ?>
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <input type = "hidden" name="img_order" id="img_order" /> 
             <?php
             echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
@@ -457,8 +469,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr> \n";
             echo "</thead> \n";
             echo "<tbody> \n";
-            $result = $conn->query("SELECT * FROM `image_gal` WHERE galId='$id' ORDER BY sort") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->prepare("SELECT * FROM `image_gal` WHERE galId=:galId ORDER BY sort");
+            $result->execute([':galId' => $id]);
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
                 }
@@ -488,10 +501,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (isset($_POST['submitted'])) {
-                    $sql = "INSERT INTO `image_gal` ( `galId` ,  `image` ,  `caption_en` ,  `link`   ) VALUES(  '{$id}' ,  '{$_POST['image']}' ,  '{$_POST['caption_en']}' ,  '{$_POST['link']}'   ) ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "INSERT INTO `image_gal` ( `galId` ,  `image` ,  `caption_en` ,  `link`   ) VALUES(  :galId ,  :image ,  :caption_en ,  :link   ) ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':galId' => $id, ':image' => $_POST['image'], ':caption_en' => $_POST['caption_en'], ':link' => $_POST['link']]);
                     echo "Fila Agregada.";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
@@ -500,7 +516,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <a class="btn btn-secondary" href='listGal.php'>Retornar a Galerias</a> - <a class="btn btn-secondary"  href='listImg.php'>Retornar a Imagenes</a> 
                                 </p>
                                 <h3>Agregar Imagenes a <?php echo $row['gallery']; ?></h3> 
-                                <form action='' method='POST'>                 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>                 
                                     <div class='col-md-6'><label class="form-label">Image:</label>
                                         <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
                                         <script type="text/javascript">
@@ -542,7 +559,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['gal']) && !empty($_GET['gal'])) {
                 $id = (int) $_GET['gal'];
-                $rowg = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $rowg = $stmt->fetch(PDO::FETCH_ASSOC);
             }
             ?>
                         <p>
@@ -623,11 +642,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_POST["submitOrd"])) {
                 $id_ary = explode(",", $_POST["img_order"]);
                 for ($i = 1; $i < count($id_ary); $i++) {
-                    $conn->query("UPDATE multimedia_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
+                    $stmt = $conn->prepare("UPDATE multimedia_gal SET sort=:sort WHERE id=:id AND galId=:galId ");
+                    $stmt->execute([':sort' => $i, ':id' => $id_ary[$i], ':galId' => $id]);
                 }
             }
             ?>
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <input type = "hidden" name="img_order" id="img_order" /> 
             <?php
             echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
@@ -641,8 +662,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM multimedia_gal WHERE galId='$id' ORDER BY sort") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->prepare("SELECT * FROM multimedia_gal WHERE galId=:galId ORDER BY sort");
+            $result->execute([':galId' => $id]);
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
                 }
@@ -684,17 +706,21 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (isset($_POST['submitted'])) {
-                    $sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description` ,  `source` ,  `idlink`  ) VALUES(  '{$id}' ,  '{$_POST['name']}' ,  '{$_POST['image']}' ,  '{$_POST['description']}' ,  '{$_POST['source']}' ,  '{$_POST['idlink']}'  ) ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description` ,  `source` ,  `idlink`  ) VALUES(  :galId ,  :name ,  :image ,  :description ,  :source ,  :idlink  ) ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':galId' => $id, ':name' => $_POST['name'], ':image' => $_POST['image'], ':description' => $_POST['description'], ':source' => $_POST['source'], ':idlink' => $_POST['idlink']]);
                     echo "Fila Agregada.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
             ?>
                                 <a class="btn btn-secondary" href='dashboard/gallery/listgm'>Retornar a la Lista</a> 
                                 <h3>Agregar Multimedia a <?php echo $row['gallery']; ?></h3> 
-                                <form action='' method='POST'>                                        
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>                                        
                                     <div class='col-md-6'><label class="form-label">Imagen:</label>  
                                         <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
                                         <script type="text/javascript">
@@ -733,7 +759,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <?php
                 $acti = array("youtube", "vimeo");
                 reset($acti);
-                while (list($key, $val) = each($acti)) {
+                foreach ($acti as $key => $val) {
                 ?>     
                                                         <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
                     <?php
@@ -758,7 +784,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['gal']) && !empty($_GET['gal'])) {
                 $id = (int) $_GET['gal'];
-                $rowg = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $rowg = $stmt->fetch(PDO::FETCH_ASSOC);
             }
             ?>
                         <p>
@@ -839,11 +867,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_POST["submitOrd"])) {
                 $id_ary = explode(",", $_POST["img_order"]);
                 for ($i = 1; $i < count($id_ary); $i++) {
-                    $conn->query("UPDATE press_gal SET sort='$i' WHERE id='$id_ary[$i]' AND galId='$id' ");
+                    $stmt = $conn->prepare("UPDATE press_gal SET sort=:sort WHERE id=:id AND galId=:galId ");
+                    $stmt->execute([':sort' => $i, ':id' => $id_ary[$i], ':galId' => $id]);
                 }
             }
             ?>
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <input type = "hidden" name="img_order" id="img_order" /> 
             <?php
             echo "<table class='table' id='sort' border=1 cellpadding=0 cellspacing=0 > \n";
@@ -858,8 +888,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `press_gal` WHERE galId='$id'") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->prepare("SELECT * FROM `press_gal` WHERE galId=:galId");
+            $result->execute([':galId' => $id]);
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
                 }
@@ -903,10 +934,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `galleries` WHERE `idGal` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `galleries` WHERE `idGal` = :id ");
+                $stmt->execute([':id' => $id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (isset($_POST['submitted'])) {
-                    $sql = "INSERT INTO `press_gal` ( `galId` ,  `image`,  `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  '$id' ,  '{$_POST['image']}' , '{$_POST['title']}' ,  '{$_POST['subtitle']}' ,  '{$_POST['description']}' ,  '{$_POST['printing_date']}' ,  '{$_POST['type_press']}'  ) ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "INSERT INTO `press_gal` ( `galId` ,  `image`,  `title` ,  `subtitle` ,  `description` ,  `printing_date` ,  `type_press`  ) VALUES(  :galId ,  :image , :title ,  :subtitle ,  :description ,  :printing_date ,  :type_press  ) ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':galId' => $id, ':image' => $_POST['image'], ':title' => $_POST['title'], ':subtitle' => $_POST['subtitle'], ':description' => $_POST['description'], ':printing_date' => $_POST['printing_date'], ':type_press' => $_POST['type_press']]);
                     echo "Fila Agregada.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
@@ -915,7 +949,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <a class="btn btn-secondary" href='dashboard/gallery/listgp'>Retornar a la Lista</a> 
                                 </p>
                                 <h3>Agregar a Publicación</h3> 
-                                <form action='' method='POST'>  
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>  
                                     <div class='col-md-6'><label class="form-label">Imagen:</label>
                                         <script src="<?php echo SYST; ?>js/jquery.popupwindow.js" type="text/javascript"></script> 
                                         <script type="text/javascript">
@@ -951,7 +986,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <?php
                 $acti = array("Entrevista", "Articulo", "Catalogo");
                 reset($acti);
-                while (list($key, $val) = each($acti)) {
+                foreach ($acti as $key => $val) {
                 ?>     
                                                     <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
                     <?php

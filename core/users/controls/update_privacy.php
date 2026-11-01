@@ -8,6 +8,7 @@
   </div>
   <div class="modal-body">
 		<?php
+global $conn;
 //This is temporal file only for add new row
 if (isset($_POST['updateprivacy'])) { 
 
@@ -18,19 +19,17 @@ $name_company = protect($_POST["name_company"]);
 $ruc_number = protect($_POST["ruc_number"]); 
 
 $sql = "UPDATE users_privacy SET nationality = ?, type_document = ?, number_document = ?, name_company = ?, ruc_number = ? WHERE usercode = ?";
-$stmt = $this->conn>prepare($sql);
-$stmt->bind_param('ssssss', $nationality, $type_document, $number_document, $name_company, $ruc_number, $ucode );
-$stmt->execute();
-$stmt->close();
+$stmt = $conn->prepare($sql);
+$stmt->execute([$nationality, $type_document, $number_document, $name_company, $ruc_number, $ucode ]);
+$stmt->closeCursor();
 }
-$upry = $this->conn->prepare("SELECT nationality, type_document, number_document, name_company, ruc_number FROM users_privacy WHERE usercode = ?");
-$upry->bind_param('s', $ucode);
-$upry->execute();
-$pry = $upry->get_result();
-$upry->close();
-$rpy = $pry->fetch_assoc();
+$upry = $conn->prepare("SELECT nationality, type_document, number_document, name_company, ruc_number FROM users_privacy WHERE usercode = ?");
+$upry->execute([$ucode]);
+$rpy = $upry->fetch(PDO::FETCH_ASSOC);
+$upry->closeCursor();
 ?>  
 <form role="form" id="privacy" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 			<div class="row">
 <div class="form-group">
    <label for="nationality" class ="control-label col-md-6">Nacionalidad:</label>

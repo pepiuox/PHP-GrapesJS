@@ -99,7 +99,15 @@ class MyCRUD {
         $stmt = $this->connection->query("SELECT * FROM `{$tble}` LIMIT 1");
         if ($stmt && $stmt->columnCount() > 0) {
             $meta = $stmt->getColumnMeta(0);
-            return $meta['name'] ?? null;
+            $column = (string) ($meta['name'] ?? '');
+
+            if ($column === '') {
+                return null;
+            }
+
+            // El nombre viene de la metadata de la base de datos y se interpola en el SQL:
+            // se valida con la unica regla de identificadores del proyecto.
+            return \PepiuoX\Security\SqlIdentifier::assert($column);
         }
         return null;
     }

@@ -23,8 +23,12 @@
 
 <ul id="sortme">
     <?php
-    $result = $database->query("SELECT * FROM `menu` ORDER BY `sort` ASC") or die($database->error);
-    while ($row = $result->fetch_array()) {
+    // ✅ PDO: conexión canónica global (antes $database, inexistente).
+    if (!isset($conn)) {
+        require_once __DIR__ . '/../../config/dbconnection.php';
+    }
+    $result = $conn->query("SELECT * FROM `menu` ORDER BY `sort` ASC");
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         echo '<li id="menu_' . $row['id'] . '">' . $row['title'] . "</li>\n";
     }
     ?>

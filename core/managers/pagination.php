@@ -1,21 +1,27 @@
 <?php
+// ✅ PDO: antes usaba una variable $mysqli inexistente. Ahora usa la conexión canónica global.
+if (!isset($conn)) {
+    require_once __DIR__ . '/../config/dbconnection.php';
+}
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query('SELECT * FROM students')->num_rows;
+$total_pages = $conn->query('SELECT * FROM students')->rowCount();
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
-$page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 
 // Number of results to show on each page.
 $num_results_on_page = 5;
 
-if ($stmt = $mysqli->prepare('SELECT * FROM students ORDER BY name LIMIT ?,?')) {
+// ✅ PDO: LIMIT con placeholders exige bindValue(..., PDO::PARAM_INT).
+if ($stmt = $conn->prepare('SELECT * FROM students ORDER BY name LIMIT :off, :cnt')) {
     // Calculate the page to get the results we need from our table.
     $calc_page = ($page - 1) * $num_results_on_page;
-    $stmt->bind_param('ii', $calc_page, $num_results_on_page);
+    $stmt->bindValue(':off', (int) $calc_page, PDO::PARAM_INT);
+    $stmt->bindValue(':cnt', (int) $num_results_on_page, PDO::PARAM_INT);
     $stmt->execute();
     // Get the results...
-    $result = $stmt->get_result();
+    $result = $stmt;
     ?>
    
             <style>
@@ -90,7 +96,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM students ORDER BY name LIMIT ?,?')) 
                     <th>Age</th>
                     <th>Join Date</th>
                 </tr>
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)): ?>
                     <tr>
                         <td><?php echo $row['name']; ?></td>
                         <td><?php echo $row['age']; ?></td>
@@ -129,7 +135,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM students ORDER BY name LIMIT ?,?')) 
             <?php endif; ?>
 
     <?php
-    $stmt->close();
+    $stmt->closeCursor();
 }
 
 

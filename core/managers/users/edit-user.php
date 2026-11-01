@@ -72,6 +72,7 @@ $page_title = 'Editar usuarios';
                 <div class="card">
                     <div class="card-body">
                         <form method="POST" action="">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="username" class="form-label">

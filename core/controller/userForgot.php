@@ -22,7 +22,7 @@ use PHPMailer\PHPMailer\Exception;
  * - PHPMailer en lugar de mail()
  * - exit después de header()
  */
-class UsersForgot
+class UserForgot
 {
     public string $baseurl;
     protected PDO $conn;
@@ -232,9 +232,9 @@ class UsersForgot
         }
 
         $chck = $this->conn->prepare(
-            'SELECT * FROM forgot_pass WHERE mkhash = ? AND password_key = ?'
+            'SELECT * FROM forgot_pass WHERE password_key = ?'
         );
-        $chck->execute([$hash, $forgotkey]);
+        $chck->execute([$forgotkey]);
         $ct = $chck->fetch(PDO::FETCH_ASSOC);
 
         if (!$ct) {
@@ -282,7 +282,7 @@ class UsersForgot
             }
 
             $dt = $stmt->fetch(PDO::FETCH_ASSOC);
-            $duv = (int) $dt['iduv'];
+            $duv = (string) $dt['iduv'];
             $pin = $dt['mkpin'];
 
             // ✅ Generar claves con random_bytes
@@ -364,9 +364,9 @@ class UsersForgot
         }
 
         $chck = $this->conn->prepare(
-            'SELECT * FROM forgot_pin WHERE mkhash = ? AND password_key = ?'
+            'SELECT * FROM forgot_pin WHERE pin_key = ?'
         );
-        $chck->execute([$hash, $forgotkey]);
+        $chck->execute([$forgotkey]);
         $ct = $chck->fetch(PDO::FETCH_ASSOC);
 
         if (!$ct) {
@@ -401,7 +401,7 @@ class UsersForgot
         }
 
         $dt = $very->fetch(PDO::FETCH_ASSOC);
-        $duv = (int) $dt['iduv'];
+        $duv = (string) $dt['iduv'];
 
         // ✅ CORREGIDO: Ahora usa prepared statements
         $checkm = $this->gc->ende_crypter('encrypt', $vemail, $dt['mktoken'], $dt['mkkey']);

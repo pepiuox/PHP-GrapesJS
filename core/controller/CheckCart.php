@@ -22,6 +22,7 @@ class CheckCart
     public function __construct(PDO $conn)
     {
         $this->conn = $conn;
+        $this->table_name = \PepiuoX\Security\SqlIdentifier::assert($this->table_name);
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 

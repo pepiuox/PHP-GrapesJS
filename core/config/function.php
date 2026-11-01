@@ -5,12 +5,12 @@
  */
 
 function protect($str) {
-    global $conn;
+    // ✅ PDO: ya no se escapa a mano (se usan prepared statements).
+    // Esta función sólo sanea la SALIDA HTML.
     $str = trim($str);
     $str = stripslashes($str);
     $str = htmlentities($str, ENT_QUOTES);
     $str = htmlspecialchars($str, ENT_QUOTES);
-    $str = mysqli_real_escape_string($conn, $str);
     return $str;
 }
 
@@ -27,12 +27,12 @@ function decodeContent($str) {
 function nparent() {
     global $conn;
     $result = $conn->query("SELECT * FROM pages");
-    $numr = $result->num_rows;
+    $numr = $result->rowCount();
     $sp = "";
     if ($numr > 0) {
         $sp .= '<select class="form-select" name="parent" id="parent">' . "\n";
         $sp .= '<option>Select a parent</option>' . "\n";
-        while ($row = $result->fetch_array()) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $sp .= '<option value="' . $row['id'] . '">' . $row['title'] . '</option>' . "\n";
         }
         $sp .= '</select>' . "\n";
@@ -48,8 +48,9 @@ function nparent() {
 function vwparent($parent) {
     global $conn;
     if ($parent > 0) {
-        $result = $conn->query("SELECT * FROM pages WHERE id='$parent'");
-        $row = $result->fetch_assoc();
+        $result = $conn->prepare("SELECT * FROM pages WHERE id=:parent");
+        $result->execute([':parent' => $parent]);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
         echo $row['title'];
     }
 }
@@ -61,7 +62,7 @@ function sparent($parent) {
     $sp = "";
     $sp .= '<select class="form-select" name="parent" id="parent">';
     $sp .= '<option>Select a parent</option>';
-    while ($row = $result->fetch_array()) {
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $select = $parent == $row['id'] ? ' selected' : null;
         $sp .= '<option value="' . $row['id'] . '"' . $select . '>' . $row['title'] . '</option>';
     }
@@ -74,7 +75,7 @@ function pparent($parent) {
     $result = $conn->query("SELECT * FROM pages");
     echo '<select class="form-select" name="parent" id="parent">' . "\n";
     echo '<option>Select a parent</option>' . "\n";
-    while ($row = $result->fetch_array()) {
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $select = $parent == $row['id'] ? ' selected' : null;
         echo '<option value="' . $row['id'] . '"' . $select . '>' . $row['title'] . '</option>' . "\n";
     }
@@ -86,7 +87,7 @@ function slmenu() {
     $result = $conn->query("SELECT * FROM menu_options");
     echo '<select class="form-select" name="menu" id="menu">' . "\n";
     echo '<option>Select a menu</option>' . "\n";
-    while ($row = $result->fetch_array()) {
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
         echo '<option value="' . $row['id'] . '">' . $row['id_menu'] . '</option>' . "\n";
     }
@@ -98,7 +99,7 @@ function menuopt($menu) {
     $result = $conn->query("SELECT * FROM menu_options");
     echo '<select class="form-select" name="menu" id="menu">' . "\n";
     echo '<option>Select a menu</option>' . "\n";
-    while ($row = $result->fetch_array()) {
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $select = $menu == $row['id'] ? ' selected' : null;
         echo '<option value="' . $row['id'] . '"' . $select . '>' . $row['id_menu'] . '</option>' . "\n";
     }
@@ -107,7 +108,16 @@ function menuopt($menu) {
 
 function enum_values($table, $field, $enum) {
     global $conn;
-    $type = $conn->query("SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'")->fetch_array(MYSQLI_ASSOC)['Type'];
+    $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+    $field = \PepiuoX\Security\SqlIdentifier::assert($field);
+    // El valor va como marcador: concatenarlo dentro de comillas era el unico punto
+    // del proyecto donde un valor entraba en el texto SQL.
+    $stmtType = $conn->prepare(
+        "SHOW COLUMNS FROM " . \PepiuoX\Security\SqlIdentifier::quote($table) . " WHERE Field = :field"
+    );
+    $stmtType->execute([':field' => $field]);
+    $columnInfo = $stmtType->fetch(PDO::FETCH_ASSOC);
+    $type = (string) ($columnInfo['Type'] ?? '');
     preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
     $enum = explode("','", $matches[1]);
     $frmp = ucfirst(str_replace("_", " ", $field));
@@ -126,10 +136,11 @@ function enum_values($table, $field, $enum) {
 
 function selType($tble, $c_nm, $enum) {
     global $conn;
-    $sql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $c_nm . "'";
+    $sql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :tble AND COLUMN_NAME = :c_nm";
 
-    $iresult = $conn->query($sql);
-    $row = $iresult->fetch_array();
+    $iresult = $conn->prepare($sql);
+    $iresult->execute([':tble' => $tble, ':c_nm' => $c_nm]);
+    $row = $iresult->fetch(PDO::FETCH_ASSOC);
     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
 
     $frmp = ucfirst(str_replace("_", " ", $c_nm));
@@ -153,9 +164,10 @@ function enumsel($tble, $labelc, $nrow = '') {
     $remp = ucfirst(str_replace("_", " ", $labelc));
     $frmp = str_replace(" id", "", $remp);
 
-    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $tble . "' AND COLUMN_NAME = '" . $labelc . "'";
-    $iresult = $conn->query($isql);
-    $row = $iresult->fetch_array();
+    $isql = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :tble AND COLUMN_NAME = :labelc";
+    $iresult = $conn->prepare($isql);
+    $iresult->execute([':tble' => $tble, ':labelc' => $labelc]);
+    $row = $iresult->fetch(PDO::FETCH_ASSOC);
     $enum_list = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
     $default_value = $nrow;
     //

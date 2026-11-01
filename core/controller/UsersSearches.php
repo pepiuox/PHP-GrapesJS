@@ -19,6 +19,7 @@ class UsersSearches
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
 
         // Validación estricta de sesión
         if (!isset($_SESSION['access_id']) || !is_string($_SESSION['access_id'])) {
@@ -61,7 +62,9 @@ class UsersSearches
         LIMIT :lim";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':uc' => $this->ucode, ':lim' => $limit]);
+        $stmt->bindValue(':uc', $this->ucode);
+        $stmt->bindValue(':lim', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

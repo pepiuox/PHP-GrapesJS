@@ -1,4 +1,5 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     if (isset($_GET['w']) && !empty($_GET['w'])) {
         $w = $_GET['w'];
@@ -20,8 +21,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $this->conn->query("SELECT * FROM `blocks` LEFT JOIN `type_blocks` ON blocks.blockId = type_blocks.id LEFT JOIN (SELECT id AS npage , title FROM pages)`page` ON blocks.pageId=page.npage");
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `blocks` LEFT JOIN `type_blocks` ON blocks.blockId = type_blocks.id LEFT JOIN (SELECT id AS npage , title FROM pages)`page` ON blocks.pageId=page.npage");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
                 }
@@ -56,22 +57,24 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `blocks` ( `blockId` ,  `active` ,  `pageId`  ) VALUES(  '{$_POST['blockId']}' ,  '{$_POST['active']}' ,  '{$_POST['pageId']}'  ) ";
-                $this->conn->query($sql) or die($this->conn->error);
+                $sql = "INSERT INTO `blocks` ( `blockId` ,  `active` ,  `pageId`  ) VALUES(  :blockId ,  :active ,  :pageId  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':blockId' => $_POST['blockId'], ':active' => $_POST['active'], ':pageId' => $_POST['pageId']]);
                 echo "Bloque Agregado.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
             ?>
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <div class="container">
                                 <label class="form-label">Tipo de Bloque:</label>
             <?php
             $stp1 = "SELECT * FROM type_blocks";
-            $quertp1 = $this->conn->query($stp1);
+            $quertp1 = $conn->query($stp1);
             ?> 
                                 <select class="form-select" name='blockId' id='blockId'/>                                     
             <?php
-            while ($tp1 = mysqli_fetch_array($quertp1)) {
+            while ($tp1 = $quertp1->fetch(PDO::FETCH_ASSOC)) {
             ?>     
                                         <option value="<?php echo $tp1['id']; ?>"><?php echo $tp1['type_block']; ?></option>
                 <?php
@@ -98,12 +101,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                 <label class="form-label">Página:</label>
             <?php
             $sqp1 = "SELECT * FROM pages";
-            $queryp1 = $this->conn->query($sqp1);
+            $queryp1 = $conn->query($sqp1);
             ?> 
                                 <select class="form-select" name='pageId' id='pageId'>                            
                                     <option>Selecciona una página </option>
             <?php
-            while ($rp1 = $queryp1->fetch_array()) {
+            while ($rp1 = $queryp1->fetch(PDO::FETCH_ASSOC)) {
             ?>     
                                             <option value="<?php echo $rp1['id']; ?>"><?php echo $rp1['title']; ?></option>
                 <?php
@@ -126,27 +129,31 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $idB = (int) $_GET['idB'];
                 if (isset($_POST['submitted'])) {
 
-                    $sql = "UPDATE `blocks` SET  `blockId` =  '{$_POST['blockId']}' ,  `active` =  '{$_POST['active']}' ,  `pageId` =  '{$_POST['pageId']}'   WHERE `idB` = '$idB' ";
-                    $this->conn->query($sql) or die($this->conn->error);
+                    $sql = "UPDATE `blocks` SET  `blockId` =  :blockId ,  `active` =  :active ,  `pageId` =  :pageId   WHERE `idB` = :idB ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':blockId' => $_POST['blockId'], ':active' => $_POST['active'], ':pageId' => $_POST['pageId'], ':idB' => $idB]);
                     echo "Bloque Editado.<br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = $this->conn->query("SELECT * FROM `blocks` WHERE `idB` = '$idB' ")->fetch_assoc();
+                $stmt = $conn->prepare("SELECT * FROM `blocks` WHERE `idB` = :idB ");
+                $stmt->execute([':idB' => $idB]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                                 <p>
                                     <a class="btn btn-secondary" href='dashboard/blocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='Block.php?w=add'>Nuevo Bloque</a> 
                                 </p>
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class="container">
                                         <label class="form-label">Bloque:</label>
                                         <label class="form-label">Tipo de Bloque:</label>
                 <?php
                 $stp1 = "SELECT * FROM type_blocks";
-                $quertp1 = $this->conn->query($stp1);
+                $quertp1 = $conn->query($stp1);
                 ?> 
                                         <select class="form-select" name='blockId' id='blockId'/>                                     
                 <?php
-                while ($tp1 = mysqli_fetch_array($quertp1)) {
+                while ($tp1 = $quertp1->fetch(PDO::FETCH_ASSOC)) {
                     if ($tp1['id'] == $row['blockId']) {
                 ?>     
                                                         <option value="<?php echo $tp1['id']; ?>" selected><?php echo $tp1['type_block']; ?></option>
@@ -186,12 +193,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     <div class="container"><label class="form-label">Página:</label>
                 <?php
                 $sqp1 = "SELECT * FROM pages";
-                $queryp1 = $this->conn->query($sqp1);
+                $queryp1 = $conn->query($sqp1);
                 ?> 
                                         <select class="form-select" name='pageId' id='pageId'>                            
                                             <option>Selecciona una página </option>
                 <?php
-                while ($rp1 = mysqli_fetch_array($queryp1)) {
+                while ($rp1 = $queryp1->fetch(PDO::FETCH_ASSOC)) {
                     if ($rp1['id'] == $row['pageId']) {
                 ?>     
                                                             <option value="<?php echo $rp1['id']; ?>" selected><?php echo $rp1['title']; ?></option>
@@ -218,7 +225,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             $idB = (int) $_GET['idB'];
-            $this->conn->query("DELETE FROM `blocks` WHERE `idB` = '$idB' ");
+            $stmt = $conn->prepare("DELETE FROM `blocks` WHERE `idB` = :idB ");
+            $stmt->execute([':idB' => $idB]);
             //echo "Bloque Eliminado.<br /> ";
             header("Location: listBlock.php");
             ?> 

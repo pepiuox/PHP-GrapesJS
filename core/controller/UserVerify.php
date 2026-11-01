@@ -12,9 +12,9 @@ class UserVerify
 {
     private PDO $connection;
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->connection = $connection;
+        $this->connection = $connection ?? \PepiuoX\Database\Connection::shared();
 
         if (isset($_GET['id'], $_GET['code'], $_GET['hash'])) {
             $id   = (int) $_GET['id'];
@@ -71,7 +71,7 @@ class UserVerify
             return;
         }
         $urw = $stmt->fetch(PDO::FETCH_ASSOC);
-        $uid = (int) $urw['iduv'];
+        $uid = (string) $urw['iduv'];
 
         $mhash    = $this->generateKey();
         $verified = 1;

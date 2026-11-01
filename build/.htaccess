@@ -45,6 +45,13 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^.*$ index.php [QSA,L]
+
+    Redirect 301 "/home" "/"
+    Redirect 301 "/inicio" "/"
+    #Redirect 301 "/system" "/admin"
+    #Redirect 301 "/login" "/signin"
+    #Redirect 301 "/user" "/profile"
+
 </IfModule>
 
 <IfModule mod_headers.c>
@@ -101,20 +108,17 @@
     SecRule REQUEST_URI "\.\./" "id:1,phase:1,deny,status:403,msg:'Path Traversal Attack'"
 
     # Prevenir ataques XSS
-    SecRule REQUEST_HEADERS|REQUEST_FILENAME|REQUEST_URI|REQUEST_BODY "(<script|<iframe|<object|<embed|<applet|<meta)" \
-        "id:2,phase:2,deny,status:403,msg:'XSS Attack Detected'"
+    SecRule REQUEST_HEADERS|REQUEST_FILENAME|REQUEST_URI|REQUEST_BODY "(<script|<iframe|<object|<embed|<applet|<meta)" \ "id:2,phase:2,deny,status:403,msg:'XSS Attack Detected'"
 
     # Prevenir SQL Injection
-    SecRule REQUEST_HEADERS|REQUEST_FILENAME|REQUEST_URI|REQUEST_BODY "(select.*from|delete.*from|insert.*into|update.*set|union.*select|drop.*table|truncate.*table)" \
-        "id:3,phase:2,deny,status:403,msg:'SQL Injection Attack'"
-
+    SecRule REQUEST_HEADERS|REQUEST_FILENAME|REQUEST_URI|REQUEST_BODY "(select.*from|delete.*from|insert.*into|update.*set|union.*select|drop.*table|truncate.*table)" \ "id:3,phase:2,deny,status:403,msg:'SQL Injection Attack'"
+ 
     # Validar cookies de sesión PHP
     SecRule ARGS:PHPSESSID "!^[0-9a-z]*$" "id:4,phase:2,deny,status:403,msg:'Invalid Session ID'"
     SecRule COOKIES:PHPSESSID "!^[0-9a-z]*$" "id:5,phase:2,deny,status:403,msg:'Invalid Session ID'"
 
     # Restringir métodos HTTP
-    SecRule REQUEST_METHOD "^(TRACE|TRACK|DELETE|PUT)" \
-        "id:6,phase:1,deny,status:405,msg:'HTTP Method Not Allowed'"
+    SecRule REQUEST_METHOD "^(TRACE|TRACK|DELETE|PUT)" \ "id:6,phase:1,deny,status:405,msg:'HTTP Method Not Allowed'"
 </IfModule>
 
 <FilesMatch "(^#.*#|\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|sw[op]|backup|old|orig|save|temp|tmp|~)$|^composer\.(json|lock)$|^\.env$|^\.git|^\.ht)">

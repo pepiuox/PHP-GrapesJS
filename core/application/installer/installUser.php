@@ -26,7 +26,7 @@ class installUser {
     public function __construct() {
         global $conn;
         $this->connection = $conn;
-        $this->uca = new UsersCodeAccess();
+        $this->uca = new UsersCodeAccess($this->connection);
         $this->gc = new GetCodeDeEncrypt();
         $this->ip = $this->getUserIP();
         $this->dt = new DateTime();
@@ -102,11 +102,9 @@ class installUser {
         $query = $this->connection->prepare(
             "SELECT username FROM uverify WHERE username=?"
         );
-        $query->bind_param("s", $user);
-        $query->execute();
-        $result = $query->get_result();
+        $query->execute([$user]);
 
-        return $result->num_rows;
+        return $query->rowCount();
     }
 
 // This function check if email exists
@@ -120,11 +118,9 @@ class installUser {
         $query = $this->connection->prepare(
             "SELECT email FROM uverify WHERE email=?"
         );
-        $query->bind_param("s", $mail);
-        $query->execute();
-        $result = $query->get_result();
+        $query->execute([$mail]);
 
-        return $result->num_rows;
+        return $query->rowCount();
     }
 
 // This function get IP from visitor
@@ -154,11 +150,10 @@ class installUser {
         $lvushigh = 'Super Admin';
 
         $qlv = $this->connection->prepare("SELECT level FROM uverify WHERE level=?");
-        $qlv->bind_param("s", $lvushigh);
-        $qlv->execute();
-        $lvresult = $qlv->get_result();
-        $qlv->close();
-        if ($lvresult->num_rows > 0) {
+        $qlv->execute([$lvushigh]);
+        $lvresult = $qlv->rowCount();
+        $qlv->closeCursor();
+        if ($lvresult > 0) {
             return true;
         } else {
             return false;
@@ -170,11 +165,10 @@ class installUser {
 
         $lvusmid = 'Admin';
         $qlv1 = $this->connection->prepare("SELECT level FROM uverify WHERE level=?");
-        $qlv1->bind_param("s", $lvusmid);
-        $qlv1->execute();
-        $lvresult1 = $qlv1->get_result();
-        $qlv1->close();
-        if ($lvresult1->num_rows > 0) {
+        $qlv1->execute([$lvusmid]);
+        $lvresult1 = $qlv1->rowCount();
+        $qlv1->closeCursor();
+        if ($lvresult1 > 0) {
             return true;
         } else {
             return false;
@@ -202,18 +196,16 @@ class installUser {
         if (isset($_POST["cleanuser"])) {
             $lhigh = 'Super Admin';
             $qlv = $this->connection->prepare("SELECT iduv, level FROM uverify WHERE level=?");
-            $qlv->bind_param("s", $lhigh);
-            $qlv->execute();
-            $lresult = $qlv->get_result();
-            $qlv->close();
-            if ($lresult->num_rows > 0) {
+            $qlv->execute([$lhigh]);
+            $lvresult = $qlv->rowCount();
+            if ($lvresult > 0) {
 
-                $idv = $lresult->fetch_assoc();
+                $idv = $qlv->fetch(PDO::FETCH_ASSOC);
+                $qlv->closeCursor();
                 $idclean = $idv['iduv'];
                 $stmt = $this->connection->prepare("DELETE FROM uverify WHERE iduv=?");
-                $stmt->bind_param("s", $idclean);
-                $stmt->execute();
-                $stmt->close();
+                $stmt->execute([$idclean]);
+                $stmt->closeCursor();
                 $_SESSION['StepInstall'] = 5;
                 $_SESSION['AlertMessage'] = "A high-level user has been successfully deleted from the installation system, to continue with the installation.";
             }
@@ -269,11 +261,9 @@ class installUser {
                     $query = $this->connection->prepare(
                     "SELECT SECURE_HASH,SECURE_TOKEN FROM site_security WHERE site=?"
                     );
-                    $query->bind_param("i", $site);
-                    $query->execute();
-                    $result = $query->get_result();                   
-                    $query->close();
-                    $secure = $result->fetch_assoc();
+                    $query->execute([$site]);
+                    $secure = $query->fetch(PDO::FETCH_ASSOC);
+                    $query->closeCursor();
                     $stoken = $secure['SECURE_TOKEN'];
                     $shash = $secure['SECURE_HASH'];
 
@@ -313,7 +303,9 @@ class installUser {
                         $eiv
                     );
                     
-                    $pin = rand(100000, 999999);
+                    // ✅ random_int() (CSPRNG) en lugar de rand(): el PIN del administrador
+                    // protegía operaciones sensibles y era predecible.
+                    $pin = random_int(100000, 999999);
                     $mp = $this->gc->ende_crypter(
                         "encrypt",
                         $pin,
@@ -340,8 +332,8 @@ class installUser {
                         "INSERT INTO uverify (iduv,usercode,username,email,password,mktoken,mkkey,mkhash,mkpin,level,level_key,is_activate,verified,banned) " .
                         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
-                    $stmt1->bind_param(
-                        "sssssssssssiii",
+                    // ✅ PDO: execute([...]) reemplaza bind_param()/execute().
+                    $stmt1->execute([
                         $newid,
                         $usrcod,
                         $user,
@@ -356,18 +348,16 @@ class installUser {
                         $is_actd,
                         $verif,
                         $ban
-                    );
-                    $stmt1->execute();
-                    $inst2 = $stmt1->affected_rows;
-                    $stmt1->close();
+                    ]);
+                    $inst2 = $stmt1->rowCount();
+                    $stmt1->closeCursor();
 
                     // adding data in table users
                     $stmt = $this->connection->prepare(
                         "INSERT INTO users (idUser,usercode,username,email,password,status,ip,signup_time,email_verified,document_verified,mobile_verified,mkpin) " .
                         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
                     );
-                    $stmt->bind_param(
-                        "sssssisssiis",
+                    $stmt->execute([
                         $newid,
                         $usrcod,
                         $eusr,
@@ -380,37 +370,33 @@ class installUser {
                         $dvd,
                         $mvd,
                         $mp
-                    );
-                    $stmt->execute();
-                    $inst1 = $stmt->affected_rows;
-                    $stmt->close();
+                    ]);
+                    $inst1 = $stmt->rowCount();
+                    $stmt->closeCursor();
             
                     // adding data in table profile
                     $prof = $this->connection->prepare(
                         "INSERT INTO users_profiles(idp,usercode,mkhash) VALUES (?,?,?)"
                     );
-                    $prof->bind_param("sss", $newid, $usrcod, $enck);
-                    $prof->execute();
-                    $inst3 = $prof->affected_rows;
-                    $prof->close();
+                    $prof->execute([$newid, $usrcod, $enck]);
+                    $inst3 = $prof->rowCount();
+                    $prof->closeCursor();
 
                     // adding data in table info
                     $info = $this->connection->prepare(
                         "INSERT INTO users_info(userid,usercode,firstname,lastname) VALUES (?,?,?,?)"
                     );
-                    $info->bind_param("ssss", $newid, $usrcod, $firstname, $lastname);
-                    $info->execute();
-                    $inst4 = $info->affected_rows;
-                    $info->close();
+                    $info->execute([$newid, $usrcod, $firstname, $lastname]);
+                    $inst4 = $info->rowCount();
+                    $info->closeCursor();
 
                     // adding data in table info
                     $uact = $this->connection->prepare(
                         "INSERT INTO users_actions(usercode, action, validation) VALUES (?,?,?)"
                     );
-                    $uact->bind_param("sss", $usrcod, $action, $code);
-                    $uact->execute();
-                    $inst5 = $uact->affected_rows;
-                    $uact->close();
+                    $uact->execute([$usrcod, $action, $code]);
+                    $inst5 = $uact->rowCount();
+                    $uact->closeCursor();
                     
                     $this->uca->AddUserCode($usrcod);
                     $this->uca->AddSecures($newid,$usrcod);
@@ -426,12 +412,11 @@ class installUser {
                         $query = $this->connection->prepare(
                             "SELECT iduv, mkpin FROM uverify WHERE username=? AND email=? AND password=?"
                         );
-                        $query->bind_param("sss", $user, $uml, $pass);
-                        $query->execute();
-                        $result = $query->get_result();
-                        $query->close();
+                        $query->execute([$user, $uml, $pass]);
+                        $found = $query->fetch(PDO::FETCH_ASSOC);
+                        $query->closeCursor();
                         
-                        if ($result->num_rows === 1) {
+                        if ($found !== false) {
                             $this->uca->UpActive($usrcod, $verif);
                             $_SESSION['FullSuccess'] = 'Please remember! Save this, your PIN code is: <h2>' . $pin . '</h2> Thank you for registering. ' . "\n";
                             $_SESSION['SuccessMessage'] = "Admin successfully added.";
@@ -448,13 +433,15 @@ class installUser {
                 }
             }
         }
-        $this->connection->close();
+        // ✅ PDO: no existe $this->connection->close(); la conexión es el singleton compartido $conn.
     }
 
     public function generateRandStr($length) {
         $randstr = "";
         for ($i = 0; $i < $length; $i++) {
-            $randnum = mt_rand(0, 61);
+            // ✅ random_int() (CSPRNG) en lugar de mt_rand(): se usa para códigos de
+            // verificación/recuperación, que deben ser impredecibles.
+            $randnum = random_int(0, 61);
             if ($randnum < 10) {
                 $randstr .= chr($randnum + 53);
             } else if ($randnum < 36) {

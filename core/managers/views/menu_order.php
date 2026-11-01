@@ -21,9 +21,9 @@ function update_menu($menu,$parent = 0)
             $label = $value['label'];
             $url = (empty($value['url'])) ? '#' : $value['url'];
 
-            $sql = "INSERT INTO menu (label_menu, url_menu, parent_id) VALUES ('$label', '$url', $parent)";
+            $sql = "INSERT INTO menu (label_menu, url_menu, parent_id) VALUES (?, ?, ?)";
 
-            $db->query($sql);
+            $db->query($sql, $label, $url, $parent);
             $id = $db->insertedId();
 
             if (array_key_exists('children', $value))

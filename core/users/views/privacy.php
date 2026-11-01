@@ -13,15 +13,24 @@ if (isset($_POST['editrow'])) {
     $created = $_POST["created"];
     $updated = $_POST["updated"];
 
-    $query = "UPDATE users_privacy SET usercode = ?, verification = ?, nationality = ?, type_document = ?, number_document = ?, name_company = ?, ruc_number = ?, logo_image = ?, required = ?, created = ?, updated = ? WHERE idPri = ?";
-    $updated = $conn->prepare($sql);
-    $updated->bind_param('ssssssssissi', $usercode, $verification, $nationality, $type_document, $number_document, $name_company, $ruc_number, $logo_image, $required, $created, $updated, $id);
-    $updated->execute();
-    $updated->close();
+    $query = "UPDATE users_privacy SET usercode = ?, verification = ?, nationality = ?, type_document = ?, number_document = ?, name_company = ?, ruc_number = ?, logo_image = ?, required = ?, created_at = ?, updated_at = ? WHERE idUsr = ?";
+
+    // ✅ Correcciones: (1) prepare() recibía `$sql` (indefinido) en lugar de `$query`;
+    //    (2) `$id` nunca se definía → el UPDATE no afectaba a ninguna fila;
+    //    (3) `$updated` (valor del POST) era sobrescrito por el statement;
+    //    (4) la PK de las tablas de perfil corresponde a $_SESSION['user_id'].
+    $rowId = $_SESSION['user_id'] ?? null;
+
+    if ($rowId !== null) {
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$usercode, $verification, $nationality, $type_document, $number_document, $name_company, $ruc_number, $logo_image, $required, $created, $updated, $rowId]);
+        $stmt->closeCursor();
+    }
 }
 ?> 
 
 <form method="post" class="form-horizontal" role="form" id="add_users_privacy" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="form-group">
   <label for="usercode">Usercode:</label>
   <input type="text" class="form-control" id="usercode" name="usercode">

@@ -1,8 +1,9 @@
 <div class="col-md-12">
     <div class="galleryShow">
         <?php
-        $rslideg = $conn->query("SELECT idGal, title, description, pageId FROM galleries WHERE active='1' AND pageId = '$bid' LIMIT 1");
-        $rowg = $rslideg->fetch_array();
+        $rslideg = $conn->prepare("SELECT idGal, title, description, pageId FROM galleries WHERE active='1' AND pageId = :bid LIMIT 1");
+        $rslideg->execute([':bid' => $bid]);
+        $rowg = $rslideg->fetch(PDO::FETCH_ASSOC);
         $idGal = $rowg['idGal'];
         ?>  
         <div class="col-md-6">                     
@@ -23,8 +24,9 @@
             <div class="galleryThumbnailsContainer">
                 <div class="galleryThumbnails scrollpanel">
                     <?php
-                    $rslidet = $conn->query("SELECT id, galId, image FROM multimedia_gal WHERE galId = '$idGal'");
-                    while ($rowt = $rslidet->fetch_array()) {
+                    $rslidet = $conn->prepare("SELECT id, galId, image FROM multimedia_gal WHERE galId = :idGal");
+                    $rslidet->execute([':idGal' => $idGal]);
+                    while ($rowt = $rslidet->fetch(PDO::FETCH_BOTH)) {
                         $rowts[] = $rowt;
                     }
                     foreach ($rowts as $rowt) {
@@ -38,8 +40,9 @@
                 <div class="galleryPreviewImage">  
                     <ul>
                         <?php
-                        $rslider = $conn->query("SELECT id, galId, description, source, idlink FROM multimedia_gal WHERE galId = '$idGal'");
-                        while ($row = $rslider->fetch_array()) {
+                        $rslider = $conn->prepare("SELECT id, galId, description, source, idlink FROM multimedia_gal WHERE galId = :idGal");
+                        $rslider->execute([':idGal' => $idGal]);
+                        while ($row = $rslider->fetch(PDO::FETCH_BOTH)) {
                             $rows[] = $row;
                         }
                         foreach ($rows as $row) {

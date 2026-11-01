@@ -20,8 +20,10 @@ include("database.php");
 include("mailer.php");
 include("form.php");
 
-$resultc = $this->connection->query("SELECT config_name, config_value FROM configuration");
-while ($rowt = $resultc->fetch_array()) {
+// ✅ PDO: se usa la conexión canónica global ($conn); antes $this->connection (inválido fuera de un objeto).
+global $conn;
+$resultc = $conn->query("SELECT config_name, config_value FROM configuration");
+while ($rowt = $resultc->fetch(PDO::FETCH_ASSOC)) {
     define($rowt['config_name'], $rowt['config_value']);
 }
 
@@ -702,7 +704,9 @@ class Session {
     function generateRandStr($length) {
         $randstr = "";
         for ($i = 0; $i < $length; $i++) {
-            $randnum = mt_rand(0, 61);
+            // ✅ random_int() (CSPRNG) en lugar de mt_rand(): se usa para códigos de
+            // verificación, que deben ser impredecibles.
+            $randnum = random_int(0, 61);
             if ($randnum < 10) {
                 $randstr .= chr($randnum + 48);
             } else if ($randnum < 36) {

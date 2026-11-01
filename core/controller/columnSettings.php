@@ -44,7 +44,7 @@ class ColumnSettings
     {
         $stmt = $this->conn->prepare(
             "SELECT * FROM table_column_settings
-            WHERE name_table = :tname AND col_name = :cname
+            WHERE table_name = :tname AND col_name = :cname
             LIMIT 1"
         );
         $stmt->execute([

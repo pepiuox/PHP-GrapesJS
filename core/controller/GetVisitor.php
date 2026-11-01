@@ -16,9 +16,9 @@ class GetVisitor
     private string $session = '';
     public GetCodeDeEncrypt $gc;
 
-    public function __construct(PDO $conn)
+    public function __construct(?PDO $conn = null)
     {
-        $this->conn = $conn;
+        $this->conn = $conn ?? \PepiuoX\Database\Connection::shared();
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $this->date = new DateTime();

@@ -35,6 +35,11 @@ if (defined('TBL')) {
 $vpages = $vp->vPages($cms);
 
 if ($login->isLoggedIn() === true) {
+// ✅ Validación CSRF CENTRAL del área de usuario (ver PepiuoX\Security\Csrf::guardPost()).
+// Cubre todos los handlers de los controles y vistas que se incluyen más abajo
+// (actualizar perfil, datos, privacidad, redes, imagen…), que no comprobaban nada.
+\PepiuoX\Security\Csrf::guardPost();
+
 $name = "ckid";
 $value = $_SESSION["username"];
 $expire = time() + (3600 * 24); // 30 days

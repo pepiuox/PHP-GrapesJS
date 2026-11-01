@@ -1,10 +1,13 @@
 <!-- prints block -->
 <?php
-$rowga = mysqli_fetch_array($conn->query("SELECT * FROM galleries WHERE active='1' AND pageId = '$bid' LIMIT 1"));
+$stmt = $conn->prepare("SELECT * FROM galleries WHERE active='1' AND pageId = :bid LIMIT 1");
+$stmt->execute([':bid' => $bid]);
+$rowga = $stmt->fetch(PDO::FETCH_ASSOC);
 $myG = $rowga['idGal'];
-$rslidet = $conn->query("SELECT * FROM image_gal WHERE galId = '$myG' ORDER BY sort");
+$rslidet = $conn->prepare("SELECT * FROM image_gal WHERE galId = :myG ORDER BY sort");
+$rslidet->execute([':myG' => $myG]);
 $rowts = array();
-while ($rowt = $rslidet->fetch_array()) {
+while ($rowt = $rslidet->fetch(PDO::FETCH_ASSOC)) {
     $rowts[] = $rowt;
 }
 $num_ct = count($rowts);

@@ -1,4 +1,5 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     
       $log_directory = URL.'/build/themes';
@@ -31,10 +32,10 @@ if ($w == "list") {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $this->conn->query("SELECT * FROM themes ");
-                    $numr = $result->num_rows;
+                    $result = $conn->query("SELECT * FROM themes ");
+                    $numr = $result->rowCount();
                     if ($numr > 0) {
-                        while ($prow = $result->fetch_array()) {
+                        while ($prow = $result->fetch(PDO::FETCH_ASSOC)) {
                             echo '<tr>
                         <td><!--Button -->
                             <a id="editrow" name="editrow" title="Edit" class="btn btn-success" href="../theme_template/edit/theme_template/' . $prow['theme_id'] . '"><i class="fas fa-edit"></i></a>
@@ -56,47 +57,50 @@ if ($w == "list") {
 } elseif ($w == "add") {
 
     if (isset($_POST['addtheme'])) {
-        $idtheme = uniqid(rand(), false);
-
+        // ✅ Correcciones (el alta de tema estaba rota de tres formas):
+        //   1. Se insertaba `uniqid(rand(), false)` en `themes.theme_id`, que es
+        //      INT AUTO_INCREMENT. MySQL convertía la cadena a 0 y las 6 tablas hijas
+        //      quedaban apuntando a un id inexistente. Ahora el id lo asigna MySQL y se
+        //      recupera con lastInsertId().
+        //   2. La columna real es `theme_bootstrap`, no `theme`: la consulta anterior
+        //      fallaba con "Unknown column 'theme'". El formulario ya envía
+        //      `theme_bootstrap`.
+        //   3. `rand()` es predecible y aquí no aportaba nada.
         $theme_name = $_POST['theme_name'];
-        $theme = $_POST['theme'];
+        $theme_bootstrap = $_POST['theme_bootstrap'];
         $base_default = $_POST['base_default'];
         $active_theme = $_POST['active_theme'];
 
-        $stmt = $this->conn->prepare("INSERT INTO themes (theme_id, theme_name, theme, base_default, active_theme) VALUES (?,?,?,?,?)");
-        $stmt->bind_param("sssss", $idtheme, $theme_name, $theme, $base_default, $active_theme);
-        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO themes (theme_name, theme_bootstrap, base_default, active_theme) VALUES (?,?,?,?)");
+        $stmt->execute([$theme_name, $theme_bootstrap, $base_default, $active_theme]);
+        $idtheme = (int) $conn->lastInsertId();
+        $stmt->closeCursor();
 
-        $stmt = $this->conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO theme_base_colors (idtbc) VALUES (?)");
+        $stmt->execute([$idtheme]);
 
-        $stmt = $this->conn->prepare("INSERT INTO theme_base_font (idtbf) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO theme_base_font (idtbf) VALUES (?)");
+        $stmt->execute([$idtheme]);
 
-        $stmt = $this->conn->prepare("INSERT INTO theme_headings_font (idthf) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO theme_headings_font (idthf) VALUES (?)");
+        $stmt->execute([$idtheme]);
 
-        $stmt = $this->conn->prepare("INSERT INTO theme_lead_font (idtlf) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO theme_lead_font (idtlf) VALUES (?)");
+        $stmt->execute([$idtheme]);
 
-        $stmt = $this->conn->prepare("INSERT INTO theme_palette (idtp) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
+        $stmt = $conn->prepare("INSERT INTO theme_palette (idtp) VALUES (?)");
+        $stmt->execute([$idtheme]);
 
-        $stmt = $this->conn->prepare("INSERT INTO theme_settings (idts) VALUES (?)");
-        $stmt->bind_param("s", $idtheme);
-        $stmt->execute();
-        $stmt->close();
+        $stmt = $conn->prepare("INSERT INTO theme_settings (idts) VALUES (?)");
+        $stmt->execute([$idtheme]);
+        $stmt->closeCursor();
     }
     ?>
     <div class="container">
         <div class="row pt-3">
 
             <form method="post" class="row form-horizontal" role="form" id="add_themes" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 
                 <div class="form-group">
                     <label for="theme_name">Theme name:</label>
@@ -112,7 +116,9 @@ if ($w == "list") {
                             if ($value === '.' || $value === '..') {
                                 continue;
                             }
-                            echo '<option value="' . $value . '">' . ucfirst($value) . '</option>';
+                            // ✅ El nombre del directorio se imprime escapado: un nombre de
+                            // carpeta con HTML/atributos ya no puede inyectar marcado.
+                            echo '<option value="' . htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">' . htmlspecialchars(ucfirst($value), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</option>';
                         }
                         ?>
                     </select> 
@@ -151,21 +157,24 @@ if(is_numeric($id)=== TRUE){
             $base_default = $_POST["base_default"];
             $active_theme = $_POST["active_theme"];
 
-            $query = "UPDATE themes SET theme_name = '$theme_name', theme_bootstrap = '$theme_bootstrap', base_default = '$base_default', active_theme = '$active_theme' WHERE theme_id='$id' ";
-            if ($this->conn->query($query) === TRUE) {
+            $query = "UPDATE themes SET theme_name = :theme_name, theme_bootstrap = :theme_bootstrap, base_default = :base_default, active_theme = :active_theme WHERE theme_id=:id ";
+            $stmt = $conn->prepare($query);
+            if ($stmt->execute([':theme_name' => $theme_name, ':theme_bootstrap' => $theme_bootstrap, ':base_default' => $base_default, ':active_theme' => $active_theme, ':id' => $id]) !== false) {
                 $_SESSION["success"] = "The data was updated correctly.";
  echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/theme_template/list">' . "\n";
                 
             } else {
-                $_SESSION["error"] = "Error updating data: " . $this->conn->error;
+                $_SESSION["error"] = "Error updating data: " . $conn->errorInfo()[2];
             }
         }
-        $rtt = $this->conn->query("SELECT * FROM themes WHERE theme_id='$id'");
-        $tt = $rtt->fetch_assoc();
+        $rtt = $conn->prepare("SELECT * FROM themes WHERE theme_id=:id");
+        $rtt->execute([':id' => $id]);
+        $tt = $rtt->fetch(PDO::FETCH_ASSOC);
         ?> 
         <div class="container">
             <div class="row">
                 <form role="form" id="edit_themes" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 
                     <div class="form-group">
                         <label for="theme_name" class ="control-label col-sm-3">Theme name:</label>
@@ -185,7 +194,9 @@ if(is_numeric($id)=== TRUE){
                                 if ($value == $thmbt) {
                                     echo '<option value="' . $value . '" selected>' . ucfirst($value) . '</option>';
                                 } else {
-                                    echo '<option value="' . $value . '">' . ucfirst($value) . '</option>';
+                                    // ✅ El nombre del directorio se imprime escapado: un nombre de
+                            // carpeta con HTML/atributos ya no puede inyectar marcado.
+                            echo '<option value="' . htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">' . htmlspecialchars(ucfirst($value), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</option>';
                                 }
                             }
                             ?>

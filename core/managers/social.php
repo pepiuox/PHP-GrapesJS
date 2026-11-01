@@ -8,12 +8,14 @@
                         if (isset($_POST["submitted"]) && $_POST["submitted"] != "") {
                             $valueCount = count($_POST["social_name"]);
                             for ($i = 0; $i < $valueCount; $i++) {
-                                $conn->query("UPDATE `social_link` SET  `social_url` =  '{$_POST['social_url'][$i]}'   WHERE `social_name` = '{$_POST['social_name'][$i]}' ");
+                                $stmt = $conn->prepare("UPDATE `social_link` SET  `social_url` =  :social_url   WHERE `social_name` = :social_name ");
+                                $stmt->execute([':social_url' => $_POST['social_url'][$i], ':social_name' => $_POST['social_name'][$i]]);
                             }
                         }
                         ?>                
                         <h3>Administrar Redes Sociales</h3> 
-                        <form method='POST'> 
+                        <form method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <?php
                             echo "<table class='table table-striped table-sm'>";
                             echo "<thead>";
@@ -23,8 +25,9 @@
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
-                            $result = $conn->query("SELECT * FROM `social_link`") or trigger_error($conn->error);
-                            while ($row = $result->fetch_array()) {
+                            // ✅ PDO: sin "or trigger_error($conn->error)" (PDO lanza PDOException).
+                            $result = $conn->query("SELECT * FROM `social_link`");
+                            while ($row = $result->fetch(PDO::FETCH_BOTH)) {
                                 foreach ($row AS $key => $value) {
                                     $row[$key] = stripslashes($value);
                                 }

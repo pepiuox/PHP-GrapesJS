@@ -440,7 +440,7 @@
             <ul class="nav nav-treeview">
                 <?php
                 $pages = $conn->query("SELECT * FROM pages");
-                while ($page = $pages->fetch_array()) {
+                while ($page = $pages->fetch(PDO::FETCH_ASSOC)) {
                     $plink = $page['link'];
                     $ptitle = $page['title'];
                     echo'<li class="nav-item">                   

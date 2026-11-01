@@ -16,7 +16,7 @@ class ChangePIN
 {
     public string $baseurl;
     protected PDO $conn;
-    private int $iduv;
+    private string $iduv;
     private string $ucode;
     private string $usname;
     private string $level;
@@ -30,7 +30,7 @@ class ChangePIN
         $this->gc = new GetCodeDeEncrypt();
         $this->baseurl = SITE_PATH;
 
-        $this->iduv   = (int) ($_SESSION["user_id"] ?? 0);
+        $this->iduv   = (string) ($_SESSION["user_id"] ?? '');
         $this->ucode  = $_SESSION["access_id"] ?? '';
         $this->usname = $_SESSION["username"] ?? '';
         $this->level  = $_SESSION["levels"] ?? '';

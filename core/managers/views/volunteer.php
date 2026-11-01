@@ -3,6 +3,7 @@
         <div class="card py-3">
             <div class="card-body">
                 <form method="post" class="form-horizontal" role="form" id="add_volunteer" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <div class="form-group">
                         <label for="firstname">Firstname:</label>
                         <input type="text" class="form-control" id="firstname" name="firstname">

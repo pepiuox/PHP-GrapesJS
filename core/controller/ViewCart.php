@@ -6,9 +6,12 @@ class ViewCart
     private string $tableName = 'canasta_articulos';
     private PDO $conn;
 
-    public function __construct(PDO $db)
+    public function __construct(?PDO $db = null)
     {
-        $this->conn = $db;
+        $this->conn = $db ?? \PepiuoX\Database\Connection::shared();
+
+        // PDO no permite enlazar identificadores: se valida el nombre de tabla una sola vez.
+        $this->tableName = \PepiuoX\Security\SqlIdentifier::assert($this->tableName);
     }
 
     /**

@@ -6,11 +6,16 @@ Class Model {
     private $username = 'root';
     private $password = '';
     private $dbname = 'vuejs_crud_php';
-    private $connection; //create connection 
+    private ?PDO $pdo; //create connection 
 
     public function __construct() {
         try {
-            $this->connection = new mysqli($this->host, $this->username, $this->password, $this->dbname);
+            $dsn = "mysql:host={$this->host};dbname={$this->dbname};charset=utf8mb4";
+            $this->pdo = new PDO($dsn, $this->username, $this->password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]);
         } catch (Exception $e) {
             echo "Connection error " . $e->getMessage();
         }
@@ -18,8 +23,9 @@ Class Model {
 
     // insert book record into database 
     public function insert($name, $author) {
-        $query = "INSERT INTO tbl_book (book_name, book_author) VALUES ('" . $name . "', '" . $author . "')";
-        if ($sql = $this->connection->query($query)) {
+        $query = "INSERT INTO tbl_book (book_name, book_author) VALUES (:name, :author)";
+        $sql = $this->pdo->prepare($query);
+        if ($sql->execute([':name' => $name, ':author' => $author])) {
             return true;
         } else {
             return;
@@ -30,8 +36,8 @@ Class Model {
     public function fetchAll() {
         $data = [];
         $query = "SELECT * FROM tbl_book";
-        if ($sql = $this->connection->query($query)) {
-            while ($rows = mysqli_fetch_assoc($sql)) {
+        if ($sql = $this->pdo->query($query)) {
+            while ($rows = $sql->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $rows;
             }
         } return $data;
@@ -39,8 +45,9 @@ Class Model {
 
     //delete book record from database 
     public function delete($id) {
-        $query = "DELETE FROM tbl_book WHERE book_id = '" . $id . "' ";
-        if ($sql = $this->connection->query($query)) {
+        $query = "DELETE FROM tbl_book WHERE book_id = :id ";
+        $sql = $this->pdo->prepare($query);
+        if ($sql->execute([':id' => $id])) {
             return true;
         } else {
             return;
@@ -50,17 +57,19 @@ Class Model {
     //fetch single book record from database 
     public function edit($id) {
         $data = [];
-        $query = "SELECT * FROM tbl_book WHERE book_id = '" . $id . "' ";
-        if ($sql = $this->connection->query($query)) {
-            $row = mysqli_fetch_row($sql);
+        $query = "SELECT * FROM tbl_book WHERE book_id = :id ";
+        $sql = $this->pdo->prepare($query);
+        if ($sql->execute([':id' => $id])) {
+            $row = $sql->fetch(PDO::FETCH_NUM);
             $data = $row;
         } return $data;
     }
 
     //update book record 
     public function update($id, $name, $author) {
-        $query = "UPDATE tbl_book SET book_name = '" . $name . "', book_author = '" . $author . "' WHERE book_id = '" . $id . "' ";
-        if ($sql = $this->connection->query($query)) {
+        $query = "UPDATE tbl_book SET book_name = :name, book_author = :author WHERE book_id = :id ";
+        $sql = $this->pdo->prepare($query);
+        if ($sql->execute([':name' => $name, ':author' => $author, ':id' => $id])) {
             return true;
         } else {
             return;

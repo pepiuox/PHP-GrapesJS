@@ -22,7 +22,7 @@ class NewUsers {
             throw new RuntimeException('NewUsers requires $conn to be a PDO instance.');
         }
         $this->conn = $conn;
-        $this->uca  = new UsersCodeAccess();
+        $this->uca = new UsersCodeAccess($this->connection);
         $this->gc   = new GetCodeDeEncrypt();
         $this->ip   = $this->getUserIP();
         $this->dt   = new DateTime();

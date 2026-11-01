@@ -6,8 +6,9 @@ if (isset($_POST['id'])) {
     $id = $_POST['id'];
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $sql = "UPDATE page SET title='" . protect($title) . "', content='" . protect($content) . "' WHERE id='$id'";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "UPDATE pages SET title=:title, content=:content WHERE id=:id";
+    $stmt = $conn->prepare($sql);
+    if ($stmt->execute([':title' => protect($title), ':content' => protect($content), ':id' => $id]) === TRUE) {
         echo "Page Updated";
     } else {
         echo "Failed";

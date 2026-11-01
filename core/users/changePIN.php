@@ -9,6 +9,7 @@ $changePIN = new changePIN();
  <h4>Change to a new PIN.</h4>
 
  <form method="post" class="form">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
   <div class="mb-3">
 <label class="form-label" for="email">Enter your recovery phrase <span class="red">*</span>:
 </label> 

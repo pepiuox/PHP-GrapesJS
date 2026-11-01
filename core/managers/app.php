@@ -1,7 +1,10 @@
 
 <?php
 
-include "db.php";
+// ✅ PDO: se usa la conexión canónica global ($conn) en lugar de un db.php inexistente.
+if (!isset($conn)) {
+    require_once __DIR__ . '/../config/dbconnection.php';
+}
 $res = array("error" => false);
 
 $action = "read";
@@ -11,9 +14,11 @@ if (isset($_GET["action"])) {
 }
 
 if ($action == "read") {
-    $result = $conn->query("SELECT * FROM menu LEFT JOIN page ON menu.page_id = page.id");
+    // ✅ La tabla es `pages` (no existe `page`) y el calificador del ON debe coincidir
+    // con el nombre real de la tabla, no con el antiguo.
+    $result = $conn->query("SELECT * FROM menu LEFT JOIN pages ON menu.page_id = pages.id");
     $datos = array();
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         array_push($datos, $row);
     }
 
@@ -29,7 +34,8 @@ if ($action == "create") {
     $link_page = $_POST['link_page'];
     $parent_id = $_POST['parent_id'];
 
-    $result = $conn->query("INSERT INTO menu(sort , page_id , title_page , link_page , parent_id) VALUES ('$sort' , '$page_id' , '$title_page' , '$link_page' , '$parent_id')");
+    $stmt = $conn->prepare("INSERT INTO menu(sort , page_id , title_page , link_page , parent_id) VALUES (:sort , :page_id , :title_page , :link_page , :parent_id)");
+    $result = $stmt->execute([':sort' => $sort, ':page_id' => $page_id, ':title_page' => $title_page, ':link_page' => $link_page, ':parent_id' => $parent_id]);
 
     if ($result) {
         $res["message"] = "dato agregado exitosamente";
@@ -51,7 +57,8 @@ if ($action == "update") {
     $link_page = $_POST['link_page'];
     $parent_id = $_POST['parent_id'];
 
-    $result = $conn->query("UPDATE menu SET sort ='$sort' , page_id ='$page_id' , title_page ='$title_page' , link_page ='$link_page' , parent_id ='$parent_id' WHERE idMenu ='$idMenu' ");
+    $stmt = $conn->prepare("UPDATE menu SET sort =:sort , page_id =:page_id , title_page =:title_page , link_page =:link_page , parent_id =:parent_id WHERE idMenu =:idMenu ");
+    $result = $stmt->execute([':sort' => $sort, ':page_id' => $page_id, ':title_page' => $title_page, ':link_page' => $link_page, ':parent_id' => $parent_id, ':idMenu' => $idMenu]);
 
     if ($result) {
         $res["message"] = "dato actualizado con éxito";
@@ -66,7 +73,8 @@ if ($action == "update") {
 if ($action == "delete") {
     $idMenu = $_POST['idMenu'];
 
-    $result = $conn->query("DELETE FROM `menu` WHERE idMenu ='$idMenu' ");
+    $stmt = $conn->prepare("DELETE FROM `menu` WHERE idMenu =:idMenu ");
+    $result = $stmt->execute([':idMenu' => $idMenu]);
 
     if ($result) {
         $res["message"] = "dato borrado exitosamente";
@@ -77,7 +85,7 @@ if ($action == "delete") {
     // $res["datos"] =$datos;
 }
 
-$conn->close();
+// ✅ PDO: no existe $conn->close(); la conexión es un singleton compartido.
 header("content-type:application/json");
 echo json_encode($res);
 die();

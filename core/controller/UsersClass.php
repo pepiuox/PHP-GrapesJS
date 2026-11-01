@@ -28,9 +28,9 @@ class UsersClass
     private string $timestamp;
     private string $loginp;
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
         $this->syst = defined('SITE_PATH') ? SITE_PATH : '/';
         $this->logp = $this->syst . "signin/login";
         $this->uca = new UsersCodeAccess();
@@ -125,7 +125,10 @@ class UsersClass
             return;
         }
 
-        $useremail = $this->gc->procheck($_POST["email"]);
+        // Las credenciales no son HTML: se usan tal cual. `procheck()` las escapaba y el
+        // registro ya las habia escapado al guardarlas, de modo que la comparacion con la
+        // contrasena derivaba en doble escape y el acceso fallaba siempre.
+        $useremail = trim((string) $_POST["email"]);
         $this->verifyAttempts($useremail);
 
         if (!is_numeric($_POST["PIN"]) || strlen($_POST["PIN"]) !== 6) {
@@ -134,7 +137,7 @@ class UsersClass
             return;
         }
 
-        $userpsw = $this->gc->procheck($_POST["password"]);
+        $userpsw = (string) $_POST["password"];
         $userpin = trim($_POST["PIN"]);
 
         if (!empty($_POST["remember"])) {
@@ -225,7 +228,9 @@ class UsersClass
         $rpa = $urw["rp_active"];
 
         // ✅ Comparación segura con hash_equals
-        if (!hash_equals($userpsw, $pass)) {
+        // Se acepta tambien la forma escapada para no invalidar contrasenas guardadas
+        // por versiones anteriores, que aplicaban `htmlspecialchars` antes de cifrar.
+        if (!is_string($pass) || (!hash_equals($userpsw, $pass) && !hash_equals($this->gc->procheck($userpsw), $pass))) {
             $this->nAttempt($useremail);
             echo $this->loginp;
             return;
@@ -236,19 +241,40 @@ class UsersClass
             $_SESSION["RecoveryMessage"] = 1;
         }
 
-        $stmt1 = $this->conn->prepare(
-            "SELECT * FROM users WHERE username = :u AND email = :e AND password = :p AND mkpin = :m"
-        );
-        $stmt1->execute([':u' => $cus, ':e' => $mail, ':p' => $passw, ':m' => $upin]);
+        // La fila de `users` se localiza por clave primaria. Comparar criptogramas por
+        // igualdad (`username = :u AND email = :e ...`) solo funciona con cifrado
+        // determinista y filtra igualdad de secretos; con IV aleatorio no encuentra nada.
+        $stmt1 = $this->conn->prepare("SELECT * FROM users WHERE idUser = :id LIMIT 1");
+        $stmt1->execute([':id' => $urw["iduv"]]);
 
-        if ($stmt1->rowCount() === 0) {
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+        if ($row === false) {
             $_SESSION["ErrorMessage"] = "Los datos son incorrectos";
             header('Location: ' . $this->logp);
             exit;
         }
 
-        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-        $iduv = (int) $row["idUser"];
+        // Verificacion en PHP (comparacion en tiempo constante) en lugar de por SQL.
+        $storedPassword = $this->gc->ende_crypter("decrypt", (string) $row["password"], $secret_key, $secret_iv);
+        $storedPin = $this->gc->ende_crypter("decrypt", (string) $row["mkpin"], $stoken, $shash);
+
+        if (!is_string($storedPassword)
+            || (!hash_equals($userpsw, $storedPassword) && !hash_equals($this->gc->procheck($userpsw), $storedPassword))) {
+            $this->nAttempt($useremail);
+            $_SESSION["ErrorMessage"] = "Los datos son incorrectos";
+            header('Location: ' . $this->logp);
+            exit;
+        }
+
+        if (is_string($storedPin) && $storedPin !== '' && !hash_equals($userpin, $storedPin)) {
+            $this->nAttempt($useremail);
+            $_SESSION["ErrorMessage"] = "Los datos son incorrectos";
+            header('Location: ' . $this->logp);
+            exit;
+        }
+
+        $iduv = (string) $row["idUser"];
 
         // ✅ TRANSACCIÓN para garantizar atomicidad
         $this->conn->beginTransaction();
@@ -269,6 +295,11 @@ class UsersClass
             ]);
             $inst1 = $up1->rowCount();
 
+            // `users_profiles.idp` tiene FK a `uverify.iduv` con ON UPDATE CASCADE: la
+            // rotacion anterior ya renombro la fila, asi que aqui solo se propaga el nuevo
+            // `mkhash`. Se busca por el id NUEVO y por el mkhash anterior; si la cascada no
+            // existiera en una instalacion concreta, la transaccion aborta y se hace rollback
+            // (falla segura) en lugar de dejar datos incoherentes.
             $pro = $this->conn->prepare(
                 "UPDATE users_profiles SET mkhash = :mh WHERE idp = :id AND mkhash = :oh"
             );
@@ -320,7 +351,7 @@ class UsersClass
         }
 
         $username = $this->gc->procheck($_POST["username"]);
-        $userpsw = $this->gc->procheck($_POST["password"]);
+        $userpsw = (string) $_POST["password"];
         $userpin = trim($_POST["PIN"]);
 
         $site = 1;
@@ -403,7 +434,9 @@ class UsersClass
     private function verifyAttempts(string $udata): void
     {
         $result = $this->conn->prepare(
-            "SELECT COUNT(id_session) as cnt, id_session FROM ip WHERE user_data = :u GROUP BY id_session"
+            "SELECT COUNT(id_session) as cnt, id_session FROM ip
+            WHERE user_data = :u AND timestamp >= (NOW() - INTERVAL 10 MINUTE)
+            GROUP BY id_session"
         );
         $result->execute([':u' => $udata]);
         $row = $result->fetch(PDO::FETCH_ASSOC);
@@ -445,7 +478,8 @@ class UsersClass
         $stmt->execute([':s' => $idatt, ':u' => $udata, ':a' => $this->ip]);
 
         $result = $this->conn->prepare(
-            "SELECT COUNT(*) as cnt FROM `ip` WHERE `user_data` = :u"
+            "SELECT COUNT(*) as cnt FROM `ip`
+            WHERE `user_data` = :u AND `timestamp` >= (NOW() - INTERVAL 10 MINUTE)"
         );
         $result->execute([':u' => $udata]);
         $num = (int) $result->fetchColumn();
@@ -476,7 +510,17 @@ class UsersClass
 
     public function logout(): void
     {
-        if (isset($_POST["logout"])) {
+        // El cierre de sesion se invoca tambien como enlace normal (GET). Antes solo se
+        // atendia POST, asi que un GET dejaba la sesion viva. Cerrar sesion es de bajo
+        // riesgo: el peor caso es tener que volver a iniciarla.
+        $requested = isset($_POST["logout"])
+            || isset($_GET["logout"])
+            || ($_SERVER["REQUEST_METHOD"] ?? "GET") === "GET";
+
+        if ($requested) {
+            if (!headers_sent()) {
+                header("Cache-Control: no-store, no-cache, must-revalidate");
+            }
             if (!empty($_SESSION["user_id"])) {
                 if (isset($_COOKIE["ckid"])) {
                     setcookie('ckid', '', $this->expiry - (3600 * 24), $this->path);

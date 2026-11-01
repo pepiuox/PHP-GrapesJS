@@ -69,6 +69,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
                         <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
                             Sign out

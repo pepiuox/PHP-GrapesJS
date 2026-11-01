@@ -6,20 +6,24 @@ declare(strict_types=1);
  * Migrado completamente a PDO.
  */
 
+// Autoloader único del sistema (idempotente).
+require_once dirname(__DIR__) . '/Autoload.php';
+
 // Incluir reporte de errores
 if (file_exists(__DIR__ . '/error_report.php')) {
     include __DIR__ . '/error_report.php';
 }
 
-// Incluir clase Database
+// Incluir clase Database (shim → PepiuoX\Database\Connection).
+// Se usa require_once para que el shim (class_alias) no se evalúe dos veces.
 if (!file_exists(__DIR__ . '/Database.php')) {
     throw new RuntimeException('Database.php no encontrado');
 }
-include __DIR__ . '/Database.php';
+require_once __DIR__ . '/Database.php';
 
-// Crear instancia de Database y obtener conexión PDO
+// Crear instancia de Database y obtener la conexión PDO compartida
 $link = new Database();
-$conn = $link->getConnection(); // ✅ Ahora devuelve PDO
+$conn = $link->getConnection(); // ✅ PDO (singleton compartido)
 
 // Incluir funciones y definiciones
 if (file_exists(__DIR__ . '/function.php')) {
@@ -47,9 +51,9 @@ $rname = $fname . '.php';
 $alertpg = $_SERVER['REQUEST_URI'] ?? '';
 
 // Manejo de idioma
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// ✅ Sesión endurecida (httponly, samesite, use_strict_mode…). Idempotente: si la
+// sesión ya está activa no cambia nada.
+\PepiuoX\Security\SessionConfig::start();
 
 $lang = '';
 $lg = '';

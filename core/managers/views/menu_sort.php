@@ -75,6 +75,7 @@ function menuTree($parent_id = 0)
 
     <hr />
     <form action="menu.php" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
         <input type="hidden" id="nestable-output" name="menu">
         <button type="submit">Save</button>
     </form>

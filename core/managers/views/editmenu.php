@@ -2,7 +2,8 @@
 if (isset($_POST["submit"])) {
     $id_ary = explode(",", $_POST["row_order"]);
     for ($i = 1; $i < count($id_ary); $i++) {
-        $conn->query("UPDATE page SET pos='" . $i . "' WHERE id=" . $id_ary[$i]);
+        $stmt = $conn->prepare("UPDATE pages SET position=:position WHERE id=:id");
+        $stmt->execute([':position' => $i, ':id' => $id_ary[$i]]);
     }
 }
 ?>
@@ -48,6 +49,7 @@ if (isset($_POST["submit"])) {
 </script>
 <div class="container">
     <form name="frmQA" method="POST" />
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
     <h4 class='title' id='title0'>Ordene el menu si es necesario.</h4>
     <input type = "hidden" name="row_order" id="row_order" /> 
     <div class="switch-container">
@@ -57,8 +59,9 @@ if (isset($_POST["submit"])) {
             function mmenu($parent) {
                 global $conn;
                 $menu = "";
-                $result = $conn->query("SELECT id, language, pos, title, link, image, parent, sort FROM pages WHERE parent='$parent' ORDER BY pos");
-                while ($rmen = $result->fetch_array()) {
+                $result = $conn->prepare("SELECT id, language, position, title, link, image, parent, sort FROM pages WHERE parent=:parent ORDER BY pos");
+                $result->execute([':parent' => $parent]);
+                while ($rmen = $result->fetch(PDO::FETCH_ASSOC)) {
                     $menu .= "  <li name='mast' id='{$rmen['id']}'><a href='../pages/edit&id={$rmen['id']}&lng={$rmen['language']}'>" . $rmen['title'] . "</a>\n";
                     //if ($rmen['sort'] == 1) {
                     $menu .= "   <ul>\n" . mmenu($rmen['id']);

@@ -1,13 +1,14 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
     $myTable = '';
 
-    extract($_POST);
+    extract($_POST, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
     $check_exist_qry = "SELECT * FROM table_config";
-    $run_qry = $this->conn->query($check_exist_qry);
-    $total_found = $run_qry->num_rows;
+    $run_qry = $conn->query($check_exist_qry);
+    $total_found = $run_qry->rowCount();
     if ($total_found > 0) {
-        $my_value = $run_qry->fetch_assoc();
+        $my_value = $run_qry->fetch(PDO::FETCH_ASSOC);
         $myTable = explode(',', $my_value['table_name']);
     }
 
@@ -23,8 +24,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $all_table_value = implode(",", $_POST['tables']);
         if ($total_found > 0) {
             // update
-            $upd_qry = "UPDATE table_config SET table_name='" . $all_table_value . "' WHERE tcon_Id='1'";
-            $restup = $this->conn->query($upd_qry);
+            $upd_qry = "UPDATE table_config SET table_name=:table_name WHERE tcon_Id='1'";
+            $stmt = $conn->prepare($upd_qry);
+            $restup = $stmt->execute([':table_name' => $all_table_value]);
             if (!$restup) {
                 $_SESSION['ErrorMessage'] = 'There was an error updating.';
             } else {
@@ -32,8 +34,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             }
         } else {
             // insert
-            $ins_qry = "INSERT INTO table_config(table_name) VALUES('" . $all_table_value . "')";
-            $restadd = $this->conn->query($ins_qry);
+            $ins_qry = "INSERT INTO table_config(table_name) VALUES(:table_name)";
+            $stmt = $conn->prepare($ins_qry);
+            $restadd = $stmt->execute([':table_name' => $all_table_value]);
             if (!$restadd) {
                 $_SESSION['ErrorMessage'] = 'There was an error adding.';
             } else {
@@ -45,12 +48,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     ?>
     <div class="container">
         <form class="row form-horizontal" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
             <div class="col_md_12">
                 <?php
-                if ($result = $this->conn->query("SELECT DATABASE()")) {
-                    $row = $result->fetch_row();
+                if ($result = $conn->query("SELECT DATABASE()")) {
+                    $row = $result->fetch(PDO::FETCH_NUM);
                     printf("<h5>Default database is %s </h5>.\n", $row[0]);
-                    $result->close();
+                    $result->closeCursor();
                 }
                 ?>
                 <h3>Tables you want to view in the CRUD system</h3>
@@ -77,9 +81,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     $i = 0;
                     $x = 0;
 
-                    $result = $this->conn->query("SHOW TABLES FROM $row[0]");
+                    $result = $conn->query("SHOW TABLES FROM " . \PepiuoX\Security\SqlIdentifier::assert($row[0]));
                     $tableNames = array();
-                    while ($row = mysqli_fetch_row($result)) {
+                    while ($row = $result->fetch(PDO::FETCH_NUM)) {
                         $tableNames[] = $row[0];
                     }
                     foreach ($tableNames as $tname) {

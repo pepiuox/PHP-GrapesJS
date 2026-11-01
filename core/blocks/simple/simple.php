@@ -2,8 +2,9 @@
 <div class="row">
     <div class="col-md-12">
         <?php
-        $result = $conn->query("SELECT id, title, content FROM page WHERE id = '$id'");
-        $row = $result->fetch_assoc();
+        $result = $conn->prepare("SELECT id, title, content FROM pages WHERE id = :id");
+        $result->execute([':id' => $id]);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
 
         echo $row['content'];
         ?>

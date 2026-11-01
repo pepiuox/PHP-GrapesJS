@@ -4,15 +4,13 @@
 Editar redes
 </button>
 <?php
-$redes = $this->conn->prepare(
+global $conn;
+$redes = $conn->prepare(
         "SELECT * FROM users_social_media WHERE usercode = ? "
 );
-$redes->bind_param("s", $ucode);
-$redes->execute();
-$reds = $redes->get_result();
-$redes->close();
-$red = $reds->fetch_assoc();
-if ($reds->num_rows > 0) {
+$redes->execute([$ucode]);
+$red = $redes->fetch(PDO::FETCH_ASSOC);
+if ($redes->rowCount() > 0) {
 ?>
     <ul class="list-group list-group-flush rounded-3">
     <?php
@@ -100,6 +98,7 @@ if ($reds->num_rows > 0) {
     </ul>
     <?php
 }
+$redes->closeCursor();
     ?>
 </div>
  </div> 

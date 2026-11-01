@@ -1,7 +1,11 @@
 <!-- about block -->
 <?php
-$row = mysqli_fetch_array($conn->query("SELECT * FROM `my_info` WHERE `idPro` = '1' AND active = '1'"));
-$num_ct = count($row);
+$row = $conn->query("SELECT * FROM `my_info` WHERE `idPro` = '1' AND active = '1'")->fetch(PDO::FETCH_ASSOC);
+
+// ✅ Cuando la consulta no devuelve ninguna fila, `fetch()` devuelve `false` y
+// `count(false)` es un **TypeError** en PHP 8 (error fatal). La intención original era
+// simplemente "¿hay datos para mostrar?".
+$num_ct = ($row === false) ? 0 : count($row);
 
 if ($num_ct > 0) {
     ?>  
@@ -22,8 +26,8 @@ if ($num_ct > 0) {
                         echo 'Actualmente en ';
                     }
                     echo new_location . '</span></li>'."\n";
-                    echo '<li><img src="' . SITE_PATH.'assets/img/whatsapp.png" />:<span> ' . whatsapp . '</span></li>'."\n";
-                    echo '<li><img src="' . SITE_PATH.'assets/img/message.png" />:<span> <a href="mailto:' . ADDRESS_CONTACT . '">' . ADDRESS_CONTACT . '</a></span></li>'."\n";
+                    echo '<li><img src="' . SITE_PATH.'assets/img/whatsapp.png" />:<span> ' . WHATSAPP . '</span></li>'."\n";
+                    echo '<li><img src="' . SITE_PATH.'assets/img/message.png" />:<span> <a href="mailto:' . EMAIL_CONTACT . '">' . EMAIL_CONTACT . '</a></span></li>'."\n";
                                        
                     echo '</ul>'."\n";
                     ?>           

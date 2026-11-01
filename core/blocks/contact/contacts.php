@@ -71,7 +71,7 @@ function protect($data) {
         if ($bid) {
             $result = $conn->query("SELECT type_name, value FROM config");
         }
-        $row = $result->fetch_assoc();
+        $row = $result->fetch(PDO::FETCH_ASSOC);
         echo $row['content'];
         ?>
         <p><?php echo SITE; ?>
@@ -82,7 +82,8 @@ function protect($data) {
         </p>
     </div>        
     <div class="col_25_2">
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>
+<?php echo \PepiuoX\Security\Csrf::field(); ?>">
             <div class="col-md-12">
                 <label>Nombre:</label>
                 <input id='name' type="text" value=""/>

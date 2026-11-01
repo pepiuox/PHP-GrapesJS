@@ -13,10 +13,13 @@ require_once "config/loader.php";
 $_SESSION["URL"] = URL;
 $menu = '';
 $title = '';
-$pages = new Routers();
-$visitor = new GetVisitor();
-$viewP = new PagePublic();
-$viewS = new PageSystem();
+
+// ✅ Inyección de dependencias: todas estas clases exigen la conexión PDO en su
+// constructor. Antes se instanciaban sin argumentos → ArgumentCountError (fatal).
+$pages = new Routers($conn);
+$visitor = new GetVisitor($conn);
+$viewP = new PagePublic($conn);
+$viewS = new PageSystem($conn);
 
 $rp = $pages->InitPage();
 

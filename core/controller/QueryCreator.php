@@ -168,7 +168,7 @@ class QueryCreator
 
         // Query
         $content .= "// Query\n";
-        $colNames = array_map(fn($col) => $col->name, $columns);
+        $colNames = \PepiuoX\Security\SqlIdentifier::filter(array_map(fn($col) => $col->name, $columns));
         $colList = implode(', ', $colNames);
         $content .= "\$query = \"SELECT {$colList} FROM {$this->table} WHERE id = :id\";\n\n";
 

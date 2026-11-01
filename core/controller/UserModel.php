@@ -19,6 +19,7 @@ class UserModel
     public function __construct(PDO $db)
     {
         $this->conn = $db;
+        $this->table = \PepiuoX\Security\SqlIdentifier::assert($this->table);
     }
 
     /**

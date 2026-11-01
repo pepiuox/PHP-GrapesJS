@@ -23,6 +23,8 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
 <body class="hold-transition sidebar-mini">
 <?php
 if ($login->isLoggedIn() === true) {
+ // ✅ Validación CSRF central del área de usuario (ver PepiuoX\Security\Csrf::guardPost()).
+ \PepiuoX\Security\Csrf::guardPost();
 ?>
 <div class="wrapper">
  <!-- Navbar -->

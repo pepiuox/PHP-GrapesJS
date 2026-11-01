@@ -8,16 +8,16 @@
 class CheckValidUser
 {
     protected PDO $conn;
-    private ?int $id = null;
+    private ?string $id = null;
     private ?string $hash = null;
 
-    public function __construct(PDO $conn)
+    public function __construct(?PDO $conn = null)
     {
-        $this->conn = $conn;
+        $this->conn = $conn ?? \PepiuoX\Database\Connection::shared();
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         if (isset($_SESSION['user_id'], $_SESSION['hash'])) {
-            $this->id   = (int) $_SESSION['user_id'];
+            $this->id   = (string) ($_SESSION['user_id'] ?? '');
             $this->hash = $_SESSION['hash'];
             $this->checkUser();
         }

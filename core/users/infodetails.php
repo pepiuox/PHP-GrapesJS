@@ -30,18 +30,43 @@ if (isset($_POST['addrow'])) {
     $otras_atenciones = $_POST['otras_atenciones'];
 
     $sql = "INSERT INTO datos_personales (user_id, nombre, edad, tipo_figura, estatura, busto, cintura, caderas, detalles_fisicos, zonas, citas, salidas, dias, horarios, descripcion_servicio, servicios, adicionales, pack_videos, otras_atenciones)
-VALUES ('$user_id', '$nombre', '$edad', '$tipo_figura', '$estatura', '$busto', '$cintura', '$caderas', '$detalles_fisicos', '$zonas', '$citas', '$salidas', '$dias', '$horarios', '$descripcion_servicio', '$servicios', '$adicionales', '$pack_videos', '$otras_atenciones')";
-    if ($conn->query($sql) === TRUE) {
+VALUES (:user_id, :nombre, :edad, :tipo_figura, :estatura, :busto, :cintura, :caderas, :detalles_fisicos, :zonas, :citas, :salidas, :dias, :horarios, :descripcion_servicio, :servicios, :adicionales, :pack_videos, :otras_atenciones)";
+    $stmt = $conn->prepare($sql);
+    if ($stmt->execute([
+        ':user_id' => $user_id,
+        ':nombre' => $nombre,
+        ':edad' => $edad,
+        ':tipo_figura' => $tipo_figura,
+        ':estatura' => $estatura,
+        ':busto' => $busto,
+        ':cintura' => $cintura,
+        ':caderas' => $caderas,
+        ':detalles_fisicos' => $detalles_fisicos,
+        ':zonas' => $zonas,
+        ':citas' => $citas,
+        ':salidas' => $salidas,
+        ':dias' => $dias,
+        ':horarios' => $horarios,
+        ':descripcion_servicio' => $descripcion_servicio,
+        ':servicios' => $servicios,
+        ':adicionales' => $adicionales,
+        ':pack_videos' => $pack_videos,
+        ':otras_atenciones' => $otras_atenciones
+    ]) === TRUE) {
         $_SESSION['success'] = 'Los datos se guardaron correctamente';
         header('Location: dashboard/crud/list/datos_personales');
     } else {
-        $_SESSION['error'] = 'Error: ' . $conn->error;
+        // ✅ No se expone el error de la base de datos al usuario: filtra el esquema,
+        // el nombre de las columnas y detalles internos. El detalle va sólo al log.
+        // (Nota: `execute()` devuelve bool, por eso `=== TRUE` sí es correcto aquí,
+        // a diferencia del antiguo `$conn->query(...) === TRUE`, que nunca se cumplía.)
+        error_log('Error al insertar en datos_personales: ' . ($conn->errorInfo()[2] ?? 'desconocido'));
+        $_SESSION['error'] = 'No se pudieron guardar los datos. Inténtelo de nuevo.';
     }
-
-    $conn->close();
 }
 ?> 
   <form method="post" class="form-horizontal" role="form" id="add_datos_personales" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="form-group">
  <label for="nombre">Nombre:</label>
  <input type="text" class="form-control" id="nombre" name="nombre">

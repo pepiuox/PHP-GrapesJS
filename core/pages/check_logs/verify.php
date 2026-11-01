@@ -27,6 +27,7 @@ $login = new UsersClass();
                             ?>
                             <h3 class="text-center">You can now activate your account.</h3>
                             <form action="verify.php" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="col-6">
                                     <input type="text" name="id" value="<?php echo $_GET['id']; ?>" readonly="yes" hidden="yes">
                                     <input type="text" name="code" value="<?php echo$_GET['code']; ?>" readonly="yes" hidden="yes">

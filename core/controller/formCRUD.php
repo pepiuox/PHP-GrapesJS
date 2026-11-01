@@ -25,10 +25,15 @@ class FormCRUD
     public function protect(string $str): string
     {
         $str = trim($str);
-        // stripslashes solo si magic_quotes está activo (PHP < 5.4)
-        if (get_magic_quotes_gpc()) {
+
+        // ✅ `get_magic_quotes_gpc()` fue ELIMINADA en PHP 8.0: llamarla provoca
+        // "Call to undefined function" (error fatal). Además siempre devolvía false
+        // desde PHP 5.4, así que la rama era código muerto. Si alguna vez llega un
+        // valor con barras escapadas, se normaliza sin depender de esa función.
+        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
             $str = stripslashes($str);
         }
+
         return htmlspecialchars($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
@@ -72,7 +77,8 @@ class FormCRUD
             throw new InvalidArgumentException('No data to insert');
         }
 
-        $columns = implode(', ', array_map(fn($col) => "`{$col}`", array_keys($data)));
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+        $columns = implode(', ', array_map(fn($col) => \PepiuoX\Security\SqlIdentifier::quote((string) $col), array_keys($data)));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
         $sql = "INSERT INTO `{$table}` ({$columns}) VALUES ({$placeholders})";
@@ -91,7 +97,8 @@ class FormCRUD
             throw new InvalidArgumentException('No data to update');
         }
 
-        $set = implode(', ', array_map(fn($col) => "`{$col}` = ?", array_keys($data)));
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+        $set = implode(', ', array_map(fn($col) => \PepiuoX\Security\SqlIdentifier::quote((string) $col) . ' = ?', array_keys($data)));
         $sql = "UPDATE `{$table}` SET {$set} WHERE {$where}";
 
         $stmt = $this->conn->prepare($sql);
@@ -105,6 +112,7 @@ class FormCRUD
      */
     public function delete(string $table, string $where, array $params = []): int
     {
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
         $sql = "DELETE FROM `{$table}` WHERE {$where}";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
@@ -117,6 +125,7 @@ class FormCRUD
      */
     public function select(string $table, string $where = '1', array $params = [], int $limit = 100): array
     {
+        $table = \PepiuoX\Security\SqlIdentifier::assert($table);
         $sql = "SELECT * FROM `{$table}` WHERE {$where} LIMIT :limit";
         $stmt = $this->conn->prepare($sql);
 

@@ -1,7 +1,8 @@
 <?php
+global $conn;
 
 if ($w == "list") {
-    $tble = 'plugins_app';
+    $tble = \PepiuoX\Security\SqlIdentifier::assert('plugins_app');
     $titl = ucfirst(str_replace("_", " ", $tble));
     ?>
     <div class="container">
@@ -22,8 +23,8 @@ if ($w == "list") {
                 </thead>
                 <tbody>
                     <?php
-                    $mopt = $this->conn->query("SELECT * FROM $tble");
-                    while ($mnop = $mopt->fetch_array()) {
+                    $mopt = $conn->query("SELECT * FROM $tble");
+                    while ($mnop = $mopt->fetch(PDO::FETCH_ASSOC)) {
                         echo '
                         <tr>
                             <td><!--Button -->
@@ -47,7 +48,7 @@ if ($w == "list") {
     </div>
     <?php
 } elseif ($w == 'add') {
-    $tble = 'plugins_app';
+    $tble = \PepiuoX\Security\SqlIdentifier::assert('plugins_app');
     if (isset($_POST['addrow'])) {
         $plugins = $_POST['plugins'];
         $plugins_opts = $_POST['plugins_opts'];
@@ -58,17 +59,17 @@ if ($w == "list") {
         $plugins_css = $_POST['plugins_css'];
 
         $sql = "INSERT INTO plugins_app (plugins, plugins_opts, script, css, buttons, plugins_script, plugins_css) "
-                . "VALUES ('$plugins', '$plugins_opts', '$script', '$css', '$buttons', '$plugins_script', '$plugins_css')";
-        if ($this->conn->query($sql) === TRUE) {
+                . "VALUES (:plugins, :plugins_opts, :script, :css, :buttons, :plugins_script, :plugins_css)";
+        $stmt = $conn->prepare($sql);
+        if ($stmt->execute([':plugins' => $plugins, ':plugins_opts' => $plugins_opts, ':script' => $script, ':css' => $css, ':buttons' => $buttons, ':plugins_script' => $plugins_script, ':plugins_css' => $plugins_css]) !== false) {
             $_SESSION['success'] = 'The data was added correctly';
             echo '<meta http-equiv="refresh" content="0;url='.SITE_PATH.'admin/dashboard/plugins/list">' . "\n";
             header('Location: ../plugins/list');
             exit;
         } else {
-            $_SESSION['error'] = 'Error: ' . $this->conn->error;
+            $_SESSION['error'] = 'Error: ' . $conn->errorInfo()[2];
         }
 
-        $this->conn->close();
     }
     ?>
     <div class="container">
@@ -85,6 +86,7 @@ if ($w == "list") {
                     <div class="col-md-12">
                         <div class="row pt-3">
                             <form method="post" class="form-horizontal" role="form" id="add_plugins_app" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="plugins">Plugins:</label>
                                     <input type="text" class="form-control" id="plugins" name="plugins">
@@ -128,7 +130,7 @@ if ($w == "list") {
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
     }
-    $tble = 'plugins_app';
+    $tble = \PepiuoX\Security\SqlIdentifier::assert('plugins_app');
 
     if (isset($_POST['editrow'])) {
         $plugins = $_POST["plugins"];
@@ -139,17 +141,20 @@ if ($w == "list") {
         $plugins_script = $_POST["plugins_script"];
         $plugins_css = $_POST["plugins_css"];
 
-        $query = "UPDATE `$tble` SET plugins = '$plugins', plugins_opts = '$plugins_opts', script = '$script', css = '$css', buttons = '$buttons', plugins_script = '$plugins_script', plugins_css = '$plugins_css' WHERE id=$id ";
-        if ($this->conn->query($query) === TRUE) {
+        $query = "UPDATE `$tble` SET plugins = :plugins, plugins_opts = :plugins_opts, script = :script, css = :css, buttons = :buttons, plugins_script = :plugins_script, plugins_css = :plugins_css WHERE id=:id ";
+        $stmt = $conn->prepare($query);
+        if ($stmt->execute([':plugins' => $plugins, ':plugins_opts' => $plugins_opts, ':script' => $script, ':css' => $css, ':buttons' => $buttons, ':plugins_script' => $plugins_script, ':plugins_css' => $plugins_css, ':id' => $id]) !== false) {
             $_SESSION["success"] = "The data was updated correctly.";
             header("Location: ../plugins/list");
             exit;
         } else {
-            $_SESSION["error"] = "Error updating data: " . $this->conn->error;
+            $_SESSION["error"] = "Error updating data: " . $conn->errorInfo()[2];
         }
     }
 
-    $mopt = $this->conn->query("SELECT * FROM $tble WHERE id='$id'")->fetch_assoc();
+    $stmt = $conn->prepare("SELECT * FROM $tble WHERE id=:id");
+    $stmt->execute([':id' => $id]);
+    $mopt = $stmt->fetch(PDO::FETCH_ASSOC);
     ?>
     <div class="container">
         <div class="row">
@@ -165,6 +170,7 @@ if ($w == "list") {
                     <div class="col-md-12">
                         <div class="row pt-3">
                             <form role="form" id="add_plugins_app" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="form-group">
                                     <label for="plugins" class ="control-label col-sm-3">Plugins:</label>
                                     <input type="text" class="form-control" id="plugins" name="plugins" value="<?php echo $mopt['plugins']; ?>">
@@ -205,7 +211,7 @@ if ($w == "list") {
     </div>
     <?php
 } elseif ($w == "delete") {
-    $tble = 'plugins_app';
+    $tble = \PepiuoX\Security\SqlIdentifier::assert('plugins_app');
     ?>
     <div class="container">
         <div class="row">
@@ -229,7 +235,8 @@ if ($w == "list") {
                     }
                     if (isset($_POST["deleterow"])) {
 
-                        if ($this->conn->query("DELETE FROM $tble WHERE id='$id'") === TRUE) {
+                        $stmt = $conn->prepare("DELETE FROM $tble WHERE id=:id");
+                        if ($stmt->execute([':id' => $id]) !== false) {
                             $_SESSION['success'] = "Record deleted successfully";
                             header('Location: ../plugins/list');
                             exit;
@@ -239,6 +246,7 @@ if ($w == "list") {
                     }
                     ?>
                     <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="form-group">
                             <button type="submit" id="deleterow" name="deleterow" class="btn btn-primary"><span class="fas fa-trash-alt"></span> Delete</button>
                         </div>

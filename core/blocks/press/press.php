@@ -1,8 +1,9 @@
 <!-- press block -->
 <?php
-$rslider = $conn->query("SELECT idPr, galId, image, title, subtitle, description, printing_date, type_press FROM press_gal LEFT JOIN (SELECT idGal, pageId FROM galleries)galleries ON press_gal.galId=galleries.idGal WHERE pageId = '$bid'");
+$rslider = $conn->prepare("SELECT idPr, galId, image, title, subtitle, description, printing_date, type_press FROM press_gal LEFT JOIN (SELECT idGal, pageId FROM galleries)galleries ON press_gal.galId=galleries.idGal WHERE pageId = :bid");
+$rslider->execute([':bid' => $bid]);
 $rows = array();
-while ($row = $rslider->fetch_array()) {
+while ($row = $rslider->fetch(PDO::FETCH_ASSOC)) {
     $rows[] = $row;
 }
 $num_cnt = count($rows);
@@ -12,8 +13,9 @@ if ($num_cnt > 0) {
         <div class="galleryShow">
             <div class="col-md-9">
                 <?php
-                $rslideg = $conn->query("SELECT idGal, name, description, pageId FROM galleries WHERE active='1' AND pageId = '$bid' LIMIT 1");
-                $rowg = $rslideg->fetch_array()
+                $rslideg = $conn->prepare("SELECT idGal, name, description, pageId FROM galleries WHERE active='1' AND pageId = :bid LIMIT 1");
+                $rslideg->execute([':bid' => $bid]);
+                $rowg = $rslideg->fetch(PDO::FETCH_ASSOC)
                 ?>
                 <div style='text-transform: uppercase; padding-left: 2px;'><?php echo $rowg['name']; ?></div>
             </div>

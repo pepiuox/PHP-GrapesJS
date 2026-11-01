@@ -209,6 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div id="fileList" class="file-list"></div>
                             
                             <form id="uploadForm" method="POST" enctype="multipart/form-data" style="display: none;">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <input type="file" name="files[]" id="filesInput" multiple>
                                 <button type="submit" id="submitBtn" class="btn btn-success mt-3">
                                     <i class="fas fa-upload"></i> Subir Archivos Seleccionados
@@ -226,6 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div class="card-body">
                             <form method="POST" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="mb-3">
                                     <label for="singleFile" class="form-label">Seleccionar Archivo</label>
                                     <input class="form-control" type="file" id="singleFile" name="file" required>

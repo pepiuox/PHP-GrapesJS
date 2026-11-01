@@ -1,6 +1,6 @@
 <?php
 
-/* Update Page */
+/* Update pages */
 include '../config/dbconnection.php';
 
 if (isset($_POST['content'])) {
@@ -8,8 +8,9 @@ if (isset($_POST['content'])) {
     $content = $_POST['content'];
     $style = $_POST['style'];
 
-    $sql = "UPDATE page SET  content='" . protect($content) . "', style='" . protect($style) . "' WHERE id='$idp'";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "UPDATE pages SET  content=:content, style=:style WHERE id=:id";
+    $stmt = $conn->prepare($sql);
+    if ($stmt->execute([':content' => protect($content), ':style' => protect($style), ':id' => $idp]) === TRUE) {
         echo "The page has been updated";
     } else {
         echo "Failed";

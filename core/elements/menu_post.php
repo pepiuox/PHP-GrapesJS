@@ -1,7 +1,8 @@
 <!-- menu -->
 <?php
-$rmenu = $conn->query("SELECT * FROM menu_options WHERE id='$menu'");
-$rmopt = $rmenu->fetch_assoc();
+$rmenu = $conn->prepare("SELECT * FROM menu_options WHERE id=:menu");
+$rmenu->execute([':menu' => $menu]);
+$rmopt = $rmenu->fetch(PDO::FETCH_ASSOC);
 $id_menu = $rmopt['id_menu'];
 $fluid = '';
 $placement = '';
@@ -75,19 +76,20 @@ if ($rmopt['color'] === 'light') {
 
                 function getLink($mid) {
                     global $conn;
-                    $result = $conn->query("SELECT * FROM blog_posts WHERE id='$mid'");
-                    $row = $result->fetch_assoc();
+                    $result = $conn->prepare("SELECT * FROM blog_posts WHERE id=:id");
+                    $result->execute([':id' => $mid]);
+                    $row = $result->fetch(PDO::FETCH_ASSOC);
                     return 'builder.php?id=' . $row['id'];
                 }
 
                 function dropdown() {
                     global $conn;
                     $mresult = $conn->query("SELECT * FROM blog_posts");
-                    while ($mrow = $mresult->fetch_array()) {
+                    while ($mrow = $mresult->fetch(PDO::FETCH_ASSOC)) {
                         $parents[] = $mrow['parent'];
                     }
                     $result = $conn->query("SELECT * FROM blog_posts WHERE category=0");
-                    while ($row = $result->fetch_array()) {
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                         $mid = $row['id'];
                         $plink = SITE_PATH . $row['link'];
 
@@ -105,12 +107,13 @@ if ($rmopt['color'] === 'light') {
                 function second($mid, $plink) {
                     global $conn;
                     $result = $conn->query("SELECT * FROM blog_posts");
-                    while ($mrow = $result->fetch_array()) {
+                    while ($mrow = $result->fetch(PDO::FETCH_ASSOC)) {
                         $parents[] = $mrow['parent'];
                     }
-                    $mresult = $conn->query("SELECT * FROM blog_posts WHERE parent='$mid'");
+                    $mresult = $conn->prepare("SELECT * FROM blog_posts WHERE parent=:parent");
+                    $mresult->execute([':parent' => $mid]);
                     echo '<ul class="dropdown-menu">' . "\n";
-                    while ($row = $mresult->fetch_array()) {
+                    while ($row = $mresult->fetch(PDO::FETCH_ASSOC)) {
                         $sid = $row['id'];
                         $slink = $plink . '/' . $row['link'];
                         if (in_array($row['id'], $parents)) {
@@ -128,12 +131,13 @@ if ($rmopt['color'] === 'light') {
                 function third($sid, $plink) {
                     global $conn;
                     $result = $conn->query("SELECT * FROM blog_posts");
-                    while ($mrow = $result->fetch_array()) {
+                    while ($mrow = $result->fetch(PDO::FETCH_ASSOC)) {
                         $parents[] = $mrow['parent'];
                     }
-                    $mresult = $conn->query("SELECT * FROM blog_posts WHERE parent='$sid'");
+                    $mresult = $conn->prepare("SELECT * FROM blog_posts WHERE parent=:parent");
+                    $mresult->execute([':parent' => $sid]);
                     echo '<ul class="dropdown-menu dropdown-submenu">' . "\n";
-                    while ($row = $mresult->fetch_array()) {
+                    while ($row = $mresult->fetch(PDO::FETCH_ASSOC)) {
                         $sbid = $row['id'];
                         $slink = $plink . '/' . $row['link'];
 

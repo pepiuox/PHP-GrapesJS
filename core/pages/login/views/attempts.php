@@ -8,6 +8,7 @@
             <h4 class="text-center"><?php echo $lang[$fname]['attempts']; ?></h4>
             <p class="login-box-msg"><?php echo $lang[$fname]['att_msg']; ?></p>
             <form action="" method="post" class="form-inline d-flex justify-content-center">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" autocomplete="off"

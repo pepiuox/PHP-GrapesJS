@@ -1,4 +1,5 @@
 <?php
+global $conn;
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
     if ($cms === "list_pages") {
@@ -22,10 +23,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </thead>
         <tbody>
         <?php
-        $presult = $this->conn->query("SELECT * FROM pages");
-        $pnumr = $presult->num_rows;
+        $presult = $conn->query("SELECT * FROM pages");
+        $pnumr = $presult->rowCount();
         if ($pnumr > 0) {
-            while ($prow = $presult->fetch_array()) {
+            while ($prow = $presult->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr><td>';
                 echo '<a href="' . SITE_PATH . $prow['link'] . '" target="_blank"><i class="fas fa-eye" style="color:blue" aria-hidden="true"></i></a>';
                 echo '</td><td>' . "\n";
@@ -61,11 +62,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $file_name = '';
             if (!empty($_FILES['image']['name'])) {
                 $errors = array();
-                $file_name = $_FILES['image']['name'];
-                $file_size = $_FILES['image']['size'];
-                $file_tmp = $_FILES['image']['tmp_name'];
-                $file_type = $_FILES['image']['type'];
-                $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                $file_ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
 // $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
 
                 $extensions = array(
@@ -75,20 +72,20 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     "gif"
                 );
 
-                if (in_array($file_ext, $extensions)) {
-                    if (file_exists("../uploads/" . $file_name)) {
-                        $errors[] = $file_name . " is already exists.";
-                    } else {
-                        move_uploaded_file($file_tmp, "../uploads/" . $file_name);
+                // Validate and save with a server-generated name: the client filename
+                // is only used to read the extension, never to build the destination path.
+                $upload_error = null;
+                $stored = \PepiuoX\Security\Upload::storeImage($_FILES['image'], "../uploads/", 4000000, $upload_error);
+                if ($stored !== null) {
+                    $file_name = $stored;
 
-                        $_SESSION['success'] = "Your file was uploaded successfully.";
-                    }
-                } else {
+                    $_SESSION['success'] = "Your file was uploaded successfully.";
+                } elseif (!in_array($file_ext, $extensions)) {
                     $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
-                }
-
-                if ($file_size > 4000000) {
+                } elseif ($_FILES['image']['size'] > 4000000) {
                     $errors[] = 'File size must be excately 4 MB';
+                } else {
+                    $errors[] = $upload_error;
                 }
 
                 if (empty($errors) === true) {
@@ -118,18 +115,15 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             $change = 0;
 
             if ($startpage === 1) {
-                $qlv1 = $this->conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
-                $qlv1->bind_param("i", $startpage);
-                $qlv1->execute();
-                $presult = $qlv1->get_result();
-                $qlv1->close();
-                if ($presult->num_rows > 0) {
-                    $dt = $presult->fetch_assoc();
+                $qlv1 = $conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
+                $qlv1->execute([$startpage]);
+                if ($qlv1->rowCount() > 0) {
+                    $dt = $qlv1->fetch(PDO::FETCH_ASSOC);
+                    $qlv1->closeCursor();
                     $idsp = $dt['id'];
-                    $updp = $this->conn->prepare("UPDATE pages SET startpage=? WHERE id=?");
-                    $updp->bind_param("ii", $change, $idsp);
-                    $updp->execute();
-                    $updp->close();
+                    $updp = $conn->prepare("UPDATE pages SET startpage=? WHERE id=?");
+                    $updp->execute([$change, $idsp]);
+                    $updp->closeCursor();
                 }
             }
 
@@ -141,22 +135,20 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 // Insert info in table PAGE 
             $sql = "INSERT INTO pages (title, link, keyword, classification, description, image, startpage, parent, active) "
                     . "VALUES (?,?,?,?,?,?,?,?,?)";
-            $updp = $this->conn->prepare($sql);
-            $updp->bind_param("ssssssiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active);
-            $updp->execute();
-            $last_id = $this->conn->insert_id;
-            $updp->close();
+            $updp = $conn->prepare($sql);
+            $updp->execute([$title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active]);
+            $last_id = $conn->lastInsertId();
+            $updp->closeCursor();
 
             if (!empty($last_id)) {
 
 // Insert info in table MENU
                 $sqlm = "INSERT INTO menu (page_id, title_page, link_page, parent_id) "
                         . "VALUES (?, ?, ?, ?)";
-                $updpm = $this->conn->prepare($sqlm);
-                $updpm->bind_param("issi", $last_id, $title, $link, $parent);
-                $updpm->execute();
-                $last_idm = $this->conn->insert_id;
-                $updpm->close();
+                $updpm = $conn->prepare($sqlm);
+                $updpm->execute([$last_id, $title, $link, $parent]);
+                $last_idm = $conn->lastInsertId();
+                $updpm->closeCursor();
                 if (!empty($last_idm)) {
                     $_SESSION['SuccessMessage'] = "Page " . $title . " : Created ";
                 } else {
@@ -175,6 +167,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         <h3>Add new page</h3>
         <form method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
         <div class="row"><div class="col-md-6">
         <div class="form-group">
         <label for="title">Title</label>
@@ -287,11 +280,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_POST['submit'])) {
                 if (!empty($_FILES['image']['name'])) {
                     $errors = array();
-                    $file_name = $_FILES['image']['name'];
-                    $file_size = $_FILES['image']['size'];
-                    $file_tmp = $_FILES['image']['tmp_name'];
-                    $file_type = $_FILES['image']['type'];
-                    $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                    $file_ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
 // $file_ext = strtolower(end(explode('.', $_FILES['image']['name'])));
 
                     $extensions = array(
@@ -301,20 +290,20 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         "gif"
                     );
 
-                    if (in_array($file_ext, $extensions)) {
-                        if (file_exists("../uploads/" . $file_name)) {
-                            $errors[] = $file_name . " is already exists.";
-                        } else {
-                            move_uploaded_file($file_tmp, "../uploads/" . $file_name);
+                    // Validate and save with a server-generated name: the client filename
+                    // is only used to read the extension, never to build the destination path.
+                    $upload_error = null;
+                    $stored = \PepiuoX\Security\Upload::storeImage($_FILES['image'], "../uploads/", 4000000, $upload_error);
+                    if ($stored !== null) {
+                        $file_name = $stored;
 
-                            $_SESSION['success'] = "Your file was uploaded successfully.";
-                        }
-                    } else {
+                        $_SESSION['success'] = "Your file was uploaded successfully.";
+                    } elseif (!in_array($file_ext, $extensions)) {
                         $errors[] = "Extension not allowed, please choose a JPEG, JPG, PNG or GIF file. <br/>Or you have not selected a file";
-                    }
-
-                    if ($file_size > 4000000) {
+                    } elseif ($_FILES['image']['size'] > 4000000) {
                         $errors[] = 'File size must be excately 4 MB';
+                    } else {
+                        $errors[] = $upload_error;
                     }
 
                     if (empty($errors) === true) {
@@ -355,32 +344,27 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $active = protect($_POST['active']);
 
                 if ($startpage === 1) {
-                    $qlv1 = $this->conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
-                    $qlv1->bind_param("i", $startpage);
-                    $qlv1->execute();
-                    $presult = $qlv1->get_result();
-                    $qlv1->close();
-                    if ($presult->num_rows > 0) {
-                        $dt = $presult->fetch_assoc();
+                    $qlv1 = $conn->prepare("SELECT id, startpage FROM pages WHERE startpage=?");
+                    $qlv1->execute([$startpage]);
+                    if ($qlv1->rowCount() > 0) {
+                        $dt = $qlv1->fetch(PDO::FETCH_ASSOC);
+                        $qlv1->closeCursor();
                         $idsp = $dt['id'];
-                        $updp = $this->conn->prepare("UPDATE page SET startpage=? WHERE id=?");
-                        $updp->bind_param("ii", $change, $idsp);
-                        $updp->execute();
-                        $updp->close();
+                        $updp = $conn->prepare("UPDATE pages SET startpage=? WHERE id=?");
+                        $updp->execute([$change, $idsp]);
+                        $updp->closeCursor();
                     }
                 }
 
-                $qlv = $this->conn->prepare("UPDATE page SET title = ?, link = ?, keyword = ?, classification = ?, description= ?, image = ?, startpage = ?, parent = ?, active = ? WHERE id = ?");
-                $qlv->bind_param("ssssssiiii", $title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active, $id);
-                $nn = $qlv->affected_rows;
-                $qlv->execute();
+                $qlv = $conn->prepare("UPDATE pages SET title = ?, link = ?, keyword = ?, classification = ?, description= ?, image = ?, startpage = ?, parent = ?, active = ? WHERE id = ?");
+                $qlv->execute([$title, $link, $keyword, $classification, $description, $file_name, $startpage, $parent, $active, $id]);
+                $nn = $qlv->rowCount();
 
                 if ($nn === 0) {
 
-                    $qlv1 = $this->conn->prepare("UPDATE menu SET title_page = ?, link_page = ?, parent_id = ? WHERE page_id = ?");
-                    $qlv1->bind_param("ssii", $title, $link, $parent, $id);
-                    $nn1 = $qlv1->affected_rows;
-                    $qlv1->execute();
+                    $qlv1 = $conn->prepare("UPDATE menu SET title_page = ?, link_page = ?, parent_id = ? WHERE page_id = ?");
+                    $qlv1->execute([$title, $link, $parent, $id]);
+                    $nn1 = $qlv1->rowCount();
 
                     if ($nn1 === 0) {
 
@@ -407,15 +391,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($id) && !empty($id)) {
                 
-                $qlv2 = $this->conn->prepare("SELECT * FROM pages WHERE id = ?");
-                $qlv2->bind_param("i", $id);
-                $qlv2->execute();
-                $presult = $qlv2->get_result();
-                if ($presult->num_rows > 0) {
-                    $row = $presult->fetch_assoc();
+                $qlv2 = $conn->prepare("SELECT * FROM pages WHERE id = ?");
+                $qlv2->execute([$id]);
+                if ($qlv2->rowCount() > 0) {
+                    $row = $qlv2->fetch(PDO::FETCH_ASSOC);
                     $title = $row['title'];
                     echo '<h3>Edit page: ' . $title . '</h3>' . "\n";
-                    echo '<form method="post" enctype="multipart/form-data">' . "\n";
+                    echo '<form method="post" enctype="multipart/form-data">' . \PepiuoX\Security\Csrf::field() . '' . "\n";
                     echo '<div class="row"><div class="col-md-6">' . "\n";
                     echo '<div class="form-group">
 <label for="title">Title</label>
@@ -528,8 +510,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     } elseif ($cms == "delete_page") {
 
         if (isset($_POST['submit'])) {
-            $sql = "DELETE FROM pages WHERE id='$id'";
-            if ($this->conn->query($sql) === TRUE) {
+            $sql = "DELETE FROM pages WHERE id=:id";
+            $stmt = $conn->prepare($sql);
+            if ($stmt->execute([':id' => $id]) !== false) {
                 echo '<div class="alert alert-primary" role="alert">';
                 echo "<h4>Record deleted successfully</h4>";
                 echo '</div>';
@@ -540,7 +523,7 @@ window.location.href = '../list_pages';
 </script>";
             } else {
                 echo '<div class="alert alert-danger" role="alert">';
-                echo "Error deleting record: " . $this->conn->error;
+                echo "Error deleting record: " . $conn->errorInfo()[2];
                 echo '</div>';
             }
         }
@@ -559,7 +542,7 @@ window.location.href = '../list_pages';
 
         <h2>Are you sure you want to delete this page</h2>
         <?php
-        echo '<form method="post">';
+        echo '<form method="post">' . \PepiuoX\Security\Csrf::field() . '';
         echo '<input type="submit" name="submit" class="btn btn-primary" value="Detele">' . "\n";
         echo '</form>' . "\n";
         ?>

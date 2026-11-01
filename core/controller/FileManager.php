@@ -31,6 +31,10 @@ class FileManager
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->max_file_size = $maxSizeMB * 1024 * 1024;
 
+        // Defensa en profundidad: PDO no permite enlazar identificadores, asi que el nombre
+        // de tabla se valida antes de interpolarlo en cualquier consulta.
+        $this->table_name = \PepiuoX\Security\SqlIdentifier::assert($this->table_name);
+
         // Tipos MIME permitidos
         $this->allowed_types = [
             'image/jpeg', 'image/png', 'image/gif', 'image/webp',

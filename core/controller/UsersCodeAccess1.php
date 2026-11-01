@@ -12,7 +12,7 @@ declare(strict_types=1);
  * - Todos los métodos usan prepared statements PDO
  * - Inyección de dependencias
  */
-class UsersCodeAccess
+class UsersCodeAccess1
 {
     private PDO $conn;
     private array $actions;
@@ -58,6 +58,8 @@ class UsersCodeAccess
                     continue;
                 }
 
+                $tb = \PepiuoX\Security\SqlIdentifier::assert($tb);
+
                 $sql = "INSERT INTO {$tb} (usercode) VALUES (:uc)";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->execute([':uc' => $uscod]);
@@ -89,6 +91,8 @@ class UsersCodeAccess
                 if (!in_array($tb, $this->secures, true)) {
                     continue;
                 }
+
+                $tb = \PepiuoX\Security\SqlIdentifier::assert($tb);
 
                 $sql = "INSERT INTO {$tb} (idUsr, usercode) VALUES (:id, :uc)";
                 $stmt = $this->conn->prepare($sql);

@@ -8,6 +8,14 @@
   </div>
   <div class="modal-body">
 		<?php
+global $conn;
+
+// ✅ `$ucode` y `$id` no se definían en este archivo: el UPDATE filtraba por
+//    `userid = NULL` (no afectaba a ninguna fila) y el SELECT tampoco encontraba el
+//    registro. Convención de la aplicación (ver core/users/personalInfo.php):
+//    columna `usercode` → $_SESSION['access_id'];  PK `userid` → $_SESSION['user_id'].
+$ucode = $_SESSION['access_id'] ?? null;
+$rowId = $_SESSION['user_id'] ?? null;
 //This is temporal file only for add new row
 if (isset($_POST['updateinfo'])) { 
 
@@ -24,21 +32,33 @@ $address1 = protect($_POST["address1"]);
 $address2 = protect($_POST["address2"]); 
  
 
-$sql = "UPDATE users_info SET firstname = ?, lastname = ?, gender = ?, age = ?, birthday = ?, phone = ?, country = ?, state = ?, city = ?, address1 = ?, address2 = ?WHERE userid = ?";
-$updated = $this->conn->prepare($sql);
-$updated->bind_param('sssisssssssissi', $firstname, $lastname, $gender, $age, $birthday, $phone, $country, $state, $city, $address1, $address2, $id );
-$updated->execute();
-$updated->close();
+// ✅ Correcciones: faltaba un espacio antes de `WHERE` ("address2 = ?WHERE"), lo que
+//    producía un error de sintaxis SQL; y el parámetro `$id` no existía.
+$sql = "UPDATE users_info SET firstname = ?, lastname = ?, gender = ?, age = ?, birthday = ?, phone = ?, country = ?, state = ?, city = ?, address1 = ?, address2 = ? WHERE userid = ?";
+
+if ($rowId !== null) {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$firstname, $lastname, $gender, $age, $birthday, $phone, $country, $state, $city, $address1, $address2, $rowId]);
+    $stmt->closeCursor();
+}
 }
 
-$upinfo = $this->conn->prepare("SELECT * FROM users_info WHERE usercode=?");
-$upinfo->bind_param('s', $ucode);
-$upinfo->execute();
-$upinf = $upinfo->get_result();
-$upinfo->close();
-$uinf = $upinf->fetch_assoc();
+// ✅ Si no hay sesión o no hay fila, `$uinf` queda con las claves vacías en lugar de
+//    provocar avisos de "Undefined array key" en las líneas `value="..."` de abajo.
+$uinf = array_fill_keys(
+    ['firstname', 'lastname', 'age', 'birthday', 'phone', 'country', 'state', 'city', 'address1', 'address2'],
+    ''
+);
+
+if ($ucode !== null) {
+    $upinfo = $conn->prepare("SELECT * FROM users_info WHERE usercode=?");
+    $upinfo->execute([$ucode]);
+    $uinf = $upinfo->fetch(PDO::FETCH_ASSOC) ?: $uinf;
+    $upinfo->closeCursor();
+}
 ?>  
 <form role="form" id="info" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 <div class="row">
 <div class="form-group">
 <label for="firstname" class ="control-label col-md-6">Nombres:</label>

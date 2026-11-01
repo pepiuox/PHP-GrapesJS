@@ -60,10 +60,10 @@ $c = new MyCRUD();
 if ($w == "select") {
 
     if ($result = $c->selectData("SELECT * FROM table_config")) {
-        $total_found = $result->num_rows;
+        $total_found = $result->rowCount();
 
         if ($total_found > 0) {
-            $row = mysqli_fetch_assoc($result);
+            $row = $result->fetch(PDO::FETCH_ASSOC);
             $tableNames = explode(',', $row['table_name']);
         }
     }
@@ -120,6 +120,7 @@ if ($w == "select") {
     <div class="container">
         <?php include 'searchData.php'; ?>		
         <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">

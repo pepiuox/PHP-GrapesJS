@@ -8,7 +8,7 @@
 /*
  * This class check level from users:
  */
-class AccessLevel
+class AccessLevel1
 {
     protected $conn;
     private $userrole;

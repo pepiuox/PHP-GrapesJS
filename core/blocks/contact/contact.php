@@ -6,7 +6,7 @@
             <?php
             $resultc = $conn->query("SELECT value FROM config");
             $array = array();
-            while ($rowt = $resultc->fetch_row()) {
+            while ($rowt = $resultc->fetch(PDO::FETCH_NUM)) {
                 $array[] = $rowt;
             }
             echo '<p>';
@@ -93,7 +93,7 @@
         <?php
         if ($_SESSION["language"] === '1') {
             echo '<h3>Contact</h3>
-        <form class="br" method="POST">
+        <form class="br" method="POST">' . \PepiuoX\Security\Csrf::field() . '
             <div class="col-md-12">
                 <label>Name:</label>
                 <input id="name" name="name" type="text" value=""/>
@@ -117,7 +117,7 @@
         </form> ';
         } else {
             echo '<h3>Contacto</h3>
-        <form class="br" method="POST">
+        <form class="br" method="POST">' . \PepiuoX\Security\Csrf::field() . '
             <div class="col-md-12">
                 <label>Nombre:</label>
                 <input id="name" name="name" type="text" value=""/>

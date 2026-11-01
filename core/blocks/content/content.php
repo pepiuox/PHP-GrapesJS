@@ -4,9 +4,10 @@
 
         <?php
         if ($bid) {
-            $result = $conn->query("SELECT id, title, content FROM page WHERE id = '$bid'");
+            $result = $conn->prepare("SELECT id, title, content FROM pages WHERE id = :bid");
+            $result->execute([':bid' => $bid]);
         }
-        $row = $result->fetch_assoc();
+        $row = $result->fetch(PDO::FETCH_ASSOC);
 
         echo $row['content'];
         ?>

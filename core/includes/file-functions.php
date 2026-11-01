@@ -222,10 +222,19 @@ function getRecentFiles($conn, $user_id = null, $limit = 10) {
         }
         
         $query .= " ORDER BY f.created_at DESC LIMIT :limit";
-        $params[':limit'] = $limit;
         
         $stmt = $conn->prepare($query);
-        $stmt->execute($params);
+        
+        // ✅ `LIMIT` NO admite un valor ligado como string cuando
+        // PDO::ATTR_EMULATE_PREPARES es false (es el caso de este proyecto):
+        // hay que ligarlo explícitamente como entero. Los parámetros de la
+        // cláusula WHERE sí pueden seguir pasándose por execute().
+        if (isset($params[':user_id'])) {
+            $stmt->bindValue(':user_id', $params[':user_id']);
+        }
+        
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
         

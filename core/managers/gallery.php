@@ -340,35 +340,35 @@ imagePopup.onclick = event => {
 };
 </script>
 <?php
+require_once __DIR__ . '/../Autoload.php';
 // The output message
 $msg = '';
 // Check if user uploaded a new image
 if (isset($_FILES['image'], $_POST['title'], $_POST['description'])) {
     // The folder where the images will be stored
     $target_dir = 'images/';
-    // The path of the new uploaded image
-    $image_path = $target_dir . basename($_FILES['image']['name']);
-    // Check to make sure the image is valid
-    if (!empty($_FILES['image']['tmp_name']) && getimagesize($_FILES['image']['tmp_name'])) {
-        // Validation checks
-        if (file_exists($image_path)) {
-            $msg = 'Image already exists! Please choose another or rename that image.';
-        } else if ($_FILES['image']['size'] > 500000) {
-            $msg = 'Image file size too large! Please choose an image less than 500kb.';
-        } else {
-            // Everything checks out, so now we can move the uploaded image
-            move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
-            // Connect to MySQL database
-            $pdo = pdo_connect_mysql();
-            // Insert image info into the database (title, description, image path, and date added)
-            $stmt = $pdo->prepare('INSERT INTO images (title, description_text, filepath, uploaded_date) VALUES (?, ?, ?, ?)');
-            $stmt->execute([$_POST['title'], $_POST['description'], $image_path, date('Y-m-d H:i:s')]);
-            // Output success message
-            $msg = 'Image uploaded successfully!';
-        }
+    // Validate and save the image with a server-generated name (the client filename
+    // is only used to read the extension, never to build the destination path).
+    $upload_error = null;
+    $stored = \PepiuoX\Security\Upload::storeImage($_FILES['image'], $target_dir, 500000, $upload_error);
+    if ($stored !== null) {
+        // The path of the new uploaded image (kept as directory + name in the database)
+        $image_path = $target_dir . $stored;
+        // Connect to MySQL database
+        $pdo = pdo_connect_mysql();
+        // Insert image info into the database (title, description, image path, and date added)
+        $stmt = $pdo->prepare('INSERT INTO images (title, description_text, filepath, uploaded_date) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$_POST['title'], $_POST['description'], $image_path, date('Y-m-d H:i:s')]);
+        // Output success message
+        $msg = 'Image uploaded successfully!';
+    } else if ($_FILES['image']['size'] > 500000) {
+        $msg = 'Image file size too large! Please choose an image less than 500kb.';
     } else {
         // No image uploaded or invalid image
         $msg = 'Please upload an image!';
+        if ($upload_error !== null) {
+            $msg .= ' (' . $upload_error . ')';
+        }
     }
 }
 ?>
@@ -379,6 +379,7 @@ if (isset($_FILES['image'], $_POST['title'], $_POST['description'])) {
 	<h2>Upload Image</h2>
 
 	<form action="upload.php" method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 
 		<label for="image">Choose Image</label>
 		<input type="file" name="image" accept="image/*" id="image" required>

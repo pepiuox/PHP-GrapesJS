@@ -7,7 +7,10 @@
             /* Registration was successful */
             if ($_SESSION['regsuccess']) {
                 echo "<h1>Registered!</h1>";
-                if (EMAIL_WELCOME) {
+                // ✅ Guarda `defined()`: `EMAIL_WELCOME` se define dinámicamente desde la
+                // configuración (ver core/managers/session.php); usarla sin comprobar
+                // provocaba un Error fatal en PHP 8 cuando no estaba definida.
+                if (defined('EMAIL_WELCOME') && EMAIL_WELCOME) {
                     echo "<p>Thank you <b>" . $_SESSION['username'] . "</b>, you have been sent a confirmation email which should be arriving shortly.  Please confirm your registration before you continue.<br />Volver a <a href='index.php'>Principal</a></p>";
                 } else {
                     echo "<p>Thank you <b>" . $_SESSION['username'] . "</b>, your information has been added to the database, "
@@ -38,6 +41,7 @@
                 <div class="card-body register-card-body">
                     <p class="login-box-msg">Add a new user</p>
                     <form method="post" class="form-inline d-flex justify-content-center">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="input-group mb-3">
                             <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="<?php echo $form->value("username"); ?>"><?php echo $form->error("username"); ?>
                             <div class="input-group-append">

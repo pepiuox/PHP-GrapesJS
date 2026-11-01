@@ -16,20 +16,20 @@ class ChangePass
 {
     public string $baseurl;
     protected PDO $conn;
-    private int $iduv;
+    private string $iduv;
     private string $ucode;
     private string $level;
     private string $mkhash;
     private GetCodeDeEncrypt $gc;
 
-    public function __construct(PDO $conn)
+    public function __construct(?PDO $conn = null)
     {
-        $this->conn = $conn;
+        $this->conn = $conn ?? \PepiuoX\Database\Connection::shared();
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->gc = new GetCodeDeEncrypt();
         $this->baseurl = SITE_PATH;
 
-        $this->iduv   = (int) ($_SESSION["user_id"] ?? 0);
+        $this->iduv   = (string) ($_SESSION["user_id"] ?? '');
         $this->ucode  = $_SESSION["access_id"] ?? '';
         $this->level  = $_SESSION["levels"] ?? '';
         $this->mkhash = $_SESSION["hash"] ?? '';

@@ -8,7 +8,7 @@
 class CheckUsersSession
 {
     protected PDO $conn;
-    private ?int $user = null;
+    private ?string $user = null;
     private ?string $hash = null;
     private int $expiry = 3600;
 
@@ -19,7 +19,7 @@ class CheckUsersSession
         $this->expiry = time() + 3600;
 
         if (isset($_SESSION['user_id'], $_SESSION['hash'])) {
-            $this->user = (int) $_SESSION['user_id'];
+            $this->user = (string) ($_SESSION['user_id'] ?? '');
             $this->hash = $_SESSION['hash'];
             $this->checkUsers();
         }

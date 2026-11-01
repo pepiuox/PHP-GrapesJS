@@ -8,6 +8,7 @@
                 <h5>Your confirmation was sending to your email</h5>
                 <p class="login-box-msg">You are only one step a way from your new password</p>
                 <form method="post" class="form">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                     <div class="mb-3">
                         <label class="form-label" for="email">Confirm your email. <span class="red">*</span>:
                         </label>

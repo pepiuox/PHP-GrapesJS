@@ -60,11 +60,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
         if (isset($build) && !empty($build)) {
 
+            $build = \PepiuoX\Security\SqlIdentifier::assert($build);
             $erow = $this->conn->prepare("SELECT id, title, slug, link, html_content, css_content, parent FROM $build WHERE id=?");
-            $erow->bind_param('i', $id);
-            $erow->execute();
-            $result = $erow->get_result();
-            $row = $result->fetch_assoc();
+            $erow->execute([$id]);
+            $row = $erow->fetch(PDO::FETCH_ASSOC);
 
             $pcontent = $row['html_content'];
             $pstyle = $row['css_content'];
@@ -72,10 +71,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 $plink = $row['link'];
             } else {
                 $prow = $this->conn->prepare("SELECT id, link FROM $build WHERE id=?");
-                $prow->bind_param('i', $row['parent']);
-                $prow->execute();
-                $presult = $prow->get_result();
-                $lrow = $presult->fetch_assoc();
+                $prow->execute([$row['parent']]);
+                $lrow = $prow->fetch(PDO::FETCH_ASSOC);
                 $plink = $lrow['link'] . '/' . $row['link'];
             }
         } else {
@@ -116,11 +113,15 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     continue;
                 }
                 $file = basename($value, "." . $ext);
+                // ✅ Defensa en profundidad: el nombre viene de un listado de directorio
+                // (`scandir`), así que se normaliza a su basename antes de incluirlo. Así
+                // este `include` no puede salir nunca del directorio `components/`.
+                $componentFile = basename((string) $value);
                 echo '<li class="nav-item">
                 <a tabindex="-1" href="#">' . ucfirst($file) . '</a>
                 <ul>
                 ';
-    include $directory . $value;
+    include $directory . $componentFile;
     echo '</ul>
     </li>';
             }
@@ -195,6 +196,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <!-- Menu Footer-->
         <li class="dropdown-item user-footer">
         <form method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
         <button class="btn btn-default btn-flat" type="submit" name="profile">Profile</button>
         <button class="btn btn-default btn-flat float-right" type="submit" name="logout">
         Sign out
@@ -224,12 +226,15 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         <?php
 
         function Savedata($tbl, $html_content, $css_content, $idp) {
+            // ✅ `$conn` es el PDO global. `$this->conn` aquí no es fiable (función fuera del
+            // ámbito de objeto); `$conn` funciona tanto dentro como fuera de la clase.
+            global $conn;
+            $tbl = \PepiuoX\Security\SqlIdentifier::assert($tbl);
             $sql = "UPDATE $tbl SET  html_content = ?, css_content = ? WHERE id = ?";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("ssi", protect($html_content), protect($css_content), $idp);
-            $stmt->execute();
-            $save = $stmt->affected_rows;
-            $stmt->close();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([protect($html_content), protect($css_content), $idp]);
+            $save = $stmt->rowCount();
+            $stmt->closeCursor();
 
             if ($save === 1) {
                 echo "Save Data";

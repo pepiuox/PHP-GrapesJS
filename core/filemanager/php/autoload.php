@@ -2,7 +2,8 @@
 
 define('ELFINDER_PHP_ROOT_PATH', dirname(__FILE__));
 
-function elFinderAutoloader($name) {
+function elFinderAutoloader($name)
+{
     $map = array(
         'elFinder' => 'elFinder.class.php',
         'elFinderConnector' => 'elFinderConnector.class.php',

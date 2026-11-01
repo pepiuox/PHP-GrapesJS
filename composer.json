@@ -34,23 +34,35 @@
     }],
     "support": {},
     "require": {
-        "php": "^8.2",
-        "vlucas/phpdotenv": "v5.6.4",
-        "nikic/php-parser": "v5.8.0"
+        "php": ">=8.3",
+        "vlucas/phpdotenv": "v5.7.0",
+        "phpmailer/phpmailer": "v7.1.1",
+        "monolog/monolog": "3.12.1",
+        "intervention/image": "4.3.4",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
-        "vimeo/psalm": "6.16.1",
-        "phpstan/phpstan": "2.2.8",
+        "vimeo/psalm": "6.17.2",
+        "phpstan/phpstan": "2.2.14",
         "squizlabs/php_codesniffer": "4.0.4",
-        "phpunit/phpunit": "13.3.1",
-        "friendsofphp/php-cs-fixer": "v3.95.21",
-        "phpactor/phpactor": "2026.07.22.0",
-        "phpactor/language-server": "7.0.1"
+        "phpunit/phpunit": "13.3.4",
+        "friendsofphp/php-cs-fixer": "v3.95.25"
     },
     "autoload": {
         "psr-4": {
-            "PepiuoX\\": "core/controller"
-        }
+            "PepiuoX\\": "core/src/"
+        },
+        "classmap": [
+            "core/controller/"
+        ],
+        "files": [
+            "core/Autoload.php"
+        ]
     },
     "scripts": {
         "test": "vendor/bin/phpunit",

@@ -21,8 +21,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM multimedia_gal LEFT JOIN galleries ON multimedia_gal.galId=galleries.idGal") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM multimedia_gal LEFT JOIN galleries ON multimedia_gal.galId=galleries.idGal");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = $value;
                 }
@@ -61,8 +61,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container">
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description_en`,  `description_es` ,  `source` ,  `idlink`  ) VALUES(  '{$_POST['galId']}' ,  '{$_POST['name']}' ,  '{$_POST['image']}' ,  '{$_POST['description_en']}',  '{$_POST['description_es']}' ,  '{$_POST['source']}' ,  '{$_POST['idlink']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                $sql = "INSERT INTO `multimedia_gal` ( `galId` ,  `name` ,  `image` ,  `description_en`,  `description_es` ,  `source` ,  `idlink`  ) VALUES(  :galId ,  :name ,  :image ,  :description_en ,  :description_es ,  :source ,  :idlink  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':galId' => $_POST['galId'], ':name' => $_POST['name'], ':image' => $_POST['image'], ':description_en' => $_POST['description_en'], ':description_es' => $_POST['description_es'], ':source' => $_POST['source'], ':idlink' => $_POST['idlink']]);
                 echo "Multimedia Agregada.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -71,7 +72,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <a class="btn btn-secondary" href='dashboard/multimedia/list'>Retornar a la Lista</a> 
                         </p>
                         <h3>Agregar a Multimedia</h3> 
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <div class='col-md-6'><label class="form-label">Galeria:</label>
             <?php
             $sql1 = "SELECT * FROM galleries WHERE type = '2'";
@@ -79,7 +81,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             ?>                    
                                 <select class="form-select" name='galId' id='galId'>  
                                     <option>Selecciona una galeria</option>                        
-            <?php while ($rs1 = mysqli_fetch_array($query1)) { ?>                                    
+            <?php while ($rs1 = $query1->fetch(PDO::FETCH_ASSOC)) { ?>                                    
                                             <option value="<?php echo $rs1['idGal']; ?>"><?php echo $rs1['gallery']; ?></option>
                 <?php
             }
@@ -124,7 +126,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             $acti = array("youtube", "vimeo", "daylimotion");
             reset($acti);
-            while (list($key, $val) = each($acti)) {
+            foreach ($acti as $key => $val) {
             ?>     
                                                 <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
                 <?php
@@ -146,16 +148,20 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <?php
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `multimedia_gal` WHERE `id` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `multimedia_gal` WHERE `id` = :id ");
+                $stmt->execute([':id' => $id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `multimedia_gal` SET  `galId` =  '{$_POST['galId']}' ,  `name` =  '{$_POST['name']}' ,  `image` =  '{$_POST['image']}' ,  `description_en` =  '{$_POST['description_en']}' ,,  `description_es` =  '{$_POST['description_es']}'  `source` =  '{$_POST['source']}' ,  `idlink` =  '{$_POST['idlink']}' WHERE `id` = '$id' ";
-                    $conn->query($sql) or die($conn->error);
+                    $sql = "UPDATE `multimedia_gal` SET  `galId` =  :galId ,  `name` =  :name ,  `image` =  :image ,  `description_en` =  :description_en ,,  `description_es` =  :description_es  `source` =  :source ,  `idlink` =  :idlink WHERE `id` = :id ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':galId' => $_POST['galId'], ':name' => $_POST['name'], ':image' => $_POST['image'], ':description_en' => $_POST['description_en'], ':description_es' => $_POST['description_es'], ':source' => $_POST['source'], ':idlink' => $_POST['idlink'], ':id' => $id]);
                     echo '<meta http-equiv="refresh" content="0">';
                 }
             ?>
                                 <a class="btn btn-secondary" href='dashboard/multimedia/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/multimedia/add'>Nuevo Multimedia</a> 
                                 <h3>Editar de multimedia</h3> 
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class='col-md-6'><label class="form-label">Galeria:</label>
                                         <select class="form-select" name='galId' id='galId'> 
                 <?php
@@ -164,7 +170,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 ?>  
                                             <option>-- Seleccione galeria --</option>                            
                 <?php
-                while ($rs1 = mysqli_fetch_array($query1)) {
+                while ($rs1 = $query1->fetch(PDO::FETCH_ASSOC)) {
                     if ($rs1['idGal'] == $row['galId']) {
                 ?>     
                                                             <option value="<?php echo $rs1['idGal']; ?>" selected><?php echo $rs1['gallery']; ?></option>
@@ -257,7 +263,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
             }
-            $row = mysqli_fetch_array($conn->query("SELECT * FROM multimedia_gal LEFT JOIN galleries ON multimedia_gal.galId=galleries.idGal WHERE `id` = '$id' "));
+            $stmt = $conn->prepare("SELECT * FROM multimedia_gal LEFT JOIN galleries ON multimedia_gal.galId=galleries.idGal WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                         <a class="btn btn-secondary" href='dashboard/multimedia/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/multimedia/add'>Nueva Fila</a> 
                         <h3>Vista de multimedia_gal</h3> 
@@ -305,8 +313,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <h3>Eliminado de Multimedia</h3> 
             <?php
             $id = (int) $_GET['id'];
-            $conn->query("DELETE FROM `multimedia_gal` WHERE `id` = '$id' ");
-            echo ($conn->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
+            $stmt = $conn->prepare("DELETE FROM `multimedia_gal` WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
+            echo ($stmt->rowCount()) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
                         </div>
             <?php

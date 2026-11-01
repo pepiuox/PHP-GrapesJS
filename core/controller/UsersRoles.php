@@ -20,6 +20,7 @@ class UsersRoles
     public function __construct(PDO $connection)
     {
         $this->conn = $connection;
+        $this->tble = \PepiuoX\Security\SqlIdentifier::assert($this->tble);
 
         // Validación estricta de sesión
         if (!isset($_SESSION['levels']) || !is_string($_SESSION['levels'])) {

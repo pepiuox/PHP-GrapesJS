@@ -8,6 +8,7 @@
                     <p class="login-box-msg"><?php echo $lang[$fname]['box_msg']; ?></p>
 
                     <form action="login.php" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 						<div class="input-group mb-3">
                         <input type="text" name="recoveryphrase" id="recoveryphrase" class="form-control" placeholder="Recover phrase">
                         <div class="input-group-append">

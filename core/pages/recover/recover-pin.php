@@ -25,6 +25,7 @@ if ($login->isLoggedIn() === true) {
                             <p class="login-box-msg">You are only one step a way from your new PIN, recover your PIN now.</p>
 
                             <form action="login.php" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                 <div class="input-group mb-3">
                                     <input type="password" class="form-control" placeholder="Password">
                                     <div class="input-group-append">

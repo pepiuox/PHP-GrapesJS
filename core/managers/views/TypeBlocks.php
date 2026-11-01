@@ -20,8 +20,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
-            $result = $conn->query("SELECT * FROM `type_blocks`") or trigger_error($conn->error);
-            while ($row = $result->fetch_array()) {
+            $result = $conn->query("SELECT * FROM `type_blocks`");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row AS $key => $value) {
                     $row[$key] = stripslashes($value);
                 }
@@ -47,8 +47,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <div class="container"> 
             <?php
             if (isset($_POST['submitted'])) {
-                $sql = "INSERT INTO `type_blocks` ( `type_block`  ) VALUES(  '{$_POST['type_block']}'  ) ";
-                $conn->query($sql) or die($conn->error);
+                $sql = "INSERT INTO `type_blocks` ( `type_block`  ) VALUES(  :type_block  ) ";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':type_block' => $_POST['type_block']]);
                 echo "Fila Agregada.<br />";
                 echo '<meta http-equiv="refresh" content="0">';
             }
@@ -57,7 +58,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                             <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> 
                         </p>
                         <h3>Agregar un Componente</h3> 
-                        <form action='' method='POST'> 
+                        <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                             <div class='col-md-6'>
                                 <label class="form-label">Componente:</label>
                                 <input type="text" class="form-control" name='type_block' id='type_block'/>
@@ -75,18 +77,22 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
                 if (isset($_POST['submitted'])) {
-                    $sql = "UPDATE `type_blocks` SET  `type_block` =  '{$_POST['type_block']}'   WHERE `id` = '$id' ";
-                    $conn->query($sql) or die($conn->error);
-                    echo ($conn->affected_rows) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
+                    $sql = "UPDATE `type_blocks` SET  `type_block` =  :type_block   WHERE `id` = :id ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute([':type_block' => $_POST['type_block'], ':id' => $id]);
+                    echo ($stmt->rowCount()) ? "Fila Editada.<br />" : "No se hizo Cambios. <br />";
                     echo '<meta http-equiv="refresh" content="0">';
                 }
-                $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_blocks` WHERE `id` = '$id' "));
+                $stmt = $conn->prepare("SELECT * FROM `type_blocks` WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                                 <p>
                                     <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typeblocks/add'>Nuevo componente</a> 
                                 </p>
                                 <h3>Editar componente</h3> 
-                                <form action='' method='POST'> 
+                                <form action='' method='POST'>
+<?php echo \PepiuoX\Security\Csrf::field(); ?> 
                                     <div class="container">
                                         <label class="form-label">componente:</label>
                                         <input type="text" class="form-control" name='type_block' id='type_block' value='<?php echo $row['type_block']; ?>' />
@@ -105,7 +111,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $id = (int) $_GET['id'];
             }
-            $row = mysqli_fetch_array($conn->query("SELECT * FROM `type_blocks` WHERE `id` = '$id' "));
+            $stmt = $conn->prepare("SELECT * FROM `type_blocks` WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             ?>
                         <p>
                             <a class="btn btn-secondary" href='dashboard/typeblocks/list'>Retornar a la Lista</a> - <a class="btn btn-secondary" href='dashboard/typeblocks/add'>Nuevo componente</a> 
@@ -126,8 +134,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                         <h3>Eliminado de Componente</h3> 
             <?php
             $id = (int) $_GET['id'];
-            $conn->query("DELETE FROM `type_blocks` WHERE `id` = '$id' ");
-            echo ($conn->affected_rows) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
+            $stmt = $conn->prepare("DELETE FROM `type_blocks` WHERE `id` = :id ");
+            $stmt->execute([':id' => $id]);
+            echo ($stmt->rowCount()) ? "Fila Eliminada.<br /> " : "No se Elimino.<br /> ";
             ?> 
                     </div>
             <?php

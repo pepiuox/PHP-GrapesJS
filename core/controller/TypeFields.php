@@ -55,7 +55,7 @@ class TypeFields
         }
 
         $this->conn = $connection;
-        $this->table = $table;
+        $this->table = \PepiuoX\Security\SqlIdentifier::assert($table);
     }
 
     /**
@@ -161,7 +161,7 @@ class TypeFields
 
             try {
                 // ✅ Prepared statement (previene SQL Injection)
-                $stmt = $this->conn->prepare("SELECT `{$jId}`, `{$jValue}` FROM `{$jTable}` ORDER BY `{$jValue}` ASC");
+                $stmt = $this->conn->prepare("SELECT " . \PepiuoX\Security\SqlIdentifier::quote($jId) . ", " . \PepiuoX\Security\SqlIdentifier::quote($jValue) . " FROM " . \PepiuoX\Security\SqlIdentifier::quote($jTable) . " ORDER BY " . \PepiuoX\Security\SqlIdentifier::quote($jValue) . " ASC");
                 $stmt->execute();
 
                 while ($option = $stmt->fetch(PDO::FETCH_ASSOC)) {

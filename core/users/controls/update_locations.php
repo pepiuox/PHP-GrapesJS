@@ -8,6 +8,14 @@
   </div>
   <div class="modal-body">
 		<?php
+global $conn;
+
+// ✅ `$ucode` no se definía en este archivo: el UPDATE y el SELECT filtraban por
+//    `usercode = NULL`, que no coincide con ninguna fila (la actualización se perdía
+//    en silencio y el formulario salía vacío). Convención de la aplicación
+//    (ver core/users/personalInfo.php): la columna `usercode` corresponde a
+//    $_SESSION['access_id'].
+$ucode = $_SESSION['access_id'] ?? null;
 //This is temporal file only for add new row
 //This is temporal file only for add new row
 if (isset($_POST['editloc'])) {  
@@ -22,20 +30,28 @@ $address_4 = $_POST["address_4"];
 $name_location_5 = $_POST["name_location_5"]; 
 $address_5 = $_POST["address_5"]; 
 
-$sql = "UPDATE users_locations name_location_1 = ?, address_1 = ?, name_location_2 = ?, address_2 = ?, name_location_3 = ?, address_3 = ?, name_location_4 = ?, address_4 = ?, name_location_5 = ?, address_5 = ? WHERE usercode = ?";
-$updated = $this->conn->prepare($sql);
-$updated->bind_param('ssssssssss', $name_location_1, $address_1, $name_location_2, $address_2, $name_location_3, $address_3, $name_location_4, $address_4, $name_location_5, $address_5, $ucode );
-$updated->execute();
-$updated->close();
+// ✅ Correcciones: faltaba la palabra clave `SET` ("UPDATE users_locations name_location_1 = ?")
+//    → error de sintaxis SQL en cada envío del formulario.
+$sql = "UPDATE users_locations SET name_location_1 = ?, address_1 = ?, name_location_2 = ?, address_2 = ?, name_location_3 = ?, address_3 = ?, name_location_4 = ?, address_4 = ?, name_location_5 = ?, address_5 = ? WHERE usercode = ?";
+
+if ($ucode !== null) {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$name_location_1, $address_1, $name_location_2, $address_2, $name_location_3, $address_3, $name_location_4, $address_4, $name_location_5, $address_5, $ucode]);
+    $stmt->closeCursor();
 }
-$upry = $this->conn->prepare("SELECT name_location_1, address_1, name_location_2, address_2, name_location_3, address_3, name_location_4, address_4, name_location_5, address_5 FROM users_locations WHERE usercode = ?");
-$upry->bind_param('s', $ucode);
-$upry->execute();
-$pry = $upry->get_result();
-$upry->close();
-$rpy = $pry->fetch_assoc();
+}
+
+$rpy = [];
+
+if ($ucode !== null) {
+    $upry = $conn->prepare("SELECT name_location_1, address_1, name_location_2, address_2, name_location_3, address_3, name_location_4, address_4, name_location_5, address_5 FROM users_locations WHERE usercode = ?");
+    $upry->execute([$ucode]);
+    $rpy = $upry->fetch(PDO::FETCH_ASSOC) ?: [];
+    $upry->closeCursor();
+}
 ?>  
 <form role="form" id="privacy" method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
 			<div class="row">
 <div class="form-group">
    <label for="name_location_1">Name location 1:</label>

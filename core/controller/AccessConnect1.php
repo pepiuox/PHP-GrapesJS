@@ -5,7 +5,7 @@
 //  Author     : PePiuoX
 //  Email      : contact@pepiuox.net
 //
-class AccessConnect {
+class AccessConnect1 {
     protected $conn;
 
     public function __construct() {

@@ -1,6 +1,6 @@
 <?php
 if ($login->isLoggedIn() === true && $level->levels() === 9) {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
 
     if (defined('WS')) {
     $w = WS;
@@ -14,13 +14,13 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
     function tnmes($tbsl = '') {
         global $conn;
         if ($result = $conn->query("SELECT DATABASE()")) {
-            $row = $result->fetch_row();
-            $result->close();
+            $row = $result->fetch(PDO::FETCH_NUM);
+            $result->closeCursor();
         }
-        $sqls = "SHOW TABLES FROM $row[0]";
+        $sqls = "SHOW TABLES FROM " . \PepiuoX\Security\SqlIdentifier::assert($row[0]);
         $results = $conn->query($sqls);
         $arrayCount = 0;
-        while ($row = mysqli_fetch_row($results)) {
+        while ($row = $results->fetch(PDO::FETCH_NUM)) {
             $tableNames[$arrayCount] = $row[0];
             $arrayCount++;
         }
@@ -47,8 +47,8 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $tableNames = '';
         $result = $conn->query("SELECT * FROM table_settings");
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+        if ($result->rowCount() > 0) {
+            $row = $result->fetch(PDO::FETCH_ASSOC);
             $tableNames = explode(',', $row['table_name']);
         } else {
             echo 'NO exists record tables ';
@@ -64,6 +64,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     <h2 class="text-primary">Select your table for column options</h2>
 
                     <form class="row form-horizontal" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="form-group col-md-12">
                             <label class="control-label" for="selecttb">Select Table</label> 
                             <select id="selecttb" name="selecttb" class="form-select">
@@ -108,12 +109,14 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 function insertTQO($table, $column) {
                     global $conn;
-                    $query = $conn->query("SELECT table_name,col_name FROM table_column_settings WHERE table_name='$table' AND col_name='$column'");
-                    $num = $query->num_rows;
+                    $query = $conn->prepare("SELECT table_name,col_name FROM table_column_settings WHERE table_name=:table_name AND col_name=:col_name");
+                    $query->execute([':table_name' => $table, ':col_name' => $column]);
+                    $num = $query->rowCount();
                     if ($num == 0) {
-                        $qry = "INSERT INTO table_column_settings (table_name,col_name) VALUES ('" . $table . "','" . $column . "')";
+                        $qry = "INSERT INTO table_column_settings (table_name,col_name) VALUES (:table_name,:col_name)";
 
-                        if ($conn->query($qry) === TRUE) {
+                        $stmt = $conn->prepare($qry);
+                        if ($stmt->execute([':table_name' => $table, ':col_name' => $column]) !== false) {
                             return TRUE;
                         } else {
                             return FALSE;
@@ -123,12 +126,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                     }
                 }
 
-                $result0 = $conn->query("SHOW COLUMNS FROM $tble");
+                $result0 = $conn->query("SHOW COLUMNS FROM " . \PepiuoX\Security\SqlIdentifier::assert($tble));
                 $bq = array();
-                $row = $result0->fetch_array();
+                $row = $result0->fetch(PDO::FETCH_BOTH);
                 $idr = $row[0];
 
-                while ($row0 = $result0->fetch_array()) {
+                while ($row0 = $result0->fetch(PDO::FETCH_ASSOC)) {
                     if ($row0['Field'] == $idr) {
                         continue;
                     } else {
@@ -138,11 +141,12 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 $lnk = "dashboard/column_manager/update&tbl=" . $tble . "&id=";
 
-                $sql = "SELECT * FROM table_column_settings WHERE table_name='$tble'";
+                $sql = "SELECT * FROM table_column_settings WHERE table_name=:table_name";
 
-                $result = $conn->query($sql);
+                $result = $conn->prepare($sql);
+                $result->execute([':table_name' => $tble]);
                 echo '<div class="col-12">';
-                echo '<form class="row form-horizontal" method="post">';
+                echo '<form class="row form-horizontal" method="post">' . \PepiuoX\Security\Csrf::field() . '';
                 echo '<div class="col-auto">';
                 echo '<a class="btn btn-primary mb-3" href="dashboard/column_manager/select">Select table options</a>';
                 echo '</div>';
@@ -152,7 +156,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 echo '<th>Column name</th><th>List</th><th>Add</th><th>Update</th><th>View</th><th>Edit option</th>';
                 echo '</thead>';
                 echo '<tbody>';
-                while ($row = $result->fetch_array()) {
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
                     echo '<tr>';
                     echo '<td><b>' . $row['col_name'] . '</b></td>'
@@ -202,11 +206,9 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         $id = protect($_GET['id']);
 
         $ttl = $conn->prepare("SELECT * FROM table_column_settings WHERE tqop_Id=? AND table_name=?");
-        $ttl->bind_param("is", $id, $tble);
-        $ttl->execute();
-        $ucol = $ttl->get_result();
-        $ttl->close();
-        $ttn = $ucol->fetch_assoc();
+        $ttl->execute([$id, $tble]);
+        $ttn = $ttl->fetch(PDO::FETCH_ASSOC);
+        $ttl->closeCursor();
         $cnm = $ttn['col_name'];
         $fid = $ttn['tqop_Id'];
 
@@ -227,6 +229,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
             <div class="row">
                 <div class="col-md-12">
                     <form class="row form-horizontal" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="mb-3">
                             <button type="submit" name="build" class="btn btn-secondary mb-3">Build options</button>
                             <button type="submit" name="select" class="btn btn-success mb-3">Select table options</button>
@@ -252,6 +255,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                     if (isset($_POST['submit'])) {
                                         $cols = array();
                                         $col = array();
+                                        $colParams = array();
                                         $cl = array('col_list' => 0, 'col_add' => 0, 'col_update' => 0, 'col_view' => 0);
 
                                         foreach ($_POST as $key => $value) {
@@ -259,28 +263,33 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         }
 
                                         foreach ($cl as $key => $value) {
+                                            $key = \PepiuoX\Security\SqlIdentifier::assert($key);
 
                                             if (in_array($key, $cols)) {
-                                                $col[] = $key . "='1'";
+                                                $col[] = $key . "=:c_" . $key;
+                                                $colParams[":c_" . $key] = '1';
                                             } else {
-                                                $col[] = $key . "='" . $value . "'";
+                                                $col[] = $key . "=:c_" . $key;
+                                                $colParams[":c_" . $key] = $value;
                                             }
                                         }
 
                                         $colset = implode(", ", $col);
 
-                                        $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id='$id' AND table_name='$tble'";
-                                        if ($conn->query($upset) === TRUE) {
+                                        $upset = "UPDATE table_column_settings SET $colset WHERE tqop_Id=:id AND table_name=:table_name";
+                                        $stmt = $conn->prepare($upset);
+                                        if ($stmt->execute($colParams + array(':id' => $id, ':table_name' => $tble)) !== false) {
                                             echo "Record updated successfully";
                                             echo '<meta http-equiv="refresh" content="0;url=dashboard/column_manager/update&tbl=' . $tble . '&id=' . $id . '#optionsshows">';
                                         } else {
-                                            echo "Error updating record: " . $conn->error;
+                                            echo "Error updating record: " . $conn->errorInfo()[2];
                                         }
                                     }
                                     ?>
                                     <h3>Column selected - <?php echo ucfirst(str_replace("_", " ", $ttn['col_name'])) . ' from table ' . ucfirst(str_replace("_", " ", $tble)); ?></h3>
                                     <h5 class="text-secondary">Options for listing, adding editing and viewing</h5>
                                     <form action="" method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                         <div class="mb-3">
                                             <button type="submit" name="submit" class="btn btn-primary mb-3">Update Column</button>
                                         </div>
@@ -298,12 +307,10 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         echo '</thead>';
                                         echo '<tbody>';
                                         $tbcol = $conn->prepare("SELECT * FROM table_column_settings WHERE tqop_Id=? AND table_name=?");
-                                        $tbcol->bind_param("ss", $id, $tble);
-                                        $tbcol->execute();
-                                        $tbsc = $tbcol->get_result();
-                                        $tbnums = $tbsc->num_rows;
+                                        $tbcol->execute([$id, $tble]);
+                                        $tbnums = $tbcol->rowCount();
                                         if ($tbnums > 0) {
-                                            while ($tbs = $tbsc->fetch_array()) {
+                                            while ($tbs = $tbcol->fetch(PDO::FETCH_ASSOC)) {
                                                 echo '<tr>' . "\n";
                                                 echo '<td><b>' . $tbs['col_name'] . '</b></td>' . "\n";
                                                 echo '<td><input class="form-check-input" type="checkbox" value="1" name="col_list" id="col_list"';
@@ -344,18 +351,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         $sltb = protect($_POST['input_type']);
 
                                         $stmt = $conn->prepare("UPDATE table_column_settings SET input_type = ? WHERE tqop_Id = ?");
-                                        $stmt->bind_param('ii', $sltb, $id);
-                                        $status = $stmt->execute();
+                                        $status = $stmt->execute([$sltb, $id]);
                                         if ($status === false) {
-                                            trigger_error($stmt->error, E_USER_ERROR);
+                                            trigger_error($stmt->errorInfo()[2], E_USER_ERROR);
                                         } else {
-                                            echo "Updated column successfully" . $stmt->affected_rows;
+                                            echo "Updated column successfully" . $stmt->rowCount();
                                         }
                                     }
                                     ?>
                                     <h3>Configure more options for the column</h3>
                                     <h4 class="text-primary">Select input type to add and edit</h4>
                                     <form action="" method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                         <fieldset>
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label" for="input_type">Select Input Type for <?php echo $cln; ?></label>                                
@@ -405,17 +412,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         $qry = protect($_POST['where']);
 
                                         $stmt = $conn->prepare("UPDATE table_column_settings SET where = ? WHERE tqop_Id = ?");
-                                        $stmt->bind_param('si', $qry, $inp);
-                                        $status = $stmt->execute();
+                                        $status = $stmt->execute([$qry, $inp]);
                                         if ($status === false) {
-                                            trigger_error($stmt->error, E_USER_ERROR);
+                                            trigger_error($stmt->errorInfo()[2], E_USER_ERROR);
                                         } else {
-                                            echo "Updated column successfully" . $stmt->affected_rows;
+                                            echo "Updated column successfully" . $stmt->rowCount();
                                         }
                                     }
                                     ?>
                                     <h3>Add a special query for the column</h3>
                                     <form action="" method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                         <fieldset>                                           
                                             <?php
                                             echo '<div class="form-group">' . "\n";
@@ -442,18 +449,18 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         $sv = protect($_POST['column_value']);
 
                                         $stmt = $conn->prepare("UPDATE table_column_settings SET joins = ?, j_table = ?, j_id = ?, j_value = ? WHERE tqop_Id = ?");
-                                        $stmt->bind_param('ssssi', $joins, $tb, $sr, $sv, $fid);
-                                        $status = $stmt->execute();
+                                        $status = $stmt->execute([$joins, $tb, $sr, $sv, $fid]);
                                         if ($status === false) {
-                                            trigger_error($stmt->error, E_USER_ERROR);
+                                            trigger_error($stmt->errorInfo()[2], E_USER_ERROR);
                                         } else {
-                                            echo "Updated column successfully" . $stmt->affected_rows;
+                                            echo "Updated column successfully" . $stmt->rowCount();
                                         }
                                     }
                                     ?>
                                     <h3 class="py-4">Relate column value to different tables</h3>
                                     <h4 class="text-primary">Select table to relate</h4>
                                     <form class="row form-horizontal" method="POST" id="queries">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                         <fieldset>
                                             <div class="form-group" id="vtble">
                                                 <label class="control-label" for="joins">Select type JOIN</label>
@@ -547,17 +554,17 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                                         $qrl = protect($_POST['lookup_field']);
 
                                         $stmt = $conn->prepare("UPDATE table_column_settings SET main_field = ?, lookup_field = ? WHERE tqop_Id = ?");
-                                        $stmt->bind_param('ssi', $qrm, $qrl, $inp);
-                                        $status = $stmt->execute();
+                                        $status = $stmt->execute([$qrm, $qrl, $inp]);
                                         if ($status === false) {
-                                            trigger_error($stmt->error, E_USER_ERROR);
+                                            trigger_error($stmt->errorInfo()[2], E_USER_ERROR);
                                         } else {
-                                            echo "Updated column successfully" . $stmt->affected_rows;
+                                            echo "Updated column successfully" . $stmt->rowCount();
                                         }
                                     }
                                     ?>
                                     <h3>Dependent dropdown main field</h3>
                                     <form action="" method="post" enctype="multipart/form-data">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                         <fieldset>                                           
                                             <?php
                                             echo '<div class="form-check">' . "\n";
@@ -605,6 +612,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
                 <div class="col-md-12 py-4">
 
                     <form class="row form-horizontal" method="post">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                         <div class="mb-3">
                             <button type="submit" name="build" class="btn btn-secondary mb-3">Build options</button>
                             <button type="submit" name="select" class="btn btn-success mb-3">Select table options</button>
@@ -615,7 +623,7 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
         </div>
         <?php
     } elseif ($w == "editor") {
-        extract($_POST);
+        extract($_POST, EXTR_SKIP); // ✅ EXTR_SKIP: no sobrescribe variables locales
         ?>
         <div class="container">
             <div class="row">
@@ -623,24 +631,22 @@ if ($login->isLoggedIn() === true && $level->levels() === 9) {
 
                 <?php
                 $tble = protect($_GET['tbl']);
-                $sql1 = "SHOW COLUMNS FROM " . $tble;
+                $sql1 = "SHOW COLUMNS FROM " . \PepiuoX\Security\SqlIdentifier::assert($tble);
                 $result1 = $conn->query($sql1);
-                $row = mysqli_fetch_array($result1);
+                $row = $result1->fetch(PDO::FETCH_BOTH);
                 $ncol = $row[0];
 
                 $qresult = $conn->prepare("SELECT * FROM table_column_settings WHERE table_name=?");
-                $qresult->bind_param("s", $tble);
-                $qresult->execute();
-                $tbsc = $qresult->get_result();
-                $count = $tbsc->num_rows;
+                $qresult->execute([$tble]);
+                $count = $qresult->rowCount();
                 $q = 1;
 
-                echo '<form class="row form-horizontal" method="POST" role="form" id="query_' . $tble . '">' . "\n";
+                echo '<form class="row form-horizontal" method="POST" role="form" id="query_' . $tble . '">' . \PepiuoX\Security\Csrf::field() . '' . "\n";
                 echo '<div class="form-group">
                         <button type = "submit" id="updatequeries" name="updatequeries" class="btn btn-primary"><span class = "fas fa-plus-square"></span> Save query to columns</button>
 <a class="btn btn-success" href="dashboard/table_crud/list&tbl=' . $tble . '">View Table</a>                      
 </div>' . "\n";
-                while ($ttn = $tbsc->fetch_assoc()) {
+                while ($ttn = $qresult->fetch(PDO::FETCH_ASSOC)) {
                     $remp = str_replace("_", " ", $ttn['col_name']);
                     $column = $ttn['col_name'];
                     echo '<style>
@@ -741,19 +747,21 @@ $(document).ready(function () {
 
                 function queries($tble) {
                     global $conn;
-                    $sql = "SELECT * FROM table_column_settings WHERE table_name='{$tble}'";
-                    $qresult = $conn->query($sql);
+                    $sql = "SELECT * FROM table_column_settings WHERE table_name=:table_name";
+                    $qresult = $conn->prepare($sql);
+                    $qresult->execute([':table_name' => $tble]);
 
                     $r = 0;
                     $cqn = '';
-                    while ($info = $qresult->fetch_assoc()) {
+                    while ($info = $qresult->fetch(PDO::FETCH_ASSOC)) {
                         $id = $info['tqop_Id'];
                         $query = $info['col_name'];
                         $npost = "\${$query} = \$_POST['{$query}'];";
                         $cqn .= $npost . "\n";
-                        $cq = "query='\${$query}' WHERE tqop_Id='{$id}'";
+                        $cq = "query=:query WHERE tqop_Id=:tqop_Id";
                         $cqn .= '$sql' . $r . ' = "UPDATE table_column_settings SET ' . $cq . ' ";' . "\n";
-                        $cqn .= '$conn->query($sql' . $r . ');' . "\n";
+                        $cqn .= '$stmt' . $r . ' = $conn->prepare($sql' . $r . ');' . "\n";
+                        $cqn .= '$stmt' . $r . '->execute([\':query\' => $' . $query . ', \':tqop_Id\' => ' . var_export((string) $id, true) . ']);' . "\n";
                         $r = $r + 1;
                     }
 
@@ -794,14 +802,13 @@ $(document).ready(function () {
                     $sv = protect($_POST['column_value']);
 
                     $stmt = $conn->prepare("UPDATE table_column_settings SET input_type = ?, joins = ?, j_table = ?, j_id = ?, j_value = ? WHERE tqop_Id = ?");
-                    $stmt->bind_param('issssi', $sltb, $joins, $tb, $sr, $sv, $inp);
-                    $status = $stmt->execute();
+                    $status = $stmt->execute([$sltb, $joins, $tb, $sr, $sv, $inp]);
                     if ($status === false) {
-                        trigger_error($stmt->error, E_USER_ERROR);
+                        trigger_error($stmt->errorInfo()[2], E_USER_ERROR);
                     } else {
-                        echo "Updated column successfully" . $stmt->affected_rows;
+                        echo "Updated column successfully" . $stmt->rowCount();
                     }
-                    $stmt->close();
+                    $stmt->closeCursor();
                 }
                 ?>
             </div>
@@ -873,6 +880,7 @@ $(document).ready(function () {
                         </script>
 
                         <form class="row form-horizontal" method="POST" if="queries">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                             <fieldset>
                                 <input type="text" id="idtb" name="idtb" value="" style="display: none;" />
                                 <input type="text" id="stb" name="stb" value="" style="display: none;" />

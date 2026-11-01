@@ -25,9 +25,9 @@ class SendData
     public string $timestamp;
     public GetCodeDeEncrypt $gc;
 
-    public function __construct(PDO $connection)
+    public function __construct(?PDO $connection = null)
     {
-        $this->conn = $connection;
+        $this->conn = $connection ?? \PepiuoX\Database\Connection::shared();
         $this->gc = new GetCodeDeEncrypt();
         $this->date = new DateTime();
         $this->timestamp = $this->date->format('Y-m-d H:i:s');

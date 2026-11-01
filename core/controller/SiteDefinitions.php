@@ -53,8 +53,12 @@ class SiteDefinitions
         }
 
         // ✅ Validar formato de nombre de tabla
-        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) {
-            error_log("SiteDefinitions: nombre de tabla inválido: {$table}");
+        try {
+            // Una sola validacion en todo el proyecto: SqlIdentifier.
+            $table = \PepiuoX\Security\SqlIdentifier::assert($table);
+        } catch (\InvalidArgumentException $e) {
+            error_log("SiteDefinitions: nombre de tabla invalido: {$table}");
+
             return [];
         }
 

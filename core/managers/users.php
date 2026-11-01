@@ -46,14 +46,15 @@ $total_pages = ceil($total_users / $records_per_page);
 $levels = $userManager->getLevels();
 $stats = $userManager->getStatistics();
 
-// Generar token en el formulario
-$token = bin2hex(random_bytes(32));
-$_SESSION['csrf_token'] = $token;
-echo '<input type="hidden" name="csrf_token" value="' . $token . '">';
- 
-// Verificar token en el servidor
-if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    // Token inválido, manejar el error
+// Generar token en el formulario (se reutiliza el de la sesión si ya existe)
+$token = \PepiuoX\Security\Csrf::token();
+echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
+
+// ✅ Verificar el token SÓLO en peticiones POST, y en tiempo constante.
+// Antes se comparaba siempre con `!==`: en una petición GET `$_POST['csrf_token']` no
+// existe, la comparación daba "distinto" y la página **moría en cada carga** con
+// "Ataque CSRF detectado" (además de emitir un aviso por clave inexistente).
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !\PepiuoX\Security\Csrf::isValid($_POST['csrf_token'] ?? null)) {
     die("Ataque CSRF detectado");
 }
 ?>
@@ -234,6 +235,7 @@ if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                             <input type="hidden" name="action" value="update">
                                             <input type="hidden" name="iduv" value="<?php echo $user['iduv']; ?>">
                                             
@@ -310,6 +312,7 @@ if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form method="POST">
+<?php echo \PepiuoX\Security\Csrf::field(); ?>
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="iduv" value="<?php echo $user['iduv']; ?>">
                                             

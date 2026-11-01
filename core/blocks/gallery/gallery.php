@@ -1,11 +1,13 @@
 <!-- gallery block -->
 <?php
-$rslideg = $conn->query("SELECT idGal, name, description, pageId FROM galleries WHERE active='1' AND pageId = '$bid' LIMIT 1");
-$rowg = $rslideg->fetch_array();
+$rslideg = $conn->prepare("SELECT idGal, name, description, pageId FROM galleries WHERE active='1' AND pageId = :bid LIMIT 1");
+$rslideg->execute([':bid' => $bid]);
+$rowg = $rslideg->fetch(PDO::FETCH_ASSOC);
 $myG = $rowg['idGal'];
-$rslidet = $conn->query("SELECT * FROM image_gal WHERE galId = '$myG' ORDER BY sort");
+$rslidet = $conn->prepare("SELECT * FROM image_gal WHERE galId = :myG ORDER BY sort");
+$rslidet->execute([':myG' => $myG]);
 $rowts = array();
-while ($rowt = $rslidet->fetch_array()) {
+while ($rowt = $rslidet->fetch(PDO::FETCH_ASSOC)) {
     $rowts[] = $rowt;
 }
 $num_ct = count($rowts);
